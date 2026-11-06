@@ -1,0 +1,25 @@
+{
+  "scientific_question": "For the specified chiral cyclopentadienone–iron catalyst C_A, how does hydrogenation of phenyl(trimethylsilyl)methanone under H2 proceed to the chiral silyl alcohol, what controls turnover and the competition between alcohol enantiomers, how does the catalyst's molecular organization relate to these outcomes, and how does replacing trimethylsilyl with tert-butyl change enantiomer discrimination within the same catalyst system?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Primary substrate: phenyl(trimethylsilyl)methanone, Ph–C(=O)–Si(CH3)3; SMILES O=C(c1ccccc1)[Si](C)(C)C. The carbonyl carbon is bonded directly to silicon, not to a methylene spacer. Matched substrate for the structural comparison: 2,2-dimethyl-1-phenylpropan-1-one, Ph–C(=O)–C(CH3)3; SMILES O=C(c1ccccc1)C(C)(C)C. Only the Si(CH3)3-to-C(CH3)3 substitution defines this substrate comparison."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Primary product: phenyl(trimethylsilyl)methanol, Ph–CH(OH)–Si(CH3)3; constitutional SMILES OC(c1ccccc1)[Si](C)(C)C. The carbinol carbon bears phenyl, hydroxyl, hydrogen and trimethylsilyl. Comparison product: 2,2-dimethyl-1-phenylpropan-1-ol, Ph–CH(OH)–C(CH3)3; constitutional SMILES OC(c1ccccc1)C(C)(C)C. Both alcohol enantiomers are in scope. No major-product absolute configuration is supplied; assign any claimed stereochemical outcome from an explicit molecular structure."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "condition",
+      "content": "Reacting catalyst C_A is a neutral cyclopentadienone–iron tricarbonyl complex. Define the ligand graph by the ring C1(=O)–C2=C3–C4=C5–C1, with an additional C3–CH2–CH2–CH2–CH2–C4 bridge. Thus the fused ring has six members. C2 and C5 each attach directly to the stereogenic C2 of a pyrrolidine ring; both pyrrolidine C2 stereocenters are S. Each pyrrolidine nitrogen is bonded to S(=O)2–Ar, where Ar is 4-phenylphenyl, with sulfur attached at aryl C1 and phenyl at C4. The iron is coordinated to the four diene carbons of the cyclopentadienone and bears three terminal carbon-bound CO ligands. This specifies the starting molecular identity, not an optimized conformation or electronic state. Direct experimental comparison for C_A uses substrate 0.2 mmol, catalyst 2 mol %, trimethylamine N-oxide 4 mol %, toluene 0.3 mL, H2 30 atm, 80 °C, 12 h. A distinct comparison catalyst C_B has the same ligand backbone and S,S stereochemistry, but Ar is 3,5-di-tert-butyl-4-methoxyphenyl, with sulfur attached at aryl C1. The optimized aryl-acylsilane comparison conditions for C_B are substrate 0.5 mmol, catalyst 2 mol %, trimethylamine N-oxide 4 mol %, H2 30 atm, iPrOH/H2O 1.2:0.3 mL, 60 °C, 12 h. C_B is observational context only: its performance must not be relabelled as a measurement for C_A, and calculations on C_B are not a required outcome."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "With C_A under its toluene/H2 conditions in PI3, the primary substrate gave its alcohol in 87% yield and 86:14 enantiomeric ratio. With C_B under its optimized iPrOH/H2O/H2 conditions in PI3, the primary substrate gave its alcohol in 95% yield and 93:7 enantiomeric ratio. The tert-butyl analogue showed lower enantiomer discrimination in experiments with related catalysts, but no matched numerical C_A measurement for that analogue is supplied. This is contextual evidence, not a same-catalyst quantitative selectivity datum. Yields and enantiomeric ratios are observations, not calculated answers or rate constants; no concentration-versus-time data are supplied."
+    }
+  ]
+}

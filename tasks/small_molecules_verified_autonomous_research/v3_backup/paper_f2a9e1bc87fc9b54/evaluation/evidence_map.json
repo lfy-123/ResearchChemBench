@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_f2a9e1bc87fc9b54",
+  "evidence": [
+    {
+      "evidence_id": "V2_MAIN",
+      "source": {
+        "path": "papers/paper_f2a9e1bc87fc9b54/documents/main.pdf",
+        "sha256": "5992f1dbeade258a38226dd925c624b4f1d1047ffaf01b692e24ba7c1097f4b2",
+        "pdf_pages_1based": [
+          2,
+          3
+        ],
+        "location": "PDF p2 section 2.1 and p3 Figure 1"
+      },
+      "description": "Base-mediated N-H proton transfer and H2 formation activate nitrogen for nucleophilic substitution at the propargyl carbon with C-Br cleavage; the profile also supports distinct local activation and net Gibbs conclusions. The two drawn source steps are a reference explanation, not a prescribed route."
+    },
+    {
+      "evidence_id": "V2_SI",
+      "source": {
+        "path": "papers/paper_f2a9e1bc87fc9b54/documents/supplementary_001.docx",
+        "sha256": "3cc19f531462d4424ebf3bef712a51baa5b411e14650b9000b3fbab01f251318",
+        "section": "Theoretical study; Table 1; Cartesian coordinates for TS1, TS2, H2 and propargyl bromide",
+        "locator": "DOCX XML paragraphs P97–127: Theoretical study and Table 1; P129–187: TS1, TS2, H2 and propargyl bromide coordinates. DOCX has no intrinsic PDF page numbering."
+      },
+      "description": "Source electronic/thermal quantities and coordinates support chemical assignment of proton transfer and substitution. TS1 and TS2 omit sodium, so they do not define a complete solid, aggregated or solution-phase NaH model. Source labels are not scoring requirements."
+    },
+    {
+      "evidence_id": "existing_native_verification",
+      "source": {
+        "path": "tasks/small_molecules_verified_autonomous_research/paper_f2a9e1bc87fc9b54/evaluation/verified_computation_reference.md",
+        "sha256": "ed41014466e53bde93a247322b77fb9b4fda3425568cd12724d3ff4055259a28"
+      },
+      "evidence_type": "existing_computation_with_qualifications",
+      "description": "正文 Fig.1、SI DOCX Theoretical study/Table 1/坐标；历史验证支持 N–H 去质子化/氢气、亲核取代、局部活化排序与净反应放能。",
+      "role": "Historical calculations only; historical scoring/acceptance prose is not active criteria."
+    }
+  ],
+  "public_assets": []
+}

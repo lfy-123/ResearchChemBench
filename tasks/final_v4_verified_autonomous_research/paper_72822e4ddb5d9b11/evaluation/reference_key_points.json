@@ -1,0 +1,67 @@
+{
+  "paper_id": "paper_72822e4ddb5d9b11",
+  "role": "Unscored evidence for independent final scientific conclusions. Original numerical and historical reference records are preserved in historical_scoring_20261029.json and verified_computation_reference.md.",
+  "items": [
+    {
+      "key_point_id": "support_ground_state",
+      "key_point_type": "scientific_evidence",
+      "statement": "Ground-state electronic description and discrimination from competing states",
+      "expected": "Establish a predominantly closed-shell low-spin singlet ground-state description of the full neutral complex relative to credible competing spin/electronic descriptions. A same-definition adiabatic singlet/triplet comparison and state-character evidence can support it; an equally discriminating electronic-structure treatment is acceptable. Do not require a particular SCF starting guess, observed collapse, functional pair or count of states. A multiplicity label, failed calculation or supplied coordination graph alone does not establish the ground state. Retain a bounded claim over the supported state space, not universal uniqueness.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_state",
+        "native_state"
+      ]
+    },
+    {
+      "key_point_id": "support_axial_mixing",
+      "key_point_type": "scientific_evidence",
+      "statement": "Axial metal–chloride sigma channel is covalent",
+      "expected": "Actual orbital or equivalent electronic-structure evidence resolves an axial Ni–Cl sigma/antibonding channel with substantial contributions from both the nickel d manifold and axial chloride ligands. Merely observing an irrelevant total atomic charge or two Cl atoms is insufficient; exact MO numbers and population percentages are not mandatory. Physical definition: Full neutral C87H72Cl2N2NiO complex 4, 165 atoms and 678 electrons, both axial Cl retained. Compare like states and energy definitions; CS is singlet, T is triplet. Ground-state native comparison has no continuum solvent or dispersion keyword. Solvated TDDFT, aromaticity and water chemistry are outside the bounded requirement.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_state",
+        "native_bonding"
+      ]
+    },
+    {
+      "key_point_id": "support_equatorial_mixing",
+      "key_point_type": "scientific_evidence",
+      "statement": "Equatorial metal–macrocycle sigma channel is covalent",
+      "expected": "Actual orbital or equivalent electronic-structure evidence resolves an equatorial Ni–macrocycle sigma/antibonding channel with contributions from both Ni d character and the C/N donor framework. This must be distinguished from the axial channel; no exact source MO index or fitted population percentage is required. Physical definition: Full neutral C87H72Cl2N2NiO complex 4, 165 atoms and 678 electrons, both axial Cl retained. Compare like states and energy definitions; CS is singlet, T is triplet. Ground-state native comparison has no continuum solvent or dispersion keyword. Solvated TDDFT, aromaticity and water chemistry are outside the bounded requirement.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_state",
+        "native_bonding"
+      ]
+    },
+    {
+      "key_point_id": "support_formal_valence",
+      "key_point_type": "scientific_evidence",
+      "statement": "Formal limiting valence description",
+      "expected": "Infer the formal Ni(IV) limiting valence description using the neutral complex, a dianionic carbaporphyrin framework and two chloride anions. Relate the formal account to the computed occupation/bonding picture. The arithmetic alone or merely repeating a PR label is insufficient. This outcome assesses the formal valence account, not the ground-state ranking or unique physical charge.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_state",
+        "native_state",
+        "native_bonding"
+      ]
+    },
+    {
+      "key_point_id": "support_physical_oxidation_limit",
+      "key_point_type": "scientific_evidence",
+      "statement": "What the bonding evidence can determine about physical nickel oxidation",
+      "expected": "From actual metal–ligand mixing and its population-definition dependence, explain why a useful formal Ni(IV) limiting account does not establish a unique physical Ni oxidation or resolve sigma-noninnocence/inverted sigma-ligand-field character. Establish the specific non-uniqueness using the electronic evidence; a generic limitation paragraph earns no credit. This assesses identifiability of physical oxidation, not another award for either mixing channel.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_state",
+        "native_bonding"
+      ]
+    }
+  ]
+}

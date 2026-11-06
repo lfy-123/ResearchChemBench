@@ -1,0 +1,103 @@
+{
+  "paper_id": "paper_7516a3cbacb70032",
+  "items": [
+    {
+      "statement": "底物C–H活化的反应连接",
+      "expected": "实际结构与反应模式支持指定底物的C–H断裂和环金属化，保持底物骨架与给定配体对映体。作者参考为配体P=O辅助的CMD；接受支持相同成键结果的等价解释。仅单虚频、物种标签或猜测结构不足；不要求完整前体活化网络。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "ch_activation",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "炔烃并入与C–C成键",
+      "expected": "计算支持二苯乙炔并入已活化底物，形成通向指定螺烯骨架的新C–C键；须有实际结构和反应连接证据。作者IV→TSIV→V为参考，不把作者图示标签当作独立计算。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "alkyne_insertion",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "后续C–N成环与指定骨架",
+      "expected": "实际结构及连接证据支持后续C–N成键，并核对形成指定产物的重原子骨架。作者V→TSV→VI为参考；VI仍是含Ir、保留N–H的结合模型，不能冒称已计算中性游离产物释放或去质子势垒。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "ring_closure",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "M/P竞争方向",
+      "expected": "在相同前体、配体对映体、组成、电子态和热化学定义下，实际竞争自由能支持通向M螺旋构型的路径低于P。作者局部值16.4/18.1 kcal/mol及差1.7作为参照，不是硬数值窗；不能从已知91% ee倒推出计算证据。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "helicity_competition",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "配体降低局部活化困难",
+      "expected": "有/无指定手性配体各用自身配平前体的实际活化自由能比较，支持配体模型的C–H活化更容易。参考有配体M为16.4、无配体为22.5 kcal/mol；不得直接相减两种组成的总电子能或宣称实验速率已复现。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "ligand_comparison",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "成产物步骤的局部困难排序",
+      "expected": "可比局部前体参照的实际能量支持插入<C–H活化<还原消除。作者IV→TSIV为11.9、M活化16.4、V→TSV为25.6 kcal/mol；图中14.1以III(M)+为参照，不能混作IV局部势垒。判断排序而非硬数值匹配。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "step_difficulty",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    }
+  ],
+  "historical_non_scoring_items": [],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_formation_explanation",
+      "r_ligand_promotion",
+      "r_helicity_explanation",
+      "r_kinetic_distinction"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "historical_scoring_applicability_20261029": "Supporting evidence only. No independent points or numeric gates; any retained author values and former tolerances are historical non-scoring context."
+}

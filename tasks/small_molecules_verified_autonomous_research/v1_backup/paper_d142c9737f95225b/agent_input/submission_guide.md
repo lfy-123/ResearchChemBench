@@ -1,0 +1,7 @@
+# Submission guide
+
+Submit `report/results.json`, `report/report.md`, and actual structures, inputs, outputs, logs and analysis in `research/`. Follow `submission_schema.json`. Use stable IDs and safe relative artifact paths. Every evidence investigation ID and conclusion evidence ID must resolve; list artifacts in `reproducibility.artifact_index`.
+
+Use `evidence[*].quantities` for numerical results. `name` identifies the physical quantity; `definition` identifies molecular/state/conformer labels, the mathematical energy difference and its zero or complete particle ledger; `conditions` states temperature, pressure/standard state, solvent, total charge, multiplicity and method assumptions. The generic fields do not prescribe any author pathway or output ordering. Use null with an explanation for an unavailable result. Different numerical values or positions in the array never establish chemical identity.
+
+Calculation-backed scientific results and final conclusions are assessed on the shared scientific axis; research process is assessed separately. Source values alone are not new results. Unresolved or failed research may have process value without being a scientific solution. Distinguish `research_status` from `question_status`; report limitations, actual execution and resource use honestly. In paper reproduction document baseline fidelity and substitutions in investigation method/outcome records and the report.

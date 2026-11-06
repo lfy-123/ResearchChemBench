@@ -1,0 +1,56 @@
+{
+  "source": "Supplied emission summaries and NMR stoichiometry.",
+  "solvent": "water for emission; D2O at 298 K for NMR",
+  "emission_rows": [
+    {
+      "system": "G1",
+      "G1_mM": 0.02,
+      "maximum_nm": 464
+    },
+    {
+      "system": "G1",
+      "G1_mM": 0.5,
+      "maximum_nm": 490
+    },
+    {
+      "system": "CB7:G1",
+      "G1_mM": 0.5,
+      "maximum_nm": 445,
+      "concentration_status": "Annotation B; conflicting annotation A retained below",
+      "source_locator": "Concentration annotation B"
+    },
+    {
+      "system": "CB8:G1(2)",
+      "G1_mM": 0.5,
+      "maximum_nm": 526,
+      "concentration_status": "Annotation B; conflicting annotation A retained below",
+      "source_locator": "Concentration annotation B"
+    }
+  ],
+  "host_guest_stoichiometry": {
+    "CB7": [
+      1,
+      1
+    ],
+    "CB8": [
+      1,
+      2
+    ]
+  },
+  "uncertainty": "Source table does not report peak-error bars; no tolerance is inferred.",
+  "concentration_provenance_note": "The same host spectra have conflicting concentration annotations: A gives 0.02 mM G1, B gives 0.50 mM. These are not two independent concentration series. Use an explicitly declared branch for comparisons and retain the conflict.",
+  "host_optical_source_branches": [
+    {
+      "source_locator": "Concentration annotation A",
+      "G1_mM": 0.02,
+      "CB7_G1_maximum_nm": 445,
+      "CB8_G1_2_maximum_nm": 526
+    },
+    {
+      "source_locator": "Concentration annotation B",
+      "G1_mM": 0.5,
+      "CB7_G1_maximum_nm": 445,
+      "CB8_G1_2_maximum_nm": 526
+    }
+  ]
+}

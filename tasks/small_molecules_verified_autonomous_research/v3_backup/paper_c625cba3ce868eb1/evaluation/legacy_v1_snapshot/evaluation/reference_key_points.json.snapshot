@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, chemical bookkeeping and valid evidence.",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use (R)-4 only for the minimum path matrix, with its full C10H20O3 graph. Primary stage is the source nonenzymatic NBS/Et3N control in DCM (main p7): this supplies an identified brominating reagent and proton acceptor without presuming an enzyme-generated free Br+ species. Model one NBS and one Et3N per substrate in a neutral singlet cluster at 298.15 K/1 M; Et3N is a local proton-relay model, not a claim that the experimental loading was one equivalent. Initial alkene maps2/4, alcohol O21; six-membered closure forms O21–C4, seven-membered closure O21–C2. The actual hydroperoxide oxygens are O23/O24, not row22 (H). The two physically available closures are SIX/SEVEN, correcting the planning document five/six label. Enzymatic aqueous selectivity is contextual, not a required QM/MM result.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_closure_paths",
+      "statement": "Correct graph-derived ring sizes and chemically identified NBS control.",
+      "expected": "Correct graph-derived ring sizes and chemically identified NBS control. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_active_reagent_ledger",
+      "statement": "No naked bromide substituted for an electrophilic brominating reagent.",
+      "expected": "No naked bromide substituted for an electrophilic brominating reagent. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_regioselectivity_test",
+      "statement": "Regioselectivity from connected paths, with source/model boundaries explicit.",
+      "expected": "Regioselectivity from connected paths, with source/model boundaries explicit. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "statement": "Discriminating control and quantitative robustness.",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong ring sizes; row22 treated as hydroperoxide O; Br− used as electrophilic source; failed TS called exclusion; charge asymmetry claimed to establish regioselectivity or enzyme mechanism.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    }
+  ]
+}

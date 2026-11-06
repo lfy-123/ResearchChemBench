@@ -1,0 +1,96 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "mode": "autonomous_research",
+  "scientific_scope_changed": false,
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1、3：四HRS与两次结构扩展变化",
+      "rule_id": "r_nonmonotonic_response",
+      "conclusion_id": "nonmonotonic_response",
+      "weight": 30,
+      "independence": "整体非单调关系，不按四数字或两符号重复分项。",
+      "source_location": "正文Eqs15–18 pp2–4、Table3 pp9–10；SI物理pp37–38 TablesS9/S10。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound1_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound3_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound5_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound7_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/hrs_source_geometry_definition_join.json"
+      ],
+      "existing_support_or_gap": "四静态HRS=1.0390134/1.3036503/1.9179009/1.2695606；1→5为+.8788875，5→7为−.6483403，3−7为+.0340897，均10−30 esu。实际张量支持1/5偏偶极、3/7强八极，5有显著八极成分。",
+      "scientific_limitations": "G16与G09及导数无1/2约定需明确；源rho舍入不等于精确张量比例。3/7细排序不提升为跨方法规律，静态孤立四分子结果不能认证动态/体相性能。张量分类是题目明确要求的最终物性，本轮合并为一个比较项，四工具/标量项设计争议已解决。"
+    },
+    {
+      "scientific_requirement": "必需结果3：3/7差相对两个扩展的尺度",
+      "rule_id": "r_three_seven_similarity",
+      "conclusion_id": "three_seven_similarity",
+      "weight": 20,
+      "independence": "独立的跨结构近似幅值关系，不由1/5/7非单调性推出。",
+      "source_location": "正文Eqs15–18 pp2–4、Table3 pp9–10；SI物理pp37–38 TablesS9/S10。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound1_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound3_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound5_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound7_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/hrs_source_geometry_definition_join.json"
+      ],
+      "existing_support_or_gap": "四静态HRS=1.0390134/1.3036503/1.9179009/1.2695606；1→5为+.8788875，5→7为−.6483403，3−7为+.0340897，均10−30 esu。实际张量支持1/5偏偶极、3/7强八极，5有显著八极成分。",
+      "scientific_limitations": "G16与G09及导数无1/2约定需明确；源rho舍入不等于精确张量比例。3/7细排序不提升为跨方法规律，静态孤立四分子结果不能认证动态/体相性能。张量分类是题目明确要求的最终物性，本轮合并为一个比较项，四工具/标量项设计争议已解决。"
+    },
+    {
+      "scientific_requirement": "必需结果2：每个分子的张量物理性质",
+      "rule_id": "r_tensor_character_comparison",
+      "conclusion_id": "tensor_character_comparison",
+      "weight": 25,
+      "independence": "张量对称/不可约性质，不由幅值大小或扩展方向唯一确定。",
+      "source_location": "正文Eqs15–18 pp2–4、Table3 pp9–10；SI物理pp37–38 TablesS9/S10。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound1_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound3_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound5_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound7_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/hrs_source_geometry_definition_join.json"
+      ],
+      "existing_support_or_gap": "四静态HRS=1.0390134/1.3036503/1.9179009/1.2695606；1→5为+.8788875，5→7为−.6483403，3−7为+.0340897，均10−30 esu。实际张量支持1/5偏偶极、3/7强八极，5有显著八极成分。",
+      "scientific_limitations": "G16与G09及导数无1/2约定需明确；源rho舍入不等于精确张量比例。3/7细排序不提升为跨方法规律，静态孤立四分子结果不能认证动态/体相性能。张量分类是题目明确要求的最终物性，本轮合并为一个比较项，四工具/标量项设计争议已解决。"
+    },
+    {
+      "scientific_requirement": "必需结果4：结构—响应原因与局限",
+      "rule_id": "r_structure_response_interpretation",
+      "conclusion_id": "structure_response_interpretation",
+      "weight": 25,
+      "independence": "实际物理归因及可识别原因，不重复幅值或张量分类。",
+      "source_location": "正文Eqs15–18 pp2–4、Table3 pp9–10；SI物理pp37–38 TablesS9/S10。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound1_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound3_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound5_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound7_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/hrs_source_geometry_definition_join.json"
+      ],
+      "existing_support_or_gap": "四静态HRS=1.0390134/1.3036503/1.9179009/1.2695606；1→5为+.8788875，5→7为−.6483403，3−7为+.0340897，均10−30 esu。实际张量支持1/5偏偶极、3/7强八极，5有显著八极成分。",
+      "scientific_limitations": "G16与G09及导数无1/2约定需明确；源rho舍入不等于精确张量比例。3/7细排序不提升为跨方法规律，静态孤立四分子结果不能认证动态/体相性能。张量分类是题目明确要求的最终物性，本轮合并为一个比较项，四工具/标量项设计争议已解决。"
+    }
+  ],
+  "new_computation": false
+}

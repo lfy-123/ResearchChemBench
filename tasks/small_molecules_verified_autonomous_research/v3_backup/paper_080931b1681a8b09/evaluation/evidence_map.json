@@ -1,0 +1,44 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "evidence": [
+    {
+      "evidence_id": "V2_MAIN",
+      "source": {
+        "path": "papers/paper_080931b1681a8b09/documents/main.pdf",
+        "sha256": "9d49704206d4a5c97719df67221681c18cd284029f06b0c7ac66fdca051ef1df",
+        "pdf_pages_1based": [
+          3,
+          5,
+          6
+        ]
+      },
+      "description": "Main text/supplementary materials directly checked for V2; PDF pages are numbered from 1, and SI page numbering corresponds to S-page numbers. Scheme 6D appears on main-text page 5 and its explanation on page 6; Table S6 is on SI page 130."
+    },
+    {
+      "evidence_id": "V2_SI",
+      "source": {
+        "path": "papers/paper_080931b1681a8b09/documents/supplementary_001.pdf",
+        "sha256": "344b345930bac592daa89231ed9f0efc0b625f9c9d8ce14d311ea9cc51135b0c",
+        "pdf_pages_1based": [
+          4,
+          126,
+          127,
+          128,
+          129,
+          130
+        ]
+      },
+      "description": "Main text/supplementary materials directly checked for V2; PDF pages are numbered from 1, and SI page numbering corresponds to S-page numbers. Scheme 6D appears on main-text page 5 and its explanation on page 6; Table S6 is on SI page 130."
+    },
+    {
+      "evidence_id": "existing_native_verification",
+      "source": {
+        "path": "tasks/small_molecules_verified_autonomous_research/paper_080931b1681a8b09/evaluation/verified_computation_reference.md",
+        "sha256": "2ff5567dc5fdc8c2706eef2234704b90d80909545ec12888973f4bcbe3e7d40e"
+      },
+      "evidence_type": "existing_computation_with_qualifications",
+      "description": "正文 Table 1 entry 6/Scheme 6D、SI S126–130；历史验证支持结合/开环与两支闭环、R 构型，以及局部弱接触和形变/相互作用分解的有界解释。",
+      "role": "Historical calculations only; historical scoring/acceptance prose is not active criteria."
+    }
+  ]
+}

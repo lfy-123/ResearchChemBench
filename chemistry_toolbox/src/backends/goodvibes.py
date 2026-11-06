@@ -8,6 +8,7 @@ import json
 import math
 import re
 import shutil
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -15,8 +16,10 @@ import yaml
 
 from .common import (
     command_artifacts,
+    external_failure,
     module_version,
     output_directory,
+    partial_success,
     relative_workspace_path,
     request_parts,
     resolve_input_file,
@@ -418,10 +421,12 @@ def _run_once(
     timeout_seconds: int,
 ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     json_name = f"{output_stem}.json"
+    compatibility = "--check" in arguments
     completed = run_external(
-        executable="goodvibes",
-        environment_variable="CHEMGRAPH_GOODVIBES_COMMAND",
+        executable=sys.executable if compatibility else "goodvibes",
+        environment_variable=None if compatibility else "CHEMGRAPH_GOODVIBES_COMMAND",
         arguments=[
+            *(["-m", "chemistry_toolbox.src.goodvibes_compat"] if compatibility else []),
             *(glob.escape(str(path)) for path in output_files),
             *arguments,
             "--output",
@@ -443,8 +448,8 @@ def _run_once(
     if completed.get("timeout"):
         raise TimeoutError(f"GoodVibes exceeded {timeout_seconds} seconds")
     if completed["returncode"] != 0:
-        detail = (completed["stderr"] or completed["stdout"])[-4000:]
-        raise RuntimeError(f"GoodVibes failed with exit code {completed['returncode']}: {detail}")
+        raise external_failure(completed, directory, "GoodVibes",
+                               log_names=(f"{output_stem}.stdout.log", f"{output_stem}.stderr.log"))
     json_path = directory / json_name
     if not json_path.is_file():
         raise RuntimeError("GoodVibes completed without writing the requested structured JSON")
@@ -966,13 +971,21 @@ def execute(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             issues = _validation_issue_lines(report_text)
             if validation_with_spc:
                 issues.extend(_single_point_consistency_issues(payload))
+            metadata = [row for p in payloads for row in p.get("toolbox_compatibility", {}).get("metadata", [])]
+            unknown_metadata = [row["file"] for row in metadata if row["source"] == "unavailable"]
+            issues.extend(f"Missing solvation metadata: {path}" for path in unknown_metadata)
             result = {
                 **base,
                 "consistent": not issues,
                 "issues": issues,
                 "goodvibes_check_report": report_text[-30000:],
                 "single_point_check_workaround": bool(validation_with_spc),
+                "validation_metadata": metadata,
             }
+            if unknown_metadata:
+                return partial_success(result, artifact_files=_artifact_files(directory),
+                                       backend_version=module_version("goodvibes"), warnings=issues,
+                                       provenance=_provenance(commands=commands, payloads=payloads, settings=settings))
 
     warnings = _warning_lines(*captured_texts)
     return success(

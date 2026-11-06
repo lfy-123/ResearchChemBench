@@ -26,11 +26,10 @@ class WorkspaceLifecycleMixin:
                 f"- CPU: {self.available_cpu_cores} logical cores\n"
                 f"- Memory: {self.available_memory_mb} MiB\n"
                 f"- GPU: {self.available_gpu_count}\n\n"
-                "You may choose the resources for each managed calculation within this envelope. "
-                "The sum of all concurrently queued or running managed jobs must also remain "
-                "within it. Requests above the budget are rejected rather than silently reduced. "
-                "Parallelize independent calculations only when their combined CPU, memory, and "
-                "GPU reservations fit this budget."
+                "Each calculation's resource request must fit this envelope. Simultaneous CPU, "
+                "memory, and GPU reservations must also fit it. Accepted queued jobs wait for "
+                "capacity without reserving resources; their combined requests may exceed the "
+                "envelope. Individual requests above the budget are rejected rather than silently reduced."
             )
         snapshot = pool_snapshot()
         cpu_label = (
@@ -64,21 +63,15 @@ class WorkspaceLifecycleMixin:
             "CPU/memory request for each, but never choose a worker. Use "
             "`submit_action_batch_async` for independent predefined Actions and "
             "`wait_execution_events` for evaluator-controlled stable completion/failure feedback. "
-            "Build one complete unique item list for each independent stage, submit it once, and "
-            "let the toolbox queue excess items; do not split overlapping batches or repeat pilot "
-            "inputs. Submit "
+            "Prepare the complete unique list of independent inputs, group those sharing the same "
+            "Action, backend, and settings into batches, and let the toolbox queue excess items. "
+            "Reuse pilot results and avoid duplicate inputs across batches. Submit "
             "independent native and analysis jobs together, then pass all their IDs to "
             "`wait_execution_jobs`; the toolbox performs internal supervision, automatic terminal "
             "collection, and stable batched notification while queues continue to fill. Waiting requests are "
             "ordered by CPU, then "
             "memory, from largest to smallest. Submit currently known independent work together "
-            "so large jobs are visible before small jobs fragment capacity. Treat effective pool "
-            "utilization as an execution objective: when independent work is ready, submit enough "
-            "concurrent jobs for their combined CPU requests to approach current available capacity. "
-            "For CPU-scalable work, request the highest core count likely to reduce wall time, up "
-            "to the per-job limit. A programmable analysis job requesting multiple cores must "
-            "actually implement multiprocessing or use a parallel numerical library; do not "
-            "inflate requests for serial or I/O-bound work. Keep dependent stages sequential, "
+            "so large jobs are visible before small jobs fragment capacity. Keep dependent stages sequential, "
             "and use the resource snapshot returned by `wait_execution_jobs` when replanning after "
             "completions or failures."
         )
@@ -288,7 +281,14 @@ class WorkspaceLifecycleMixin:
             + "\n",
             encoding="utf-8",
         )
-        self.instructions_path.write_text(self._build_instructions(), encoding="utf-8")
+        self.instructions_path.write_text(
+            self._build_instructions() + f"\nRun deadline (UTC): {self.deadline_at}\n",
+            encoding="utf-8",
+        )
+        if self.tool_response_profile == "compact_v1":
+            from chemistry_toolbox.mcp.response_policy import context_reading_instructions
+            with self.instructions_path.open("a", encoding="utf-8") as handle:
+                handle.write("\n" + context_reading_instructions() + "\n")
         if self.recovery_enabled:
             with self.instructions_path.open("a", encoding="utf-8") as handle:
                 handle.write("\n## Persistent execution\nUse a stable submission_key for each intended computation (native, analysis, or Action). Reuse that key only for a communication retry; changed inputs or a new scientific attempt require a new key. Actions return an asynchronous job_id. Use lookup_execution_submission and list_execution_jobs after disconnection, then wait/collect the original job. Batch item identities are retained. Never resubmit solely because a response was lost. collect_execution_job returns a stable result_receipt_id; acknowledge_execution_result records that you have observed it. The original run deadline and usage budget continue across recovery.\n")
@@ -297,7 +297,9 @@ class WorkspaceLifecycleMixin:
                 handle.write("\n## Managed execution\nAll roles share one run, deadline and computation budget. Use a stable submission_key for each intended native, analysis or Action computation; prefix keys with a role identifier to avoid collisions. Reuse a key only for a communication retry with identical inputs. Actions return asynchronous job IDs; wait/collect their results before finishing. Lookup existing submissions after a tool connection failure instead of duplicating work. Agent session resume is not supported. Returning with active jobs fails final validation and cancels those jobs.\n")
         with self.instructions_path.open("a", encoding="utf-8") as handle:
             handle.write("\nElectronic state policy: " + self.electronic_state_policy + ". Molecular quantum calculations require a declared charge and spin in strict mode. Supply method_spec.charge and method_spec.multiplicity (or the backend's declared spin field), or a structure with explicit state. Unrecognized free-form XYZ comments do not establish electronic state. Inspect execution_feedback for effective values and their sources.\n")
-        if self.agent.get("kind") != "external":
+        if self.agent.get("kind") == "gemini":
+            self._agent_environment()
+        elif self.agent.get("kind") != "external":
             self._write_claude_mcp_config()
             self._write_opencode_config()
         catalog_path = self.workspace / "_toolbox_catalog.json"

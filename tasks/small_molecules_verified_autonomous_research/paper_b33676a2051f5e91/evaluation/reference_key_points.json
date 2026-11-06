@@ -1,0 +1,159 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required chemistry begins at supplied Int-3. Int-2 is contextual only; no benzylic activation, peroxide cleavage or upstream radical generation is required. Both product drawings are inputs, not discoveries.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "items": [
+    {
+      "key_point_id": "support_local_cleavage_chemistry",
+      "key_point_type": "scientific_evidence",
+      "statement": "Local cleavage chemistry and accessibility of acetophenone formation",
+      "expected": "Explain the local accessibility of acetophenone plus ethyl radical from the supplied oxygen-centered C10H13O doublet Int-3 with mapped bond changes, correct composition/charge/spin and actual connected-route activation Gibbs-energy evidence in MeCN at 298.15 K and 1 atm. Use a physically connected precursor basin rather than a conveniently chosen higher-energy conformer. The product structures are supplied and earn no independent identification credit. A drawing or isolated saddle fails. Source 9.07 kcal/mol is historical context, not a target. This item concerns local acetophenone formation; ranking against the other cleavage is separate. No Int-2 formation, peroxide-bond cleavage, benzylic HAT, radical generation or full oxidation route is required.",
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37",
+        "supplementary_001_p33_34_35",
+        "main_p8",
+        "supplementary_001_p33_35"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_cleavage_selectivity",
+      "key_point_type": "scientific_evidence",
+      "statement": "Local accessibility of propiophenone formation and kinetic preference between the competing cleavages",
+      "expected": "Establish and explain the local accessibility of propiophenone plus methyl radical from the supplied Int-3, using actual calculations with mapped bond changes and reaction-path connection evidence between Int-3 and the specified product fragments. A barrier scalar or isolated saddle without this connection evidence is insufficient. Report the competing local activation Gibbs free energy and the common-reference barrier difference, and conclude that acetophenone plus ethyl radical formation is favored. Source competing barrier 13.39 and methyl-minus-ethyl difference 4.32 kcal/mol are context without hard matching windows. Use matching energy definitions, composition, charge/spin and conformer references. Product stability alone does not establish formation accessibility or preference. Interpret the conclusion as local competition, not the supplied 63% yield, a measured branching ratio or full-network flux. No upstream activation, peroxide cleavage or particular path-validation algorithm is required.",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "statement": "苯乙酮与乙基自由基的裂解通道",
+      "expected": "A derived, validated local alkoxy-radical model establishes cleavage to acetophenone plus ethyl radical with atom/electron-balanced identities and actual connected transformation evidence. The observed product alone does not prove the modeled intermediate.",
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_id": "acetophenone_branch",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "乙基断裂通道的局部势垒",
+      "expected": "Compute G(TS4b)-G(Int3) for the physically connected local alkoxy reference, MeCN at 298.15 K/1 atm. Validate saddle character and connection with IRC or equivalent demonstrated endpoint evidence. Do not substitute a different common zero or unrelated matching scalar.",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_35"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_id": "ethyl_scission_barrier",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "苯丙酮与甲基自由基的竞争通道",
+      "expected": "Independently establish and quantify the competing cleavage to propiophenone plus methyl radical from the comparable local alkoxy model. Source barrier13.39 kcal/mol is contextual without an existing calibrated absolute tolerance; this item assesses the supported competing transformation and its computed energetics, not a newly invented magnitude gate.",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_id": "methyl_scission",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "氯自由基苄位夺氢节点",
+      "expected": "Computed local transformation evidence supports chlorine-mediated benzylic H abstraction from sec-butylbenzene to a substrate radical and HCl under balanced definitions. Ground accessibility in actual local energetics/connection evidence; no disputed singlet-oxygen capture sequence or photophysical-cycle calculation is required.",
+      "evidence_ids": [
+        "main_p6_7",
+        "supplementary_001_p25_26_27_28_29"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_id": "chlorine_hat",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "key_point_id": "support_cleavage_products",
+      "key_point_type": "scientific_evidence",
+      "statement": "Atom-balanced product and coproduct identities of the local cleavage alternatives",
+      "expected": "Establish by mapped, genuinely connected local transformations that the oxygen-centered C10H13O doublet can cleave to acetophenone+C2H5 radical or propiophenone+CH3 radical. Correct carbon/hydrogen/oxygen and spin accounting, and identification of both distinct bond-breaking outcomes, are required; source Int3/Int4 labels are not. This rule scores chemical identities of the alternatives, not their energy ordering. The observed acetophenone alone does not establish a radical precursor or coproduct.",
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37",
+        "supplementary_001_p33_34_35"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_acetophenone_barrier",
+      "key_point_type": "scientific_evidence",
+      "statement": "Local free-energy barrier for acetophenone-forming C–C cleavage",
+      "expected": "Report the connected acetophenone+ethyl-radical cleavage barrier G(TS)−G(local oxygen-centered C10H13O doublet precursor) in MeCN at298.15K/1atm, within9.07±2.0kcal/mol inclusive. The reference is the physically connected reactant basin, not the initial hydrocarbon, a whole-profile maximum or a conveniently chosen higher conformer. Require appropriate saddle/frequency and connection evidence by IRC or demonstrated equivalent endpoints. Wrong physical quantity or an out-of-window result fails without review.",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_35"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_cleavage_selectivity",
+      "key_point_type": "scientific_evidence",
+      "statement": "Kinetic preference between acetophenone- and propiophenone-forming local cleavages",
+      "expected": "Quantify the competing propiophenone+methyl-radical barrier and the common-reference barrier difference, and conclude that acetophenone+ethyl-radical cleavage is favored. Source competing barrier13.39 and methyl-minus-ethyl4.32kcal/mol are context without calibrated hard windows. Actual connected barriers with matching energy definitions and conformer references are required; lower product stability alone does not establish formation preference. Interpret the preference as local competition, not the supplied63%yield, a measured branching ratio, or full-network flux.",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_local_activation",
+      "key_point_type": "scientific_evidence",
+      "statement": "Accessibility and limits of a reagent-derived local benzylic activation route",
+      "expected": "Support local benzylic activation of sec-butylbenzene by an actual atom/electron-balanced calculation and connect its meaning to the cleavage explanation. The source reference is Cl-radical H abstraction yielding C10H13 radical+HCl, with separated-reactant local barrier3.23kcal/mol as unscored numeric context. An established physically equivalent supported local activation explanation passes; generic radical speculation or control yields alone fail. Do not claim the activation and alkoxy cleavage form a computed continuous path unless the intervening chemistry is actually demonstrated; no singlet-O2 state convention, Bi photophysics or polymer model is required.",
+      "evidence_ids": [
+        "main_p6_7",
+        "supplementary_001_p25_26_27_28_29"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_local_activation",
+      "key_point_type": "scientific_evidence",
+      "statement": "Accessibility and limits of a reagent-derived local benzylic activation route",
+      "expected": "Support local benzylic activation of sec-butylbenzene by an actual atom/electron-balanced calculation and connect its meaning to the cleavage explanation. The source reference is Cl-radical H abstraction yielding C10H13 radical+HCl, with separated-reactant local barrier3.23kcal/mol as unscored numeric context. An established physically equivalent supported local activation explanation passes; generic radical speculation or control yields alone fail. Do not claim the activation and alkoxy cleavage form a computed continuous path unless the intervening chemistry is actually demonstrated; no singlet-O2 state convention, Bi photophysics or polymer model is required.",
+      "evidence_ids": [
+        "main_p6_7",
+        "supplementary_001_p25_26_27_28_29"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "evidence": [
+    {
+      "evidence_id": "main_methods",
+      "source": {
+        "path": "papers/paper_2f302589e5e9e420/documents/main.pdf",
+        "sha256": "a97be22902a7ec8a348c8112368e5422ea2af4782e0d4af6f818237fa2a30563",
+        "pdf_pages_1based": [
+          4
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "main_context",
+      "source": {
+        "path": "papers/paper_2f302589e5e9e420/documents/main.pdf",
+        "sha256": "a97be22902a7ec8a348c8112368e5422ea2af4782e0d4af6f818237fa2a30563",
+        "pdf_pages_1based": [
+          6,
+          7
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "dielectric_relevance"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "main_polarity",
+      "source": {
+        "path": "papers/paper_2f302589e5e9e420/documents/main.pdf",
+        "sha256": "a97be22902a7ec8a348c8112368e5422ea2af4782e0d4af6f818237fa2a30563",
+        "pdf_pages_1based": [
+          6,
+          7
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "polarity_effect",
+        "molecular_mechanism",
+        "dielectric_relevance"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "si_geometry",
+      "source": {
+        "path": "papers/paper_2f302589e5e9e420/documents/supplementary_001.pdf",
+        "sha256": "d4a715bfc18bff524f50298937739473903e9fb1012e7cdd5daf9692e42ae942",
+        "pdf_pages_1based": [
+          23,
+          24,
+          25,
+          26
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "polarity_effect",
+        "molecular_mechanism"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "native_dipole_audit",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_2f302589e5e9e420/report/v2_execution_20260929/EPI_Gaussian_source_SP_acceptance_20260930_a03.json",
+        "sha256": "e281f6b2077eb81c428040a1c217c780195f2ea152672bbc95d16f58c621dcff",
+        "locator": "endpoints: dipole_D, identity, geometry and native_log"
+      },
+      "evidence_type": "existing_native_computation_or_analysis",
+      "supports_final_conclusion_ids": [
+        "polarity_effect",
+        "molecular_mechanism",
+        "dielectric_relevance"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "native_bounded_population",
+      "source": {
+        "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f302589e5e9e420/outputs/evidence/epi_evidence.json",
+        "sha256": "7b90b7733645dfd20aa8a468de7364bb5cfeffa03525b60669253303f3df2f58",
+        "locator": "ensembles.RRHO, 50, 100; five distinct retained minima, Gaussian RRHO weights and separately declared ORCA property values; finite local sample, not global equilibrium"
+      },
+      "evidence_type": "existing_native_computation_or_analysis",
+      "supports_final_conclusion_ids": [
+        "polarity_effect",
+        "molecular_mechanism",
+        "dielectric_relevance"
+      ],
+      "scored_independently": false
+    }
+  ]
+}

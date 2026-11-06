@@ -1,0 +1,22 @@
+{
+  "paper_id": "paper_1bcf80caf9e64d55",
+  "case_id": "case_10",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "existing_verification_reference_reused": true,
+  "new_quantum_validation_performed": false,
+  "new_agent_run_performed": false,
+  "scientific_acceptance_reassessed_this_migration": false,
+  "scoring_definition_reviewed": true,
+  "numerical_evidence_policy": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。",
+  "verification_support": "正文 Schemes 4/5、SI S97–99；历史验证支持催化形成路线和再生、A/B 分支、初始膦加成需求及放能净反应。",
+  "reference_issues": [
+    "原作者 -24.7 窗口撤销；公开规定的缔合起点只是热力学报告参照，不要求路线经过它。",
+    "允许同时给分离反应物参照，但须通过一致的缔合/标准态账本说明关系。",
+    "不加全底物范围、不对称变体或穷尽构象；端点放能不等于已解释催化机制。",
+    "三个分支项的累进事实写在各自expected中；无实证0，未得直接分支至多10，直接分支20，有有效竞争比较30。局部分支不以完整催化路线为前提。"
+  ],
+  "human_review_resolution": "机制40；分支拆为累计条件明确的10+10+10：相关分支、直接环化、实质竞争比较；瓶颈20保留；净热力学10。",
+  "note": "Reference definitions and scoring have been audited; this is not new quantum validation, a blind agent run, strict numeric reproduction or publication approval. Native logs and historical verification remain unchanged.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail."
+}

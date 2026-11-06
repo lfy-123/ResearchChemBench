@@ -1,0 +1,3128 @@
+{
+  "format_version": "1.0",
+  "representation": "text only",
+  "index_policy": "Each molecule has independent atom_id values; its SMILES, atom/bond tables and additional stereochemical constraints jointly define its identity. Named chemical numbering in the facts does not automatically equal atom_id. Report any conflict and discontinue use of the conflicting entry; do not silently substitute a different molecule. For R/S comparisons, use the accurate algorithm declared in cip_assignment; a legacy-descriptor discrepancy alone is not a molecular-identity conflict. Never alter supplied stereochemistry to match a legacy label.",
+  "molecules": [
+    {
+      "id": "S",
+      "name": "1,2-Dihydronaphthalene",
+      "smiles": "C1=CCCc2ccccc21",
+      "mapped_smiles": "[CH:1]1=[CH:2][CH2:3][CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][c:10]21",
+      "formula": "C10H10",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            9,
+            10
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            1
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            5
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "ArI",
+      "name": "4-tert-Butyliodobenzene",
+      "smiles": "CC(C)(C)c1ccc(I)cc1",
+      "mapped_smiles": "[CH3:1][C:2]([CH3:3])([CH3:4])[c:5]1[cH:6][cH:7][c:8]([I:9])[cH:10][cH:11]1",
+      "formula": "C10H13I",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "I",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 11,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            10
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            11
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            11,
+            5
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "styrene",
+      "name": "Styrene",
+      "smiles": "C=Cc1ccccc1",
+      "mapped_smiles": "[CH2:1]=[CH:2][c:3]1[cH:4][cH:5][cH:6][cH:7][cH:8]1",
+      "formula": "C8H8",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            3
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "dippf",
+      "name": "1,1′-Bis(diisopropylphosphino)ferrocene",
+      "smiles": "[Fe+2].[c-]1(P(C(C)C)C(C)C)cccc1.[c-]1(P(C(C)C)C(C)C)cccc1",
+      "mapped_smiles": "[Fe+2:1].[c-:2]1([P:3]([CH:4]([CH3:5])[CH3:6])[CH:7]([CH3:8])[CH3:9])[cH:10][cH:11][cH:12][cH:13]1.[c-:14]1([P:15]([CH:16]([CH3:17])[CH3:18])[CH:19]([CH3:20])[CH3:21])[cH:22][cH:23][cH:24][cH:25]1",
+      "formula": "C22H36FeP2",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "Fe",
+          "isotope": null,
+          "formal_charge": 2,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": -1,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "P",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 11,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 12,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 13,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 14,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": -1,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 15,
+          "element": "P",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 16,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 17,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 18,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 19,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 20,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 21,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 22,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 23,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 24,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 25,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            6
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            7
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            9
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            10
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            11
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            11,
+            12
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            12,
+            13
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            14,
+            15
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            15,
+            16
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            16,
+            17
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            16,
+            18
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            15,
+            19
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            19,
+            20
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            19,
+            21
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            14,
+            22
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            22,
+            23
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            23,
+            24
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            24,
+            25
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            13,
+            2
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            25,
+            14
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration.",
+      "coordination_note": "Discrete Fe2+ and two Cp− units represent ferrocene's electron count/connectivity; each Cp coordinates to Fe through all five ring carbons, and each P is attached to one Cp carbon. Do not interpret the dot separator as free Cp in the experiment. Active Pd–phosphine coordination must be investigated separately."
+    },
+    {
+      "id": "phenoxide",
+      "name": "Phenoxide",
+      "smiles": "[O-]c1ccccc1",
+      "mapped_smiles": "[O-:1][c:2]1[cH:3][cH:4][cH:5][cH:6][cH:7]1",
+      "formula": "C6H5O-",
+      "formal_charge": -1,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": -1,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            2
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "DABCO",
+      "name": "1,4-Diazabicyclo[2.2.2]octane",
+      "smiles": "C1CN2CCN1CC2",
+      "mapped_smiles": "[CH2:1]1[CH2:2][N:3]2[CH2:4][CH2:5][N:6]1[CH2:7][CH2:8]2",
+      "formula": "C6H12N2",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "N",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "N",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            1
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "dba",
+      "name": "Dibenzylideneacetone",
+      "smiles": "O=C(/C=C/c1ccccc1)/C=C/c1ccccc1",
+      "mapped_smiles": "[O:1]=[C:2](/[CH:3]=[CH:4]/[c:5]1[cH:6][cH:7][cH:8][cH:9][cH:10]1)/[CH:11]=[CH:12]/[c:13]1[cH:14][cH:15][cH:16][cH:17][cH:18]1",
+      "formula": "C17H14O",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 11,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 12,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 13,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 14,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 15,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 16,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 17,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 18,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREOE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            9,
+            10
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            11
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            11,
+            12
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREOE"
+        },
+        {
+          "atoms": [
+            12,
+            13
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            13,
+            14
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            14,
+            15
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            15,
+            16
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            16,
+            17
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            17,
+            18
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            5
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            18,
+            13
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "Et2O",
+      "name": "Diethyl ether",
+      "smiles": "CCOCC",
+      "mapped_smiles": "[CH3:1][CH2:2][O:3][CH2:4][CH3:5]",
+      "formula": "C4H10O",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "acetate",
+      "name": "Acetate",
+      "smiles": "CC(=O)[O-]",
+      "mapped_smiles": "[CH3:1][C:2](=[O:3])[O-:4]",
+      "formula": "C2H3O2-",
+      "formal_charge": -1,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": -1,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "TBA",
+      "name": "Tetra-n-butylammonium",
+      "smiles": "CCCC[N+](CCCC)(CCCC)CCCC",
+      "mapped_smiles": "[CH3:1][CH2:2][CH2:3][CH2:4][N+:5]([CH2:6][CH2:7][CH2:8][CH3:9])([CH2:10][CH2:11][CH2:12][CH3:13])[CH2:14][CH2:15][CH2:16][CH3:17]",
+      "formula": "C16H36N+",
+      "formal_charge": 1,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "N",
+          "isotope": null,
+          "formal_charge": 1,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 11,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 12,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 13,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 14,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 15,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 16,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 17,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            10
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            11
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            11,
+            12
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            12,
+            13
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            14
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            14,
+            15
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            15,
+            16
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            16,
+            17
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "P_beta",
+      "name": "Supplied β-product connectivity",
+      "smiles": "C1=C(c2ccc(C(C)(C)C)cc2)CCc2ccccc21",
+      "mapped_smiles": "[CH:1]1=[C:2]([c:3]2[cH:4][cH:5][c:6]([C:7]([CH3:8])([CH3:9])[CH3:10])[cH:11][cH:12]2)[CH2:13][CH2:14][c:15]2[cH:16][cH:17][cH:18][cH:19][c:20]21",
+      "formula": "C20H22",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 11,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 12,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 13,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 14,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 15,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 16,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 17,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 18,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 19,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 20,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            9
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            10
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            11
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            11,
+            12
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            13
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            13,
+            14
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            14,
+            15
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            15,
+            16
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            16,
+            17
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            17,
+            18
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            18,
+            19
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            19,
+            20
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            20,
+            1
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            12,
+            3
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            20,
+            15
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    },
+    {
+      "id": "P_alpha",
+      "name": "Supplied α-product connectivity",
+      "smiles": "CC(C)(C)c1ccc(C2CC=Cc3ccccc32)cc1",
+      "mapped_smiles": "[CH3:1][C:2]([CH3:3])([CH3:4])[c:5]1[cH:6][cH:7][c:8]([CH:9]2[CH2:10][CH:11]=[CH:12][c:13]3[cH:14][cH:15][cH:16][cH:17][c:18]32)[cH:19][cH:20]1",
+      "formula": "C20H22",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 11,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 12,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 13,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 14,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 15,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 16,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 17,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 18,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 19,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 20,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": true,
+          "hydrogen_count": 1,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            9,
+            10
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            11
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            11,
+            12
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            12,
+            13
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            13,
+            14
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            14,
+            15
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            15,
+            16
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            16,
+            17
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            17,
+            18
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            19
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            19,
+            20
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            20,
+            5
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            18,
+            9
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            18,
+            13
+          ],
+          "order": 1.5,
+          "aromatic": true,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Local heavy-atom numbering for this molecule; hydrogen counts are in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings between states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly marked in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single favored configuration."
+    }
+  ],
+  "cip_assignment": {
+    "algorithm": "rdkit.Chem.rdCIPLabeler.AssignCIPLabels",
+    "validated_rdkit_version": "2023.09.6",
+    "validate_initial_geometry": false,
+    "policy": "CIP descriptors are derived from the supplied stereochemical structures using the accurate CIPLabeler. Preserve atom_id and the structures. Diagnose legacy-algorithm or atom-numbering differences before treating descriptors as identity conflicts. Genuine connectivity or stereochemical conflicts still require resolution before calculation."
+  }
+}

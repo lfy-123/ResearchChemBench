@@ -1,0 +1,179 @@
+{
+  "paper_id": "paper_9ec32e81e2826041",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_orientation_absorption_contrast",
+      "reference_id": "orientation_absorption_contrast",
+      "type": "semantic",
+      "expected": "Compare the actual lowest-singlet energies and oscillator strengths of the separately identified near-perpendicular and more-coplanar S0 configurations of full neutral-singlet 80-atom C35H43NZn Z-cAACCy. A physically matched molecular response establishes that the more-coplanar configuration absorbs at lower energy with a weaker lowest transition than the near-perpendicular configuration. Quantify both contrasts and explain their relevance to the molecular optical contrast, distinguishing a vertical transition from a diffuse-reflectance edge, optical gap or complete crystal spectrum. State/geometry evidence must identify the configurations; a supplied color, orientation label or four copied values fails. No absolute energy/oscillator-strength windows or exact crystal angles are required.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_metal_role_explanation",
+      "reference_id": "metal_role_explanation",
+      "type": "semantic",
+      "expected": "Explain the physical origin of the orientation-dependent absorption using actual electronic and state evidence: the more-coplanar arrangement permits stronger carbene-C(2p)/Zn(4p) pi-type mixing in the accepting orbital, which participates in the lower-energy singlet transition. Map the ring-plane relation and connect the accepting orbital to the transition; comparable normalized Zn4p LUMO populations or a demonstrated equivalent electronic analysis can support the inference. Quantify the represented metal involvement with its definition, without imposing an exact percentage, population scheme or program. A selected basis coefficient, total atomic charge or LUMO energy alone is insufficient. The inferred electronic relation, rather than repeated transition energies or source colors, earns the points. Neither an orbital population nor a transition coefficient is the full excited-state metal electron density.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_thermal_accessibility",
+      "reference_id": "thermal_accessibility",
+      "type": "semantic",
+      "expected": "Actual matched full-molecule Gibbs free energies including dispersion at 300 K establish near-degenerate perpendicular and more-coplanar configurations relative to RT. Quantify the signed difference and assess the thermal/structural sensitivity relevant to this conclusion; the tiny source negative difference does not establish robust coplanar population dominance. Use compatible electronic, thermal, standard-state and conformer definitions. A second optimized geometry, generic uncertainty or an unsupported assertion of accessibility fails. No precise Gibbs difference or universal near-zero sign is a matching target. This item evaluates thermal competition in the represented model; the change on omitting dispersion is assessed separately.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_dispersion_effect",
+      "reference_id": "dispersion_effect",
+      "type": "semantic",
+      "expected": "Compare actual consistent with-dispersion and without-dispersion full-molecule free-energy results at 300 K to establish that including dispersion materially weakens the no-dispersion preference for the perpendicular conformer, bringing the configurations toward thermal competition. Interpret the difference of G(coplanar)−G(perpendicular) between the treatments, while retaining geometry and thermal contributions rather than substituting a single correction on an unrelated fixed geometry. Both source-model Gibbs differences are evidence; the source −0.1 and +4.8 kJ/mol values and their former windows are not scoring targets. Explain which model-specific noncovalent contribution the comparison supports and what it does not isolate. Merely listing two numbers or repeating near-degeneracy without the dispersion contrast fails.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_solution_crystal_applicability",
+      "reference_id": "solution_crystal_applicability",
+      "type": "semantic",
+      "expected": "Use the actual molecular configurations and thermochemistry to assess the observation that both crystal samples give the same yellow solution. A thermally accessible set can support a common solution optical account, but molecular conformer free energies alone do not determine crystal packing, exact solution populations or interconversion rates. State the specific gap between the modeled gas-molecular quantities and the supplied reflectance/solution facts, and why it limits the inferred account. Do not award another score for repeating near-degeneracy, crystal colors or a generic limitation. No photocatalysis or Z-IP phosphorescence claim belongs to this result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "orientation_absorption_contrast",
+      "description": "Orientation-dependent low-singlet absorption",
+      "max_score": 25,
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p3_10_11_13_14_15_21"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_orientation_absorption_contrast"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "metal_role_explanation",
+      "description": "Electronic role of Zn in the orientation effect",
+      "max_score": 25,
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p3_10_11_13_14_15_21",
+        "verified_zn_population"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_metal_role_explanation"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "thermal_accessibility",
+      "description": "Near-room-temperature competition with dispersion",
+      "max_score": 20,
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p3_10_11_13_14_15_21",
+        "verified_zn_thermal_control"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_thermal_accessibility"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "dispersion_effect",
+      "description": "Effect of dispersion on the conformational preference",
+      "max_score": 15,
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p3_10_11_13_14_15_21",
+        "verified_zn_thermal_control"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_dispersion_effect"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "solution_crystal_applicability",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "What molecular results imply for the crystal/solution observations",
+      "rule_ids": [
+        "r_solution_crystal_applicability"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p3_10_11_13_14_15_21",
+        "verified_zn_thermal_control"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_14",
+  "source_paper_id": "paper_f2a9e1bc87fc9b54",
+  "scoring_policy": "paper_science_v2",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; arbitrary thresholds such as 60 points are not used. The original rules assess recovery of bounded conclusions from the literature and do not establish a uniquely true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances. First review comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not unilaterally change tolerances. Source numbers without targets are context only, not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_base_hydrogen_transfer",
+      "reference_id": "base_hydrogen_transfer",
+      "type": "semantic",
+      "expected": "Actual structures and reaction-connectivity evidence support base-induced removal of the N–H hydrogen of 3-nitropyrrole and formation of H2, preserving the β-nitropyrrole identity and balancing atoms/charges. The authors' hydride-contact model TS1 is a reference; chemically equivalent representations are allowed, and source coordinates or a fixed search method are not mandatory. Merely writing a deprotonation label or providing an unvalidated TS earns no credit.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_activated_n_intermediate",
+      "reference_id": "activated_n_intermediate",
+      "type": "semantic",
+      "expected": "Valid calculations support the deprotonated nitrogen-containing pyrrole state and its corresponding stabilization, maintaining a mapping of the same anionic skeleton to the precursor for subsequent propargylation. The authors' S2/H2 contact state at approximately −25.5 kcal/mol relative to the initial state is context; the same contact partner/conformation is not mandatory. An actual intermediate state and connectivity relationships must be obtained; two mutually unbalanced models cannot be spliced together.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_n_c_bond_formation",
+      "reference_id": "n_c_bond_formation",
+      "type": "semantic",
+      "expected": "Actual reaction structures, vibrational modes and appropriate connectivity evidence support bond formation between pyrrole N and the propargylic carbon and C–Br cleavage, retaining the terminal alkyne and β-nitro position. The SN2 channel of the authors' TS2 is a reference. Author labels or a full IRC are not mandatory, but merely calculating a nonreactive imaginary frequency or a product with incorrect substitution positions earns no credit.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_net_exergonicity",
+      "reference_id": "net_exergonicity",
+      "type": "semantic",
+      "expected": "Compatible energy definitions and complete material/charge accounting yield a calculated substantially exergonic trend for net formation of the N-propargyl product. The authors' G of approximately −45.5 kcal/mol is reference context, with no hidden exact window. Do not omit H2/reagents/Br or derive ΔG directly from the yield.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_connected_route_answer",
+      "reference_id": "connected_route_answer",
+      "type": "semantic",
+      "expected": "Finally, use a computationally supported connected explanation to link the roles of the substrate, base and alkylating reagent through to the correct N-propargyl product. The authors' deprotonation followed by substitution is a reference; equivalent routes supported by actual evidence are acceptable. Merely showing isolated TSs/products or proposing an untested reaction type is insufficient.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_energetic_answer",
+      "reference_id": "energetic_answer",
+      "type": "semantic",
+      "expected": "Using the connected pathway and comparable energies, explicitly establish that subsequent N–C substitution has a more pronounced local activation requirement than the preceding near-reactant deprotonation, while the net conversion is exergonic. Correctly distinguish relative profile heights, local barriers from the respective precursors and the reaction ΔG; the authors' 16.2 is only an energy difference under their reference definition. Do not describe a negative relative TS G as an experimentally strictly barrierless reaction, or infer a quantitative rate from 89%/24h.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "base_hydrogen_transfer",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "Base-induced N–H transfer and H2 formation",
+      "rule_ids": [
+        "r_base_hydrogen_transfer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "activated_n_intermediate",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "The deprotonated nitrogen-containing intermediate connects to the subsequent reaction",
+      "rule_ids": [
+        "r_activated_n_intermediate"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "n_c_bond_formation",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "Substitution event involving N–C formation and C–Br cleavage",
+      "rule_ids": [
+        "r_n_c_bond_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "net_exergonicity",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Balanced net product formation has an exergonic trend",
+      "rule_ids": [
+        "r_net_exergonicity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "connected_route_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final: a two-step molecular explanation of the complete N-propargylation",
+      "rule_ids": [
+        "r_connected_route_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "energetic_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final: distinguish local substitution difficulty from overall exergonicity",
+      "rule_ids": [
+        "r_energetic_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ],
+  "scope_changes": [],
+  "reference_issues": [
+    "The simplified source TS does not contain Na; effects of the full solid NaH/ion-pair system have not been established. A negative plotted relative TS height does not imply a zero local barrier."
+  ],
+  "source_location": "Main text p2 Fig.1; SI DOCX Theoretical study/Table 1",
+  "source_files": [
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_14/main.pdf",
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_14/supplementary_001.docx"
+  ],
+  "paper_id": "paper_f2a9e1bc87fc9b54",
+  "expert_scoring_policy": "scientific_results_only_binary_items",
+  "expert_rules_file": "expert_scoring_rules.json",
+  "required_for_whole_case_success_item_ids": [
+    "base_hydrogen_transfer",
+    "activated_n_intermediate",
+    "n_c_bond_formation",
+    "net_exergonicity",
+    "connected_route_answer",
+    "energetic_answer"
+  ],
+  "scientific_requirements": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; arbitrary thresholds such as 60 points are not used. The original rules assess recovery of bounded conclusions from the literature and do not establish a uniquely true mechanism.\nRetain the existing numerical targets/tolerances. First review comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not unilaterally change tolerances. Source numbers without targets are context only, not implicit thresholds.\nA chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.\nEvery scientific item retains its expert-authored weight and all-or-nothing rule. No research-process points are awarded.\nThe weighted score reports partial scientific achievement. Use expert_scoring_rules.json and score_case.py for the explicit pass/fail/needs_review whole-case adjudication; no score threshold replaces that decision."
+}

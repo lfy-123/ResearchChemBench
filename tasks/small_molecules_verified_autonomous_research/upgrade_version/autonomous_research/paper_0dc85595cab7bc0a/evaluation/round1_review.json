@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "提供结构并调整评分",
+  "changes_zh": "提供带前体映射的产物2连接结构和二维SDF，保留自主竞争位点研究；取消已知产物预测分，五项权重25/15/25/15/20。",
+  "source_locator": "正文 Fig. 2；SI Fig. S5、Table S13",
+  "scientific_scope_changed": true,
+  "active_rule_ids": [
+    "r_first_stage",
+    "r_first_site_electronic",
+    "r_second_stage",
+    "r_second_site_electronic",
+    "r_sequential_chemistry"
+  ],
+  "active_outcome_ids": [
+    "first_stage",
+    "first_site_electronic",
+    "second_stage",
+    "second_site_electronic",
+    "sequential_chemistry"
+  ],
+  "removed_outcome_ids": [
+    "product_connectivity"
+  ],
+  "public_file_sha256": {
+    "data/inputs/molecular_structures.json": "ce9040a1b917e362922e350daff80269095559dd8162db1bb990ed7d29b11a81",
+    "data/inputs/precursor_1_cis.xyz": "8739f15c0e79212423ef4e5ce1fbd5e0f8a0561f7711d6af873c15de40eb640c",
+    "data/inputs/product_2.sdf": "ae1035c1b9bb565dff07a369831f30269afda1a63678b9eeba67573d5841ab42",
+    "submission_schema.json": "da65be3724ec665d318645907202901f23272a29fca60fac3bfac83aebc02abd",
+    "task.md": "83d81bfb5e774c20220a20ea45db7b518c9357be03f4f9f43b7083532c5bf8c7"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_first_stage",
+      "r_first_site_electronic",
+      "r_second_stage",
+      "r_second_site_electronic",
+      "r_sequential_chemistry"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Product 2 connectivity is supplied public input. Score only computed competing-site energetics, independent site explanations and the balanced sequence; never award product-identification points.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

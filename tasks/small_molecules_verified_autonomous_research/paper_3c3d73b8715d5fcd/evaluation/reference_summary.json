@@ -1,0 +1,103 @@
+{
+  "paper_id": "paper_3c3d73b8715d5fcd",
+  "case_id": "case_04",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "independent_conclusions_adopted_20261103",
+  "scientific_scope": "Rh 催化 allenene 到 P1/P2 的催化机制、初始机理竞争、活化控制及两产物竞争。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "p1_local_hydrogen_mechanism_evidence",
+      "description": "局部转化的实际活化自由能、各步前体定义和对应成键/氢迁移证据；不能相加局部势垒冒充整体势垒。",
+      "public_requirement": "局部转化的实际活化自由能、各步前体定义和对应成键/氢迁移证据；不能相加局部势垒冒充整体势垒。"
+    },
+    {
+      "id": "p1_connected_formation_evidence",
+      "description": "关键中间体相对能量、对应局部活化量及配位/CO换参照关系。",
+      "public_requirement": "关键中间体相对能量、对应局部活化量及配位/CO换参照关系。"
+    },
+    {
+      "id": "p2_local_cis_closure_evidence",
+      "description": "局部闭环实际活化自由能及前体、成键和cis构型映射的原生证据。",
+      "public_requirement": "局部闭环实际活化自由能及前体、成键和cis构型映射的原生证据。"
+    },
+    {
+      "id": "p2_connected_formation_evidence",
+      "description": "相连中间体相对能量、局部活化量与CO/配位参照换算。",
+      "public_requirement": "相连中间体相对能量、局部活化量与CO/配位参照换算。"
+    },
+    {
+      "id": "p1_path",
+      "description": "通往 P1 的关键相连反应态/中间体相对能量与局部活化量，包含模型内的 CO/配体库存。",
+      "public_requirement": "Computed relative energies and local activation requirements along the connected P1 route, with CO/ligand inventory included consistently."
+    },
+    {
+      "id": "p2_path",
+      "description": "通往 P2 的关键相连反应态/中间体相对能量与局部活化量，包含模型内的 CO/配体库存。",
+      "public_requirement": "Computed relative energies and local activation requirements along the connected P2 route, with CO/ligand inventory included consistently."
+    },
+    {
+      "id": "activation_control",
+      "description": "从局部前体及稳定催化态出发的活化量、两分支可比总体活化需求及差值；交代换参照关系。",
+      "public_requirement": "Local and resting-state-referenced activation energies, comparable overall activation requirements for both product branches and their difference, with reference conversions stated."
+    },
+    {
+      "id": "initial_competition",
+      "description": "所选初始机制与实质竞争机制的可比活化量及差值，不要求穷尽论文所有方案。",
+      "public_requirement": "Comparable activation energies and differences for the proposed initial mechanism and substantive alternatives; an exhaustive reproduction of every published alternative is not required."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "p1_local_hydrogen_mechanism",
+      "points": 15,
+      "description": "P1局部氢重分布机制",
+      "allow_need_review": false
+    },
+    {
+      "id": "p1_connected_formation",
+      "points": 15,
+      "description": "从底物到P1的连通形成解释",
+      "allow_need_review": false
+    },
+    {
+      "id": "p2_local_cis_closure",
+      "points": 15,
+      "description": "P2局部cis闭环机制",
+      "allow_need_review": false
+    },
+    {
+      "id": "p2_connected_formation",
+      "points": 15,
+      "description": "底物至P2的连通净[2+2]解释",
+      "allow_need_review": false
+    },
+    {
+      "id": "activation_control",
+      "points": 10,
+      "description": "控制活化需求的转化及参照解释",
+      "allow_need_review": false
+    },
+    {
+      "id": "product_branch_competition",
+      "points": 20,
+      "description": "两产物分支均可竞争的解释",
+      "allow_need_review": false
+    },
+    {
+      "id": "initial_mechanism_preference",
+      "points": 10,
+      "description": "初始转化的竞争性机理判断",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Scheme 3/Fig.1、SI S34–35 与能量结构表；历史验证支持 17 个态、6 个 TS 及连接。部分连接使用模式位移/QRC，不全部为完整 IRC。",
+  "boundaries": [
+    "P2 的 cis 身份已公开，不单独计预测分；不扩展到 CO 插入产物和定量产率。",
+    "局部势垒、静息态到控制转化的需求须分清，CO 结合/解离须配平。",
+    "不规定唯一状态序列、网络节点数或完整 IRC 算法。"
+  ],
+  "source_locator": "Main PDF pp2–3 Scheme 3/Figure 1; SI S34–35 Figures S2/S4 and S39–42 structures/Table S2",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

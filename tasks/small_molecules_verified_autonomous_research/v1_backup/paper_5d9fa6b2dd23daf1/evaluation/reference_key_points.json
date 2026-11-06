@@ -1,0 +1,73 @@
+{
+  "paper_id": "paper_5d9fa6b2dd23daf1",
+  "items": [
+    {
+      "statement": "酸底物的C–C成键和内酯trans闭环",
+      "expected": "实际分子结构与反应连接证据支持指定E-己-3-烯酸与金刚烷基亲电中心形成C–C键，并由羧基氧闭合为给定五元内酯，乙基/金刚烷基为trans相对构型。作者参考为保留酸性质子、总电荷+1单重态的协同环化TS；反应模和局部连接需对应这些成键事件，并将质子化端点与中性目标产物按原子/质子配平对应。允许科学等价的连接证据，不强制完整IRC或去质子化TS；题面给定产物、单一正确距离或正常结束本身不够。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD"
+      ],
+      "key_point_id": "acid_trans_connection",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "磺酰胺底物的C–C成键和trans含氮闭环",
+      "expected": "实际结构与局部反应连接支持完整指定E-烯基磺酰胺的C–C成键及N–C五元环闭合，得到给定N-对甲苯磺酰基吡咯烷的trans乙基/金刚烷基关系。作者TS保留N–H质子、总电荷+1单重态，必须合理对应质子化端点与中性产物；未收敛超分子不能冒充最低点，但有效反应模、有限下坡及独立合格片段可构成相称证据。不要求完整催化循环或cis竞争。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD"
+      ],
+      "key_point_id": "sulfonamide_trans_connection",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "酸底物局部环化Gibbs势垒",
+      "expected": "G(TS1–3a)−G(Ad+)−G(1a)=13.0 kcal/mol，绝对容差2.0，边界包含。核对HFIP、293.15 K、1 atm及+1单重态反应组分、保留酸质子；TS必须具有对应成键的鞍点/连接证据。此量不是完整AdOH起点图的15.7；不能混入作者离子能2.7与自算局部量拼接。溶剂热项重构需明确，物理等价标准态/单位换算允许，不接受拟合偏移。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY"
+      ],
+      "key_point_id": "acid_local_barrier",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "磺酰胺底物局部环化Gibbs势垒",
+      "expected": "G(TS1–3s)−G(Ad+)−G(1s)=10.2 kcal/mol，绝对容差2.0，边界包含。核对HFIP、293.15 K、1 atm、完整E-磺酰胺和保留N–H质子的+1单重态TS及其实际鞍点/连接证据。此量不是完整AdOH起点图的12.9；能量全部来自一致的自算账本，不混用作者离子形成能与自算局部能。透明物理等价换算允许。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY"
+      ],
+      "key_point_id": "sulfonamide_local_barrier",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "内酯净生成Gibbs自由能",
+      "expected": "G(trans内酯3a)+G(H2O)−G(AdOH)−G(E-烯基酸1a)=−12.3 kcal/mol，绝对容差2.0，边界包含。使用HFIP、293.15 K、1 atm的有效中性单重态最低点及一致热项；完整账本中TfOH/HFIP作为守恒旁观组分相消。质子化产物、离子对能或任意较低构象不能未经身份说明替代该净反应量。",
+      "evidence_ids": [
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY"
+      ],
+      "key_point_id": "acid_product_energy",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "含氮环产物净生成Gibbs自由能",
+      "expected": "G(trans N-对甲苯磺酰基吡咯烷3s)+G(H2O)−G(AdOH)−G(E-烯基磺酰胺1s)=−12.1 kcal/mol，绝对容差2.0，边界包含。使用HFIP、293.15 K、1 atm的有效中性单重态最低点；保留完整底物、原子和质子账本，不能用保留额外N–H的阳离子端点直接替代中性净产物。",
+      "evidence_ids": [
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY"
+      ],
+      "key_point_id": "sulfonamide_product_energy",
+      "key_point_type": "result"
+    }
+  ]
+}

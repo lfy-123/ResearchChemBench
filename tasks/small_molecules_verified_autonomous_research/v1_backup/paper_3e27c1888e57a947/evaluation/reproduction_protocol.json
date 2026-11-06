@@ -1,0 +1,98 @@
+{
+  "guidance_markdown": "## Author-provided scientific guidance\n\nThe authors investigated a difluoromethylation/SO2 reintegration/polyfluoroarylation cascade. Their proposed photocycle begins with blue-light-excited 4CzIPN undergoing reductive quenching by sodium difluoromethanesulfinate, generation of a difluoromethyl radical and SO2, addition to a diene, SO2 capture by the allylic radical, reduction to a sulfonyl anion by reduced 4CzIPN, and nucleophilic aromatic substitution with the polyfluoroarene through C-F cleavage. This cycle is a proposed explanation informed partly by experiments; excitation/quenching kinetics and Zn ion-exchange barriers were not calculated in the reported molecular profile.\n\nThe computational baseline uses Gaussian 16. Geometries were optimized in the gas phase with PBE1PBE, Grimme GD3BJ dispersion and 6-31G(d). Frequencies were calculated to classify local minima or transition states and obtain Gibbs free energies at 298.15 K. IRC calculations were reported to link each transition state to relevant intermediates. Solution single points used PBE1PBE/6-311+G(d,p) with SMD, using DMSO or DMF as the solvent. CYLview was used to display geometries. The butadiene profile uses DMSO; the phenyl TS2-d/TS2-e records explicitly use DMF.\n\nThe computed butadiene profile begins with the difluoromethanesulfinate radical A, releasing SO2 to the difluoromethyl radical Int1. The plotted relative Gibbs free-energy levels are A 0.0, Int1 3.1, TS1 10.7, Int2-a -32.6, Int2-b -31.2, TS2-a -29.4, TS2-b -26.7, TS2-c -25.0, Int3 -31.5, Int4 -59.7, TS3 -38.0 and product 4aa -57.5 kcal mol^-1. The reported local TS1 barrier for difluoromethyl addition to butadiene is 7.6 kcal mol^-1. Int2-a and Int2-b are the two allylic arrangements compared in the selectivity analysis; the paper states they can interconvert, but does not report a separate isomerization transition-state barrier in this profile.\n\nFor SO2 capture of butadiene-derived Int2-a, the authors report local Gibbs barriers of 3.2 kcal mol^-1 for 1,4 capture through TS2-a and 7.6 kcal mol^-1 for 1,2 capture through TS2-c, a 4.4 kcal mol^-1 preference for the 1,4 route. The cis-derived 1,4 capture TS2-b has a local barrier of 4.5 kcal mol^-1. The authors relate the 1.3 kcal mol^-1 difference between local trans/cis capture barriers to about 90:10 E/Z at 25 °C and to the observed E preference. These local barriers have different allylic-minimum baselines in the plotted profile; the estimate is not a complete independently validated kinetic model or a directly measured product ratio.\n\nSpin-density populations were evaluated with Multiwfn and the maps prepared with VMD. For Int2-a the reported terminal C4/internal C2 populations are 0.75/0.71; for Int2-b they are 0.74/0.72. The authors interpret the slightly greater terminal spin population as support for preferential terminal SO2 capture. This is supporting descriptor evidence, not an activation-energy calculation or a unique proof of mechanism.\n\nThe authors describe reduction of the allylic sulfonyl radical by reduced 4CzIPN to the sulfonyl anion as highly exothermic and as facilitating retention of SO2. The final arene C-F substitution is modeled through the sodium-associated five-membered cyclic transition state TS3 with a reported local Gibbs barrier of 21.7 kcal mol^-1. The final organic product is the para-aryl E sulfone; its original coordinate record also contains NaF. That model spectator does not change the isolated organic product identity. The experimental accumulation/trapping results support the authors' rate-determining-step interpretation, but no global kinetic rate or observation model was calculated.\n\nFor the unsubstituted terminal-phenyl diene representative, the authors compare SO2-capture TS2-d (1,2) and TS2-e (1,4); the former is reported lower by 3.1 kcal mol^-1. The original coordinate records preserve the terminal-phenyl, CHF2-ended carbon backbone and report DMF single-point energies. The starting diene's E assignment is established by the precursor drawing; the compared capture structures have different allylic bond localization and do not both retain the starting phenyl-side C=C bond. The panel labels their relative activation free energies as 0.0 and 3.1 kcal mol^-1; 0.0 is a relative comparison level, not an absolute barrier. Distortion/interaction analysis reports radical distortion 5.8 versus 8.5 and SO2 distortion 0.6 versus 0.8 kcal mol^-1, with downward interaction contributions displayed as magnitudes 5.9 versus 6.2. The separate Delta E double-dagger decomposition totals are 0.5 and 3.1 kcal mol^-1. The authors identify the greater radical distortion in the 1,4 structure as the principal explanation of the reversed preference; the decomposition totals and the relative free-energy labels must not be conflated.\n\nThe reported calculations use a particular molecular and continuum-solvent model; they do not resolve all photocatalyst excitation, Zn exchange or solution-mixture effects. No uncertainty/error bars are supplied for the reported barriers or populations. The computational methods specify neither a complete standard-state/low-frequency treatment nor an independent larger-basis dispersion setting. The 298.15 K thermochemistry and the authors' 25 °C E/Z estimate are distinct from the 30 °C experimental conditions. The prose calls some lower-barrier preferences thermodynamic favorability; these compared quantities are activation barriers, not demonstrated equilibrium selectivity. The experimental butadiene dose was 0.50 mL of a 2.0 mol L^-1 solution in THF added to 1.5 mL dry DMSO; the reported butadiene single points use an SMD DMSO continuum. Treat the baseline results and interpretations as conditional and report unresolved comparability or methodological details rather than inventing them.",
+  "statements": [
+    {
+      "protocol_id": "AP1",
+      "statement": "The authors investigated a difluoromethylation/SO2 reintegration/polyfluoroarylation cascade. Their proposed photocycle begins with blue-light-excited 4CzIPN undergoing reductive quenching by sodium difluoromethanesulfinate, generation of a difluoromethyl radical and SO2, addition to a diene, SO2 capture by the allylic radical, reduction to a sulfonyl anion by reduced 4CzIPN, and nucleophilic aromatic substitution with the polyfluoroarene through C-F cleavage. This cycle is a proposed explanation informed partly by experiments; excitation/quenching kinetics and Zn ion-exchange barriers were not calculated in the reported molecular profile.",
+      "evidence_ids": [
+        "ev_doc_e2120ae96275_000063_3f9e75c68f07",
+        "ev_doc_e2120ae96275_000039_a8a653f3a08a",
+        "ev_doc_e2120ae96275_000064_ed83a363574b",
+        "pdf-page-doc_e2120ae96275-p5"
+      ]
+    },
+    {
+      "protocol_id": "AP2",
+      "statement": "The computational baseline uses Gaussian 16. Geometries were optimized in the gas phase with PBE1PBE, Grimme GD3BJ dispersion and 6-31G(d). Frequencies were calculated to classify local minima or transition states and obtain Gibbs free energies at 298.15 K. IRC calculations were reported to link each transition state to relevant intermediates. Solution single points used PBE1PBE/6-311+G(d,p) with SMD, using DMSO or DMF as the solvent. CYLview was used to display geometries. The butadiene profile uses DMSO; the phenyl TS2-d/TS2-e records explicitly use DMF.",
+      "evidence_ids": [
+        "ev_doc_dae8dc0cd8db_000171_960e172688be",
+        "pdf-page-doc_dae8dc0cd8db-p29",
+        "pdf-page-doc_dae8dc0cd8db-p41",
+        "pdf-page-doc_dae8dc0cd8db-p42"
+      ]
+    },
+    {
+      "protocol_id": "AP3",
+      "statement": "The computed butadiene profile begins with the difluoromethanesulfinate radical A, releasing SO2 to the difluoromethyl radical Int1. The plotted relative Gibbs free-energy levels are A 0.0, Int1 3.1, TS1 10.7, Int2-a -32.6, Int2-b -31.2, TS2-a -29.4, TS2-b -26.7, TS2-c -25.0, Int3 -31.5, Int4 -59.7, TS3 -38.0 and product 4aa -57.5 kcal mol^-1. The reported local TS1 barrier for difluoromethyl addition to butadiene is 7.6 kcal mol^-1. Int2-a and Int2-b are the two allylic arrangements compared in the selectivity analysis; the paper states they can interconvert, but does not report a separate isomerization transition-state barrier in this profile.",
+      "evidence_ids": [
+        "ev_doc_e2120ae96275_000064_ed83a363574b",
+        "pdf-page-doc_e2120ae96275-p5",
+        "pdf-page-doc_dae8dc0cd8db-p29",
+        "pdf-page-doc_dae8dc0cd8db-p30",
+        "pdf-page-doc_dae8dc0cd8db-p31"
+      ]
+    },
+    {
+      "protocol_id": "AP4",
+      "statement": "For SO2 capture of butadiene-derived Int2-a, the authors report local Gibbs barriers of 3.2 kcal mol^-1 for 1,4 capture through TS2-a and 7.6 kcal mol^-1 for 1,2 capture through TS2-c, a 4.4 kcal mol^-1 preference for the 1,4 route. The cis-derived 1,4 capture TS2-b has a local barrier of 4.5 kcal mol^-1. The authors relate the 1.3 kcal mol^-1 difference between local trans/cis capture barriers to about 90:10 E/Z at 25 °C and to the observed E preference. These local barriers have different allylic-minimum baselines in the plotted profile; the estimate is not a complete independently validated kinetic model or a directly measured product ratio.",
+      "evidence_ids": [
+        "ev_doc_e2120ae96275_000064_ed83a363574b",
+        "pdf-page-doc_e2120ae96275-p5"
+      ]
+    },
+    {
+      "protocol_id": "AP5",
+      "statement": "Spin-density populations were evaluated with Multiwfn and the maps prepared with VMD. For Int2-a the reported terminal C4/internal C2 populations are 0.75/0.71; for Int2-b they are 0.74/0.72. The authors interpret the slightly greater terminal spin population as support for preferential terminal SO2 capture. This is supporting descriptor evidence, not an activation-energy calculation or a unique proof of mechanism.",
+      "evidence_ids": [
+        "ev_doc_dae8dc0cd8db_000173_0a16295284c9",
+        "ev_doc_e2120ae96275_000064_ed83a363574b",
+        "pdf-page-doc_dae8dc0cd8db-p29"
+      ]
+    },
+    {
+      "protocol_id": "AP6",
+      "statement": "The authors describe reduction of the allylic sulfonyl radical by reduced 4CzIPN to the sulfonyl anion as highly exothermic and as facilitating retention of SO2. The final arene C-F substitution is modeled through the sodium-associated five-membered cyclic transition state TS3 with a reported local Gibbs barrier of 21.7 kcal mol^-1. The final organic product is the para-aryl E sulfone; its original coordinate record also contains NaF. That model spectator does not change the isolated organic product identity. The experimental accumulation/trapping results support the authors' rate-determining-step interpretation, but no global kinetic rate or observation model was calculated.",
+      "evidence_ids": [
+        "ev_doc_e2120ae96275_000064_ed83a363574b",
+        "ev_doc_e2120ae96275_000039_a8a653f3a08a",
+        "pdf-page-doc_e2120ae96275-p5",
+        "ev_doc_dae8dc0cd8db_000222_d0c8bd18fd51",
+        "ev_doc_dae8dc0cd8db_000224_73bfca56d4df",
+        "pdf-page-doc_dae8dc0cd8db-p40",
+        "pdf-page-doc_dae8dc0cd8db-p41"
+      ]
+    },
+    {
+      "protocol_id": "AP7",
+      "statement": "For the unsubstituted terminal-phenyl diene representative, the authors compare SO2-capture TS2-d (1,2) and TS2-e (1,4); the former is reported lower by 3.1 kcal mol^-1. The original coordinate records preserve the terminal-phenyl, CHF2-ended carbon backbone and report DMF single-point energies. The starting diene's E assignment is established by the precursor drawing; the compared capture structures have different allylic bond localization and do not both retain the starting phenyl-side C=C bond. The panel labels their relative activation free energies as 0.0 and 3.1 kcal mol^-1; 0.0 is a relative comparison level, not an absolute barrier. Distortion/interaction analysis reports radical distortion 5.8 versus 8.5 and SO2 distortion 0.6 versus 0.8 kcal mol^-1, with downward interaction contributions displayed as magnitudes 5.9 versus 6.2. The separate Delta E double-dagger decomposition totals are 0.5 and 3.1 kcal mol^-1. The authors identify the greater radical distortion in the 1,4 structure as the principal explanation of the reversed preference; the decomposition totals and the relative free-energy labels must not be conflated.",
+      "evidence_ids": [
+        "ev_doc_e2120ae96275_000064_ed83a363574b",
+        "pdf-page-doc_e2120ae96275-p5",
+        "ev_doc_dae8dc0cd8db_000225_d036f4e4ff4e",
+        "ev_doc_dae8dc0cd8db_000229_34acd723023e",
+        "pdf-page-doc_dae8dc0cd8db-p41",
+        "pdf-page-doc_dae8dc0cd8db-p42",
+        "pdf-page-doc_dae8dc0cd8db-p6"
+      ]
+    },
+    {
+      "protocol_id": "AP8",
+      "statement": "The reported calculations use a particular molecular and continuum-solvent model; they do not resolve all photocatalyst excitation, Zn exchange or solution-mixture effects. No uncertainty/error bars are supplied for the reported barriers or populations. The computational methods specify neither a complete standard-state/low-frequency treatment nor an independent larger-basis dispersion setting. The 298.15 K thermochemistry and the authors' 25 °C E/Z estimate are distinct from the 30 °C experimental conditions. The prose calls some lower-barrier preferences thermodynamic favorability; these compared quantities are activation barriers, not demonstrated equilibrium selectivity. The experimental butadiene dose was 0.50 mL of a 2.0 mol L^-1 solution in THF added to 1.5 mL dry DMSO; the reported butadiene single points use an SMD DMSO continuum. Treat the baseline results and interpretations as conditional and report unresolved comparability or methodological details rather than inventing them.",
+      "evidence_ids": [
+        "ev_doc_dae8dc0cd8db_000171_960e172688be",
+        "ev_doc_e2120ae96275_000064_ed83a363574b",
+        "ev_doc_e2120ae96275_000039_a8a653f3a08a",
+        "ev_doc_e2120ae96275_000036_253b0fa9216f",
+        "ev_doc_dae8dc0cd8db_000036_51f5f7674d39",
+        "pdf-page-doc_e2120ae96275-p5",
+        "pdf-page-doc_dae8dc0cd8db-p29",
+        "pdf-page-doc_dae8dc0cd8db-p41",
+        "pdf-page-doc_dae8dc0cd8db-p42",
+        "layout-doc_dae8dc0cd8db-p3-b17",
+        "pdf-page-doc_dae8dc0cd8db-p3",
+        "pdf-page-doc_dae8dc0cd8db-p7",
+        "ev_doc_dae8dc0cd8db_000048_0609853f32f0"
+      ]
+    }
+  ]
+}

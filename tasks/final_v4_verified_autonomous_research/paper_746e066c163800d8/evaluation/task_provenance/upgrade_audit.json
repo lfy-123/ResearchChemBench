@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "task_type": "autonomous_research",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T16:48:40.709296+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_746e066c163800d8.json",
+  "plan_sha256": "988575321a3ac1fb2241f686a776ecac3789aab327c492d7e03d5fe73ade2ed2",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_746e066c163800d8",
+  "v1_package_content_sha256": "7e9bcccd89e1af0131f08ad226d6418de30c360c2b71039babf699d396965ecc",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "4d67c2c98f74f61e6ef93949b22c028187acfa35eeefcb6606af5106890c3568",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_746e066c163800d8/documents/main.pdf",
+      "sha256": "2f0a280dbcadb2f19ed3222e4419f69854743c7440e834b3137b27c323643570",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        2,
+        3
+      ],
+      "sections_figures_tables": "PDF p2 Fig.1 defines the helicene series; pp2–3 give geometry/response methodology and p3 equations15–18 define HRS and orientational averages."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_746e066c163800d8/documents/supplementary_001.pdf",
+      "sha256": "6c9e2983aa14070df612bb3a6f6ca6a4c6d0394454f93d076a6b091e625d7403",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        16,
+        26,
+        37,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "sections_figures_tables": "PDF p16 TableS2 geometric definitions; p26 method comparison; p37 TableS9 functional sensitivity; pp40–48 full coordinate entries for the chosen structures."
+    }
+  ],
+  "historical_class": "B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "existing_author_informed_static_response_reference_partial_for_open_V2",
+  "scope_changes": [
+    "Remove the fixed 1→3 and5→7 attribution panels, preset common-core torsions, mandatory charge-transfer diagnostic and field-step count.",
+    "Keep HRS definition and static frequency as the scientific observable, not as a prescribed computational algorithm."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:01.566201+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

@@ -1,0 +1,286 @@
+{
+  "paper_id": "paper_c7217910ecbee1d9",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_n0_electron_binding",
+      "reference_id": "n0_electron_binding",
+      "type": "semantic",
+      "expected": "The final answer reports a genuine calculated positive adiabatic electron affinity for the full n=0 composition, establishing exothermic electron attachment in its investigated state/structure domain. Supply the actual affinity in eV and enough state-resolved energy components to recover it; normal termination or a source number alone is insufficient. No exact scalar tolerance is imposed in the existing qualitative acceptance. Full gas-phase PAl12[B(C6F5)3]n, n=0/1/2, has 13/47/81 atoms; neutral electron counts are 171/419/667 and the corresponding anions have one additional electron. AEA=(E+own ZPE)neutral−(E+own ZPE)anion at separately relaxed valid states, free electron zero. Use the lowest supported states in the actual investigated space; a nearer-source higher state cannot replace a known lower state. AEA is not a vertical affinity, LUMO eigenvalue or Gibbs energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantitative_observations",
+          "$.comparisons",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_n1_electron_binding",
+      "reference_id": "n1_electron_binding",
+      "type": "semantic",
+      "expected": "The final answer reports a genuine calculated positive adiabatic electron affinity for the full n=1 composition, establishing exothermic electron attachment in its investigated state/structure domain. Supply the actual affinity in eV and enough state-resolved energy components to recover it; normal termination or a source number alone is insufficient. No exact scalar tolerance is imposed in the existing qualitative acceptance. Full gas-phase PAl12[B(C6F5)3]n, n=0/1/2, has 13/47/81 atoms; neutral electron counts are 171/419/667 and the corresponding anions have one additional electron. AEA=(E+own ZPE)neutral−(E+own ZPE)anion at separately relaxed valid states, free electron zero. Use the lowest supported states in the actual investigated space; a nearer-source higher state cannot replace a known lower state. AEA is not a vertical affinity, LUMO eigenvalue or Gibbs energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantitative_observations",
+          "$.comparisons",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_n2_electron_binding",
+      "reference_id": "n2_electron_binding",
+      "type": "semantic",
+      "expected": "The final answer reports a genuine calculated positive adiabatic electron affinity for the full n=2 composition, establishing exothermic electron attachment in its investigated state/structure domain. Supply the actual affinity in eV and enough state-resolved energy components to recover it; normal termination or a source number alone is insufficient. No exact scalar tolerance is imposed in the existing qualitative acceptance. Full gas-phase PAl12[B(C6F5)3]n, n=0/1/2, has 13/47/81 atoms; neutral electron counts are 171/419/667 and the corresponding anions have one additional electron. AEA=(E+own ZPE)neutral−(E+own ZPE)anion at separately relaxed valid states, free electron zero. Use the lowest supported states in the actual investigated space; a nearer-source higher state cannot replace a known lower state. AEA is not a vertical affinity, LUMO eigenvalue or Gibbs energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantitative_observations",
+          "$.comparisons",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_first_ligand_affinity_gain",
+      "reference_id": "first_ligand_affinity_gain",
+      "type": "semantic",
+      "expected": "The consistently defined, state-valid full-family AEA comparison shows n1 greater than n0. This must use the lowest supported states from the actual calculations, including a lower bare anion if found, and cannot be inferred from LUMO shifts alone. No exact source increment is required. Physical definition: Gas-phase full PAl12[B(C6F5)3]n for n=0,1,2, respectively13/47/81 atoms and neutral electron counts171/419/667; anions have172/420/668 electrons. Ligand is full neutral BC18F15 (34 atoms,248 electrons), not a truncated aryl group. AEA=(E+own ZPE)neutral−(E+own ZPE)anion at respective valid relaxed states; it is not a vertical affinity, LUMO energy or Gibbs energy. Lowest supported states must be selected from the actually investigated space, never by source-number proximity. Report the calculated increment AEA(1) - AEA(0) in eV and assess whether its sign is resolved at the uncertainty supported by the actual evidence. Reporting only an ordering without the increment or its resolution is insufficient; no exact source increment or fitted numerical window is introduced.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantitative_observations",
+          "$.comparisons",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_second_ligand_affinity_gain",
+      "reference_id": "second_ligand_affinity_gain",
+      "type": "semantic",
+      "expected": "The independently supported same-definition AEA comparison shows n2 greater than n1, with actual full-size neutral/anion states. Do not infer this second increment merely from the first ligand result. Physical definition: Gas-phase full PAl12[B(C6F5)3]n for n=0,1,2, respectively13/47/81 atoms and neutral electron counts171/419/667; anions have172/420/668 electrons. Ligand is full neutral BC18F15 (34 atoms,248 electrons), not a truncated aryl group. AEA=(E+own ZPE)neutral−(E+own ZPE)anion at respective valid relaxed states; it is not a vertical affinity, LUMO energy or Gibbs energy. Lowest supported states must be selected from the actually investigated space, never by source-number proximity. Report the calculated increment AEA(2) - AEA(1) in eV and assess whether its sign is resolved at the uncertainty supported by the actual evidence. Reporting only an ordering without the increment or its resolution is insufficient; no exact source increment or fitted numerical window is introduced.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantitative_observations",
+          "$.comparisons",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_neutral_binding_redistribution",
+      "reference_id": "neutral_binding_redistribution",
+      "type": "semantic",
+      "expected": "Explain the electron-density response to binding full neutral PAl12 and neutral BC18F15 fragments across n=1 and 2: the core becomes electron-depleted toward the Lewis-acid ligands, and depletion is greater for two ligands under a consistent population/density definition. Distinguish this neutral-binding redistribution from the density change on adding one electron to an already ligated complex. Use actual geometry and electronic evidence to support the local core–ligand interaction; equivalent density/bonding evidence is eligible without mandatory Hirshfeld or CDA. Fractional partitioned charges are not integer transfer or shell occupation. This final physical interpretation has no separate points for one/two Al–B structure completion or each population analysis.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantitative_observations",
+          "$.comparisons",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_acceptor_stabilization",
+      "reference_id": "acceptor_stabilization",
+      "type": "semantic",
+      "expected": "Explain the affinity enhancement using actual neutral electronic-state/bonding evidence showing progressively stabilized acceptor levels with ligation and a supported local core–ligand coupling account. Define spin channels and physical orbital correspondence; LUMO energy is an explanatory descriptor, not AEA. Orbital mixing, transition/density analysis or other equivalent evidence may establish the interaction without an author-specific orbital index or CDA workflow. This scores the electronic cause, not a repeated family ordering or four separate source orbital percentages. Mere AEA numbers or asserted Lewis acidity without electronic evidence fail.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantitative_observations",
+          "$.comparisons",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_shell_scope",
+      "reference_id": "shell_scope",
+      "type": "semantic",
+      "expected": "Draw a specific applicability conclusion from the actual electronic evidence: local neutral charge redistribution, structural retention and selected level/CDA projections can support the ligation explanation without establishing a complete preserved superatomic angular-shell configuration. Identify which shell/state correspondence is actually supported and which remains untested; a genuinely complete shell-resolved calculation may support a stronger statement if its evidence warrants it. Do not infer integer shell occupation from fractional charges or universality across other core shell fillings from the n=0–2 PAl12 subset. This is an evidence-to-shell-inference result, not generic limitations prose or another award for AEA ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "n0_electron_binding",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Electron-binding outcome and adiabatic affinity for n=0",
+      "rule_ids": [
+        "r_n0_electron_binding"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "n1_electron_binding",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Electron-binding outcome and adiabatic affinity for n=1",
+      "rule_ids": [
+        "r_n1_electron_binding"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "n2_electron_binding",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Electron-binding outcome and adiabatic affinity for n=2",
+      "rule_ids": [
+        "r_n2_electron_binding"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "first_ligand_affinity_gain",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "First-ligand effect on adiabatic affinity",
+      "rule_ids": [
+        "r_first_ligand_affinity_gain"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "second_ligand_affinity_gain",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Second-ligand effect on adiabatic affinity",
+      "rule_ids": [
+        "r_second_ligand_affinity_gain"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "neutral_binding_redistribution",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Nature of charge redistribution caused by neutral ligation",
+      "rule_ids": [
+        "r_neutral_binding_redistribution"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_binding_electronic"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "acceptor_stabilization",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Electronic origin of enhanced electron acceptance",
+      "rule_ids": [
+        "r_acceptor_stabilization"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_binding_electronic"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "shell_scope",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "What the calculated family establishes about shell preservation",
+      "rule_ids": [
+        "r_shell_scope"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment",
+        "native_binding_electronic"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

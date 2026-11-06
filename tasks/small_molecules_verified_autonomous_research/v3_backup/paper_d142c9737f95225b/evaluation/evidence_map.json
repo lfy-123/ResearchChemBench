@@ -1,0 +1,108 @@
+{
+  "paper_id": "paper_d142c9737f95225b",
+  "evidence": [
+    {
+      "evidence_id": "E_PRECURSOR",
+      "source": {
+        "path": "papers/paper_d142c9737f95225b/documents/main.pdf",
+        "location": "PDF pp2–4, Schemes 1–2, Figures 1–2",
+        "pdf_pages_1based": [
+          2,
+          3,
+          4
+        ],
+        "sha256": "63b2dcfe034f4ae6a7ac40e985e325aa6f35449fb740d81aac8b839a6ed6a4ac"
+      },
+      "content": "NNS/NN precatalyst identities, KOtBu context, candidate amido forms and scope."
+    },
+    {
+      "evidence_id": "E_METHOD",
+      "source": {
+        "path": "papers/paper_d142c9737f95225b/documents/main.pdf",
+        "location": "PDF p3, §2; SI Table S2 and Table S3",
+        "pdf_pages_1based": [
+          3
+        ],
+        "sha256": "63b2dcfe034f4ae6a7ac40e985e325aa6f35449fb740d81aac8b839a6ed6a4ac"
+      },
+      "content": "M06L/TZVP/GD3/SMD iPrOH, 298.15 K/1 atm, frequencies/IRC; energy totals and coordinates."
+    },
+    {
+      "evidence_id": "E_FORMATION",
+      "source": {
+        "path": "papers/paper_d142c9737f95225b/documents/main.pdf",
+        "location": "PDF pp3–4, section 3.2 and Figure 2: matched amido formation and iPrOH stabilization; SI Table S2 provides corresponding energy fields",
+        "pdf_pages_1based": [
+          3,
+          4
+        ],
+        "sha256": "63b2dcfe034f4ae6a7ac40e985e325aa6f35449fb740d81aac8b839a6ed6a4ac"
+      },
+      "content": "Candidate-state thermodynamic reference: tBuOH loss from corresponding alkoxides costs 2.48/3.33 kcal/mol for sulfur-containing NN tricarbonyl Me/tBu candidates and 0.77/0.84 for NNS dicarbonyl candidates. Dissociative iPrOH addition is exergonic by 4.34/5.17 and 4.17/4.72 kcal/mol, respectively. These are distinct balanced local equilibria, not absolute cross-family populations or numerical targets. Source-specific precursor labels and base aggregation are not requirements."
+    },
+    {
+      "evidence_id": "E_OX",
+      "source": {
+        "path": "papers/paper_d142c9737f95225b/documents/main.pdf",
+        "location": "PDF pp4–5, Figure 4; p7, Figure 8 discussion",
+        "pdf_pages_1based": [
+          4,
+          5,
+          7
+        ],
+        "sha256": "63b2dcfe034f4ae6a7ac40e985e325aa6f35449fb740d81aac8b839a6ed6a4ac"
+      },
+      "content": "Alcohol oxidation profiles and stabilized-state versus separated-reactant barriers."
+    },
+    {
+      "evidence_id": "E_RED",
+      "source": {
+        "path": "papers/paper_d142c9737f95225b/documents/main.pdf",
+        "location": "PDF p6, Figures 5–6",
+        "pdf_pages_1based": [
+          6
+        ],
+        "sha256": "63b2dcfe034f4ae6a7ac40e985e325aa6f35449fb740d81aac8b839a6ed6a4ac"
+      },
+      "content": "S/R ketone hydrogenation profiles at fixed author catalyst configurations."
+    },
+    {
+      "evidence_id": "E_CYCLE",
+      "source": {
+        "path": "papers/paper_d142c9737f95225b/documents/main.pdf",
+        "location": "PDF pp7–8, Figure 8 and text",
+        "pdf_pages_1based": [
+          7,
+          8
+        ],
+        "sha256": "63b2dcfe034f4ae6a7ac40e985e325aa6f35449fb740d81aac8b839a6ed6a4ac"
+      },
+      "content": "Two half-reactions, effective barriers and conditional stereochemical interpretation."
+    },
+    {
+      "evidence_id": "E_SI",
+      "source": {
+        "path": "papers/paper_d142c9737f95225b/documents/supplementary_001.docx",
+        "location": "SI Table S2, P69–1888; Table S3, P1889 onward",
+        "document_format": "docx",
+        "locator": "Table S2, paragraphs 69–1888; Table S3, paragraph 1889 onward; DOCX has no intrinsic PDF page numbering",
+        "sha256": "8f000d6847cfb64aa84d7f78e30857918a1acc001955369d10d377b5c13a0c13"
+      },
+      "content": "Raw electronic/thermal totals, NImag and corresponding geometries; source arithmetic audit retained. Formation/stabilization fields are in Table S2 XML paragraphs P133–146 (iPrOH), P205–218 (tBuOH) and P484–726 (the matched Me/tBu alkoxide/amido candidates); keep solution Gtot distinct from solution electronic energy plus gas-phase Gcorr."
+    },
+    {
+      "evidence_id": "existing_native_verification",
+      "source": {
+        "path": "tasks/small_molecules_verified_autonomous_research/paper_d142c9737f95225b/evaluation/verified_computation_reference.md",
+        "sha256": "688b20021a7ff10157b755d422d6130fdcdbdcf5c6c67b8f97b5e28dd605279f"
+      },
+      "evidence_type": "existing_computation_with_qualifications",
+      "description": "正文 Figs.2/4–6/8、SI DOCX Tables S2/S3；历史验证支持配平候选平衡、两半反应及固定构型竞争。主文/打印热项/重构热项有差异，部分连接为有效 IRC 前缀或模式位移。",
+      "role": "Historical calculations only; historical scoring/acceptance prose is not active criteria."
+    }
+  ],
+  "source_conflicts": [
+    "Main-text Figures 4–6/8, the solution Gtot printed in the SI, and the reconstruction from SI Esol+gas-phase Gcorr are not fully consistent. This version does not select any one set as the sole absolute numerical gold standard.",
+    "Qualitative comparisons are limited to the NN/NNS families, resting-state stabilization and fixed chiral configurations for which sources agree and actual computational support already exists. Fine substituent orderings, the sign of the Mn1-tBu oxidation reaction free energy, and the cross-family ordering of R channels are not required where the sources are not robust."
+  ]
+}

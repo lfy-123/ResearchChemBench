@@ -1,0 +1,239 @@
+{
+  "system_id": "chalcone_redox_series",
+  "compounds": [
+    {
+      "id": "chalcone_1",
+      "label": "1",
+      "name": "(2E)-1-(2-hydroxyphenyl)-3-(4-methoxyphenyl)prop-2-en-1-one",
+      "mapped_smiles": "[CH3:1][O:2][c:3]1[cH:4][cH:5][c:6](/[CH:7]=[CH:8]/[C:9](=[O:10])[c:11]2[cH:12][cH:13][cH:14][cH:15][c:16]2[OH:17])[cH:18][cH:19]1",
+      "formula": "C16H14O3",
+      "charge": 0,
+      "multiplicity": 1,
+      "configuration": "E at the prop-2-en-1-one double bond",
+      "state_definition": "Neutral molecular starting identity.",
+      "identity_source_record": "exp_identities"
+    },
+    {
+      "id": "chalcone_2",
+      "label": "2",
+      "name": "(2E)-1-(2-hydroxy-4-methoxyphenyl)-3-(2-hydroxyphenyl)prop-2-en-1-one",
+      "mapped_smiles": "[CH3:1][O:2][c:3]1[cH:4][cH:5][c:6]([C:7](=[O:8])/[CH:9]=[CH:10]/[c:11]2[cH:12][cH:13][cH:14][cH:15][c:16]2[OH:17])[c:18]([OH:19])[cH:20]1",
+      "formula": "C16H14O4",
+      "charge": 0,
+      "multiplicity": 1,
+      "configuration": "E at the prop-2-en-1-one double bond",
+      "state_definition": "Neutral molecular starting identity.",
+      "identity_source_record": "exp_identities"
+    },
+    {
+      "id": "chalcone_3",
+      "label": "3",
+      "name": "(2E)-1,3-diphenylprop-2-en-1-one",
+      "mapped_smiles": "[O:1]=[C:2]([c:3]1[cH:7][cH:8][cH:9][cH:10][cH:11]1)/[CH:4]=[CH:5]/[c:6]1[cH:12][cH:13][cH:14][cH:15][cH:16]1",
+      "formula": "C15H12O",
+      "charge": 0,
+      "multiplicity": 1,
+      "configuration": "E at the prop-2-en-1-one double bond",
+      "state_definition": "Neutral molecular starting identity.",
+      "identity_source_record": "exp_identities"
+    },
+    {
+      "id": "chalcone_4",
+      "label": "4",
+      "name": "(2E)-1-(4-aminophenyl)-3-[2-(trifluoromethyl)phenyl]prop-2-en-1-one",
+      "mapped_smiles": "[NH2:1][c:2]1[cH:3][cH:4][c:5]([C:6](=[O:7])/[CH:8]=[CH:9]/[c:10]2[cH:11][cH:12][cH:13][cH:14][c:15]2[C:16]([F:17])([F:18])[F:19])[cH:20][cH:21]1",
+      "formula": "C16H12F3NO",
+      "charge": 0,
+      "multiplicity": 1,
+      "configuration": "E at the prop-2-en-1-one double bond",
+      "state_definition": "Neutral molecular starting identity.",
+      "identity_source_record": "exp_identities"
+    },
+    {
+      "id": "chalcone_5",
+      "label": "5",
+      "name": "(2E)-1-(4-aminophenyl)-3-(6-methoxynaphthalen-2-yl)prop-2-en-1-one",
+      "mapped_smiles": "[CH3:1][O:2][c:3]1[cH:4][cH:5][c:6]2[cH:7][c:8](/[CH:9]=[CH:10]/[C:11](=[O:12])[c:13]3[cH:14][cH:15][c:16]([NH2:17])[cH:18][cH:19]3)[cH:20][cH:21][c:22]2[cH:23]1",
+      "formula": "C20H17NO2",
+      "charge": 0,
+      "multiplicity": 1,
+      "configuration": "E at the prop-2-en-1-one double bond",
+      "state_definition": "Neutral molecular starting identity.",
+      "identity_source_record": "exp_identities"
+    }
+  ],
+  "atom_mapping": "Atom-map labels are local to each compound. Generated structures require an explicit correspondence to these labels.",
+  "environments": [
+    {
+      "id": "acetonitrile",
+      "name": "acetonitrile",
+      "smiles": "CC#N",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "dmso",
+      "name": "dimethyl sulfoxide",
+      "smiles": "CS(C)=O",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "dichloromethane",
+      "name": "dichloromethane",
+      "smiles": "ClCCl",
+      "charge": 0,
+      "multiplicity": 1,
+      "measurement_scope": [
+        "chalcone_3"
+      ]
+    }
+  ],
+  "experimental_conditions": {
+    "id": "cv_conditions",
+    "technique": "cyclic voltammetry",
+    "scan_rate": {
+      "value": 0.1,
+      "unit": "V s^-1"
+    },
+    "supporting_electrolyte": {
+      "name": "tetrabutylammonium hexafluorophosphate",
+      "smiles": "CCCC[N+](CCCC)(CCCC)CCCC.F[P-](F)(F)(F)(F)F",
+      "concentration": {
+        "value": 0.2,
+        "unit": "mol dm^-3"
+      }
+    },
+    "potential_reference": "Ferrocene/ferrocenium (Fc/Fc+) internal standard",
+    "measurement_temperature_K": null,
+    "analyte_concentration_mol_dm3": null,
+    "working_electrode": null,
+    "reference_electrode_hardware": null,
+    "unreported_fields": "Null fields are unreported experimental conditions.",
+    "source_record_id": "exp_cv_conditions"
+  },
+  "observations": [
+    {
+      "id": "epc_1_acetonitrile",
+      "compound_id": "chalcone_1",
+      "environment_id": "acetonitrile",
+      "quantity": "cathodic peak potential",
+      "value": -1.696,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_2_acetonitrile",
+      "compound_id": "chalcone_2",
+      "environment_id": "acetonitrile",
+      "quantity": "cathodic peak potential",
+      "value": -1.742,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_3_acetonitrile",
+      "compound_id": "chalcone_3",
+      "environment_id": "acetonitrile",
+      "quantity": "cathodic peak potential",
+      "value": -1.859,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_4_acetonitrile",
+      "compound_id": "chalcone_4",
+      "environment_id": "acetonitrile",
+      "quantity": "cathodic peak potential",
+      "value": -1.874,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_5_acetonitrile",
+      "compound_id": "chalcone_5",
+      "environment_id": "acetonitrile",
+      "quantity": "cathodic peak potential",
+      "value": -1.981,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_1_dmso",
+      "compound_id": "chalcone_1",
+      "environment_id": "dmso",
+      "quantity": "cathodic peak potential",
+      "value": -1.681,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_2_dmso",
+      "compound_id": "chalcone_2",
+      "environment_id": "dmso",
+      "quantity": "cathodic peak potential",
+      "value": -1.763,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_3_dmso",
+      "compound_id": "chalcone_3",
+      "environment_id": "dmso",
+      "quantity": "cathodic peak potential",
+      "value": -1.851,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_4_dmso",
+      "compound_id": "chalcone_4",
+      "environment_id": "dmso",
+      "quantity": "cathodic peak potential",
+      "value": -1.889,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_5_dmso",
+      "compound_id": "chalcone_5",
+      "environment_id": "dmso",
+      "quantity": "cathodic peak potential",
+      "value": -2.018,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_series"
+    },
+    {
+      "id": "epc_3_dichloromethane",
+      "compound_id": "chalcone_3",
+      "environment_id": "dichloromethane",
+      "quantity": "cathodic peak potential",
+      "value": -2.019,
+      "unit": "V versus Fc/Fc+",
+      "origin": "experimental",
+      "conditions_id": "cv_conditions",
+      "source_record_id": "exp_cv_dcm3"
+    }
+  ],
+  "measurement_definition": "Epc is the cathodic peak potential at the stated scan rate, referenced to Fc/Fc+."
+}

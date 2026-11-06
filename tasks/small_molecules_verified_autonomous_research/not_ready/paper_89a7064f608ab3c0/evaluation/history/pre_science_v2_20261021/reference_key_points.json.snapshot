@@ -1,0 +1,68 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "items": [
+    {
+      "key_point_id": "activation_origin",
+      "key_point_type": "result",
+      "statement": "Calculated activation-state comparisons support oxidation of neutral 2a rather than substrate reduction or triplet energy transfer under the supplied catalyst conditions.",
+      "expected": "Recover the author-supported energetic discrimination using actual computations and explicit state/electrode/solvent definitions. SI9.1 reports Eox(2a)=+1.10 V and Ered(2a)=-2.69 V versus SCE in MeCN, using the neutral singlet, +1 doublet and -1 doublet of the complete 65-atom substrate. Compare on a compatible scale with the supplied catalyst data, preserving the MeCN/DCM distinction; exact DCM SET free energies are not author results. SI9.2 supports a substrate triplet requirement above the reported PC A/B triplet energies, disfavouring triplet energy transfer. The exact substrate triplet target is source-conflicted (main73.9 versus SI74.1 kcal/mol) and is not a numerical scoring requirement. Assess only the robust energetic ordering after verifying the submitter's definition and actual evidence. Redox values have no calibrated new tolerance: manual scientific comparison, no invented acceptance window. Merely repeating the public catalyst screen or proposing a radical cation without quantitative discriminating evidence earns no activation result credit. Do not require explicit PC-substrate SET TSs, transfer rates, counterion energetics or a complete cycle. Supported portions may earn partial credit; an unresolved calculation does not establish the corresponding finding.",
+      "evidence_ids": [
+        "redox_source",
+        "triplet_source",
+        "screen_source",
+        "pc_reagent_metadata"
+      ]
+    },
+    {
+      "key_point_id": "first_rearrangement",
+      "key_point_type": "result",
+      "statement": "The first source-supported rearrangement is connected and has a positive small barrier.",
+      "expected": "Main p7/SI SchemeS6 support radical-cation C5–C6 rearrangement to prefulvene-like Int1 through TS1. Source ΔG‡ is +1.9 kcal/mol from [2a]•+, with Int1−8.0. A negative disconnected node difference does not recover this finding. There was no calibrated numerical window for1.9; manual comparison and calibration remain explicitly pending rather than borrowing the4.6±1.5 window.",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "key_point_id": "second_rearrangement",
+      "key_point_type": "result",
+      "statement": "The following connected rearrangement has the original quantitative local barrier.",
+      "expected": "Source Int1→TS2 gives local ΔG‡4.6 kcal/mol, although TS2 is−3.4 relative to initial radical cation. The path leads to Int2 with C4-product connectivity.",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "key_point_id": "selectivity",
+      "key_point_type": "result",
+      "statement": "Competing local chemistry favors the observed C4 connectivity.",
+      "expected": "SI SchemeS7 C5 alternative TS-A6.3 above initial radical cation exceeds the C4 first TS1+1.9; TS-B5.3 and IntA+1.0 use the same initial reference. Genuine connected paths and common-reference discrimination must support C4 selectivity, with aryl radical stabilization or equivalent physical explanation. These additional source numbers have no calibrated automatic window. Unconnected scalar gaps or honest failure do not recover the selectivity result.",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "key_point_id": "endpoint_balance",
+      "key_point_type": "result",
+      "statement": "Computed framework endpoints relate the neutral substrate and observed neutral product with conserved atoms and a consistent electron account.",
+      "expected": "Recover the neutral 2a and neutral 3a identities (C26H36BNSi, 65 atoms, charge0 singlets), together with the computed rearranged +1 doublet Int2 having C4-product connectivity. Source Int2 lies at -37.4 kcal/mol on the radical-cation profile; this contextual value has no new numeric window. Int2 + e- -> 3a conserves all atoms, without a required proton transfer or loss. Link actual computed endpoint graphs/states to the neutral-start interpretation, not bookkeeping alone. For supplied catalyst B, consistent stoichiometric accounting is PC(+1)* + 2a -> PC(0) + [2a](+1), then PC(0) + [3a](+1) -> PC(+1) + 3a; PF6- is unchanged. These catalyst statements are electron bookkeeping for the author-proposed mechanism, not computed SET kinetics or an independently proven catalytic cycle. Do not require or score an absolute cross-charge reduction free energy, the plotted -170.8 endpoint as a reaction energy, or an electron-transfer TS.",
+      "evidence_ids": [
+        "main",
+        "supplementary_001",
+        "screen_source"
+      ]
+    },
+    {
+      "key_point_id": "evidence_validity",
+      "key_point_type": "process",
+      "statement": "Chemical identity and evidence validity are prerequisites for each claimed result, not separate scientific points.",
+      "expected": "Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model. New numerical tolerances may not be inferred from source values or from old verification failures. Reagent reference data are not substrate calculations. Separate author computations, experiments and mechanistic proposals.",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    }
+  ]
+}

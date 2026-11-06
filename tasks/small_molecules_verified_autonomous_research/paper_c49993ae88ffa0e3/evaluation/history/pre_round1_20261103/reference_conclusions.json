@@ -1,0 +1,57 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "items": [
+    {
+      "conclusion_id": "cumulative_f_dry",
+      "statement": "Thermodynamic driving force for deoxygenation without added water",
+      "expected": "Establish and interpret the favorable net thermodynamic driving force for PyO deoxygenation by preformed photoexcited H2PQ without added water. Use actual balanced Gibbs energies for G(ground-state PQ)+G(ground-state associated Py/generated water)-G(lowest-excited-singlet H2PQ)-G(ground-state PyO), in MeCN at 298.15 K and a 1 M solute standard state, with consistent conformer and thermal treatment. Explain that the products are thermodynamically accessible from this excited-reactant reference; this is the cumulative net transformation, not a local transfer increment, orbital gap or activation barrier. The reference predicts strongly favorable deoxygenation, but -115.1 kcal/mol and its magnitude are not matching targets. A negative number alone without the balanced transformation, correct states and physical interpretation fails. Equivalent computations using the defined reporting references pass; alternative mechanistic state/association models may be discussed separately but cannot replace this requested comparison. This endpoint conclusion does not establish rates, a unique transfer sequence or the operative solution association. It can pass independently of the hydrated result.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_cumulative_f_dry"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "conclusion_id": "cumulative_f_water",
+      "statement": "Thermodynamic driving force for deoxygenation with two added waters",
+      "expected": "Establish and interpret the favorable net thermodynamic driving force for the two-added-water deoxygenation scenario using actual balanced Gibbs energies. Compare ground-state PQ with one added water plus ground-state Py/generated-water association with one added water against lowest-excited-singlet H2PQ with one added water plus ground-state PyO with one added water, at 298.15 K, 1 M in MeCN. Preserve two added waters on each side; the generated water is additional. Use consistent state, conformer and thermal conventions and explain the net conversion from the excited hydrated reactants to the ground-state products. The reference predicts strongly favorable deoxygenation; -112.1 kcal/mol is context, not a target or tolerance. An unbalanced water inventory, a local transfer increment or a bare negative scalar fails. Established equivalent calculations under the reporting references pass. The hydrated endpoint result neither proves hydration accelerates a reaction nor selects a unique operative association or mechanism. It is independently scored from the dry result and from the microscopic hydration explanation.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_cumulative_f_water"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "conclusion_id": "reductant_molecular_role",
+      "statement": "Molecular basis of light-driven reduction by preformed H2PQ",
+      "expected": "Explain, using actual computed electronic-state and reaction thermochemistry evidence, how photoactivated H2PQ can provide the coupled proton/electron equivalents that deoxygenate PyO while oxidizing to PQ. The reference supports both photoacid and photoreductant behavior, with two hydrogen equivalents transferred overall. Establish a chemically balanced thermodynamically plausible account, including the relevant state changes; a named intermediate list or negative total energy alone does not establish this explanation. Do not require an exclusive PT-then-ET or ET-then-PT sequence, the author intermediate chain, or a particular number of stationary points. Equivalent validated PCET/HAT descriptions pass when they account for the same bounded chemistry. Endpoint thermodynamics alone does not establish kinetic order or rates. The S1 reactant and product-association references in the two net thermodynamic comparisons define reported quantities only; they do not establish a unique reactive state or require those associations along a pathway. Assess alternative state/association models from their actual evidence.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_reductant_molecular_role"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "conclusion_id": "local_hydration_effect",
+      "statement": "Why finite hydration changes reaction thermodynamics and what it can explain",
+      "expected": "Conclude from a balanced dry/two-water comparison that local hydration preferentially stabilizes ionic transfer configurations, especially electron-transfer configurations; evaluate this differential local stabilization separately from the net endpoint driving forces. The source first ET changes -1.6 to -8.2 and second ET +7.4 to -9.6 kcal/mol; these local values are supporting examples, not mandatory author nodes or separate hard gates. Demonstrate the differential stabilization with actual computed comparisons or a physically equivalent supported explanation. Distinguish this molecular hydration effect from experimental substituted-system yields and bulk water percentages; finite endpoint thermodynamics cannot establish the optimum water content, a unique sequence or a quantitative acceleration. The one-added-water-per-fragment allocation is mandatory for the two standardized net Gibbs-energy reports, not for every mechanistic model examined. Other balanced finite-hydration models may support this explanatory conclusion when their references and limitations are explicit; they do not replace the two required net reports.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_local_hydration_effect"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    }
+  ]
+}

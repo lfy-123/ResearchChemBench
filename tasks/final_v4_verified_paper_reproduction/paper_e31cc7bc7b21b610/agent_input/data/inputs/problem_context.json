@@ -1,0 +1,18 @@
+{
+  "problem": "What electronic and structural features can account for the short Ir–Ir bond in the supplied iminoxolene dimer, and how far can a molecular model support that explanation?",
+  "facts": [
+    "Single-crystal X-ray analysis reports an unsupported Ir–Ir distance of2.5584(4) Å for the experimental Egan dimer; this is an observed quantity to explain, not a computational solution.",
+    "The isolated dimer is reported diamagnetic. The assignment of metal/ligand electronic character is a research question.",
+    "The full ligand graph uses one formal resonance drawing solely to encode chemical connectivity; localized ligand and metal oxidation states are not imposed."
+  ],
+  "scope": "The observation is the neutral experimental (A,C)-(Egan)2Ir2 dimer, C88H104Ir2N4O12. The quantitative comparison uses neutral singlet Ir2(Hap)4, C24H20Ir2N4O4, in S4 and C2h candidate orientations, gas phase at 298.15 K with a declared consistent standard state and thermal treatment. Preserve two metals and four iminoxolene N/O donor units; justify the relation of the reduced model to the experimental molecule.",
+  "data_files": [
+    "Egan_identity.json",
+    "Hap_core_identity.json",
+    "dimer_identity.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "Hap omits Egan straps and substituents. Molecular truncation, electron correlation and relativistic treatment limit transfer to the full experimental dimer. The supplied connectivity does not establish any optimized geometry or electronic assignment."
+  ]
+}

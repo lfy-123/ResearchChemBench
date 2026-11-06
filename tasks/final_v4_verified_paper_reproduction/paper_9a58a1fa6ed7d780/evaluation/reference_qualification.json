@@ -1,0 +1,148 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "V3_CONTENT_AUDITED_EXISTING_EVIDENCE_REUSED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "historical_acceptance": {
+    "paper_id": "paper_9a58a1fa6ed7d780",
+    "scoring_policy": "paper_science_v2",
+    "status": "CURRENT_FROZEN_SCOPE_STRICT_VERIFICATION_PRESERVED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "current_scope_verified": true,
+    "verification_acceptance": "Existing independently strict V2 frozen-scope acceptance retained; scoring migration is not new chemical validation.",
+    "reason": "Authorized final-copy scoring-only migration, 2026-10-19; publication/expert calibration remains separate from runtime scoring.",
+    "physical_definition": "Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+    "scientific_limitations": "BN/CC source six-state energies and oscillator strengths were actually computed; BN small energy residuals -0.0005 to -0.0002eV and S5f+0.0011 remain distinct from printed source values. S11 Sr/H especially S2-S4 remains materially unmatched; no exact CT panel or broader all-SI reproduction is certified. Source HOMO+1 wording conflicts are not treated as physical occupied acceptor targets. No global method/spin proof or optical/device kinetics.",
+    "tolerance_policy": {
+      "status": "provisional_benchmark_policy",
+      "basis": "Uniform±0.10eV frontier levels and±0.05eV selected vertical-state energies are provisional comparison windows below the0.6325eV source S1 shift and below the main state separations; bright f uses±0.02 absolute dimensionless units. These category windows are not residual-plus-epsilon or author confidence intervals. Directional energy/gap and intensity-pattern leaves remain independent; no exact tolerance is assigned to unresolved S11 descriptors.",
+      "not_author_error_bars": true
+    },
+    "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_9a58a1fa6ed7d780",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "round": "repair_round3",
+      "mode": "paper_reproduction",
+      "status": "scoring_contract_repaired_without_new_chemical_acceptance",
+      "changes": [
+        "Confirmed independent molecular results were bundled: split S1 HOMO-to-LUMO character into BN and CC leaves (5+5); independent missing/wrong outcomes do not erase the other molecule. Same total 70 intermediate/30 conclusion."
+      ],
+      "history_preserved": true,
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_04/paper_9a58a1fa6ed7d780.md"
+    }
+  },
+  "acceptance_class": "Historical strict frozen V2 molecular-excitation scope; not exact S11 descriptors or V3 blind validation",
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "evidence_reuse_summary": "BN/CC S1=2.1401/2.7731 eV；BN亮态3.6111 eV、f1.8535，CC亮态3.0152 eV、f.4081。两S1主要HOMO→LUMO；BN HOMO比CC升.75246、LUMO升.130004 eV，Dip.S及组态支持强度解释。 All former numerical windows are historical only; current scoring uses final semantic conclusions.",
+  "evidence_gaps": "S11部分Sr/H未复现，不认证定量CT；S14的HOMO→HOMO+1印刷问题及其他BNFlu S4不能套作AkFlu源S5。不同方法物理态可交叉，不强求编号；完整实验光谱、器件及速率均未验证。旧checkpoint缺失但fchk/日志保留。",
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "mode_scope_exception": "两模式的最终科学命题相同；AR自主选择方法，PR评估披露基线或有依据的可比替代。作者数值均为证据。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "必需结果：最低激发的BN/CC变化",
+      "rule_id": "r_lowest_excitation_comparison",
+      "conclusion_id": "lowest_excitation_comparison",
+      "weight": 25,
+      "independence": "最低态相对能量，独立于各分子较高亮带分布。",
+      "source_location": "正文p3电子能级；SI物理p42 TableS14为BN-AkFlu，p43 TableS15为CC-AkFlu；S11及其他BNFlu不混同。",
+      "source_evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1",
+        "verified_cc_s1"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_TD6_fullcoeff/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_optfreq/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/job_followup_20261017/COORDINATOR_REVIEW/paper_9a58a1fa6ed7d780/INDEPENDENT_COMPARISON.json"
+      ],
+      "existing_support_or_gap": "BN/CC S1=2.1401/2.7731 eV；BN亮态3.6111 eV、f1.8535，CC亮态3.0152 eV、f.4081。两S1主要HOMO→LUMO；BN HOMO比CC升.75246、LUMO升.130004 eV，Dip.S及组态支持强度解释。",
+      "scientific_limitations": "S11部分Sr/H未复现，不认证定量CT；S14的HOMO→HOMO+1印刷问题及其他BNFlu S4不能套作AkFlu源S5。不同方法物理态可交叉，不强求编号；完整实验光谱、器件及速率均未验证。旧checkpoint缺失但fchk/日志保留。"
+    },
+    {
+      "scientific_requirement": "必需结果：BN低态与主要亮态关系",
+      "rule_id": "r_bn_strength_pattern",
+      "conclusion_id": "bn_strength_pattern",
+      "weight": 20,
+      "independence": "BN内部强度/谱带位置分配，不能由S1降低自动推出。",
+      "source_location": "正文p3电子能级；SI物理p42 TableS14为BN-AkFlu，p43 TableS15为CC-AkFlu；S11及其他BNFlu不混同。",
+      "source_evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_TD6_fullcoeff/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_optfreq/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/job_followup_20261017/COORDINATOR_REVIEW/paper_9a58a1fa6ed7d780/INDEPENDENT_COMPARISON.json"
+      ],
+      "existing_support_or_gap": "BN/CC S1=2.1401/2.7731 eV；BN亮态3.6111 eV、f1.8535，CC亮态3.0152 eV、f.4081。两S1主要HOMO→LUMO；BN HOMO比CC升.75246、LUMO升.130004 eV，Dip.S及组态支持强度解释。",
+      "scientific_limitations": "S11部分Sr/H未复现，不认证定量CT；S14的HOMO→HOMO+1印刷问题及其他BNFlu S4不能套作AkFlu源S5。不同方法物理态可交叉，不强求编号；完整实验光谱、器件及速率均未验证。旧checkpoint缺失但fchk/日志保留。"
+    },
+    {
+      "scientific_requirement": "必需结果：CC低态与主要亮态关系",
+      "rule_id": "r_cc_strength_pattern",
+      "conclusion_id": "cc_strength_pattern",
+      "weight": 20,
+      "independence": "CC内部强度图景，不因BN对照正确自动成立。",
+      "source_location": "正文p3电子能级；SI物理p42 TableS14为BN-AkFlu，p43 TableS15为CC-AkFlu；S11及其他BNFlu不混同。",
+      "source_evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_cc_s1"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_TD6_fullcoeff/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_optfreq/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/job_followup_20261017/COORDINATOR_REVIEW/paper_9a58a1fa6ed7d780/INDEPENDENT_COMPARISON.json"
+      ],
+      "existing_support_or_gap": "BN/CC S1=2.1401/2.7731 eV；BN亮态3.6111 eV、f1.8535，CC亮态3.0152 eV、f.4081。两S1主要HOMO→LUMO；BN HOMO比CC升.75246、LUMO升.130004 eV，Dip.S及组态支持强度解释。",
+      "scientific_limitations": "S11部分Sr/H未复现，不认证定量CT；S14的HOMO→HOMO+1印刷问题及其他BNFlu S4不能套作AkFlu源S5。不同方法物理态可交叉，不强求编号；完整实验光谱、器件及速率均未验证。旧checkpoint缺失但fchk/日志保留。"
+    },
+    {
+      "scientific_requirement": "必需结果：能量改变及强度重分配的电子解释",
+      "rule_id": "r_bn_s1_explanation",
+      "conclusion_id": "bn_s1_explanation",
+      "weight": 35,
+      "independence": "物理电子起因，不重复低能变化或两个强度图景。",
+      "source_location": "正文p3电子能级；SI物理p42 TableS14为BN-AkFlu，p43 TableS15为CC-AkFlu；S11及其他BNFlu不混同。",
+      "source_evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1",
+        "verified_cc_s1"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_TD6_fullcoeff/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_optfreq/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/job_followup_20261017/COORDINATOR_REVIEW/paper_9a58a1fa6ed7d780/INDEPENDENT_COMPARISON.json"
+      ],
+      "existing_support_or_gap": "BN/CC S1=2.1401/2.7731 eV；BN亮态3.6111 eV、f1.8535，CC亮态3.0152 eV、f.4081。两S1主要HOMO→LUMO；BN HOMO比CC升.75246、LUMO升.130004 eV，Dip.S及组态支持强度解释。",
+      "scientific_limitations": "S11部分Sr/H未复现，不认证定量CT；S14的HOMO→HOMO+1印刷问题及其他BNFlu S4不能套作AkFlu源S5。不同方法物理态可交叉，不强求编号；完整实验光谱、器件及速率均未验证。旧checkpoint缺失但fchk/日志保留。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

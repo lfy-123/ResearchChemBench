@@ -1,0 +1,430 @@
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "scoring_policy": "paper_science_v3",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "publication_expert_review_status": "pending separately; not a runtime scoring gate",
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "limits": [
+    "7a实际LP2→C–Sn为6.56+6.34=12.90 kcal/mol；源SI20.5未数值复现。10.29+10.22=20.51属于C–O受体，禁止重标为C–Sn。",
+    "主文Table2与SI条目冲突，当前明确比较SI；不能宣称精确描述符回归或全部源标签正确。",
+    "接受限定对象配对方向，不扩展为普适有机锡规律或相对论结论。"
+  ],
+  "evidence": {
+    "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NEWLY_ACCEPTED_V2.json",
+    "sha256": "bfbf11a44b3958f8a55b7d144f38970348307aae520a1880788ee1e115cb8581",
+    "bytes": 168670
+  },
+  "scientific_design": {
+    "path": "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_a21b91f97ce3c68f/SCIENTIFIC_DESIGN.md",
+    "sha256": "cf1a9f846bbea8e804e57475b12a20720472fcf43312385d37493be7840b0d0b",
+    "bytes": 38884
+  },
+  "historical_before_v3": {
+    "status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "reason": "六对象环/丁基耦合的构象方向及AP供受体强弱保持；6/7与13相反的关键趋势、FC主导而非唯一贡献，与任务限定的非因果结论一致。数值偏差和7a受体标签问题不隐去，但不推翻当前任务的配对定性结论。",
+    "acceptance_type": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "acceptance_basis": "用户2026-10-20授权：已披露核心路线一致，完成必要计算，当前任务内关键定性节点与结论一致，保留数值偏差。",
+    "criterion_date": "2026-10-20",
+    "original_strict_numerical_gate_passed": false
+  },
+  "evaluation_mode": "final_results_100",
+  "status": "V3_DESIGN_CHECKED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+  "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+  "evidence_gaps": [
+    "绝对J偏差仍为7.831–18.867 Hz（环）及约9.70–11.01 Hz（丁基均值），未严格复现。",
+    "7a C–Sn真实NBO12.90与SI20.5不同，Table2/SI行有来源矛盾。",
+    "源后段相对论措辞与实际非相对论Hamiltonian不符；本版不认证相对论普适结论。"
+  ],
+  "required_new_validation": "当前配对趋势和局部电子解释可以复用；要解决绝对J、7a来源标签或相对论影响，需要另行研究，本轮不提交。",
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_ring_6",
+      "r_butyl_6",
+      "r_ring_7",
+      "r_butyl_7",
+      "r_ring_13",
+      "r_butyl_13",
+      "r_cross_scaffold_account"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_reason": "Final-results redesign dated 2026-10-28. Historical acceptance is retained separately; no new scientific computation or blind evaluation was performed.",
+  "historical_non_scoring_evidence_reuse_summary": "Historical acceptance is ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION, not strict numerical reproduction. Existing six full-molecule computations give ring J (6a/6e/7a/7e/13a/13e) = -281.688/-331.176/-341.991/-412.557/-241.899/-185.191 Hz, with source absolute deviations 11.798/14.436/14.091/18.867/10.449/7.831 Hz. Mean butyl J = -210.0663/-233.6200/-204.1950/-240.8400/-238.0103/-229.7047 Hz. FC dominates each axial-minus-equatorial contrast but non-FC contributions remain. Correct 7a C–Sn donation is 6.56+6.34=12.90 kcal/mol, not the source 20.5; 10.29+10.22=20.51 belongs to C–O and cannot be relabeled. Main Table2 and SI descriptor entries conflict. The native response is nonrelativistic despite TZP-ZORA basis naming. No empirical -1.419 fit is used to force agreement. The recovered 6a Hessian supports the reused geometry, not a new full optimization.",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "骨架6环总J构象依赖及响应来源",
+      "rule_id": "r_ring_6",
+      "conclusion_id": "ring_6",
+      "independence": "此环键的物性解释不同于丁基均值；响应分量仅支撑此结论。",
+      "source_locator": "正文PDFpp2、4、6–7和Table2；SI S5–S6；完整6a/e、7a/e、13a/e原生响应及NBO",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_a21b91f97ce3c68f/SOURCE_COMPARISON.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/INDEPENDENT_OTHER_NATIVE_SUPPLEMENT.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_a21b91f97ce3c68f/NATIVE_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_first_nbo_reuse_audit_v2_a02/first_completed_nbo_segment.txt",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_recovery_initial_fresh_hessian_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/stdout.log"
+      ],
+      "existing_support": "三对总环ΔJ轴−赤道49.488/70.566/−56.708Hz；FC差47.523/64.183/−53.869而非FC非零。丁基三值平均已读；实际轴向给电子较强但S13耦合逆转。",
+      "limits": [
+        "历史临时定性接受保持；总J相对源偏−7.831至−18.867Hz，未按FC接近度改定义或用−1.419校准消除偏差。TZP-ZORA基组不能证明相对论Hamiltonian，正文用语冲突保留。",
+        "7a真正C–Sn反式给体LP2=6.56+6.34=12.90，与源20.5差−7.60；20.51对应C–O受体，不可重标成C–Sn。正文Table2与SI逐行冲突，不跨行拼回归。",
+        "六个有限构象不是实验人口平均或三骨架普适因果定律。6a为重用几何补充Hessian与已完成NBO段，不冒称新增完整优化。"
+      ],
+      "evidence_ids": [
+        "sn_main",
+        "sn_si"
+      ],
+      "previous_rule_ids": [
+        "r_ring_6",
+        "r_response_6"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "骨架6三丁基总J及均值构象依赖",
+      "rule_id": "r_butyl_6",
+      "conclusion_id": "butyl_6",
+      "independence": "独立碳键集合，不从环J推断；不同骨架分别判定。",
+      "source_locator": "正文PDFpp2、4、6–7和Table2；SI S5–S6；完整6a/e、7a/e、13a/e原生响应及NBO",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_a21b91f97ce3c68f/SOURCE_COMPARISON.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/INDEPENDENT_OTHER_NATIVE_SUPPLEMENT.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_a21b91f97ce3c68f/NATIVE_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_first_nbo_reuse_audit_v2_a02/first_completed_nbo_segment.txt",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_recovery_initial_fresh_hessian_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/stdout.log"
+      ],
+      "existing_support": "三对总环ΔJ轴−赤道49.488/70.566/−56.708Hz；FC差47.523/64.183/−53.869而非FC非零。丁基三值平均已读；实际轴向给电子较强但S13耦合逆转。",
+      "limits": [
+        "历史临时定性接受保持；总J相对源偏−7.831至−18.867Hz，未按FC接近度改定义或用−1.419校准消除偏差。TZP-ZORA基组不能证明相对论Hamiltonian，正文用语冲突保留。",
+        "7a真正C–Sn反式给体LP2=6.56+6.34=12.90，与源20.5差−7.60；20.51对应C–O受体，不可重标成C–Sn。正文Table2与SI逐行冲突，不跨行拼回归。",
+        "六个有限构象不是实验人口平均或三骨架普适因果定律。6a为重用几何补充Hessian与已完成NBO段，不冒称新增完整优化。"
+      ],
+      "evidence_ids": [
+        "sn_si"
+      ],
+      "previous_rule_ids": [
+        "r_butyl_6"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "骨架7环总J构象依赖及响应来源",
+      "rule_id": "r_ring_7",
+      "conclusion_id": "ring_7",
+      "independence": "此环键的物性解释不同于丁基均值；响应分量仅支撑此结论。",
+      "source_locator": "正文PDFpp2、4、6–7和Table2；SI S5–S6；完整6a/e、7a/e、13a/e原生响应及NBO",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_a21b91f97ce3c68f/SOURCE_COMPARISON.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/INDEPENDENT_OTHER_NATIVE_SUPPLEMENT.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_a21b91f97ce3c68f/NATIVE_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_first_nbo_reuse_audit_v2_a02/first_completed_nbo_segment.txt",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_recovery_initial_fresh_hessian_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/stdout.log"
+      ],
+      "existing_support": "三对总环ΔJ轴−赤道49.488/70.566/−56.708Hz；FC差47.523/64.183/−53.869而非FC非零。丁基三值平均已读；实际轴向给电子较强但S13耦合逆转。",
+      "limits": [
+        "历史临时定性接受保持；总J相对源偏−7.831至−18.867Hz，未按FC接近度改定义或用−1.419校准消除偏差。TZP-ZORA基组不能证明相对论Hamiltonian，正文用语冲突保留。",
+        "7a真正C–Sn反式给体LP2=6.56+6.34=12.90，与源20.5差−7.60；20.51对应C–O受体，不可重标成C–Sn。正文Table2与SI逐行冲突，不跨行拼回归。",
+        "六个有限构象不是实验人口平均或三骨架普适因果定律。6a为重用几何补充Hessian与已完成NBO段，不冒称新增完整优化。"
+      ],
+      "evidence_ids": [
+        "sn_main",
+        "sn_si"
+      ],
+      "previous_rule_ids": [
+        "r_ring_7",
+        "r_response_7"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "骨架7三丁基总J及均值构象依赖",
+      "rule_id": "r_butyl_7",
+      "conclusion_id": "butyl_7",
+      "independence": "独立碳键集合，不从环J推断；不同骨架分别判定。",
+      "source_locator": "正文PDFpp2、4、6–7和Table2；SI S5–S6；完整6a/e、7a/e、13a/e原生响应及NBO",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_a21b91f97ce3c68f/SOURCE_COMPARISON.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/INDEPENDENT_OTHER_NATIVE_SUPPLEMENT.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_a21b91f97ce3c68f/NATIVE_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_first_nbo_reuse_audit_v2_a02/first_completed_nbo_segment.txt",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_recovery_initial_fresh_hessian_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/stdout.log"
+      ],
+      "existing_support": "三对总环ΔJ轴−赤道49.488/70.566/−56.708Hz；FC差47.523/64.183/−53.869而非FC非零。丁基三值平均已读；实际轴向给电子较强但S13耦合逆转。",
+      "limits": [
+        "历史临时定性接受保持；总J相对源偏−7.831至−18.867Hz，未按FC接近度改定义或用−1.419校准消除偏差。TZP-ZORA基组不能证明相对论Hamiltonian，正文用语冲突保留。",
+        "7a真正C–Sn反式给体LP2=6.56+6.34=12.90，与源20.5差−7.60；20.51对应C–O受体，不可重标成C–Sn。正文Table2与SI逐行冲突，不跨行拼回归。",
+        "六个有限构象不是实验人口平均或三骨架普适因果定律。6a为重用几何补充Hessian与已完成NBO段，不冒称新增完整优化。"
+      ],
+      "evidence_ids": [
+        "sn_si"
+      ],
+      "previous_rule_ids": [
+        "r_butyl_7"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "骨架13环总J构象依赖及响应来源",
+      "rule_id": "r_ring_13",
+      "conclusion_id": "ring_13",
+      "independence": "此环键的物性解释不同于丁基均值；响应分量仅支撑此结论。",
+      "source_locator": "正文PDFpp2、4、6–7和Table2；SI S5–S6；完整6a/e、7a/e、13a/e原生响应及NBO",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_a21b91f97ce3c68f/SOURCE_COMPARISON.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/INDEPENDENT_OTHER_NATIVE_SUPPLEMENT.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_a21b91f97ce3c68f/NATIVE_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_first_nbo_reuse_audit_v2_a02/first_completed_nbo_segment.txt",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_recovery_initial_fresh_hessian_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/stdout.log"
+      ],
+      "existing_support": "三对总环ΔJ轴−赤道49.488/70.566/−56.708Hz；FC差47.523/64.183/−53.869而非FC非零。丁基三值平均已读；实际轴向给电子较强但S13耦合逆转。",
+      "limits": [
+        "历史临时定性接受保持；总J相对源偏−7.831至−18.867Hz，未按FC接近度改定义或用−1.419校准消除偏差。TZP-ZORA基组不能证明相对论Hamiltonian，正文用语冲突保留。",
+        "7a真正C–Sn反式给体LP2=6.56+6.34=12.90，与源20.5差−7.60；20.51对应C–O受体，不可重标成C–Sn。正文Table2与SI逐行冲突，不跨行拼回归。",
+        "六个有限构象不是实验人口平均或三骨架普适因果定律。6a为重用几何补充Hessian与已完成NBO段，不冒称新增完整优化。"
+      ],
+      "evidence_ids": [
+        "sn_main",
+        "sn_si"
+      ],
+      "previous_rule_ids": [
+        "r_ring_13",
+        "r_response_13"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "骨架13三丁基总J及均值构象依赖",
+      "rule_id": "r_butyl_13",
+      "conclusion_id": "butyl_13",
+      "independence": "独立碳键集合，不从环J推断；不同骨架分别判定。",
+      "source_locator": "正文PDFpp2、4、6–7和Table2；SI S5–S6；完整6a/e、7a/e、13a/e原生响应及NBO",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_a21b91f97ce3c68f/SOURCE_COMPARISON.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/INDEPENDENT_OTHER_NATIVE_SUPPLEMENT.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_a21b91f97ce3c68f/NATIVE_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_first_nbo_reuse_audit_v2_a02/first_completed_nbo_segment.txt",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_recovery_initial_fresh_hessian_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/stdout.log"
+      ],
+      "existing_support": "三对总环ΔJ轴−赤道49.488/70.566/−56.708Hz；FC差47.523/64.183/−53.869而非FC非零。丁基三值平均已读；实际轴向给电子较强但S13耦合逆转。",
+      "limits": [
+        "历史临时定性接受保持；总J相对源偏−7.831至−18.867Hz，未按FC接近度改定义或用−1.419校准消除偏差。TZP-ZORA基组不能证明相对论Hamiltonian，正文用语冲突保留。",
+        "7a真正C–Sn反式给体LP2=6.56+6.34=12.90，与源20.5差−7.60；20.51对应C–O受体，不可重标成C–Sn。正文Table2与SI逐行冲突，不跨行拼回归。",
+        "六个有限构象不是实验人口平均或三骨架普适因果定律。6a为重用几何补充Hessian与已完成NBO段，不冒称新增完整优化。"
+      ],
+      "evidence_ids": [
+        "sn_si"
+      ],
+      "previous_rule_ids": [
+        "r_butyl_13"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "共同给电子描述符是否解释三骨架",
+      "rule_id": "r_cross_scaffold_account",
+      "conclusion_id": "cross_scaffold_account",
+      "independence": "检验跨骨架关系及反例，不再奖励三个排序本身。",
+      "source_locator": "正文PDFpp2、4、6–7和Table2；SI S5–S6；完整6a/e、7a/e、13a/e原生响应及NBO",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_a21b91f97ce3c68f/SOURCE_COMPARISON.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/INDEPENDENT_OTHER_NATIVE_SUPPLEMENT.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_a21b91f97ce3c68f/NATIVE_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13a_spinspin_element_repair_20261002_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn13e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_first_nbo_reuse_audit_v2_a02/first_completed_nbo_segment.txt",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_recovery_initial_fresh_hessian_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6a_source_spinspin_pause_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn6e_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7a_spinspin_element_repair_20261002_freshstopresume_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_source_optfreq_nbo_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/input.com",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_a21b91f97ce3c68f/v2_execution_20260929/outputs/sn7e_spinspin_element_repair_20261002_a01/stdout.log"
+      ],
+      "existing_support": "三对总环ΔJ轴−赤道49.488/70.566/−56.708Hz；FC差47.523/64.183/−53.869而非FC非零。丁基三值平均已读；实际轴向给电子较强但S13耦合逆转。",
+      "limits": [
+        "历史临时定性接受保持；总J相对源偏−7.831至−18.867Hz，未按FC接近度改定义或用−1.419校准消除偏差。TZP-ZORA基组不能证明相对论Hamiltonian，正文用语冲突保留。",
+        "7a真正C–Sn反式给体LP2=6.56+6.34=12.90，与源20.5差−7.60；20.51对应C–O受体，不可重标成C–Sn。正文Table2与SI逐行冲突，不跨行拼回归。",
+        "六个有限构象不是实验人口平均或三骨架普适因果定律。6a为重用几何补充Hessian与已完成NBO段，不冒称新增完整优化。"
+      ],
+      "evidence_ids": [
+        "sn_main",
+        "sn_si"
+      ],
+      "previous_rule_ids": [
+        "r_cross_scaffold_account"
+      ],
+      "no_new_computation": true
+    }
+  ],
+  "objective_issue_flags": [
+    {
+      "issue": "历史临时定性接受保持；总J相对源偏−7.831至−18.867Hz，未按FC接近度改定义或用−1.419校准消除偏差。TZP-ZORA基组不能证明相对论Hamiltonian，正文用语冲突保留。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "7a真正C–Sn反式给体LP2=6.56+6.34=12.90，与源20.5差−7.60；20.51对应C–O受体，不可重标成C–Sn。正文Table2与SI逐行冲突，不跨行拼回归。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "六个有限构象不是实验人口平均或三骨架普适因果定律。6a为重用几何补充Hessian与已完成NBO段，不冒称新增完整优化。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    }
+  ]
+}

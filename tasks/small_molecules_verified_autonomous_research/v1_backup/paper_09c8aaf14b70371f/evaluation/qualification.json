@@ -1,0 +1,111 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "scope_version": "chalcone-series-redox-20261012",
+  "updated_utc": "2026-10-17",
+  "design_implemented": true,
+  "scientifically_verified": true,
+  "release_ready": false,
+  "scientific_status": "VERIFIED_CURRENT_FIVE_COMPOUND_SCOPE",
+  "active_result_ids": [
+    "series_relationship",
+    "electron_addition_region",
+    "solvent_relationship"
+  ],
+  "active_comparison_mode": "manual_bounded_five_compound_scientific_comparison_exact_scalar_qualification_separate",
+  "blocked_source_targets": [
+    {
+      "id": "compound_2_property_conformer",
+      "affected_result_ids": [
+        "series_relationship",
+        "electron_addition_region",
+        "solvent_relationship"
+      ],
+      "reason": "Table 6 E1 minimizes G while E2 minimizes E. SI coordinates and Table 4/Fig.11 property-conformer attribution remain unresolved.",
+      "source_values_not_active_targets": {
+        "acetonitrile_lumo_eV": -2.493,
+        "dmso_lumo_eV": -2.496
+      },
+      "resolution": "Map the already reported conformer/state using the original figures, SI and any actual author data. Do not choose whichever new calculation matches the target. If unresolved, retain the hold.",
+      "scoring_consequence": "Only exact author compound-2 property-conformer/scalar attribution is held. Source-supported bounded relationship, spatial topology and solvent-scale findings are active; no exact scalar match, fitted coordinate or exhaustive conformer coverage is required."
+    }
+  ],
+  "uncalibrated_results": [
+    "series_relationship",
+    "electron_addition_region",
+    "solvent_relationship"
+  ],
+  "numeric_policy": "Published values and historical numeric rules unchanged; no new windows. Exact attributed compound-2 scalar targets remain inactive, while bounded five-compound findings use source conclusions with native evidence.",
+  "retired_numeric_rules_unchanged": [
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "gas_path",
+      "target": 1.43,
+      "unit": "eV",
+      "tolerance": 0.15
+    },
+    {
+      "rule_id": "ar_r8",
+      "reference_id": "gas_path",
+      "target": 92.5,
+      "unit": "degrees",
+      "tolerance": 2.0
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "solution_path",
+      "target": 1.42,
+      "unit": "eV",
+      "tolerance": 0.15
+    },
+    {
+      "rule_id": "ar_r9",
+      "reference_id": "solution_path",
+      "target": 92.5,
+      "unit": "degrees",
+      "tolerance": 2.0
+    },
+    {
+      "rule_id": "ar_r10",
+      "reference_id": "endpoint_stability",
+      "target": 0.23,
+      "unit": "eV",
+      "tolerance": 0.15
+    },
+    {
+      "rule_id": "ar_r11",
+      "reference_id": "endpoint_stability",
+      "target": 0.27,
+      "unit": "eV",
+      "tolerance": 0.15
+    }
+  ],
+  "latest_legacy_verification": {
+    "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_09c8aaf14b70371f/remaining24_20261012T134810Z_group_A/verification_report.md",
+    "timestamp": "2026-10-12T15:20:40.004320+00:00",
+    "overall": "MISMATCH",
+    "endpoint_stability": "PASS",
+    "gas_path": "MISMATCH",
+    "solution_path": "PARTIAL",
+    "transfer": "Only compatible compound-3 E geometries/frequencies are reusable; no new orbital/spin/series scientific result is certified."
+  },
+  "not_author_computed_do_not_add": [
+    "absolute_redox_potential_cycle",
+    "electron_transfer_kinetics",
+    "anion_followup_paths",
+    "causal_substituent_energy_decomposition",
+    "td_absorption_or_photodynamics",
+    "computed_nmr",
+    "dcm_anion_spin_reference",
+    "thermal_TS_for_other_chalcones",
+    "synthesis_mechanism"
+  ],
+  "approval_source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/small_molecules_autonomous_research/verification_dispatch/core_question_design_20261012T171955Z/papers/paper_09c8aaf14b70371f/final_proposal.md",
+  "verification_plan": "evaluation/validation_plan.json",
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Five-compound bounded findings are supported by the 2026-10-15 acceptance. Exact author compound-2 conformer/scalar attribution remains held; no official release certification.",
+  "formal_scoring_permitted": false,
+  "formal_scoring_and_release_note": "This maintenance aligns the already verified public scope; it does not certify formal release or universal numerical calibration. Exact author scalar attribution remains documented as unresolved."
+}

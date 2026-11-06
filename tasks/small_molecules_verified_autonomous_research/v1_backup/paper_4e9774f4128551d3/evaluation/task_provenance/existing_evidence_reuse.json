@@ -1,0 +1,225 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_4e9774f4128551d3_20260921_195740_34afaf/runs/cli_runs/batch_20260921_195747_460558/autonomous_research-paper_4e9774f4128551d3-codex-20260921_195747-7efad5/report/results.json",
+      "sha256": "f1e514fc239d1dd9670d715e59af6dcdeb2901a805a11d3ae1a676b52613c2da",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_4/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "aa256fb22d08ef5e30cc2527663a3bb132b9c79a8199efc86f75ef328e625385",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_4e9774f4128551d3",
+        "packages_frozen": true,
+        "AR": {
+          "mode": "autonomous_research",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_4e9774f4128551d3",
+          "package_content_sha256": "9c8fba2551ef8923289943c5abb8e38d472224a6a214e198eb117c453501746d",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_4e9774f4128551d3/package_manifest.json",
+            "sha256": "3048ebb264295319a080a35e130858891d3af0022e674292bf7eac9732358720"
+          },
+          "payload_entries_checked": 29,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_4e9774f4128551d3",
+            "task_type": "autonomous_research",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "PR": {
+          "mode": "paper_reproduction",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_4e9774f4128551d3",
+          "package_content_sha256": "21cdaee9c3dc88e05b5a5d7cfe23fce3d73170c034c8d109c298f1b835ca1944",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_4e9774f4128551d3/package_manifest.json",
+            "sha256": "c1574fc73a701549fc0c7e51164a78a4d9075b7bbd8cf1ca840aa022ea9757fc"
+          },
+          "payload_entries_checked": 29,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_4e9774f4128551d3",
+            "task_type": "paper_reproduction",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "scientific_disposition": "needs_work",
+        "scientifically_validated": false,
+        "completed_scientific_work": "旧50/S20仅产物稳定性；已识别O-TMS前体、CSA双对映体及THF/MeOH来源差异。已准备5组分和8个完整102原子等计量遭遇构型；独立回读确认全H键图、CSA/骨架CIP及两面方向。前体双键E/Z未指定，两者仅作输入身份敏感性；尚非DFT结果。",
+        "unfinished_validation": "CSA双对映体×两面路径、端点、预组织及匹配溶剂对照；明确前体构型并完成实际DFT矩阵。",
+        "input_and_reference_gaps": [
+          "源前体E/Z未指定，正文与SI溶剂配比差异保留。",
+          "8个102原子遭遇输入仅完成身份检查；CSA两对映体与两面反应路径未计算。"
+        ],
+        "scientific_evidence": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/legacy/inventory.json",
+            "sha256": "3741e0ec6e5aa47e46b781bc5ff086bab8de1e361f5aa0d17cbf6ef657d87914"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/provenance/component_preparation.json",
+            "sha256": "f449f925ea558a8551337362a06faabdd9753facaeda35876003791c10896114"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/provenance/facial_encounter_preparation.json",
+            "sha256": "f111bc1bb7a1c20f53e352199235c5e2ba8269a3975b7149c61b5a733f4d3f53"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/provenance/facial_encounter_input_audit.json",
+            "sha256": "defdf9388d9449f88634d57a739f991da18c79a3193120b0e11697edceba0781"
+          }
+        ],
+        "working_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/report/progress_report.md",
+          "sha256": "d9155ee01d3f8bf71d7db39028b989461981bc367bb646ac4edcf563edcbe387"
+        },
+        "working_evaluator_mapping": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/report/progress_evaluator_mapping.json",
+          "sha256": "08d2eafec167e364bfa6d13733d0d4380125ed43ede8876222e7e0e65de5828a"
+        },
+        "prepared_inputs_not_automatically_authorized_for_submission": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/CSA_A_THF_component_optfreq_sp.com",
+            "sha256": "ca38aaaa758ed0a6275c905f9aa9b88dc4e71654de939754f915dd91f90fac51"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/CSA_B_THF_component_optfreq_sp.com",
+            "sha256": "c988b2733a7537440d606bb9476e7ccd45da8058a80d85bad0a4f6bf471d6acc"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_E_CSA_A_face_a_THF_encounter_optfreq_sp.com",
+            "sha256": "39b6b6bdfc5686a16e3b5ded62ae90bdc61f79e6498cf5073d3f83d6a45c711d"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_E_CSA_A_face_b_THF_encounter_optfreq_sp.com",
+            "sha256": "116727961f63cc2faa60aca7e5f92d311645a79f77f4eb6f56c97a0600faf505"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_E_CSA_B_face_a_THF_encounter_optfreq_sp.com",
+            "sha256": "866150581e5fe4c40d3d24cbfaf864376a9be9b8153184eb7f698e7651717d88"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_E_CSA_B_face_b_THF_encounter_optfreq_sp.com",
+            "sha256": "84372fd5b2c10092b7d06747b49511ba891dc5a731c90d54960801e1ba8c25a7"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_TMS_E_THF_component_optfreq_sp.com",
+            "sha256": "ae9c753d716dd761e4bfa126145f0751472c04820f06818591a48dc274ac5c96"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_TMS_Z_THF_component_optfreq_sp.com",
+            "sha256": "06bba6c1abbb6e5637a5e70f192fc463cba2fb46c698b1e3ed66f7ab6dcf4996"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_Z_CSA_A_face_a_THF_encounter_optfreq_sp.com",
+            "sha256": "a2fa0ac620676ca978065e4c543e5e50f8923b06b16697a8ea5ff6c4fd58188c"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_Z_CSA_A_face_b_THF_encounter_optfreq_sp.com",
+            "sha256": "0493a462cb6c93075a70ba298cefeedb9813f97c3136eea25a0ac46dabfad161"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_Z_CSA_B_face_a_THF_encounter_optfreq_sp.com",
+            "sha256": "66701774e085e69ae8686b4cdab643e1671d6c58c2056d2ff82de9d28d7dc326"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/enol_Z_CSA_B_face_b_THF_encounter_optfreq_sp.com",
+            "sha256": "f34dda1f3dfa7c21db1fd7fd7852396062066bd9f87e84b680cc3d02b3828e07"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/inputs/methanol_THF_component_optfreq_sp.com",
+            "sha256": "8560ce6ad08bf0e3aec42614d97da705969f6735e449f920b76f22d930c6c7ca"
+          }
+        ],
+        "active_jobs": [],
+        "root_package_changes_by_this_verification_group": "No root package payload changes by this verification group.",
+        "historical_accounting_limit": "See legacy/inventory.json; native file counts are not attempts. Detailed job/resource reconciliation still in progress.",
+        "development_vs_science": "This freezes the verifier writer and transfers known gaps; it does not claim all scientific endpoints or original-batch development review complete.",
+        "frozen_binding": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/task_snapshot/frozen_binding.json",
+          "sha256": "532d13037db784c0faa78fa72539c9ae4d7bce7cc48bfa443a318b13c5d20e48"
+        }
+      },
+      "model_and_method_scope": "Source 50/S20 product minima and relative thermodynamics; later CSA/enol/methanol encounter constructions have 102 atoms and are preparation evidence.",
+      "allowed_use": "Reuse endpoint identity/energy audits with their original method and inventory. The five-component/eight-encounter preparation demonstrates a possible construction, not a required design.",
+      "not_supported": "Product thermodynamics does not establish facial protonation kinetics. Prepared encounters were not completed DFT evidence; solvent-ratio and enol-stereochemistry ambiguity remain.",
+      "scope": "Reuse endpoint identity/energy audits with their original method and inventory. The five-component/eight-encounter preparation demonstrates a possible construction, not a required design.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/legacy/inventory.json",
+      "sha256": "3741e0ec6e5aa47e46b781bc5ff086bab8de1e361f5aa0d17cbf6ef657d87914",
+      "frozen_sha256": "3741e0ec6e5aa47e46b781bc5ff086bab8de1e361f5aa0d17cbf6ef657d87914",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Source 50/S20 product minima and relative thermodynamics; later CSA/enol/methanol encounter constructions have 102 atoms and are preparation evidence.",
+      "scope": "Reuse endpoint identity/energy audits with their original method and inventory. The five-component/eight-encounter preparation demonstrates a possible construction, not a required design.",
+      "not_supported": "Product thermodynamics does not establish facial protonation kinetics. Prepared encounters were not completed DFT evidence; solvent-ratio and enol-stereochemistry ambiguity remain.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/provenance/component_preparation.json",
+      "sha256": "f449f925ea558a8551337362a06faabdd9753facaeda35876003791c10896114",
+      "frozen_sha256": "f449f925ea558a8551337362a06faabdd9753facaeda35876003791c10896114",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Source 50/S20 product minima and relative thermodynamics; later CSA/enol/methanol encounter constructions have 102 atoms and are preparation evidence.",
+      "scope": "Reuse endpoint identity/energy audits with their original method and inventory. The five-component/eight-encounter preparation demonstrates a possible construction, not a required design.",
+      "not_supported": "Product thermodynamics does not establish facial protonation kinetics. Prepared encounters were not completed DFT evidence; solvent-ratio and enol-stereochemistry ambiguity remain.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/provenance/facial_encounter_preparation.json",
+      "sha256": "f111bc1bb7a1c20f53e352199235c5e2ba8269a3975b7149c61b5a733f4d3f53",
+      "frozen_sha256": "f111bc1bb7a1c20f53e352199235c5e2ba8269a3975b7149c61b5a733f4d3f53",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Source 50/S20 product minima and relative thermodynamics; later CSA/enol/methanol encounter constructions have 102 atoms and are preparation evidence.",
+      "scope": "Reuse endpoint identity/energy audits with their original method and inventory. The five-component/eight-encounter preparation demonstrates a possible construction, not a required design.",
+      "not_supported": "Product thermodynamics does not establish facial protonation kinetics. Prepared encounters were not completed DFT evidence; solvent-ratio and enol-stereochemistry ambiguity remain.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_4e9774f4128551d3/provenance/facial_encounter_input_audit.json",
+      "sha256": "defdf9388d9449f88634d57a739f991da18c79a3193120b0e11697edceba0781",
+      "frozen_sha256": "defdf9388d9449f88634d57a739f991da18c79a3193120b0e11697edceba0781",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Source 50/S20 product minima and relative thermodynamics; later CSA/enol/methanol encounter constructions have 102 atoms and are preparation evidence.",
+      "scope": "Reuse endpoint identity/energy audits with their original method and inventory. The five-component/eight-encounter preparation demonstrates a possible construction, not a required design.",
+      "not_supported": "Product thermodynamics does not establish facial protonation kinetics. Prepared encounters were not completed DFT evidence; solvent-ratio and enol-stereochemistry ambiguity remain.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "Source S35–S38 establish finite53-atom ketoester reference geometries and frequencies and support product-level reanalysis. The mapped enol is a source-consistent constructed graph, not a source optimized protonation intermediate. New pathway or ensemble conclusions need their own valid artifacts; exact reproduction remains qualified by medium and model choices.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Source 50/S20 product minima and relative thermodynamics; later CSA/enol/methanol encounter constructions have 102 atoms and are preparation evidence.",
+    "allowed": "Reuse endpoint identity/energy audits with their original method and inventory. The five-component/eight-encounter preparation demonstrates a possible construction, not a required design.",
+    "not_supported": "Product thermodynamics does not establish facial protonation kinetics. Prepared encounters were not completed DFT evidence; solvent-ratio and enol-stereochemistry ambiguity remain."
+  },
+  "new_scientific_calculations_performed": false
+}

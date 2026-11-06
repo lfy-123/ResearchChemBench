@@ -1,0 +1,183 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes. Round-one scope: Product 2 connectivity is supplied public input. Score only computed competing-site energetics, independent site explanations and the balanced sequence; never award product-identification points.",
+  "rules": [
+    {
+      "rule_id": "r_first_stage",
+      "reference_id": "first_stage",
+      "type": "semantic",
+      "expected": "Chemically mapped, validated first-stage dihydrophenanthrene candidates support the thermodynamic preference corresponding to source IS1 below IS2 through quantitative same-composition, common-definition energetic comparisons. The paper uses Gibbs energies and reports a 9.9 kcal/mol separation as context, not a numerical target. Consistent with the public task, an alternative energy definition can support the bounded ordering if the actual calculations and physical argument justify that inference and the effect of omitted contributions; do not reject a comparison solely because it is electronic DeltaE rather than DeltaG. Do not treat an unqualified electronic-energy table as a free-energy result. Require valid molecular identities and stationary-state evidence appropriate to the claimed comparison; never compare absolute energies of different hydrogen inventories.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_first_site_electronic",
+      "reference_id": "first_site_electronic",
+      "type": "semantic",
+      "expected": "Independent computed orbital or equivalent site-resolved electronic/structural evidence supports the first closure site corresponding to C1 over C2 of 1-cis. The source shows greater LUMO density and the relevant relative phase pattern at C1. Absolute orbital phase/color is arbitrary; evidence must discriminate physical forming-bond sites, not merely restate energy ranking. The source phase description is qualitative; local two-point samples do not establish all nodal features. An equivalent physical site explanation passes without requiring exact orbital colors or author labels.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_second_stage",
+      "reference_id": "second_stage",
+      "type": "semantic",
+      "expected": "Starting from the chemically mapped oxidized first-stage scaffold corresponding to IS3, establish sequential connectivity and support the thermodynamic preference corresponding to IS4 below IS5 using valid equal-composition candidates and quantitative common-definition energetic comparisons. The source Gibbs-energy separation of 11.3 kcal/mol is context, not a magnitude tolerance. An alternative energy definition is acceptable when actual calculations and a justified treatment of omitted contributions support the stated bounded ordering; a DeltaE label alone is neither a failure nor proof of a DeltaG ordering. Require molecular and stationary-state validity appropriate to the inference, without prescribing the author method.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_second_site_electronic",
+      "reference_id": "second_site_electronic",
+      "type": "semantic",
+      "expected": "Computed orbital or equivalent independent site-resolved evidence for the first-stage oxidized scaffold supports the second closure at source C3 rather than C4. The source LUMO topology supports that assignment; numerical energy ordering alone does not earn this separate electronic-discrimination item.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_sequential_chemistry",
+      "reference_id": "sequential_chemistry",
+      "type": "semantic",
+      "expected": "Explain why the supported continuation is cyclization followed by aromatization before the next cyclization, rather than merely accumulating two unrearomatized closures. Use mapped hydrogen-accounted structures and comparable calculations to support the chemical inference (source IS1→IS3→IS4, with high-lying same-inventory bis-dihydro alternatives IS6/IS7). Do not require author labels or claim a balanced oxidation free energy from subtracting different hydrogen inventories. A physically equivalent supported sequence passes; endpoint stability alone is not proof of reaction rate or excited-state exclusivity. For this bounded endpoint/site rationale, mapped hydrogen-accounted connectivity and appropriate same-composition endpoint comparisons do not require a separate balanced oxidation free energy, explicit iodine calculation or reaction barrier. Evidence obligations follow the actual claim: a quantitative oxidation-energy assertion needs balanced reactant/product reference evidence, and a kinetic-order assertion needs corresponding pathway or kinetic evidence. Missing evidence necessary for the submitted inference fails that claim; omission of unclaimed oxidation energetics alone does not.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "first_stage",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "First-cyclization regioisomer thermodynamic preference",
+      "rule_ids": [
+        "r_first_stage"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "first_site_electronic",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Electronic origin of first-site discrimination",
+      "rule_ids": [
+        "r_first_site_electronic"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "second_stage",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Second-cyclization regioisomer thermodynamic preference",
+      "rule_ids": [
+        "r_second_stage"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "second_site_electronic",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Electronic origin of second-site discrimination",
+      "rule_ids": [
+        "r_second_site_electronic"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "sequential_chemistry",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Chemical rationale for the sequential oxidative cyclization route",
+      "rule_ids": [
+        "r_sequential_chemistry"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "package_version": "expert_round1_20261103",
+  "scoring_revision": "source_evidence_alignment_20261104",
+  "total_points": 100,
+  "semantic_review_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+  "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "required_for_whole_case_success_item_ids": [
+    "first_stage",
+    "first_site_electronic",
+    "second_stage",
+    "second_site_electronic",
+    "sequential_chemistry"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "items": [
+    {
+      "id": "fabricated_evidence",
+      "description": "Fabricated evidence or copied reference results presented as independently computed invalidate the submission."
+    },
+    {
+      "id": "hidden_answer_leakage",
+      "description": "Demonstrated unauthorized use of hidden evaluator answers invalidates the submission. Ordinary failed or incomplete computations only lose the affected scientific items."
+    }
+  ],
+  "ordinary_failure_policy": "Missing or unsupported final conclusions fail only the affected items; supported independent outcomes retain their points. Return pass/fail for every item and record demonstrated reference defects separately in objective_issue_flags. No pending scientific-review status.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

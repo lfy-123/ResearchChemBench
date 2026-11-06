@@ -25,6 +25,7 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+documentation = ["PyMuPDF>=1.24,<2"]
 chemistry = [
     "ase>=3.22",
     "h5py>=3.8",

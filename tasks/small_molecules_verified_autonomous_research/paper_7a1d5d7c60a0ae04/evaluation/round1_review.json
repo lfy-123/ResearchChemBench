@@ -1,0 +1,57 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "补充局部反应起点",
+  "changes_zh": "提供D4/D5氧代碳正离子、A/B硼氢负离子及A/B/C硼烷图；明确从局部氢转移起步，排除上游成环/H2活化。",
+  "source_locator": "正文 Fig. 1；SI §7.3、Table S5",
+  "scientific_scope_changed": true,
+  "active_rule_ids": [
+    "r_catalyst_function",
+    "r_d4_kinetic_control",
+    "r_catalyst_selectivity_contrast",
+    "r_ring_size_relationship"
+  ],
+  "active_outcome_ids": [
+    "catalyst_function",
+    "d4_kinetic_control",
+    "catalyst_selectivity_contrast",
+    "ring_size_relationship"
+  ],
+  "removed_outcome_ids": [],
+  "public_file_sha256": {
+    "data/inputs/borane_A.sdf": "5ca1fa6981b5e1fb49eda85d494a5204f4dcdc4d8814e62f73d0e38c879f0288",
+    "data/inputs/borane_B.sdf": "40c948ac18ede7f8d6a113b99a93adbbbc5f1d8e62c3e3bebbb5b97de210d28b",
+    "data/inputs/borane_C.sdf": "ad089c4e057243da1c2acee079d238ff4e39e760da6b8411502cbef3aac4ba95",
+    "data/inputs/borohydride_A.sdf": "88577483164341de0b8d02bf6b4faa5e0b1491ae22b000ef3f86b6313b95c21e",
+    "data/inputs/borohydride_B.sdf": "c93bcfd631d95febe22912dec75866bc08f67b7fc920675a6fa3dd5ab85e3efc",
+    "data/inputs/local_reduction_structures.json": "69cf9e16cca3bde76012491993630fd2c52ee6fadc68f3fba7c2b8764d7fef8f",
+    "data/inputs/oxocarbenium_D4.sdf": "8068f318a340f88423cd58d2fbc060d9e372697b00f47aadfab8b351b125877b",
+    "data/inputs/oxocarbenium_D5.sdf": "892b98c5ec9289122a0a35d0e4a2788258cdba07aee6a6b7c2c1bd8579744425",
+    "data/inputs/system.json": "04d0992aee3f07b638c2716c4f172a1dec7b6e526add4c639ab87a03ef6719a7",
+    "submission_guide.md": "5d25407a707a3731878674dc9162d13a4e473b173f49ad3084f5567b83d73a13",
+    "submission_schema.json": "5987725856edc7bd37248523d779e2793b7be64758917f3bd40babc8a3bb91de",
+    "task.md": "cdfeae132ffd0be367f6c74aba0624f3ce96c16f17917c946594c9c7b44bfc89"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_catalyst_function",
+      "r_d4_kinetic_control",
+      "r_catalyst_selectivity_contrast",
+      "r_ring_size_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required selectivity pathways start from the supplied cyclic oxocarbenium and borohydride species. Diketone-to-cation formation, H2 activation and regeneration are not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

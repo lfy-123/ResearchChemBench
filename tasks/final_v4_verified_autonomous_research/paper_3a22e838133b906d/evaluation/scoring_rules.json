@@ -1,0 +1,195 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_bo_contraction",
+      "reference_id": "bo_contraction",
+      "type": "semantic",
+      "expected": "Comparable neutral/dealkylated-anion models establish B–O contraction when the same donor oxygen is followed. Model composition and environment must permit this dealkylation comparison; a full-identity pair qualifies. Source crystal distances1.666 to1.624Å establish the observed direction, but merely restating that input is insufficient. Private methyl-model lengths are not an eligibility or magnitude gate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_bound_po_elongation",
+      "reference_id": "bound_po_elongation",
+      "type": "semantic",
+      "expected": "The same physically comparable molecular pair establishes elongation of the P–O bond to the B-interacting oxygen after dealkylation, opposite to the B–O response. Actual mapped structural evidence is required. The supplied crystal1.513 to1.525Å gives the observed direction, not a mandatory molecular magnitude or methyl-model target.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_dealkylated_po_localization",
+      "reference_id": "dealkylated_po_localization",
+      "type": "semantic",
+      "expected": "Mapped anionic geometry has the dealkylated P–O shorter than the B-bound P–O, while the remaining alkoxy O is not misidentified as the dealkylated site. This distinguishes redistribution of P–O bond character from uniform stretching.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_intrinsic_local_reorganization",
+      "reference_id": "intrinsic_local_reorganization",
+      "type": "semantic",
+      "expected": "Paired geometry and actual electronic evidence establish that dealkylation redistributes P–O bonding/donation within the intramolecular O→B framework. Explain why the B–O and B-bound P–O responses can occur already in the isolated molecular pair, and relate the distinct dealkylated oxygen to this redistribution. This item scores the causal local explanation, not a second award for bond-length directions or building either endpoint. Population values must retain their partition convention; equivalent density/bonding evidence is eligible. The claim does not establish the reaction mechanism. A demonstrated equivalent explanation passes; an unsupported or unresolved causal account fails this item.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_crystal_environment_distinction",
+      "reference_id": "crystal_environment_distinction",
+      "type": "semantic",
+      "expected": "Compare actual model-derived B–O and B-bound P–O changes in angstrom with the supplied crystal changes, -0.042 and +0.012 angstrom. Establish which directions and magnitudes the selected model explains and delimit the remaining environmental attribution. Free methyl-model changes are larger than the crystal changes; for other valid representations judge their actual residuals instead of requiring that residual. Li coordination, substituent effects and crystal surroundings are distinct possible contributions; a specific causal allocation requires discriminating evidence. No unique solution aggregation follows from the crystal dimer or a finite structure. This is an applicability conclusion grounded in quantitative comparison, not generic caveat credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "bo_contraction",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Calculated B–O change on dealkylation",
+      "rule_ids": [
+        "r_bo_contraction"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bound_po_elongation",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Calculated response of P–O to the B-interacting oxygen",
+      "rule_ids": [
+        "r_bound_po_elongation"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "dealkylated_po_localization",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Relative P–O bonding at the newly dealkylated site",
+      "rule_ids": [
+        "r_dealkylated_po_localization"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "intrinsic_local_reorganization",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Electronic origin of the coupled local B–O/P–O response",
+      "rule_ids": [
+        "r_intrinsic_local_reorganization"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "crystal_environment_distinction",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Quantitative extent and limits of the molecular explanation of the crystals",
+      "rule_ids": [
+        "r_crystal_environment_distinction"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

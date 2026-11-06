@@ -94,7 +94,7 @@ DEFAULT_LIVE_PROGRESS = os.environ.get(
     "RESEARCHCHEMBENCH_LIVE_PROGRESS", "1"
 ).strip().casefold() not in {"0", "false", "no", "off"}
 DEFAULT_PROGRESS_CONSOLE = os.environ.get(
-    "RESEARCHCHEMBENCH_PROGRESS_CONSOLE", "0"
+    "RESEARCHCHEMBENCH_PROGRESS_CONSOLE", "1"
 ).strip().casefold() not in {"0", "false", "no", "off"}
 DEFAULT_PROGRESS_MAX_CHARS = max(
     80, int(os.environ.get("RESEARCHCHEMBENCH_PROGRESS_MAX_CHARS", "600"))

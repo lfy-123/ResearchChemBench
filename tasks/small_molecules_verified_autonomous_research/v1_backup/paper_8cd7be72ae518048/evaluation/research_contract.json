@@ -1,0 +1,668 @@
+{
+  "decision": "pass",
+  "rationale": "The paper reports homogeneous small-molecule palladium-catalyzed Heck reactions and includes author-performed DFT calculations directly addressing olefin insertion/regioselectivity in those reactions. The β-selective Heck arylation of 1,2-dihydronaphthalene is a suitable reaction phenomenon: experimental conditions and selectivity are reported, and the authors computed competing α/β insertion transition states for phenoxide, iodide, and anionic Pd complexes. The public question is framed around explaining/predicting the observed β-selectivity without requiring the solver to reproduce the authors' selected transition states or mechanism.",
+  "domain": {
+    "small_molecule": true,
+    "homogeneous": true,
+    "organic_reaction": true,
+    "evidence_ids": [
+      "ev_doc_461d0f914b5c_000107_92564ae3471a",
+      "ev_doc_461d0f914b5c_000461_7a76995d8124",
+      "ev_doc_461d0f914b5c_000521_04b28fe8aad5",
+      "ev_doc_461d0f914b5c_000522_8ce72f286890",
+      "ev_doc_461d0f914b5c_000535_980e42e34879",
+      "ev_doc_d2a1d4b93cff_000010_cf99446c292a",
+      "ev_doc_d2a1d4b93cff_000011_9baa90291c78",
+      "ev_doc_d2a1d4b93cff_000078_e3d8b6e01931",
+      "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c",
+      "ev_doc_d2a1d4b93cff_000116_a3ecb1e2e7a3",
+      "ev_doc_d2a1d4b93cff_000142_4271750802dc",
+      "ev_doc_d2a1d4b93cff_000143_3c6dc17e7143",
+      "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+      "ev_doc_d2a1d4b93cff_000147_b7e116809c02",
+      "ev_doc_d2a1d4b93cff_000154_cad86c5a4645",
+      "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+      "ev_doc_d2a1d4b93cff_000162_a5cd3dbc6fc5",
+      "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+      "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+      "ev_doc_d2a1d4b93cff_000167_487824074aea",
+      "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+      "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+      "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+    ],
+    "source_quotes": [
+      {
+        "evidence_id": "ev_doc_461d0f914b5c_000107_92564ae3471a",
+        "quote": "A typical procedure for the β-selective Heck arylation of 1,2-dihydronaphthalenes, 2H-chromenes, and Nacetyl-1,2-dihydroquinolines. In an argon-filled glove box, Pd(OAc)<sub>2</sub> (1.2 mg, 0.005 mmol, 5 mol%), 1,1'- bis(diisopropylphosphino)ferrocene dippf (2.6 mg, 0.006 mmol, 6 mol%) and dry Et<sub>2</sub>O (0.2 mL) were added to a dry 10-mL Schlenk tube. After stirring at rt for 20 min, (hetero)aryl iodide (0.15 mmol, 1.5 equiv), 1,2- dihydronaphthalene (0.1 mmol), potassium phenolate (39.7 mg, 0.3 mmol, 3 equiv), tetra-n-butylammonium iodide (3.7 mg, 0.01 mmol, 0.1 equiv), internal standard n { \\mathrm { - } } \\mathrm { C } _ { 1 2 } \\mathrm { H } _ { 2 6 } \\left( 1 0 \\mu \\mathrm { L } \\right) and dry Et<sub>2</sub>O (0.2 mL) were added via syringes. The Schlenk tube was taken out of the glove box and the mixture was vigorously stirred in an oil bath maintained at 1 0 0 ~ ^ { \\mathrm { { o } C } } for 24 hours or a longer time until the aryl halide was almost completely consumed (as monitored by TLC and GC). After it was cooled down to rt, the reaction mixture was diluted by ethyl acetate and passed through a short pad of silica gel with ethyl acetate washing. The filtrate was concentrated and the residue was purified by flash chromatography over silica gel to provide pure products. When some products were inseparable from residual phenol, they were washed with 2N aqueous sodium hydroxide to remove phenol. Similar results were obtained when the reaction was set up with a vacuum manifold and standard Schlenk techniques."
+      },
+      {
+        "evidence_id": "ev_doc_461d0f914b5c_000461_7a76995d8124",
+        "quote": "A typical procedure for a-selective Heck arylation of 1,2-dihydronaphthalene: In an argon-filled glove box, Pd(dba)<sub>2</sub> (2.9 mg, 0.005 mmol, 5 mol%), dippf (2.6 mg, 0.006 mmol, 6 mol%) and dry \\mathrm { E t } _ { 2 } \\mathrm { O } (0.2 mL) were added to a dry 10-mL Schlenk tube. After stirring for 20 min at room temperature, aryl iodide (0.1 mmol), 1,2- dihydronaphthalene (0.2 mmol), DABCO (33.6 mg, 0.3 mmol), internal standard n { \\mathrm { - } } \\mathrm { C } _ { 1 2 } \\mathrm { H } _ { 2 6 } \\left( 1 0 \\mu \\mathrm { L } \\right) and dry Et<sub>2</sub>O (0.2 mL) were added via syringes. The mixture was capped and vigorously stirred in an oil bath maintained at 1 0 0 ^ { \\mathrm { { o } C } } for 12 hours. After the reaction mixture was cooled down to rt, the reaction mixture was diluted by ethyl acetate and passed through a short plug of silica gel with ethyl acetate washing. The filtrate was concentrated and the residue was purified by flash chromatography on silica gel to provide products as two inseparable isomers."
+      },
+      {
+        "evidence_id": "ev_doc_461d0f914b5c_000521_04b28fe8aad5",
+        "quote": "In an argon-filled glove box, [dippf(O)]Pd(1,1'-biphen-4-yl)(Br) (15.5 mg, 0.02 mmol), KOPh (26.5 mg, 0.2 mmol), 1,2-dihydronaphthalene (26.4 mg, 0.2 mmol), GC standard n – C _ { 1 6 } \\mathrm { H } _ { 3 4 } \\left( 3 \\mu \\mathrm { L } \\right) and dry PhOMe (0.2 mL) were added to a dry 10-mL Schlenk tube. The mixture was stirred rigorously in an oil bath set at 1 0 0 ^ { \\mathrm { o } } \\mathrm { C } for 1 h. After the reaction mixture was cooled down to rt, the reaction mixture was diluted by ethyl acetate and passed through a short plug of silica gel with ethyl acetate washing. The filtrate was directly subjected to GC analysis to determine calibrated GC yield: b-arylation 2k was formed in 69% and 30:1 selectivity. When i { \\mathrm { - P r } } _ { 2 } \\mathrm { N E t } was used instead of KOPh, the yield of 2k was 3% with 1:1 selectivity."
+      },
+      {
+        "evidence_id": "ev_doc_461d0f914b5c_000522_8ce72f286890",
+        "quote": "Stoichiometric olefin insertion of [dippf(O)]Pd(1,1’-biphen-4-yl)(OPh). In a glovebox, Pd[dippf(O)](1,1'- biphen-4-yl)(Br) (15.5 mg, 0.02 mmol), KOPh (10.6 mg, 0.08 mmol) and dry PhOMe (0.2 mL) were added to a dry 10-mL Schlenk tube. The mixture was capped and vigorously stirred in a metal bath maintained at 5 0 ~ ^ { \\mathrm { { o } } } \\mathrm { { C } } for 1 hour, until it was fully converted to the phenoxide complex. ^ { 3 1 } \\mathrm { P } \\{ ^ { 1 } \\mathrm { H } \\} NMR (162 MHz, CDCl<sub>3</sub>): δ 50.53, 39.54. Then, 1,2-dihydronaphthalene (0.2 mmol) was added and the reaction mixture was heated to 1 0 0 ^ { \\circ } \\mathrm { C } for 1 h. The GC yield of b-arylation 2k was 70% with 32:1 selectivity."
+      },
+      {
+        "evidence_id": "ev_doc_461d0f914b5c_000535_980e42e34879",
+        "quote": "(c) Figure S8. Kinetic profiles of b-selective Heck reaction of aryl iodide and 1,2-dihydronaphthalene. (a) A plot of the yield of 1a vs time. (b) A plot of reaction rate of forming 1a vs time. (c) A plot of reaction rate vs [ArI]. In an argon-filled glove box, Pd(OAc)<sub>2</sub> (0.005 mmol, 5 mol%. [ \\mathrm { P d } ] = 5 \\ : \\mathrm { m M } ) , dippf (0.005 mmol, 5 mol%), dippf(O) (0.005 mmol, 5 mol%), 1-(tert-butyl)-4-iodobenzene in varying amounts (0.05, 0.1 and 0.15 mmol), 1,2-dihydronaphthalene (0.3 mmol), KOPh (39.7 mg, 0.3 mmol), \\scriptstyle n - \\mathrm { B u } _ { 4 } \\mathrm { N I } (3.7 mg, 0.01 mmol), GC standard n { \\mathrm { - C } } _ { 1 6 } \\mathrm { H } _ { 3 4 } ( 1 0 \\mu \\mathrm { L } ) and dry \\mathrm { P h C F } _ { 3 } (1.0 mL) were added to a dry 10-mL Schlenk tube. The mixture was vigorously stirred in a metal bath maintained at 1 0 0 ^ { \\mathrm { { o } C } } in the glove box. At time zero and intervals, an aliquot ( 1 0 \\mu \\mathrm { L } ) was taken from the hot reaction mixture and filtered through a plug of silica gel with washings of 4:1 petroleum ether/EtOAc (1 mL). The filtrate was used directly in GC analysis to determine the conversion of olefin and aryl halides and calibrated GC yield of 1a. Kinetic analysis was performed with Origin 2019."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000010_cf99446c292a",
+        "quote": "ABSTRACT: In palladium-catalyzed Heck reactions, partial oxidation of diphosphines often occurs to form diphosphine mono-oxides, which form active Pd species for olefin insertion. It is an overlooked yet kinetically dominant phenomenon under many Heck conditions. Pd(OAc) or in situ-generated palladium(II) salts rapidly convert diphosphines (dippf and QuinoxP* here) to mono-oxides. The weakened P=O donation may remain bound to cationic complex LPd(Ar)<sup>+</sup> or transiently vacate a coordination site to allow olefins to insert on neutral complex LPd(Ar)X. These mechanistic scenarios are observed in the enantioselective Heck"
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000011_9baa90291c78",
+        "quote": "reactions of 1,4-dihydronaphthalene and β-selective arylations of benzofused olefins. These benzofused olefins showed low activity and poor regioselectivity in Heck reactions in previous reports. The partial oxidation of diphosphines is supported by <sup>31</sup>P NMR detection of resting states in catalytic reactions, kinetic profiling using diferent Pd precatalysts, stoichiometric insertion of isolated complexes, and DFT calculations of olefin insertion. Conversely, cationic complex (dippf)Pd(Ar)<sup>+</sup> is an active species for olefin insertion in the α-selective Heck reaction of 1,2-dihydronaphthalene. To ensure good α-selectivity, in situ oxidation of dippf should be suppressed instead. DABCO base is proposed to reversibly bind and stabilize the cationic species. Three Heck protocols deliver arylated tetralin scafolds in high regioselectivity or excellent enantioselectivity, enabling concise syntheses of several natural products and drug motifs."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000078_e3d8b6e01931",
+        "quote": "Under the optimized conditions, Pd(OAc) (5 mol %) and dippf in refluxing \\mathrm { E t } _ { 2 } \\mathrm { O } in an oil bath at 1 0 0 ~ ^ { \\circ } \\mathrm { C } , the β-arylated tetralin 1a was formed in 91% yield and 45:1 selectivity (Table 2). The corresponding aryl bromide performed equally well. A small amount of double arylation of α-isomer { \\bf 1 } \\mathbf { a } ^ { \\prime } was detected. To reflect the intrinsic regioselectivity of insertion, the calculation \\alpha / \\beta ratio in the table takes into consideration this minor product."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c",
+        "quote": "Table 3. Change of Condition from the Standard Conditions for β-Selective Heck Reaction of 4-t-Butylphenyl Iodide and 1,2-Dihydronaphthalene in \\mathbf { E t } _ { 2 } \\mathbf { O } ^ { a }\n$4 – t – B u C _ { 6 } \\mathsf { H } _ { 4 } \\mathsf { I }$ 0.15 mmol | standard conditions ${ \\mathsf { P d } } ( \\mathsf { O A c } ) _ { 2 }$ 5 mol % dippf 6 mol % | | \n0.1 mmol | KOPh 3 equiv $\\mathsf { n { - } B u } _ { 4 } \\mathsf { N } \\mathsf { I } \\mathsf { I } \\mathsf { 0 } . 1$ equiv $\\mathsf { E t } _ { 2 } \\mathsf { O } , \\mathsf { 1 0 0 } ^ { \\circ } \\mathsf C ,$ 12 h\n1a entry condition | conv of olefin conv of ArI (%) (%)\n1 KOPh 100 47 | 150 | (%) ratio 91 45:1\n2 Et3N | 91 | 8 1:2\n3 | 67 | 6 1:1\ni-Pr2NEt 4 | 150 16 | 1:1\nCy2NMe | 150 91 | 45:1\n5 Et2O | 150 | \n6 n-hexane | | 86 22:1\n7 toluene | 150 | 83 40:1 83\n8 PhOMe | 150 | 40:1\n9 $\\mathrm { P h C F } _ { 3 }$ | 150 88 | 44:1\nªCalibrated GC yields of 1a and GC ratios."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000116_a3ecb1e2e7a3",
+        "quote": "Mechanistic Studies. Kinetics Using Diferent Precatalysts. The model coupling between 4-tert-butylphenyl iodide and 1,2-dihydronaphthalene was undertaken to interrogate the influence of the Pd precatalysts and to ascertain mono-oxide dippf(O) acting as an actual ligand (Table 4). A hydroxo dimer [ \\hat { \\mathrm { d i p p f } } ( \\mathrm { O } ) \\mathrm { P d } ( \\check { \\mathrm { A r } } ) ( \\mathrm { O H } ) ] _ { 2 } \\subset \\mathsf { \\Gamma } ( \\mathrm { A r ~ \\hbar = ~ 4 \\mathrm { - } C O _ { 2 } M \\dot { e } C _ { 6 } H _ { 4 } } ) was prepared via a reported protocol<sup>7</sup> and tested as a precatalyst. Reaction progress kinetic analysis was performed by plotting product yield vs time and reaction rate over time (Figure 11a,b).<sup>27</sup> It reveals some insights into the evolution of catalytically active species in the Heck reaction."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000142_4271750802dc",
+        "quote": "Next, aryl complexes of bromide \\mathbf { D ^ { \\prime } } and phenoxide and \\mathbf { E } ^ { \\prime } were tested in the stoichiometric insertion of 1,2-dihydronaphthalene. Both reactions resulted in β-isomer 2k in 70% yield and 30:1 \\beta \\mathrm { \\cdot } selectivity (eqs 1 and 2). Importantly, complex \\mathbf { D ^ { \\prime } }"
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000143_3c6dc17e7143",
+        "quote": "itself gave only 3% yield of 2k and a 1:1 ratio when i-Pr NEt was used as base. Therefore, the result established that the phenolate complexes are the active species for the \\beta \\mathrm { \\cdot } selective insertion of the olefin."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+        "quote": "DFT Calculations on Olefin Insertion. The density functional calculation was used to determine the equilibrium of phosphine (monoxide)-arm dissociation and olefin binding for oxidative-addition complexes [dippf(O)Pd(Ph)(I)] and [dippf(O)Pd(Ph)(I)]. Geometry optimizations and frequency analyses were carried out with B3LYP-D3/Def2-SVP; single point energies were refined at M06-L/Def2-TZVP with the SMD continuum for diethyl ether at 2 5 ~ ^ { \\circ } \\mathrm { C } . . As expected, olefin displacement of a phosphine of dippf is significantly more endergonic than displacement of a mono-oxide of dippf(O), +15.2 vs +9.2 kcal \\mathbf { \\hat { m } } \\mathbf { o } \\mathbf { l } ^ { - 1 } . , consistent with the experimental trend reported by Blackmond and Engle<sup>7</sup> (Figure 13a vs b). Furthermore, the binding of the 1,2-disubstituted olefin is thermodynamically less favored than that of styrene, +9.2 vs +6.8 kcal mol<sup>−1</sup> (Figure 13b vs c)."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000147_b7e116809c02",
+        "quote": "Next, DFT calculations were performed to identify catalytically competent species and map the energetics of olefin insertion of [dippf(O)Pd(Ph)(OPh)]. Eight ground-state conformers and the corresponding eight transition-state structures for phenyl insertion were located (Figure 14). In every pair of ground states, trans-positioning of the dialkylphosphine and phenyl ligand were disfavored by 11− 15 kcal mol<sup>−1</sup> relative to the cis-isomers, consistent with the strong trans influence exerted by these strong σ-donors."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000154_cad86c5a4645",
+        "quote": "Rapid interconversion among ground-state conformers being assumed, the regioselectivity of the irreversible aryl insertion is governed by relative free energies of competing transition states of insertion, according to the Curtin−Hammett principle. Accordingly, the lowest-energy ground-state conformer was chosen as the reference for evaluating the activation barriers to \\beta \\mathrm { - } and α-insertion."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+        "quote": "Surprisingly, the lowest-energy transition states for the \\alpha \\cdot and β-arylation (TS1-α and TS1-β) both adopt transconfigurations (Figure 14a). Their respective Gibbs free energies are 22.7 and 18.4 kcal \\mathrm { m o l ^ { - 1 } } . The energy gap of 4.3 kcal mol<sup>−1</sup>, which favors β-insertion, is consistent with >40:1 β-selectivity observed experimentally at 1 0 0 \\ ^ { \\circ } \\mathrm { C } . Both transition structures are stabilized by weak \\pi - \\pi interaction between the phenoxide and migrating phenyl ring; the displaced stacking is mainly van der Waals interaction or dispersion in nature, according to noncovalent interaction analysis ( \\mathrm { N C I } ) . ^ { 4 3 } It is absent in the cis-ground states. TS1-β is further stabilized by a CH-π interaction between the P \\mathrm { - } isopropyl fragment and the aromatic ring of dihydronaphthalene, whereas TS1-α is destabilized by close contact of the phosphine and aliphatic fragment of the benzofused olefin."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000162_a5cd3dbc6fc5",
+        "quote": "Natural Population Analysis (NPA)<sup>44</sup> reveals that the phenoxide ligand in transition states TS1-β engenders a significantly higher partial positive charge on the palladium center than iodide (+0.31 e vs +0.04 e). Thus, the electronic efect of phenoxide works in concert with attractive π−π and C−H−π interactions and steric repulsion in two competing transition states, ensuring the high β-selectivity under catalytic conditions using KOPh."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+        "quote": "For comparison, the insertion of iodide complex [dippf(O)- Pd(Ph)(I)] was also computed (Figure 14b). Eight groundstate and eight transition-state structures were optimized; the lowest-energy transition states (TS1-α′ and \\mathbf { T S 1 } \\hat { - } \\hat { \\pmb { \\beta } } ^ { \\prime } ) both have cis-configurations, lacking the attractive \\pi - \\pi interactions with phenoxide. They lie 21.6 and 19.4 kcal \\mathrm { m o l ^ { - 1 } } above the reference ground state, respectively, with an energy gap of 2.2 kcal \\mathrm { m o l ^ { - 1 } } . However, the halide complex is unlikely to be the active species for the insertion. Experimentally, stoichiometric insertion of bromide complex D′ gave little Heck isomers (3% yield, 1:1 ratio) without added KOPh."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+        "quote": "Moreover, the insertion of anionic complex [ ( \\mathrm { P h } ) \\mathrm { P d I } _ { 2 } ] ^ { - } was also calculated. Its two lowest TSs for the α- and β-insertions have relative energies of 18.5 and 17.4 kcal \\mathrm { m o l ^ { - 1 } } , respectively (Figure 14c). The small energy gap between these TSs is too small to account for >40:1 selectivity in the model reaction. Thus, this anionic pathway was discounted as the major species; it may become a minor pathway in the later stage of the reaction after deactivation of the dippf(O).<sup>45</sup>"
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000167_487824074aea",
+        "quote": "Figure 14. DFT-computed two lowest-energy transition structures for α- and β-insertion of 1,2-dihydronaphthalene into the Pd−Ph bond: (a) phenoxide complex [(dippf(O)Pd(Ph)(OPh)], (b) iodide complex [(dippf(O)Pd(Ph)(I)], and (c) anionic complex [(Ph)PdI ]<sup>−</sup>."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+        "quote": "DFT Calculations. In previous computational studies of α- selective Heck arylation of styrene and propene, cationic species ( \\mathrm { d i p h o s p h i n e } ) \\mathrm { P d } ( \\mathrm { A r } ) ] ^ { + } are the active species for insertion.<sup>22b,51d,53</sup> Here, we simulated the insertion of 1,2- dihydronaphtalene on the cationic complex [(dippf)Pd(Ph)]<sup>+</sup> (Figure 16). Four ground state conformers and four transition"
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+        "quote": "The lowest-energy ground state IM3 was used as the reference to compare the relative Gibbs free energies of the transition states of insertion. Two lowest transition structures, TS3-α and \\mathbf { T } \\mathbf { S } 3 – \\mathbf { { \\beta } } , leading to the α- and \\beta \\mathrm { . } -isomers have Gibbs free energies of 17.1 and 18.8 kcal mol<sup>−1</sup>, respectively. The small energy gap of 1.3 kcal \\mathrm { m o l ^ { - 1 } } is consistent with the 7:1 regioselectivity detected experimentally. Their insertion barriers from their respective ground states are 15.7 and 17.0 kcal mol<sup>−1</sup>, respectively."
+      },
+      {
+        "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+        "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+      }
+    ]
+  },
+  "scientific_question": "For the palladium-catalyzed Heck arylation of 1,2-dihydronaphthalene with 4-tert-butylphenyl iodide under homogeneous solution conditions, what factors control the observed preference for β-arylation over α-arylation, and how do the relative barriers for competing insertion pathways compare under a clearly defined computational model?",
+  "computation_relevance": "The authors performed DFT calculations on olefin insertion into Pd-aryl complexes relevant to the β-selective Heck arylation of 1,2-dihydronaphthalene. They computed ligand-displacement energetics and competing α/β insertion transition states for phenoxide, iodide, and anionic Pd complexes, and compared those computed energy gaps with the experimentally observed β-selectivity. These results provide private reference values for evaluating a new computational treatment of the same reaction phenomenon.",
+  "author_computation": {
+    "performed_by_authors": true,
+    "results_reported": true,
+    "non_routine": true,
+    "evidence_ids": [
+      "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+      "ev_doc_d2a1d4b93cff_000147_b7e116809c02",
+      "ev_doc_d2a1d4b93cff_000154_cad86c5a4645",
+      "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+      "ev_doc_d2a1d4b93cff_000162_a5cd3dbc6fc5",
+      "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+      "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+      "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+      "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+      "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+    ],
+    "source_quotes": [
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+        "quote": "DFT Calculations on Olefin Insertion. The density functional calculation was used to determine the equilibrium of phosphine (monoxide)-arm dissociation and olefin binding for oxidative-addition complexes [dippf(O)Pd(Ph)(I)] and [dippf(O)Pd(Ph)(I)]. Geometry optimizations and frequency analyses were carried out with B3LYP-D3/Def2-SVP; single point energies were refined at M06-L/Def2-TZVP with the SMD continuum for diethyl ether at 2 5 ~ ^ { \\circ } \\mathrm { C } . . As expected, olefin displacement of a phosphine of dippf is significantly more endergonic than displacement of a mono-oxide of dippf(O), +15.2 vs +9.2 kcal \\mathbf { \\hat { m } } \\mathbf { o } \\mathbf { l } ^ { - 1 } . , consistent with the experimental trend reported by Blackmond and Engle<sup>7</sup> (Figure 13a vs b). Furthermore, the binding of the 1,2-disubstituted olefin is thermodynamically less favored than that of styrene, +9.2 vs +6.8 kcal mol<sup>−1</sup> (Figure 13b vs c)."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000147_b7e116809c02",
+        "quote": "Next, DFT calculations were performed to identify catalytically competent species and map the energetics of olefin insertion of [dippf(O)Pd(Ph)(OPh)]. Eight ground-state conformers and the corresponding eight transition-state structures for phenyl insertion were located (Figure 14). In every pair of ground states, trans-positioning of the dialkylphosphine and phenyl ligand were disfavored by 11− 15 kcal mol<sup>−1</sup> relative to the cis-isomers, consistent with the strong trans influence exerted by these strong σ-donors."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000154_cad86c5a4645",
+        "quote": "Rapid interconversion among ground-state conformers being assumed, the regioselectivity of the irreversible aryl insertion is governed by relative free energies of competing transition states of insertion, according to the Curtin−Hammett principle. Accordingly, the lowest-energy ground-state conformer was chosen as the reference for evaluating the activation barriers to \\beta \\mathrm { - } and α-insertion."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+        "quote": "Surprisingly, the lowest-energy transition states for the \\alpha \\cdot and β-arylation (TS1-α and TS1-β) both adopt transconfigurations (Figure 14a). Their respective Gibbs free energies are 22.7 and 18.4 kcal \\mathrm { m o l ^ { - 1 } } . The energy gap of 4.3 kcal mol<sup>−1</sup>, which favors β-insertion, is consistent with >40:1 β-selectivity observed experimentally at 1 0 0 \\ ^ { \\circ } \\mathrm { C } . Both transition structures are stabilized by weak \\pi - \\pi interaction between the phenoxide and migrating phenyl ring; the displaced stacking is mainly van der Waals interaction or dispersion in nature, according to noncovalent interaction analysis ( \\mathrm { N C I } ) . ^ { 4 3 } It is absent in the cis-ground states. TS1-β is further stabilized by a CH-π interaction between the P \\mathrm { - } isopropyl fragment and the aromatic ring of dihydronaphthalene, whereas TS1-α is destabilized by close contact of the phosphine and aliphatic fragment of the benzofused olefin."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000162_a5cd3dbc6fc5",
+        "quote": "Natural Population Analysis (NPA)<sup>44</sup> reveals that the phenoxide ligand in transition states TS1-β engenders a significantly higher partial positive charge on the palladium center than iodide (+0.31 e vs +0.04 e). Thus, the electronic efect of phenoxide works in concert with attractive π−π and C−H−π interactions and steric repulsion in two competing transition states, ensuring the high β-selectivity under catalytic conditions using KOPh."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+        "quote": "For comparison, the insertion of iodide complex [dippf(O)- Pd(Ph)(I)] was also computed (Figure 14b). Eight groundstate and eight transition-state structures were optimized; the lowest-energy transition states (TS1-α′ and \\mathbf { T S 1 } \\hat { - } \\hat { \\pmb { \\beta } } ^ { \\prime } ) both have cis-configurations, lacking the attractive \\pi - \\pi interactions with phenoxide. They lie 21.6 and 19.4 kcal \\mathrm { m o l ^ { - 1 } } above the reference ground state, respectively, with an energy gap of 2.2 kcal \\mathrm { m o l ^ { - 1 } } . However, the halide complex is unlikely to be the active species for the insertion. Experimentally, stoichiometric insertion of bromide complex D′ gave little Heck isomers (3% yield, 1:1 ratio) without added KOPh."
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+        "quote": "Moreover, the insertion of anionic complex [ ( \\mathrm { P h } ) \\mathrm { P d I } _ { 2 } ] ^ { - } was also calculated. Its two lowest TSs for the α- and β-insertions have relative energies of 18.5 and 17.4 kcal \\mathrm { m o l ^ { - 1 } } , respectively (Figure 14c). The small energy gap between these TSs is too small to account for >40:1 selectivity in the model reaction. Thus, this anionic pathway was discounted as the major species; it may become a minor pathway in the later stage of the reaction after deactivation of the dippf(O).<sup>45</sup>"
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+        "quote": "DFT Calculations. In previous computational studies of α- selective Heck arylation of styrene and propene, cationic species ( \\mathrm { d i p h o s p h i n e } ) \\mathrm { P d } ( \\mathrm { A r } ) ] ^ { + } are the active species for insertion.<sup>22b,51d,53</sup> Here, we simulated the insertion of 1,2- dihydronaphtalene on the cationic complex [(dippf)Pd(Ph)]<sup>+</sup> (Figure 16). Four ground state conformers and four transition"
+      },
+      {
+        "evidence_id": "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+        "quote": "The lowest-energy ground state IM3 was used as the reference to compare the relative Gibbs free energies of the transition states of insertion. Two lowest transition structures, TS3-α and \\mathbf { T } \\mathbf { S } 3 – \\mathbf { { \\beta } } , leading to the α- and \\beta \\mathrm { . } -isomers have Gibbs free energies of 17.1 and 18.8 kcal mol<sup>−1</sup>, respectively. The small energy gap of 1.3 kcal \\mathrm { m o l ^ { - 1 } } is consistent with the 7:1 regioselectivity detected experimentally. Their insertion barriers from their respective ground states are 15.7 and 17.0 kcal mol<sup>−1</sup>, respectively."
+      },
+      {
+        "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+        "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+      }
+    ]
+  },
+  "computational_references": [
+    {
+      "reference_id": "CR1",
+      "result": "Ligand displacement by 1,2-dihydronaphthalene is more endergonic for the parent diphosphine complex than for the mono-oxide complex.",
+      "observable": "relative Gibbs free energy",
+      "value": 15.2,
+      "unit": "kcal/mol",
+      "method": "B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(dippf)Pd(Ph)I] + 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "comparison of phosphine versus mono-oxide ligand displacement",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+          "quote": "DFT Calculations on Olefin Insertion. The density functional calculation was used to determine the equilibrium of phosphine (monoxide)-arm dissociation and olefin binding for oxidative-addition complexes [dippf(O)Pd(Ph)(I)] and [dippf(O)Pd(Ph)(I)]. Geometry optimizations and frequency analyses were carried out with B3LYP-D3/Def2-SVP; single point energies were refined at M06-L/Def2-TZVP with the SMD continuum for diethyl ether at 2 5 ~ ^ { \\circ } \\mathrm { C } . . As expected, olefin displacement of a phosphine of dippf is significantly more endergonic than displacement of a mono-oxide of dippf(O), +15.2 vs +9.2 kcal \\mathbf { \\hat { m } } \\mathbf { o } \\mathbf { l } ^ { - 1 } . , consistent with the experimental trend reported by Blackmond and Engle<sup>7</sup> (Figure 13a vs b). Furthermore, the binding of the 1,2-disubstituted olefin is thermodynamically less favored than that of styrene, +9.2 vs +6.8 kcal mol<sup>−1</sup> (Figure 13b vs c)."
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR2",
+      "result": "Ligand displacement by 1,2-dihydronaphthalene for the mono-oxide complex is less endergonic than for the parent diphosphine complex.",
+      "observable": "relative Gibbs free energy",
+      "value": 9.2,
+      "unit": "kcal/mol",
+      "method": "B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(dippf(O))Pd(Ph)I] + 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "comparison of phosphine versus mono-oxide ligand displacement",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+          "quote": "DFT Calculations on Olefin Insertion. The density functional calculation was used to determine the equilibrium of phosphine (monoxide)-arm dissociation and olefin binding for oxidative-addition complexes [dippf(O)Pd(Ph)(I)] and [dippf(O)Pd(Ph)(I)]. Geometry optimizations and frequency analyses were carried out with B3LYP-D3/Def2-SVP; single point energies were refined at M06-L/Def2-TZVP with the SMD continuum for diethyl ether at 2 5 ~ ^ { \\circ } \\mathrm { C } . . As expected, olefin displacement of a phosphine of dippf is significantly more endergonic than displacement of a mono-oxide of dippf(O), +15.2 vs +9.2 kcal \\mathbf { \\hat { m } } \\mathbf { o } \\mathbf { l } ^ { - 1 } . , consistent with the experimental trend reported by Blackmond and Engle<sup>7</sup> (Figure 13a vs b). Furthermore, the binding of the 1,2-disubstituted olefin is thermodynamically less favored than that of styrene, +9.2 vs +6.8 kcal mol<sup>−1</sup> (Figure 13b vs c)."
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR3",
+      "result": "For the phenoxide complex, the computed β-insertion transition state is lower in free energy than the α-insertion transition state.",
+      "observable": "relative Gibbs free energy of α-insertion transition state",
+      "value": 22.7,
+      "unit": "kcal/mol",
+      "method": "DFT; B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(dippf(O))Pd(Ph)(OPh)] with 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "competing α versus β insertion into the Pd-Ph bond",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+        "ev_doc_d2a1d4b93cff_000167_487824074aea",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+          "quote": "Surprisingly, the lowest-energy transition states for the \\alpha \\cdot and β-arylation (TS1-α and TS1-β) both adopt transconfigurations (Figure 14a). Their respective Gibbs free energies are 22.7 and 18.4 kcal \\mathrm { m o l ^ { - 1 } } . The energy gap of 4.3 kcal mol<sup>−1</sup>, which favors β-insertion, is consistent with >40:1 β-selectivity observed experimentally at 1 0 0 \\ ^ { \\circ } \\mathrm { C } . Both transition structures are stabilized by weak \\pi - \\pi interaction between the phenoxide and migrating phenyl ring; the displaced stacking is mainly van der Waals interaction or dispersion in nature, according to noncovalent interaction analysis ( \\mathrm { N C I } ) . ^ { 4 3 } It is absent in the cis-ground states. TS1-β is further stabilized by a CH-π interaction between the P \\mathrm { - } isopropyl fragment and the aromatic ring of dihydronaphthalene, whereas TS1-α is destabilized by close contact of the phosphine and aliphatic fragment of the benzofused olefin."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000167_487824074aea",
+          "quote": "Figure 14. DFT-computed two lowest-energy transition structures for α- and β-insertion of 1,2-dihydronaphthalene into the Pd−Ph bond: (a) phenoxide complex [(dippf(O)Pd(Ph)(OPh)], (b) iodide complex [(dippf(O)Pd(Ph)(I)], and (c) anionic complex [(Ph)PdI ]<sup>−</sup>."
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR4",
+      "result": "For the phenoxide complex, the computed β-insertion transition state is lower in free energy than the α-insertion transition state.",
+      "observable": "relative Gibbs free energy of β-insertion transition state",
+      "value": 18.4,
+      "unit": "kcal/mol",
+      "method": "DFT; B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(dippf(O))Pd(Ph)(OPh)] with 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "competing α versus β insertion into the Pd-Ph bond",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+        "ev_doc_d2a1d4b93cff_000167_487824074aea",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+          "quote": "Surprisingly, the lowest-energy transition states for the \\alpha \\cdot and β-arylation (TS1-α and TS1-β) both adopt transconfigurations (Figure 14a). Their respective Gibbs free energies are 22.7 and 18.4 kcal \\mathrm { m o l ^ { - 1 } } . The energy gap of 4.3 kcal mol<sup>−1</sup>, which favors β-insertion, is consistent with >40:1 β-selectivity observed experimentally at 1 0 0 \\ ^ { \\circ } \\mathrm { C } . Both transition structures are stabilized by weak \\pi - \\pi interaction between the phenoxide and migrating phenyl ring; the displaced stacking is mainly van der Waals interaction or dispersion in nature, according to noncovalent interaction analysis ( \\mathrm { N C I } ) . ^ { 4 3 } It is absent in the cis-ground states. TS1-β is further stabilized by a CH-π interaction between the P \\mathrm { - } isopropyl fragment and the aromatic ring of dihydronaphthalene, whereas TS1-α is destabilized by close contact of the phosphine and aliphatic fragment of the benzofused olefin."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000167_487824074aea",
+          "quote": "Figure 14. DFT-computed two lowest-energy transition structures for α- and β-insertion of 1,2-dihydronaphthalene into the Pd−Ph bond: (a) phenoxide complex [(dippf(O)Pd(Ph)(OPh)], (b) iodide complex [(dippf(O)Pd(Ph)(I)], and (c) anionic complex [(Ph)PdI ]<sup>−</sup>."
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR5",
+      "result": "For the iodide complex, the computed β-insertion transition state is lower in free energy than the α-insertion transition state, but the authors considered this pathway less likely to dominate experimentally.",
+      "observable": "relative Gibbs free energy of α-insertion transition state",
+      "value": 21.6,
+      "unit": "kcal/mol",
+      "method": "DFT; B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(dippf(O))Pd(Ph)I] with 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "competing α versus β insertion into the Pd-Ph bond",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+        "ev_doc_d2a1d4b93cff_000167_487824074aea",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+          "quote": "For comparison, the insertion of iodide complex [dippf(O)- Pd(Ph)(I)] was also computed (Figure 14b). Eight groundstate and eight transition-state structures were optimized; the lowest-energy transition states (TS1-α′ and \\mathbf { T S 1 } \\hat { - } \\hat { \\pmb { \\beta } } ^ { \\prime } ) both have cis-configurations, lacking the attractive \\pi - \\pi interactions with phenoxide. They lie 21.6 and 19.4 kcal \\mathrm { m o l ^ { - 1 } } above the reference ground state, respectively, with an energy gap of 2.2 kcal \\mathrm { m o l ^ { - 1 } } . However, the halide complex is unlikely to be the active species for the insertion. Experimentally, stoichiometric insertion of bromide complex D′ gave little Heck isomers (3% yield, 1:1 ratio) without added KOPh."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000167_487824074aea",
+          "quote": "Figure 14. DFT-computed two lowest-energy transition structures for α- and β-insertion of 1,2-dihydronaphthalene into the Pd−Ph bond: (a) phenoxide complex [(dippf(O)Pd(Ph)(OPh)], (b) iodide complex [(dippf(O)Pd(Ph)(I)], and (c) anionic complex [(Ph)PdI ]<sup>−</sup>."
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR6",
+      "result": "For the iodide complex, the computed β-insertion transition state is lower in free energy than the α-insertion transition state, but the authors considered this pathway less likely to dominate experimentally.",
+      "observable": "relative Gibbs free energy of β-insertion transition state",
+      "value": 19.4,
+      "unit": "kcal/mol",
+      "method": "DFT; B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(dippf(O))Pd(Ph)I] with 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "competing α versus β insertion into the Pd-Ph bond",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+        "ev_doc_d2a1d4b93cff_000167_487824074aea",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+          "quote": "For comparison, the insertion of iodide complex [dippf(O)- Pd(Ph)(I)] was also computed (Figure 14b). Eight groundstate and eight transition-state structures were optimized; the lowest-energy transition states (TS1-α′ and \\mathbf { T S 1 } \\hat { - } \\hat { \\pmb { \\beta } } ^ { \\prime } ) both have cis-configurations, lacking the attractive \\pi - \\pi interactions with phenoxide. They lie 21.6 and 19.4 kcal \\mathrm { m o l ^ { - 1 } } above the reference ground state, respectively, with an energy gap of 2.2 kcal \\mathrm { m o l ^ { - 1 } } . However, the halide complex is unlikely to be the active species for the insertion. Experimentally, stoichiometric insertion of bromide complex D′ gave little Heck isomers (3% yield, 1:1 ratio) without added KOPh."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000167_487824074aea",
+          "quote": "Figure 14. DFT-computed two lowest-energy transition structures for α- and β-insertion of 1,2-dihydronaphthalene into the Pd−Ph bond: (a) phenoxide complex [(dippf(O)Pd(Ph)(OPh)], (b) iodide complex [(dippf(O)Pd(Ph)(I)], and (c) anionic complex [(Ph)PdI ]<sup>−</sup>."
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR7",
+      "result": "For the anionic complex, the computed β-insertion transition state is slightly lower in free energy than the α-insertion transition state, but the authors considered the gap too small to explain the observed selectivity.",
+      "observable": "relative Gibbs free energy of α-insertion transition state",
+      "value": 18.5,
+      "unit": "kcal/mol",
+      "method": "DFT; B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(Ph)PdI2]- with 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "competing α versus β insertion into the Pd-Ph bond",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+        "ev_doc_d2a1d4b93cff_000167_487824074aea",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+          "quote": "Moreover, the insertion of anionic complex [ ( \\mathrm { P h } ) \\mathrm { P d I } _ { 2 } ] ^ { - } was also calculated. Its two lowest TSs for the α- and β-insertions have relative energies of 18.5 and 17.4 kcal \\mathrm { m o l ^ { - 1 } } , respectively (Figure 14c). The small energy gap between these TSs is too small to account for >40:1 selectivity in the model reaction. Thus, this anionic pathway was discounted as the major species; it may become a minor pathway in the later stage of the reaction after deactivation of the dippf(O).<sup>45</sup>"
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000167_487824074aea",
+          "quote": "Figure 14. DFT-computed two lowest-energy transition structures for α- and β-insertion of 1,2-dihydronaphthalene into the Pd−Ph bond: (a) phenoxide complex [(dippf(O)Pd(Ph)(OPh)], (b) iodide complex [(dippf(O)Pd(Ph)(I)], and (c) anionic complex [(Ph)PdI ]<sup>−</sup>."
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR8",
+      "result": "For the anionic complex, the computed β-insertion transition state is slightly lower in free energy than the α-insertion transition state, but the authors considered the gap too small to explain the observed selectivity.",
+      "observable": "relative Gibbs free energy of β-insertion transition state",
+      "value": 17.4,
+      "unit": "kcal/mol",
+      "method": "DFT; B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(Ph)PdI2]- with 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "competing α versus β insertion into the Pd-Ph bond",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+        "ev_doc_d2a1d4b93cff_000167_487824074aea",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+          "quote": "Moreover, the insertion of anionic complex [ ( \\mathrm { P h } ) \\mathrm { P d I } _ { 2 } ] ^ { - } was also calculated. Its two lowest TSs for the α- and β-insertions have relative energies of 18.5 and 17.4 kcal \\mathrm { m o l ^ { - 1 } } , respectively (Figure 14c). The small energy gap between these TSs is too small to account for >40:1 selectivity in the model reaction. Thus, this anionic pathway was discounted as the major species; it may become a minor pathway in the later stage of the reaction after deactivation of the dippf(O).<sup>45</sup>"
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000167_487824074aea",
+          "quote": "Figure 14. DFT-computed two lowest-energy transition structures for α- and β-insertion of 1,2-dihydronaphthalene into the Pd−Ph bond: (a) phenoxide complex [(dippf(O)Pd(Ph)(OPh)], (b) iodide complex [(dippf(O)Pd(Ph)(I)], and (c) anionic complex [(Ph)PdI ]<sup>−</sup>."
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR9",
+      "result": "For the cationic dippf complex relevant to α-selective Heck arylation, the computed α-insertion transition state is lower in free energy than the β-insertion transition state.",
+      "observable": "relative Gibbs free energy of α-insertion transition state",
+      "value": 17.1,
+      "unit": "kcal/mol",
+      "method": "DFT; B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(dippf)Pd(Ph)]+ with 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "competing α versus β insertion into the Pd-Ph bond",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+        "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+          "quote": "The lowest-energy ground state IM3 was used as the reference to compare the relative Gibbs free energies of the transition states of insertion. Two lowest transition structures, TS3-α and \\mathbf { T } \\mathbf { S } 3 – \\mathbf { { \\beta } } , leading to the α- and \\beta \\mathrm { . } -isomers have Gibbs free energies of 17.1 and 18.8 kcal mol<sup>−1</sup>, respectively. The small energy gap of 1.3 kcal \\mathrm { m o l ^ { - 1 } } is consistent with the 7:1 regioselectivity detected experimentally. Their insertion barriers from their respective ground states are 15.7 and 17.0 kcal mol<sup>−1</sup>, respectively."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+          "quote": "DFT Calculations. In previous computational studies of α- selective Heck arylation of styrene and propene, cationic species ( \\mathrm { d i p h o s p h i n e } ) \\mathrm { P d } ( \\mathrm { A r } ) ] ^ { + } are the active species for insertion.<sup>22b,51d,53</sup> Here, we simulated the insertion of 1,2- dihydronaphtalene on the cationic complex [(dippf)Pd(Ph)]<sup>+</sup> (Figure 16). Four ground state conformers and four transition"
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR10",
+      "result": "For the cationic dippf complex relevant to α-selective Heck arylation, the computed α-insertion transition state is lower in free energy than the β-insertion transition state.",
+      "observable": "relative Gibbs free energy of β-insertion transition state",
+      "value": 18.8,
+      "unit": "kcal/mol",
+      "method": "DFT; B3LYP-D3/def2-SVP optimizations and frequencies; M06-L/def2-TZVP single points with SMD diethyl ether",
+      "model_system": "[(dippf)Pd(Ph)]+ with 1,2-dihydronaphthalene",
+      "conditions": "computed in diethyl ether continuum at 25 °C",
+      "comparison_scope": "competing α versus β insertion into the Pd-Ph bond",
+      "uncertainty": "uncertainty not reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+        "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+          "quote": "The lowest-energy ground state IM3 was used as the reference to compare the relative Gibbs free energies of the transition states of insertion. Two lowest transition structures, TS3-α and \\mathbf { T } \\mathbf { S } 3 – \\mathbf { { \\beta } } , leading to the α- and \\beta \\mathrm { . } -isomers have Gibbs free energies of 17.1 and 18.8 kcal mol<sup>−1</sup>, respectively. The small energy gap of 1.3 kcal \\mathrm { m o l ^ { - 1 } } is consistent with the 7:1 regioselectivity detected experimentally. Their insertion barriers from their respective ground states are 15.7 and 17.0 kcal mol<sup>−1</sup>, respectively."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+          "quote": "DFT Calculations. In previous computational studies of α- selective Heck arylation of styrene and propene, cationic species ( \\mathrm { d i p h o s p h i n e } ) \\mathrm { P d } ( \\mathrm { A r } ) ] ^ { + } are the active species for insertion.<sup>22b,51d,53</sup> Here, we simulated the insertion of 1,2- dihydronaphtalene on the cationic complex [(dippf)Pd(Ph)]<sup>+</sup> (Figure 16). Four ground state conformers and four transition"
+        },
+        {
+          "evidence_id": "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+          "quote": "DFT calculations were performed using the Gaussian 16 software package.<sup>1</sup> This work was supported by Shenzhen Bay Laboratory High Performance Computing and Informatics Core Facility. Geometry optimizations of all intermediates and transition states were carried out at the B3LYP-D3/def2-SVP level<sup>2,</sup> <sup>3</sup>. Harmonic vibrational frequency analyses were performed at the same level to confirm each optimized structure as either a local minimum (no imaginary frequencies) or a transition state (one imaginary frequency). Higher-level single-point energies were computed at the \\mathrm { M 0 6 - L ^ { 4 } / D e f 2 T Z V P ^ { 5 } } level with the SMD solvation model<sup>6</sup> in diethyl ether solvent or methanol. The 3D visualizations of key intermediates and transition states were generated by CYLview (version 1.0).<sup>7</sup> Natural bond orbital (NBO) theory was applied to perform natural population analysis (NPA) on selected stationary points.<sup>8,</sup> <sup>9</sup> The independent gradient model based on Hirshfeld (IGMH) analysis<sup>10,</sup> <sup>11</sup> was carried out for key stationary points using Multiwfn (version 3.7)<sup>12,</sup> <sup>13</sup> to probe weak interactions, and the resulting isosurfaces were visualized with VMD (version 1.9.3).<sup>14</sup> The Gibbs free energies were used for the discussion. Possible isomers of the intermediates and transition states have been carefully considered. Cartesian coordinates and energies of all computed structures are provided in the “Energies and optimized structures” section."
+        }
+      ]
+    }
+  ],
+  "public_inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "1,2-dihydronaphthalene is the olefin substrate in the β-selective Heck arylation model reaction.",
+      "evidence_ids": [
+        "ev_doc_461d0f914b5c_000107_92564ae3471a",
+        "ev_doc_d2a1d4b93cff_000078_e3d8b6e01931",
+        "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c",
+        "ev_doc_d2a1d4b93cff_000116_a3ecb1e2e7a3",
+        "ev_doc_d2a1d4b93cff_000142_4271750802dc",
+        "ev_doc_d2a1d4b93cff_000143_3c6dc17e7143"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_461d0f914b5c_000107_92564ae3471a",
+          "quote": "A typical procedure for the β-selective Heck arylation of 1,2-dihydronaphthalenes, 2H-chromenes, and Nacetyl-1,2-dihydroquinolines. In an argon-filled glove box, Pd(OAc)<sub>2</sub> (1.2 mg, 0.005 mmol, 5 mol%), 1,1'- bis(diisopropylphosphino)ferrocene dippf (2.6 mg, 0.006 mmol, 6 mol%) and dry Et<sub>2</sub>O (0.2 mL) were added to a dry 10-mL Schlenk tube. After stirring at rt for 20 min, (hetero)aryl iodide (0.15 mmol, 1.5 equiv), 1,2- dihydronaphthalene (0.1 mmol), potassium phenolate (39.7 mg, 0.3 mmol, 3 equiv), tetra-n-butylammonium iodide (3.7 mg, 0.01 mmol, 0.1 equiv), internal standard n { \\mathrm { - } } \\mathrm { C } _ { 1 2 } \\mathrm { H } _ { 2 6 } \\left( 1 0 \\mu \\mathrm { L } \\right) and dry Et<sub>2</sub>O (0.2 mL) were added via syringes. The Schlenk tube was taken out of the glove box and the mixture was vigorously stirred in an oil bath maintained at 1 0 0 ~ ^ { \\mathrm { { o } C } } for 24 hours or a longer time until the aryl halide was almost completely consumed (as monitored by TLC and GC). After it was cooled down to rt, the reaction mixture was diluted by ethyl acetate and passed through a short pad of silica gel with ethyl acetate washing. The filtrate was concentrated and the residue was purified by flash chromatography over silica gel to provide pure products. When some products were inseparable from residual phenol, they were washed with 2N aqueous sodium hydroxide to remove phenol. Similar results were obtained when the reaction was set up with a vacuum manifold and standard Schlenk techniques."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000078_e3d8b6e01931",
+          "quote": "Under the optimized conditions, Pd(OAc) (5 mol %) and dippf in refluxing \\mathrm { E t } _ { 2 } \\mathrm { O } in an oil bath at 1 0 0 ~ ^ { \\circ } \\mathrm { C } , the β-arylated tetralin 1a was formed in 91% yield and 45:1 selectivity (Table 2). The corresponding aryl bromide performed equally well. A small amount of double arylation of α-isomer { \\bf 1 } \\mathbf { a } ^ { \\prime } was detected. To reflect the intrinsic regioselectivity of insertion, the calculation \\alpha / \\beta ratio in the table takes into consideration this minor product."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c",
+          "quote": "Table 3. Change of Condition from the Standard Conditions for β-Selective Heck Reaction of 4-t-Butylphenyl Iodide and 1,2-Dihydronaphthalene in \\mathbf { E t } _ { 2 } \\mathbf { O } ^ { a }\n$4 – t – B u C _ { 6 } \\mathsf { H } _ { 4 } \\mathsf { I }$ 0.15 mmol | standard conditions ${ \\mathsf { P d } } ( \\mathsf { O A c } ) _ { 2 }$ 5 mol % dippf 6 mol % | | \n0.1 mmol | KOPh 3 equiv $\\mathsf { n { - } B u } _ { 4 } \\mathsf { N } \\mathsf { I } \\mathsf { I } \\mathsf { 0 } . 1$ equiv $\\mathsf { E t } _ { 2 } \\mathsf { O } , \\mathsf { 1 0 0 } ^ { \\circ } \\mathsf C ,$ 12 h\n1a entry condition | conv of olefin conv of ArI (%) (%)\n1 KOPh 100 47 | 150 | (%) ratio 91 45:1\n2 Et3N | 91 | 8 1:2\n3 | 67 | 6 1:1\ni-Pr2NEt 4 | 150 16 | 1:1\nCy2NMe | 150 91 | 45:1\n5 Et2O | 150 | \n6 n-hexane | | 86 22:1\n7 toluene | 150 | 83 40:1 83\n8 PhOMe | 150 | 40:1\n9 $\\mathrm { P h C F } _ { 3 }$ | 150 88 | 44:1\nªCalibrated GC yields of 1a and GC ratios."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000116_a3ecb1e2e7a3",
+          "quote": "Mechanistic Studies. Kinetics Using Diferent Precatalysts. The model coupling between 4-tert-butylphenyl iodide and 1,2-dihydronaphthalene was undertaken to interrogate the influence of the Pd precatalysts and to ascertain mono-oxide dippf(O) acting as an actual ligand (Table 4). A hydroxo dimer [ \\hat { \\mathrm { d i p p f } } ( \\mathrm { O } ) \\mathrm { P d } ( \\check { \\mathrm { A r } } ) ( \\mathrm { O H } ) ] _ { 2 } \\subset \\mathsf { \\Gamma } ( \\mathrm { A r ~ \\hbar = ~ 4 \\mathrm { - } C O _ { 2 } M \\dot { e } C _ { 6 } H _ { 4 } } ) was prepared via a reported protocol<sup>7</sup> and tested as a precatalyst. Reaction progress kinetic analysis was performed by plotting product yield vs time and reaction rate over time (Figure 11a,b).<sup>27</sup> It reveals some insights into the evolution of catalytically active species in the Heck reaction."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000142_4271750802dc",
+          "quote": "Next, aryl complexes of bromide \\mathbf { D ^ { \\prime } } and phenoxide and \\mathbf { E } ^ { \\prime } were tested in the stoichiometric insertion of 1,2-dihydronaphthalene. Both reactions resulted in β-isomer 2k in 70% yield and 30:1 \\beta \\mathrm { \\cdot } selectivity (eqs 1 and 2). Importantly, complex \\mathbf { D ^ { \\prime } }"
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000143_3c6dc17e7143",
+          "quote": "itself gave only 3% yield of 2k and a 1:1 ratio when i-Pr NEt was used as base. Therefore, the result established that the phenolate complexes are the active species for the \\beta \\mathrm { \\cdot } selective insertion of the olefin."
+        }
+      ]
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "4-tert-butylphenyl iodide is the aryl iodide used in the β-selective Heck arylation model reaction.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000078_e3d8b6e01931",
+        "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c",
+        "ev_doc_d2a1d4b93cff_000116_a3ecb1e2e7a3",
+        "ev_doc_d2a1d4b93cff_000138_f32efb0eaa90"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000078_e3d8b6e01931",
+          "quote": "Under the optimized conditions, Pd(OAc) (5 mol %) and dippf in refluxing \\mathrm { E t } _ { 2 } \\mathrm { O } in an oil bath at 1 0 0 ~ ^ { \\circ } \\mathrm { C } , the β-arylated tetralin 1a was formed in 91% yield and 45:1 selectivity (Table 2). The corresponding aryl bromide performed equally well. A small amount of double arylation of α-isomer { \\bf 1 } \\mathbf { a } ^ { \\prime } was detected. To reflect the intrinsic regioselectivity of insertion, the calculation \\alpha / \\beta ratio in the table takes into consideration this minor product."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c",
+          "quote": "Table 3. Change of Condition from the Standard Conditions for β-Selective Heck Reaction of 4-t-Butylphenyl Iodide and 1,2-Dihydronaphthalene in \\mathbf { E t } _ { 2 } \\mathbf { O } ^ { a }\n$4 – t – B u C _ { 6 } \\mathsf { H } _ { 4 } \\mathsf { I }$ 0.15 mmol | standard conditions ${ \\mathsf { P d } } ( \\mathsf { O A c } ) _ { 2 }$ 5 mol % dippf 6 mol % | | \n0.1 mmol | KOPh 3 equiv $\\mathsf { n { - } B u } _ { 4 } \\mathsf { N } \\mathsf { I } \\mathsf { I } \\mathsf { 0 } . 1$ equiv $\\mathsf { E t } _ { 2 } \\mathsf { O } , \\mathsf { 1 0 0 } ^ { \\circ } \\mathsf C ,$ 12 h\n1a entry condition | conv of olefin conv of ArI (%) (%)\n1 KOPh 100 47 | 150 | (%) ratio 91 45:1\n2 Et3N | 91 | 8 1:2\n3 | 67 | 6 1:1\ni-Pr2NEt 4 | 150 16 | 1:1\nCy2NMe | 150 91 | 45:1\n5 Et2O | 150 | \n6 n-hexane | | 86 22:1\n7 toluene | 150 | 83 40:1 83\n8 PhOMe | 150 | 40:1\n9 $\\mathrm { P h C F } _ { 3 }$ | 150 88 | 44:1\nªCalibrated GC yields of 1a and GC ratios."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000116_a3ecb1e2e7a3",
+          "quote": "Mechanistic Studies. Kinetics Using Diferent Precatalysts. The model coupling between 4-tert-butylphenyl iodide and 1,2-dihydronaphthalene was undertaken to interrogate the influence of the Pd precatalysts and to ascertain mono-oxide dippf(O) acting as an actual ligand (Table 4). A hydroxo dimer [ \\hat { \\mathrm { d i p p f } } ( \\mathrm { O } ) \\mathrm { P d } ( \\check { \\mathrm { A r } } ) ( \\mathrm { O H } ) ] _ { 2 } \\subset \\mathsf { \\Gamma } ( \\mathrm { A r ~ \\hbar = ~ 4 \\mathrm { - } C O _ { 2 } M \\dot { e } C _ { 6 } H _ { 4 } } ) was prepared via a reported protocol<sup>7</sup> and tested as a precatalyst. Reaction progress kinetic analysis was performed by plotting product yield vs time and reaction rate over time (Figure 11a,b).<sup>27</sup> It reveals some insights into the evolution of catalytically active species in the Heck reaction."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000138_f32efb0eaa90",
+          "quote": "Table 4. β-Regioselective Heck Reaction of 4-tert-Butylphenyl Iodide and 1,2-Dihydronaphthalene Using Several Pd Precatalysts"
+        }
+      ]
+    },
+    {
+      "input_id": "PI3",
+      "kind": "condition",
+      "content": "The β-selective Heck arylation model reaction uses Pd(OAc)2, dippf, KOPh, n-Bu4NI, and Et2O at 100 °C.",
+      "evidence_ids": [
+        "ev_doc_461d0f914b5c_000107_92564ae3471a",
+        "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_461d0f914b5c_000107_92564ae3471a",
+          "quote": "A typical procedure for the β-selective Heck arylation of 1,2-dihydronaphthalenes, 2H-chromenes, and Nacetyl-1,2-dihydroquinolines. In an argon-filled glove box, Pd(OAc)<sub>2</sub> (1.2 mg, 0.005 mmol, 5 mol%), 1,1'- bis(diisopropylphosphino)ferrocene dippf (2.6 mg, 0.006 mmol, 6 mol%) and dry Et<sub>2</sub>O (0.2 mL) were added to a dry 10-mL Schlenk tube. After stirring at rt for 20 min, (hetero)aryl iodide (0.15 mmol, 1.5 equiv), 1,2- dihydronaphthalene (0.1 mmol), potassium phenolate (39.7 mg, 0.3 mmol, 3 equiv), tetra-n-butylammonium iodide (3.7 mg, 0.01 mmol, 0.1 equiv), internal standard n { \\mathrm { - } } \\mathrm { C } _ { 1 2 } \\mathrm { H } _ { 2 6 } \\left( 1 0 \\mu \\mathrm { L } \\right) and dry Et<sub>2</sub>O (0.2 mL) were added via syringes. The Schlenk tube was taken out of the glove box and the mixture was vigorously stirred in an oil bath maintained at 1 0 0 ~ ^ { \\mathrm { { o } C } } for 24 hours or a longer time until the aryl halide was almost completely consumed (as monitored by TLC and GC). After it was cooled down to rt, the reaction mixture was diluted by ethyl acetate and passed through a short pad of silica gel with ethyl acetate washing. The filtrate was concentrated and the residue was purified by flash chromatography over silica gel to provide pure products. When some products were inseparable from residual phenol, they were washed with 2N aqueous sodium hydroxide to remove phenol. Similar results were obtained when the reaction was set up with a vacuum manifold and standard Schlenk techniques."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c",
+          "quote": "Table 3. Change of Condition from the Standard Conditions for β-Selective Heck Reaction of 4-t-Butylphenyl Iodide and 1,2-Dihydronaphthalene in \\mathbf { E t } _ { 2 } \\mathbf { O } ^ { a }\n$4 – t – B u C _ { 6 } \\mathsf { H } _ { 4 } \\mathsf { I }$ 0.15 mmol | standard conditions ${ \\mathsf { P d } } ( \\mathsf { O A c } ) _ { 2 }$ 5 mol % dippf 6 mol % | | \n0.1 mmol | KOPh 3 equiv $\\mathsf { n { - } B u } _ { 4 } \\mathsf { N } \\mathsf { I } \\mathsf { I } \\mathsf { 0 } . 1$ equiv $\\mathsf { E t } _ { 2 } \\mathsf { O } , \\mathsf { 1 0 0 } ^ { \\circ } \\mathsf C ,$ 12 h\n1a entry condition | conv of olefin conv of ArI (%) (%)\n1 KOPh 100 47 | 150 | (%) ratio 91 45:1\n2 Et3N | 91 | 8 1:2\n3 | 67 | 6 1:1\ni-Pr2NEt 4 | 150 16 | 1:1\nCy2NMe | 150 91 | 45:1\n5 Et2O | 150 | \n6 n-hexane | | 86 22:1\n7 toluene | 150 | 83 40:1 83\n8 PhOMe | 150 | 40:1\n9 $\\mathrm { P h C F } _ { 3 }$ | 150 88 | 44:1\nªCalibrated GC yields of 1a and GC ratios."
+        }
+      ]
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "Under the standard β-selective Heck arylation conditions, the β-arylated product 1a is formed in 91% yield with 45:1 β/α selectivity.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000078_e3d8b6e01931",
+        "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000078_e3d8b6e01931",
+          "quote": "Under the optimized conditions, Pd(OAc) (5 mol %) and dippf in refluxing \\mathrm { E t } _ { 2 } \\mathrm { O } in an oil bath at 1 0 0 ~ ^ { \\circ } \\mathrm { C } , the β-arylated tetralin 1a was formed in 91% yield and 45:1 selectivity (Table 2). The corresponding aryl bromide performed equally well. A small amount of double arylation of α-isomer { \\bf 1 } \\mathbf { a } ^ { \\prime } was detected. To reflect the intrinsic regioselectivity of insertion, the calculation \\alpha / \\beta ratio in the table takes into consideration this minor product."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c",
+          "quote": "Table 3. Change of Condition from the Standard Conditions for β-Selective Heck Reaction of 4-t-Butylphenyl Iodide and 1,2-Dihydronaphthalene in \\mathbf { E t } _ { 2 } \\mathbf { O } ^ { a }\n$4 – t – B u C _ { 6 } \\mathsf { H } _ { 4 } \\mathsf { I }$ 0.15 mmol | standard conditions ${ \\mathsf { P d } } ( \\mathsf { O A c } ) _ { 2 }$ 5 mol % dippf 6 mol % | | \n0.1 mmol | KOPh 3 equiv $\\mathsf { n { - } B u } _ { 4 } \\mathsf { N } \\mathsf { I } \\mathsf { I } \\mathsf { 0 } . 1$ equiv $\\mathsf { E t } _ { 2 } \\mathsf { O } , \\mathsf { 1 0 0 } ^ { \\circ } \\mathsf C ,$ 12 h\n1a entry condition | conv of olefin conv of ArI (%) (%)\n1 KOPh 100 47 | 150 | (%) ratio 91 45:1\n2 Et3N | 91 | 8 1:2\n3 | 67 | 6 1:1\ni-Pr2NEt 4 | 150 16 | 1:1\nCy2NMe | 150 91 | 45:1\n5 Et2O | 150 | \n6 n-hexane | | 86 22:1\n7 toluene | 150 | 83 40:1 83\n8 PhOMe | 150 | 40:1\n9 $\\mathrm { P h C F } _ { 3 }$ | 150 88 | 44:1\nªCalibrated GC yields of 1a and GC ratios."
+        }
+      ]
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "Stoichiometric insertion of a dippf(O) arylpalladium phenoxide complex with 1,2-dihydronaphthalene gives the β-arylation product in 70% yield with 32:1 selectivity.",
+      "evidence_ids": [
+        "ev_doc_461d0f914b5c_000522_8ce72f286890",
+        "ev_doc_d2a1d4b93cff_000142_4271750802dc",
+        "ev_doc_d2a1d4b93cff_000143_3c6dc17e7143"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_461d0f914b5c_000522_8ce72f286890",
+          "quote": "Stoichiometric olefin insertion of [dippf(O)]Pd(1,1’-biphen-4-yl)(OPh). In a glovebox, Pd[dippf(O)](1,1'- biphen-4-yl)(Br) (15.5 mg, 0.02 mmol), KOPh (10.6 mg, 0.08 mmol) and dry PhOMe (0.2 mL) were added to a dry 10-mL Schlenk tube. The mixture was capped and vigorously stirred in a metal bath maintained at 5 0 ~ ^ { \\mathrm { { o } } } \\mathrm { { C } } for 1 hour, until it was fully converted to the phenoxide complex. ^ { 3 1 } \\mathrm { P } \\{ ^ { 1 } \\mathrm { H } \\} NMR (162 MHz, CDCl<sub>3</sub>): δ 50.53, 39.54. Then, 1,2-dihydronaphthalene (0.2 mmol) was added and the reaction mixture was heated to 1 0 0 ^ { \\circ } \\mathrm { C } for 1 h. The GC yield of b-arylation 2k was 70% with 32:1 selectivity."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000142_4271750802dc",
+          "quote": "Next, aryl complexes of bromide \\mathbf { D ^ { \\prime } } and phenoxide and \\mathbf { E } ^ { \\prime } were tested in the stoichiometric insertion of 1,2-dihydronaphthalene. Both reactions resulted in β-isomer 2k in 70% yield and 30:1 \\beta \\mathrm { \\cdot } selectivity (eqs 1 and 2). Importantly, complex \\mathbf { D ^ { \\prime } }"
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000143_3c6dc17e7143",
+          "quote": "itself gave only 3% yield of 2k and a 1:1 ratio when i-Pr NEt was used as base. Therefore, the result established that the phenolate complexes are the active species for the \\beta \\mathrm { \\cdot } selective insertion of the olefin."
+        }
+      ]
+    },
+    {
+      "input_id": "PI6",
+      "kind": "observation",
+      "content": "Stoichiometric insertion of a dippf(O) arylpalladium bromide complex with 1,2-dihydronaphthalene gives the β-arylation product in 69% yield with 30:1 selectivity.",
+      "evidence_ids": [
+        "ev_doc_461d0f914b5c_000521_04b28fe8aad5",
+        "ev_doc_d2a1d4b93cff_000142_4271750802dc",
+        "ev_doc_d2a1d4b93cff_000143_3c6dc17e7143"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_461d0f914b5c_000521_04b28fe8aad5",
+          "quote": "In an argon-filled glove box, [dippf(O)]Pd(1,1'-biphen-4-yl)(Br) (15.5 mg, 0.02 mmol), KOPh (26.5 mg, 0.2 mmol), 1,2-dihydronaphthalene (26.4 mg, 0.2 mmol), GC standard n – C _ { 1 6 } \\mathrm { H } _ { 3 4 } \\left( 3 \\mu \\mathrm { L } \\right) and dry PhOMe (0.2 mL) were added to a dry 10-mL Schlenk tube. The mixture was stirred rigorously in an oil bath set at 1 0 0 ^ { \\mathrm { o } } \\mathrm { C } for 1 h. After the reaction mixture was cooled down to rt, the reaction mixture was diluted by ethyl acetate and passed through a short plug of silica gel with ethyl acetate washing. The filtrate was directly subjected to GC analysis to determine calibrated GC yield: b-arylation 2k was formed in 69% and 30:1 selectivity. When i { \\mathrm { - P r } } _ { 2 } \\mathrm { N E t } was used instead of KOPh, the yield of 2k was 3% with 1:1 selectivity."
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000142_4271750802dc",
+          "quote": "Next, aryl complexes of bromide \\mathbf { D ^ { \\prime } } and phenoxide and \\mathbf { E } ^ { \\prime } were tested in the stoichiometric insertion of 1,2-dihydronaphthalene. Both reactions resulted in β-isomer 2k in 70% yield and 30:1 \\beta \\mathrm { \\cdot } selectivity (eqs 1 and 2). Importantly, complex \\mathbf { D ^ { \\prime } }"
+        },
+        {
+          "evidence_id": "ev_doc_d2a1d4b93cff_000143_3c6dc17e7143",
+          "quote": "itself gave only 3% yield of 2k and a 1:1 ratio when i-Pr NEt was used as base. Therefore, the result established that the phenolate complexes are the active species for the \\beta \\mathrm { \\cdot } selective insertion of the olefin."
+        }
+      ]
+    }
+  ],
+  "missing_critical_inputs": [],
+  "reference_limitations": [
+    "The author DFT model uses simplified aryl ligands such as phenyl rather than the full 4-tert-butylphenyl group in the experimental model reaction.",
+    "The reported DFT energies are relative Gibbs free energies under a specified continuum-solvent convention; no uncertainty estimates or error bars are reported.",
+    "The authors assumed rapid interconversion among ground-state conformers when using the lowest-energy ground-state conformer as the reference for activation barriers.",
+    "The computational comparison is intended to rationalize the observed regioselectivity, not to prove that every possible catalytic species or pathway has been exhaustively sampled.",
+    "The experimental reaction is conducted at 100 °C, whereas the reported DFT single-point calculations use a 25 °C continuum-solvent convention."
+  ],
+  "evidence_requests": [],
+  "schema_version": "author-computation-research/v5-20261014",
+  "task_archetype": "author_computation_grounded_research"
+}

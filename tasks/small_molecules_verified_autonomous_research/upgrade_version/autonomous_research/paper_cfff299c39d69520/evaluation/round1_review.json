@@ -1,0 +1,52 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "删再生并同步限定活化量",
+  "changes_zh": "保留有限成键和产物释放路径；删催化剂再生/循环闭合，将完整周转能跨改为有限路径活化高度及条件性温度影响。",
+  "source_locator": "正文 Fig. 2；SI第2页能量表",
+  "scientific_scope_changed": true,
+  "active_rule_ids": [
+    "r_active_catalyst",
+    "r_coupling_chemistry",
+    "r_balanced_profile",
+    "r_path_activation",
+    "r_temperature_effect"
+  ],
+  "active_outcome_ids": [
+    "active_catalyst",
+    "coupling_chemistry",
+    "balanced_profile",
+    "path_activation",
+    "temperature_effect"
+  ],
+  "removed_outcome_ids": [],
+  "public_file_sha256": {
+    "data/inputs/system.json": "761e06ba4f3fba4cd97211b5a49531b18164fde58bbf5da0074fbfeb64a18fbe",
+    "submission_guide.md": "1a2a443b5df5c0f9ea6f7fcc8e43dd4bf14c5731f1044326deb595d9d78f04d2",
+    "submission_schema.json": "d8c2b2eee02d2cdbfcb1863c51f2ceb937d2956e98320caee0983b4b7ff2be12",
+    "task.md": "07a2ca7852bec6549cdb66f7e34421daa1e875206047f6e5239cc33feacf1807"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_active_catalyst",
+      "r_coupling_chemistry",
+      "r_balanced_profile",
+      "r_path_activation",
+      "r_temperature_effect"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required model is a finite product-forming pathway through diyne release. No catalyst regeneration, full-cycle closure, steady-state turnover or complete catalytic energy span is required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

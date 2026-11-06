@@ -93,12 +93,16 @@ class TaskRunner(
         task_roots: list[str] | None = None,
         task_repository: TaskRepository | None = None,
         agent_definition: dict | None = None,
+        gemini_model: str | None = None,
         codex_model: str | None = None,
         codex_base_url: str | None = None,
         codex_reasoning_effort: str | None = None,
+        context_window_tokens: int | None = None,
+        auto_compact_token_limit: int | None = None,
         max_tokens: int | None = None,
         model_wait_strategy: str = "provider_default",
         feedback_schema_version: int = 2,
+        tool_response_profile: str = "compact_v1",
         native_input_validation_policy: str = "advisory",
         archive_policy: str = "indexed",
         progress_interval: int = 5,
@@ -139,20 +143,23 @@ class TaskRunner(
         )
         self.agent_key = agent_key
         self.agent = agent_definition if agent_definition is not None else dict(AGENT_PRESETS[agent_key])
-        self.recovery_enabled = (self.agent.get("kind") == "codex" and execution_mode == "local") if recovery_enabled is None else bool(recovery_enabled)
+        self.recovery_enabled = (self.agent.get("kind") in {"codex", "gemini", "claude"} and execution_mode == "local") if recovery_enabled is None else bool(recovery_enabled)
         from .resume_policy import validate_policy
         if resume is not None and not isinstance(resume, bool):
             raise ValueError("resume must be a boolean")
         self.resume_enabled = resume
         self.resume_policy = validate_policy(resume_policy) if resume_policy is not None else None
         if resume:
-            if self.agent.get("kind") not in {"codex", "mock"} or execution_mode != "local":
+            if self.agent.get("kind") not in {"codex", "mock", "gemini", "claude"} or execution_mode != "local":
                 raise ValueError("resume_unsupported")
             self.recovery_enabled = True
         self._frozen_config = (_saved_identity or {}).get("config")
         saved_config = (_saved_identity or {}).get("config", {})
         self.model_wait_strategy = model_wait_strategy
         self.feedback_schema_version = feedback_schema_version if not _saved_identity else saved_config.get("feedback_schema_version", 1)
+        self.tool_response_profile = tool_response_profile if not _saved_identity else saved_config.get("tool_response_profile", "legacy")
+        if self.tool_response_profile not in {"legacy", "compact_v1"}:
+            raise ValueError("unsupported tool_response_profile")
         self.native_input_validation_policy = native_input_validation_policy if not _saved_identity else saved_config.get("native_input_validation_policy", "legacy")
         self.archive_policy = archive_policy if not _saved_identity else saved_config.get("archive_policy", "legacy")
         self.progress_interval = int(progress_interval)
@@ -180,6 +187,39 @@ class TaskRunner(
             from .wait_policy import probe_cli
             self._provider_diagnostics = probe_cli(self.agent["executable"])
             self.agent["executable"] = self._provider_diagnostics["resolved_executable"]
+        if self.agent.get("kind") == "claude":
+            self.agent["executable"] = os.environ.get("RCB_CLAUDE_EXECUTABLE", self.agent.get("executable", "claude"))
+            self.agent["model"] = os.environ.get("ANTHROPIC_MODEL", "")
+        if self.agent.get("kind") == "gemini":
+            self.gemini_model = gemini_model or os.environ.get("RCB_GEMINI_MODEL", "gemini-2.5-pro")
+            self.agent["model"] = self.gemini_model
+            self.agent["executable"] = os.environ.get("RCB_GEMINI_EXECUTABLE", "gemini")
+            from .wait_policy import probe_cli
+            self._provider_diagnostics = probe_cli(self.agent["executable"])
+            self.agent["executable"] = self._provider_diagnostics["resolved_executable"]
+        # Resume uses the saved policy, including legacy runs with no overrides.
+        for name, value, variable in (
+            ("context_window_tokens", context_window_tokens, "RCB_CONTEXT_WINDOW_TOKENS"),
+            ("auto_compact_token_limit", auto_compact_token_limit, "RCB_AUTO_COMPACT_TOKEN_LIMIT"),
+        ):
+            value = saved_config.get(name) if _saved_identity else (
+                value if value is not None else os.environ.get(variable))
+            setattr(self, name, int(value) if value is not None else None)
+        window, threshold = self.context_window_tokens, self.auto_compact_token_limit
+        if (window is None) != (threshold is None):
+            raise ValueError("Set context_window_tokens and auto_compact_token_limit together")
+        if window is not None:
+            if not 0 < threshold < window:
+                raise ValueError("Require 0 < auto_compact_token_limit < context_window_tokens")
+            if self.agent.get("kind") == "codex" and threshold > window * 9 // 10:
+                raise ValueError("Codex caps auto_compact_token_limit at 90% of context_window_tokens")
+            if self.agent.get("kind") == "claude":
+                from .claude_adapter import context_environment
+                context_environment(window, threshold, os.environ)
+            if self.agent.get("kind") == "gemini":
+                native_window = 256000 if self.gemini_model in {"gemma-4-31b-it", "gemma-4-26b-a4b-it"} else 1048576
+                if window != native_window:
+                    raise ValueError(f"Gemini CLI 0.66.0 keeps its native context window ({native_window}); adjust only the compression threshold")
         self.agent_name = self.agent["label"]
         self.timeout_seconds = timeout_seconds
         self.compute_action_timeout_seconds = int(compute_action_timeout_seconds)
@@ -302,6 +342,7 @@ class TaskRunner(
             "codex_reasoning_effort": self.codex_reasoning_effort,
             "model_wait_strategy": self.model_wait_strategy,
             "feedback_schema_version": self.feedback_schema_version,
+            "tool_response_profile": self.tool_response_profile,
             "native_input_validation_policy": self.native_input_validation_policy,
             "archive_policy": self.archive_policy,
             "progress_interval": self.progress_interval,
@@ -316,6 +357,11 @@ class TaskRunner(
         }
         if self.agent.get("kind") == "external":
             config["agent_definition"] = self.agent
+        if self.agent.get("kind") == "gemini":
+            config["gemini_model"] = self.gemini_model
+        if self.context_window_tokens is not None:
+            config.update(context_window_tokens=self.context_window_tokens,
+                          auto_compact_token_limit=self.auto_compact_token_limit)
         return config
 
     def _run_manifest(self) -> dict[str, Any]:
@@ -374,11 +420,13 @@ class TaskRunner(
         return min(max(1, int(self.timeout_seconds)), remaining)
 
     @classmethod
-    def restore(cls, run_id: str, recovery_root: Path | None = None, *, timeout_seconds: int | None = None) -> "TaskRunner":
+    def restore(cls, run_id: str, recovery_root: Path | None = None, *, timeout_seconds: int | None = None,
+                repair_history: bool = False, resume_cancelled: bool = False) -> "TaskRunner":
         """Load an existing run without creating a new workspace or run ID."""
 
         from .recovery import restore_runner
-        return restore_runner(cls, run_id, recovery_root, timeout_seconds=timeout_seconds)
+        return restore_runner(cls, run_id, recovery_root, timeout_seconds=timeout_seconds,
+                              repair_history=repair_history, resume_cancelled=resume_cancelled)
 
     def resource_budget_record(self) -> dict[str, Any]:
         if self.execution_mode == "distributed":

@@ -1,0 +1,727 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_94b0a8ae694590ea",
+      "scoring_policy": "paper_science_v3",
+      "scientific_requirements": "Score only independent final scientific answers to the public question. Each outcome earns its full fixed weight or zero; only explicitly reviewable unresolved scientific conflicts may receive need_review, which earns no points and is not success. Fully supported physically equivalent explanations pass directly. Missing calculations, unsupported guesses, wrong identity/state/reference/environment/units and hard-window failures fail, never need_review. Genuine native outputs and reproducible analyses must support each claim; supplied observations and PR source targets are not newly computed results. Structures, convergence, frequencies and state correspondence establish claim validity and earn no independent points. Evidence requirements are proportional to the particular claim, with no fixed workflow, software, root count or control grid. AR selects its method independently. PR addresses its disclosed author baseline or a scientifically justified comparable substitute, without separate route-completion points. No historical PASS certifies the revised V3 rubric.",
+      "rules": [
+        {
+          "rule_id": "r_2bf_homo",
+          "reference_id": "2bf_homo",
+          "type": "numeric",
+          "expected": "The complete neutral singlet isolated 2BF-TTA has a computed HOMO orbital eigenvalue of -5.0 eV within the unchanged inclusive ±0.1 eV window. Use a vacuum-reference orbital eigenvalue at a physically defined molecular geometry, not an ionization energy, electron affinity, work function or optical excitation. Support the number by actual native orbital outputs, occupied-orbital identity and geometry/state evidence. A claimed minimum needs adequate curvature evidence for its own geometry; recreating a hidden 2BT geometry is not required.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": -5.0,
+          "tolerance": 0.1,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_2bf_lumo",
+          "reference_id": "2bf_lumo",
+          "type": "numeric",
+          "expected": "The complete neutral singlet isolated 2BF-TTA has a computed LUMO orbital eigenvalue of -2.08 eV within the unchanged inclusive ±0.1 eV window. Use a vacuum-reference orbital eigenvalue at a physically defined molecular geometry, not an ionization energy, electron affinity, work function or optical excitation. Support the number by actual native orbital outputs, virtual-orbital identity and geometry/state evidence. A claimed minimum needs adequate curvature evidence for its own geometry; recreating a hidden 2BT geometry is not required.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": -2.08,
+          "tolerance": 0.1,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_2c8ph_homo",
+          "reference_id": "2c8ph_homo",
+          "type": "numeric",
+          "expected": "The complete neutral singlet isolated 2(C8Ph)-TTA has a computed HOMO orbital eigenvalue of -4.99 eV within the unchanged inclusive ±0.1 eV window. Use a vacuum-reference orbital eigenvalue at a physically defined molecular geometry, not an ionization energy, electron affinity, work function or optical excitation. Support the number by actual native orbital outputs, occupied-orbital identity and geometry/state evidence. A claimed minimum needs adequate curvature evidence for its own geometry; recreating a hidden 2BT geometry is not required.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": -4.99,
+          "tolerance": 0.1,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_2c8ph_lumo",
+          "reference_id": "2c8ph_lumo",
+          "type": "numeric",
+          "expected": "The complete neutral singlet isolated 2(C8Ph)-TTA has a computed LUMO orbital eigenvalue of -1.65 eV within the unchanged inclusive ±0.1 eV window. Use a vacuum-reference orbital eigenvalue at a physically defined molecular geometry, not an ionization energy, electron affinity, work function or optical excitation. Support the number by actual native orbital outputs, virtual-orbital identity and geometry/state evidence. A claimed minimum needs adequate curvature evidence for its own geometry; recreating a hidden 2BT geometry is not required.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": -1.65,
+          "tolerance": 0.1,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_c8_lumo_order",
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named final proposition within the schema-compatible records, object/state definitions and linked actual artifacts. Apply its V3 rubric state policy; no scalar tolerance is assigned to a semantic proposition. Do not substitute a different state or reference."
+          },
+          "reference_id": "c8_lumo_order",
+          "expected": "Comparable full-molecule calculations establish that the 2(C8Ph)-TTA LUMO is substantially higher (less negative) than those of both heteroaryl derivatives, using consistent energy definitions and physically justified molecular geometries. This signed cross-molecule result is independent of absolute numeric windows. A stable 2BT conformation is admissible; its BT-versus-BF ordering need not reproduce an undisclosed source geometry. Missing or reversed C8-versus-heteroaryl ordering fails. Use complete neutral singlet molecules and internally comparable vacuum-reference eigenvalues, with geometries and numerical resolution stated. This is a final cross-molecule comparison, independent of the absolute-value windows; overlapping windows do not establish its sign."
+        },
+        {
+          "rule_id": "r_c8_homo_order",
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named final proposition within the schema-compatible records, object/state definitions and linked actual artifacts. Apply its V3 rubric state policy; no scalar tolerance is assigned to a semantic proposition. Do not substitute a different state or reference."
+          },
+          "reference_id": "c8_homo_order",
+          "expected": "The actual internally comparable full-molecule calculations establish that 2(C8Ph)-TTA has a higher (less negative) HOMO than both 2BT-TTA and 2BF-TTA at the reported physically justified geometries. Substantiate the small signed differences with consistent electronic definitions; do not infer ordering from overlapping numeric windows or claim universal conformer invariance. No author-like BT saddle or private curvature anomaly is required. Use complete neutral singlet molecules and internally comparable vacuum-reference eigenvalues, with geometries and numerical resolution stated. This is a final cross-molecule comparison, independent of the absolute-value windows; overlapping windows do not establish its sign."
+        },
+        {
+          "rule_id": "r_c8_gap",
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named final proposition within the schema-compatible records, object/state definitions and linked actual artifacts. Apply its V3 rubric state policy; no scalar tolerance is assigned to a semantic proposition. Do not substitute a different state or reference."
+          },
+          "reference_id": "c8_gap",
+          "expected": "Computed, definition-matched HOMO-LUMO gaps place 2(C8Ph)-TTA above both 2BT and 2BF. This compares intramolecular energy separation and is not a measured optical gap or device transport gap. Use complete neutral singlet molecules and internally comparable vacuum-reference eigenvalues, with geometries and numerical resolution stated. This is a final cross-molecule comparison, independent of the absolute-value windows; overlapping windows do not establish its sign."
+        },
+        {
+          "rule_id": "r_molecular_transfer_interpretation",
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named final proposition within the schema-compatible records, object/state definitions and linked actual artifacts. Apply its V3 rubric state policy; no scalar tolerance is assigned to a semantic proposition. Do not substitute a different state or reference."
+          },
+          "reference_id": "molecular_transfer_interpretation",
+          "expected": "Use actual calculated molecular orbital levels to compare donor/acceptor energetic tendencies with an explicitly defined nanotube electronic reference. The supplied nominal occupied-level reference -5.060 eV permits conditional offsets, not a sample-specific interfacial chemical potential. Explain why a HOMO above that level does not by itself prove net electron transfer or enhanced p-type carrier density: donated electrons may fill holes, and work-function shifts may include interface dipoles. The added final conclusion concerns the physical meaning and limits of level alignment, not another score for the three C8 orderings. A scientifically supported calibrated alternative reference is admissible with its scope established; no fixed nanotube or interface calculation is required."
+        },
+        {
+          "rule_id": "r_composite_inference_limit",
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named final proposition within the schema-compatible records, object/state definitions and linked actual artifacts. Apply its V3 rubric state policy; no scalar tolerance is assigned to a semantic proposition. Do not substitute a different state or reference."
+          },
+          "reference_id": "composite_inference_limit",
+          "expected": "Demonstrate using the actual molecular comparison and the supplied film measurements why the isolated molecular descriptors do not uniquely determine composite conductivity, Seebeck coefficient or power factor. Tie the inference to a concrete observed contrast: C8 and BF maxima at the same 10 wt% differ in PF, whereas the BT maximum is at 20 wt%; a maximum-at-different-loading comparison does not isolate molecular electronics. Identify relevant missing coverage/morphology/interface information. This is an evidenced identifiability conclusion, not generic disclaimer credit or repetition of PF observations. No calculated film transport or unique experimental chirality is claimed."
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "2bf_homo",
+          "kind": "conclusion",
+          "max_score": 7.5,
+          "description": "2BF-TTA HOMO eigenvalue",
+          "rule_ids": [
+            "r_2bf_homo"
+          ],
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "2bf_lumo",
+          "kind": "conclusion",
+          "max_score": 7.5,
+          "description": "2BF-TTA LUMO eigenvalue",
+          "rule_ids": [
+            "r_2bf_lumo"
+          ],
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "2c8ph_homo",
+          "kind": "conclusion",
+          "max_score": 7.5,
+          "description": "2(C8Ph)-TTA HOMO eigenvalue",
+          "rule_ids": [
+            "r_2c8ph_homo"
+          ],
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "2c8ph_lumo",
+          "kind": "conclusion",
+          "max_score": 7.5,
+          "description": "2(C8Ph)-TTA LUMO eigenvalue",
+          "rule_ids": [
+            "r_2c8ph_lumo"
+          ],
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "c8_lumo_order",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "LUMO contrast of C8 with both heteroaryl derivatives",
+          "rule_ids": [
+            "r_c8_lumo_order"
+          ],
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier",
+            "native_molecular_synthesis"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "c8_homo_order",
+          "kind": "conclusion",
+          "max_score": 8,
+          "description": "HOMO contrast of C8 with both heteroaryl derivatives",
+          "rule_ids": [
+            "r_c8_homo_order"
+          ],
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier",
+            "native_molecular_synthesis"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "c8_gap",
+          "kind": "conclusion",
+          "max_score": 12,
+          "description": "Frontier-gap comparison across the three derivatives",
+          "rule_ids": [
+            "r_c8_gap"
+          ],
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier",
+            "native_molecular_synthesis"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "molecular_transfer_interpretation",
+          "kind": "conclusion",
+          "max_score": 20,
+          "description": "Physical interpretation of molecular levels relative to the nanotube reference",
+          "rule_ids": [
+            "r_molecular_transfer_interpretation"
+          ],
+          "evidence_ids": [
+            "main_p3_4_5",
+            "native_molecular_synthesis"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "A genuine molecular/interface analysis supports a different physical charge-transfer interpretation with matched references, but an unresolved material conflict remains about state alignment or carrier sign. A supported equivalent conditional account passes; an orbital-order-only assertion of p-doping or absent evidence fails."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "composite_inference_limit",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "Extent of the molecular explanation of measured composite performance",
+          "rule_ids": [
+            "r_composite_inference_limit"
+          ],
+          "evidence_ids": [
+            "main_p3_4_5",
+            "native_molecular_synthesis"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "A substantiated interface or transport analysis within the original sample scope claims to identify the observed contrast from molecular evidence, but whether it independently resolves the loading/morphology confounding remains scientifically disputed. Mere missing work or an assumed arbitrary tube fails."
+          ],
+          "required_for_success": true
+        }
+      ],
+      "mode": "final_results_100"
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_94b0a8ae694590ea",
+      "items": [
+        {
+          "statement": "2BF-TTA HOMO energy",
+          "expected": "For full neutral 2BF-TTA, obtain the molecular HOMO eigenvalue at a physically defensible isolated-molecule geometry and electronic state. Use the source-supported same-quantity energy reference; it is not an ionization potential, electron affinity or work function. The submitted geometry is judged on its own evidence. No source-like 2BT geometry, private imaginary-mode finding or author optimization trajectory is a prerequisite for this independent molecular result. Physical definition: Complete neutral singlet isolated molecules: 2BT C26H12S6 and 2BF C26H12O2S4 (44 atoms each), 2(C8Ph)-TTA C38H44S4 (86 atoms, full alkyl chains). AR chooses physically justified molecular geometries and methods, preserving molecular identity and comparable orbital-energy definitions. A claimed minimum requires its own curvature evidence; no reconstruction or diagnosis of the hidden source BT stationary geometry is required. SWCNT XFS22 has unspecified chirality distribution; a quoted tube level is contextual, not a full interface model.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16"
+          ],
+          "key_point_id": "2bf_homo",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "2BF-TTA LUMO energy",
+          "expected": "For full neutral 2BF-TTA, obtain the molecular LUMO eigenvalue at a physically defensible isolated-molecule geometry and electronic state. Use the source-supported same-quantity energy reference; it is not an ionization potential, electron affinity or work function. The submitted geometry is judged on its own evidence. No source-like 2BT geometry, private imaginary-mode finding or author optimization trajectory is a prerequisite for this independent molecular result. Physical definition: Complete neutral singlet isolated molecules: 2BT C26H12S6 and 2BF C26H12O2S4 (44 atoms each), 2(C8Ph)-TTA C38H44S4 (86 atoms, full alkyl chains). AR chooses physically justified molecular geometries and methods, preserving molecular identity and comparable orbital-energy definitions. A claimed minimum requires its own curvature evidence; no reconstruction or diagnosis of the hidden source BT stationary geometry is required. SWCNT XFS22 has unspecified chirality distribution; a quoted tube level is contextual, not a full interface model.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16"
+          ],
+          "key_point_id": "2bf_lumo",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "2C8Ph-TTA HOMO energy",
+          "expected": "For full neutral 2(C8Ph)-TTA, obtain the molecular HOMO eigenvalue at a physically defensible isolated-molecule geometry and electronic state. Use the source-supported same-quantity energy reference; it is not an ionization potential, electron affinity or work function. The submitted geometry is judged on its own evidence. No source-like 2BT geometry, private imaginary-mode finding or author optimization trajectory is a prerequisite for this independent molecular result. Physical definition: Complete neutral singlet isolated molecules: 2BT C26H12S6 and 2BF C26H12O2S4 (44 atoms each), 2(C8Ph)-TTA C38H44S4 (86 atoms, full alkyl chains). AR chooses physically justified molecular geometries and methods, preserving molecular identity and comparable orbital-energy definitions. A claimed minimum requires its own curvature evidence; no reconstruction or diagnosis of the hidden source BT stationary geometry is required. SWCNT XFS22 has unspecified chirality distribution; a quoted tube level is contextual, not a full interface model.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16"
+          ],
+          "key_point_id": "2c8ph_homo",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "2C8Ph-TTA LUMO energy",
+          "expected": "For full neutral 2(C8Ph)-TTA, obtain the molecular LUMO eigenvalue at a physically defensible isolated-molecule geometry and electronic state. Use the source-supported same-quantity energy reference; it is not an ionization potential, electron affinity or work function. The submitted geometry is judged on its own evidence. No source-like 2BT geometry, private imaginary-mode finding or author optimization trajectory is a prerequisite for this independent molecular result. Physical definition: Complete neutral singlet isolated molecules: 2BT C26H12S6 and 2BF C26H12O2S4 (44 atoms each), 2(C8Ph)-TTA C38H44S4 (86 atoms, full alkyl chains). AR chooses physically justified molecular geometries and methods, preserving molecular identity and comparable orbital-energy definitions. A claimed minimum requires its own curvature evidence; no reconstruction or diagnosis of the hidden source BT stationary geometry is required. SWCNT XFS22 has unspecified chirality distribution; a quoted tube level is contextual, not a full interface model.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16"
+          ],
+          "key_point_id": "2c8ph_lumo",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "C8 derivative has the distinctly raised LUMO",
+          "expected": "Comparable full-molecule calculations establish that the 2(C8Ph)-TTA LUMO is substantially higher (less negative) than those of both heteroaryl derivatives, using consistent energy definitions and physically justified molecular geometries. This signed cross-molecule result is independent of absolute numeric windows. A stable 2BT conformation is admissible; its BT-versus-BF ordering need not reproduce an undisclosed source geometry. Missing or reversed C8-versus-heteroaryl ordering fails. Physical definition: Complete neutral singlet isolated molecules: 2BT C26H12S6 and 2BF C26H12O2S4 (44 atoms each), 2(C8Ph)-TTA C38H44S4 (86 atoms, full alkyl chains). AR chooses physically justified molecular geometries and methods, preserving molecular identity and comparable orbital-energy definitions. A claimed minimum requires its own curvature evidence; no reconstruction or diagnosis of the hidden source BT stationary geometry is required. SWCNT XFS22 has unspecified chirality distribution; a quoted tube level is contextual, not a full interface model.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier"
+          ],
+          "key_point_id": "c8_lumo_order",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "C8 derivative has the highest source HOMO",
+          "expected": "The actual internally comparable full-molecule calculations establish that 2(C8Ph)-TTA has a higher (less negative) HOMO than both 2BT-TTA and 2BF-TTA at the reported physically justified geometries. Substantiate the small signed differences with consistent electronic definitions; do not infer ordering from overlapping numeric windows or claim universal conformer invariance. No author-like BT saddle or private curvature anomaly is required. Physical definition: Complete neutral singlet isolated molecules: 2BT C26H12S6 and 2BF C26H12O2S4 (44 atoms each), 2(C8Ph)-TTA C38H44S4 (86 atoms, full alkyl chains). AR chooses physically justified molecular geometries and methods, preserving molecular identity and comparable orbital-energy definitions. A claimed minimum requires its own curvature evidence; no reconstruction or diagnosis of the hidden source BT stationary geometry is required. SWCNT XFS22 has unspecified chirality distribution; a quoted tube level is contextual, not a full interface model.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier"
+          ],
+          "key_point_id": "c8_homo_order",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "C8 has the widest molecular frontier gap",
+          "expected": "Computed, definition-matched HOMO-LUMO gaps place 2(C8Ph)-TTA above both 2BT and 2BF. This compares intramolecular energy separation and is not a measured optical gap or device transport gap. Physical definition: Complete neutral singlet isolated molecules: 2BT C26H12S6 and 2BF C26H12O2S4 (44 atoms each), 2(C8Ph)-TTA C38H44S4 (86 atoms, full alkyl chains). AR chooses physically justified molecular geometries and methods, preserving molecular identity and comparable orbital-energy definitions. A claimed minimum requires its own curvature evidence; no reconstruction or diagnosis of the hidden source BT stationary geometry is required. SWCNT XFS22 has unspecified chirality distribution; a quoted tube level is contextual, not a full interface model.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier"
+          ],
+          "key_point_id": "c8_gap",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        }
+      ],
+      "scope_note": "Non-scoring source and computational context. Only reference_conclusions and the V3 rubric define scored outcomes; these supporting nodes are not mandatory workflow steps."
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_94b0a8ae694590ea",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabrication of scientific evidence, including reference values falsely presented as newly computed, invalidates the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Ordinary failure, missing evidence or scientific error affects only the relevant leaves."
+        }
+      ],
+      "scope_note": "Apply these integrity failures only on demonstrated evidence. An ordinary unsupported or failed result receives zero for the dependent V3 outcome, not an unrelated global process penalty."
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_94b0a8ae694590ea",
+      "scoring_policy": "paper_science_v3",
+      "mode": "final_results_100",
+      "items": [
+        {
+          "conclusion_id": "2bf_homo",
+          "claim_role": "final",
+          "statement": "2BF-TTA HOMO eigenvalue",
+          "expected": "The complete neutral singlet isolated 2BF-TTA has a computed HOMO orbital eigenvalue of -5.0 eV within the unchanged inclusive ±0.1 eV window. Use a vacuum-reference orbital eigenvalue at a physically defined molecular geometry, not an ionization energy, electron affinity, work function or optical excitation. Support the number by actual native orbital outputs, occupied-orbital identity and geometry/state evidence. A claimed minimum needs adequate curvature evidence for its own geometry; recreating a hidden 2BT geometry is not required.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ],
+          "supporting_key_point_ids": [
+            "2bf_homo"
+          ]
+        },
+        {
+          "conclusion_id": "2bf_lumo",
+          "claim_role": "final",
+          "statement": "2BF-TTA LUMO eigenvalue",
+          "expected": "The complete neutral singlet isolated 2BF-TTA has a computed LUMO orbital eigenvalue of -2.08 eV within the unchanged inclusive ±0.1 eV window. Use a vacuum-reference orbital eigenvalue at a physically defined molecular geometry, not an ionization energy, electron affinity, work function or optical excitation. Support the number by actual native orbital outputs, virtual-orbital identity and geometry/state evidence. A claimed minimum needs adequate curvature evidence for its own geometry; recreating a hidden 2BT geometry is not required.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ],
+          "supporting_key_point_ids": [
+            "2bf_lumo"
+          ]
+        },
+        {
+          "conclusion_id": "2c8ph_homo",
+          "claim_role": "final",
+          "statement": "2(C8Ph)-TTA HOMO eigenvalue",
+          "expected": "The complete neutral singlet isolated 2(C8Ph)-TTA has a computed HOMO orbital eigenvalue of -4.99 eV within the unchanged inclusive ±0.1 eV window. Use a vacuum-reference orbital eigenvalue at a physically defined molecular geometry, not an ionization energy, electron affinity, work function or optical excitation. Support the number by actual native orbital outputs, occupied-orbital identity and geometry/state evidence. A claimed minimum needs adequate curvature evidence for its own geometry; recreating a hidden 2BT geometry is not required.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ],
+          "supporting_key_point_ids": [
+            "2c8ph_homo"
+          ]
+        },
+        {
+          "conclusion_id": "2c8ph_lumo",
+          "claim_role": "final",
+          "statement": "2(C8Ph)-TTA LUMO eigenvalue",
+          "expected": "The complete neutral singlet isolated 2(C8Ph)-TTA has a computed LUMO orbital eigenvalue of -1.65 eV within the unchanged inclusive ±0.1 eV window. Use a vacuum-reference orbital eigenvalue at a physically defined molecular geometry, not an ionization energy, electron affinity, work function or optical excitation. Support the number by actual native orbital outputs, virtual-orbital identity and geometry/state evidence. A claimed minimum needs adequate curvature evidence for its own geometry; recreating a hidden 2BT geometry is not required.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ],
+          "supporting_key_point_ids": [
+            "2c8ph_lumo"
+          ]
+        },
+        {
+          "conclusion_id": "c8_lumo_order",
+          "claim_role": "final",
+          "statement": "LUMO contrast of C8 with both heteroaryl derivatives",
+          "expected": "Comparable full-molecule calculations establish that the 2(C8Ph)-TTA LUMO is substantially higher (less negative) than those of both heteroaryl derivatives, using consistent energy definitions and physically justified molecular geometries. This signed cross-molecule result is independent of absolute numeric windows. A stable 2BT conformation is admissible; its BT-versus-BF ordering need not reproduce an undisclosed source geometry. Missing or reversed C8-versus-heteroaryl ordering fails. Use complete neutral singlet molecules and internally comparable vacuum-reference eigenvalues, with geometries and numerical resolution stated. This is a final cross-molecule comparison, independent of the absolute-value windows; overlapping windows do not establish its sign.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier",
+            "native_molecular_synthesis"
+          ],
+          "supporting_key_point_ids": [
+            "c8_lumo_order"
+          ]
+        },
+        {
+          "conclusion_id": "c8_homo_order",
+          "claim_role": "final",
+          "statement": "HOMO contrast of C8 with both heteroaryl derivatives",
+          "expected": "The actual internally comparable full-molecule calculations establish that 2(C8Ph)-TTA has a higher (less negative) HOMO than both 2BT-TTA and 2BF-TTA at the reported physically justified geometries. Substantiate the small signed differences with consistent electronic definitions; do not infer ordering from overlapping numeric windows or claim universal conformer invariance. No author-like BT saddle or private curvature anomaly is required. Use complete neutral singlet molecules and internally comparable vacuum-reference eigenvalues, with geometries and numerical resolution stated. This is a final cross-molecule comparison, independent of the absolute-value windows; overlapping windows do not establish its sign.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier",
+            "native_molecular_synthesis"
+          ],
+          "supporting_key_point_ids": [
+            "c8_homo_order"
+          ]
+        },
+        {
+          "conclusion_id": "c8_gap",
+          "claim_role": "final",
+          "statement": "Frontier-gap comparison across the three derivatives",
+          "expected": "Computed, definition-matched HOMO-LUMO gaps place 2(C8Ph)-TTA above both 2BT and 2BF. This compares intramolecular energy separation and is not a measured optical gap or device transport gap. Use complete neutral singlet molecules and internally comparable vacuum-reference eigenvalues, with geometries and numerical resolution stated. This is a final cross-molecule comparison, independent of the absolute-value windows; overlapping windows do not establish its sign.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier",
+            "native_molecular_synthesis"
+          ],
+          "supporting_key_point_ids": [
+            "c8_gap"
+          ]
+        },
+        {
+          "conclusion_id": "molecular_transfer_interpretation",
+          "claim_role": "final",
+          "statement": "Physical interpretation of molecular levels relative to the nanotube reference",
+          "expected": "Use actual calculated molecular orbital levels to compare donor/acceptor energetic tendencies with an explicitly defined nanotube electronic reference. The supplied nominal occupied-level reference -5.060 eV permits conditional offsets, not a sample-specific interfacial chemical potential. Explain why a HOMO above that level does not by itself prove net electron transfer or enhanced p-type carrier density: donated electrons may fill holes, and work-function shifts may include interface dipoles. The added final conclusion concerns the physical meaning and limits of level alignment, not another score for the three C8 orderings. A scientifically supported calibrated alternative reference is admissible with its scope established; no fixed nanotube or interface calculation is required.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "native_molecular_synthesis"
+          ],
+          "supporting_key_point_ids": [
+            "c8_homo_order",
+            "c8_lumo_order"
+          ]
+        },
+        {
+          "conclusion_id": "composite_inference_limit",
+          "claim_role": "final",
+          "statement": "Extent of the molecular explanation of measured composite performance",
+          "expected": "Demonstrate using the actual molecular comparison and the supplied film measurements why the isolated molecular descriptors do not uniquely determine composite conductivity, Seebeck coefficient or power factor. Tie the inference to a concrete observed contrast: C8 and BF maxima at the same 10 wt% differ in PF, whereas the BT maximum is at 20 wt%; a maximum-at-different-loading comparison does not isolate molecular electronics. Identify relevant missing coverage/morphology/interface information. This is an evidenced identifiability conclusion, not generic disclaimer credit or repetition of PF observations. No calculated film transport or unique experimental chirality is claimed.",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "native_molecular_synthesis"
+          ],
+          "supporting_key_point_ids": [
+            "c8_homo_order",
+            "c8_lumo_order",
+            "c8_gap"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_94b0a8ae694590ea",
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "physical_definition": "Complete neutral singlet isolated molecules: 2BT C26H12S6 and 2BF C26H12O2S4 (44 atoms each), 2(C8Ph)-TTA C38H44S4 (86 atoms, full alkyl chains). AR chooses physically justified molecular geometries and methods, preserving molecular identity and comparable orbital-energy definitions. A claimed minimum requires its own curvature evidence; no reconstruction or diagnosis of the hidden source BT stationary geometry is required. SWCNT XFS22 has unspecified chirality distribution; a quoted tube level is contextual, not a full interface model.",
+      "scientific_limitations": "Source-like BT retains -28.5338/-22.0826 cm^-1 modes; a true BT minimum has126 positive modes and roughly0.1eV frontier changes, including reversed BT/BF LUMO ordering. C8/BF valid minima and C8 trend are retained. Source six eigenvalues are -5.04/-2.14,-5.00/-2.08,-4.99/-1.65eV; verified values -5.035300/-2.141307,-5.002650/-2.077005,-4.990102/-1.645259eV. Film transfer, doping sign, transport and device PF are not certified by isolated eigenvalues.",
+      "tolerance_policy": {
+        "status": "provisional_benchmark_policy",
+        "basis": "Retain provisional ±0.10 eV only for the four same-definition 2BF/C8 orbital eigenvalues. Remove the two BT source-saddle scalar targets from AR rather than widen their windows around a different stable conformer. The source BT values and nonminimum finding remain factual private history and PR targets. Signed C8 comparisons use actual admissible molecular geometries independently of scalar windows; these windows are not universal cross-functional accuracy guarantees.",
+        "not_author_error_bars": true
+      },
+      "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+      "historical_qualification": {
+        "status": "CURRENT_FROZEN_SCOPE_STRICT_VERIFICATION_PRESERVED",
+        "reason": "Authorized final-copy scoring-only migration, 2026-10-19; publication/expert calibration remains separate from runtime scoring.",
+        "scoring_policy": "paper_science_v2",
+        "formal_scoring_permitted": true,
+        "release_ready": false,
+        "coordinator_review": {
+          "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+          "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+          "review_key": "v2_paper_94b0a8ae694590ea",
+          "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+          "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+          "publication_readiness_unchanged": true
+        },
+        "repair_round3": {
+          "date": "2026-10-19",
+          "round": "repair_round3",
+          "mode": "autonomous_research",
+          "status": "scoring_contract_repaired_without_new_chemical_acceptance",
+          "changes": [
+            "Confirmed hidden AR source-stationary-point gate: remove BT source HOMO/LUMO 10 points and private two-imaginary-mode diagnosis 10 points. Redistribute to existing source/native-supported C8 LUMO ordering +8, gap relation +6, molecular/tube interpretation +4 and composite inference +2. Stable BT remains a valid AR object without reconstructing the source saddle. PR source baseline and private history retained."
+          ],
+          "history_preserved": true,
+          "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_04/paper_94b0a8ae694590ea.md"
+        },
+        "current_scope_verified": true,
+        "verification_acceptance": "Existing independently strict V2 frozen-scope acceptance retained; scoring migration is not new chemical validation."
+      },
+      "scoring_policy": "paper_science_v3",
+      "mode": "final_results_100",
+      "status": "V3_FINAL_RESULTS_EVIDENCE_REUSED_NOT_REVALIDATED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+      "reason": "Retain full-molecule TTA electronic comparison and bounded SWCNT/composite interpretation. Preserve the pre-existing mode difference: AR has four BF/C8 absolute targets and PR has six including the BT source baseline. Both share the three C8 contrasts and two physical interpretations; PR stationarity becomes validity evidence, not separate points.",
+      "evidence_gaps": [
+        "Pre-existing scope difference retained: AR four scalar targets versus PR six, due to source-like BT nonminimum; numeric block totals 30 in both modes",
+        "Source BT stationary point has -28.5338/-22.0826 cm^-1 modes; stable BT changes HOMO/LUMO by about 0.1 eV",
+        "No sample-specific interface, transferred charge or film transport evidence; cited nanotube level is only conditional context",
+        "No new V3 calibration or blind run"
+      ],
+      "new_computations": false,
+      "online_judge_calibration": false,
+      "rule_evidence_reuse": [
+        {
+          "rule_id": "r_2bf_homo",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ]
+        },
+        {
+          "rule_id": "r_2bf_lumo",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ]
+        },
+        {
+          "rule_id": "r_2c8ph_homo",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ]
+        },
+        {
+          "rule_id": "r_2c8ph_lumo",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "native_molecular_synthesis"
+          ]
+        },
+        {
+          "rule_id": "r_c8_lumo_order",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier",
+            "native_molecular_synthesis"
+          ]
+        },
+        {
+          "rule_id": "r_c8_homo_order",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier",
+            "native_molecular_synthesis"
+          ]
+        },
+        {
+          "rule_id": "r_c8_gap",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "supplementary_001_p10_11_12_13_14_15_16",
+            "verified_bt_stable_frontier",
+            "verified_c8_frontier",
+            "native_molecular_synthesis"
+          ]
+        },
+        {
+          "rule_id": "r_molecular_transfer_interpretation",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "native_molecular_synthesis"
+          ]
+        },
+        {
+          "rule_id": "r_composite_inference_limit",
+          "evidence_ids": [
+            "main_p3_4_5",
+            "native_molecular_synthesis"
+          ]
+        }
+      ],
+      "mode_scope_exception": {
+        "AR": "four BF/C8 absolute scalar targets; 2BT is a comparison molecule",
+        "PR": "six author-baseline scalar targets including BT; curvature is evidence, not a separately scored node",
+        "reason": "Retain pre-existing approved difference without expanding AR or deleting PR final numbers"
+      }
+    }
+  }
+}

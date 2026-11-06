@@ -1,0 +1,196 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_redox_substituent_comparison",
+      "reference_id": "redox_substituent_comparison",
+      "type": "semantic",
+      "expected": "Derive both excited oxidation potentials on the same SCE scale from the corresponding ground-state oxidation estimate and E00, using explicit signs and units. Actual common-reference estimates establish a more negative Eox* for 1a than 1e and show that this contrast arises primarily from ground-state oxidation energetics rather than a large E00 difference. Preserve uncertainties from irreversible electrochemistry and the optical estimate. The two potentials and their decomposition are evidence for this comparative redox conclusion, not author-value targets; copying the term super-reductant or reporting only one compound fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_lifetime_comparison",
+      "reference_id": "lifetime_comparison",
+      "type": "semantic",
+      "expected": "Analyze the supplied TCSPC43.3ns monoexponential1a decay and reported1.5ns multiexponential-average1e decay to establish the much shorter1e time scale and its consequence for competition with a common encounter/electron-transfer time scale. A calculated lifetime ratio or explicit survival/competition relation must support the comparison; copying the two observations alone fails. Use the source-specific375nm/547nm setting for1a and440nm/530nm setting for1e, both in dryDMSO at20°C. Do not treat1e as monoexponential, derive a cleavage rate, or invent the unreported Table1 averaging convention.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_reduction_1a",
+      "reference_id": "reduction_1a",
+      "type": "semantic",
+      "expected": "Explicitly compare the supported1a excited oxidation estimate with the supplied4-chloroanisole reduction potential near−2.91V vsSCE and conclude favorable electron-transfer energetics under that estimate. Keep the irreversibility-derived uncertainty and do not claim this energetic sign alone proves a C–Cl cleavage rate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_reduction_1e",
+      "reference_id": "reduction_1e",
+      "type": "semantic",
+      "expected": "Explicitly compare the calculated 1e excited oxidation estimate with the supplied 4-chloroanisole reduction potential and conclude it lacks the favorable nominal redox driving force available to 1a. Establish the energetic sign on a consistent electrode scale, retaining irreversibility and medium uncertainty; this does not claim an absolute prohibition in every environment. The independently scored lifetime contrast is supporting context and is not scored again here.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_bounded_preassociation",
+      "reference_id": "bounded_preassociation",
+      "type": "semantic",
+      "expected": "Reproducible analysis of the supplied 1a/4-chloroanisole intensity/lifetime observations establishes that strong intensity suppression with an approximately unchanged lifetime contradicts pure dynamic quenching in the measured low-concentration regime. Infer a static or close-proximity contribution while showing why these observables do not identify a unique strongly populated ground-state adduct, a complex fraction, or an equilibrium association constant. Actual graphical/data analysis at its resolution is required; simply copying the given flat-lifetime statement or Ksv does not pass. A fully supported equivalent account passes directly. Association calculations may sharpen the interpretation but require balanced physical compositions and distinct electronic/Gibbs definitions; the private PhCl proxy is not compulsory.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "redox_substituent_comparison",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "1a is the stronger molecular excited-state reductant",
+      "rule_ids": [
+        "r_redox_substituent_comparison"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "lifetime_comparison",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "1e has a much shorter reported excited-state decay time scale",
+      "rule_ids": [
+        "r_lifetime_comparison"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "reduction_1a",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "1a is energetically capable of reducing the demanding substrate",
+      "rule_ids": [
+        "r_reduction_1a"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "reduction_1e",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "1e lacks the corresponding redox headroom",
+      "rule_ids": [
+        "r_reduction_1e"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bounded_preassociation",
+      "kind": "conclusion",
+      "max_score": 35,
+      "description": "Quenching interpretation and limits of microscopic association identification",
+      "rule_ids": [
+        "r_bounded_preassociation"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference",
+        "native_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

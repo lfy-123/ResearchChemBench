@@ -1,0 +1,35 @@
+{
+  "scientific_question": "How compatible are the five specified photocatalysts with activating N-benzoyl dibenzothiophene sulfilimine into a reactive electronic state, and how far does that molecular comparison explain productive or trace THF amidation? This is an explanation task: the product and screening yields are supplied observations.",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Sulfilimine reactant: N-benzoyl dibenzothiophene sulfilimine. The benzoyl carbonyl carbon is bonded to nitrogen, and that nitrogen is bonded to the sulfur of an otherwise unsubstituted dibenzothiophene framework. The imino representation is Ph–C(=O)–N=S; sulfur also closes the central five-membered ring through its two carbon bonds and has no oxygen substituent. Connectivity-only SMILES: O=C(c1ccccc1)N=S1c2ccccc2-c2ccccc21. No stereochemistry is specified."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "C(sp3)–H donor and solvent: tetrahydrofuran (THF), a saturated five-membered ring with one oxygen and four carbon atoms. Connectivity-only SMILES: C1CCOC1."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "identity",
+      "content": "Observed product: N-(tetrahydrofuran-2-yl)benzamide. The benzamide nitrogen is bonded to a ring carbon adjacent to the ether oxygen and retains one hydrogen. Connectivity-only SMILES: O=C(NC1CCCO1)c1ccccc1. No product absolute stereochemistry or enantiomeric composition is specified."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "Standard reaction conditions: N-benzoyl dibenzothiophene sulfilimine (0.1 mmol) and Ir[dF(CF3)ppy]2(dtbbpy)PF6 (1 mol%) in THF (1.0 mL; sulfilimine concentration 0.1 M), irradiated with 36 W blue LEDs at room temperature for 3 h under N2. The blue LEDs have a maximum emission at 470 nm; the photocatalyst screening specifies 25 °C."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "Under the standard conditions, the THF C(sp3)–H amidation product was obtained in 76% isolated yield."
+    },
+    {
+      "input_id": "PI6",
+      "kind": "observation",
+      "content": "Photocatalyst-dependent isolated product yields for this reaction: thioxanthen-9-one (thioxanthone), 66%; Ir(dFppy)3, 61%; Ir[dF(CF3)ppy]2(dtbbpy)PF6, 76%; fac-Ir(ppy)3, trace; Mes-Acr+ClO4−, trace. The iridium and acridinium entries use the standard 1 mol% catalyst and 36 W blue LED conditions. The thioxanthen-9-one entry instead uses 10 mol% catalyst with a 100 W 370 nm lamp. Trace is qualitative; no numerical detection threshold is supplied."
+    }
+  ]
+}

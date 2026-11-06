@@ -8,6 +8,16 @@ from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 
 
+def is_billing_error(value):
+    """Require explicit billing evidence; RPM/TPM quota alone is not insolvency."""
+    text = str(value).lower()
+    return any(marker in text for marker in (
+        "insufficient_quota", "insufficient_balance", "insufficient balance", "billing_hard_limit",
+        "billing limit", "billing_not_active", "credit balance", "insufficient credit",
+        "payment required", "not enough quota to pre-consume", "余额不足", "欠费",
+        "balance is not enough", "balance is insufficient", "quota is not enough"))
+
+
 def redact(value):
     text = str(value)
     for name, secret in os.environ.items():
@@ -57,14 +67,15 @@ def normalize_error(value, *, source, event_ref=None):
     headers = body.get("headers") or getattr(response, "headers", {}) or {}
     headers = {str(k).lower(): v for k, v in headers.items()} if hasattr(headers, "items") else {}
     rules = (
-        ("quota", ("insufficient_quota", "billing", "credit balance", "quota exceeded", "usage limit", "余额不足", "欠费")),
+        ("quota", ("insufficient_quota", "billing_hard_limit", "credit balance", "余额不足", "欠费")),
         ("authentication", ("invalid_api_key", "authentication", "unauthorized")),
         ("permission", ("permission_denied", "forbidden")),
         ("context_length", ("context_length_exceeded", "context window", "maximum context")),
+        ("output_limit", ("output token maximum", "max_output_tokens_exceeded")),
         ("configuration", ("model_not_found", "unsupported_model", "invalid_request", "unsupported parameter", "invalid_encrypted_content")),
-        ("rate_limit", ("rate_limit", "rate limit", "too many requests")),
+        ("rate_limit", ("rate_limit", "rate limit", "too many requests", "quota exceeded", "usage limit", "resource_exhausted")),
         ("service_unavailable", ("server_error", "service_unavailable", "service unavailable", "overloaded", "bad gateway")),
-        ("network", ("connection reset", "connection refused", "connection error", "stream disconnected", "timed out", "timeout", "network error")),
+        ("network", ("connection reset", "connection refused", "connection error", "stream disconnected", "timed out", "timeout", "network error", "fetch failed", "econnreset", "etimedout")),
     )
     def classify(text, source):
         for name, markers in rules:
@@ -73,9 +84,14 @@ def normalize_error(value, *, source, event_ref=None):
                 return name, source + ":" + found
         return "unknown_provider_failure", "unclassified"
 
-    category, basis = classify(str(detail.get("code") or ""), "code")
+    if is_billing_error(detail):
+        category, basis = "quota", "explicit_billing_evidence"
+    else:
+        category, basis = classify(str(detail.get("code") or ""), "code")
     if category == "unknown_provider_failure":
-        if status in (401, 403):
+        if status == 402:
+            category, basis = "quota", "http_status"
+        elif status in (401, 403):
             category, basis = ("authentication" if status == 401 else "permission"), "http_status"
         elif isinstance(status, int) and 500 <= status < 600:
             category, basis = "service_unavailable", "http_status"
@@ -83,6 +99,8 @@ def normalize_error(value, *, source, event_ref=None):
             category, basis = classify(message, "message")
             if category == "unknown_provider_failure":
                 category, basis = classify(str(code or ""), "error_type")
+            if category == "unknown_provider_failure" and status == 429:
+                category, basis = "rate_limit", "http_status"
     if category == "unknown_provider_failure" and (
             isinstance(value, (TimeoutError, ConnectionError)) or type(value).__name__ in {"APITimeoutError", "APIConnectionError"}):
         category, basis = "network", "exception_type"

@@ -1,0 +1,660 @@
+{
+  "paper_id": "paper_d142c9737f95225b",
+  "scientific_question": "How can the ligand environment of the specified manganese precatalysts affect plausible active forms and the accessibility of isopropanol oxidation and acetophenone reduction, and what stereochemical preference can be supported for an explicitly defined catalyst configuration?",
+  "scope": "Use `data/inputs/system.json` for the complete precursor/ligand graphs, base treatment and reaction observations. Propose chemically plausible active-form hypotheses from these starting facts and investigate how they influence the two transfer-hydrogenation half-reactions. No active form or population is supplied as fact. The assessed scientific scope is the reaction energetics of defensible candidate forms and stereochemical outcomes conditional on a specified catalyst configuration. A calculation of precursor activation barriers, proof of actual solution populations, full catalyst speciation, a bulk enantiomeric excess or an experimental rate is not required. The sulfur-free precursor is experimental context. Molecular-H2 hydrogenation, isotope effects and complete precursor equilibria are outside the required core.",
+  "author_computation": {
+    "performed_by_authors": true,
+    "source_documents": [
+      "main.pdf",
+      "supplementary_001.docx"
+    ]
+  },
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "current_scope_verified": false,
+  "release_status": "pending_source_qualification_and_independent_computation",
+  "quantitative_reference_qualification": {
+    "status": "pending_source_qualification",
+    "reserved_scientific_points": 40,
+    "denominator": 100,
+    "redistribution_allowed": false,
+    "pending_rule_ids": [
+      "R_OX",
+      "R_RED",
+      "R_REST",
+      "R_SR"
+    ],
+    "owner": "benchmark release/verification owner",
+    "meaning": "Source-qualified unresolved quantitative items remain in the rubric and cannot be certified completed or replaced by trend-only credit. This is not an additional AR investigation requirement."
+  },
+  "source_qualifications": [
+    "Main Figures 4–6 and SI Table S2 solution Gtot do not produce identical barriers using the explicitly stated separated-reactant ledgers. Example Mn1-tBu S/R barriers: main 10.63/11.67, direct SI arithmetic 9.14219/11.06738 kcal/mol. The corresponding gap is main 1.04 versus SI 1.92520. Mn2-tBu gap is main 2.02 versus SI 2.91039. All source sides and arithmetic are preserved in source_audit/energy_table_audit.json. Do not select one side as unique gold or enlarge tolerances.",
+    "Some reaction thermodynamics or fine orderings change across sources: Mn1-tBu alcohol oxidation is −1.04 kcal/mol in the main text but +0.06777 from SI Gtot; Mn1 Me/tBu oxidation ordering and the tert-butyl R-channel NN/NNS reduction ordering are not source-robust. These are excluded from mandatory directional targets.",
+    "The robust current scientific scope is matched candidate identities; NN tricarbonyl versus NNS dicarbonyl oxidation ordering; the S-channel reduction ordering; within a fixed handed configuration the S/R energetic asymmetry; and the coupled half-reaction account. Absolute barrier/ΔΔG targets remain source-qualified pending reconciliation, so there are no unique numerical-closeness rules for the conflicted quantities.",
+    "SI Table S2 supplies gas E/ZPE/Hcorr/Gcorr/NImag and solution E/Htot/Gtot. Its solution Gtot values are not invariably identical to solution E plus the printed gas Gcorr. The exact correction assembly must be audited before attributing discrepancies to a method. Original input decks, grids, frequency scaling and multiplicity are not printed; a closed-shell singlet Mn(I) model is an explicit assumption unless supported by new evidence.",
+    "The source label TS2(Mn-Me) is assigned to Mn2-Me by the surrounding Table S2 rows and composition; retain this alias rather than silently changing the source. Some later proton-transfer TS Gibbs ordinates are lower than adjacent intermediate ordinates; validate the electronic stationary points and thermochemical definitions.",
+    "The selected achiral-ligand catalyst geometries can be chiral conformations/configurations. Their S/R differences and source 84%/96% estimates do not establish ensemble ee. Include mirror-related catalyst forms/populations only if making such an additional claim; bulk ee is not a gold.",
+    "No quantum-chemical validation was run in this repair. This package is release pending source reconciliation and current-scope computation. Proposing active forms does not require uncomputed precursor-activation barriers or proof of true solution speciation."
+  ],
+  "computational_references": [
+    {
+      "key_point_id": "K_ACTIVE",
+      "key_point_type": "result",
+      "statement": "Chemically valid active-form hypotheses lead to comparable catalytic states.",
+      "expected": {
+        "source_models": {
+          "A": "neutral NN-Mn(I)(CO)3 amido, thioether pendant",
+          "B": "neutral NNS-Mn(I)(CO)2 amido, thioether bound",
+          "R": [
+            "Me",
+            "tBu"
+          ],
+          "conditions": "iPrOH, 298.15 K, 1 atm; singlet assumption must be stated/checked; gas M06L/TZVP geometry plus GD3/SMD iPrOH single points",
+          "energy_references": {
+            "oxidation": "candidate amido + one iPrOH",
+            "reduction": "matching amine-hydride + one acetophenone",
+            "effective_oxidation": "matching N-protonated Mn-isopropoxide"
+          },
+          "unit": "kcal/mol"
+        },
+        "required_result": "Actual modeled candidates and reaction-state identities support the tested chemical comparison. Starting from real precatalysts is allowed without claiming measured active-form populations."
+      },
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_SI"
+      ]
+    },
+    {
+      "key_point_id": "K_OX",
+      "key_point_type": "result",
+      "statement": "The matched alcohol-oxidation profiles contain real O-H/C-H transfer intermediates and barriers.",
+      "expected": {
+        "physical_definition": {
+          "A": "neutral NN-Mn(I)(CO)3 amido, thioether pendant",
+          "B": "neutral NNS-Mn(I)(CO)2 amido, thioether bound",
+          "R": [
+            "Me",
+            "tBu"
+          ],
+          "conditions": "iPrOH, 298.15 K, 1 atm; singlet assumption must be stated/checked; gas M06L/TZVP geometry plus GD3/SMD iPrOH single points",
+          "energy_references": {
+            "oxidation": "candidate amido + one iPrOH",
+            "reduction": "matching amine-hydride + one acetophenone",
+            "effective_oxidation": "matching N-protonated Mn-isopropoxide"
+          },
+          "unit": "kcal/mol"
+        },
+        "source_qualified_results": [
+          {
+            "model": "Mn1-Me",
+            "main_figures_kcal_mol": {
+              "oxidation": 11.53,
+              "oxidation_reaction": -0.33,
+              "reduction_S": 10.39,
+              "reduction_R": 11.88,
+              "resting": -4.34,
+              "effective": 15.87,
+              "R_minus_S": 1.49
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 10.527726,
+              "oxidation_reaction": -0.608684,
+              "resting": -2.916037,
+              "effective": 13.443763,
+              "reduction_S": 10.313118,
+              "reduction_R": 12.795546,
+              "R_minus_S": 2.482427
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn1-tBu",
+            "main_figures_kcal_mol": {
+              "oxidation": 10.85,
+              "oxidation_reaction": -1.04,
+              "reduction_S": 10.63,
+              "reduction_R": 11.67,
+              "resting": -5.17,
+              "effective": 16.02,
+              "R_minus_S": 1.04
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 10.739825,
+              "oxidation_reaction": 0.067771,
+              "resting": -1.869978,
+              "effective": 12.609803,
+              "reduction_S": 9.142186,
+              "reduction_R": 11.067385,
+              "R_minus_S": 1.925199
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn2-Me",
+            "main_figures_kcal_mol": {
+              "oxidation": 15.78,
+              "oxidation_reaction": 6.01,
+              "reduction_S": 8.65,
+              "reduction_R": 10.52,
+              "resting": -4.17,
+              "effective": 19.95,
+              "R_minus_S": 1.87
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 16.552445,
+              "oxidation_reaction": 6.759532,
+              "resting": -1.915159,
+              "effective": 18.467604,
+              "reduction_S": 8.509028,
+              "reduction_R": 11.732545,
+              "R_minus_S": 3.223516
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn2-tBu",
+            "main_figures_kcal_mol": {
+              "oxidation": 14.78,
+              "oxidation_reaction": 5.32,
+              "reduction_S": 8.16,
+              "reduction_R": 10.18,
+              "resting": -4.72,
+              "effective": 19.5,
+              "R_minus_S": 2.02
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 15.680834,
+              "oxidation_reaction": 5.745477,
+              "resting": -4.566386,
+              "effective": 20.247221,
+              "reduction_S": 8.402979,
+              "reduction_R": 11.313368,
+              "R_minus_S": 2.910389
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          }
+        ],
+        "required_result": "Compute and report the O-H/C-H transfer profile for matched candidate identities, preserving separated-reactant ledger and raw thermal terms. Absolute source magnitudes are unresolved; source agreement alone is not credit.",
+        "qualification_owner": "benchmark release/verification owner; not the autonomous agent",
+        "quantitative_credit_status": "reserved and currently unassessable; cannot be completed by trends alone"
+      },
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ],
+      "reference_status": "pending_source_qualification"
+    },
+    {
+      "key_point_id": "K_REST",
+      "key_point_type": "result",
+      "statement": "The stabilized isopropoxide reference changes the effective oxidation barrier.",
+      "expected": {
+        "physical_definition": "G(TS_C-H)-G(Mn-isopropoxide) compared with G(TS_C-H)-G(amido)-G(iPrOH)",
+        "source_qualified_results": [
+          {
+            "model": "Mn1-Me",
+            "main_figures_kcal_mol": {
+              "oxidation": 11.53,
+              "oxidation_reaction": -0.33,
+              "reduction_S": 10.39,
+              "reduction_R": 11.88,
+              "resting": -4.34,
+              "effective": 15.87,
+              "R_minus_S": 1.49
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 10.527726,
+              "oxidation_reaction": -0.608684,
+              "resting": -2.916037,
+              "effective": 13.443763,
+              "reduction_S": 10.313118,
+              "reduction_R": 12.795546,
+              "R_minus_S": 2.482427
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn1-tBu",
+            "main_figures_kcal_mol": {
+              "oxidation": 10.85,
+              "oxidation_reaction": -1.04,
+              "reduction_S": 10.63,
+              "reduction_R": 11.67,
+              "resting": -5.17,
+              "effective": 16.02,
+              "R_minus_S": 1.04
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 10.739825,
+              "oxidation_reaction": 0.067771,
+              "resting": -1.869978,
+              "effective": 12.609803,
+              "reduction_S": 9.142186,
+              "reduction_R": 11.067385,
+              "R_minus_S": 1.925199
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn2-Me",
+            "main_figures_kcal_mol": {
+              "oxidation": 15.78,
+              "oxidation_reaction": 6.01,
+              "reduction_S": 8.65,
+              "reduction_R": 10.52,
+              "resting": -4.17,
+              "effective": 19.95,
+              "R_minus_S": 1.87
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 16.552445,
+              "oxidation_reaction": 6.759532,
+              "resting": -1.915159,
+              "effective": 18.467604,
+              "reduction_S": 8.509028,
+              "reduction_R": 11.732545,
+              "R_minus_S": 3.223516
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn2-tBu",
+            "main_figures_kcal_mol": {
+              "oxidation": 14.78,
+              "oxidation_reaction": 5.32,
+              "reduction_S": 8.16,
+              "reduction_R": 10.18,
+              "resting": -4.72,
+              "effective": 19.5,
+              "R_minus_S": 2.02
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 15.680834,
+              "oxidation_reaction": 5.745477,
+              "resting": -4.566386,
+              "effective": 20.247221,
+              "reduction_S": 8.402979,
+              "reduction_R": 11.313368,
+              "R_minus_S": 2.910389
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          }
+        ],
+        "required_result": "Calculate the relevant stabilized state and distinguish the effective barrier from the separated-reactant ordinate.",
+        "qualification_owner": "benchmark release/verification owner; not the autonomous agent",
+        "quantitative_credit_status": "reserved and currently unassessable; cannot be completed by trends alone"
+      },
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "reference_status": "pending_source_qualification"
+    },
+    {
+      "key_point_id": "K_RED",
+      "key_point_type": "result",
+      "statement": "Ketone-reduction profiles are computed for defined active forms and substrate faces.",
+      "expected": {
+        "physical_definition": {
+          "A": "neutral NN-Mn(I)(CO)3 amido, thioether pendant",
+          "B": "neutral NNS-Mn(I)(CO)2 amido, thioether bound",
+          "R": [
+            "Me",
+            "tBu"
+          ],
+          "conditions": "iPrOH, 298.15 K, 1 atm; singlet assumption must be stated/checked; gas M06L/TZVP geometry plus GD3/SMD iPrOH single points",
+          "energy_references": {
+            "oxidation": "candidate amido + one iPrOH",
+            "reduction": "matching amine-hydride + one acetophenone",
+            "effective_oxidation": "matching N-protonated Mn-isopropoxide"
+          },
+          "unit": "kcal/mol"
+        },
+        "source_qualified_results": [
+          {
+            "model": "Mn1-Me",
+            "main_figures_kcal_mol": {
+              "oxidation": 11.53,
+              "oxidation_reaction": -0.33,
+              "reduction_S": 10.39,
+              "reduction_R": 11.88,
+              "resting": -4.34,
+              "effective": 15.87,
+              "R_minus_S": 1.49
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 10.527726,
+              "oxidation_reaction": -0.608684,
+              "resting": -2.916037,
+              "effective": 13.443763,
+              "reduction_S": 10.313118,
+              "reduction_R": 12.795546,
+              "R_minus_S": 2.482427
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn1-tBu",
+            "main_figures_kcal_mol": {
+              "oxidation": 10.85,
+              "oxidation_reaction": -1.04,
+              "reduction_S": 10.63,
+              "reduction_R": 11.67,
+              "resting": -5.17,
+              "effective": 16.02,
+              "R_minus_S": 1.04
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 10.739825,
+              "oxidation_reaction": 0.067771,
+              "resting": -1.869978,
+              "effective": 12.609803,
+              "reduction_S": 9.142186,
+              "reduction_R": 11.067385,
+              "R_minus_S": 1.925199
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn2-Me",
+            "main_figures_kcal_mol": {
+              "oxidation": 15.78,
+              "oxidation_reaction": 6.01,
+              "reduction_S": 8.65,
+              "reduction_R": 10.52,
+              "resting": -4.17,
+              "effective": 19.95,
+              "R_minus_S": 1.87
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 16.552445,
+              "oxidation_reaction": 6.759532,
+              "resting": -1.915159,
+              "effective": 18.467604,
+              "reduction_S": 8.509028,
+              "reduction_R": 11.732545,
+              "R_minus_S": 3.223516
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn2-tBu",
+            "main_figures_kcal_mol": {
+              "oxidation": 14.78,
+              "oxidation_reaction": 5.32,
+              "reduction_S": 8.16,
+              "reduction_R": 10.18,
+              "resting": -4.72,
+              "effective": 19.5,
+              "R_minus_S": 2.02
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 15.680834,
+              "oxidation_reaction": 5.745477,
+              "resting": -4.566386,
+              "effective": 20.247221,
+              "reduction_S": 8.402979,
+              "reduction_R": 11.313368,
+              "R_minus_S": 2.910389
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          }
+        ],
+        "required_result": "Identify and support hydride/proton transfer and the S/R structures; do not substitute an oxidation barrier or wrong hydride donor.",
+        "qualification_owner": "benchmark release/verification owner; not the autonomous agent",
+        "quantitative_credit_status": "reserved and currently unassessable; cannot be completed by trends alone"
+      },
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "reference_status": "pending_source_qualification"
+    },
+    {
+      "key_point_id": "K_SR",
+      "key_point_type": "result",
+      "statement": "S/R energetic asymmetry is conditional on the catalyst configuration.",
+      "expected": {
+        "physical_definition": "G(TS_R)-G(TS_S) for the same catalyst geometry family, conformer and amine-hydride+acetophenone reference",
+        "source_qualified_results": [
+          {
+            "model": "Mn1-Me",
+            "main_figures_kcal_mol": {
+              "oxidation": 11.53,
+              "oxidation_reaction": -0.33,
+              "reduction_S": 10.39,
+              "reduction_R": 11.88,
+              "resting": -4.34,
+              "effective": 15.87,
+              "R_minus_S": 1.49
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 10.527726,
+              "oxidation_reaction": -0.608684,
+              "resting": -2.916037,
+              "effective": 13.443763,
+              "reduction_S": 10.313118,
+              "reduction_R": 12.795546,
+              "R_minus_S": 2.482427
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn1-tBu",
+            "main_figures_kcal_mol": {
+              "oxidation": 10.85,
+              "oxidation_reaction": -1.04,
+              "reduction_S": 10.63,
+              "reduction_R": 11.67,
+              "resting": -5.17,
+              "effective": 16.02,
+              "R_minus_S": 1.04
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 10.739825,
+              "oxidation_reaction": 0.067771,
+              "resting": -1.869978,
+              "effective": 12.609803,
+              "reduction_S": 9.142186,
+              "reduction_R": 11.067385,
+              "R_minus_S": 1.925199
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn2-Me",
+            "main_figures_kcal_mol": {
+              "oxidation": 15.78,
+              "oxidation_reaction": 6.01,
+              "reduction_S": 8.65,
+              "reduction_R": 10.52,
+              "resting": -4.17,
+              "effective": 19.95,
+              "R_minus_S": 1.87
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 16.552445,
+              "oxidation_reaction": 6.759532,
+              "resting": -1.915159,
+              "effective": 18.467604,
+              "reduction_S": 8.509028,
+              "reduction_R": 11.732545,
+              "R_minus_S": 3.223516
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          },
+          {
+            "model": "Mn2-tBu",
+            "main_figures_kcal_mol": {
+              "oxidation": 14.78,
+              "oxidation_reaction": 5.32,
+              "reduction_S": 8.16,
+              "reduction_R": 10.18,
+              "resting": -4.72,
+              "effective": 19.5,
+              "R_minus_S": 2.02
+            },
+            "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+              "oxidation": 15.680834,
+              "oxidation_reaction": 5.745477,
+              "resting": -4.566386,
+              "effective": 20.247221,
+              "reduction_S": 8.402979,
+              "reduction_R": 11.313368,
+              "R_minus_S": 2.910389
+            },
+            "reference_ledger": {
+              "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+              "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+              "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+            },
+            "status": "source conflict: neither source selected as a unique numeric gold"
+          }
+        ],
+        "required_result": "Compute the paired structures and map catalyst handedness and product R/S. Do not choose main or SI ΔΔG as a unique gold.",
+        "qualification_owner": "benchmark release/verification owner; not the autonomous agent",
+        "quantitative_credit_status": "reserved and currently unassessable; cannot be completed by trends alone"
+      },
+      "evidence_ids": [
+        "E_RED",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "reference_status": "pending_source_qualification"
+    },
+    {
+      "key_point_id": "K_OX_ORDER",
+      "key_point_type": "result",
+      "statement": "The author NN tricarbonyl forms have lower alcohol-oxidation barriers than matched NNS dicarbonyl forms.",
+      "expected": {
+        "ordering": "A(Me)<B(Me); A(tBu)<B(tBu)",
+        "scope": "Robust in the main figure and SI Gtot reconstruction; requires matched reaction and energy zeros."
+      },
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ]
+    },
+    {
+      "key_point_id": "K_RED_ORDER",
+      "key_point_type": "result",
+      "statement": "The S-channel reduction favors the author NNS dicarbonyl forms in the conditional comparison.",
+      "expected": {
+        "ordering": "B(Me,S)<A(Me,S); B(tBu,S)<A(tBu,S)",
+        "scope": "Only the S-channel ordering is source-robust. The R-channel cross-catalyst ordering is not required."
+      },
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "key_point_id": "K_SR_ORDER",
+      "key_point_type": "result",
+      "statement": "The paired author configurations have a lower S-faced than R-faced TS.",
+      "expected": {
+        "ordering": "S<R for each matched published configuration; a mirror-related catalyst requires the correspondingly inverted product mapping.",
+        "scope": "No inference of bulk ee or true catalyst configuration populations."
+      },
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "key_point_id": "K_PATH",
+      "key_point_type": "result",
+      "statement": "A coupled proton/hydride-transfer account connects both organic half-reactions.",
+      "expected": {
+        "required_result": "Real computed intermediates/TS connectivity support an amido↔amine-hydride catalytic sequence or a demonstrated alternative within the same question. Account for transfer of O-H/C-H hydrogen from iPrOH and delivery to acetophenone. Do not infer a precursor activation barrier from a reaction free energy."
+      },
+      "evidence_ids": [
+        "E_OX",
+        "E_RED",
+        "E_CYCLE"
+      ]
+    }
+  ],
+  "minimum_verification_results": [
+    "K_ACTIVE: main Scheme 2/Figure 2 and SI Table S3; map real NNS precatalysts to hypothesized A/B, verify graph/CO count/charge and chosen spin; no activation barrier/population demand.",
+    "K_OX/K_REST/K_OX_ORDER: Figure 4 and Figure 8; SI Table S2 rows Mn1-Me, Mn1-tBu, Mn2-Me, Mn2-tBu, isopropanol, TS1/Int1/TS2 and VII/VIII-R-OCHMe2. Reconstruct E/Gcorr/Gtot and both reference ledgers; preserve the TS2(Mn-Me) source alias.",
+    "K_RED/K_SR/K_RED_ORDER/K_SR_ORDER: Figures 5–6 and Table S2 matching amine-hydride, acetophenone and TS1/Int1/TS2 S/R rows. Minimum tBu A/B S/R paired result; Me variants complete the matched scope. Resolve main-versus-SI gap discrepancies before any unique numeric gold.",
+    "K_PATH/C_ACTIVITY/C_STEREO: verify frequency/IRC and hydrogen/handedness mapping, couple half-reactions, retain conditional stereochemical scope and release-pending source conflicts."
+  ],
+  "prohibited_scope_expansion": "Do not add uncomputed activation networks, populations or quantitative experimental observables as required gold."
+}

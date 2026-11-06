@@ -1,0 +1,77 @@
+{
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "S1 Ph/DA为3.1413/2.9733 eV；T1为1.7339/1.7293；2T−S为0.3265/0.4853；ΔST为1.4074/1.2440。DA S1 f=0.0001、S2 f=0.3206。",
+  "accepted_limitations": "Ph文字/图的态顺序冲突保留；能量相容不证明TTA速率、效率或唯一延迟机理。TADF判定按实际热尺度，不保留0.5 eV硬阈值。",
+  "objective_issue_flags": [
+    "Ph文字/图的态顺序冲突保留；能量相容不证明TTA速率、效率或唯一延迟机理。TADF判定按实际热尺度，不保留0.5 eV硬阈值。"
+  ],
+  "current_rules": [
+    "r_singlet_substitution_response",
+    "r_triplet_similarity",
+    "r_ph_tta_compatible",
+    "r_da_tta_compatible",
+    "r_molecular_solution_interpretation",
+    "r_small_gap_tadf"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_3c058fa17fa7c54e",
+    "scoring_policy": "paper_science_v3",
+    "mode": "final_results_100",
+    "status": "V3_CONTENT_AUDITED_EXISTING_EVIDENCE_REUSED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "current_scope_verified": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "historical_acceptance": {
+      "paper_id": "paper_3c058fa17fa7c54e",
+      "scoring_policy": "paper_science_v2",
+      "status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "current_scope_verified": true,
+      "acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+      "reason": "Authorized 2026-10-19 scientific-scoring migration preserves existing independent strict acceptance. This is not new chemistry validation, a blind agent experiment or publication approval.",
+      "accepted_limitations": "Independent strict acceptance covers the correctly mapped low singlet/triplet states and bounded molecular TTA compatibility. Higher-state degeneracy, some orbital localization claims and source HF onset are not certified. Positive2T1−S1 is necessary energetic compatibility, not a TTA rate/yield or OLED-efficiency demonstration. Source theory/experimental orbital-energy wording conflicts are preserved.",
+      "tolerance_basis": "All four comparable vertical-state energies use inclusive±0.050 eV. This single provisional spectroscopic class is deliberately smaller than the roughly0.16eV source singlet difference and0.32–0.47eV TTA margins, accommodates small same-Hamiltonian geometry shifts documented by validation, and is not a universal TDDFT empirical error bar. It was not set to maximum residual+epsilon. State identity and common definition are prerequisites; solution onsets are never shifted to match. S1 ordering, similar triplets and final energy inequalities are independently judged, so overlapping numeric windows do not guarantee a correct trend.",
+      "authority": [
+        "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "tasks/v2_autonomous_research/paper_3c058fa17fa7c54e/evaluation/verified_computation_reference.md"
+      ],
+      "coordinator_review": {
+        "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+        "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+        "review_key": "v2_paper_3c058fa17fa7c54e",
+        "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+        "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+        "publication_readiness_unchanged": true
+      },
+      "repair_round3": {
+        "date": "2026-10-19",
+        "mode_scope": "AR remains open-method for public identities; PR author-baseline provenance retained.",
+        "historical_chemical_acceptance_changed": false,
+        "new_computations": false,
+        "review_report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_02/paper_3c058fa17fa7c54e.md"
+      }
+    },
+    "acceptance_class": "Historical strict V2 low-state reference; no blanket V3 acceptance",
+    "reason": "Current V3 contract is available for scoring. Historical acceptance is not a V3 scientific pass; no new computation, blind task run or semantic judge calibration was performed.",
+    "evidence_reuse_summary": "四个最终态能规则 r_ph_s1/r_ph_t1/r_da_s1/r_da_t1 复用原生TD日志：Ph 3.1413/1.7339、DA 2.9733/1.7293 eV，相对原目标残差 −0.0044/−0.0008/−0.0102/+0.0009 eV，原±0.050 eV硬窗不变。r_singlet_substitution_response/r_triplet_similarity：S1(DA−Ph)=−0.1680 eV、T1变化−0.0046 eV；r_ph_tta_compatible/r_da_tta_compatible：2T1−S1=0.3265/0.4853 eV；r_small_gap_tadf：S1−T1=1.4074/1.2440 eV。r_molecular_solution_interpretation 复用同一日志中Ph S1 f=0.2768、DA S1 f=0.0001及S2 f=0.3206，结合公开Table 1观察，支持态能与吸收峰不等同和解释边界；未把能量允许当作溶液速率证明。",
+    "evidence_gaps": [
+      "没有溶液TTA速率/产率、弛豫发射态或完整机制的验证；只评有界联系，不能把能量兼容升格为唯一机制",
+      "正文p4 Ph S/T次序及HOMO/LUMO标注冲突保留；本轮直接查看p2 Fig2确定S/T身份",
+      "旧评分要求氧敏感性但公开输入未给；删除该隐含证据门槛，保留已给寿命与光谱解释"
+    ],
+    "tolerance_policy": "Retained numeric rules keep original targets, inclusive tolerances and units. Source-route nodes marked scored=false are supporting evidence, not separate numeric gates. Missing or inapplicable evidence fails its dependent conclusion."
+  }
+}

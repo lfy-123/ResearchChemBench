@@ -1,0 +1,88 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "observed_at_utc": "2026-09-28T17:33:12.408222+00:00",
+  "read_only": true,
+  "new_scientific_calculations_performed": false,
+  "historical_progress": {
+    "path": "docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/report/progress.json",
+    "sha256": "06c39bbc861dab189ddd1fac259d10b6c5648a814404b75e062c92b90ebc51ee",
+    "recorded_observation_date": "2026-09-28T16:42:08.919956+00:00",
+    "actual_results_as_recorded": "正确114原子截短二核先导已从平台停止后的最后有效SCF几何恢复，作业3fbad7fc在运行；完整210原子模型及自旋对照已准备，受先导质量门约束",
+    "scientific_completion_as_recorded": false,
+    "native_jobs_refreshed": false
+  },
+  "applicability": "114 原子截短模型在途先导不应冒充源 Hap 或完整 210 原子验证；V2 模型取舍先做来源/资源论证，避免无必要增加整套计算。",
+  "reference_gap": "The historical114-atom egan pilot is not source Hap evidence; its unfinished status cannot certify any stationary point. Later calibrate a chosen model against genuine raw electronic/structural evidence and source stationary-point definitions. No compulsory full210/114 pair or invented exact bond-order tolerance is retained.",
+  "records": [
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/legacy/independent_reaudit.json",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 4240,
+      "sha256": "10f570431f505b0a57dd6b623d2f59a14e819f272e99096215dba2062e8b661b"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/outputs/truncated_CS_source_optfreq/attempt_01",
+      "exists": true,
+      "kind": "directory",
+      "status": "locator_only_not_a_completed_scientific_result"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/outputs/truncated_CS_source_optfreq/attempt_01/gaussian.log",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 42485487,
+      "hash_status": "not_hashed_in_content_review; follow recorded audit before scientific reuse"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/outputs/truncated_CS_source_optfreq_platform_resume1/attempt_01",
+      "exists": true,
+      "kind": "directory",
+      "status": "locator_only_not_a_completed_scientific_result"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/provenance/terminal_takeover_truncated_CS_source_optfreq.json",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 3558,
+      "sha256": "d93fe7ff413be144a54180a0f581008395e599e8fb419b5874a6d8c5cce49716"
+    },
+    {
+      "path": "docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/qzcli_hpc/cis_alpha_author_b3lyp_sdd_631gd_optfreq_v2_58atom/hpc_20260911T075318Z_1830377/gaussian.log",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 744712,
+      "sha256": "d46c254fa8d01bf786b35280440f228c88e3fa058565cce34cc0fc2650c9cc65"
+    },
+    {
+      "path": "docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/qzcli_hpc/cis_beta_author_correct_elements_20260914/repair_20260914T123300Z/gaussian.log",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 1099603,
+      "sha256": "10f9c687dbd8d6c331a9aa5cb0a4285a97e465a46223cfb30ec5ef4dab695439"
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_6/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 415147,
+      "sha256": "733d1efabb39deac239f2318d48fc7385a9faa720b2a206bfeede892b4a158fa"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/report/progress.json",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 4062,
+      "sha256": "06c39bbc861dab189ddd1fac259d10b6c5648a814404b75e062c92b90ebc51ee"
+    },
+    {
+      "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_e31cc7bc7b21b610/evaluation/reference_validation_plan.md",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 3230,
+      "sha256": "22fd69f9352ea54d8ceb1a4929c87473e951459aa503ac6ed1251e43fa7c9e37"
+    }
+  ],
+  "caveat": "Historical114-atom egan jobs are benchmark-added models, despite historical progress calling them source models. They are not the SI54-atom Hap model. Historical preparation/running states do not certify a minimum or a new V2 reference.",
+  "boundary": "File existence/hash establishes provenance only. Historical job status is a dated recorded observation, not a live platform check. V1 matrices are historical designs, not mandatory V2 evaluation routes."
+}

@@ -1,0 +1,122 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_axial_activity_contrast",
+      "r_linker_accessibility_contrast",
+      "r_framework_electronic_explanation",
+      "r_background_contrast"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required molecular explanation concerns catalyst-level structure–activity relationships at initial activation; hypotheses and quantitative molecular comparisons are selected independently. A complete cycle, yield-time model or resolved C/E crossing mechanism is not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How do catalysts A–E promote the initial activation of the isoquinoline Mukaiyama–Mannich reaction, and which molecular differences explain their principal activity contrasts? This is an explanation task: the measured yields are given; the molecular explanation must come from your calculations.",
+  "active_rule_ids": [
+    "r_axial_activity_contrast",
+    "r_linker_accessibility_contrast",
+    "r_framework_electronic_explanation",
+    "r_background_contrast"
+  ],
+  "current_outcome_ids": [
+    "axial_activity_contrast",
+    "linker_accessibility_contrast",
+    "framework_electronic_explanation",
+    "background_contrast"
+  ],
+  "historical_record": {
+    "paper_id": "paper_2a71ffa4b0a90809",
+    "scoring_policy": "paper_science_v3",
+    "status": "FINAL_RESULTS_V3_EVIDENCE_REVIEW",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "reason": "Final-result criteria are active; historical acceptance is not inherited. See final_result_coverage.json for item-specific native evidence and remaining limits.",
+    "physical_definition": {
+      "quantity": "DeltaG_assoc(conf)=G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−)",
+      "temperature_K": 193.15,
+      "solvent": "THF",
+      "source_model": "M06-2X-D3/6-311+G(d,p)-SDD(I), SMD18(THF), Gaussian16; stationarity/frequency claims require actual output validation",
+      "state": "free donors0/singlet; Cl− and complexes−1/singlet",
+      "source_labels": {
+        "A": "1a-syn",
+        "B": "1a-anti",
+        "C_syn": "1b-syn",
+        "C_anti": "1b-anti",
+        "D_syn": "1c-syn",
+        "D_anti": "1c-anti",
+        "E": "1d"
+      },
+      "source_standard_state": "Not explicitly printed by authors. Raw S21/S22 Cl− thermal terms at193.15K support a1atm convention within published rounding; use transparent1atm/1M conversion rather than treating the offset as numerical error.",
+      "public_reporting_standard_state": "1mol/L solution standard state; retain raw output convention and show every conversion separately",
+      "conformer_reference": "Each source complex is paired with the corresponding named free conformer, not an arbitrary global minimum. A/B are prepared axial identities. Report a separate ensemble calculation only when equilibrium/populations at the relevant preparation/reaction temperature are justified; no silent conformer substitution.",
+      "experimental_comparison": "Acetone295K titration K values are a different experiment from THF193.15K association calculations; do not use them interchangeably."
+    },
+    "standard_state_analysis": {
+      "temperature_K": 193.15,
+      "source_table_raw_DeltaG_kcal_mol": {
+        "A": -8.23543433681468,
+        "B": -2.5602386538765796,
+        "C_syn": -5.911139245137117,
+        "C_anti": -1.4658621312727114,
+        "D_syn": -7.131017662509482,
+        "D_anti": -2.4912126117681748,
+        "E": -3.2937972290566906
+      },
+      "one_species_1atm_to_1M_correction_kcal_mol": 1.0605682034744512,
+      "association_delta_n": -1,
+      "conditional_association_correction_kcal_mol": -1.0605682034744512,
+      "formula": "DeltaG(1M)=DeltaG(1atm)+Delta_n*R*T*ln(C0*R_atm*T/p0), C0=1mol/L, p0=1atm, Delta_n=-1",
+      "conditional_1M_DeltaG_kcal_mol": {
+        "A": -9.296002540289132,
+        "B": -3.620806857351031,
+        "C_syn": -6.971707448611569,
+        "C_anti": -2.526430334747163,
+        "D_syn": -8.191585865983933,
+        "D_anti": -3.5517808152426262,
+        "E": -4.354365432531142
+      },
+      "qualification": "Exact standard-state algebra. Source pressure is not explicitly printed, but Cl− source-table thermal terms support1atm within rounding. Transparent conversion only, not a fitted offset or new target."
+    },
+    "unblock_conditions": [],
+    "current_scope_verified": false,
+    "verification_status_record": "evaluation/current_verification_status.json",
+    "evidence_requirement": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+    "model_choice_and_time_dependence_scope": "The active C/D and C/E conclusions evaluate supported molecular explanations of the specified comparisons. Conformational accessibility and directional electronic properties are reference explanations, not mandatory model choices. Evidence requirements follow claims. C/E crossing must be retained and the reach of the molecular evidence assessed; resolving its time-dependent mechanism or computing a new kinetic model is not required. Unsupported speculation and generic uncertainty remain insufficient.",
+    "historical_tolerance_policy_non_scoring_20261029": {
+      "version": "20261017_provisional",
+      "status": "user_approved_pending_expert_review",
+      "affinity_absolute_kcal_mol": 1.0,
+      "rationale": "Practical absolute window for comparable conformer-specific association free energies, informed by source thermochemistry and validation; not fitted to agent scores or asserted as universal method accuracy.",
+      "verification_max_abs_error_kcal_mol": 0.04480553
+    },
+    "scoring_revision": "conclusion_only_20261029",
+    "active_numeric_rules": 0,
+    "binary_final_result_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+    "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+    "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+    "migration_20261029": "Scoring-contract update only. Historical scientific status, acceptance labels, evidence gaps and source/native values remain unchanged. No quantum jobs, new scientific validation or automatic promotion to strict acceptance."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "axial_activity_contrast": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "linker_accessibility_contrast": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "framework_electronic_explanation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "background_contrast": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

@@ -1,0 +1,100 @@
+{
+  "guidance_markdown": "## Author-provided scientific guidance\n\nThe author baseline concerns quinoxalin-2(1H)-one and the carbene derived from methyl 2-diazo-2-phenylacetate, retaining the complete phenyl and methyl ester groups. Its reaction model begins after nitrogen loss, with a carbene interacting with the quinoxalinone. The authors investigated transfer of the N-H hydrogen to the carbene on singlet and triplet surfaces, then continued the coupling comparison on the triplet surface. Their proposed continuation compares carbon-nitrogen and carbon-oxygen coupling and describes spin inversion to closed-shell products; it is a conditional model of site selectivity rather than a calculation of primary photoexcitation or diazo photolysis.\n\nThe authors used ORCA 5.0.3 with B3LYP and Grimme D3 dispersion with Becke-Johnson damping. The disclosed geometry-optimization model is SMD(dichloromethane)-B3LYP-D3(BJ)/def2-SVP, with RIJCOSX acceleration and all atoms relaxed. They performed numerical frequency calculations, using no imaginary frequency to identify minima and one imaginary frequency to identify transition states. Single-point calculations used B3LYP-D3(BJ)/def2-TZVP on the def2-SVP geometries with implicit SMD dichloromethane, and the reported mechanistic comparisons are relative Gibbs energies at the combined level. The main energy-profile convention is 298.15 K.\n\nUsing the initial triplet complex as the common zero, the reported triplet hydrogen-transfer transition state is at +11.4 kcal/mol and the resulting triplet radical pair at -12.6 kcal/mol. The corresponding singlet complex, hydrogen-transfer transition state and intermediate are plotted at -5.0, +1.6 and -5.2 kcal/mol, respectively, on that same initial-triplet zero. The authors favored continuation from the more stable triplet radical pair. The +1.6 value is not a barrier measured from the singlet complex, and the energetic comparison alone is not a determination of spin-population or crossing kinetics.\n\nFrom the common triplet radical pair, the authors report local Gibbs barriers of 25.8 kcal/mol for N coupling and 33.7 kcal/mol for O coupling. On the earlier initial-triplet-complex zero these transition states are +13.2 and +21.1 kcal/mol, respectively, while the common radical pair is -12.6 kcal/mol. The N-coupled triplet and closed-shell singlet structures are reported at -5.1 and -58.5 kcal/mol on that zero; the O-coupled counterparts are +12.1 and -47.3 kcal/mol. Compare chemically identified N and O coupling with consistent local and global reference zeros, not numerical structure labels. These values are the authors' conditional model results, not compulsory answer targets.\n\nThe authors used IBOview for intrinsic bonding orbital analysis of hydrogen transfer along the intrinsic reaction coordinate and interpreted it as homolytic N-H cleavage in a radical pathway. ORCA quasi-restricted orbital analysis placed one unpaired electron on the aryl-ester carbon and the other delocalized over quinoxalinone in the triplet radical pair. After coupling, they described unpaired electrons distributed over the benzene and pyrazine portions of the heterocycle and spin inversion to a closed-shell singlet. The reported QRO display used an isosurface of plus or minus 0.05 a0^(-3/2) at B3LYP-D3(BJ)/def2-TZVP. These orbital assignments support the author interpretation but are not direct reaction-rate measurements.\n\nThe authors performed non-covalent interaction analysis with Multiwfn and visualized its isosurfaces using VMD 1.9.3. They reported a stronger attractive inter-aromatic contact region in the N-coupling transition state, illustrated by a green isosurface, than in the O-coupling transition state. They interpreted this as greater pi-pi or attractive Van der Waals stabilization of the N route and an explanation consistent with the observed N product. This qualitative interaction analysis is a supporting interpretation, not an independent numerical activation barrier or proof that no other explanation is possible.\n\nThe reported comparison explicitly uses relative Gibbs energies at 298.15 K, but the supporting energy table has 298.15 K in its prose and a 373.15 K column label. Retain that ambiguity rather than silently changing the temperature or asserting an exact thermochemical reproduction. The disclosed method description does not provide a complete input deck or all numerical and thermochemical choices; any necessary choices should be recorded as ambiguities or justified substitutions. Use chemical connectivity to identify the compared routes and keep reference-zero and convention assignments explicit.\n\nThe reported barriers and orbital or interaction analyses are conditional on the authors' post-nitrogen-loss reaction model. Spin inversion is proposed in that baseline without a reported calculation of crossing rates, and the profile does not independently establish carbene photogeneration or intersystem-crossing kinetics. No numerical uncertainty or quantitative product detection limit accompanies these reference results. The observed isolated yield must not be converted into an exact selectivity ratio. Assess what the baseline supports and what remains uncertain for the shared selectivity question; agreement alone is not scientific validation.",
+  "statements": [
+    {
+      "protocol_id": "AP_model_and_route",
+      "statement": "The author baseline concerns quinoxalin-2(1H)-one and the carbene derived from methyl 2-diazo-2-phenylacetate, retaining the complete phenyl and methyl ester groups. Its reaction model begins after nitrogen loss, with a carbene interacting with the quinoxalinone. The authors investigated transfer of the N-H hydrogen to the carbene on singlet and triplet surfaces, then continued the coupling comparison on the triplet surface. Their proposed continuation compares carbon-nitrogen and carbon-oxygen coupling and describes spin inversion to closed-shell products; it is a conditional model of site selectivity rather than a calculation of primary photoexcitation or diazo photolysis.",
+      "evidence_ids": [
+        "ev_doc_7a3dbfae5be3_000038_6ff90aa4213c",
+        "ev_doc_7a3dbfae5be3_000039_fea0d53937b4",
+        "ev_doc_fdc577ca0e3d_000253_7dfc703b25fb",
+        "pdf-page-doc_7a3dbfae5be3-p5",
+        "rescue_paper_47948e26afff46f6_si_p035_text",
+        "ev_doc_fdc577ca0e3d_000288_ef038decd6ae",
+        "ev_doc_fdc577ca0e3d_000294_fa809a08bb8f"
+      ]
+    },
+    {
+      "protocol_id": "AP_quantum_chemical_settings",
+      "statement": "The authors used ORCA 5.0.3 with B3LYP and Grimme D3 dispersion with Becke-Johnson damping. The disclosed geometry-optimization model is SMD(dichloromethane)-B3LYP-D3(BJ)/def2-SVP, with RIJCOSX acceleration and all atoms relaxed. They performed numerical frequency calculations, using no imaginary frequency to identify minima and one imaginary frequency to identify transition states. Single-point calculations used B3LYP-D3(BJ)/def2-TZVP on the def2-SVP geometries with implicit SMD dichloromethane, and the reported mechanistic comparisons are relative Gibbs energies at the combined level. The main energy-profile convention is 298.15 K.",
+      "evidence_ids": [
+        "ev_doc_fdc577ca0e3d_000253_7dfc703b25fb",
+        "ev_doc_7a3dbfae5be3_000038_6ff90aa4213c",
+        "ev_doc_7a3dbfae5be3_000045_aeadf46a7f53",
+        "rescue_paper_47948e26afff46f6_si_p031_text"
+      ]
+    },
+    {
+      "protocol_id": "AP_spin_surface_comparison",
+      "statement": "Using the initial triplet complex as the common zero, the reported triplet hydrogen-transfer transition state is at +11.4 kcal/mol and the resulting triplet radical pair at -12.6 kcal/mol. The corresponding singlet complex, hydrogen-transfer transition state and intermediate are plotted at -5.0, +1.6 and -5.2 kcal/mol, respectively, on that same initial-triplet zero. The authors favored continuation from the more stable triplet radical pair. The +1.6 value is not a barrier measured from the singlet complex, and the energetic comparison alone is not a determination of spin-population or crossing kinetics.",
+      "evidence_ids": [
+        "ev_doc_7a3dbfae5be3_000038_6ff90aa4213c",
+        "ev_doc_fdc577ca0e3d_000256_28ff0474e224",
+        "pdf-page-doc_fdc577ca0e3d-p30",
+        "pdf-page-doc_7a3dbfae5be3-p5"
+      ]
+    },
+    {
+      "protocol_id": "AP_competing_coupling_results",
+      "statement": "From the common triplet radical pair, the authors report local Gibbs barriers of 25.8 kcal/mol for N coupling and 33.7 kcal/mol for O coupling. On the earlier initial-triplet-complex zero these transition states are +13.2 and +21.1 kcal/mol, respectively, while the common radical pair is -12.6 kcal/mol. The N-coupled triplet and closed-shell singlet structures are reported at -5.1 and -58.5 kcal/mol on that zero; the O-coupled counterparts are +12.1 and -47.3 kcal/mol. Compare chemically identified N and O coupling with consistent local and global reference zeros, not numerical structure labels. These values are the authors' conditional model results, not compulsory answer targets.",
+      "evidence_ids": [
+        "ev_doc_7a3dbfae5be3_000038_6ff90aa4213c",
+        "ev_doc_7a3dbfae5be3_000039_fea0d53937b4",
+        "ev_doc_7a3dbfae5be3_000045_aeadf46a7f53",
+        "pdf-page-doc_7a3dbfae5be3-p5",
+        "rescue_paper_47948e26afff46f6_si_p031_text",
+        "rescue_paper_47948e26afff46f6_si_p035_text",
+        "ev_doc_fdc577ca0e3d_000288_ef038decd6ae",
+        "ev_doc_fdc577ca0e3d_000294_fa809a08bb8f"
+      ]
+    },
+    {
+      "protocol_id": "AP_orbital_investigations",
+      "statement": "The authors used IBOview for intrinsic bonding orbital analysis of hydrogen transfer along the intrinsic reaction coordinate and interpreted it as homolytic N-H cleavage in a radical pathway. ORCA quasi-restricted orbital analysis placed one unpaired electron on the aryl-ester carbon and the other delocalized over quinoxalinone in the triplet radical pair. After coupling, they described unpaired electrons distributed over the benzene and pyrazine portions of the heterocycle and spin inversion to a closed-shell singlet. The reported QRO display used an isosurface of plus or minus 0.05 a0^(-3/2) at B3LYP-D3(BJ)/def2-TZVP. These orbital assignments support the author interpretation but are not direct reaction-rate measurements.",
+      "evidence_ids": [
+        "ev_doc_7a3dbfae5be3_000038_6ff90aa4213c",
+        "ev_doc_7a3dbfae5be3_000039_fea0d53937b4",
+        "ev_doc_fdc577ca0e3d_000253_7dfc703b25fb",
+        "ev_doc_7a3dbfae5be3_000045_aeadf46a7f53",
+        "ev_doc_fdc577ca0e3d_000258_3eec79963e85",
+        "pdf-page-doc_fdc577ca0e3d-p30"
+      ]
+    },
+    {
+      "protocol_id": "AP_interaction_investigation",
+      "statement": "The authors performed non-covalent interaction analysis with Multiwfn and visualized its isosurfaces using VMD 1.9.3. They reported a stronger attractive inter-aromatic contact region in the N-coupling transition state, illustrated by a green isosurface, than in the O-coupling transition state. They interpreted this as greater pi-pi or attractive Van der Waals stabilization of the N route and an explanation consistent with the observed N product. This qualitative interaction analysis is a supporting interpretation, not an independent numerical activation barrier or proof that no other explanation is possible.",
+      "evidence_ids": [
+        "ev_doc_7a3dbfae5be3_000040_acc9dca6fdc4",
+        "ev_doc_fdc577ca0e3d_000253_7dfc703b25fb",
+        "ev_doc_7a3dbfae5be3_000045_aeadf46a7f53",
+        "pdf-page-doc_7a3dbfae5be3-p5",
+        "rescue_paper_47948e26afff46f6_main_p005_text"
+      ]
+    },
+    {
+      "protocol_id": "AP_reported_convention_ambiguities",
+      "statement": "The reported comparison explicitly uses relative Gibbs energies at 298.15 K, but the supporting energy table has 298.15 K in its prose and a 373.15 K column label. Retain that ambiguity rather than silently changing the temperature or asserting an exact thermochemical reproduction. The disclosed method description does not provide a complete input deck or all numerical and thermochemical choices; any necessary choices should be recorded as ambiguities or justified substitutions. Use chemical connectivity to identify the compared routes and keep reference-zero and convention assignments explicit.",
+      "evidence_ids": [
+        "ev_doc_7a3dbfae5be3_000045_aeadf46a7f53",
+        "ev_doc_fdc577ca0e3d_000253_7dfc703b25fb",
+        "ev_doc_fdc577ca0e3d_000261_23b05d193c99",
+        "rescue_paper_47948e26afff46f6_si_p031_text",
+        "rescue_paper_47948e26afff46f6_si_p035_text",
+        "ev_doc_fdc577ca0e3d_000288_ef038decd6ae",
+        "ev_doc_fdc577ca0e3d_000294_fa809a08bb8f"
+      ]
+    },
+    {
+      "protocol_id": "AP_scope_and_reported_limits",
+      "statement": "The reported barriers and orbital or interaction analyses are conditional on the authors' post-nitrogen-loss reaction model. Spin inversion is proposed in that baseline without a reported calculation of crossing rates, and the profile does not independently establish carbene photogeneration or intersystem-crossing kinetics. No numerical uncertainty or quantitative product detection limit accompanies these reference results. The observed isolated yield must not be converted into an exact selectivity ratio. Assess what the baseline supports and what remains uncertain for the shared selectivity question; agreement alone is not scientific validation.",
+      "evidence_ids": [
+        "ev_doc_7a3dbfae5be3_000022_f8eb913bfa31",
+        "ev_doc_7a3dbfae5be3_000038_6ff90aa4213c",
+        "ev_doc_7a3dbfae5be3_000039_fea0d53937b4",
+        "ev_doc_7a3dbfae5be3_000040_acc9dca6fdc4",
+        "ev_doc_fdc577ca0e3d_000253_7dfc703b25fb",
+        "pdf-page-doc_7a3dbfae5be3-p5"
+      ]
+    }
+  ]
+}

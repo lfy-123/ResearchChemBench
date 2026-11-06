@@ -1,0 +1,81 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "items": [
+    {
+      "conclusion_id": "sulfone_formation_explanation",
+      "claim_role": "final",
+      "statement": "A connected molecular and energetic account explains formation of the target sulfone",
+      "expected": "Explain with actual computed molecular and energetic evidence how the specified system can create the target carbon skeleton and the organic/aryl sulfur connectivity, preserving CF2H, sulfur/oxygen and leaving-group inventories. Interpret what the computed states and energies establish about the proposed conversion and its limits; merely listing carbon addition, SO2 capture and substitution structures is not a final explanation. The source radical-addition/SO2-capture/reduction/aryl-substitution account is supporting context, and another physically supported route to the same net transformation passes without reproducing that sequence. Distinguish local molecular formation evidence from a full photoredox cycle or proof of experimental 30 C/48 h kinetics. Evaluator-only context: the existing reference has a connected late-substitution barrier of 28.382461 versus source 21.7 kcal/mol and a positive local reaction energy; it does not validate the experimental timescale. The solver need only interpret its own valid computed quantities and appropriate kinetic scope, and need not know or explain this private reference discrepancy.",
+      "supporting_key_point_ids": [
+        "cf2h_addition",
+        "sulfur_reintegration",
+        "aryl_substitution"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "butadiene_regio_explanation",
+      "claim_role": "final",
+      "statement": "Computed formation competition explains butadiene 1,4 preference",
+      "expected": "Explain the observed butadiene 1,4 preference with actual comparable calculations of the competing 1,4 and 1,2 formation processes and a supported molecular reason for the energy ordering. Report their computed free-energy difference and common reference. The source SO2-capture competition is one accepted model; a population descriptor or lack of detected byproduct alone is insufficient. Evaluator-only context: source prose gives 4.4 kcal/mol while SI absolute energies give about 3.049696. The evaluator must not conflate these or use either as a hidden hard target. This is not information the solver must disclose; assess its own correctly defined comparable result. No exact branching ratio or detection limit is required.",
+      "supporting_key_point_ids": [
+        "butadiene_regio_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "butadiene_geometry_explanation",
+      "claim_role": "final",
+      "statement": "Formation energetics support the observed E preference within explicit interconversion assumptions",
+      "expected": "Explain E over Z formation using actual energy and structural comparisons with a stated treatment of the relevant precursor populations/interconversion. Report the comparative quantity and its reference: the source local-barrier difference about 1.3 kcal/mol uses distinct Int2-a/b precursors and is not the absolute transition-state gap. Evaluator-only context: existing local-gap/absolute-TS-gap/precursor-gap values are 1.362990/2.754121/1.391131 kcal/mol. They are neither solver targets nor mandatory disclosures; require the solver to distinguish these physical quantities in its own model. A supported equivalent formation explanation passes. Do not turn the supplied 74%/7% isolated yields into elementary rates or infer an exact E/Z ratio or independently proven rapid equilibration from two local barriers alone.",
+      "supporting_key_point_ids": [
+        "butadiene_ez_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "phenyl_regio_reversal",
+      "claim_role": "final",
+      "statement": "The terminal-phenyl system reverses the favored regiochemistry under its specified conditions",
+      "expected": "For the actual terminal-phenyl diene, compute and interpret competing 1,2 and 1,4 formation energetics under the stated DMF-related model, explaining why 1,2 is favored and contrasting it with butadiene. Report the numerical gap; the source approximately 3.1 kcal/mol is contextual. Retain terminal phenyl identity and the E alkene; do not assign an unprovided absolute stereocenter. Source distortion/interaction analysis is a possible explanation, not an obligatory decomposition. A supported equivalent molecular explanation passes. Because solvent, base, illumination and substrate conditions differ, do not claim a controlled substituent-only causal experiment.",
+      "supporting_key_point_ids": [
+        "support_phenyl_regio_reversal"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_sulfone_formation_explanation",
+      "r_butadiene_regio_explanation",
+      "r_butadiene_geometry_explanation",
+      "r_phenyl_regio_reversal"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

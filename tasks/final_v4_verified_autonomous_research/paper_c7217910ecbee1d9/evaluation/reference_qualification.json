@@ -1,0 +1,487 @@
+{
+  "paper_id": "paper_c7217910ecbee1d9",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "status": "FINAL_RESULTS_MIGRATED_WITH_REUSED_EVIDENCE",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false,
+  "scope": "Electron-binding outcome and adiabatic affinity for n=0; Electron-binding outcome and adiabatic affinity for n=1; Electron-binding outcome and adiabatic affinity for n=2; First-ligand effect on adiabatic affinity; Second-ligand effect on adiabatic affinity; Nature of charge redistribution caused by neutral ligation; Electronic origin of enhanced electron acceptance; What the calculated family establishes about shell preservation. Public molecular inputs and scientific scope are unchanged.",
+  "evidence_gaps": [
+    "Bare anion lower validated triplet gives AEA 1.9745564191 eV, +0.2145564191 above source 1.76; higher singlet gives 1.7591674124 but cannot be selected by source proximity",
+    "n2 AEA differs by +0.0291693503 eV from source 3.93 and has soft 2.5219/2.1650 cm^-1 modes; finite state/site search does not establish a universal global minimum",
+    "Selected CDA/level results do not certify all angular shells or universality across other cores; SI has no complete source Cartesian table",
+    "Direct native review on 2026-10-28 confirms both n2 endpoints terminate optimization on negligible forces, with displacement criteria not all satisfied (neutral maximum 0.003019 A > 0.001800 A; anion maximum 0.002928 A > 0.001800 A at the main optimization termination). Both have 237 positive harmonic modes, but neither is a demonstrated all-criteria-tight or globally lowest endpoint; retain this convergence/soft-mode limitation."
+  ],
+  "historical_qualification": {
+    "paper_id": "paper_c7217910ecbee1d9",
+    "status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "formal_scoring_permitted": true,
+    "criterion_date": "2026-10-20",
+    "acceptance_basis": "Coordinator-confirmed user authorization for current task-scoped intermediate qualitative nodes and final scientific conclusions with retained numerical deviations.",
+    "original_numerical_gate_passed": false,
+    "original_numerical_tolerance_relabelled_as_met": false,
+    "scientific_scope": "Full gas-phase n0/1/2 electron-acceptance family and a bounded local-binding electronic explanation; no graphene, other core, device or universal shell claim.",
+    "publication_or_expert_review_limits": [
+      "The n0 source AEA1.76eV does not match the lower validated triplet-based1.9745564191eV. The near-source singlet remains an excited calculated alternative and is not selected by numerical proximity.",
+      "Only the actually investigated spin/site space is bounded; no universal global-minimum or exact undisclosed source-coordinate reproduction is asserted. n2AEA residual+0.0291693503eV is retained.",
+      "Neutral-fragment redistribution, LUMO shifts and CDA mixing support a local-binding explanation. They do not constitute neutral-to-anion attachment density, a full superatomic angular-shell certification, or universal shell-independent control.",
+      "No numerical tolerance is constructed from the residuals; the source AEA, level and CDA values remain contextual, with explicit definitions and differences. Full13/47/81-atom family coverage is needed for whole-family inference."
+    ],
+    "source": {
+      "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NEWLY_ACCEPTED_V2.json",
+      "sha256": "bfbf11a44b3958f8a55b7d144f38970348307aae520a1880788ee1e115cb8581"
+    },
+    "historical_status_policy": "Prior pending/strict numerical failure records are preserved history, not current runtime gating."
+  },
+  "new_computations": false,
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_n0_electron_binding",
+      "r_n1_electron_binding",
+      "r_n2_electron_binding",
+      "r_first_ligand_affinity_gain",
+      "r_second_ligand_affinity_gain",
+      "r_neutral_binding_redistribution",
+      "r_acceptor_stabilization",
+      "r_shell_scope"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_reason": "Final-answer design and static contracts migrated on 2026-10-28. Existing evidence is reused per proposition; historical acceptance is not a new V3 full scientific validation or blind-agent result.",
+  "historical_non_scoring_evidence_reuse": "r_n0_electron_binding/r_n1_electron_binding/r_n2_electron_binding reuse SOURCE_COMPARISON.json and PAL_DIRECT_NATIVE_READBACK.json: lowest-supported AEA=1.9745564191/3.2191856338/3.9591693503 eV with own ZPE. r_first_ligand_affinity_gain/r_second_ligand_affinity_gain reuse increments +1.2446292147/+0.7399837164 eV. r_neutral_binding_redistribution reuses neutral Hirshfeld core +0.381449/+0.568455 e and full Al–B geometries; r_acceptor_stabilization reuses source-mapped alpha/beta/beta virtual levels -2.7556970851/-3.8120430992/-4.4060676610 eV plus full-fragment CDA contributions 26.45/68.06/35.66/16.61%. r_shell_scope reuses those limited projections and explicit full-fragment definitions; no complete angular-shell certification is claimed. Historical qualitative-with-numerical-deviation acceptance is retained, not relabelled strict or V3 full validation.",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "n=0的AEA及电子束缚",
+      "rule_id": "r_n0_electron_binding",
+      "conclusion_id": "n0_electron_binding",
+      "independence": "该完整组成的物性独立于另两个成员；状态/ZPE为证据。",
+      "source_locator": "正文pp2–4 Figs1–4；SI Computational details及S1/S3/S4/S5图",
+      "native_artifacts": [
+        "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/RAW_NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W11/papers/paper_c7217910ecbee1d9/outputs/pal_state_reference_control_20261009_a01/state_reference_control.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c7217910ecbee1d9/NATIVE_PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAL_DIRECT_NATIVE_READBACK.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_c7217910ecbee1d9/SOURCE_COMPARISON.json",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/strict_CDA_submenu_startup_repair/attempt_01/native_CDA.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_recovered_stability/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n2_neutral_source_stability/attempt_01/gaussian.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log"
+      ],
+      "existing_support": "最低已支持n0三重阴离子使AEA=1.974556 eV；n1/n2=3.219186/3.959169；增益1.244629/0.739984。中性core电荷+0.381449/+0.568455及能级/CDA支持局部电子解释。",
+      "limits": [
+        "历史临时接受保持；n0三重阴离子低于数值更近源的单重态约0.215389 eV（含ZPE）。源缺完整几何/自旋归属，不能反推作者用了单重态或改选更高态。",
+        "n2以negligible forces停止，最大位移0.003019/0.002928 Å高于0.0018；正频软模式支持局部曲率，不证明全部收敛条件或全局最低态。",
+        "有限CDA和能级/几何保持不是完整角动量壳层认证；源shell-independent主张不作为其他核心的普适结论。"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "previous_rule_ids": [
+        "r_n0_electron_binding"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "n=1的AEA及电子束缚",
+      "rule_id": "r_n1_electron_binding",
+      "conclusion_id": "n1_electron_binding",
+      "independence": "该完整组成的物性独立于另两个成员；状态/ZPE为证据。",
+      "source_locator": "正文pp2–4 Figs1–4；SI Computational details及S1/S3/S4/S5图",
+      "native_artifacts": [
+        "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/RAW_NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W11/papers/paper_c7217910ecbee1d9/outputs/pal_state_reference_control_20261009_a01/state_reference_control.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c7217910ecbee1d9/NATIVE_PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAL_DIRECT_NATIVE_READBACK.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_c7217910ecbee1d9/SOURCE_COMPARISON.json",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/strict_CDA_submenu_startup_repair/attempt_01/native_CDA.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_recovered_stability/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n2_neutral_source_stability/attempt_01/gaussian.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log"
+      ],
+      "existing_support": "最低已支持n0三重阴离子使AEA=1.974556 eV；n1/n2=3.219186/3.959169；增益1.244629/0.739984。中性core电荷+0.381449/+0.568455及能级/CDA支持局部电子解释。",
+      "limits": [
+        "历史临时接受保持；n0三重阴离子低于数值更近源的单重态约0.215389 eV（含ZPE）。源缺完整几何/自旋归属，不能反推作者用了单重态或改选更高态。",
+        "n2以negligible forces停止，最大位移0.003019/0.002928 Å高于0.0018；正频软模式支持局部曲率，不证明全部收敛条件或全局最低态。",
+        "有限CDA和能级/几何保持不是完整角动量壳层认证；源shell-independent主张不作为其他核心的普适结论。"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "previous_rule_ids": [
+        "r_n1_electron_binding"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "n=2的AEA及电子束缚",
+      "rule_id": "r_n2_electron_binding",
+      "conclusion_id": "n2_electron_binding",
+      "independence": "该完整组成的物性独立于另两个成员；状态/ZPE为证据。",
+      "source_locator": "正文pp2–4 Figs1–4；SI Computational details及S1/S3/S4/S5图",
+      "native_artifacts": [
+        "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/RAW_NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W11/papers/paper_c7217910ecbee1d9/outputs/pal_state_reference_control_20261009_a01/state_reference_control.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c7217910ecbee1d9/NATIVE_PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAL_DIRECT_NATIVE_READBACK.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_c7217910ecbee1d9/SOURCE_COMPARISON.json",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/strict_CDA_submenu_startup_repair/attempt_01/native_CDA.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_recovered_stability/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n2_neutral_source_stability/attempt_01/gaussian.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log"
+      ],
+      "existing_support": "最低已支持n0三重阴离子使AEA=1.974556 eV；n1/n2=3.219186/3.959169；增益1.244629/0.739984。中性core电荷+0.381449/+0.568455及能级/CDA支持局部电子解释。",
+      "limits": [
+        "历史临时接受保持；n0三重阴离子低于数值更近源的单重态约0.215389 eV（含ZPE）。源缺完整几何/自旋归属，不能反推作者用了单重态或改选更高态。",
+        "n2以negligible forces停止，最大位移0.003019/0.002928 Å高于0.0018；正频软模式支持局部曲率，不证明全部收敛条件或全局最低态。",
+        "有限CDA和能级/几何保持不是完整角动量壳层认证；源shell-independent主张不作为其他核心的普适结论。"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "previous_rule_ids": [
+        "r_n2_electron_binding"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "第一配体增量及分辨能力",
+      "rule_id": "r_first_ligand_affinity_gain",
+      "conclusion_id": "first_ligand_affinity_gain",
+      "independence": "差值独立于绝对AEA符号，并不确定第二增量。",
+      "source_locator": "正文pp2–4 Figs1–4；SI Computational details及S1/S3/S4/S5图",
+      "native_artifacts": [
+        "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/RAW_NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W11/papers/paper_c7217910ecbee1d9/outputs/pal_state_reference_control_20261009_a01/state_reference_control.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c7217910ecbee1d9/NATIVE_PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAL_DIRECT_NATIVE_READBACK.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_c7217910ecbee1d9/SOURCE_COMPARISON.json",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/strict_CDA_submenu_startup_repair/attempt_01/native_CDA.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_recovered_stability/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n2_neutral_source_stability/attempt_01/gaussian.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log"
+      ],
+      "existing_support": "最低已支持n0三重阴离子使AEA=1.974556 eV；n1/n2=3.219186/3.959169；增益1.244629/0.739984。中性core电荷+0.381449/+0.568455及能级/CDA支持局部电子解释。",
+      "limits": [
+        "历史临时接受保持；n0三重阴离子低于数值更近源的单重态约0.215389 eV（含ZPE）。源缺完整几何/自旋归属，不能反推作者用了单重态或改选更高态。",
+        "n2以negligible forces停止，最大位移0.003019/0.002928 Å高于0.0018；正频软模式支持局部曲率，不证明全部收敛条件或全局最低态。",
+        "有限CDA和能级/几何保持不是完整角动量壳层认证；源shell-independent主张不作为其他核心的普适结论。"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "previous_rule_ids": [
+        "r_first_ligand_affinity_gain"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "第二配体增量及分辨能力",
+      "rule_id": "r_second_ligand_affinity_gain",
+      "conclusion_id": "second_ligand_affinity_gain",
+      "independence": "第二增量不能由第一增量外推。",
+      "source_locator": "正文pp2–4 Figs1–4；SI Computational details及S1/S3/S4/S5图",
+      "native_artifacts": [
+        "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/RAW_NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W11/papers/paper_c7217910ecbee1d9/outputs/pal_state_reference_control_20261009_a01/state_reference_control.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c7217910ecbee1d9/NATIVE_PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAL_DIRECT_NATIVE_READBACK.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_c7217910ecbee1d9/SOURCE_COMPARISON.json",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/strict_CDA_submenu_startup_repair/attempt_01/native_CDA.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_recovered_stability/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n2_neutral_source_stability/attempt_01/gaussian.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log"
+      ],
+      "existing_support": "最低已支持n0三重阴离子使AEA=1.974556 eV；n1/n2=3.219186/3.959169；增益1.244629/0.739984。中性core电荷+0.381449/+0.568455及能级/CDA支持局部电子解释。",
+      "limits": [
+        "历史临时接受保持；n0三重阴离子低于数值更近源的单重态约0.215389 eV（含ZPE）。源缺完整几何/自旋归属，不能反推作者用了单重态或改选更高态。",
+        "n2以negligible forces停止，最大位移0.003019/0.002928 Å高于0.0018；正频软模式支持局部曲率，不证明全部收敛条件或全局最低态。",
+        "有限CDA和能级/几何保持不是完整角动量壳层认证；源shell-independent主张不作为其他核心的普适结论。"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment"
+      ],
+      "previous_rule_ids": [
+        "r_second_ligand_affinity_gain"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "中性配位引起的电荷重分布性质。",
+      "rule_id": "r_neutral_binding_redistribution",
+      "conclusion_id": "neutral_binding_redistribution",
+      "independence": "中性片段结合的密度变化不同于附加电子或能级变化。",
+      "source_locator": "正文pp2–4 Figs1–4；SI Computational details及S1/S3/S4/S5图",
+      "native_artifacts": [
+        "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/RAW_NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W11/papers/paper_c7217910ecbee1d9/outputs/pal_state_reference_control_20261009_a01/state_reference_control.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c7217910ecbee1d9/NATIVE_PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAL_DIRECT_NATIVE_READBACK.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_c7217910ecbee1d9/SOURCE_COMPARISON.json",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/strict_CDA_submenu_startup_repair/attempt_01/native_CDA.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_recovered_stability/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n2_neutral_source_stability/attempt_01/gaussian.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log"
+      ],
+      "existing_support": "最低已支持n0三重阴离子使AEA=1.974556 eV；n1/n2=3.219186/3.959169；增益1.244629/0.739984。中性core电荷+0.381449/+0.568455及能级/CDA支持局部电子解释。",
+      "limits": [
+        "历史临时接受保持；n0三重阴离子低于数值更近源的单重态约0.215389 eV（含ZPE）。源缺完整几何/自旋归属，不能反推作者用了单重态或改选更高态。",
+        "n2以negligible forces停止，最大位移0.003019/0.002928 Å高于0.0018；正频软模式支持局部曲率，不证明全部收敛条件或全局最低态。",
+        "有限CDA和能级/几何保持不是完整角动量壳层认证；源shell-independent主张不作为其他核心的普适结论。"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_binding_electronic"
+      ],
+      "previous_rule_ids": [
+        "r_neutral_binding_redistribution"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "电子接受增强的电子来源。",
+      "rule_id": "r_acceptor_stabilization",
+      "conclusion_id": "acceptor_stabilization",
+      "independence": "解释可接受能级及相互作用的变化，不重复AEA排序或电荷幅度。",
+      "source_locator": "正文pp2–4 Figs1–4；SI Computational details及S1/S3/S4/S5图",
+      "native_artifacts": [
+        "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/RAW_NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W11/papers/paper_c7217910ecbee1d9/outputs/pal_state_reference_control_20261009_a01/state_reference_control.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c7217910ecbee1d9/NATIVE_PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAL_DIRECT_NATIVE_READBACK.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_c7217910ecbee1d9/SOURCE_COMPARISON.json",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/strict_CDA_submenu_startup_repair/attempt_01/native_CDA.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_recovered_stability/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n2_neutral_source_stability/attempt_01/gaussian.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log"
+      ],
+      "existing_support": "最低已支持n0三重阴离子使AEA=1.974556 eV；n1/n2=3.219186/3.959169；增益1.244629/0.739984。中性core电荷+0.381449/+0.568455及能级/CDA支持局部电子解释。",
+      "limits": [
+        "历史临时接受保持；n0三重阴离子低于数值更近源的单重态约0.215389 eV（含ZPE）。源缺完整几何/自旋归属，不能反推作者用了单重态或改选更高态。",
+        "n2以negligible forces停止，最大位移0.003019/0.002928 Å高于0.0018；正频软模式支持局部曲率，不证明全部收敛条件或全局最低态。",
+        "有限CDA和能级/几何保持不是完整角动量壳层认证；源shell-independent主张不作为其他核心的普适结论。"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_binding_electronic"
+      ],
+      "previous_rule_ids": [
+        "r_acceptor_stabilization"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "所计算系列能对壳层保持确立什么。",
+      "rule_id": "r_shell_scope",
+      "conclusion_id": "shell_scope",
+      "independence": "电子证据能认证哪些壳层性质是独立推断边界，不重复局部机制。",
+      "source_locator": "正文pp2–4 Figs1–4；SI Computational details及S1/S3/S4/S5图",
+      "native_artifacts": [
+        "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/RAW_NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W11/papers/paper_c7217910ecbee1d9/outputs/pal_state_reference_control_20261009_a01/state_reference_control.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c7217910ecbee1d9/NATIVE_PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAL_DIRECT_NATIVE_READBACK.json",
+        "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_c7217910ecbee1d9/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/all_unfinished36_20261011T0650Z/papers/paper_c7217910ecbee1d9/SOURCE_COMPARISON.json",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/strict_CDA_submenu_startup_repair/attempt_01/native_CDA.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_mode_plus_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_s_recovered_stability/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_anion_t_source_optfreq/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n0_neutral_d_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_anion_s_free_from_stable_vertical/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_recovered_stability/attempt_01/stdout.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n1_neutral_d_source_optfreq/attempt_01/input.com",
+        "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/outputs/n2_neutral_source_stability/attempt_01/gaussian.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/input.com",
+        "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log"
+      ],
+      "existing_support": "最低已支持n0三重阴离子使AEA=1.974556 eV；n1/n2=3.219186/3.959169；增益1.244629/0.739984。中性core电荷+0.381449/+0.568455及能级/CDA支持局部电子解释。",
+      "limits": [
+        "历史临时接受保持；n0三重阴离子低于数值更近源的单重态约0.215389 eV（含ZPE）。源缺完整几何/自旋归属，不能反推作者用了单重态或改选更高态。",
+        "n2以negligible forces停止，最大位移0.003019/0.002928 Å高于0.0018；正频软模式支持局部曲率，不证明全部收敛条件或全局最低态。",
+        "有限CDA和能级/几何保持不是完整角动量壳层认证；源shell-independent主张不作为其他核心的普适结论。"
+      ],
+      "evidence_ids": [
+        "source_ligation",
+        "native_attachment",
+        "native_binding_electronic"
+      ],
+      "previous_rule_ids": [
+        "r_shell_scope"
+      ],
+      "no_new_computation": true
+    }
+  ],
+  "objective_issue_flags": [
+    {
+      "issue": "历史临时接受保持；n0三重阴离子低于数值更近源的单重态约0.215389 eV（含ZPE）。源缺完整几何/自旋归属，不能反推作者用了单重态或改选更高态。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "n2以negligible forces停止，最大位移0.003019/0.002928 Å高于0.0018；正频软模式支持局部曲率，不证明全部收敛条件或全局最低态。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "有限CDA和能级/几何保持不是完整角动量壳层认证；源shell-independent主张不作为其他核心的普适结论。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    }
+  ]
+}

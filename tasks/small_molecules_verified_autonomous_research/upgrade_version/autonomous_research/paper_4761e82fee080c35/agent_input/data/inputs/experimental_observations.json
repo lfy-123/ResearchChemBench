@@ -1,0 +1,224 @@
+{
+  "scope": "Measured product yields and component controls for the donor-activation system.",
+  "yield_conventions": {
+    "NMR": "1H NMR with 1,1,2,2-tetrachloroethane as internal standard, relative to the initial donor.",
+    "quantitative": "Qualitative yield descriptor; no exact percentage or measurement uncertainty is supplied.",
+    "isolated": "Yield after purification; distinct from the NMR measurements."
+  },
+  "setting_A": {
+    "base_conditions_id": "setting_A",
+    "rows": [
+      {
+        "id": "A_PC1_1eq",
+        "observation_type": "experiment",
+        "variation": {
+          "PC2_mmol": 0.0,
+          "PC1_mmol": 0.005,
+          "persulfate_mmol": 0.1
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 24
+        },
+        "provenance_id": "obs_A_table1_e1"
+      },
+      {
+        "id": "A_PC2_1eq",
+        "observation_type": "experiment",
+        "variation": {
+          "persulfate_mmol": 0.1
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 52
+        },
+        "provenance_id": "obs_A_table1_e2"
+      },
+      {
+        "id": "A_PC2_1p5eq",
+        "observation_type": "experiment",
+        "variation": {
+          "persulfate_mmol": 0.15
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 75
+        },
+        "provenance_id": "obs_A_table1_e4"
+      },
+      {
+        "id": "A_standard",
+        "observation_type": "experiment",
+        "variation": {},
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "reported": "quantitative"
+        },
+        "provenance_id": "obs_A_table1_e5"
+      },
+      {
+        "id": "A_no_persulfate",
+        "observation_type": "experiment",
+        "variation": {
+          "persulfate_mmol": 0.0
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 9
+        },
+        "provenance_id": "obs_A_table1_e6"
+      },
+      {
+        "id": "A_no_PC2",
+        "observation_type": "experiment",
+        "variation": {
+          "PC2_mmol": 0.0
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 8
+        },
+        "provenance_id": "obs_A_table1_e7"
+      },
+      {
+        "id": "A_dark",
+        "observation_type": "experiment",
+        "variation": {
+          "light": "dark"
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 11
+        },
+        "provenance_id": "obs_A_table1_e8"
+      }
+    ]
+  },
+  "setting_B": {
+    "base_conditions_id": "setting_B",
+    "rows": [
+      {
+        "id": "B_standard",
+        "observation_type": "experiment",
+        "variation": {},
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "reported": "quantitative"
+        },
+        "provenance_id": "obs_B_table2_e1"
+      },
+      {
+        "id": "B_PC1",
+        "observation_type": "experiment",
+        "variation": {
+          "PC2_mmol": 0.0,
+          "PC1_mmol": 0.0025
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 40
+        },
+        "provenance_id": "obs_B_table2_e6"
+      },
+      {
+        "id": "B_no_PC2",
+        "observation_type": "experiment",
+        "variation": {
+          "PC2_mmol": 0.0
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 7
+        },
+        "provenance_id": "obs_B_table2_e12"
+      },
+      {
+        "id": "B_dark",
+        "observation_type": "experiment",
+        "variation": {
+          "light": "dark"
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 0
+        },
+        "provenance_id": "obs_B_table2_e13"
+      },
+      {
+        "id": "B_no_cobalt",
+        "observation_type": "experiment",
+        "variation": {
+          "cobalt_complex_mmol": 0.0
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 12
+        },
+        "provenance_id": "obs_B_table2_e14"
+      },
+      {
+        "id": "B_no_TPI",
+        "observation_type": "experiment",
+        "variation": {
+          "TPI_mmol": 0.0
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 49
+        },
+        "provenance_id": "obs_B_table2_e15"
+      },
+      {
+        "id": "B_no_phosphate",
+        "observation_type": "experiment",
+        "variation": {
+          "phosphate_mmol": 0.0
+        },
+        "product_id": "phosphate_product",
+        "yield": {
+          "method": "1H NMR",
+          "value_percent": 85
+        },
+        "provenance_id": "obs_B_table2_e16"
+      }
+    ]
+  },
+  "isolated_product": [
+    {
+      "id": "A_isolated",
+      "setting_id": "setting_A",
+      "product_id": "phosphate_product",
+      "observation_type": "experiment",
+      "yield": {
+        "method": "isolated",
+        "value_percent": 68
+      },
+      "provenance_id": "obs_SI002_product_A"
+    },
+    {
+      "id": "B_isolated",
+      "setting_id": "setting_B",
+      "product_id": "phosphate_product",
+      "observation_type": "experiment",
+      "yield": {
+        "method": "isolated",
+        "value_percent": 89
+      },
+      "provenance_id": "obs_SI002_product_B"
+    }
+  ],
+  "interpretation_boundary": "Each control varies the stated condition from the indicated setting. PC1 rows replace PC2 at the listed loading."
+}

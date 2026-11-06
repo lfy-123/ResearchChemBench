@@ -1,0 +1,157 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "evidence": [
+    {
+      "evidence_id": "main_p7_14",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          7,
+          14
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p1_2_3_4",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/supplementary_001.pdf",
+        "sha256": "c2416d2146ed3052530e1fd39a9a07dd3d333ffc420742317566d84b3743d1b2",
+        "pdf_pages_1based": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p7_10_14",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          7,
+          10,
+          14
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p12_13",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          12,
+          13
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p7_12",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          7,
+          12
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p14",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          14
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p12_13_14_15",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "final_result_bindings": [
+    {
+      "conclusion_id": "series_3_5",
+      "rule_id": "r_series_3_5",
+      "evidence_ids": [
+        "main_p7_14",
+        "supplementary_001_p1_2_3_4"
+      ],
+      "scientific_requirement": "Substituent-dependent reduction relationship for compounds 3–5"
+    },
+    {
+      "conclusion_id": "hydroxy_departure",
+      "rule_id": "r_hydroxy_departure",
+      "evidence_ids": [
+        "main_p7_10_14"
+      ],
+      "scientific_requirement": "Applicability of the computed reduction relationship to hydroxy compounds 1 and 2"
+    },
+    {
+      "conclusion_id": "acn_dmso",
+      "rule_id": "r_acn_dmso",
+      "evidence_ids": [
+        "main_p7_12"
+      ],
+      "scientific_requirement": "Scale of the ACN/DMSO solvent effect across all five compounds"
+    },
+    {
+      "conclusion_id": "dcm_comparison",
+      "rule_id": "r_dcm_comparison",
+      "evidence_ids": [
+        "main_p14"
+      ],
+      "scientific_requirement": "Direction of the compound-3 DCM/polar-solvent comparison"
+    },
+    {
+      "conclusion_id": "bounded_relationship",
+      "rule_id": "r_bounded_relationship",
+      "evidence_ids": [
+        "main_p12_13_14_15"
+      ],
+      "scientific_requirement": "Molecular hypothesis for the peak-potential differences and its evidential limits"
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "source_checked_evidence_scope_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_series_3_5",
+      "r_hydroxy_departure",
+      "r_acn_dmso",
+      "r_dcm_comparison",
+      "r_bounded_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The series_3_5 outcome requires evidence for compounds 3–5 only. The complete task and the other outcomes still cover compounds 1/2 and all five compounds as authored.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "historical_scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+}

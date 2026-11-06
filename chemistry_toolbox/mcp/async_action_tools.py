@@ -45,7 +45,7 @@ BATCH_ROOT = Path("outputs") / "action_batches"
 
 TOOL_DESCRIPTIONS = {
     "submit_action_batch_async": (
-        "Submit up to 32 already-independent requests sharing one batch-safe Action and backend. "
+        "Submit independent requests sharing one batch-safe Action, backend, and settings. "
         "Returns immediately with a persistent batch_id. The toolbox sorts waiting children by "
         "requested CPU, then memory, automatically chooses anonymous compute workers, and queues "
         "legal requests until capacity is available. Do not use this for dependent calculations."
@@ -116,7 +116,22 @@ def _submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
     if error is not None:
         return {"status": "invalid_request", "error": error}
     from .managed_execution import recovery_enabled, submit_batch
-    if recovery_enabled() or request.submission_key:
+    managed = recovery_enabled() or bool(request.submission_key)
+    # Accepted submissions retain their replay/conflict checks in accept().
+    existing = (
+        managed and request.submission_key
+        and execution_store().get_submission(request.submission_key)
+    )
+    if not existing:
+        from chemistry_toolbox.src.models import ActionRequest
+        from chemistry_toolbox.src.service import validate_orca_method_contract
+        invalid = validate_orca_method_contract(
+            request.action_id, request.backend_id,
+            ActionRequest(backend_id=request.backend_id, method_spec=request.method_spec),
+        )
+        if invalid is not None:
+            return invalid
+    if managed:
         return submit_batch(request)
     managed_submission = None
     batch_id = f"batch_{uuid.uuid4().hex}"
@@ -275,7 +290,10 @@ def _submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
 
 
 def _resource_snapshot() -> dict[str, Any]:
-    return pool_snapshot() if distributed_enabled() else resource_budget_record()
+    if distributed_enabled():
+        return pool_snapshot()
+    from .open_execution import _resource_availability
+    return _resource_availability()
 
 
 def _resource_signature(snapshot: dict[str, Any]) -> str:
@@ -320,6 +338,7 @@ def _compact_terminal_item(batch_id: str, item: dict[str, Any]) -> dict[str, Any
         "worker_id": _item_worker_id(item),
         "resource_limits": item.get("resource_limits") or {},
         "duration_seconds": item.get("duration_seconds"),
+        "resource_usage": item.get("resource_usage"),
         "finished_at": item.get("finished_at"),
         "result": result,
         "execution_feedback": item.get("execution_feedback") or result.get("execution_feedback"),
@@ -345,6 +364,9 @@ def _event_wait_steps(
     policy: dict[str, int] | None = None,
     monotonic_fn=time.monotonic,
 ) -> dict[str, Any]:
+    if request.response_cursor:
+        from .response_pages import read_page
+        return read_page(request.response_cursor, tool="wait_execution_events")
     settings = dict(policy or supervision_policy())
     started = monotonic_fn()
     aggregation_started: float | None = None
@@ -514,7 +536,9 @@ def _event_wait_steps(
     ]
     finished = monotonic_fn()
     from .result_transport import bound_terminal_items
-    terminal_items = bound_terminal_items(terminal_items)
+    from .response_policy import compact_enabled
+    if not compact_enabled():
+        terminal_items = bound_terminal_items(terminal_items)
     aggregation_duration = (
         finished - aggregation_started if aggregation_started is not None else 0
     )

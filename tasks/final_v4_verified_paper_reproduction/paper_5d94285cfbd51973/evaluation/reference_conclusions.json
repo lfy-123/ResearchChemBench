@@ -1,0 +1,64 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "items": [
+    {
+      "conclusion_id": "dipole_activity_association",
+      "statement": "Within-series association between molecular dipole and activity",
+      "expected": "An actual all-ten matched descriptor/MIC analysis supports a positive within-series association between molecular dipole and activity (higher activity means lower MIC, e.g. −log2 MIC). Preserve assay ties and all ten identities; an equivalent declared direction-sensitive association analysis is allowed. Require recoverable calculated dipoles and analysis, not merely quoting the source. Exact rho, p-value significance, algorithm, permutation count and the maximum-dipole identity are not targets.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "az_main",
+        "az_si",
+        "native_validation",
+        "validation_summary_1"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_dipole_activity_association"
+      ]
+    },
+    {
+      "conclusion_id": "frontier_activity_association",
+      "statement": "Within-series association between HOMO energy and activity",
+      "expected": "Actual all-ten HOMO/MIC evidence supports a positive within-series association of higher (less negative) HOMO energy with greater activity (lower MIC), with target transformation/sign explicit and ties retained. This is a retrospective descriptor association, not proof of electron-transfer mechanism or external prediction; no specific regression/permutation algorithm is required.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "az_main",
+        "az_si",
+        "native_validation",
+        "validation_summary_1"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_frontier_activity_association"
+      ]
+    },
+    {
+      "conclusion_id": "gap_activity_association",
+      "statement": "Within-series association between positive frontier gap and activity",
+      "expected": "Actual all-ten positive frontier-gap/MIC evidence supports a negative association between ELUMO−EHOMO and activity (higher activity means lower MIC). Establish this from raw computed ranks/values and MIC ties; overlap with source-value ranges does not establish this association. Do not substitute incorrectly defined chemical potential/electrophilicity. An actual sensitivity analysis may establish that the very small gap ranks do not support a resolved association across the declared valid models; such a bounded negative finding passes if all ten raw gap/MIC pairs, ties and the signed associations actually obtained are analyzed. Switching methods without this evidence or omitting contrary results does not pass.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "az_si",
+        "native_validation",
+        "validation_summary_1",
+        "az_main"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_gap_activity_association"
+      ]
+    },
+    {
+      "conclusion_id": "bounded_activity_information",
+      "statement": "Explanatory and predictive information justified by the ten-compound evidence",
+      "expected": "The final answer infers from actual molecular-property results and all-ten assay analysis that these properties provide descriptive within-series information but do not by themselves reliably account for the MIC differences or establish predictive/target-mechanistic control. Substantiate the inference with concrete descriptor-versus-MIC discordance, tied outcomes or an appropriately performed assessment showing imperfect discrimination; link it to the measured series, rather than merely adding a generic small-sample warning. State the supported direction/strength actually obtained and do not claim that a dipole champion, docking or permeability mechanism explains efficacy. This inference is separate from receiving points for the association direction: require demonstrated imperfect discrimination, tied outcomes with different descriptors, or a valid predictive assessment. No prescribed regression, significance threshold or permutation count applies.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "az_main",
+        "az_si",
+        "validation_summary_1"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_bounded_activity_information"
+      ]
+    }
+  ]
+}

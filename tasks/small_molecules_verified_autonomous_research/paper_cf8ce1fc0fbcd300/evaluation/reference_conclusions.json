@@ -1,0 +1,156 @@
+{
+  "paper_id": "paper_cf8ce1fc0fbcd300",
+  "scoring_policy": "paper_science_v3",
+  "items": [
+    {
+      "conclusion_id": "methanol_capture_mechanism",
+      "statement": "三种连接的甲醇捕获机制",
+      "expected": "用真实反应结果解释酸性条件下亲核甲醇捕获如何产生 P1/P2/P3 的不同 C–O 连接，并交代所采用活化/质子化模型及质子去向。参考为质子化反应模型中的甲醇加成；有证据的等效解释可通过。仅优化题给中性产物或画出三个已知图不构成机制解释。不要求求出未知酸活度、上游光化学或全部互变路径；形成通道快慢另计。",
+      "required_numerical_evidence": [
+        {
+          "id": "p1_formation",
+          "description": "P1 甲醇捕获的实际形成路径能量/活化量，明确活化模型与质子库存。",
+          "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P1, with the activation model and proton inventory defined."
+        },
+        {
+          "id": "p2_formation",
+          "description": "P2 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+          "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P2, using references compatible with the competing channels."
+        },
+        {
+          "id": "p3_formation",
+          "description": "P3 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+          "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P3, using references compatible with the competing channels."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- P1 甲醇捕获的实际形成路径能量/活化量，明确活化模型与质子库存。\n- P2 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。\n- P3 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "p2_over_p3_formation",
+      "statement": "P2 比 P3 更易形成",
+      "expected": "实际、同组成同物理参照的竞争形成证据支持 P2 比 P3 更有利；正确识别两种 C–O 成键位置。中性产物稳定性、已知实验分布或单条通道不能代替这项动力学比较。不要求绝对/差分势垒落入作者数值范围，也不硬性要求 OH···F 因果分解。",
+      "required_numerical_evidence": [
+        {
+          "id": "p2_formation",
+          "description": "P2 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+          "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P2, using references compatible with the competing channels."
+        },
+        {
+          "id": "p3_formation",
+          "description": "P3 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+          "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P3, using references compatible with the competing channels."
+        },
+        {
+          "id": "p2_p3_kinetics",
+          "description": "P2/P3 形成活化量的差值及定义。",
+          "public_requirement": "The P2/P3 formation activation-energy difference and its definition."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- P2 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。\n- P3 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。\n- P2/P3 形成活化量的差值及定义。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "p2_over_p1_formation",
+      "statement": "P2 比 P1 更易形成",
+      "expected": "实际且可比的形成证据支持 P2 比 P1 更易形成，明确不同 C–O 连接，不得用 P2/P3 的证据替代。结论必须由两种形成过程支持，产物能量或仅引用文献偏好不足。此项只评价该独立竞争关系，不要求复现势垒差大小。",
+      "required_numerical_evidence": [
+        {
+          "id": "p1_formation",
+          "description": "P1 甲醇捕获的实际形成路径能量/活化量，明确活化模型与质子库存。",
+          "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P1, with the activation model and proton inventory defined."
+        },
+        {
+          "id": "p2_formation",
+          "description": "P2 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+          "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P2, using references compatible with the competing channels."
+        },
+        {
+          "id": "p2_p1_kinetics",
+          "description": "P2/P1 形成活化量的差值及定义。",
+          "public_requirement": "The P2/P1 formation activation-energy difference and its definition."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- P1 甲醇捕获的实际形成路径能量/活化量，明确活化模型与质子库存。\n- P2 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。\n- P2/P1 形成活化量的差值及定义。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "p3_to_p2_redistribution",
+      "statement": "P3→P2 的热力学再分配倾向",
+      "expected": "可比的中性 P2/P3 计算支持 P2 更稳定，因此存在 P3→P2 的热力学驱动；明确该方向与 P2 的形成优势相容。不能把该驱动力当成已经求得交换势垒、速率或达到平衡；若断言在指定时间内必然互变却没有交换证据，不满足此结论的物理边界。无需新做完整互变网络。",
+      "required_numerical_evidence": [
+        {
+          "id": "p2_p3_stability",
+          "description": "中性 P2/P3 的实际 Gibbs 能量与差值，不能用带电形成态代替。",
+          "public_requirement": "Computed Gibbs energies and their difference for neutral P2 and P3, kept separate from charged formation states."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 中性 P2/P3 的实际 Gibbs 能量与差值，不能用带电形成态代替。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "three_product_stability_order",
+      "statement": "三种中性产物的完整稳定性序列",
+      "expected": "对同组成、同条件的中性 P1/P2/P3 作实际能量比较，支持稳定性 P2 > P3 > P1（Gibbs 能顺序相反），正确识别三种连接，并给出完整序列及其计算依据。只确定 P1 最不稳定而未确定 P2/P3 顺序不足。带电反应态与中性产物不得混排；不设任何能差大小门槛。本项评价静态完整排序；P3→P2 再分配项另评该排序对方向的物理推论及其动力学边界，不能用同一句排序自动满足两项。",
+      "required_numerical_evidence": [
+        {
+          "id": "p2_p3_stability",
+          "description": "中性 P2/P3 的实际 Gibbs 能量与差值，不能用带电形成态代替。",
+          "public_requirement": "Computed Gibbs energies and their difference for neutral P2 and P3, kept separate from charged formation states."
+        },
+        {
+          "id": "p1_stability",
+          "description": "中性 P1 的 Gibbs 能量及其相对中性 P2/P3 的差值。",
+          "public_requirement": "The computed Gibbs energy of neutral P1 and its differences from neutral P2 and P3."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 中性 P2/P3 的实际 Gibbs 能量与差值，不能用带电形成态代替。\n- 中性 P1 的 Gibbs 能量及其相对中性 P2/P3 的差值。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    }
+  ]
+}

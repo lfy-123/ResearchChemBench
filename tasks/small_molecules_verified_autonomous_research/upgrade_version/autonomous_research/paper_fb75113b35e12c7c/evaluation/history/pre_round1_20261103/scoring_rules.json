@@ -1,0 +1,257 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "total_points": 100,
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "scoring_revision": "conclusion_only_20261029",
+  "rules": [
+    {
+      "rule_id": "r_r5_site_answer",
+      "reference_id": "r5_site_answer",
+      "type": "semantic",
+      "expected": "Identify the compared PI1 protonated monoaddition connectivities and conclude from actual balanced computed energies that a unique strongly preferred site is not robustly resolved. The reference method7 favors the delta-connected neutral product by small gaps, although its lowest initial anion is beta-prime-derived. This distinction is supporting evidence, not an independently scored intermediate inventory. A physically supported equivalent account of weak site selectivity passes. Do not equate anion stability with final neutral selectivity or claim an exclusive measured distribution. Report the computed relative energies with their definitions; no fixed energy window applies. A different PI1 ordering is acceptable as a conditional model result when actual balanced competitor energies and informative sensitivity evidence justify its stated resolution; it must not be presented as a uniquely established experimental distribution.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      }
+    },
+    {
+      "rule_id": "r_r5_product_class",
+      "reference_id": "r5_product_class",
+      "type": "semantic",
+      "expected": "Use actual accessibility and energetic evidence to explain why PI1 preferentially retains simple-addition connectivity over the competing cyclized class in the tested model. The reference explanation is restricted cyclization caused by a costly alpha-directed closure and local instability of a gamma-cyclic state; an equivalent supported explanation passes without reproducing both author intermediates or their labels. A low-energy final furan alone cannot establish its accessibility, and one reverted optimization cannot prove global nonexistence. Source 35.6 kcal/mol is a local Gibbs barrier used as evidence context, not a hard target.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      }
+    },
+    {
+      "rule_id": "r_r5_second_competition",
+      "reference_id": "r5_second_competition",
+      "type": "semantic",
+      "expected": "Conclude from an actual balanced monoaddition-product + MeSH to double-addition-product comparison that second addition to PI1 can be weakly favorable thermodynamically. Give the incremental reaction free energy and identify the competing connectivity; total double-adduct formation energy is not the second-step increment. The source approximately -2 kcal/mol is contextual, with no hard window. This result does not establish a second-addition rate or exclusive experimental double addition. Because this second-addition driving force is small and model dependent, a substantiated near-thermoneutral or weakly unfavorable result can also pass when its actual incremental free energy and uncertainty establish the extent of thermodynamic competition. Do not enforce the source sign across methods or claim unavoidable double addition.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      }
+    },
+    {
+      "rule_id": "r_r6_thermodynamic_fate",
+      "reference_id": "r6_thermodynamic_fate",
+      "type": "semantic",
+      "expected": "Determine and report balanced relative free energies for PI2 simple-addition and relevant cyclic product connectivities. Conclude that the cyclic endpoint class is substantially more stable while the alternative cyclic endpoints are close in energy. This is a final thermodynamic comparison, distinct from selecting an accessible formation route. Source cyclic values around -17 to -18 versus simple products around -4 kcal/mol are contextual. No unique initial-anion ranking is required because source prose and diagrams disagree.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      }
+    },
+    {
+      "rule_id": "r_r6_accessible_fate",
+      "reference_id": "r6_accessible_fate",
+      "type": "semantic",
+      "expected": "Predict and explain the accessible PI2 cyclic product connectivity using actual competing-path evidence: the reference beta-prime addition followed by gamma-directed closure reaches the furan class more readily than alpha-directed closure, even though both final rings are stable. Equivalent supported formation explanations pass; the author sequence is not a mandatory checklist. Explain the contrast with PI1 in terms of calculated accessibility/structural effects, rather than endpoint energy alone. Keep local Gibbs barriers distinct from overall energy heights and constrained electronic-energy scans. Source alpha barrier 27.6 kcal/mol and local finite gamma scans do not impose a hard target or prove a globally barrierless full network.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      }
+    },
+    {
+      "rule_id": "r_sulf_site_answer",
+      "reference_id": "sulf_site_answer",
+      "type": "semantic",
+      "expected": "Identify the favored alpha-addition neutral product of the specified PI3 appendage isomer and explain its preference using actual balanced comparisons to competing connectivities. Report the compared neutral-product energies. The source alpha anion and neutral preferences support this outcome; they are evidence rather than separate mandatory intermediate results. Source neutral values -10.9/-9.7/-5.4 kcal/mol are contextual. Electronic withdrawal/planarization is a possible interpretation, but a descriptor label alone is insufficient and another supported physical explanation is accepted. No PI3 cyclization or second addition is required.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      }
+    },
+    {
+      "rule_id": "r_comparative_robustness",
+      "reference_id": "comparative_robustness",
+      "type": "semantic",
+      "expected": "Use actual informative model-sensitivity comparisons to conclude that PI1 simple-product ranking changes or remains unresolved within its small computed gaps, whereas the tested PI3 alpha preference and PI2 cyclic-versus-simple class are more stable conclusions. Distinguish PI2 class-level robustness from the sensitive ordering of its close cyclic endpoints. Quantify the model-dependent differences used for this conclusion. Generic uncertainty statements or repeating the preferred products without a sensitivity investigation fail. Limit inference to tested conformers and methods; do not infer precise EtSH yields from the MeSH model. Quantitative sensitivity analysis of relevant results already generated by the participant is acceptable; no additional computational method, fixed cross-method matrix or rerun is required merely to satisfy this item. A different comparative robustness assessment may pass when actual quantitative sensitivity evidence covers the same PI1 site, PI2 product-class/close-endpoint and PI3 site questions and supports the revised conclusion. Reproducing the reference ordering without testing its stability is insufficient.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "r5_site_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "PI1 monoaddition has weak, model-dependent site selectivity",
+      "rule_ids": [
+        "r_r5_site_answer"
+      ],
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "r5_product_class",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "PI1 favors accessible simple addition over the considered cyclized outcomes",
+      "rule_ids": [
+        "r_r5_product_class"
+      ],
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "r5_second_competition",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "A second MeSH addition to PI1 is weakly thermodynamically competitive",
+      "rule_ids": [
+        "r_r5_second_competition"
+      ],
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "r6_thermodynamic_fate",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "PI2 cyclized endpoints are substantially more stable than simple adducts",
+      "rule_ids": [
+        "r_r6_thermodynamic_fate"
+      ],
+      "evidence_ids": [
+        "V2_R6",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "r6_accessible_fate",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "PI2 accessible cyclization selects the gamma-derived furan connectivity",
+      "rule_ids": [
+        "r_r6_accessible_fate"
+      ],
+      "evidence_ids": [
+        "V2_R6",
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "sulf_site_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "PI3 favors alpha-connected protonated addition products",
+      "rule_ids": [
+        "r_sulf_site_answer"
+      ],
+      "evidence_ids": [
+        "V2_SULF",
+        "V2_SI_NETWORK",
+        "V2_SI_IDENTITY",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "comparative_robustness",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Selectivity reliability differs across the three substrates",
+      "rule_ids": [
+        "r_comparative_robustness"
+      ],
+      "evidence_ids": [
+        "V2_R5",
+        "V2_R6",
+        "V2_SULF",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "paper_id": "paper_1db677efcdd782ac",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+  "strict_numeric_whole_pass": false,
+  "reason": "父级独立验收确认当前必要结果和结论完整；用户授权以科学结果V2评分。数值与来源歧义保留专家审查，不等于严格数值复现、专家批准或自动满分。",
+  "unblock_conditions": [],
+  "physical_definition": "气相中性单重态/自由基阳离子双重态比较。环结构M06-2X/cc-pVDZ优化频率、M06-2X/def2-TZVP单点；氧化对照M06-2X/6-31G(d)优化频率、M06-2X/cc-pVTZ单点。实际电子能差与作者表值并列；无溶液标准态或绝对电位假定。",
+  "tolerance_policy": {
+    "numeric_rules": 0,
+    "rationale": "解释型题目；主文/SI局部冲突、作者能量修正约定与跨实现差异尚待专家审查。采用明确可证伪的分子趋势和综合结论，无人为数值窗，不用验证值替换作者目标。"
+  },
+  "publication_review_pending": [
+    "cis-Me B2开环能主文−2.5/SI−0.8 kcal/mol冲突保留；实际高层电子能−0.788064676，分别差+1.711935324/+0.011935324，不宣布抄列错误。",
+    "cis-Me B1势垒偏差−1.327878191 kcal/mol且B1/B2细序反转；闭环/TS源几何松弛RMSD约0.477/0.472 Å，不能全部归于舍入。",
+    "Table 3及SI定义E差和方法层次，但未明确排除ZPE/热修正；本次实际比较为高层SCF电子能，不称作者口径已完全确认。",
+    "Gaussian16替代环计算作者Spartan24、氧化比较作者Gaussian09；网格等实现差别及CAM3-B3LYP命名歧义保留。",
+    "Ph十点有限剖面仅支持检验分支开环偏好；H B1连接来自原IRC有效片段加两侧端点优化，不称原IRC完整成功。",
+    "无新黄素激发态、唯一HAT/DET轨迹、全部构象/IRC、精确同位素比例或溶液速率/产率；同位素后处理支持相容性而非唯一动力学证明。"
+  ],
+  "verification_scope": "current_autonomous_research_scientific_question",
+  "independent_acceptance_review": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T0752Z/independent_1db_audit.md",
+  "parent_acceptance_review": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/parent_acceptance_review.json"
+}

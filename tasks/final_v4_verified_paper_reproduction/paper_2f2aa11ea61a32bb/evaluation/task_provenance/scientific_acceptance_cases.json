@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.561220+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_2f2aa11ea61a32bb/documents/main.pdf",
+      "sha256": "bfdb4129439627d7d651b864d72f7c08c512af56365e473b538a8460c1e6a694",
+      "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF pp2–3 Fig2/Table1明确toluene；1c较低能长波带与短波最强吸收不能混配。SI p57起为作者优化坐标。",
+      "actual_read_pages_and_sections": "Main pp2–3 complete absorption discussion, Scheme1/Fig2/Table1; SI p2 methods, p57 and following identity coordinate tables."
+    },
+    {
+      "path": "papers/paper_2f2aa11ea61a32bb/documents/supplementary_001.pdf",
+      "sha256": "6187b34d441b880b245cbbbd3350b5a9ca926ba472f56bd2026bad2a0e174983",
+      "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF pp2–3 Fig2/Table1明确toluene；1c较低能长波带与短波最强吸收不能混配。SI p57起为作者优化坐标。",
+      "actual_read_pages_and_sections": "Main pp2–3 complete absorption discussion, Scheme1/Fig2/Table1; SI p2 methods, p57 and following identity coordinate tables."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "An independent physically tracked excitation comparison across all four correct chelate graphs explains the disclosed absorption contrast without common frozen geometries or author bright-state labels.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Actual spectra/state evidence show that an apparent assignment distinction is unresolved at the modeled resolution; no root is chosen solely to reproduce a wavelength.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "Compound 1c strongest 339 nm band is confused with its lower-energy 383 nm feature, or positional-isomer graph labels are interchanged.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A converged spectrum for part of the series is retained with limited series coverage; no unsupported four-compound mechanistic ranking is claimed.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular explanation of the absorption differences among complexes1a–1d in toluene is supported by the supplied observations and an independent investigation? Establish defensible state/band assignments and the limits of any proposed structure–spectrum relationship.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Verify the complete N,O-BF2 graphs and distinct pyridyl/isoquinolyl/quinolyl attachment positions; isomeric1b–1d cannot be identified by formula alone. State labels must correspond to physical transitions rather than being transferred blindly by root index. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "A spectral assignment must compare the same kind of observable and show relevant state character/intensity or other sufficient evidence. Explain model-dependent shifts and uncertainty rather than selecting whichever computed root is closest after the fact. Validate the adequacy of structures, methods and analysis for the claims using a defensible route of your choice. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Conclusions cover solution absorption of these four molecules. A frontier gap, vertical transition or inferred geometric effect does not establish emission efficiency, crystal polymorphism, white-light generation or OLED performance. Distinguish observed band maxima from computed vertical energies and from a chosen broadening model. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

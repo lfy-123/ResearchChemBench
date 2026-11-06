@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_1bcf80caf9e64d55",
+  "case_id": "case_10",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "PEt3 催化环戊烯酮形成、相关分支竞争、活化瓶颈和配平净热力学。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "main_path",
+      "description": "所提完整形成路线的关键相连态 Gibbs 能量、各关键转化局部活化量及统一参照下的活化需求。",
+      "public_requirement": "Computed key-state Gibbs energies, local activation energies and common-reference activation requirements along the proposed connected product-formation route."
+    },
+    {
+      "id": "branch_comparison",
+      "description": "相关实质竞争分支的可比活化量和差值。",
+      "public_requirement": "Computed comparable activation energies and differences for the substantive competing branches."
+    },
+    {
+      "id": "net_thermochemistry",
+      "description": "按公开缔合起点约定和完整产物/催化剂/副产物账本计算的净 ΔG；若换参照，提供实际缔合自由能及一致标准态换算。",
+      "public_requirement": "Computed net ΔG using the public pre-reaction-association convention and complete product/catalyst/coproduct inventory; provide computed association energy and consistent standard-state conversion when relating alternative references."
+    },
+    {
+      "id": "single_branch",
+      "description": "至少一条相关成环分支的实际相连态/剖面能量及适用局部活化量；不要求第二分支或全催化路线。",
+      "public_requirement": "Computed connected-state/profile energies and applicable local activation requirements for at least one relevant cyclization branch; this individual result does not require a second branch or the whole catalytic route."
+    },
+    {
+      "id": "direct_branch",
+      "description": "直接环化分支的相连态/剖面能量及适用局部活化量，确认实际成环连接；不要求已算其他分支。",
+      "public_requirement": "Computed connected-state/profile energies and applicable local activation requirements for a direct ring-forming branch, with its chemical connectivity established independently of whether another branch is available."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "catalytic_formation_mechanism",
+      "points": 40,
+      "description": "膦催化成环与再生机制",
+      "allow_need_review": false
+    },
+    {
+      "id": "supported_cyclization_branch",
+      "points": 10,
+      "description": "有据的相关成环分支解释",
+      "allow_need_review": false
+    },
+    {
+      "id": "direct_cyclization_branch",
+      "points": 10,
+      "description": "有据的直接环化分支",
+      "allow_need_review": false
+    },
+    {
+      "id": "direct_branch_competition",
+      "points": 10,
+      "description": "直接环化与实质竞争分支的比较",
+      "allow_need_review": false
+    },
+    {
+      "id": "kinetic_bottleneck",
+      "points": 20,
+      "description": "初始膦加成是主要活化困难",
+      "allow_need_review": false
+    },
+    {
+      "id": "net_thermodynamic_direction",
+      "points": 10,
+      "description": "配平净转化热力学有利",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Schemes 4/5、SI S97–99；历史验证支持催化形成路线和再生、A/B 分支、初始膦加成需求及放能净反应。",
+  "boundaries": [
+    "原作者 -24.7 窗口撤销；公开规定的缔合起点只是热力学报告参照，不要求路线经过它。",
+    "允许同时给分离反应物参照，但须通过一致的缔合/标准态账本说明关系。",
+    "不加全底物范围、不对称变体或穷尽构象；端点放能不等于已解释催化机制。",
+    "三个分支项的累进事实写在各自expected中；无实证0，未得直接分支至多10，直接分支20，有有效竞争比较30。局部分支不以完整催化路线为前提。"
+  ],
+  "source_locator": "Main PDF pp.4–5 (journal pp.719–720), Schemes 4/5 and the explicitly plausible mechanism discussion; supplementary_001 PDF pp.97–99, computational details, Figs.S1/S2 and accompanying route comparison.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

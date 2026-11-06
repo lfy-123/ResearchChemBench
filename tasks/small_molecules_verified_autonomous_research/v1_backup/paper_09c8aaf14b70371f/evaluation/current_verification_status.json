@@ -1,0 +1,51 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "updated_on": "2026-10-17",
+  "current_scope_verified": true,
+  "scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE",
+  "scope": "Previously verified five-compound calculations; current scoring retains bounded relationship and solvent comparisons. Orbital localization and anion spin are optional historical evidence.",
+  "covered_reference_ids": [
+    "series_relationship",
+    "electron_addition_region",
+    "solvent_relationship",
+    "answer"
+  ],
+  "acceptance_date": "2026-10-15",
+  "existing_evidence": {
+    "accepted_on": "2026-10-15",
+    "existing_evidence_path": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/parent_09c8_native_crosscheck.json",
+    "sha256": "1caeaf01ddc4296563a6a491c97247a42ca42432ccd013417f29d8f08afb8e36",
+    "current_reference": "evaluation/verified_computation_reference.md"
+  },
+  "acceptance_record": "evaluation/verified_computation_reference.md",
+  "additional_quantum_calculations_required": false,
+  "new_quantum_jobs": 0,
+  "formal_release_certified_by_this_maintenance": false,
+  "remaining_qualification_or_interpretation_limits": [
+    "Exact author compound-2 property-conformer/scalar attribution remains unresolved.",
+    "No new numerical windows or formal release certification."
+  ],
+  "task_sha256": "ec181ff3e08ed4a8ee9b120175ca69ff8ff8c63951e727b560e4c2c9737cdb3b",
+  "historical_status_policy": "Historical pending/failure labels apply to their dated scope. This current summary does not change original results or clear scoring/release qualifications.",
+  "current_contract_hashes": {
+    "agent_input/task.md": "ec181ff3e08ed4a8ee9b120175ca69ff8ff8c63951e727b560e4c2c9737cdb3b",
+    "agent_input/submission_schema.json": "5545870c46e69587bf9a56a0ad207b08aa7be5a2bdca6c6b7d96a826e2d3ef1f",
+    "evaluation/reference_key_points.json": "2f215244ca63cf78573b0994d7ab5279ea6e64e90afe9d5743749a1fb0436a01",
+    "evaluation/reference_conclusions.json": "b012624452f205d0c00d24691d6b66b3d54a3b7cda6a5068625852fd252fc3be",
+    "evaluation/scoring_rules.json": "d83e0aed23cf803da616592ac0cda93377f5d1081f09a12fc1456dac9d6fcb4d",
+    "evaluation/critical_failures.json": "e5f54d21c0e01d4d457d775bc9d0e59cd9990d76ab5e8e98285cff0534a213dd"
+  },
+  "scoring_update_20261020": {
+    "revision": "expert_round1_20261020",
+    "description": "删除中性受电子轨道区域和还原阴离子自旋分布两项；最终解释加入基于化学知识与计算的峰电位差异假说。五项分值为 25/20/15/10/30。",
+    "active_rule_ids": [
+      "r_series_3_5",
+      "r_hydroxy_departure",
+      "r_acn_dmso",
+      "r_dcm_comparison",
+      "r_bounded_relationship"
+    ],
+    "new_quantum_jobs": 0,
+    "verification_boundary": "Existing acceptance applies to the dated computational scope above. Rule revision is not a new computational verification or formal-release certification."
+  }
+}

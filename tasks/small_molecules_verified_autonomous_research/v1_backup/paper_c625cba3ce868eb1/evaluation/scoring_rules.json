@@ -1,0 +1,93 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Numerical targets and existing tolerances are not adjustable. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate.",
+  "rules": [
+    {
+      "rule_id": "r_alkene_polarization",
+      "reference_id": "alkene_polarization",
+      "type": "semantic",
+      "expected": "Actual electronic-structure evidence establishes the more negative alkene carbon near the hydroperoxide group of (R)-4 and unequal alkene reactivity. Source aqueous MEP-fitted charges -0.507/-0.066 e are definition-specific context, not universal targets for Mulliken/NBO/other methods. Validate the modeled reactant identity/state; no invented charge tolerance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_competing_closure",
+      "reference_id": "competing_closure",
+      "type": "semantic",
+      "expected": "Computed site-resolved or competing-ring evidence establishes a physical distinction favoring the six-membered closure interpretation for (R)-4. Map the relevant atoms and ring alternatives. Valid electronic/structural discrimination is allowed; no author TS barrier or mandatory separate calculation on 7 exists. Repeating the supplied product observation alone is insufficient.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_bromocyclization_conclusion",
+      "reference_id": "bromocyclization_conclusion",
+      "type": "semantic",
+      "expected": "The final answer connects computed polarization and competing-site evidence to the six-membered product preference under the stated NBS experiment. Use 7 only with its enzyme-condition boundary; its product mixture is not a same-condition NBS control. Do not claim reactant MEP uniquely proves a microscopic path or that the proposed Thorpe–Ingold contribution is established. No additional points for quoting supplied yields.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "alkene_polarization",
+      "kind": "intermediate",
+      "max_score": 40,
+      "description": "(R)-4 烯烃的非对称电子极化",
+      "rule_ids": [
+        "r_alkene_polarization"
+      ],
+      "evidence_ids": [
+        "main_p3_4_5_7",
+        "supplementary_001_p30_31_32"
+      ]
+    },
+    {
+      "id": "competing_closure",
+      "kind": "intermediate",
+      "max_score": 30,
+      "description": "竞争闭环位点的分子证据",
+      "rule_ids": [
+        "r_competing_closure"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p30"
+      ]
+    },
+    {
+      "id": "bromocyclization_conclusion",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "最终：六元环选择性的有限分子解释",
+      "rule_ids": [
+        "r_bromocyclization_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p3_4_5_7",
+        "supplementary_001_p30"
+      ]
+    }
+  ]
+}

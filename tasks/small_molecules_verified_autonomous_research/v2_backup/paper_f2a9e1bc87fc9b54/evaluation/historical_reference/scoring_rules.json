@@ -1,0 +1,183 @@
+{
+  "paper_id": "paper_f2a9e1bc87fc9b54",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。 本批为解释/比较型题目，全部采用定性科学结果项。来源数值保留为可比性上下文，没有新设精确能量窗口；不使用验证值替换作者值。合理替代模型或路径可按相同科学命题的证据评价，不能仅因未选作者软件、描述符或机理标签扣分。",
+  "rules": [
+    {
+      "rule_id": "r_base_hydrogen_transfer",
+      "reference_id": "base_hydrogen_transfer",
+      "type": "semantic",
+      "expected": "实际结构和反应连接证据支持3-硝基吡咯N–H被碱作用去除并形成H2，保持β-硝基吡咯身份及原子/电荷配平。作者氢负离子接触模型TS1为参考；允许化学等价表示，不强制源坐标或固定搜索方法。仅写去质子化标签或给出未验证TS不计分。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_activated_n_intermediate",
+      "reference_id": "activated_n_intermediate",
+      "type": "semantic",
+      "expected": "有效计算支持去质子化吡咯含氮态及相应稳定化，并与后续炔丙基化前体保持同一阴离子骨架映射。作者S2/H2接触态相对初态约−25.5 kcal/mol为上下文；不强制同一接触伙伴/构象。需得到实际中间态及连接关系，不能把两个互不配平的模型拼接。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_n_c_bond_formation",
+      "reference_id": "n_c_bond_formation",
+      "type": "semantic",
+      "expected": "实际反应结构、振型及适当连接证据支持吡咯N与炔丙基碳成键、C–Br断裂，并保留末端炔和β-硝基位置。作者TS2的SN2通道为参考；不规定必须采用作者标签或完整IRC，但只算一个非反应虚频或错位产物不得分。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_net_exergonicity",
+      "reference_id": "net_exergonicity",
+      "type": "semantic",
+      "expected": "由相容能量定义和完整物料/电荷账本计算得到净N-炔丙基产物形成的显著放能趋势。作者G约−45.5 kcal/mol为参考上下文，不设隐藏精确窗口；不得遗漏H2/试剂/Br或从产率直接推导ΔG。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_connected_route_answer",
+      "reference_id": "connected_route_answer",
+      "type": "semantic",
+      "expected": "最终采用有计算支持的连接解释，将底物、碱、烷基化试剂的作用贯通到正确N-炔丙基产物。作者去质子化后取代为参考；实证支持的等价路线可接受。不能只展示孤立TS/产物或提出未经检验的反应类型。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_energetic_answer",
+      "reference_id": "energetic_answer",
+      "type": "semantic",
+      "expected": "结合已连接路径和可比能量，明确后续N–C取代具有比前面近反应物去质子化更明显的局部活化需求，而净转化放能。正确区分图式相对高度、各自前体局部势垒和反应ΔG；作者16.2仅是其参考定义下的能差。不把负TS相对G称实验严格无势垒，不从89%/24h推出定量速率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "base_hydrogen_transfer",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "碱诱导N–H转移并形成H2",
+      "rule_ids": [
+        "r_base_hydrogen_transfer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "activated_n_intermediate",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "去质子化含氮中间态与后续反应相连",
+      "rule_ids": [
+        "r_activated_n_intermediate"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "n_c_bond_formation",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "N–C形成与C–Br断裂的取代事件",
+      "rule_ids": [
+        "r_n_c_bond_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "net_exergonicity",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "配平的净产物形成具有放能趋势",
+      "rule_ids": [
+        "r_net_exergonicity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "connected_route_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "最终：两步分子解释完整N-炔丙基化",
+      "rule_ids": [
+        "r_connected_route_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "energetic_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "最终：区分局部取代困难与总体放能",
+      "rule_ids": [
+        "r_energetic_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

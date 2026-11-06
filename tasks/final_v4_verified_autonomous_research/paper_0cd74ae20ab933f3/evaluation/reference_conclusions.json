@@ -1,0 +1,65 @@
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "items": [
+    {
+      "conclusion_id": "coupled_ground_state",
+      "statement": "Coupled ground state",
+      "expected": "For each intact neutral H, Me and OMe dimer, actual matched physical singlet/triplet calculations establish a lower coupled singlet and antiferromagnetic molecular exchange. Report the three J values with units under J=E(S)-E(T), or transparently convert another convention, and establish the physical spin-state identity. The values are evidence for the common exchange character, not three author-value targets. A broken-symmetry label or formal Cu(II) count without state evidence does not establish this result.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "si_exchange",
+        "native_exchange",
+        "native_reanalysis",
+        "native_final_response"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_coupled_ground_state"
+      ]
+    },
+    {
+      "conclusion_id": "me_h_effect",
+      "statement": "Me versus H differential exchange",
+      "expected": "Use matched full-molecule spin-state energies to quantify the Me minus H exchange difference and determine whether it is resolved relative to demonstrated numerical, state and relevant structural/model uncertainty. The source-like result is a small negative difference, indicating stronger antiferromagnetic exchange. A bounded conclusion that this small effect is not resolved also passes when actual comparable calculations and a justified uncertainty analysis establish that finding; convergence failure, omitted work or an unsupported uncertainty assertion do not. Report the signed result actually obtained and delimit its model scope. Do not mix methods between members, infer a difference from overlapping absolute-value windows, substitute material-fit ordering, or claim that conditional solver residuals bound total method error.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "si_exchange",
+        "main_exchange",
+        "native_reanalysis",
+        "native_final_response"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_me_h_effect"
+      ]
+    },
+    {
+      "conclusion_id": "ome_me_effect",
+      "statement": "Small OMe versus Me contrast",
+      "expected": "Use matched full-molecule spin-state energies to quantify the OMe minus Me exchange difference and determine whether it is resolved relative to demonstrated numerical, state and relevant structural/model uncertainty. The source-like result is a small negative difference, indicating stronger antiferromagnetic exchange. A bounded conclusion that this small effect is not resolved also passes when actual comparable calculations and a justified uncertainty analysis establish that finding; convergence failure, omitted work or an unsupported uncertainty assertion do not. Report the signed result actually obtained and delimit its model scope. Do not mix methods between members, infer a difference from overlapping absolute-value windows, substitute material-fit ordering, or claim that conditional solver residuals bound total method error.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "si_exchange",
+        "native_reanalysis",
+        "native_final_response"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_ome_me_effect"
+      ]
+    },
+    {
+      "conclusion_id": "family_answer",
+      "statement": "Electronic explanation of the molecular substitution dependence",
+      "expected": "Use actual spin-resolved orbitals, spin correlations or equivalent many-electron evidence to explain how the axial ligand is associated with exchange through coupled Cu-centered open-shell degrees of freedom. Connect ligand/core electronic structure with the computed substitution response or its demonstrated lack of resolution; distinguish a molecular electronic association from a Hamiltonian factor, root switch or composition change. The source associates more electron-rich axial pyridines with modestly stronger exchange. A supported bounded or physically equivalent explanation passes; a unique separation of geometry and electronics, fixed NTO weights or a particular analysis tool is not required. Repeating exchange values, formal oxidation labels or unsupported causal speculation fails.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "si_exchange",
+        "main_exchange",
+        "native_reanalysis",
+        "native_final_response",
+        "native_nto"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_family_answer"
+      ]
+    }
+  ]
+}

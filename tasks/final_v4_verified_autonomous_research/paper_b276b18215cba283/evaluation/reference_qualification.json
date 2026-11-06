@@ -1,0 +1,231 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "scoring_policy": "paper_science_v3",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "retained_limitations": [
+    "Author private cisoid constraint unknown; equivalent constrained reconstruction must not be called a free minimum.",
+    "Exact author percentage normalization is not recovered. The historical 7/12 integer-label agreement and maximum 2.281262 percentage-point discrepancy refer to a prior selected-pair renormalization, not the full native RPA comparison. Existing full X/Y RPA weights give 95.773282% versus source 100% for single_trans S1, 89.388227% versus 96% for single_cis S1, and 73.938762% versus 87% for three_trans S3 (13.061238 percentage-point difference). These definitions must not be conflated; exact percentages are not scored.",
+    "Finite linear spectra cannot establish unique700nm photoproduct, irreversible kinetics, equilibrium cis population, vesicle or two-photon performance."
+  ],
+  "verification_status_record": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+  "coordinator_review": {
+    "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+    "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+    "review_key": "v2_paper_b276b18215cba283",
+    "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+    "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+    "publication_readiness_unchanged": true
+  },
+  "round3_repair": {
+    "date": "2026-10-19",
+    "mode": "autonomous_research",
+    "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_05/REPORT.md",
+    "changes": [
+      "Clarified the conditional-cisoid structure8 physical target: an independently supported cisoid basin is eligible without reconstructing a private coordinate/constraint protocol. Tight scalar source-fidelity windows remain provisional, not mechanically widened.",
+      "Audited every existing leaf for scientific role, source/verification support and physical definitions; retained unproven narrow-window risks as explicit provisional calibration limits rather than inventing wider tolerances."
+    ],
+    "no_new_chemistry": true,
+    "online_judge_calibration_performed": false,
+    "historical_acceptance_unchanged": true
+  },
+  "historical_acceptance_class": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+  "historical_status": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+  "historical_current_scope_verified": true,
+  "status": "V3_CONTRACT_MIGRATED_EVIDENCE_REUSED_NOT_REVALIDATED",
+  "current_scope_verified": false,
+  "v3_scope": "原有限分子吸收解释问题不变；显式列出原评估已要求的十跃迁E/f共20个最终光谱量（各2分），保留原能量/振子窗，另35/25分评分波段解释与全染料模型转移。十个作者轨道节点、五个重复红移排序和结构交付均不独立得分。",
+  "v3_evidence_gaps": [
+    "作者是否约束完整cisoid未知；本地S11是−1.9398°单扭角约束重建，非自由最低点。",
+    "仅公开分子图/中立构型后，AR自由建模和窄光谱窗跨方法/跨构象公平性尚未校准，不能继承历史V3全通过。",
+    "源精确组态百分比未复原；有限气相计算没有定量重现700 nm或识别唯一光产物。"
+  ],
+  "historical_non_scoring_tolerance_policy": {
+    "status": "provisional_source_fidelity_policy_not_cross_method_accuracy",
+    "rationale": "Energy ±.01 eV reflects .01 eV figure resolution and same-model geometry/integration reproducibility, not broad functional accuracy. Oscillator categories ±.005 for bright/weak signals and ±.001 for near-zero signals avoid forcing unavailable printed-digit reproducibility; dark/bright identity and sign are independent. Exact percentages have no window because author normalization is unresolved. These windows are fixed ex ante to future submissions, not calibrated from historical agent scores, and are not a claim that they predated the archived chemistry runs. Their narrow numerical role is source-observable fidelity after physical comparability is established. Software substitution is allowed; changing method does not create a larger window or a fitted energy offset. A comparable result outside the numeric window can still earn independently evidenced structural, trend and final-inference leaves. Source-model labels specify the physical reference rather than mandate a tool sequence. The .01eV choice is one full source energy print unit; .005 is a preselected absolute oscillator-strength category (half a percent of an order-one allowed transition), not .0025 maximum observed residual plus epsilon. The near-zero .001 category treats dark responses separately; no numeric window establishes the small redshift sign. Round3: source precision and repeated source-route evidence do not establish cross-method fairness. No tolerance was widened to erase an observed residual. Semantic physical-equivalence rules are independent; remaining cross-method numerical calibration is explicitly unresolved."
+  },
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_single_arm_optical_response",
+      "r_three_arm_optical_response",
+      "r_full_dye_transfer",
+      "r_molecular_band_account"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_reason": "2026-10-28 final-result redesign; historical acceptance is not a new V3 full pass.",
+  "historical_non_scoring_second_review": "The bounded molecular-band explanation is retained without a mandatory five-state redshift grid. Comparisons must support the physical explanation; reproducing all weak-state orderings is not an additional requirement. The original task did not expressly require all twenty E/f scalars, which were classified as intermediate evidence in its rubric. Their promotion to required final results and the need for state-by-state comparisons remain expert design questions. Numerical targets, windows and weights are unchanged; source-conformation and cross-method fairness remain unresolved.",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "单臂两构象S1 E/f及光学变化",
+      "rule_id": "r_single_arm_optical_response",
+      "conclusion_id": "single_arm_optical_response",
+      "independence": "单臂对象的构象响应不依赖三臂，也不决定700nm来源。",
+      "source_locator": "正文p8长波讨论、p14 §6.8；SIpp15–16 FigsS12/S13、TablesS8–S11",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/single_arm_cisoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/single_arm_transoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/three_arm_transoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/constrained_opt.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/fixed_geometry_full_hessian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/opt.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/dye_source_S11_fouratom_torsion_gradient_signature_20261005_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/dye_ten_source_transitions_native_full_XY_norm_20261005_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/three_cisoid_source_S11_fixed_CAMB3LYP_631Gdp_TD6_stability_v2a1/stdout.log"
+      ],
+      "existing_support": "单臂S1 3.2646→3.1841eV、f .9029→.5576；全染料S1 2.8708→2.8398，S1/S2强度重新分配，S3/S4弱。全响应RPA百分比与源差最大13.061238个百分点。",
+      "limits": [
+        "20个E/f数值窗已删除，所有要求的状态量仍保留为吸收模式和解释证据；不要求弱态每个排序或作者轨道百分比逐一匹配。",
+        "完整cisoid源S11固定几何TD与后续单扭角约束驻点不同；作者私有约束未明，不能把条件结构称自由极小点或已确定光产物。",
+        "原完整RPA百分比偏差保留，不能用选对再归一化覆盖。2.8398eV约436.59nm不是700nm，有限气相结果不唯一解释长波带、不可逆光化学或囊泡行为。"
+      ],
+      "evidence_ids": [
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_single_trans_S1_energy",
+        "r_single_trans_S1_oscillator_strength",
+        "r_single_cis_S1_energy",
+        "r_single_cis_S1_oscillator_strength"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "三臂两构象S1–S4 E/f与低态吸收模式",
+      "rule_id": "r_three_arm_optical_response",
+      "conclusion_id": "three_arm_optical_response",
+      "independence": "完整染料多态强度分配是单臂模型不包含的物性。",
+      "source_locator": "正文p8长波讨论、p14 §6.8；SIpp15–16 FigsS12/S13、TablesS8–S11",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/single_arm_cisoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/single_arm_transoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/three_arm_transoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/constrained_opt.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/fixed_geometry_full_hessian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/opt.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/dye_source_S11_fouratom_torsion_gradient_signature_20261005_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/dye_ten_source_transitions_native_full_XY_norm_20261005_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/three_cisoid_source_S11_fixed_CAMB3LYP_631Gdp_TD6_stability_v2a1/stdout.log"
+      ],
+      "existing_support": "单臂S1 3.2646→3.1841eV、f .9029→.5576；全染料S1 2.8708→2.8398，S1/S2强度重新分配，S3/S4弱。全响应RPA百分比与源差最大13.061238个百分点。",
+      "limits": [
+        "20个E/f数值窗已删除，所有要求的状态量仍保留为吸收模式和解释证据；不要求弱态每个排序或作者轨道百分比逐一匹配。",
+        "完整cisoid源S11固定几何TD与后续单扭角约束驻点不同；作者私有约束未明，不能把条件结构称自由极小点或已确定光产物。",
+        "原完整RPA百分比偏差保留，不能用选对再归一化覆盖。2.8398eV约436.59nm不是700nm，有限气相结果不唯一解释长波带、不可逆光化学或囊泡行为。"
+      ],
+      "evidence_ids": [
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_three_trans_S1_energy",
+        "r_three_trans_S1_oscillator_strength",
+        "r_three_trans_S2_energy",
+        "r_three_trans_S2_oscillator_strength",
+        "r_three_trans_S3_energy",
+        "r_three_trans_S3_oscillator_strength",
+        "r_three_trans_S4_energy",
+        "r_three_trans_S4_oscillator_strength",
+        "r_three_cis_S1_energy",
+        "r_three_cis_S1_oscillator_strength",
+        "r_three_cis_S2_energy",
+        "r_three_cis_S2_oscillator_strength",
+        "r_three_cis_S3_energy",
+        "r_three_cis_S3_oscillator_strength",
+        "r_three_cis_S4_energy",
+        "r_three_cis_S4_oscillator_strength"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "单臂到三臂可迁移与新增的电子响应",
+      "rule_id": "r_full_dye_transfer",
+      "conclusion_id": "full_dye_transfer",
+      "independence": "模型缩减的物理原因需跨臂态/密度证据，不因重复红移得分。",
+      "source_locator": "正文p8长波讨论、p14 §6.8；SIpp15–16 FigsS12/S13、TablesS8–S11",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/single_arm_cisoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/single_arm_transoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/three_arm_transoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/constrained_opt.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/fixed_geometry_full_hessian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/opt.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/dye_source_S11_fouratom_torsion_gradient_signature_20261005_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/dye_ten_source_transitions_native_full_XY_norm_20261005_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/three_cisoid_source_S11_fixed_CAMB3LYP_631Gdp_TD6_stability_v2a1/stdout.log"
+      ],
+      "existing_support": "单臂S1 3.2646→3.1841eV、f .9029→.5576；全染料S1 2.8708→2.8398，S1/S2强度重新分配，S3/S4弱。全响应RPA百分比与源差最大13.061238个百分点。",
+      "limits": [
+        "20个E/f数值窗已删除，所有要求的状态量仍保留为吸收模式和解释证据；不要求弱态每个排序或作者轨道百分比逐一匹配。",
+        "完整cisoid源S11固定几何TD与后续单扭角约束驻点不同；作者私有约束未明，不能把条件结构称自由极小点或已确定光产物。",
+        "原完整RPA百分比偏差保留，不能用选对再归一化覆盖。2.8398eV约436.59nm不是700nm，有限气相结果不唯一解释长波带、不可逆光化学或囊泡行为。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_full_dye_transfer"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "气相构象结果与约700nm实验带关系",
+      "rule_id": "r_molecular_band_account",
+      "conclusion_id": "molecular_band_account",
+      "independence": "判断可解释幅度及物种识别能力，不能由有红移直接获得。",
+      "source_locator": "正文p8长波讨论、p14 §6.8；SIpp15–16 FigsS12/S13、TablesS8–S11",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/single_arm_cisoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/single_arm_transoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_b276b18215cba283/outputs/three_arm_transoid_CAMB3LYP_631Gdp_optfreq_TD6_a1/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/constrained_opt.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/fixed_geometry_full_hessian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/S11_one_torsion_constraint_hypothesis_20261009_a1/opt.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/dye_source_S11_fouratom_torsion_gradient_signature_20261005_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/dye_ten_source_transitions_native_full_XY_norm_20261005_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_b276b18215cba283/outputs/three_cisoid_source_S11_fixed_CAMB3LYP_631Gdp_TD6_stability_v2a1/stdout.log"
+      ],
+      "existing_support": "单臂S1 3.2646→3.1841eV、f .9029→.5576；全染料S1 2.8708→2.8398，S1/S2强度重新分配，S3/S4弱。全响应RPA百分比与源差最大13.061238个百分点。",
+      "limits": [
+        "20个E/f数值窗已删除，所有要求的状态量仍保留为吸收模式和解释证据；不要求弱态每个排序或作者轨道百分比逐一匹配。",
+        "完整cisoid源S11固定几何TD与后续单扭角约束驻点不同；作者私有约束未明，不能把条件结构称自由极小点或已确定光产物。",
+        "原完整RPA百分比偏差保留，不能用选对再归一化覆盖。2.8398eV约436.59nm不是700nm，有限气相结果不唯一解释长波带、不可逆光化学或囊泡行为。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_molecular_band_account"
+      ],
+      "no_new_computation": true
+    }
+  ],
+  "objective_issue_flags": [
+    {
+      "issue": "20个E/f数值窗已删除，所有要求的状态量仍保留为吸收模式和解释证据；不要求弱态每个排序或作者轨道百分比逐一匹配。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "完整cisoid源S11固定几何TD与后续单扭角约束驻点不同；作者私有约束未明，不能把条件结构称自由极小点或已确定光产物。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "原完整RPA百分比偏差保留，不能用选对再归一化覆盖。2.8398eV约436.59nm不是700nm，有限气相结果不唯一解释长波带、不可逆光化学或囊泡行为。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    }
+  ]
+}

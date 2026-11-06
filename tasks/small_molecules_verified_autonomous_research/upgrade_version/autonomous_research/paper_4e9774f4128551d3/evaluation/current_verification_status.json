@@ -1,0 +1,68 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "source_checked_evidence_scope_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_endpoint_gap",
+      "r_condition_interpretation",
+      "r_recycle_balance"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The recycle_balance outcome may use the supplied experimental single-pass fraction with actually executed, recoverable mass-balance analysis. Endpoint molecular computations remain required for the separate endpoint and operation-interpretation outcomes.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Why does reversible epimerization of ketoester 50 behave differently from its two-stage enolization/protonolysis treatment, and, under explicit ideal separation/recycling assumptions, is the calculated three-cycle cis recovery compatible with the reported isolated yield? Explain the supplied observations using molecular calculations and quantitative analysis. The experimental outcomes are known; their explanation is the task.",
+  "active_rule_ids": [
+    "r_endpoint_gap",
+    "r_condition_interpretation",
+    "r_recycle_balance"
+  ],
+  "current_outcome_ids": [
+    "endpoint_gap",
+    "condition_interpretation",
+    "recycle_balance"
+  ],
+  "historical_record": {
+    "paper_id": "paper_4e9774f4128551d3",
+    "updated_on": "2026-10-27",
+    "scoring_policy": "paper_science_v3",
+    "scientific_status": "ITEMWISE_EVIDENCE_REUSE_REVIEW",
+    "current_scope_verified": false,
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blind_agent_run_performed": false,
+    "new_quantum_jobs": 0,
+    "active_rule_ids": [
+      "r_endpoint_gap",
+      "r_condition_interpretation",
+      "r_recycle_balance"
+    ],
+    "current_reference": "evaluation/final_result_coverage.json",
+    "remaining_qualification_or_interpretation_limits": [
+      "Main1:1 versus SI10:1 THF/MeOH remains unresolved; methanol endpoint model is not either full kinetic mixture.",
+      "Source high-level absolute SCF offsets approximately0.01358/0.01410Eh persist; native energy difference retains0.32403313kcal/mol residual.",
+      "Source DZ column numerically matches E+Gcorr; avoid double-adding thermal correction.",
+      "No protonolysis transition states, exact single-pass ratio prediction or exact isolated-yield simulation have been validated.",
+      "No new QM/HPC or blind run."
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "endpoint_gap": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "condition_interpretation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "recycle_balance": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

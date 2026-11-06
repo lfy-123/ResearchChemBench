@@ -1,0 +1,161 @@
+{
+  "paper_id": "paper_1db677efcdd782ac",
+  "revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "氧化后 H/Me/Ph 环丙胺模型的局部开环、稳定性、Me 构型互变解释及可推广性。",
+  "source_location": "Main text p7 Table 3/Fig.9; SI p49–51",
+  "public_result_requirements": [
+    "Explain the local ring-opening energetic tendency of H, cis-Me and trans-Me in the +1 doublet boundary, with appropriate qualification of method-sensitive or near-thermoneutral comparisons.",
+    "Relate common-reference cis/trans open/closed stability to a possible methyl-isomer interconversion mechanism, distinguishing compatibility from a computed complete interconversion rate.",
+    "Test local ring-closed stability of the Ph model and compare opening accessibility across the series to assess whether fast irreversible opening can be generalized."
+  ],
+  "required_numerical_evidence": [
+    {
+      "id": "h_reaction",
+      "description": "H 的开/闭态电子能及开环 ΔE。",
+      "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for H."
+    },
+    {
+      "id": "cis_me_reaction",
+      "description": "cis-Me 的开/闭态电子能及开环 ΔE，包括近简并/方法敏感结果的实际数值。",
+      "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for cis-Me, including the actual values when near-degenerate or method-sensitive."
+    },
+    {
+      "id": "trans_me_reaction",
+      "description": "trans-Me 的开/闭态电子能及开环 ΔE。",
+      "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for trans-Me."
+    },
+    {
+      "id": "me_common_reference",
+      "description": "cis/trans-Me 开态和闭态在共同零点下的电子能差；不另要求完整互变速率。",
+      "public_requirement": "Common-reference electronic-energy differences among cis/trans-Me open and closed states; a new complete interconversion-rate calculation is not required."
+    },
+    {
+      "id": "ph_local_test",
+      "description": "Ph 闭环起点松弛、闭合方向剖面或等效局部稳定性测试的实际能量和几何结果。",
+      "public_requirement": "Actual energies and geometries from a Ph closed-ring-start relaxation, a ring-closing profile or an equivalent local stability test."
+    },
+    {
+      "id": "opening_barriers",
+      "description": "H、cis-Me、trans-Me 的实际局部开环电子能势垒 ΔE‡ 及跨底物差值。",
+      "public_requirement": "Computed local ring-opening electronic-energy barriers ΔE‡ for H, cis-Me and trans-Me, and their cross-substrate differences."
+    }
+  ],
+  "coverage": [
+    {
+      "scientific_question": "H 模型开环是否具有有利的局部能量驱动？",
+      "outcome_id": "h_opening_tendency",
+      "required_numerical_evidence_ids": [
+        "h_reaction"
+      ],
+      "old_outcome_ids": [
+        "h_opening_tendency"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING",
+        "existing_native_verification"
+      ],
+      "points": 15,
+      "criterion": "正确 H 框架的 +1 双重态开/闭比较支持开环在电子能上不利、闭环态保持竞争力的结论。判断来自相应真实计算与分子身份，不能只报任意正号或引用环保留的实验。无需复现作者 ΔE 数字；本项不评价速率或另列的跨底物势垒排序。"
+    },
+    {
+      "scientific_question": "cis-Me 的开环驱动与闭环竞争如何？",
+      "outcome_id": "cis_me_opening_tendency",
+      "required_numerical_evidence_ids": [
+        "cis_me_reaction"
+      ],
+      "old_outcome_ids": [
+        "cis_me_opening_tendency"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING",
+        "existing_native_verification"
+      ],
+      "points": 15,
+      "criterion": "对实际 +1 双重态 cis-Me 开/闭结果作有界解释，支持开环可获稳定化或接近热中性，不能据小能差宣称强烈不可逆。主要参考支持轻度有利开环，但正文/SI 数值及方法/构象差异使接近零的符号不能作硬门；计算支持且诚实说明近简并/方法敏感的答案可以通过。完全没有开态比较，或强称普遍强烈不利却无适用依据，不能通过。"
+    },
+    {
+      "scientific_question": "trans-Me 是否也可被视为同样的不可逆开环？",
+      "outcome_id": "trans_me_opening_tendency",
+      "required_numerical_evidence_ids": [
+        "trans_me_reaction"
+      ],
+      "old_outcome_ids": [
+        "trans_me_opening_tendency"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING",
+        "existing_native_verification"
+      ],
+      "points": 15,
+      "criterion": "对正确 trans-Me 的开/闭计算支持闭环态仍具竞争力，不能把开环概括为稳健、强烈下坡且不可逆。主要 M06-2X 参考为吸能开环，但其他来源方法可变号；允许有实际支持的近热中性/方法依赖解释，不强求 ΔE>0。须讨论自身模型的开/闭稳定性，不能只重复 cis-Me 的答案或混用泛函制造排序。"
+    },
+    {
+      "scientific_question": "为什么 cis-Me 出发可与更稳定的闭环 trans 态建立联系？",
+      "outcome_id": "methyl_interconversion",
+      "required_numerical_evidence_ids": [
+        "cis_me_reaction",
+        "trans_me_reaction",
+        "me_common_reference"
+      ],
+      "old_outcome_ids": [
+        "methyl_interconversion"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_STEREO",
+        "V2_SI_RING",
+        "existing_native_verification"
+      ],
+      "points": 20,
+      "criterion": "用共同参照下的 cis/trans 开闭态与已研究开环化学，解释较稳定的闭环 trans-Me 如何与 cis 出发的开环/重闭合相容。必须包含正确构型与实际稳定性证据，不能只引用观察到 trans。参考支持 trans 闭环低于 cis 闭环；无需独立新算完整 cis→trans 势垒。若只验证了局部开环和态稳定性，结论应限定为互变机制相容性，不宣称已求得连续互变路径、速率或平衡比例。"
+    },
+    {
+      "scientific_question": "Ph 模型是否支持一个局部稳定的闭环陷阱？",
+      "outcome_id": "phenyl_ring_fate",
+      "required_numerical_evidence_ids": [
+        "ph_local_test"
+      ],
+      "old_outcome_ids": [
+        "phenyl_ring_fate"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_PHENYL",
+        "existing_native_verification"
+      ],
+      "points": 15,
+      "criterion": "实际结构变化和局部能量/稳定性测试支持所研究 Ph 分支偏向开环，测试未建立稳定闭环陷阱。可用闭环起点松弛、闭合方向剖面或等效测试；仅有一个开环最低点不足以回答闭环稳定性。不能把有限局部测试外推为全势能面绝无闭环最低点，不规定扫描点数或作者结构。"
+    },
+    {
+      "scientific_question": "哪个底物更易开环，能否推广为全系列快速不可逆？",
+      "outcome_id": "opening_accessibility_and_scope",
+      "required_numerical_evidence_ids": [
+        "h_reaction",
+        "cis_me_reaction",
+        "trans_me_reaction",
+        "ph_local_test",
+        "opening_barriers"
+      ],
+      "old_outcome_ids": [
+        "opening_accessibility_and_scope"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING",
+        "V2_SI_PHENYL",
+        "existing_native_verification"
+      ],
+      "points": 20,
+      "criterion": "同定义的实际开环过程比较支持 cis-Me 比 H 和 trans-Me 更易开环，并把这个动力学差异与系列开/闭态及 Ph 的局部行为联系起来，否定所有底物都统一快速不可逆开环的推广。前面各项的反应能量符号不能替代这里的形成/开环活化比较。不要求作者势垒数值、绝对速率或完整光循环；单纯泛泛声明“底物不同”不足。"
+    }
+  ],
+  "excluded_scope": [
+    "主要量为 +1 双重态电子能，不混为热校正 Gibbs 能。",
+    "cis-Me 正文/SI 数字冲突且近热中性，trans-Me 不同泛函可改变符号；不以严格正负零点或指定泛函作为隐藏容差。",
+    "保留闭环 trans 稳定性与开/闭机理相容性；不把它冒称已证明完整快速互变动力学。",
+    "不加完整光循环、氧化电位、醛产物或同位素任务。"
+  ],
+  "verification_support": "正文 Table 3/Figs.9–11、SI S49–51 与 Ph 结构；历史验证有开/闭态、三类开环通道及 Ph 局部扫描。没有独立的全 cis→trans 互变势垒/速率验证。"
+}

@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "task_type": "autonomous_research",
+  "title": "C–H olefination and nitrogen configurational interconversion",
+  "category": "small-molecule homogeneous organic reaction chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires computed productive pathways for two nitrogen configurations with a common activation-energy reference.",
+    "Separately evaluates isolated S and P inversion using their own solvents, temperatures, minima and thermal corrections. Requires a bounded interpretation of enrichment and configurational stability without a complete dynamic kinetic resolution model."
+  ],
+  "paper": {
+    "title": "Construction of chiral nitrogen stereocenters via enantioselective C–H activation",
+    "doi": "10.1016/j.chempr.2025.102730",
+    "journal": "Chem",
+    "publication_date": "2026-01-15"
+  },
+  "data": [
+    {
+      "path": "data/input_index.json",
+      "description": "Index of the complete text-based molecular identities, constraints, conditions and task inputs."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured models, states, metrics, claims, evidence and unresolved issues under the supplied schema."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific findings with links to the submitted native inputs, outputs, geometries and supporting analyses."
+    }
+  ]
+}

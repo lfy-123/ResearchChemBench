@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "scoring_policy": "paper_science_v2",
+  "items": [
+    {
+      "reference_id": "redox_discrimination",
+      "rule_ids": [
+        "r_redox_discrimination"
+      ],
+      "scientific_max_score": 10,
+      "kind": "intermediate",
+      "evidence_ids": [
+        "bn_redox",
+        "bn_screen"
+      ]
+    },
+    {
+      "reference_id": "triplet_discrimination",
+      "rule_ids": [
+        "r_triplet_discrimination"
+      ],
+      "scientific_max_score": 8,
+      "kind": "intermediate",
+      "evidence_ids": [
+        "bn_triplet",
+        "bn_screen",
+        "bn_main_triplet"
+      ]
+    },
+    {
+      "reference_id": "first_connection",
+      "rule_ids": [
+        "r_first_connection"
+      ],
+      "scientific_max_score": 12,
+      "kind": "intermediate",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ]
+    },
+    {
+      "reference_id": "first_barrier",
+      "rule_ids": [
+        "r_first_barrier"
+      ],
+      "scientific_max_score": 8,
+      "kind": "intermediate",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ]
+    },
+    {
+      "reference_id": "second_connection",
+      "rule_ids": [
+        "r_second_connection"
+      ],
+      "scientific_max_score": 8,
+      "kind": "intermediate",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ]
+    },
+    {
+      "reference_id": "second_barrier",
+      "rule_ids": [
+        "r_second_barrier"
+      ],
+      "scientific_max_score": 12,
+      "kind": "intermediate",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ]
+    },
+    {
+      "reference_id": "c4_c5_order",
+      "rule_ids": [
+        "r_c4_c5_order"
+      ],
+      "scientific_max_score": 12,
+      "kind": "intermediate",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ]
+    },
+    {
+      "reference_id": "endpoint_identity",
+      "rule_ids": [
+        "r_endpoint_identity"
+      ],
+      "scientific_max_score": 10,
+      "kind": "intermediate",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ]
+    },
+    {
+      "reference_id": "activation_conclusion",
+      "rule_ids": [
+        "r_activation_conclusion"
+      ],
+      "scientific_max_score": 10,
+      "kind": "conclusion",
+      "evidence_ids": [
+        "bn_redox",
+        "bn_triplet",
+        "bn_screen",
+        "bn_main_triplet"
+      ]
+    },
+    {
+      "reference_id": "mechanism_conclusion",
+      "rule_ids": [
+        "r_mechanism_conclusion"
+      ],
+      "scientific_max_score": 10,
+      "kind": "conclusion",
+      "evidence_ids": [
+        "bn_path",
+        "bn_screen",
+        "bn_main_mechanism"
+      ]
+    }
+  ],
+  "qualification_file": "evaluation/reference_qualification.json",
+  "historical_validation_plan": "evaluation/history/pre_science_v2_20261021/validation_plan.json.snapshot"
+}

@@ -1,0 +1,71 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "items": [
+    {
+      "conclusion_id": "active_catalyst",
+      "statement": "Chemically accessible active zinc species from the supplied precatalyst",
+      "expected": "Select and justify a neutral Zn(II) bis-prolinate active species with intact L stereochemistry and N/O coordination, using actual molecular results and a balanced thermodynamically favorable formation from ZnEt2+2L-proline to catalyst+2ethane. Source formation−98.5kcal/mol is context, not a hard target. Treat formal oxidation state by ligand/electron counting, not atomic charge; failure to optimize a Zn0 candidate is not proof that all Zn0 chemistry is impossible. An established physically equivalent speciation explanation passes.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_active_catalyst"
+      ],
+      "evidence_ids": [
+        "zn_species",
+        "zn_components"
+      ]
+    },
+    {
+      "conclusion_id": "coupling_chemistry",
+      "statement": "Bond-forming chemistry and zinc oxidation-state behavior",
+      "expected": "Explain the computed formation of the mapped unsymmetrical1,3-diyne as substitution-type Csp–Csp formation with Csp–Br cleavage and release of the Zn–C bond, with Zn remaining formally+2 along the supported route. Actual state/saddle/reactive-mode and sufficient connection evidence are required; a matching scalar or a product drawing alone fails. Equivalent physical reaction descriptions pass without author labels; do not mislabel this as a Pd-like Zn0/ZnII oxidative-addition/reductive-elimination cycle or exclude every uninvestigated radical mechanism.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_coupling_chemistry"
+      ],
+      "evidence_ids": [
+        "zn_species",
+        "zn_network",
+        "zn_ts"
+      ]
+    },
+    {
+      "conclusion_id": "balanced_profile",
+      "statement": "Thermodynamic feasibility and closure of the balanced catalytic free-energy network",
+      "expected": "Provide a numerical balanced free-energy profile demonstrating that terminal-alkyne activation is mildly uphill while product formation and ligand-mediated catalyst regeneration are downhill, and that the catalyst and stoichiometric reservoirs close consistently. The source uses carbonate activation with Cs-prolinate/CsHCO3 bookkeeping and regeneration with CsBr formation; equivalent balanced ion-pair/reservoir conventions pass after explicit conversion. Actual species energies are required for these final thermodynamic relationships; writing a cycle alone fails. Source Int2 main-text9.6 versus SI-derived4.078812kcal/mol conflicts, so no exact Int2 target is imposed. Source regeneration and overall heights are context without new hard windows.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_balanced_profile"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ]
+    },
+    {
+      "conclusion_id": "turnover_span",
+      "statement": "Kinetic bottleneck controlling the balanced catalytic turnover",
+      "expected": "Identify and explain the controlling kinetic bottleneck of the supported catalytic turnover from actual reaction connections and a consistently balanced free-energy network. In the reference route, Csp-Csp coupling with Csp-Br cleavage supplies the decisive activation demand above the available catalyst/reactant reservoirs; the relevant overall span is distinct from the local coupling barrier. Calculate and interpret that distinction at 298.15 K in ethanol using the stated 1 atm convention or explicit conversions. The reference overall expression is G(TS)+G(Cs-prolinate)+G(CsHCO3)-[G(neutral bis-prolinate catalyst)+G(R1)+G(R2)+G(Cs2CO3)]. An equivalent reservoir convention or independently substantiated turnover model passes when the bottleneck and physical reference are justified. A TS energy without stoichiometric reservoirs, a local barrier mislabeled as overall span, or a stage merely declared rate-determining fails. Source 29.2 kcal/mol is context without a matching gate. This item concerns which activation demand controls the supported cycle; the quantitative temperature/time-scale consequence is independently evaluated.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_turnover_span"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ]
+    },
+    {
+      "conclusion_id": "temperature_effect",
+      "statement": "Kinetic explanation for operation at125°C",
+      "expected": "Use the independently calculated controlling span and an explicit justified kinetic approximation to quantify the change from298.15K to398.15K and conclude that heating greatly increases accessibility on laboratory timescales. The source fixed-ΔG Eyring treatment is sufficient when stated as an approximation, not a recalculated high-temperature free energy or measured rate. Provide numerical rates or a rate/time-scale comparison. Copying source29.2 to generate rates without a computed span fails. This kinetic consequence is distinct from identifying the turnover bottleneck and has no numerical rate-matching target.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_temperature_effect"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_eyring"
+      ]
+    }
+  ]
+}

@@ -68,12 +68,15 @@ def _terminate_child(process: subprocess.Popen, *, grace_seconds: float = 5.0) -
 
 def main() -> int:
     process: subprocess.Popen | None = None
+    sandbox = None
     scratch_directory: Path | None = None
     termination_signal = 0
 
     def handle_termination(signum, _frame) -> None:
         nonlocal termination_signal
         termination_signal = int(signum)
+        if sandbox is not None:
+            sandbox.stop()
         if process is not None:
             _terminate_child(process)
 
@@ -115,8 +118,16 @@ def main() -> int:
         print(json.dumps(_failure("remote_scratch_setup_failed", str(exc))))
         return 73
     try:
+        from .sandbox import calculation
+        from .catalog import action_specs
+        workspace = Path(environment.get('RESEARCHCHEMBENCH_WORKSPACE') or environment['RESEARCHCHEM_MCP_WORKSPACE'])
+        sandbox = calculation([str(runtime_python), '-m', 'chemistry_toolbox.src.worker_launcher'],
+            runtime=environment['RESEARCHCHEM_BACKEND_RUNTIME'], cwd=workspace, env=environment, backend_id=payload['backend_id'],
+            network=action_specs()[payload['action_id']].requires_network,
+            cpu_ids=[int(v) for v in environment.get('RESEARCHCHEM_WORKER_CPU_IDS', '').split(',') if v],
+            writable=[workspace / 'outputs', scratch_directory])
         process = subprocess.Popen(
-            [str(runtime_python), "-m", "chemistry_toolbox.src.worker_launcher"],
+            sandbox.command(),
             text=True,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
@@ -135,6 +146,8 @@ def main() -> int:
     finally:
         if process is not None and process.poll() is None:
             _terminate_child(process)
+        if sandbox is not None:
+            sandbox.control('delete', '--force')
         cleanup_remote_scratch(scratch_directory)
     if termination_signal:
         return 128 + termination_signal

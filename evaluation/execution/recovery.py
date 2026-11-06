@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 import shutil
+from contextlib import ExitStack, nullcontext
 
 from chemistry_toolbox.mcp.execution_store import ExecutionStore
 from chemistry_toolbox.src.recovery_io import atomic_json, control_directory, file_hash, process_identity
@@ -83,6 +84,8 @@ def freeze_task_snapshot(runner):
 
 
 def freeze_runner(runner):
+    if runner.agent.get("kind") == "claude":
+        runner._agent_environment()
     freeze_task_snapshot(runner)
     store = runner_store(runner)
     runner._provider_cli_version = cli_version(runner)
@@ -108,7 +111,13 @@ def persist_runner(runner, extra):
     record = {**previous, **runner._run_manifest(), **extra}
     record["schema_version"] = 2
     record["recovery_enabled"] = runner.recovery_enabled
-    if runner.agent.get("kind") != "external":
+    if runner.agent.get("kind") == "gemini":
+        from .gemini_adapter import session_home as gemini_home
+        record["session_store_path"] = str(gemini_home(runner))
+    elif runner.agent.get("kind") == "claude":
+        from .claude_adapter import session_home as claude_home
+        record["session_store_path"] = str(claude_home(runner))
+    elif runner.agent.get("kind") != "external":
         record["session_store_path"] = str(session_home(store))
         record.update(history_metadata(store))
     record["provider_cli_version"] = runner._provider_cli_version
@@ -141,17 +150,31 @@ def validate_session(runner):
     if runner.agent.get("kind") == "mock":
         if store.get_record("mock_session", session_id): return
         raise RunRecoveryError("provider_session_missing")
+    if runner.agent.get("kind") == "gemini":
+        from .gemini_adapter import read_session
+        read_session(runner, required=True)
+        return
+    if runner.agent.get("kind") == "claude":
+        from .claude_adapter import session_path
+        session_path(runner, required=True)
+        return
     if runner.agent.get("kind") != "codex":
         raise RunRecoveryError("resume_unsupported")
     from .codex_history import session_home, session_rollout
     session_rollout(session_home(store), session_id, runner.workspace)
 
 
-def _extended_deadline(manifest, control, timeout_seconds):
+def _cancelled_resume_allowed(manifest, control):
+    return (manifest["run_state"] == "cancelled" and control.get("command") == "cancel"
+            and control.get("reason") in {None, "cancel", "cancelled", "deadline"})
+
+
+def _extended_deadline(manifest, control, timeout_seconds, *, resume_cancelled=False):
     """An operator may extend time, but cannot reset another exhausted budget."""
-    if manifest["run_state"] in {"completed", "failed", "cancelled"}:
+    reopening = resume_cancelled and _cancelled_resume_allowed(manifest, control)
+    if manifest["run_state"] in {"completed", "failed", "cancelled"} and not reopening:
         raise RunRecoveryError("run_is_terminal")
-    if control.get("command") == "cancel" and control.get("reason") != "deadline":
+    if control.get("command") == "cancel" and control.get("reason") != "deadline" and not reopening:
         raise RunRecoveryError("run_cancelled_or_usage_budget_exhausted")
     if type(timeout_seconds) is not int or timeout_seconds <= manifest["config"]["timeout_seconds"]:
         raise RunRecoveryError("timeout_extension_must_increase_total_budget")
@@ -164,7 +187,7 @@ def _extended_deadline(manifest, control, timeout_seconds):
     return deadline.isoformat()
 
 
-def _extend_wall_budget(runner, store, manifest, timeout_seconds):
+def _extend_wall_budget(runner, store, manifest, timeout_seconds, *, resume_cancelled=False):
     """Update all deadline authorities together, with the job manager stopped."""
     import uuid
     from chemistry_toolbox.src.execution_states import TERMINAL_STATES
@@ -172,12 +195,13 @@ def _extend_wall_budget(runner, store, manifest, timeout_seconds):
     try:
         # Exclude both a running manager and a concurrent manager launch. Otherwise
         # a tick that read the old deadline could cancel the newly restored Agent.
-        with file_lock(store.directory / "manager_start.lock", blocking=False), file_lock(store.directory / "manager.lock", blocking=False):
+        # Explicit cancelled-run recovery already holds both manager locks.
+        with (nullcontext() if resume_cancelled else file_lock(store.directory / "manager_start.lock", blocking=False)), (nullcontext() if resume_cancelled else file_lock(store.directory / "manager.lock", blocking=False)):
             current = store.get_record("run", "manifest")
             if current != manifest:
                 raise RunRecoveryError("run_changed_during_budget_extension; retry resume")
             control = store.get_record("control", "current", {})
-            deadline = _extended_deadline(current, control, timeout_seconds)
+            deadline = _extended_deadline(current, control, timeout_seconds, resume_cancelled=resume_cancelled)
             if any(job["state"] not in TERMINAL_STATES for job in store.list_jobs()):
                 raise RunRecoveryError("budget_extension_requires_no_active_or_uncertain_jobs")
             totals = store.usage()
@@ -206,24 +230,34 @@ def _extend_wall_budget(runner, store, manifest, timeout_seconds):
         raise RunRecoveryError("budget_extension_requires_idle_manager; retry after it stops") from exc
 
 
-def restore_runner(cls, run_id, recovery_root, *, timeout_seconds=None):
+def restore_runner(cls, run_id, recovery_root, *, timeout_seconds=None, repair_history=False, resume_cancelled=False):
     from ..settings import WORKSPACES_DIR
     workspace = locate_workspace(Path(recovery_root or WORKSPACES_DIR).resolve(), run_id)
     lock = ControllerLock(control_directory(workspace, run_id) / "controller.lock")
     lock.acquire()
+    manager_locks = ExitStack()
     try:
         store = ExecutionStore(workspace, run_id=run_id)
+        if resume_cancelled:
+            from chemistry_toolbox.src.recovery_io import file_lock
+            try:
+                manager_locks.enter_context(file_lock(store.directory / "manager_start.lock", blocking=False))
+                manager_locks.enter_context(file_lock(store.directory / "manager.lock", blocking=False))
+            except BlockingIOError as exc:
+                raise RunRecoveryError("cancelled_resume_requires_idle_manager; retry after it stops") from exc
         manifest = store.get_record("run", "manifest")
         if not manifest or manifest.get("schema_version") != 2 or not manifest.get("recovery_enabled"):
             raise RunRecoveryError("legacy_run_not_resumable")
         control = store.get_record("control", "current", {})
+        if resume_cancelled and not _cancelled_resume_allowed(manifest, control):
+            raise RunRecoveryError("resume_cancelled_requires_cancelled_run; usage budgets cannot be reopened")
         if timeout_seconds is not None:
-            _extended_deadline(manifest, control, timeout_seconds)
-        elif manifest["run_state"] in {"completed", "failed", "cancelled", "budget_exhausted"}:
+            _extended_deadline(manifest, control, timeout_seconds, resume_cancelled=resume_cancelled)
+        elif manifest["run_state"] in {"completed", "failed", "cancelled", "budget_exhausted"} and not resume_cancelled:
             raise RunRecoveryError("run_is_terminal")
-        if timeout_seconds is None and control.get("command") == "cancel":
+        if timeout_seconds is None and control.get("command") == "cancel" and not resume_cancelled:
             raise RunRecoveryError("run_cancelled")
-        if manifest.get("agent_kind") not in {"codex", "mock"}:
+        if manifest.get("agent_kind") not in {"codex", "mock", "gemini", "claude"}:
             raise RunRecoveryError("resume_unsupported")
         agent = store.get_record("agent", "identity", {})
         identity = process_identity(agent.get("pid"), agent)
@@ -231,6 +265,15 @@ def restore_runner(cls, run_id, recovery_root, *, timeout_seconds=None):
             raise RunRecoveryError("original_agent_host_unverified")
         if identity.get("verified"):
             raise RunRecoveryError("original_agent_still_running; pause before resuming")
+        sandbox_record = store.get_record('agent', 'sandbox', {})
+        if sandbox_record:
+            from chemistry_toolbox.src.sandbox import Sandbox
+            sandbox = Sandbox.load(sandbox_record['directory'])
+            state = sandbox.control('state')
+            if state.returncode == 0 and json.loads(state.stdout).get('status') in {'running', 'created'}:
+                raise RunRecoveryError('original_agent_sandbox_still_running; cancel before resuming')
+        if (repair_history or resume_cancelled) and agent.get("pid") and identity.get("alive"):
+            raise RunRecoveryError("original_agent_not_proven_stopped")
         config = manifest["config"]
         if canonical_config_hash(config) != manifest["config_hash"]:
             raise RunRecoveryError("configuration_hash_mismatch")
@@ -253,19 +296,52 @@ def restore_runner(cls, run_id, recovery_root, *, timeout_seconds=None):
         runner.attempt_id = manifest.get("attempt_id", "attempt_0001")
         validate_session(runner)
         reconcile_usage(runner)
+        history_record = None
+        if repair_history or resume_cancelled:
+            from chemistry_toolbox.src.execution_states import TERMINAL_STATES
+            if any(job["state"] not in TERMINAL_STATES for job in store.list_jobs()):
+                raise RunRecoveryError("operator_repair_requires_no_active_or_uncertain_jobs")
+            totals = store.usage()
+            if totals["turns"] >= runner.max_turns or (runner.max_tokens and totals["input_tokens"] + totals["output_tokens"] >= runner.max_tokens):
+                raise RunRecoveryError("run_usage_budget_exhausted")
+        if repair_history:
+            from .codex_history import prepare_history_repair
+            from .resume_policy import validate_policy
+            runner._repair_history = True
+            policy = store.get_record("resume", "policy", {})
+            policy = {**policy, "limits": validate_policy(policy.get("limits"))}
+            state = store.get_record("resume", "state", {})
+            history_record = prepare_history_repair(runner, store, manifest.get("error") or manifest.get("last_failure"), policy, state)
         if timeout_seconds is not None:
-            _extend_wall_budget(runner, store, manifest, timeout_seconds)
+            _extend_wall_budget(runner, store, manifest, timeout_seconds, resume_cancelled=resume_cancelled)
+        if resume_cancelled:
+            import uuid
+            store.put_records([
+                ("operator_recovery", uuid.uuid4().hex, {"at": _now(), "action": "resume_cancelled",
+                 "previous_state": manifest["run_state"], "previous_control": control,
+                 "provider_session_id": runner._resume_session_id, "attempt_id": runner.attempt_id}),
+                ("control", "current", {"command": "resume", "at": _now(), "source": "operator_resume_cancelled"}),
+                ("run", "manifest", {**store.get_record("run", "manifest"),
+                 "run_state": "recovering", "termination": None, "error": None}),
+                ("resume", "state", {**store.get_record("resume", "state", {}),
+                 "next_retry_at": None, "stop_reason": None, "stage": "agent"}),
+            ])
+        if history_record:
+            from .codex_history import commit_history_repair
+            commit_history_repair(store, history_record, state)
         for attempt_id, attempt in store.records("attempt").items():
             if not attempt.get("end_at"):
                 store.put_record("attempt", attempt_id, {**attempt, "end_reason": "controller_interrupted", "reconciled_at": _now(), "interrupted": True})
         runner._restored = True
         runner._controller_lock = lock
         runner._recovery_notice = "Resume this original session and run. Query saved submissions and jobs before further work. Infrastructure interruption does not authorize resubmission."
+        if resume_cancelled:
+            runner._recovery_notice += " The operator explicitly reopened this cancelled run. Saved cancelled or timed-out jobs remain terminal; inspect their artifacts before deciding whether a new computation is necessary."
         store.put_record("controller", "identity", process_identity(os.getpid()))
         if store.get_record("control", "current", {}).get("command") == "cancel":
             raise RunRecoveryError("run_cancelled")
         store.put_record("control", "current", {"command": "resume", "at": _now(), "source": "operator_resume"})
-        runner._persist_run_manifest(run_state="recovering")
+        runner._persist_run_manifest(run_state="recovering", **({"termination": None, "error": None} if resume_cancelled else {}))
         return runner
     except BaseException as exc:
         try:
@@ -275,6 +351,8 @@ def restore_runner(cls, run_id, recovery_root, *, timeout_seconds=None):
         finally:
             lock.release()
         raise
+    finally:
+        manager_locks.close()
 
 
 class ControllerLock:
@@ -336,6 +414,8 @@ def reconcile_usage(runner):
 
 
 def verify_frozen_runner(runner, *, store=None, manifest=None, refresh_probe=True):
+    if runner.agent.get("kind") == "claude":
+        runner._agent_environment()
     store = store or runner_store(runner)
     manifest = manifest or store.get_record("run", "manifest", {})
     frozen = store.get_record("frozen", "adapter")

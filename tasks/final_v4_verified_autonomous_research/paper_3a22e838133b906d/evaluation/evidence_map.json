@@ -1,0 +1,121 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "evidence": [
+    {
+      "evidence_id": "source_main",
+      "source": {
+        "path": "papers/paper_3a22e838133b906d/documents/main.pdf",
+        "sha256": "0b3a6429a4f8d324616b78c736daedf397971e63fdeff848f1b28058a39a1238",
+        "pdf_pages_1based": [
+          2,
+          3
+        ]
+      },
+      "scope": "Main physical pp2–3 (printed1739–1740), Fig1 and Scheme2: intramolecular B/O/P structure, crystal comparison and omission of Li coordination.",
+      "supports_final_conclusion_ids": [
+        "bo_contraction",
+        "bound_po_elongation",
+        "dealkylated_po_localization",
+        "intrinsic_local_reorganization",
+        "crystal_environment_distinction"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "source_si",
+      "source": {
+        "path": "papers/paper_3a22e838133b906d/documents/supplementary_001.pdf",
+        "sha256": "0179f85740483c73a9996ca3c5ef36fd4f0044eca862b18eadc90e03463a7235",
+        "pdf_pages_1based": [
+          78,
+          79,
+          80,
+          81
+        ]
+      },
+      "scope": "SI S78–S81: author methyl models, atom-indexed Cartesian structures and visually checked Mulliken maps.",
+      "supports_final_conclusion_ids": [
+        "bo_contraction",
+        "bound_po_elongation",
+        "dealkylated_po_localization",
+        "intrinsic_local_reorganization",
+        "crystal_environment_distinction"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "verification_reference",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_3a22e838133b906d/evaluation/verified_computation_reference.md",
+        "sha256": "d2c771f9692851cfa2ba35da1cbabf83871bcc0a1034eb3d11b51fa40b71a143"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed.",
+      "supports_final_conclusion_ids": [
+        "bo_contraction",
+        "bound_po_elongation",
+        "dealkylated_po_localization",
+        "intrinsic_local_reorganization",
+        "crystal_environment_distinction"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "verification_records",
+      "source": {
+        "path": "docs/v2_verification/papers/paper_3a22e838133b906d/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json",
+        "sha256": "e4a2c9cea77539bbce610cd82b7167716efca41e8a41c6f86ce7622a2ceb80f2"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed.",
+      "supports_final_conclusion_ids": [],
+      "scored_independently": false
+    }
+  ],
+  "final_result_rule_map": [
+    {
+      "rule_id": "r_bo_contraction",
+      "conclusion_id": "bo_contraction",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    },
+    {
+      "rule_id": "r_bound_po_elongation",
+      "conclusion_id": "bound_po_elongation",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    },
+    {
+      "rule_id": "r_dealkylated_po_localization",
+      "conclusion_id": "dealkylated_po_localization",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    },
+    {
+      "rule_id": "r_intrinsic_local_reorganization",
+      "conclusion_id": "intrinsic_local_reorganization",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    },
+    {
+      "rule_id": "r_crystal_environment_distinction",
+      "conclusion_id": "crystal_environment_distinction",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    }
+  ],
+  "current_scoring_policy": "paper_science_v3"
+}

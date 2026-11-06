@@ -1,0 +1,626 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_11",
+  "source_paper_id": "paper_d142c9737f95225b",
+  "scoring_policy": "paper_science_v2",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; arbitrary thresholds such as 60 points are not used. The original rules assess recovery of bounded conclusions from the literature and do not establish a uniquely true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances. First review comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not unilaterally change tolerances. Source numbers without targets are context only, not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_active_nn",
+      "reference_id": "active_nn",
+      "type": "semantic",
+      "expected": "Actual calculated structures support a complete neutral amido-type NN-Mn(I)(CO)3 candidate with an unbound sulfur arm, retaining the given ligand connectivity and CO inventory; state and support the electronic state used. Drawings or proposed hypotheses alone do not earn credit. Proof of actual solution populations or precursor-activation barriers is not required. Equivalent candidate mappings supported by evidence are acceptable.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_active_nns",
+      "reference_id": "active_nns",
+      "type": "semantic",
+      "expected": "Actual calculated structures support a complete neutral amido-type NNS-Mn(I)(CO)2 candidate with sulfur coordinated. Preserve the complete ligand identity shared with the NN tricarbonyl and explicitly account for CO loss and the electronic state. Candidate labels alone do not earn credit. Actual populations or additional precursor-activation calculations are not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_oxidation_connection",
+      "reference_id": "oxidation_connection",
+      "type": "semantic",
+      "expected": "Actual stationary points and relevant vibrations/reaction connectivity support transfer of the isopropanol O–H and C–H hydrogens to form acetone and the corresponding amine-hydride; balance protons, hydrides, atoms and charges. Actual connections between reaction states are required and cannot be replaced by successful task execution or an arbitrary negative frequency. Replication of the verifier's IRC steps is not required, and no absolute-barrier window is imposed where sources conflict.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_reduction_connection",
+      "reference_id": "reduction_connection",
+      "type": "semantic",
+      "expected": "Actual stationary points and relevant vibrations/reaction connectivity support transfer from the matching amine-hydride to acetophenone of the Mn–H hydride to carbon and the N–H proton to oxygen, forming the correct 1-phenylethanol. Structures/atom mappings support the claimed product face. Distinguish this from the oxidation half-reaction; the oxidation barrier cannot substitute for it. No absolute-barrier window is imposed where sources conflict.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_rest_Mn1_Me",
+      "reference_id": "rest_Mn1_Me",
+      "type": "semantic",
+      "expected": "For Mn1-Me (Mn1 is the NN tricarbonyl and Mn2 is the NNS dicarbonyl), actual free energies support the N-protonated Mn isopropoxide resting state lying below the matching amido+iPrOH. Consequently, the effective barrier of the same oxidation TS relative to this resting state is higher than its ordinate relative to the separated reactants. Use the same TS, balanced particles/charges and consistent thermal terms. Evaluate the sign of stabilization and the change in reference zero independently; matching numerical values that conflict between sources is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_rest_Mn1_tBu",
+      "reference_id": "rest_Mn1_tBu",
+      "type": "semantic",
+      "expected": "For Mn1-tBu (Mn1 is the NN tricarbonyl and Mn2 is the NNS dicarbonyl), actual free energies support the N-protonated Mn isopropoxide resting state lying below the matching amido+iPrOH. Consequently, the effective barrier of the same oxidation TS relative to this resting state is higher than its ordinate relative to the separated reactants. Use the same TS, balanced particles/charges and consistent thermal terms. Evaluate the sign of stabilization and the change in reference zero independently; matching numerical values that conflict between sources is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_rest_Mn2_Me",
+      "reference_id": "rest_Mn2_Me",
+      "type": "semantic",
+      "expected": "For Mn2-Me (Mn1 is the NN tricarbonyl and Mn2 is the NNS dicarbonyl), actual free energies support the N-protonated Mn isopropoxide resting state lying below the matching amido+iPrOH. Consequently, the effective barrier of the same oxidation TS relative to this resting state is higher than its ordinate relative to the separated reactants. Use the same TS, balanced particles/charges and consistent thermal terms. Evaluate the sign of stabilization and the change in reference zero independently; matching numerical values that conflict between sources is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_rest_Mn2_tBu",
+      "reference_id": "rest_Mn2_tBu",
+      "type": "semantic",
+      "expected": "For Mn2-tBu (Mn1 is the NN tricarbonyl and Mn2 is the NNS dicarbonyl), actual free energies support the N-protonated Mn isopropoxide resting state lying below the matching amido+iPrOH. Consequently, the effective barrier of the same oxidation TS relative to this resting state is higher than its ordinate relative to the separated reactants. Use the same TS, balanced particles/charges and consistent thermal terms. Evaluate the sign of stabilization and the change in reference zero independently; matching numerical values that conflict between sources is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_oxidation_order_Me",
+      "reference_id": "oxidation_order_Me",
+      "type": "semantic",
+      "expected": "With the same Me substituent, isopropanol medium, 298.15 K and consistent 1 atm conditions or transparent conversions, actual calculations using matching amido+iPrOH references support a lower oxidation barrier for the NN tricarbonyl than for the NNS dicarbonyl. Assess the family ordering; the internal Me/tBu ordering or matching absolute barriers is not required. Incompatible reference zeros must not be compared.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_oxidation_order_tBu",
+      "reference_id": "oxidation_order_tBu",
+      "type": "semantic",
+      "expected": "With the same tBu substituent, isopropanol medium, 298.15 K and consistent 1 atm conditions or transparent conversions, actual calculations using matching amido+iPrOH references support a lower oxidation barrier for the NN tricarbonyl than for the NNS dicarbonyl. Assess the family ordering; the internal Me/tBu ordering or matching absolute barriers is not required. Incompatible reference zeros must not be compared.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_reduction_order_Me",
+      "reference_id": "reduction_order_Me",
+      "type": "semantic",
+      "expected": "With matching Me substituents, the same substrate face and mapped catalyst configurations, actual calculations support a lower S-channel reduction barrier for the NNS dicarbonyl than for the NN tricarbonyl. Use the corresponding amine-hydride+acetophenone reference for each and maintain the same thermodynamic conditions. The cross-family R-channel ordering or numerical windows are not required where sources conflict.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_reduction_order_tBu",
+      "reference_id": "reduction_order_tBu",
+      "type": "semantic",
+      "expected": "With matching tBu substituents, the same substrate face and mapped catalyst configurations, actual calculations support a lower S-channel reduction barrier for the NNS dicarbonyl than for the NN tricarbonyl. Use the corresponding amine-hydride+acetophenone reference for each and maintain the same thermodynamic conditions. The cross-family R-channel ordering or numerical windows are not required where sources conflict.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_stereo_Mn1_Me",
+      "reference_id": "stereo_Mn1_Me",
+      "type": "semantic",
+      "expected": "For the same chiral catalyst configuration, composition and thermodynamic conditions of Mn1-Me, paired actual calculations support the S-face reduction TS lying below the R-face TS when mapped to the authors' configuration. A mirror-image catalyst must reverse the product-face mapping accordingly; an unmapped configuration or reversed direction does not pass. This qualitative difference does not require matching conflicting ΔΔG values in the main text or SI and does not represent macroscopic ee.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_stereo_Mn1_tBu",
+      "reference_id": "stereo_Mn1_tBu",
+      "type": "semantic",
+      "expected": "For the same chiral catalyst configuration, composition and thermodynamic conditions of Mn1-tBu, paired actual calculations support the S-face reduction TS lying below the R-face TS when mapped to the authors' configuration. A mirror-image catalyst must reverse the product-face mapping accordingly; an unmapped configuration or reversed direction does not pass. This qualitative difference does not require matching conflicting ΔΔG values in the main text or SI and does not represent macroscopic ee.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_stereo_Mn2_Me",
+      "reference_id": "stereo_Mn2_Me",
+      "type": "semantic",
+      "expected": "For the same chiral catalyst configuration, composition and thermodynamic conditions of Mn2-Me, paired actual calculations support the S-face reduction TS lying below the R-face TS when mapped to the authors' configuration. A mirror-image catalyst must reverse the product-face mapping accordingly; an unmapped configuration or reversed direction does not pass. This qualitative difference does not require matching conflicting ΔΔG values in the main text or SI and does not represent macroscopic ee.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_stereo_Mn2_tBu",
+      "reference_id": "stereo_Mn2_tBu",
+      "type": "semantic",
+      "expected": "For the same chiral catalyst configuration, composition and thermodynamic conditions of Mn2-tBu, paired actual calculations support the S-face reduction TS lying below the R-face TS when mapped to the authors' configuration. A mirror-image catalyst must reverse the product-face mapping accordingly; an unmapped configuration or reversed direction does not pass. This qualitative difference does not require matching conflicting ΔΔG values in the main text or SI and does not represent macroscopic ee.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_cycle_hydrogen_ledger",
+      "reference_id": "cycle_hydrogen_ledger",
+      "type": "semantic",
+      "expected": "Actual oxidation and reduction states jointly support the net reaction acetophenone+iPrOH→1-phenylethanol+acetone and close hydrogen, atom and charge accounting through compatible amido/amine-hydride states. The additional scientific information assessed here is that the two local processes can form the same transfer-hydrogenation cycle. Merely listing two unrelated routes or diagrams does not pass; a complete equilibrium of actual solution species is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_activity_conclusion",
+      "reference_id": "activity_conclusion",
+      "type": "semantic",
+      "expected": "Finally, integrate actual reaction-state, family-comparison and resting-state results to explain that the NN tricarbonyl favors alcohol oxidation, whereas the NNS dicarbonyl can favor ketone reduction through the S channel. Comparison of effective oxidation barriers supports alcohol oxidation as the slower half-cycle within these candidate models. Make an explicit computationally supported choice/explanation; merely listing candidates or trends is insufficient. Do not infer a uniquely true active species, actual populations or precise rates.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_stereo_conclusion",
+      "reference_id": "stereo_conclusion",
+      "type": "semantic",
+      "expected": "Finally, infer from actual paired structures/energies and mirror-image relationships that a fixed catalyst configuration can produce an S/R difference and that its mirror image corresponds to the opposite product mapping. Results for a single configuration with achiral ligands cannot establish experimental macroscopic ee. Support this ensemble interpretation with actual mappings and comparisons; a generic statement that there are limitations is insufficient. Additional determination of actual configuration populations or the complete mirror-image reaction network is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "active_nn",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "Actual coordination structure of the NN tricarbonyl candidate",
+      "rule_ids": [
+        "r_active_nn"
+      ],
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD"
+      ]
+    },
+    {
+      "id": "active_nns",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "Actual coordination structure of the NNS dicarbonyl candidate",
+      "rule_ids": [
+        "r_active_nns"
+      ],
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD"
+      ]
+    },
+    {
+      "id": "oxidation_connection",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Hydrogen-transfer connectivity for isopropanol oxidation",
+      "rule_ids": [
+        "r_oxidation_connection"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "reduction_connection",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Hydrogen-transfer connectivity for acetophenone reduction",
+      "rule_ids": [
+        "r_reduction_connection"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "rest_Mn1_Me",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "Resting-state stabilization of Mn1-Me",
+      "rule_ids": [
+        "r_rest_Mn1_Me"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "rest_Mn1_tBu",
+      "kind": "intermediate",
+      "max_score": 2,
+      "description": "Resting-state stabilization of Mn1-tBu",
+      "rule_ids": [
+        "r_rest_Mn1_tBu"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "rest_Mn2_Me",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "Resting-state stabilization of Mn2-Me",
+      "rule_ids": [
+        "r_rest_Mn2_Me"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "rest_Mn2_tBu",
+      "kind": "intermediate",
+      "max_score": 2,
+      "description": "Resting-state stabilization of Mn2-tBu",
+      "rule_ids": [
+        "r_rest_Mn2_tBu"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "oxidation_order_Me",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "NN/NNS oxidation comparison with Me substitution",
+      "rule_ids": [
+        "r_oxidation_order_Me"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "oxidation_order_tBu",
+      "kind": "intermediate",
+      "max_score": 7,
+      "description": "NN/NNS oxidation comparison with tBu substitution",
+      "rule_ids": [
+        "r_oxidation_order_tBu"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "reduction_order_Me",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "S-channel NN/NNS reduction comparison with Me substitution",
+      "rule_ids": [
+        "r_reduction_order_Me"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "reduction_order_tBu",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "S-channel NN/NNS reduction comparison with tBu substitution",
+      "rule_ids": [
+        "r_reduction_order_tBu"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_Mn1_Me",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "S/R preference for a fixed configuration of Mn1-Me",
+      "rule_ids": [
+        "r_stereo_Mn1_Me"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_Mn1_tBu",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "S/R preference for a fixed configuration of Mn1-tBu",
+      "rule_ids": [
+        "r_stereo_Mn1_tBu"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_Mn2_Me",
+      "kind": "intermediate",
+      "max_score": 2,
+      "description": "S/R preference for a fixed configuration of Mn2-Me",
+      "rule_ids": [
+        "r_stereo_Mn2_Me"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_Mn2_tBu",
+      "kind": "intermediate",
+      "max_score": 2,
+      "description": "S/R preference for a fixed configuration of Mn2-tBu",
+      "rule_ids": [
+        "r_stereo_Mn2_tBu"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "cycle_hydrogen_ledger",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "Organic transformation closed by the two half-reactions",
+      "rule_ids": [
+        "r_cycle_hydrogen_ledger"
+      ],
+      "evidence_ids": [
+        "E_CYCLE",
+        "E_OX",
+        "E_RED"
+      ]
+    },
+    {
+      "id": "activity_conclusion",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Final: opposite effects of the coordination environment on the two half-reactions",
+      "rule_ids": [
+        "r_activity_conclusion"
+      ],
+      "evidence_ids": [
+        "E_CYCLE",
+        "E_OX",
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_conclusion",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Final: configuration-dependent preference and its ensemble implications",
+      "rule_ids": [
+        "r_stereo_conclusion"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    }
+  ],
+  "scope_changes": [],
+  "reference_issues": [
+    "Some thermal terms and local orderings conflict between the main text and SI; use bounded family comparisons without adding numerical windows. An S/R preference for a fixed catalyst configuration is not the net ee of an achiral system."
+  ],
+  "source_location": "Main text p3–9 Fig.1–8; energy/coordinate tables in the SI DOCX",
+  "source_files": [
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_11/main.pdf",
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_11/supplementary_001.docx"
+  ],
+  "paper_id": "paper_d142c9737f95225b",
+  "expert_scoring_policy": "scientific_results_only_binary_items",
+  "expert_rules_file": "expert_scoring_rules.json",
+  "required_for_whole_case_success_item_ids": [
+    "active_nn",
+    "active_nns",
+    "oxidation_connection",
+    "reduction_connection",
+    "rest_Mn1_Me",
+    "rest_Mn1_tBu",
+    "rest_Mn2_Me",
+    "rest_Mn2_tBu",
+    "oxidation_order_Me",
+    "oxidation_order_tBu",
+    "reduction_order_Me",
+    "reduction_order_tBu",
+    "stereo_Mn1_Me",
+    "stereo_Mn1_tBu",
+    "stereo_Mn2_Me",
+    "stereo_Mn2_tBu",
+    "cycle_hydrogen_ledger",
+    "activity_conclusion",
+    "stereo_conclusion"
+  ],
+  "scientific_requirements": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; arbitrary thresholds such as 60 points are not used. The original rules assess recovery of bounded conclusions from the literature and do not establish a uniquely true mechanism.\nRetain the existing numerical targets/tolerances. First review comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not unilaterally change tolerances. Source numbers without targets are context only, not implicit thresholds.\nA chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.\nEvery scientific item retains its expert-authored weight and all-or-nothing rule. No research-process points are awarded.\nThe weighted score reports partial scientific achievement. Use expert_scoring_rules.json and score_case.py for the explicit pass/fail/needs_review whole-case adjudication; no score threshold replaces that decision."
+}

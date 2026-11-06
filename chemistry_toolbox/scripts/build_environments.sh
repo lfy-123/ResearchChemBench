@@ -92,6 +92,7 @@ for name in "${selected[@]}"; do
         -r "${spec_dir}/requirements-no-deps.txt"
   fi
   if [[ "${name}" == "reaction-kinetics" ]]; then
+    "${prefix}/bin/python" "${SCRIPT_DIR}/patch_pysisyphus.py"
     "${SCRIPT_DIR}/install_patched_kinbot.sh" "${prefix}"
     install -m 0755 "${TOOLBOX_ROOT}/environment/shims/censo" "${prefix}/bin/censo"
     "${prefix}/bin/python" "${SCRIPT_DIR}/configure_censo_runtime.py" \

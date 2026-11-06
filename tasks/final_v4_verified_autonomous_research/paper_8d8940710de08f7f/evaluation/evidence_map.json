@@ -1,0 +1,345 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "evidence": [
+    {
+      "evidence_id": "paper_main_main",
+      "source": {
+        "path": "papers/paper_8d8940710de08f7f/documents/main.pdf",
+        "sha256": "a69619c718ff7d48e4dd23ce129bb8ea5a7cb58e4fcb0114ab68587d688fe9bc",
+        "pdf_pages_1based": [
+          5,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "scope": "Main p5 methods; pp9–10 Figs7/8 and contact diagnostics; pp7–8 context is not added biological scope."
+    },
+    {
+      "evidence_id": "paper_si_supplementary_001",
+      "source": {
+        "path": "papers/paper_8d8940710de08f7f/documents/supplementary_001.pdf",
+        "sha256": "d903b517aab2dfd6c2a223020cb7d93ae6d66dc85eb489ab86c4aa854561bd13",
+        "pdf_pages_1based": [
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "scope": "SI pp8–11 TableS8 energies/coordinates and unresolved environmental label. Source main text misrefers some table numbers; no unverified correction is made."
+    },
+    {
+      "evidence_id": "verified_frozen_v2",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_8d8940710de08f7f/evaluation/verified_computation_reference.md",
+        "sha256": "7137bcee61fd5a5f87edd5e676b12e3440c2cfd64d8547a6976a3467426878e9"
+      },
+      "scope": "Historical frozen-scope computational evidence; not author publication data or a new chemistry validation."
+    },
+    {
+      "evidence_id": "second_native_1",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/sulfonamide_source_path_minima_topology_join.json",
+        "sha256": "029cfe32f1c927f9b4d51c1c1b3fefdfb2fc28641a4188efd70e4fcfdb2ba975"
+      },
+      "scope": "Existing source-specific evidence read in the second expert review; limitations are recorded in the report."
+    },
+    {
+      "evidence_id": "second_native_2",
+      "source": {
+        "path": "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_8d8940710de08f7f/s8_thermal_reuse_20261008/attempt_001/SULFONAMIDE_S8_THERMAL_RESULTS.json",
+        "sha256": "6403fe05c758cc85426be67b5f282de69b29560138f5f20cf42965b18b6888cf"
+      },
+      "scope": "Existing source-specific evidence read in the second expert review; limitations are recorded in the report."
+    },
+    {
+      "evidence_id": "second_native_3",
+      "source": {
+        "path": "docs/v2_verification/history/strict_author_route_validation_20261001/groups/group2/reopen_objects_20261004/sulfonamide_scan_release_path/attempt_001/sulfonamide_path_closure_results.json",
+        "sha256": "6f9af0180bf3852e2e2c97add648dcf726e24e01deaf8708b46178967c544d9c"
+      },
+      "scope": "Existing source-specific evidence read in the second expert review; limitations are recorded in the report."
+    }
+  ],
+  "current_policy": "paper_science_v3",
+  "scope_note": "Unchanged full neutral-singlet SNaft/SAntr molecular preferences, intramolecular-contact explanation and finite torsional flexibility in vacuum/methanol. AR and PR have the same final questions and weights; PR alone discloses the author baseline and source ambiguity.",
+  "final_rule_evidence": [
+    {
+      "rule_id": "r_snaft_vacuum_preference",
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ]
+    },
+    {
+      "rule_id": "r_snaft_methanol_preference",
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ]
+    },
+    {
+      "rule_id": "r_snaft_weak_contact",
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ]
+    },
+    {
+      "rule_id": "r_snaft_flexibility",
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ]
+    },
+    {
+      "rule_id": "r_santr_vacuum_preference",
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ]
+    },
+    {
+      "rule_id": "r_santr_methanol_preference",
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ]
+    },
+    {
+      "rule_id": "r_santr_weak_contact",
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ]
+    },
+    {
+      "rule_id": "r_santr_flexibility",
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ]
+    }
+  ],
+  "scoring_applicability_20261029": "Only current semantic pass/fail final conclusions are scored. Source/native scalars, old windows and method nodes are unscored evidence; historical scientific classifications are unchanged.",
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "必需结果：SNaft真空稳定性",
+      "rule_id": "r_snaft_vacuum_preference",
+      "conclusion_id": "snaft_vacuum_preference",
+      "weight": 10,
+      "independence": "真空独立物性，不由另一介质或分子决定。",
+      "source_location": "正文pp5、9–10；SI pp8–11构象与TablesS8等；paper_main_main/paper_si_supplementary_001/second_native。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/groups/group2/reopen_objects_20261004/sulfonamide_scan_release_path/attempt_001/sulfonamide_path_closure_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_8d8940710de08f7f/s8_thermal_reuse_20261008/attempt_001/SULFONAMIDE_S8_THERMAL_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/sulfonamide_source_path_minima_topology_join.json"
+      ],
+      "existing_support_or_gap": "SNaft/SAntr完整35/41原子；真空Z−V E=3.789367/3.868450、甲醇3.039562/3.004860 kcal/mol；qRRHO差同向。局部接触能2.51345/2.46756不能代替总稳定化；有限路径峰6.283805/6.460401，不是TS。",
+      "scientific_limitations": "SI TableS8标真空而E似甲醇，G条件未证实。V±小劈裂未分辨；39/38释放帧不证明速率。SAntr替代梯度收敛最后位移未全过阈值；甲醇几何气相单点并非气相弛豫路径。"
+    },
+    {
+      "scientific_requirement": "必需结果：SNaft甲醇稳定性及介质改变",
+      "rule_id": "r_snaft_methanol_preference",
+      "conclusion_id": "snaft_methanol_preference",
+      "weight": 10,
+      "independence": "甲醇本身及与真空同定义差的变化，不重复真空排序。",
+      "source_location": "正文pp5、9–10；SI pp8–11构象与TablesS8等；paper_main_main/paper_si_supplementary_001/second_native。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/groups/group2/reopen_objects_20261004/sulfonamide_scan_release_path/attempt_001/sulfonamide_path_closure_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_8d8940710de08f7f/s8_thermal_reuse_20261008/attempt_001/SULFONAMIDE_S8_THERMAL_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/sulfonamide_source_path_minima_topology_join.json"
+      ],
+      "existing_support_or_gap": "SNaft/SAntr完整35/41原子；真空Z−V E=3.789367/3.868450、甲醇3.039562/3.004860 kcal/mol；qRRHO差同向。局部接触能2.51345/2.46756不能代替总稳定化；有限路径峰6.283805/6.460401，不是TS。",
+      "scientific_limitations": "SI TableS8标真空而E似甲醇，G条件未证实。V±小劈裂未分辨；39/38释放帧不证明速率。SAntr替代梯度收敛最后位移未全过阈值；甲醇几何气相单点并非气相弛豫路径。"
+    },
+    {
+      "scientific_requirement": "必需结果：SNaft局部接触解释",
+      "rule_id": "r_snaft_weak_contact",
+      "conclusion_id": "snaft_weak_contact",
+      "weight": 15,
+      "independence": "局部电子/相互作用，独立于总能排序。",
+      "source_location": "正文pp5、9–10；SI pp8–11构象与TablesS8等；paper_main_main/paper_si_supplementary_001/second_native。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/groups/group2/reopen_objects_20261004/sulfonamide_scan_release_path/attempt_001/sulfonamide_path_closure_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_8d8940710de08f7f/s8_thermal_reuse_20261008/attempt_001/SULFONAMIDE_S8_THERMAL_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/sulfonamide_source_path_minima_topology_join.json"
+      ],
+      "existing_support_or_gap": "SNaft/SAntr完整35/41原子；真空Z−V E=3.789367/3.868450、甲醇3.039562/3.004860 kcal/mol；qRRHO差同向。局部接触能2.51345/2.46756不能代替总稳定化；有限路径峰6.283805/6.460401，不是TS。",
+      "scientific_limitations": "SI TableS8标真空而E似甲醇，G条件未证实。V±小劈裂未分辨；39/38释放帧不证明速率。SAntr替代梯度收敛最后位移未全过阈值；甲醇几何气相单点并非气相弛豫路径。"
+    },
+    {
+      "scientific_requirement": "必需结果：SNaft柔性",
+      "rule_id": "r_snaft_flexibility",
+      "conclusion_id": "snaft_flexibility",
+      "weight": 15,
+      "independence": "有限扭转可达及未永久锁定，不是重复极小点或接触。",
+      "source_location": "正文pp5、9–10；SI pp8–11构象与TablesS8等；paper_main_main/paper_si_supplementary_001/second_native。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/groups/group2/reopen_objects_20261004/sulfonamide_scan_release_path/attempt_001/sulfonamide_path_closure_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_8d8940710de08f7f/s8_thermal_reuse_20261008/attempt_001/SULFONAMIDE_S8_THERMAL_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/sulfonamide_source_path_minima_topology_join.json"
+      ],
+      "existing_support_or_gap": "SNaft/SAntr完整35/41原子；真空Z−V E=3.789367/3.868450、甲醇3.039562/3.004860 kcal/mol；qRRHO差同向。局部接触能2.51345/2.46756不能代替总稳定化；有限路径峰6.283805/6.460401，不是TS。",
+      "scientific_limitations": "SI TableS8标真空而E似甲醇，G条件未证实。V±小劈裂未分辨；39/38释放帧不证明速率。SAntr替代梯度收敛最后位移未全过阈值；甲醇几何气相单点并非气相弛豫路径。"
+    },
+    {
+      "scientific_requirement": "必需结果：SAntr真空稳定性",
+      "rule_id": "r_santr_vacuum_preference",
+      "conclusion_id": "santr_vacuum_preference",
+      "weight": 10,
+      "independence": "第二分子真空物性，不能用SNaft替代。",
+      "source_location": "正文pp5、9–10；SI pp8–11构象与TablesS8等；paper_main_main/paper_si_supplementary_001/second_native。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/groups/group2/reopen_objects_20261004/sulfonamide_scan_release_path/attempt_001/sulfonamide_path_closure_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_8d8940710de08f7f/s8_thermal_reuse_20261008/attempt_001/SULFONAMIDE_S8_THERMAL_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/sulfonamide_source_path_minima_topology_join.json"
+      ],
+      "existing_support_or_gap": "SNaft/SAntr完整35/41原子；真空Z−V E=3.789367/3.868450、甲醇3.039562/3.004860 kcal/mol；qRRHO差同向。局部接触能2.51345/2.46756不能代替总稳定化；有限路径峰6.283805/6.460401，不是TS。",
+      "scientific_limitations": "SI TableS8标真空而E似甲醇，G条件未证实。V±小劈裂未分辨；39/38释放帧不证明速率。SAntr替代梯度收敛最后位移未全过阈值；甲醇几何气相单点并非气相弛豫路径。"
+    },
+    {
+      "scientific_requirement": "必需结果：SAntr甲醇稳定性及介质改变",
+      "rule_id": "r_santr_methanol_preference",
+      "conclusion_id": "santr_methanol_preference",
+      "weight": 10,
+      "independence": "第二分子介质比较，不自动由同族先例成立。",
+      "source_location": "正文pp5、9–10；SI pp8–11构象与TablesS8等；paper_main_main/paper_si_supplementary_001/second_native。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/groups/group2/reopen_objects_20261004/sulfonamide_scan_release_path/attempt_001/sulfonamide_path_closure_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_8d8940710de08f7f/s8_thermal_reuse_20261008/attempt_001/SULFONAMIDE_S8_THERMAL_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/sulfonamide_source_path_minima_topology_join.json"
+      ],
+      "existing_support_or_gap": "SNaft/SAntr完整35/41原子；真空Z−V E=3.789367/3.868450、甲醇3.039562/3.004860 kcal/mol；qRRHO差同向。局部接触能2.51345/2.46756不能代替总稳定化；有限路径峰6.283805/6.460401，不是TS。",
+      "scientific_limitations": "SI TableS8标真空而E似甲醇，G条件未证实。V±小劈裂未分辨；39/38释放帧不证明速率。SAntr替代梯度收敛最后位移未全过阈值；甲醇几何气相单点并非气相弛豫路径。"
+    },
+    {
+      "scientific_requirement": "必需结果：SAntr局部接触解释",
+      "rule_id": "r_santr_weak_contact",
+      "conclusion_id": "santr_weak_contact",
+      "weight": 15,
+      "independence": "第二分子局部相互作用，不等于总构象稳定化。",
+      "source_location": "正文pp5、9–10；SI pp8–11构象与TablesS8等；paper_main_main/paper_si_supplementary_001/second_native。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/groups/group2/reopen_objects_20261004/sulfonamide_scan_release_path/attempt_001/sulfonamide_path_closure_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_8d8940710de08f7f/s8_thermal_reuse_20261008/attempt_001/SULFONAMIDE_S8_THERMAL_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/sulfonamide_source_path_minima_topology_join.json"
+      ],
+      "existing_support_or_gap": "SNaft/SAntr完整35/41原子；真空Z−V E=3.789367/3.868450、甲醇3.039562/3.004860 kcal/mol；qRRHO差同向。局部接触能2.51345/2.46756不能代替总稳定化；有限路径峰6.283805/6.460401，不是TS。",
+      "scientific_limitations": "SI TableS8标真空而E似甲醇，G条件未证实。V±小劈裂未分辨；39/38释放帧不证明速率。SAntr替代梯度收敛最后位移未全过阈值；甲醇几何气相单点并非气相弛豫路径。"
+    },
+    {
+      "scientific_requirement": "必需结果：SAntr柔性",
+      "rule_id": "r_santr_flexibility",
+      "conclusion_id": "santr_flexibility",
+      "weight": 15,
+      "independence": "第二分子路径/可达构型结论，独立于局部接触是否存在。",
+      "source_location": "正文pp5、9–10；SI pp8–11构象与TablesS8等；paper_main_main/paper_si_supplementary_001/second_native。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/groups/group2/reopen_objects_20261004/sulfonamide_scan_release_path/attempt_001/sulfonamide_path_closure_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_8d8940710de08f7f/s8_thermal_reuse_20261008/attempt_001/SULFONAMIDE_S8_THERMAL_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/sulfonamide_source_path_minima_topology_join.json"
+      ],
+      "existing_support_or_gap": "SNaft/SAntr完整35/41原子；真空Z−V E=3.789367/3.868450、甲醇3.039562/3.004860 kcal/mol；qRRHO差同向。局部接触能2.51345/2.46756不能代替总稳定化；有限路径峰6.283805/6.460401，不是TS。",
+      "scientific_limitations": "SI TableS8标真空而E似甲醇，G条件未证实。V±小劈裂未分辨；39/38释放帧不证明速率。SAntr替代梯度收敛最后位移未全过阈值；甲醇几何气相单点并非气相弛豫路径。"
+    }
+  ]
+}

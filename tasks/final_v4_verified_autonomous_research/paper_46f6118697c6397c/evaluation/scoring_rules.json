@@ -1,0 +1,234 @@
+{
+  "paper_id": "paper_46f6118697c6397c",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_bright_character_c1",
+      "reference_id": "bright_character_c1",
+      "type": "semantic",
+      "expected": "For complete neutral-singlet compound1, actual transition/configuration and spatial-orbital evidence identifies the relevant absorption feature as mainly HOMO→LUMO involving the N6-related occupied/virtual orbitals. Assess physical orbital and band character, allowing equivalent labeling in another valid method; neither picking the first root nor using numeric closeness is sufficient. Exact root number, f value or amplitude is not a gate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_bright_character_c2",
+      "reference_id": "bright_character_c2",
+      "type": "semantic",
+      "expected": "For complete neutral-singlet compound2, actual transition/configuration and spatial-orbital evidence identifies the relevant absorption feature as mainly HOMO−4→LUMO involving the N6-related occupied/virtual orbitals. Assess physical orbital and band character, allowing equivalent labeling in another valid method; neither picking the first root nor using numeric closeness is sufficient. Compound2 retains four covalent B–O–SO2CF3 groups. Exact root number, f value or amplitude is not a gate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_bright_character_c3",
+      "reference_id": "bright_character_c3",
+      "type": "semantic",
+      "expected": "For complete neutral-singlet compound3, actual transition/configuration and spatial-orbital evidence identifies the relevant absorption feature as mainly HOMO−4→LUMO involving the N6-related occupied/virtual orbitals. Assess physical orbital and band character, allowing equivalent labeling in another valid method; neither picking the first root nor using numeric closeness is sufficient. Exact root number, f value or amplitude is not a gate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_bright_character_c4",
+      "reference_id": "bright_character_c4",
+      "type": "semantic",
+      "expected": "For complete neutral-singlet compound4, actual transition/configuration and spatial-orbital evidence identifies the relevant absorption feature as mainly HOMO→LUMO involving the N6-related occupied/virtual orbitals. Assess physical orbital and band character, allowing equivalent labeling in another valid method; neither picking the first root nor using numeric closeness is sufficient. Exact root number, f value or amplitude is not a gate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_methyl_toly_substitution",
+      "reference_id": "methyl_toly_substitution",
+      "type": "semantic",
+      "expected": "The final answer integrates calculated N6 orbital localization, relative orbital shifts and optical response to explain the modest1→4 blue shift upon tolyl-to-methyl substitution: changing substituent sigma donation/conjugative contribution changes the occupied and virtual N6-related levels unequally. A repeated energy ordering alone is insufficient. Bound the inference by the small baseline gap and any actual geometry/broadening sensitivity; do not require every added kernel or no-D3 diagnostic to keep a resolvable split. An evidence-based conclusion that the small 1/4 spectral split is unresolved or model-sensitive passes when it still explains the actual substituent/orbital response. Neither an unsupported universal blue ordering nor a generic method-dependence excuse establishes this result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_withdrawing_substitution",
+      "reference_id": "withdrawing_substitution",
+      "type": "semantic",
+      "expected": "The final account connects actual N6-related orbital stabilization/reordering under chloride and covalent triflate substitution to the change in bright-transition character and larger absorption energies of3/2. It distinguishes benzyl-localized frontier levels from the N6 occupied levels that feed the bright transition, rather than attributing all shifts to a generic HOMO–LUMO gap or unbalanced triflate dissociation. The explanation must use molecular/spatial and optical evidence; it need not prove unique solution populations, solid-state emission or device behavior. Explicitly compare compound 2 with compound 3 as well as both with 1/4: explain the further stabilization/reordering associated with covalent triflate relative to chloride and its relation to the higher assigned absorption energy of 2. Report the calculated 2-minus-3 transition shift with its physical assignment and compare it with the measured band difference; a grouped statement that both 2 and 3 are higher than 1/4 is insufficient. There is no new numerical tolerance for this comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "bright_character_c1",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Compound1 N6 bright transition: For complete neutral-singlet compound1, actual transition/configuration and spatial-orbital evidence identifies the relevant absorption feature as mainly HOMO→LUMO involving the N6-related occupied/virtual orbitals. Assess physical orbital and band character, allowing equivalent labeling in another valid method; neither picking the first root nor using numeric closeness is sufficient. Exact root number, f value or amplitude is not a gate.",
+      "rule_ids": [
+        "r_bright_character_c1"
+      ],
+      "evidence_ids": [
+        "source_orbitals",
+        "source_c1",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bright_character_c2",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Compound2 N6 bright transition: For complete neutral-singlet compound2, actual transition/configuration and spatial-orbital evidence identifies the relevant absorption feature as mainly HOMO−4→LUMO involving the N6-related occupied/virtual orbitals. Assess physical orbital and band character, allowing equivalent labeling in another valid method; neither picking the first root nor using numeric closeness is sufficient. Compound2 retains four covalent B–O–SO2CF3 groups. Exact root number, f value or amplitude is not a gate.",
+      "rule_ids": [
+        "r_bright_character_c2"
+      ],
+      "evidence_ids": [
+        "source_orbitals",
+        "source_c2",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bright_character_c3",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Compound3 N6 bright transition: For complete neutral-singlet compound3, actual transition/configuration and spatial-orbital evidence identifies the relevant absorption feature as mainly HOMO−4→LUMO involving the N6-related occupied/virtual orbitals. Assess physical orbital and band character, allowing equivalent labeling in another valid method; neither picking the first root nor using numeric closeness is sufficient. Exact root number, f value or amplitude is not a gate.",
+      "rule_ids": [
+        "r_bright_character_c3"
+      ],
+      "evidence_ids": [
+        "source_orbitals",
+        "source_c3",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bright_character_c4",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Compound4 N6 bright transition: For complete neutral-singlet compound4, actual transition/configuration and spatial-orbital evidence identifies the relevant absorption feature as mainly HOMO→LUMO involving the N6-related occupied/virtual orbitals. Assess physical orbital and band character, allowing equivalent labeling in another valid method; neither picking the first root nor using numeric closeness is sufficient. Exact root number, f value or amplitude is not a gate.",
+      "rule_ids": [
+        "r_bright_character_c4"
+      ],
+      "evidence_ids": [
+        "source_orbitals",
+        "source_c4",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "methyl_toly_substitution",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final explanation of methyl versus tolyl response: The final answer integrates calculated N6 orbital localization, relative orbital shifts and optical response to explain the modest1→4 blue shift upon tolyl-to-methyl substitution: changing substituent sigma donation/conjugative contribution changes the occupied and virtual N6-related levels unequally. A repeated energy ordering alone is insufficient. Bound the inference by the small baseline gap and any actual geometry/broadening sensitivity; do not require every added kernel or no-D3 diagnostic to keep a resolvable split.",
+      "rule_ids": [
+        "r_methyl_toly_substitution"
+      ],
+      "evidence_ids": [
+        "source_orbitals",
+        "source_c1",
+        "source_c4",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "withdrawing_substitution",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final explanation of chloride and covalent triflate substitution, including the compound 2 versus 3 contrast",
+      "rule_ids": [
+        "r_withdrawing_substitution"
+      ],
+      "evidence_ids": [
+        "source_orbitals",
+        "source_c2",
+        "source_c3",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

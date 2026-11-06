@@ -1,0 +1,17 @@
+# Current validation boundary — 2026-10-29
+
+Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success. No new calculations were performed in this revision.
+
+## Historical validation plan (not an active score contract)
+
+Former numerical-window and review instructions below are retained only as historical provenance and do not override the current rules.
+
+# Active V3 reference policy — 2026-10-28
+
+Score independently established final scientific propositions only, totaling 100 points (paper_science_v3 / final_results_100). Each item receives all its points on pass and zero on fail or need_review. No independent process, workflow, structure-delivery, calculation-count or chronology points. Native evidence qualifies the affected proposition, not an additional score. Match identity, electronic state, physical quantity, units, reference and environment. Supplied facts and copied source targets are not newly computed findings. Hard numeric windows are unchanged and binary; missing calculation, wrong identity/reference/unit, unsupported guesses and out-of-window numbers fail. A scientifically established equivalent explanation passes directly. Only the concrete unresolved scientific conflicts named in an item can receive need_review; review is not success. All listed outcomes are required for whole-case success. Judge evidence claim by claim, without a mandatory author intermediate sequence or universal validation matrix.
+
+Same bounded full-complex geometry and vibrational interpretation, with seven final propositions and no separate intermediate or process credit.
+
+Reuse coordination/bond evidence from analysis_result.json and SOURCE_VS_NATIVE.json for r_coordination_geometry and r_nitrate_bonding_vibrations; mode projections/frequencies from IR_DIRECT_NATIVE_READBACK.json establish the stretching interpretation. OBSERVATION_MODE_READBACK.json and ir_21_peak_native_audit.json support r_observation_1261/1223/802, r_high_band_comparison and r_molecular_scope. Raw nitrate modes 906.6623/1079.7096/1511.2095 cm^-1 differ from printed 926/1102/1541 by -19.3377/-22.2904/-29.7905 cm^-1. The source correction remains undefined; no numeric window is added or widened. Historical acceptance was qualitative with numerical deviation, not strict source-frequency reproduction.
+
+No new quantum calculation, HPC submission or blinded run was performed. See the current prefix of verified_computation_reference.md; all following historical verification text is preserved.

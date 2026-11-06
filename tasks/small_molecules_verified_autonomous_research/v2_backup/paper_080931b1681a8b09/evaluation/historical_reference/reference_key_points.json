@@ -1,0 +1,62 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "items": [
+    {
+      "key_point_id": "ni_substrate_binding",
+      "key_point_type": "result",
+      "statement": "指定Ni–手性配体体系与酰基咪唑BCB形成参与反应的结合结构",
+      "expected": "实际结构或电子证据支持指定Ni(OTf)2/(S,S)-叔丁基PyBOX体系与所给BCB的酰基咪唑部位结合，并建立与后续转化有关的底物定位或活化环境。作者O,N双齿、含一个内球OTf的IM5为参考；允许有证据的等价结合模型，不要求IM5A/B/C排名、结合能命中或完整溶液物种分布。仅搭建正确身份、孤立催化剂或复述Lewis酸标签不足。",
+      "evidence_ids": [
+        "V2_SI"
+      ]
+    },
+    {
+      "key_point_id": "ni_ring_opening",
+      "key_point_type": "result",
+      "statement": "苯并噻唑N与BCB桥头成键并打开桥头C–C键",
+      "expected": "实际连接证据支持苯并噻唑N与原苯基取代BCB桥头形成C–N键，同时原BCB桥头C–C键打开，得到能继续形成题给产物的开环骨架。作者IM5+1a到IM6为参考；须保留正确原子库存及原子映射。作者没有给出该手性开环TS，不要求补出此TS、完整IRC或以SI有歧义的+2.3作为局部能量目标。支持相同净连接事件的等价路线可以接受。",
+      "evidence_ids": [
+        "V2_SI"
+      ]
+    },
+    {
+      "key_point_id": "ni_r_closure",
+      "key_point_type": "result",
+      "statement": "通向R产物的去芳构化C–C闭环连接成立",
+      "expected": "实际计算支持酰基取代BCB桥头与苯并噻唑C2来源碳形成C–C键，并连接到题给产物骨架的R相关分支；对映标记必须对应PI4指定的饱和CH。作者TS3R/IM7R为参考，TS主张须有相关单虚频运动和所声称两侧化学连接的证据；允许科学等价的连接检验，不强制全IRC或复现−242.04 cm−1。仅凭名称或最终产物图不能成立。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "key_point_id": "ni_s_closure",
+      "key_point_type": "result",
+      "statement": "通向S产物的竞争去芳构化C–C闭环连接成立",
+      "expected": "实际计算支持同一净C–C闭环事件通向PI4指定饱和CH为S的竞争分支，产物连接、组成及所用催化剂模型与R分支可比。作者TS3S/IM7S为参考，TS主张须有相关单虚频运动和所声称两侧化学连接的证据；允许科学等价的连接检验，不强制全IRC或复现−200.59 cm−1。只把R构型标签改为S或只优化一个无连接证据的产物不能成立。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "key_point_id": "ni_r_competition",
+      "key_point_type": "result",
+      "statement": "同参照比较支持R形成通道更有利",
+      "expected": "在正确反应物、配体立体化学、相容组成/电荷/自旋和共同反应物参照下，实际能量或其他有效竞争证据支持R形成通道较S形成通道更有利。作者C–C闭环TS3R低于TS3S约2.2 kcal/mol为参考，不设数值窗；不能用产物稳定性、不可比模型绝对能或题给er直接替代形成竞争。此项评价竞争方向，不替代最终产物绝对构型选择。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "key_point_id": "ni_selectivity_features",
+      "key_point_type": "result",
+      "statement": "R/S形成结构的不同物理环境有直接计算证据",
+      "expected": "在可比的R/S形成结构上，实际结构、密度或能量分析揭示能解释竞争差异的配体–底物环境差异。作者局部C–H···π弱接触观察为参考：部分R侧接触特征增强，与R偏好相容；不要求每个接触同向、R总吸引更强、精确红圈计数或指定IGMH指标。接受有证据且作用范围相容的相互作用、形变或其他物理分析；仅有能量排序或一个未比较的接触图不足。",
+      "evidence_ids": [
+        "V2_MAIN"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "rules": [
+    {
+      "rule_id": "r_endpoint_gap",
+      "reference_id": "endpoint_gap",
+      "type": "numeric",
+      "expected": "Recover G(cis)-G(trans) for the correctly mapped local epimers with the remaining polycyclic skeleton and stereocentres preserved. Validate the endpoints; this is equilibrium thermodynamics, not a protonation activation barrier. Compare Gibbs energies at298.15 K in the methanol continuum reference, preserving all remote stereocentres. The inclusive unchanged target is2.3171919±1.0 kcal/mol; raw electronic energies alone do not meet this definition.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Read the explicit final answer and trace its numerical or mechanistic support to actual native calculation inputs, outputs, molecular identities and analysis artifacts. Match composition, charge/spin, physical quantity, reference, units and conditions. Unsupported words, supplied observations, copied source values and normal termination alone do not establish the conclusion."
+      },
+      "target": 2.3171919,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    }
+  ],
+  "note": "Former numerical gate retained verbatim for provenance; current semantic rules do not use it.",
+  "record_role": "Historical dated record; superseded for current scope and scoring by expert_round1_20261103. See round1_review.json and scoring_rules.json.",
+  "superseded_by": "expert_round1_20261103"
+}

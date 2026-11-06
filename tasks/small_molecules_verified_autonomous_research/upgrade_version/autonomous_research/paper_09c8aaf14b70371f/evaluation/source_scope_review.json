@@ -1,0 +1,56 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "revision": "source_checked_evidence_scope_20261103",
+  "previous_revision": "expert_round1_20261103",
+  "source_review_status": "confirmed_and_corrected",
+  "reason_zh": "正文Table 4（第7页）、Fig. 13及讨论（第14页）分别确立3–5的相关趋势和1/2的偏离；SI第1–3页核对分子身份，第24–27页按分子列出坐标。3–5的局部趋势只需其自身计算，不以1/2计算完成为前提；全系列适用性继续由已有独立项评价。",
+  "source_documents": [
+    {
+      "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+      "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+      "pdf_pages_1based": [
+        7,
+        14,
+        15
+      ]
+    },
+    {
+      "path": "papers/paper_09c8aaf14b70371f/documents/supplementary_001.pdf",
+      "sha256": "c2416d2146ed3052530e1fd39a9a07dd3d333ffc420742317566d84b3743d1b2",
+      "pdf_pages_1based": [
+        1,
+        2,
+        3,
+        24,
+        25,
+        26,
+        27
+      ]
+    }
+  ],
+  "changed_rule_id": "r_series_3_5",
+  "before_expected": "Report actual comparable electron-acceptance descriptor values for all five supplied compounds and the peak-potential ordering suggested by those descriptors, allowing unresolved ties and explicitly comparing with the measured ordering. Establish within compounds 3–5 that electron uptake becomes less favorable from 3 to 4 to 5 in ACN and DMSO. The source neutral-LUMO relationship supports this bounded trend; a physically equivalent validated descriptor passes. Full-series mismatch is legitimate if quantitatively identified and interpreted; do not force universal agreement or infer absolute peak potentials from orbital eigenvalues. No exact LUMO or redox-potential window applies. Applicability to 1/2 is separately assessed.",
+  "after_expected": "Report actual comparable electron-acceptance descriptor values for compounds 3–5 in ACN and DMSO and the peak-potential ordering suggested by those descriptors, allowing unresolved ties and explicitly comparing with the measured ordering for 3–5. Establish within compounds 3–5 that electron uptake becomes less favorable from 3 to 4 to 5 in ACN and DMSO. The source neutral-LUMO relationship supports this bounded trend; a physically equivalent validated descriptor passes. Do not infer absolute peak potentials from orbital eigenvalues. No exact LUMO or redox-potential window applies. Applicability to compounds 1/2 and any full-series mismatch are assessed separately under r_hydroxy_departure; missing or unresolved results for 1/2 alone must not fail this supported 3–5 conclusion. The complete task still covers all five supplied compounds.",
+  "scientific_requirements_changed": false,
+  "previous_scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+  "active_rule_ids": [
+    "r_series_3_5",
+    "r_hydroxy_departure",
+    "r_acn_dmso",
+    "r_dcm_comparison",
+    "r_bounded_relationship"
+  ],
+  "removed_outcome_ids": [],
+  "weights_changed": false,
+  "scientific_scope_changed": false,
+  "public_file_sha256": {
+    "submission_guide.md": "8845cb8de2d22049977d3594e7696c3c9ca9eb75b9522111e07881711e660f7a",
+    "submission_schema.json": "c7b562903cf7b34296dad2e540ab508867fdeb56ab9293eb5a84ed1e428604ce",
+    "task.md": "4c28d91dbe97964a7dcbf49040ff84f5c34d8757739c0d995badf3b9457a01f5",
+    "data/inputs/chalcone_series.json": "ccf1f88c69ea5f968841ac852ad81803a42607840fea1338874b5bb766796eb9"
+  },
+  "previous_scoring_rules_sha256": "476ff013db17b0dc138f41119f9bd1bba450fc4c7b52d871f2506d3f05990746",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Paper/SI source review, item-evidence dependency correction and contract/synchronization checks; no new QM or blind-agent scientific acceptance."
+}

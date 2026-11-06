@@ -1,0 +1,20 @@
+{
+  "scientific_question": "For hydrogenative reductive cycloetherification of 1,4-diphenylbutane-1,4-dione and 1,5-diphenylpentane-1,5-dione, what evidence-supported molecular account explains catalyst-dependent cis/trans formation selectivity and its relation to product stability across ring sizes, while accounting for the supplied reaction-performance comparisons among the specified triarylboranes?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "All starting molecules and the triarylboranes below are neutral molecular species. Ph denotes unsubstituted phenyl. Catalyst A is tris(pentafluorophenyl)borane, B(C6F5)3. Catalyst B is bis(pentafluorophenyl)(2,6-dichlorophenyl)borane, B(C6F5)2(C6H3Cl2), with both chlorines ortho to the B-C bond. Catalyst C is bis(2,3,5,6-tetrafluorophenyl)(2,6-dichlorophenyl)borane, B(C6HF4)2(C6H3Cl2): each tetrafluorophenyl ring has its remaining hydrogen para to B, and the dichlorophenyl ring has both chlorines ortho to B. The stereochemical comparison uses diketone D4, 1,4-diphenylbutane-1,4-dione, Ph-C(=O)-CH2-CH2-C(=O)-Ph, forming 2,5-diphenyltetrahydrofuran, whose closed ring is O-CH(Ph)-CH2-CH2-CH(Ph)-O; and diketone D5, 1,5-diphenylpentane-1,5-dione, Ph-C(=O)-CH2-CH2-CH2-C(=O)-Ph, forming 2,6-diphenyltetrahydropyran, whose closed ring is O-CH(Ph)-CH2-CH2-CH2-CH(Ph)-O. In these ring descriptions the initial and final O are the same atom, not two oxygen atoms. For each product, cis and trans mean the two phenyl substituents lie on the same or opposite ring faces, respectively; no particular absolute enantiomer is specified. A catalyst-performance context uses diketone K4, 1-phenylpentane-1,4-dione, Ph-C(=O)-CH2-CH2-C(=O)-CH3; its observed products are 2-methyl-5-phenyltetrahydrofuran and aromatic 2-methyl-5-phenylfuran. K4 is context for interpreting catalyst function, not an additional reaction-pathway discovery target. CPME is cyclopentyl methyl ether, CH3-O-cyclopentyl; diisopropyl ether is (CH3)2CH-O-CH(CH3)2."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "condition",
+      "content": "The D4 and D5 hydrogenative cyclizations use 10 mol % of the indicated borane catalyst, 4 angstrom molecular sieves, CPME solvent, 100 bar H2, 80 C and 18 h. The reaction-scale context is 0.2 mmol diketone in 0.6 mL CPME. The K4 catalyst-performance comparison instead uses 10 mol % catalyst, 4 angstrom molecular sieves, diisopropyl ether, 100 bar H2, 50 C and 18 h, at 0.1 mmol substrate in 0.3 mL solvent. These are distinct comparison conditions, not interchangeable observations. H2 is the reducing agent; water is a reaction byproduct. A molecular-sieve mass is not specified here. Endpoint yields are not elementary rate constants."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "observation",
+      "content": "For the D4 cyclic ether, Catalyst A gives 94% isolated yield and a 10:1 experimental cis:trans ratio; Catalyst B gives 31% isolated yield and a 20:1 experimental cis:trans ratio. For the D5 cyclic ether, Catalyst A gives 84% isolated yield and an experimental cis:trans ratio greater than 20:1. In the K4 comparison, Catalyst A gives 66% cyclic ether, a 6:1 cis:trans ratio and 31% aromatic furan; Catalyst B gives 48% cyclic ether, an 11:1 cis:trans ratio and 2% furan; Catalyst C gives 30% cyclic ether, an 11:1 cis:trans ratio and less than 1% furan. The K4 yields and ratios are endpoint 1H NMR measurements, whereas the D4/D5 yields are isolated yields. The greater-than-20:1 observation is a lower bound, not an exact ratio. No D4 or D5 selectivity comparison using Catalyst C, nor D5 using Catalyst B, is supplied or requested."
+    }
+  ]
+}

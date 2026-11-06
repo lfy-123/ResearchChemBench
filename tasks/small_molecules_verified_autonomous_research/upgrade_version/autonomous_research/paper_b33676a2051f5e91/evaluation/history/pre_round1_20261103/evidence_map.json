@@ -1,0 +1,223 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "evidence": [
+    {
+      "evidence_id": "main_p7_8",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/main.pdf",
+        "sha256": "841ece66df3ad8ce05fabb57f349899aa15c4670be374c58cc88c574bd4ec776",
+        "pdf_pages_1based": [
+          7,
+          8
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p33_35_36_37",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/supplementary_001.pdf",
+        "sha256": "5b36831783622a0a64865b2ca733e2e90dba98b9dd1a20d9ddfb7cbaeaa555b4",
+        "pdf_pages_1based": [
+          33,
+          35,
+          36,
+          37
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p8",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/main.pdf",
+        "sha256": "841ece66df3ad8ce05fabb57f349899aa15c4670be374c58cc88c574bd4ec776",
+        "pdf_pages_1based": [
+          8
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p33_35",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/supplementary_001.pdf",
+        "sha256": "5b36831783622a0a64865b2ca733e2e90dba98b9dd1a20d9ddfb7cbaeaa555b4",
+        "pdf_pages_1based": [
+          33,
+          35
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p33_34_35",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/supplementary_001.pdf",
+        "sha256": "5b36831783622a0a64865b2ca733e2e90dba98b9dd1a20d9ddfb7cbaeaa555b4",
+        "pdf_pages_1based": [
+          33,
+          34,
+          35
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p6_7",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/main.pdf",
+        "sha256": "841ece66df3ad8ce05fabb57f349899aa15c4670be374c58cc88c574bd4ec776",
+        "pdf_pages_1based": [
+          6,
+          7
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p25_26_27_28_29",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/supplementary_001.pdf",
+        "sha256": "5b36831783622a0a64865b2ca733e2e90dba98b9dd1a20d9ddfb7cbaeaa555b4",
+        "pdf_pages_1based": [
+          25,
+          26,
+          27,
+          28,
+          29
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity",
+      "r_local_activation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+  },
+  "historical_non_scoring_final_result_bindings": [
+    {
+      "conclusion_id": "cleavage_products",
+      "rule_id": "r_cleavage_products",
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37",
+        "supplementary_001_p33_34_35"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+      "coverage": "Both finite product-side IRCs and mapped formulas verified; not infinite-separation product thermodynamics."
+    },
+    {
+      "conclusion_id": "acetophenone_barrier",
+      "rule_id": "r_acetophenone_barrier",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_35"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+      "coverage": "Connected-baseline local barrier10.050192–10.149338 satisfies preserved9.07±2 window."
+    },
+    {
+      "conclusion_id": "cleavage_selectivity",
+      "rule_id": "r_cleavage_selectivity",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+      "coverage": "Methyl14.549435–14.648581 and common-reference difference4.499243kcal/mol; values differ from source because connected reactant basin is lower."
+    },
+    {
+      "conclusion_id": "local_activation",
+      "rule_id": "r_local_activation",
+      "evidence_ids": [
+        "main_p6_7",
+        "supplementary_001_p25_26_27_28_29"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+      "coverage": "Cl-HAT TS/66+79-point IRC and separated-reference barrier3.239204 supported; intervening oxygen capture/peroxide cleavage and photochemical production not verified."
+    }
+  ],
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "必需结果1与2：裂解产物/共产品、前体连接和苯乙酮局部活化",
+      "rule_id": "r_local_cleavage_chemistry",
+      "conclusion_id": "local_cleavage_chemistry",
+      "independence": "确认局部裂解化学及苯乙酮形成可达性，不要求已判两通道谁优先。",
+      "source_locator": "正文PDF6–8 Fig.7；SI PDF23方法、25–29 HAT、33–37裂解与坐标",
+      "native_artifacts": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json"
+      ],
+      "existing_support": "C10H13O双重态映射至C8H8O+C2H5或C9H10O+CH3；苯乙酮局部G‡10.050192–10.149338，真实连接盆地比来源构象更低。",
+      "limits": [
+        "连接反应物盆地比来源Int3低约1.15–1.25 kcal/mol，不能为贴近作者任意换零点。",
+        "有限IRC产品端点确立连接而非无限分离热力学；局部偏好不等于产率/分支比。",
+        "HAT与裂解之间氧转化未算；来源单线态O2和捕获数值冲突仍留在原已排除范围。"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37",
+        "supplementary_001_p33_34_35",
+        "main_p8",
+        "supplementary_001_p33_35"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "必需结果3：竞争裂解势垒及共同参照差、局部形成偏好",
+      "rule_id": "r_cleavage_selectivity",
+      "conclusion_id": "cleavage_selectivity",
+      "independence": "比较两个局部形成通道的动力学偏好；同一产物映射本身不足。",
+      "source_locator": "正文PDF6–8 Fig.7；SI PDF23方法、25–29 HAT、33–37裂解与坐标",
+      "native_artifacts": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json"
+      ],
+      "existing_support": "竞争通道14.549435–14.648581，共同参照差4.499243；来源13.39/9.07和差4.32保留。",
+      "limits": [
+        "连接反应物盆地比来源Int3低约1.15–1.25 kcal/mol，不能为贴近作者任意换零点。",
+        "有限IRC产品端点确立连接而非无限分离热力学；局部偏好不等于产率/分支比。",
+        "HAT与裂解之间氧转化未算；来源单线态O2和捕获数值冲突仍留在原已排除范围。"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "必需结果4：试剂来源苄位活化及其与裂解解释的连接范围",
+      "rule_id": "r_local_activation",
+      "conclusion_id": "local_activation",
+      "independence": "苄位HAT的可达性与后续烷氧裂解可分别被支持，不强造未算的中间氧化连接。",
+      "source_locator": "正文PDF6–8 Fig.7；SI PDF23方法、25–29 HAT、33–37裂解与坐标",
+      "native_artifacts": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json"
+      ],
+      "existing_support": "Cl-HAT TS/IRC两支66/79点；分离参照G‡3.239204；未计算HAT至烷氧前体的氧转化。",
+      "limits": [
+        "连接反应物盆地比来源Int3低约1.15–1.25 kcal/mol，不能为贴近作者任意换零点。",
+        "有限IRC产品端点确立连接而非无限分离热力学；局部偏好不等于产率/分支比。",
+        "HAT与裂解之间氧转化未算；来源单线态O2和捕获数值冲突仍留在原已排除范围。"
+      ],
+      "evidence_ids": [
+        "main_p6_7",
+        "supplementary_001_p25_26_27_28_29"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

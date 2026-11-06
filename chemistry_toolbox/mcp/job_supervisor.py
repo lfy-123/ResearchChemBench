@@ -102,33 +102,6 @@ def _memory_limit_mb(
     return min(candidates) if candidates else None
 
 
-def _process_group_rss_kb(process_group_id: int) -> int | None:
-    proc = Path("/proc")
-    if not proc.is_dir():
-        return None
-    total = 0
-    observed = False
-    for entry in proc.iterdir():
-        if not entry.name.isdigit():
-            continue
-        try:
-            stat = (entry / "stat").read_text(encoding="utf-8")
-            fields = stat[stat.rfind(")") + 2 :].split()
-            if len(fields) < 3 or int(fields[2]) != process_group_id:
-                continue
-            status = (entry / "status").read_text(encoding="utf-8")
-            match = next(
-                (line for line in status.splitlines() if line.startswith("VmRSS:")),
-                None,
-            )
-            if match:
-                total += int(match.split()[1])
-            observed = True
-        except (FileNotFoundError, PermissionError, ProcessLookupError, ValueError):
-            continue
-    return total if observed else None
-
-
 def supervise(spec_path: Path) -> int:
     specification = json.loads(spec_path.read_text(encoding="utf-8"))
     job_directory = Path(specification["job_directory"]).resolve()
@@ -153,6 +126,7 @@ def supervise(spec_path: Path) -> int:
                        absolute_deadline if absolute_deadline is not None else float("inf"))
     job_deadline_at = datetime.fromtimestamp(job_deadline, timezone.utc).isoformat() if job_deadline != float("inf") else None
     child: subprocess.Popen[bytes] | None = None
+    sandbox = None
     cancellation_signal: int | None = None
     cancellation_path = job_directory / "cancel_requested"
     reservation_path_raw = str(
@@ -162,6 +136,8 @@ def supervise(spec_path: Path) -> int:
     scratch_directory: Path | None = None
     last_reservation_heartbeat = 0.0
     last_activity_at, activity = 0.0, None
+    last_memory_at, guest_memory_kb, peak_guest_memory_kb = 0.0, None, 0
+    cpu_samples = {}
 
     def heartbeat_reservation(*, force: bool = False) -> None:
         nonlocal last_reservation_heartbeat
@@ -223,12 +199,23 @@ def supervise(spec_path: Path) -> int:
                 # can be reconciled even if SQLite was temporarily unavailable.
                 print(f"execution_store_write_failed: {type(exc).__name__}: {exc}", file=sys.stderr, flush=True)
 
+    def stop_child(sig):
+        if sandbox is not None:
+            sandbox.stop(force=sig == signal.SIGKILL)
+        elif specification.get('recovery_managed'):
+            from chemistry_toolbox.src.sandbox import stop_owned
+            stop_owned(ExecutionStore(Path(specification['workspace']), run_id=specification['run_id']).directory,
+                       specification.get('launch_token'))
+        os.killpg(child.pid, sig)
+
     def terminate_child(sig: int) -> None:
         nonlocal cancellation_signal
         cancellation_signal = sig
+        if sandbox is not None:
+            sandbox.stop()
         if child is not None and child.poll() is None:
             try:
-                os.killpg(child.pid, signal.SIGTERM)
+                stop_child(signal.SIGTERM)
             except ProcessLookupError:
                 pass
 
@@ -271,8 +258,24 @@ def supervise(spec_path: Path) -> int:
             "ab", buffering=0
         ) as stderr_handle:
             try:
+                launch_command = command
+                if specification['job_type'] != 'predefined_action':
+                    from chemistry_toolbox.src.sandbox import calculation
+                    sandbox = calculation(command, runtime=specification['runtime'], cwd=job_directory,
+                        env=os.environ, cpu_ids=resource_allocation.get('cpu_ids', []),
+                        writable=[job_directory, *([scratch_directory] if scratch_directory else [])])
+                    # Supervisor records are host-owned, even when software writes beside its input.
+                    config = json.loads((sandbox.directory / 'config.json').read_text())
+                    for name in ('request.json', 'status.json', 'stdout.log', 'stderr.log', 'activity.json', 'supervisor_spec.json'):
+                        path = job_directory / name
+                        if not path.exists():
+                            path.touch()
+                        config['mounts'].append({'destination': str(path), 'type': 'bind', 'source': str(path),
+                                                  'options': ['bind', 'ro', 'nosuid', 'nodev']})
+                    sandbox._write('config.json', config)
+                    launch_command = sandbox.command()
                 child = subprocess.Popen(
-                    command,
+                    launch_command,
                     cwd=job_directory,
                     stdin=stdin_handle if stdin_handle is not None else subprocess.DEVNULL,
                     stdout=stdout_handle,
@@ -304,37 +307,55 @@ def supervise(spec_path: Path) -> int:
                     last_activity_at = time.monotonic()
                     try:
                         from chemistry_toolbox.src.process_activity import process_activity
-                        activity = process_activity(child.pid, (stdout_path, stderr_path), activity)
+                        activity = process_activity(child.pid, (stdout_path, stderr_path), activity, tree=True)
                         _atomic_json(job_directory / "activity.json", activity)
                     except Exception:
                         pass  # Observability must never change process supervision.
                 if cancellation_path.is_file() and cancellation_signal is None:
                     cancellation_signal = signal.SIGTERM
                     try:
-                        os.killpg(child.pid, signal.SIGTERM)
+                        stop_child(signal.SIGTERM)
                     except ProcessLookupError:
                         pass
                 if cancellation_signal is not None:
+                    if sandbox is not None:
+                        sandbox.stop()
                     break
                 if (walltime is not None and time.monotonic() - started_monotonic > walltime) or (absolute_deadline is not None and time.time() >= absolute_deadline):
                     timed_out = True
                     try:
-                        os.killpg(child.pid, signal.SIGTERM)
+                        stop_child(signal.SIGTERM)
                     except ProcessLookupError:
                         pass
                     break
-                process_group_rss_kb = _process_group_rss_kb(child.pid)
+                from chemistry_toolbox.src.process_activity import process_tree_usage
+                host_usage = process_tree_usage(child.pid)
+                process_group_rss_kb = host_usage['rss_bytes'] // 1024 if host_usage else None
+                if host_usage:
+                    cpu_samples.update(host_usage['process_cpu'])
+                if time.monotonic() - last_memory_at >= 1:
+                    from chemistry_toolbox.src.sandbox import Sandbox
+                    paths = []
+                    if sandbox is not None:
+                        paths = [sandbox.directory]
+                    elif specification.get('recovery_managed'):
+                        root = ExecutionStore(Path(specification['workspace']), run_id=specification['run_id']).directory
+                        paths = [p.parent for p in (root / 'sandboxes' / specification['launch_token']).glob('sandbox-*/launch.json')]
+                    samples = [value for path in paths if (value := Sandbox.load(path).memory_usage()) is not None]
+                    guest_memory_kb = sum(samples) // 1024 if samples else None
+                    peak_guest_memory_kb = max(peak_guest_memory_kb, guest_memory_kb or 0)
+                    last_memory_at = time.monotonic()
                 if process_group_rss_kb is not None:
                     peak_process_group_rss_kb = max(
                         peak_process_group_rss_kb, process_group_rss_kb
                     )
                     if (
                         memory_limit_mb is not None
-                        and process_group_rss_kb > memory_limit_mb * 1024
+                        and (guest_memory_kb if guest_memory_kb is not None else process_group_rss_kb) > memory_limit_mb * 1024
                     ):
                         memory_exceeded = True
                         try:
-                            os.killpg(child.pid, signal.SIGTERM)
+                            stop_child(signal.SIGTERM)
                         except ProcessLookupError:
                             pass
                         break
@@ -344,11 +365,14 @@ def supervise(spec_path: Path) -> int:
                     child.wait(timeout=5)
                 except subprocess.TimeoutExpired:
                     try:
-                        os.killpg(child.pid, signal.SIGKILL)
+                        stop_child(signal.SIGKILL)
                     except ProcessLookupError:
                         pass
                     child.wait()
             background_process_cleanup = "none_detected"
+            if sandbox is not None:
+                sandbox.control('delete', '--force')
+                background_process_cleanup = 'sandbox_deleted'
             try:
                 os.killpg(child.pid, 0)
             except ProcessLookupError:
@@ -356,12 +380,14 @@ def supervise(spec_path: Path) -> int:
             else:
                 background_process_cleanup = "terminated_remaining_process_group"
                 try:
-                    os.killpg(child.pid, signal.SIGTERM)
+                    stop_child(signal.SIGTERM)
                     time.sleep(0.2)
-                    os.killpg(child.pid, signal.SIGKILL)
+                    stop_child(signal.SIGKILL)
                 except ProcessLookupError:
                     pass
             usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+            sampled_cpu = (sum(v[0] for v in cpu_samples.values()), sum(v[1] for v in cpu_samples.values()))
+            cpu = max((usage.ru_utime, usage.ru_stime), sampled_cpu, key=sum)
             if specification.get("recovery_managed"):
                 from chemistry_toolbox.src.recovery_io import token_processes, signal_identity
                 survivors = [item for item in token_processes(specification["launch_token"]) if item["pid"] != os.getpid()]
@@ -382,10 +408,12 @@ def supervise(spec_path: Path) -> int:
                 "return_code": child.returncode,
                 "background_process_cleanup": background_process_cleanup,
                 "resource_usage": {
-                    "user_cpu_seconds": round(usage.ru_utime, 6),
-                    "system_cpu_seconds": round(usage.ru_stime, 6),
+                    'coverage': 'sampled_host_process_tree_including_runtime',
+                    "user_cpu_seconds": round(cpu[0], 6),
+                    "system_cpu_seconds": round(cpu[1], 6),
                     "max_rss_kb": usage.ru_maxrss,
                     "peak_process_group_rss_kb": peak_process_group_rss_kb,
+                    'peak_guest_memory_kb': peak_guest_memory_kb,
                     "memory_limit_mb": memory_limit_mb,
                 },
             }

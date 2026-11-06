@@ -1,0 +1,872 @@
+{
+  "paper_id": "paper_9ec32e81e2826041",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_9ec32e81e2826041",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "scientific_requirements": "Each independent final scientific proposition earns its fixed weight or zero. Weights sum to 100. No separate credit for structures, author-route nodes, process, tool use or report completeness. The final answer must state the proposition and bind it to genuine native calculations or reproducible scientific analyses with correct identity, state, observable, units, reference and conditions. Supplied observations and copied author targets are not new results. Claim-specific validation is evidence, not another scored item. Hard numeric windows remain binary and unchanged. Equivalent well-supported physical explanations pass directly. Only the listed substantive unresolved scientific conflicts permit need_review; missing evidence, wrong identity/reference/units, unsupported guesses and hard-window failures fail. Review is not success. Required final outcomes must all pass for whole-task success. PR disclosed baseline applicability is assessed within the affected result; AR chooses its method independently. Historical verification status is not a new V3 certification.",
+      "rules": [
+        {
+          "rule_id": "r_perpendicular_s1_energy",
+          "reference_id": "perpendicular_s1_energy",
+          "type": "numeric",
+          "expected": "Report the lowest singlet vertical energy at the perpendicular physically justified S0 molecular geometry. Match state composition and medium; this is not a diffuse-reflectance edge or optical gap. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 3.1097,
+          "tolerance": 0.05,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_perpendicular_s1_strength",
+          "reference_id": "perpendicular_s1_strength",
+          "type": "numeric",
+          "expected": "Report the dimensionless oscillator strength of the matched perpendicular lowest singlet transition from actual electronic response. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 0.0883,
+          "tolerance": 0.01,
+          "unit": "dimensionless"
+        },
+        {
+          "rule_id": "r_perpendicular_zn4p",
+          "reference_id": "perpendicular_zn4p",
+          "type": "numeric",
+          "expected": "For the perpendicular configuration quantify LUMO Zn4p fraction under the normalized NAO definition or a demonstrably comparable normalized partition of the entire Zn4p angular subspace. A generic atomic charge, selected basis coefficient or uncalibrated different population is not the same observable. The population is percent, not fraction. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 2.1,
+          "tolerance": 0.5,
+          "unit": "percent"
+        },
+        {
+          "rule_id": "r_coplanar_s1_energy",
+          "reference_id": "coplanar_s1_energy",
+          "type": "numeric",
+          "expected": "Report the lowest singlet vertical energy at the coplanar physically justified S0 molecular geometry. Match state composition and medium; this is not a diffuse-reflectance edge or optical gap. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 2.4526,
+          "tolerance": 0.05,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_coplanar_s1_strength",
+          "reference_id": "coplanar_s1_strength",
+          "type": "numeric",
+          "expected": "Report the dimensionless oscillator strength of the matched coplanar lowest singlet transition from actual electronic response. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 0.0132,
+          "tolerance": 0.01,
+          "unit": "dimensionless"
+        },
+        {
+          "rule_id": "r_coplanar_zn4p",
+          "reference_id": "coplanar_zn4p",
+          "type": "numeric",
+          "expected": "For the coplanar configuration quantify LUMO Zn4p fraction under the normalized NAO definition or a demonstrably comparable normalized partition of the entire Zn4p angular subspace. A generic atomic charge, selected basis coefficient or uncalibrated different population is not the same observable. The population is percent, not fraction. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 8.5,
+          "tolerance": 0.5,
+          "unit": "percent"
+        },
+        {
+          "rule_id": "r_molecular_absorption_explanation",
+          "reference_id": "molecular_absorption_explanation",
+          "type": "semantic",
+          "expected": "Explain the observed colorless/yellow optical contrast through the actual molecular orientation–electronic-response relation: a more-coplanar arrangement enables stronger carbene-C(2p)/Zn(4p) pi-type mixing in the accepting LUMO and lower-energy singlet absorption than a perpendicular arrangement. Derive the signed excitation contrast, map the molecular ring planes, and connect the accepting orbital to the transition using actual state/orbital evidence. Credit is for that physical explanation, not a repeat of the six scalar values, a geometry label or the supplied crystal colors. Stable configurations must have claim-appropriate stationarity/curvature support; exact crystal angles are not gas-phase targets. Equivalent well-supported electronic descriptions pass without a mandated orbital program or author route. A purely molecular calculation is an account of the contrast, not a calculation of the complete reflectance spectrum.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        },
+        {
+          "rule_id": "r_thermal_accessibility",
+          "reference_id": "thermal_accessibility",
+          "type": "semantic",
+          "expected": "The computed comparison establishes near-degenerate D3 configurations relative to a few-kJ/mol no-D3 perpendicular preference, with materially weaker preference when dispersion is included. Do not turn -0.1kJ/mol into robust coplanar population dominance; actual thermal/structural sensitivity must bound any population claim. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        },
+        {
+          "rule_id": "r_d3_free_energy",
+          "reference_id": "d3_free_energy",
+          "type": "numeric",
+          "expected": "At300K recover G(coplanar)-G(perpendicular) including compatible native thermal terms with dispersion. This numerical window does not establish the sign or dominant population of a near-zero result. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": -0.1,
+          "tolerance": 0.5,
+          "unit": "kJ/mol"
+        },
+        {
+          "rule_id": "r_nod3_free_energy",
+          "reference_id": "nod3_free_energy",
+          "type": "numeric",
+          "expected": "At300K recover G(coplanar)-G(perpendicular) for consistently no-D3 geometries and thermal terms. Do not substitute a D3 single-point correction on an unrelated fixed geometry. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 4.8,
+          "tolerance": 0.5,
+          "unit": "kJ/mol"
+        },
+        {
+          "rule_id": "r_solution_crystal_applicability",
+          "reference_id": "solution_crystal_applicability",
+          "type": "semantic",
+          "expected": "Use the actual molecular configurations and thermochemistry to assess the observation that both crystal samples give the same yellow solution. A thermally accessible set can support a common solution optical account, but molecular conformer free energies alone do not determine crystal packing, exact solution populations or interconversion rates. State the specific gap between the modeled gas-molecular quantities and the supplied reflectance/solution facts, and why it limits the inferred account. Do not award another score for repeating near-degeneracy, crystal colors or a generic limitation. No photocatalysis or Z-IP phosphorescence claim belongs to this result.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "perpendicular_s1_energy",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "Perpendicular configuration: s1 energy",
+          "rule_ids": [
+            "r_perpendicular_s1_energy"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "perpendicular_s1_strength",
+          "kind": "conclusion",
+          "max_score": 5,
+          "description": "Perpendicular configuration: s1 strength",
+          "rule_ids": [
+            "r_perpendicular_s1_strength"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "perpendicular_zn4p",
+          "kind": "conclusion",
+          "max_score": 5,
+          "description": "Perpendicular configuration: zn4p",
+          "rule_ids": [
+            "r_perpendicular_zn4p"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_population"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "coplanar_s1_energy",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "Coplanar configuration: s1 energy",
+          "rule_ids": [
+            "r_coplanar_s1_energy"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "coplanar_s1_strength",
+          "kind": "conclusion",
+          "max_score": 5,
+          "description": "Coplanar configuration: s1 strength",
+          "rule_ids": [
+            "r_coplanar_s1_strength"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "coplanar_zn4p",
+          "kind": "conclusion",
+          "max_score": 5,
+          "description": "Coplanar configuration: zn4p",
+          "rule_ids": [
+            "r_coplanar_zn4p"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_population"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "molecular_absorption_explanation",
+          "kind": "conclusion",
+          "max_score": 25,
+          "description": "Molecular origin of the optical contrast",
+          "rule_ids": [
+            "r_molecular_absorption_explanation"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_population"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Valid mapped molecular and transition calculations support an alternative substantial electronic origin of the optical contrast, with a scientific conflict over Zn participation or the structure–response connection still unresolved. Missing orbital evidence, wrong state or merely copying colors fails."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "thermal_accessibility",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "Thermal accessibility of the molecular configurations",
+          "rule_ids": [
+            "r_thermal_accessibility"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Valid comparable free energies with adequate thermal/noncovalent treatment yield a materially different thermal-accessibility conclusion, and the physical source of the disagreement remains unresolved. An unvalidated geometry, absent thermochemistry or invented uncertainty fails."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "d3_free_energy",
+          "kind": "conclusion",
+          "max_score": 5,
+          "description": "300 K conformer Gibbs difference with D3BJ",
+          "rule_ids": [
+            "r_d3_free_energy"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "nod3_free_energy",
+          "kind": "conclusion",
+          "max_score": 5,
+          "description": "300 K conformer Gibbs difference without D3BJ",
+          "rule_ids": [
+            "r_nod3_free_energy"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "solution_crystal_applicability",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "What molecular results imply for the crystal/solution observations",
+          "rule_ids": [
+            "r_solution_crystal_applicability"
+          ],
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Actual phase-appropriate molecular evidence supports a different link between the shared yellow solution and the configurations, and a substantive compatibility conflict remains. Generic caveats, missing energetic evidence or unsupported population/rate claims fail."
+          ],
+          "required_for_success": true
+        }
+      ]
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_9ec32e81e2826041",
+      "items": [
+        {
+          "statement": "Perpendicular molecular configuration",
+          "expected": "Actual full-molecule geometry and curvature evidence establish an accessible perpendicular-like local configuration of Z-cAACCy, with the carbene and zincafluorene planes substantially twisted. Match the molecular plane definition; do not force the experimental83.1degree crystal angle onto a gas optimum. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "key_point_id": "perpendicular_configuration",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "More-coplanar molecular configuration",
+          "expected": "Actual full-molecule geometry and curvature evidence establish a distinct more-coplanar local configuration of Z-cAACCy. Do not call a constrained scan point a free minimum or substitute the different Z-SIP/Z-IP molecules; the crystal23.9degree angle is not a gas target. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "key_point_id": "coplanar_configuration",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "perpendicular S1 vertical energy",
+          "expected": "Recover the lowest singlet vertical energy at the perpendicular source-compatible S0 molecular geometry. Match state composition and medium; this is not a diffuse-reflectance edge or optical gap. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "key_point_id": "perpendicular_s1_energy",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "perpendicular S1 oscillator strength",
+          "expected": "Recover the dimensionless oscillator strength of the matched perpendicular lowest singlet transition from actual electronic response. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "key_point_id": "perpendicular_s1_strength",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "perpendicular LUMO Zn4p character",
+          "expected": "For the perpendicular configuration quantify LUMO Zn4p fraction under the source NAO definition or a demonstrably comparable normalized partition of the entire Zn4p angular subspace. A generic atomic charge, selected basis coefficient or uncalibrated different population is not the same observable. The population is percent, not fraction. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_population"
+          ],
+          "key_point_id": "perpendicular_zn4p",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "coplanar S1 vertical energy",
+          "expected": "Recover the lowest singlet vertical energy at the coplanar source-compatible S0 molecular geometry. Match state composition and medium; this is not a diffuse-reflectance edge or optical gap. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "key_point_id": "coplanar_s1_energy",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "coplanar S1 oscillator strength",
+          "expected": "Recover the dimensionless oscillator strength of the matched coplanar lowest singlet transition from actual electronic response. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "key_point_id": "coplanar_s1_strength",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "coplanar LUMO Zn4p character",
+          "expected": "For the coplanar configuration quantify LUMO Zn4p fraction under the source NAO definition or a demonstrably comparable normalized partition of the entire Zn4p angular subspace. A generic atomic charge, selected basis coefficient or uncalibrated different population is not the same observable. The population is percent, not fraction. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_population"
+          ],
+          "key_point_id": "coplanar_zn4p",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "D3BJ conformer free-energy difference",
+          "expected": "At300K recover G(coplanar)-G(perpendicular) including compatible native thermal terms with dispersion. This numerical window does not establish the sign or dominant population of a near-zero result. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "key_point_id": "d3_free_energy",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "No-D3 conformer free-energy difference",
+          "expected": "At300K recover G(coplanar)-G(perpendicular) for consistently no-D3 geometries and thermal terms. Do not substitute a D3 single-point correction on an unrelated fixed geometry. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "key_point_id": "nod3_free_energy",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Coplanarity increases Zn4p mixing in the accepting orbital",
+          "expected": "Actual mapped orbital/state evidence establishes an increased Zn4p contribution to the LUMO for the more-coplanar configuration and identifies C(carbene)2p-Zn4p pi-type mixing. Connect the accepting orbital to the low-energy transition; a metal percentage alone does not establish this electronic mechanism. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_population"
+          ],
+          "key_point_id": "zn_pi_mixing",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Coplanar lowest absorption is lower in energy",
+          "expected": "Actual comparable excitations establish a positive perpendicular-minus-coplanar S1 energy difference and hence lower-energy absorption for the coplanar structure. Root identity is checked with composition; the result is independent of whether either absolute energy window passes. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "key_point_id": "absorption_redshift",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Dispersion brings configurations close in free energy",
+          "expected": "The computed comparison establishes near-degenerate D3 configurations relative to a few-kJ/mol no-D3 perpendicular preference, with materially weaker preference when dispersion is included. Do not turn -0.1kJ/mol into robust coplanar population dominance; actual thermal/structural sensitivity must bound any population claim. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "key_point_id": "dispersion_neardegeneracy",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        }
+      ]
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_9ec32e81e2826041",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabrication of scientific evidence, including reference values falsely presented as newly computed, invalidates the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Ordinary failure, missing evidence or scientific error affects only the relevant leaves."
+        }
+      ]
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_9ec32e81e2826041",
+      "items": [
+        {
+          "conclusion_id": "perpendicular_s1_energy",
+          "statement": "Perpendicular configuration: s1 energy",
+          "expected": "Report the lowest singlet vertical energy at the perpendicular physically justified S0 molecular geometry. Match state composition and medium; this is not a diffuse-reflectance edge or optical gap. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "perpendicular_s1_energy"
+          ]
+        },
+        {
+          "conclusion_id": "perpendicular_s1_strength",
+          "statement": "Perpendicular configuration: s1 strength",
+          "expected": "Report the dimensionless oscillator strength of the matched perpendicular lowest singlet transition from actual electronic response. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "perpendicular_s1_strength"
+          ]
+        },
+        {
+          "conclusion_id": "perpendicular_zn4p",
+          "statement": "Perpendicular configuration: zn4p",
+          "expected": "For the perpendicular configuration quantify LUMO Zn4p fraction under the normalized NAO definition or a demonstrably comparable normalized partition of the entire Zn4p angular subspace. A generic atomic charge, selected basis coefficient or uncalibrated different population is not the same observable. The population is percent, not fraction. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_population"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "perpendicular_zn4p"
+          ]
+        },
+        {
+          "conclusion_id": "coplanar_s1_energy",
+          "statement": "Coplanar configuration: s1 energy",
+          "expected": "Report the lowest singlet vertical energy at the coplanar physically justified S0 molecular geometry. Match state composition and medium; this is not a diffuse-reflectance edge or optical gap. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "coplanar_s1_energy"
+          ]
+        },
+        {
+          "conclusion_id": "coplanar_s1_strength",
+          "statement": "Coplanar configuration: s1 strength",
+          "expected": "Report the dimensionless oscillator strength of the matched coplanar lowest singlet transition from actual electronic response. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "coplanar_s1_strength"
+          ]
+        },
+        {
+          "conclusion_id": "coplanar_zn4p",
+          "statement": "Coplanar configuration: zn4p",
+          "expected": "For the coplanar configuration quantify LUMO Zn4p fraction under the normalized NAO definition or a demonstrably comparable normalized partition of the entire Zn4p angular subspace. A generic atomic charge, selected basis coefficient or uncalibrated different population is not the same observable. The population is percent, not fraction. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_population"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "coplanar_zn4p"
+          ]
+        },
+        {
+          "conclusion_id": "molecular_absorption_explanation",
+          "statement": "Molecular origin of the optical contrast",
+          "expected": "Explain the observed colorless/yellow optical contrast through the actual molecular orientation–electronic-response relation: a more-coplanar arrangement enables stronger carbene-C(2p)/Zn(4p) pi-type mixing in the accepting LUMO and lower-energy singlet absorption than a perpendicular arrangement. Derive the signed excitation contrast, map the molecular ring planes, and connect the accepting orbital to the transition using actual state/orbital evidence. Credit is for that physical explanation, not a repeat of the six scalar values, a geometry label or the supplied crystal colors. Stable configurations must have claim-appropriate stationarity/curvature support; exact crystal angles are not gas-phase targets. Equivalent well-supported electronic descriptions pass without a mandated orbital program or author route. A purely molecular calculation is an account of the contrast, not a calculation of the complete reflectance spectrum.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_population"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "perpendicular_configuration",
+            "coplanar_configuration",
+            "zn_pi_mixing",
+            "absorption_redshift"
+          ]
+        },
+        {
+          "conclusion_id": "thermal_accessibility",
+          "statement": "Thermal accessibility of the molecular configurations",
+          "expected": "The computed comparison establishes near-degenerate D3 configurations relative to a few-kJ/mol no-D3 perpendicular preference, with materially weaker preference when dispersion is included. Do not turn -0.1kJ/mol into robust coplanar population dominance; actual thermal/structural sensitivity must bound any population claim. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "dispersion_neardegeneracy"
+          ]
+        },
+        {
+          "conclusion_id": "d3_free_energy",
+          "statement": "300 K conformer Gibbs difference with D3BJ",
+          "expected": "At300K recover G(coplanar)-G(perpendicular) including compatible native thermal terms with dispersion. This numerical window does not establish the sign or dominant population of a near-zero result. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "d3_free_energy"
+          ]
+        },
+        {
+          "conclusion_id": "nod3_free_energy",
+          "statement": "300 K conformer Gibbs difference without D3BJ",
+          "expected": "At300K recover G(coplanar)-G(perpendicular) for consistently no-D3 geometries and thermal terms. Do not substitute a D3 single-point correction on an unrelated fixed geometry. Physical definition: Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "nod3_free_energy"
+          ]
+        },
+        {
+          "conclusion_id": "solution_crystal_applicability",
+          "statement": "What molecular results imply for the crystal/solution observations",
+          "expected": "Use the actual molecular configurations and thermochemistry to assess the observation that both crystal samples give the same yellow solution. A thermally accessible set can support a common solution optical account, but molecular conformer free energies alone do not determine crystal packing, exact solution populations or interconversion rates. State the specific gap between the modeled gas-molecular quantities and the supplied reflectance/solution facts, and why it limits the inferred account. Do not award another score for repeating near-degeneracy, crystal colors or a generic limitation. No photocatalysis or Z-IP phosphorescence claim belongs to this result.",
+          "evidence_ids": [
+            "main_p3_4",
+            "supplementary_001_p3_10_11_13_14_15_21",
+            "verified_zn_thermal_control"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "perpendicular_configuration",
+            "coplanar_configuration",
+            "dispersion_neardegeneracy"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_9ec32e81e2826041",
+      "scoring_policy": "paper_science_v3",
+      "status": "V3_ADAPTED_EXISTING_EVIDENCE_NOT_REVALIDATED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "current_scope_verified": false,
+      "reason": "保持完整Z-cAACCy的构型—低能吸收解释范围及当前AR9/PR11项。原始问题要求解释Zn参与及定义所用量，并未把归一化LUMO Zn4p规定为唯一终量；旧Zn4p为intermediate，现两个硬门槛的独立必要性留作专家设计选项。PR原已披露NAO与D3BJ/无D3BJ基线，保留原两个自由能硬窗；AR不新增该消融。本轮不机械删物性量或改变容差。",
+      "physical_definition": "Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+      "scientific_limitations": "Verified S1=3.1097/2.4524eV versus source3.1097/2.4526; f0.0883/0.0132. Zn4p2.094985/8.547679% versus2.1/8.5%; equivalent NAO implementation is checked, not claimed identical to private author binary. Carbene C2p53.539807 versus53.4% residual retained. D3/noD3 G differences-0.047259/+4.681266kJ/mol versus-0.1/+4.8; near-zero ordering and exact populations not robust.",
+      "tolerance_policy": {
+        "status": "provisional_benchmark_policy",
+        "basis": "Category windows are±0.05eV for lowest vertical excitations,±0.01 for dimensionless oscillator strengths,±0.5percentage point for definition-matched NAO Zn4p and±0.5kJ/mol for300K conformer G differences. These provisional windows reflect physical sensitivity and retain the large excitation/Zn effects; none is derived as maximum residual plus epsilon. Near-degeneracy and signed redshift are separate claims; the free-energy window does not certify a tiny sign.",
+        "not_author_error_bars": true
+      },
+      "historical_acceptance_before_v3": {
+        "paper_id": "paper_9ec32e81e2826041",
+        "scoring_policy": "paper_science_v2",
+        "status": "CURRENT_FROZEN_SCOPE_STRICT_VERIFICATION_PRESERVED",
+        "formal_scoring_permitted": true,
+        "release_ready": false,
+        "blocked_rule_ids": [],
+        "reserved_points": 0,
+        "current_scope_verified": true,
+        "verification_acceptance": "Existing independently strict V2 frozen-scope acceptance retained; scoring migration is not new chemical validation.",
+        "reason": "Authorized final-copy scoring-only migration, 2026-10-19; publication/expert calibration remains separate from runtime scoring.",
+        "physical_definition": "Full80-atom neutral singlet C35H43NZn Z-cAACCy; separately mapped perpendicular and more-coplanar S0 configurations. Source PBE0/6-311+G(d,p), D3BJ and no-D3 optimizations/frequencies; relative RRHO G at300K, source gas molecular TD-PBE0 singlets and normalized LUMO NAO populations. Distinguish these molecular quantities from crystal reflectance and solution spectra.",
+        "scientific_limitations": "Verified S1=3.1097/2.4524eV versus source3.1097/2.4526; f0.0883/0.0132. Zn4p2.094985/8.547679% versus2.1/8.5%; equivalent NAO implementation is checked, not claimed identical to private author binary. Carbene C2p53.539807 versus53.4% residual retained. D3/noD3 G differences-0.047259/+4.681266kJ/mol versus-0.1/+4.8; near-zero ordering and exact populations not robust.",
+        "tolerance_policy": {
+          "status": "provisional_benchmark_policy",
+          "basis": "Category windows are±0.05eV for lowest vertical excitations,±0.01 for dimensionless oscillator strengths,±0.5percentage point for definition-matched NAO Zn4p and±0.5kJ/mol for300K conformer G differences. These provisional windows reflect physical sensitivity and retain the large excitation/Zn effects; none is derived as maximum residual plus epsilon. Near-degeneracy and signed redshift are separate claims; the free-energy window does not certify a tiny sign.",
+          "not_author_error_bars": true
+        },
+        "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "coordinator_review": {
+          "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+          "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+          "review_key": "v2_paper_9ec32e81e2826041",
+          "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+          "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+          "publication_readiness_unchanged": true
+        },
+        "repair_round3": {
+          "date": "2026-10-19",
+          "round": "repair_round3",
+          "mode": "paper_reproduction",
+          "status": "scoring_contract_repaired_without_new_chemical_acceptance",
+          "changes": [
+            "PR retains the explicitly disclosed D3BJ/no-D3 300 K comparison; AR independently scores the physical thermal-competition result without that prescribed source ablation."
+          ],
+          "history_preserved": true,
+          "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_04/paper_9ec32e81e2826041.md"
+        }
+      },
+      "scoring_mode": "final_results_100",
+      "evidence_gaps": [
+        "原AR/PR热力学任务不同：PR有D3BJ/no-D3的两个硬数值，AR只有近室温热竞争；未静默统一",
+        "NAO实现已做闭合/全角动量子空间核对，但并非取得作者私有NBO程序，C2p残差保留",
+        "分子近零自由能不能确定精确溶液布居、转动速率或晶体堆积"
+      ],
+      "final_result_evidence_reuse": {
+        "perpendicular_s1_energy": "SI p21 TableS8/S9或正文p4 Fig2；已读NAO crosscheck与原生TD：3.1097，源target 3.1097±0.05 eV，原窗获支持。",
+        "perpendicular_s1_strength": "SI p21 TableS8/S9或正文p4 Fig2；已读NAO crosscheck与原生TD：0.0883，源target 0.0883±0.01 dimensionless，原窗获支持。",
+        "perpendicular_zn4p": "SI p21 TableS8/S9或正文p4 Fig2；已读NAO crosscheck与原生TD：2.0949854839，源target 2.1±0.5 percent，原窗获支持。",
+        "coplanar_s1_energy": "SI p21 TableS8/S9或正文p4 Fig2；已读NAO crosscheck与原生TD：2.4524，源target 2.4526±0.05 eV，原窗获支持。",
+        "coplanar_s1_strength": "SI p21 TableS8/S9或正文p4 Fig2；已读NAO crosscheck与原生TD：0.0132，源target 0.0132±0.01 dimensionless，原窗获支持。",
+        "coplanar_zn4p": "SI p21 TableS8/S9或正文p4 Fig2；已读NAO crosscheck与原生TD：8.5476790314，源target 8.5±0.5 percent，原窗获支持。",
+        "molecular_absorption_explanation": "正文pp3–4 Figs1/2；2.4524 vs3.1097 eV及2.094985→8.547679% Zn4p，S1到对应LUMO；原生两构型及234正模支持局部稳定构型。无需按两个结构分别给分。",
+        "thermal_accessibility": "正文pp4–5/SI p21 TableS7；300 K RRHO ΔG(D3) −0.047259 kJ/mol支持近简并；无D3精修+4.681266；软模精修变化−0.042008，不能强定近零排序。",
+        "d3_free_energy": "SI TableS7；原生RRHO ΔG -0.0472589928 kJ/mol，保持源-0.1/+4.8±0.5硬窗；敏感性不冒充源程序相同。",
+        "nod3_free_energy": "SI TableS7；原生RRHO ΔG +4.681265855 kJ/mol，保持源-0.1/+4.8±0.5硬窗；敏感性不冒充源程序相同。",
+        "solution_crystal_applicability": "正文p4两晶体同黄色溶液；已有气相构型/ΔG支持可达性，但未计算晶体堆积和真实溶液布居/转动率，保持适用边界。"
+      },
+      "new_quantum_calculations": 0,
+      "v3_scientific_revalidation_performed": false,
+      "secondary_audit_20261028": {
+        "scope_changed": false,
+        "new_calculations": 0,
+        "verification_status": "现存S1、f、Zn4p及PR两自由能均在原硬窗；有限电子与热竞争解释有支持；Zn4p必答设计及精确相态布居仍未解决",
+        "confirmed_fixes": [
+          {
+            "file": "两模式submission_schema.json与guide",
+            "before": "complete日志minItems=1且contains要求至少一条决策；guide也要求至少一条实际决策",
+            "after": "日志minItems=0、移除contains；guide允许空日志且已报决策须关联真实record",
+            "reason": "流程强制与独立科学结果评分不符，含隐式contains约束及文案冲突。"
+          },
+          {
+            "file": "两模式reference_qualification.json reason",
+            "before": "将六个光谱／轨道值统称原有最终硬数值",
+            "after": "区分原始问题与旧intermediate，Zn4p独立门槛列专家选项",
+            "reason": "不得把上轮题面提升当成原科学问题证明。"
+          }
+        ],
+        "expert_issues": [
+          {
+            "issue": "两个LUMO Zn4p硬门槛是否属于独立最终量",
+            "evidence": "原AR问Zn的作用“if any”，允许定义任何金属参与量并连接到跃迁；旧两Zn4p标intermediate。原PR披露2.1/8.5及NAO，仍说明其非唯一物理布居。",
+            "impact": "AR可能被迫沿作者归一化轨道表征，科学等价的跃迁密度解释即使成立也不能绕过两硬窗；现行10分之外仍各required_for_success。",
+            "suggestion": "A保留两模式数值作为独立物性，但需专家明确确认这是期望新增的最终输出，校准跨方法可比性；B仅PR保留作者布居复现，AR改作金属角色解释的可选证据；C两模式均将其作为证据，按既有最终科学问题重设计评分。B更贴合原AR方法自由；本轮不执行权重或必答删改，不用新版必答反证。",
+            "new_computation_needed": "设计判断无须新量化计算；改规则须检验等价路线及覆盖。"
+          },
+          {
+            "issue": "近零自由能和金属布居的适用边界",
+            "evidence": "D3 RRHO−0.047259，熵敏感性−2.728106／−2.041167；替代NAO闭合但共平面C2p仍+0.139807百分点。",
+            "impact": "不支持精确相态布居／旋转速率、私有作者实现同一或通用跨方法误差。",
+            "suggestion": "保留数值残差、RRHO与敏感性分离、气相与凝聚相边界；不能按颜色倒推群体。",
+            "new_computation_needed": "现题边界不需新算；若扩展至速率／晶体需新设计，当前不要求。"
+          }
+        ]
+      }
+    }
+  }
+}

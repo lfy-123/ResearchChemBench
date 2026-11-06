@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "items": [
+    {
+      "conclusion_id": "redox_substituent_comparison",
+      "statement": "1a is the stronger molecular excited-state reductant",
+      "expected": "Derive both excited oxidation potentials on the same SCE scale from the corresponding ground-state oxidation estimate and E00, using explicit signs and units. Actual common-reference estimates establish a more negative Eox* for 1a than 1e and show that this contrast arises primarily from ground-state oxidation energetics rather than a large E00 difference. Preserve uncertainties from irreversible electrochemistry and the optical estimate. The two potentials and their decomposition are evidence for this comparative redox conclusion, not author-value targets; copying the term super-reductant or reporting only one compound fails.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_redox_substituent_comparison"
+      ]
+    },
+    {
+      "conclusion_id": "lifetime_comparison",
+      "statement": "1e has a much shorter reported excited-state decay time scale",
+      "expected": "Analyze the supplied TCSPC43.3ns monoexponential1a decay and reported1.5ns multiexponential-average1e decay to establish the much shorter1e time scale and its consequence for competition with a common encounter/electron-transfer time scale. A calculated lifetime ratio or explicit survival/competition relation must support the comparison; copying the two observations alone fails. Use the source-specific375nm/547nm setting for1a and440nm/530nm setting for1e, both in dryDMSO at20°C. Do not treat1e as monoexponential, derive a cleavage rate, or invent the unreported Table1 averaging convention.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_lifetime_comparison"
+      ]
+    },
+    {
+      "conclusion_id": "reduction_1a",
+      "statement": "1a is energetically capable of reducing the demanding substrate",
+      "expected": "Explicitly compare the supported1a excited oxidation estimate with the supplied4-chloroanisole reduction potential near−2.91V vsSCE and conclude favorable electron-transfer energetics under that estimate. Keep the irreversibility-derived uncertainty and do not claim this energetic sign alone proves a C–Cl cleavage rate.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_reduction_1a"
+      ]
+    },
+    {
+      "conclusion_id": "reduction_1e",
+      "statement": "1e lacks the corresponding redox headroom",
+      "expected": "Explicitly compare the calculated 1e excited oxidation estimate with the supplied 4-chloroanisole reduction potential and conclude it lacks the favorable nominal redox driving force available to 1a. Establish the energetic sign on a consistent electrode scale, retaining irreversibility and medium uncertainty; this does not claim an absolute prohibition in every environment. The independently scored lifetime contrast is supporting context and is not scored again here.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_reduction_1e"
+      ]
+    },
+    {
+      "conclusion_id": "bounded_preassociation",
+      "statement": "Quenching interpretation and limits of microscopic association identification",
+      "expected": "Reproducible analysis of the supplied 1a/4-chloroanisole intensity/lifetime observations establishes that strong intensity suppression with an approximately unchanged lifetime contradicts pure dynamic quenching in the measured low-concentration regime. Infer a static or close-proximity contribution while showing why these observables do not identify a unique strongly populated ground-state adduct, a complex fraction, or an equilibrium association constant. Actual graphical/data analysis at its resolution is required; simply copying the given flat-lifetime statement or Ksv does not pass. A fully supported equivalent account passes directly. Association calculations may sharpen the interpretation but require balanced physical compositions and distinct electronic/Gibbs definitions; the private PhCl proxy is not compulsory.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference",
+        "native_readback"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_bounded_preassociation"
+      ]
+    }
+  ]
+}

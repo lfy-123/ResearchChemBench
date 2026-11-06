@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "task_type": "autonomous_research",
+  "title": "Catalyst function and stereoselectivity in hydrogenative diketone cyclization",
+  "category": "small_molecule_homogeneous_organic_reaction_chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires independent molecular hypotheses and executed evidence connecting catalyst behavior, formation selectivity and product stability.",
+    "Includes catalyst substitution and ring-size comparisons with distinct experimental measurement and condition boundaries.",
+    "Requires careful model validation, provenance and uncertainty rather than matching a single numerical answer."
+  ],
+  "paper": {
+    "title": "Diastereoselective Synthesis of cis-α,α′-Disubstituted Cyclic Ethers via Borane-Catalyzed Reductive Cyclization of Diketones",
+    "doi": "10.1021/acscatal.5c08127",
+    "journal": "ACS Catalysis",
+    "publication_date": "2026-01-02"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "Neutral molecular graphs, relative product stereochemistry, reaction conditions and the observed comparison matrix."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured research and question status, hypotheses, investigations, evidence, conclusions, limitations and reproducibility index."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific account of actual investigations, evidence-based decisions, uncertainties and actual resource use; assess disclosed baseline fidelity when applicable."
+    },
+    {
+      "path": "research/",
+      "description": "Actual molecular and calculation inputs, outputs, logs and analysis code referenced by the report."
+    }
+  ]
+}

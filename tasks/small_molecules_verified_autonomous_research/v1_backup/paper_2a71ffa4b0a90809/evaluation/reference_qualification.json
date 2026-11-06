@@ -1,0 +1,66 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "reason": "User approved provisional paper-science V2 criteria on 2026-10-17. Seven source affinity targets use absolute tolerance1.0kcal/mol; qualitative outcomes are independently weighted. Expert review remains pending for publication, not a runtime scoring blocker.",
+  "physical_definition": {
+    "quantity": "DeltaG_assoc(conf)=G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−)",
+    "temperature_K": 193.15,
+    "solvent": "THF",
+    "source_model": "M06-2X-D3/6-311+G(d,p)-SDD(I), SMD18(THF), Gaussian16; stationarity/frequency claims require actual output validation",
+    "state": "free donors0/singlet; Cl− and complexes−1/singlet",
+    "source_labels": {
+      "A": "1a-syn",
+      "B": "1a-anti",
+      "C_syn": "1b-syn",
+      "C_anti": "1b-anti",
+      "D_syn": "1c-syn",
+      "D_anti": "1c-anti",
+      "E": "1d"
+    },
+    "source_standard_state": "Not explicitly printed by authors. Raw S21/S22 Cl− thermal terms at193.15K support a1atm convention within published rounding; use transparent1atm/1M conversion rather than treating the offset as numerical error.",
+    "public_reporting_standard_state": "1mol/L solution standard state; retain raw output convention and show every conversion separately",
+    "conformer_reference": "Each source complex is paired with the corresponding named free conformer, not an arbitrary global minimum. A/B are prepared axial identities. Report a separate ensemble calculation only when equilibrium/populations at the relevant preparation/reaction temperature are justified; no silent conformer substitution.",
+    "experimental_comparison": "Acetone295K titration K values are a different experiment from THF193.15K association calculations; do not use them interchangeably."
+  },
+  "standard_state_analysis": {
+    "temperature_K": 193.15,
+    "source_table_raw_DeltaG_kcal_mol": {
+      "A": -8.23543433681468,
+      "B": -2.5602386538765796,
+      "C_syn": -5.911139245137117,
+      "C_anti": -1.4658621312727114,
+      "D_syn": -7.131017662509482,
+      "D_anti": -2.4912126117681748,
+      "E": -3.2937972290566906
+    },
+    "one_species_1atm_to_1M_correction_kcal_mol": 1.0605682034744512,
+    "association_delta_n": -1,
+    "conditional_association_correction_kcal_mol": -1.0605682034744512,
+    "formula": "DeltaG(1M)=DeltaG(1atm)+Delta_n*R*T*ln(C0*R_atm*T/p0), C0=1mol/L, p0=1atm, Delta_n=-1",
+    "conditional_1M_DeltaG_kcal_mol": {
+      "A": -9.296002540289132,
+      "B": -3.620806857351031,
+      "C_syn": -6.971707448611569,
+      "C_anti": -2.526430334747163,
+      "D_syn": -8.191585865983933,
+      "D_anti": -3.5517808152426262,
+      "E": -4.354365432531142
+    },
+    "qualification": "Exact standard-state algebra. Source pressure is not explicitly printed, but Cl− source-table thermal terms support1atm within rounding. Transparent conversion only, not a fitted offset or new target."
+  },
+  "unblock_conditions": [],
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "tolerance_policy": {
+    "version": "20261017_provisional",
+    "status": "user_approved_pending_expert_review",
+    "affinity_absolute_kcal_mol": 1.0,
+    "rationale": "Practical absolute window for comparable conformer-specific association free energies, informed by source thermochemistry and validation; not fitted to agent scores or asserted as universal method accuracy.",
+    "verification_max_abs_error_kcal_mol": 0.04480553
+  }
+}

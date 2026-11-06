@@ -1,0 +1,47 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "改为候选产物预测",
+  "changes_zh": "保留两种产物族结构，移走优势产物/类比实验结果提示；根据共同起点总体势垒预测偏好，保持30/30/40。",
+  "source_locator": "正文 Fig. 4；SI §7、Supplementary Fig. 5",
+  "scientific_scope_changed": true,
+  "active_rule_ids": [
+    "r_cycloaddition_formation",
+    "r_imine_formation",
+    "r_product_competition_interpretation"
+  ],
+  "active_outcome_ids": [
+    "cycloaddition_formation",
+    "imine_formation",
+    "product_competition_interpretation"
+  ],
+  "removed_outcome_ids": [],
+  "public_file_sha256": {
+    "data/inputs/int1.smi": "fcd9be044248f4c583101fe487d52cc1f67e0a2cb853933b75c6009af6b7402d",
+    "data/inputs/problem_definition.json": "ad4d916f59aec020e91be031e26319b82e9b78df1202d9bf3d20c78fef91672e",
+    "submission_guide.md": "3d4ae9f9cec070e173bd4ace0ff3be17d373c6379ed55e5a5309023646d0e6ae",
+    "submission_schema.json": "08da83cb67cfa1792eccd054b013d89bca93d50cf8b5f0cd5b31dd923ad5f761",
+    "task.md": "dfc1883bb86af940daa56081b14f7dacff158e3c43eee979ac868b179670a766"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_cycloaddition_formation",
+      "r_imine_formation",
+      "r_product_competition_interpretation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "This is a product-family prediction task. Candidate structures are public but their experimental preference is withheld. A guessed winning product without calculations earns no credit.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

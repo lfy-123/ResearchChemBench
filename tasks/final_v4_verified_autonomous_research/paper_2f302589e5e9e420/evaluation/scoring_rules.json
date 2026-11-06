@@ -1,0 +1,124 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_polarity_effect",
+      "reference_id": "polarity_effect",
+      "type": "semantic",
+      "expected": "For full neutral-singlet EPI1/EPI2, quantify the sign and magnitude of the permanent-polarity difference for a declared matched molecular comparison, with units and numerical/conformational resolution. Individual-structure results use full vector magnitudes; population results use justified weights at a common temperature/environment and distinguish mean magnitude from mean squared moment. A source-like pair can show a decrease, whereas an explicitly bounded sampled population can show an increase; either passes when the actual calculation establishes that physical result and its limits. A zero isotropic laboratory-frame vector average, unmatched structures/conditions, or an unsupported sign fails. No private source-conformer value or prescribed sampling count is required in AR.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_molecular_mechanism",
+      "reference_id": "molecular_mechanism",
+      "type": "semantic",
+      "expected": "Explain the physical origin and configuration dependence of the computed substitution effect using actual molecular structure and electronic/vector evidence. The source-compatible explanation associates an OH···ortho-OMe interaction and local electrostatic redistribution with vector cancellation and reduced net dipole; these are supporting evidence, not independently mandatory author nodes. A different well-supported structural/electronic explanation of the measured computational effect passes directly, including a bounded ensemble reversal. Mere polar-group counting, an imposed contact, relabeling ESP as electron density, or listing signs without explaining the physical relation fails. Do not assert universal occupancy or unique causation from one pair.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_dielectric_relevance",
+      "reference_id": "dielectric_relevance",
+      "type": "semantic",
+      "expected": "Use the computed orientation-invariant permanent-moment response to decide whether this molecular comparison supports, opposes or cannot establish a reduced orientational-polarization contribution under otherwise matched temperature/density conditions. Connect the response to the relevant squared moment or fluctuation statistic. Explain the resulting compatibility or tension with the supplied bulk dielectric observation, including the specific unresolved role of population/network correlations and frequency response. A source-compatible decrease is supportive, not a quantitative resin dielectric constant; a supported population increase limits that source generalization. Repeating the observed lower dielectric constant or a generic disclaimer fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "polarity_effect",
+      "kind": "conclusion",
+      "max_score": 45,
+      "description": "Sign, magnitude and scope of the molecular polarity effect",
+      "rule_ids": [
+        "r_polarity_effect"
+      ],
+      "evidence_ids": [
+        "main_polarity",
+        "si_geometry",
+        "native_dipole_audit",
+        "native_bounded_population"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "molecular_mechanism",
+      "kind": "conclusion",
+      "max_score": 35,
+      "description": "Physical origin and scope of the substitution effect",
+      "rule_ids": [
+        "r_molecular_mechanism"
+      ],
+      "evidence_ids": [
+        "main_polarity",
+        "si_geometry",
+        "native_dipole_audit",
+        "native_bounded_population"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "dielectric_relevance",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Molecular contribution to interpretation of bulk dielectric behavior",
+      "rule_ids": [
+        "r_dielectric_relevance"
+      ],
+      "evidence_ids": [
+        "main_polarity",
+        "main_context",
+        "native_dipole_audit",
+        "native_bounded_population"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

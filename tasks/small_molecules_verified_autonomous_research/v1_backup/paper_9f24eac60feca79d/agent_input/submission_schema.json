@@ -1,0 +1,457 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+      "status",
+      "research_question",
+      "objects",
+      "methods",
+      "records",
+      "network",
+      "key_steps",
+      "results",
+      "conclusion",
+      "limitations",
+      "missing_work"
+    ],
+    "properties": {
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ],
+        "description": "Completion describes an executed, evidence-backed answer to the scoped question. An investigation with no models, operations, results or evidence is incomplete. Completion does not imply agreement with an expected mechanism or scientific full credit."
+      },
+      "research_question": {
+        "type": "string",
+        "minLength": 1
+      },
+      "objects": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "identity",
+            "charge",
+            "multiplicity",
+            "environment"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "identity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "environment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "mapped_smiles": {
+              "type": "string",
+              "minLength": 1
+            },
+            "geometry_path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "methods": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "status",
+            "object_ids",
+            "method",
+            "artifacts",
+            "finding"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "enum": [
+                "completed",
+                "partial",
+                "failed"
+              ]
+            },
+            "object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "artifacts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "path",
+                  "sha256",
+                  "locator"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "locator": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            "finding": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "network": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "description",
+            "step_ids"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "step_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "endpoint_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "key_steps": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "reactants",
+            "products",
+            "transformation",
+            "validation"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reactants": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "products": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "transformation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "transition_state_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "barrier": {
+              "type": "object",
+              "required": [
+                "id",
+                "observable",
+                "value",
+                "unit",
+                "definition_and_reference",
+                "object_ids",
+                "record_ids"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "observable": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "unit": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "definition_and_reference": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "object_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "record_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "uncertainty": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "unavailable_reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": true
+            },
+            "energy_reference": {
+              "type": "string",
+              "minLength": 1
+            },
+            "electron_reservoir": {
+              "type": "string",
+              "minLength": 1
+            },
+            "validation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "results": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "observable",
+            "value",
+            "unit",
+            "definition_and_reference",
+            "object_ids",
+            "record_ids"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "observable": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "definition_and_reference": {
+              "type": "string",
+              "minLength": 1
+            },
+            "object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "uncertainty": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unavailable_reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      },
+      "limitations": {
+        "type": "string",
+        "minLength": 1
+      },
+      "missing_work": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "research_log": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "additionalProperties": true,
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "objects": {
+              "minItems": 1
+            },
+            "methods": {
+              "minItems": 1
+            },
+            "records": {
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "artifacts": {
+                    "minItems": 1
+                  },
+                  "object_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            },
+            "results": {
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "object_ids": {
+                    "minItems": 1
+                  },
+                  "record_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

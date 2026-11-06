@@ -91,6 +91,8 @@ class TaskRepository:
     def _candidate_directories(self) -> list[Path]:
         if hasattr(self, "_approved_final_directories"):
             return list(self._approved_final_directories)
+        if hasattr(self, "_selected_v3_directories"):
+            return list(self._selected_v3_directories)
         candidates: list[Path] = []
         for root in self.roots:
             if not root.exists():
@@ -107,6 +109,38 @@ class TaskRepository:
                     if path.is_dir() and not path.is_symlink()
                 )
         return candidates
+
+    @classmethod
+    def from_v3(
+        cls, task_root: str | Path, *, selected_tasks: Iterable[tuple[str, str]]
+    ) -> "TaskRepository":
+        """Explicitly load selected V3 packages for development or evaluation.
+
+        Structural validity does not certify scientific verification. This
+        opt-in loader keeps staged upgrades out of default task discovery.
+        """
+        import re
+
+        root = Path(task_root).expanduser().resolve()
+        directories = []
+        seen = set()
+        for mode, paper_id in selected_tasks:
+            if mode not in {"autonomous_research", "paper_reproduction"}:
+                raise InvalidTaskPackageError(f"invalid_v3_mode:{mode}")
+            if not re.fullmatch(r"paper_[A-Za-z0-9]+", paper_id):
+                raise InvalidTaskPackageError(f"invalid_v3_paper_id:{paper_id}")
+            if (mode, paper_id) in seen:
+                raise DuplicateTaskError(f"duplicate_v3_selection:{mode}:{paper_id}")
+            seen.add((mode, paper_id))
+            directory = root / f"v3_{mode}" / paper_id
+            if directory.parent.is_symlink() or directory.is_symlink() or not directory.is_dir():
+                raise InvalidTaskPackageError(f"invalid_v3_directory:{directory}")
+            directories.append(directory)
+        repository = cls.__new__(cls)
+        repository.roots = (root,)
+        repository._selected_v3_directories = tuple(directories)
+        repository._index = repository._build_index()
+        return repository
 
     def _build_index(self) -> dict[tuple[str, str], TaskPackage]:
         index: dict[tuple[str, str], TaskPackage] = {}

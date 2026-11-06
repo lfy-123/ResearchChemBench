@@ -1,0 +1,586 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_b33676a2051f5e91"
+      },
+      "schema_version": {
+        "const": "autonomous-evidence-20261012"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure",
+          "input_blocked"
+        ]
+      },
+      "research_question": {
+        "type": "string",
+        "minLength": 1
+      },
+      "models": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "public_object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "description": "Relevant object IDs from the supplied molecular inventory; derived species use agent-defined model IDs."
+            },
+            "composition": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Complete composition of this model, including each fragment and all explicit participants."
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "electronic_state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "identity_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*[\\\\\\r\\n])(?!.*//)(?:(?:outputs|code|data|report|_tool_results|_tool_artifacts)/[^/]+(?:/[^/]+)*|_(?:tool_trace|tool_call_events|agent_events|agent_output|model_io)\\.jsonl)$",
+              "description": "Workspace-relative durable evidence path under outputs/ or code/, a supplied input under data/, or a registered public framework record. No symlinks or temporary/cache paths; referenced files and provenance must resolve."
+            },
+            "derivation_and_mapping": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Derivation and atom/electron correspondence to the public inventory."
+            },
+            "conditions": {
+              "type": "object",
+              "description": "Model environment, physical assumptions and experimental condition sources."
+            }
+          },
+          "required": [
+            "id",
+            "public_object_ids",
+            "composition",
+            "charge",
+            "electronic_state",
+            "identity_file",
+            "derivation_and_mapping",
+            "conditions"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "operations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "model_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "purpose": {
+              "type": "string",
+              "minLength": 1
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "input_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*[\\\\\\r\\n])(?!.*//)(?:(?:outputs|code|data|report|_tool_results|_tool_artifacts)/[^/]+(?:/[^/]+)*|_(?:tool_trace|tool_call_events|agent_events|agent_output|model_io)\\.jsonl)$",
+                "description": "Workspace-relative durable evidence path under outputs/ or code/, a supplied input under data/, or a registered public framework record. No symlinks or temporary/cache paths; referenced files and provenance must resolve."
+              }
+            },
+            "execution_record": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*[\\\\\\r\\n])(?!.*//)(?:(?:outputs|code|data|report|_tool_results|_tool_artifacts)/[^/]+(?:/[^/]+)*|_(?:tool_trace|tool_call_events|agent_events|agent_output|model_io)\\.jsonl)$",
+              "description": "Workspace-relative durable evidence path under outputs/ or code/, a supplied input under data/, or a registered public framework record. No symlinks or temporary/cache paths; referenced files and provenance must resolve."
+            },
+            "status": {
+              "enum": [
+                "completed",
+                "failed",
+                "partial"
+              ]
+            },
+            "artifact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "id",
+            "model_ids",
+            "purpose",
+            "method",
+            "input_files",
+            "execution_record",
+            "status",
+            "artifact_ids"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "artifacts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*[\\\\\\r\\n])(?!.*//)(?:(?:outputs|code|data|report|_tool_results|_tool_artifacts)/[^/]+(?:/[^/]+)*|_(?:tool_trace|tool_call_events|agent_events|agent_output|model_io)\\.jsonl)$",
+              "description": "Workspace-relative durable evidence path under outputs/ or code/, a supplied input under data/, or a registered public framework record. No symlinks or temporary/cache paths; referenced files and provenance must resolve."
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "role": {
+              "type": "string",
+              "minLength": 1
+            },
+            "origin": {
+              "enum": [
+                "public_input",
+                "generated_calculation",
+                "generated_analysis",
+                "execution_record"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "path",
+            "sha256",
+            "role",
+            "origin"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "results": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "quantity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              ]
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "model_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "operation_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "artifact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "state_definition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reference_definition": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Balanced reference, molecularity and energy zero for this result, including every term in any sum or difference."
+            },
+            "conditions": {
+              "type": "object"
+            },
+            "extraction_locator": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "quantity",
+            "value",
+            "unit",
+            "model_ids",
+            "operation_ids",
+            "artifact_ids",
+            "state_definition",
+            "reference_definition",
+            "conditions",
+            "extraction_locator"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "claims": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "statement": {
+              "type": "string",
+              "minLength": 1
+            },
+            "result_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "contradicted",
+                "unresolved",
+                "partial"
+              ]
+            },
+            "inference": {
+              "type": "string",
+              "minLength": 1
+            },
+            "scope": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "statement",
+            "result_ids",
+            "outcome",
+            "inference",
+            "scope"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "validations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "question": {
+              "type": "string",
+              "minLength": 1
+            },
+            "procedure": {
+              "type": "string",
+              "minLength": 1
+            },
+            "artifact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "result_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "outcome": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "claim_ids",
+            "question",
+            "procedure",
+            "artifact_ids",
+            "result_ids",
+            "outcome"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "proposition",
+            "status"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "decisions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "purpose": {
+              "type": "string",
+              "minLength": 1
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "observed_evidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "next_action": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "purpose",
+            "action"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "coverage": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "answer",
+          "claim_ids",
+          "coverage"
+        ],
+        "additionalProperties": true
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "cause": {
+            "type": "string",
+            "minLength": 1
+          },
+          "affected_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*[\\\\\\r\\n])(?!.*//)(?:(?:outputs|code|data|report|_tool_results|_tool_artifacts)/[^/]+(?:/[^/]+)*|_(?:tool_trace|tool_call_events|agent_events|agent_output|model_io)\\.jsonl)$",
+              "description": "Workspace-relative durable evidence path under outputs/ or code/, a supplied input under data/, or a registered public framework record. No symlinks or temporary/cache paths; referenced files and provenance must resolve."
+            }
+          }
+        },
+        "required": [
+          "cause",
+          "affected_scope",
+          "evidence_files"
+        ],
+        "additionalProperties": true
+      },
+      "resources": {
+        "type": "object"
+      },
+      "limitations": {
+        "type": [
+          "string",
+          "array",
+          "object",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "paper_id",
+      "schema_version",
+      "status",
+      "research_question",
+      "models",
+      "operations",
+      "artifacts",
+      "results",
+      "claims",
+      "validations",
+      "conclusion"
+    ],
+    "additionalProperties": true,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "models": {
+              "minItems": 1
+            },
+            "operations": {
+              "minItems": 1
+            },
+            "artifacts": {
+              "minItems": 1
+            },
+            "results": {
+              "minItems": 1
+            },
+            "claims": {
+              "minItems": 1
+            },
+            "validations": {
+              "minItems": 1
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "bounded_failure",
+                "input_blocked"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ]
+        }
+      }
+    ]
+  }
+}

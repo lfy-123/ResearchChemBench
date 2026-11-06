@@ -138,7 +138,7 @@ ACTION_SPECS = (
             "molecular_electronic",
             "Calculate a bounded set of vertical electronic excited states without constructing a broadened spectrum or propagating dynamics.",
             "ExcitedStateResult",
-            ("pyscf", "orca"),
+            ("pyscf", "orca", "gaussian"),
             ("structure",),
             input_description="non-periodic AtomicStructure plus explicit ground-state and excited-state methods",
         ),

@@ -1,0 +1,149 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Round-one scope: Explicit waters define finite hydration energy comparisons, not a required water-catalyzed path. Local ionic stabilization and net reaction thermodynamics are distinct conclusions.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "expert_round1_20261103",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_cumulative_f_dry",
+      "reference_id": "cumulative_f_dry",
+      "type": "semantic",
+      "expected": "Establish and interpret the favorable net thermodynamic driving force for PyO deoxygenation by preformed photoexcited H2PQ without added water. Use actual balanced Gibbs energies for G(ground-state PQ)+G(ground-state associated Py/generated water)-G(lowest-excited-singlet H2PQ)-G(ground-state PyO), in MeCN at 298.15 K and a 1 M solute standard state, with consistent conformer and thermal treatment. Explain that the products are thermodynamically accessible from this excited-reactant reference; this is the cumulative net transformation, not a local transfer increment, orbital gap or activation barrier. The reference predicts strongly favorable deoxygenation, but -115.1 kcal/mol and its magnitude are not matching targets. A negative number alone without the balanced transformation, correct states and physical interpretation fails. Equivalent computations using the defined reporting references pass; alternative mechanistic state/association models may be discussed separately but cannot replace this requested comparison. This endpoint conclusion does not establish rates, a unique transfer sequence or the operative solution association. It can pass independently of the hydrated result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_cumulative_f_water",
+      "reference_id": "cumulative_f_water",
+      "type": "semantic",
+      "expected": "Establish and interpret the favorable net thermodynamic driving force for the two-added-water deoxygenation scenario using actual balanced Gibbs energies. Compare ground-state PQ with one added water plus ground-state Py/generated-water association with one added water against lowest-excited-singlet H2PQ with one added water plus ground-state PyO with one added water, at 298.15 K, 1 M in MeCN. Preserve two added waters on each side; the generated water is additional. Use consistent state, conformer and thermal conventions and explain the net conversion from the excited hydrated reactants to the ground-state products. The reference predicts strongly favorable deoxygenation; -112.1 kcal/mol is context, not a target or tolerance. An unbalanced water inventory, a local transfer increment or a bare negative scalar fails. Established equivalent calculations under the reporting references pass. The hydrated endpoint result neither proves hydration accelerates a reaction nor selects a unique operative association or mechanism. It is independently scored from the dry result and from the microscopic hydration explanation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_reductant_molecular_role",
+      "reference_id": "reductant_molecular_role",
+      "type": "semantic",
+      "expected": "Explain, using actual computed electronic-state and reaction thermochemistry evidence, how photoactivated H2PQ can provide the coupled proton/electron equivalents that deoxygenate PyO while oxidizing to PQ. The reference supports both photoacid and photoreductant behavior, with two hydrogen equivalents transferred overall. Establish a chemically balanced thermodynamically plausible account, including the relevant state changes; a named intermediate list or negative total energy alone does not establish this explanation. Do not require an exclusive PT-then-ET or ET-then-PT sequence, the author intermediate chain, or a particular number of stationary points. Equivalent validated PCET/HAT descriptions pass when they account for the same bounded chemistry. Endpoint thermodynamics alone does not establish kinetic order or rates. The S1 reactant and product-association references in the two net thermodynamic comparisons define reported quantities only; they do not establish a unique reactive state or require those associations along a pathway. Assess alternative state/association models from their actual evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_local_hydration_effect",
+      "reference_id": "local_hydration_effect",
+      "type": "semantic",
+      "expected": "Demonstrate with balanced computed dry/hydrated comparisons that finite hydration differentially stabilizes relevant ionic transfer configurations, especially electron-transfer configurations. Interpret this local stabilization separately from the net deoxygenation driving forces. Source first ET -1.6 to -8.2 and second ET +7.4 to -9.6 kcal/mol are supporting examples, not mandatory nodes or matching targets. The source net hydrated reaction is slightly less exergonic (-112.1 versus -115.1 kcal/mol), so more favorable local ET must not be equated with a more favorable net endpoint. A physically equivalent supported stabilization account passes. The one-water-per-fragment allocation is mandatory for the two standardized net reports; other balanced finite hydration models may support the local explanation. No water-mediated proton relay, catalytic water pathway, optimum bulk water content or rate enhancement is established or required by these comparisons. Keep two added waters separate from the generated water.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "cumulative_f_dry",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Thermodynamic driving force for deoxygenation without added water",
+      "rule_ids": [
+        "r_cumulative_f_dry"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "cumulative_f_water",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Thermodynamic driving force for deoxygenation with two added waters",
+      "rule_ids": [
+        "r_cumulative_f_water"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "reductant_molecular_role",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Molecular basis of light-driven reduction by preformed H2PQ",
+      "rule_ids": [
+        "r_reductant_molecular_role"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "local_hydration_effect",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Why finite hydration changes reaction thermodynamics and what it can explain",
+      "rule_ids": [
+        "r_local_hydration_effect"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "required_for_whole_case_success_item_ids": [
+    "cumulative_f_dry",
+    "cumulative_f_water",
+    "reductant_molecular_role",
+    "local_hydration_effect"
+  ]
+}

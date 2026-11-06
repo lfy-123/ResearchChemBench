@@ -36,10 +36,10 @@ def atomic_json(path: Path, value) -> None:
 
 
 @contextmanager
-def file_lock(path: Path, *, blocking: bool = True):
+def file_lock(path: Path, *, blocking: bool = True, read_only: bool = False):
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a+") as handle:
-        fcntl.flock(handle, fcntl.LOCK_EX | (0 if blocking else fcntl.LOCK_NB))
+    with path.open('rb' if read_only else 'a+') as handle:
+        fcntl.flock(handle, (fcntl.LOCK_SH if read_only else fcntl.LOCK_EX) | (0 if blocking else fcntl.LOCK_NB))
         try:
             yield handle
         finally:

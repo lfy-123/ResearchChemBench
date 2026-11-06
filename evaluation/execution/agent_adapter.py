@@ -31,6 +31,12 @@ class AgentAdapterMixin:
         if self.agent.get("kind") == "external":
             from ..agent_plugins.protocol import normalize_external_event
             return normalize_external_event(event, run_id=self.run_id) or {}
+        if self.agent.get("kind") == "gemini":
+            from .gemini_adapter import capture
+            return capture(self, event)
+        if self.agent.get("kind") == "claude":
+            from .claude_adapter import capture
+            return capture(self, event)
         if event.get("type") == "thread.started":
             value = event.get("thread_id")
             if isinstance(value, str) and value:
@@ -126,6 +132,10 @@ class AgentAdapterMixin:
                     values[name] = os.environ[name]
         if extra:
             values.update(extra)
+        if self.tool_response_profile != "legacy":
+            values["RESEARCHCHEMBENCH_TOOL_RESPONSE_PROFILE"] = self.tool_response_profile
+        else:
+            values.pop("RESEARCHCHEMBENCH_TOOL_RESPONSE_PROFILE", None)
         if self.feedback_schema_version != 1:
             values["RESEARCHCHEMBENCH_FEEDBACK_SCHEMA_VERSION"] = str(self.feedback_schema_version)
         if self.native_input_validation_policy != "legacy":
@@ -163,6 +173,7 @@ class AgentAdapterMixin:
             from ..agent_plugins.external import build_external_environment
             return build_external_environment(self, self.agent)
         env = os.environ.copy()
+        env.pop("RESEARCHCHEMBENCH_TOOL_RESPONSE_PROFILE", None)
         env.pop("JUDGE_API_KEY", None)
         env.update(self._mcp_environment())
         env["PYTHONUNBUFFERED"] = "1"
@@ -173,6 +184,17 @@ class AgentAdapterMixin:
             [*ceilings, str(self.workspace.resolve()), str(self.workspace.resolve().parent)]))
         for key in ("GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES"):
             env.pop(key, None)
+        if self.agent.get("kind") == "gemini":
+            from .gemini_adapter import prepare
+            return prepare(self, env)
+        if self.agent.get("kind") == "claude" and self.context_window_tokens is not None:
+            from .claude_adapter import context_environment
+            env.update(context_environment(self.context_window_tokens, self.auto_compact_token_limit, env))
+            env.pop("DISABLE_AUTO_COMPACT", None)
+            env.pop("DISABLE_COMPACT", None)
+        if self.agent.get("kind") == "claude" and self.recovery_enabled:
+            from .claude_adapter import prepare
+            return prepare(self, env)
         if self.agent.get("kind") == "codex":
             # Keep provider session records inside the run so an exact resume
             # cannot accidentally select an operator's unrelated ~/.codex
@@ -185,6 +207,9 @@ class AgentAdapterMixin:
             env["CODEX_HOME"] = str(codex_home.resolve())
             if os.environ.get("RCB_CODEX_API_KEY"):
                 env["RCB_CODEX_API_KEY"] = os.environ["RCB_CODEX_API_KEY"]
+            transport = getattr(self, "_codex_history_transport", None)
+            if transport:
+                env["RCB_CODEX_HISTORY_TOKEN"] = transport.token
         if self.agent.get("kind") == "opencode":
             runtime_root = Path(
                 os.environ.get(
@@ -255,12 +280,14 @@ class AgentAdapterMixin:
         servers = {}
         for spec in self._mcp_server_specs():
             command = spec["command"]
-            servers[spec["name"]] = {
+            connection = getattr(self, '_mcp_connections', {}).get(spec['name'])
+            servers[spec["name"]] = ({'type': 'http', **connection, 'timeout': self.mcp_tool_timeout_ms} if connection else {
                     "type": "stdio",
                     "command": command[0],
                     "args": command[1:],
                     "env": spec["environment"],
-            }
+                    "timeout": self.mcp_tool_timeout_ms,
+            })
         config = {"mcpServers": servers}
         path = self.workspace / ".mcp.json"
         path.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
@@ -306,9 +333,9 @@ class AgentAdapterMixin:
             },
             "mcp": {
                 spec["name"]: {
-                    "type": "local",
-                    "command": spec["command"],
-                    "environment": spec["environment"],
+                    **({'type': 'remote', **self._mcp_connections[spec['name']]}
+                       if getattr(self, '_mcp_connections', {}).get(spec['name']) else
+                       {'type': 'local', 'command': spec['command'], 'environment': spec['environment']}),
                     # OpenCode otherwise applies a 30 s timeout to both MCP
                     # discovery and tool execution. Scientific backends such
                     # as finite-difference Hessians routinely exceed that.
@@ -330,10 +357,15 @@ class AgentAdapterMixin:
         kind = self.agent.get("kind")
         if kind == "external":
             from ..agent_plugins.external import build_external_argv
-            return build_external_argv(self.agent, self.workspace / "_agent_protocol/request.json")
+            return build_external_argv(self.agent, self.workspace / "_agent_protocol/request.json",
+                                       resume_context=getattr(self, "_external_resume_context", None))
         executable = self.agent.get("executable", "")
         prompt = self.instructions_path.read_text(encoding="utf-8")
         server_specs = self._mcp_server_specs()
+
+        if kind == "gemini":
+            from .gemini_adapter import argv
+            return argv(self)
 
         if kind == "mock":
             return [
@@ -347,6 +379,8 @@ class AgentAdapterMixin:
             ]
 
         if kind == "codex":
+            transport = getattr(self, "_codex_history_transport", None)
+            sandbox_mode = 'danger-full-access' if getattr(self, '_mcp_connections', None) else 'workspace-write'
             argv = [
                 executable,
                 "exec",
@@ -359,14 +393,21 @@ class AgentAdapterMixin:
                 argv.append(str(self._resume_session_id))
             argv.extend(["--ignore-user-config", "--skip-git-repo-check", "--json"])
             settings = {
-                "model": self.codex_model, "model_reasoning_effort": self.codex_reasoning_effort,
+                "model": self.codex_model,
                 "model_provider": "rcb", "model_providers.rcb.name": "ResearchChemBench",
-                "model_providers.rcb.base_url": self.codex_base_url,
-                "model_providers.rcb.env_key": "RCB_CODEX_API_KEY",
+                "model_providers.rcb.base_url": transport.base_url if transport else self.codex_base_url,
+                "model_providers.rcb.env_key": "RCB_CODEX_HISTORY_TOKEN" if transport else "RCB_CODEX_API_KEY",
                 "model_providers.rcb.wire_api": "responses",
-                "sandbox_mode": "workspace-write", "approval_policy": "never",
+                "model_providers.rcb.request_max_retries": 8,
+                "model_providers.rcb.stream_max_retries": 8,
+                "sandbox_mode": sandbox_mode, "approval_policy": "never",
                 "sandbox_workspace_write.network_access": True,
             }
+            if self.context_window_tokens is not None:
+                settings.update(model_context_window=self.context_window_tokens,
+                                model_auto_compact_token_limit=self.auto_compact_token_limit)
+            if self.codex_reasoning_effort != "default":
+                settings["model_reasoning_effort"] = self.codex_reasoning_effort
             if self.model_wait_strategy == "host_event_wait":
                 settings["features.code_mode.direct_only_tool_namespaces"] = ["mcp__chemistry_wait"]
             for name, value in settings.items():
@@ -377,7 +418,7 @@ class AgentAdapterMixin:
                         "-C",
                         str(self.workspace.resolve()),
                         "--sandbox",
-                        "workspace-write",
+                        sandbox_mode,
                     ]
                 )
             argv.extend(
@@ -391,6 +432,13 @@ class AgentAdapterMixin:
                 command = spec["command"]
                 if spec.get("disabled_tools"):
                     argv.extend(["-c", f"mcp_servers.{name}.disabled_tools=" + json.dumps(spec["disabled_tools"])])
+                connection = getattr(self, '_mcp_connections', {}).get(name)
+                if connection:
+                    for key, value in {'url': connection['url'], 'bearer_token_env_var': 'RCB_MCP_AUTH_TOKEN',
+                            'required': True, 'default_tools_approval_mode': 'approve', 'startup_timeout_sec': 60,
+                            'tool_timeout_sec': max(1, (self.mcp_tool_timeout_ms + 999) // 1000)}.items():
+                        argv.extend(['-c', f'mcp_servers.{name}.{key}=' + json.dumps(value)])
+                    continue
                 argv.extend(
                     [
                         "-c",
@@ -423,9 +471,19 @@ class AgentAdapterMixin:
 
         if kind == "claude":
             allowed_mcp = [f"mcp__{spec['name']}__*" for spec in server_specs]
+            turns = self.max_turns
+            session_args = [] if self.recovery_enabled else ["--no-session-persistence"]
+            if self._resume_session_id:
+                from .recovery import runner_store
+                turns -= runner_store(self).usage()["turns"]
+                session_args = ["--resume", self._resume_session_id]
+                prompt = self._recovery_notice or "Continue the original task using its saved computations."
             return [
                 executable,
                 "-p",
+                *(["--model", self.agent["model"]] if self.agent.get("model") else []),
+                "--setting-sources",
+                "",
                 "--strict-mcp-config",
                 "--mcp-config",
                 str((self.workspace / ".mcp.json").resolve()),
@@ -433,15 +491,15 @@ class AgentAdapterMixin:
                 "stream-json",
                 "--verbose",
                 "--max-turns",
-                str(self.max_turns),
+                str(turns),
                 "--tools",
-                "Read,Write,Edit",
+                "Read,Write,Edit,Bash,Glob,Grep",
                 "--allowedTools",
-                ",".join(["Read", "Write", "Edit", *allowed_mcp]),
+                ",".join(["Read", "Write", "Edit", "Bash", "Glob", "Grep", *allowed_mcp]),
                 "--permission-mode",
                 "dontAsk",
                 "--disable-slash-commands",
-                "--no-session-persistence",
+                *session_args,
                 prompt,
             ]
 

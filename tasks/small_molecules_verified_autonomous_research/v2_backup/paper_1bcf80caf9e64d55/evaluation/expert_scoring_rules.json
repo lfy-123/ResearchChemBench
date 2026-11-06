@@ -1,0 +1,274 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_10",
+  "source_paper_id": "paper_1bcf80caf9e64d55",
+  "scoring_policy": "scientific_results_only_binary_items",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence eligibility must pass; no arbitrary threshold such as 60 points is used. The original rules concern recovery of bounded literature conclusions and cannot establish a unique true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances; first review the comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not change tolerances unilaterally. Source numbers without a target provide context only and are not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to the system's identity assigns pass/fail/needs_review from native computational evidence. Equivalent mechanisms supporting the same physical proposition are permitted; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_phosphine_addition",
+      "reference_id": "phosphine_addition",
+      "type": "semantic",
+      "expected": "Genuine connected calculations support nucleophilic addition of PEt3 to the alkyne β-C, forming zwitterionic intermediate 2 with a P–C bond. Verify that PEt3 is C6H15P; C7H17P is not equivalent. This item assesses bond and charge rearrangement independently of a numerical match for TS1.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_initiation_energy",
+      "reference_id": "initiation_energy",
+      "type": "numeric",
+      "expected": "Using initial complex 1 in Fig.S1 as zero, the target relative G of TS1 is 18.9 kcal/mol with an absolute tolerance of 1.0 kcal/mol; include all spectator material and maintain 383.15 K. Do not directly compare results using separated-reactant zeroes, isomeric phosphines or different chemical compositions.",
+      "target": 18.9,
+      "tolerance": 1.0,
+      "unit": "kcal/mol",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_cyclization",
+      "reference_id": "cyclization",
+      "type": "semantic",
+      "expected": "Genuine connectivity and reaction modes of intermediate 2 support intramolecular attack on the ester carbonyl to construct five-membered-ring intermediate 3; preserve the complete side chain and atom mapping. The source common-reference heights of 8.2 for TS2 and 1.9 kcal/mol for 3 provide background only; do not treat 8.2 as a local activation energy.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_alkoxide_proton_transfer",
+      "reference_id": "alkoxide_proton_transfer",
+      "type": "semantic",
+      "expected": "Genuine connected calculations support alkoxide departure after cyclization and proton transfer involving 4-fluorophenol, producing a nucleophile capable of subsequent addition while conserving the ethanol equivalent and all atoms/charges. Associations of different fragments must be explicit; disconnected scalar nodes cannot substitute for chemical connectivity.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_nucleophile_incorporation",
+      "reference_id": "nucleophile_incorporation",
+      "type": "semantic",
+      "expected": "Computed TS4 and its connected endpoints support formation of the product's required C–O connectivity by the 4-fluorophenoxide nucleophile, preserving the five-membered ring and E-cinnamyl side chain. Source values of 2.8 for TS4 and −8.3 for 7 are background common-reference heights; no additional numerical threshold is imposed.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_phosphine_regeneration",
+      "reference_id": "phosphine_regeneration",
+      "type": "semantic",
+      "expected": "Actual subsequent connectivity supports C–P cleavage and release of the correct neutral PEt3 as a recyclable catalyst; simply writing PEt3 on both sides of the reaction equation is insufficient. Maintain balanced spectator material such as ethanol. The source common-reference height of −0.9 for TS5 provides background only.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_product_structure",
+      "reference_id": "product_structure",
+      "type": "semantic",
+      "expected": "The actual endpoint graph is the observed aryloxycyclopentenone and retains the E-cinnamyl side chain, with atom origins traceable to the substrate/4-fluorophenol and ethanol coproduct. Do not substitute a simplified product that deletes the side chain or changes the phosphine; merely repeating the supplied product graph does not pass.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_reaction_free_energy",
+      "reference_id": "reaction_free_energy",
+      "type": "numeric",
+      "expected": "Using Fig.S1 complex 1 and matched spectator material as the initial reference, the balanced endpoint of product 9, PEt3 and ethanol has a target relative G of −24.7 kcal/mol with an absolute tolerance of 2.0 kcal/mol. Maintain 383.15 K and compatible solvent and standard state; do not use separated-reactant values or authors' energies to fill gaps in local calculations.",
+      "target": -24.7,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_initial_step_order",
+      "reference_id": "initial_step_order",
+      "type": "semantic",
+      "expected": "With the same complete material inventory and complex 1 as zero, actual comparison of the relevant saddle points along route A supports that initial phosphine addition is the highest and subsequent key saddle points are lower. A single TS1 number cannot establish the ordering of the entire profile; do not claim that concentration-dependent microkinetics have been established.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_migration_competition",
+      "reference_id": "migration_competition",
+      "type": "semantic",
+      "expected": "Comparison from the common zwitterionic branch point with a consistent material reference provides actual competing-pathway evidence that the bottleneck of B's alcohol-assisted sequential 1,3-migrations lies higher than the cyclization route after branch A. Enumerating every B node is unnecessary; uncomputed later B states must not be described as independently established.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_route_conclusion",
+      "reference_id": "route_conclusion",
+      "type": "semantic",
+      "expected": "In the final conclusion, explicitly select route A, comprising PEt3-initiated zwitterion formation followed by direct cyclization, nucleophile incorporation and phosphine regeneration. Integrate actual connectivity, the complete observed product and migration-competition evidence to explain why this route is preferred. Merely listing candidate A does not earn credit; the conclusion is restricted to the investigated models and does not establish a globally unique mechanism.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    },
+    {
+      "rule_id": "r_accessibility_conclusion",
+      "reference_id": "accessibility_conclusion",
+      "type": "semantic",
+      "expected": "In the final conclusion, explain reaction accessibility using an actual complete free-energy profile and balanced endpoint: initial addition incurs the main energetic cost, and subsequent steps lead to an overall downhill product. Relate this to the 110°C conditions without treating 12 h or yield as an elementary rate constant. Passing the exact product-G window is not required, and a negative composite local difference cannot establish a negative physical barrier.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "phosphine_addition",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "PEt3 addition and the zwitterion",
+      "rule_ids": [
+        "r_phosphine_addition"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "initiation_energy",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Free-energy height of initial addition",
+      "rule_ids": [
+        "r_initiation_energy"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "cyclization",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Intramolecular cyclization",
+      "rule_ids": [
+        "r_cyclization"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "alkoxide_proton_transfer",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Alkoxide departure and nucleophile generation",
+      "rule_ids": [
+        "r_alkoxide_proton_transfer"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "nucleophile_incorporation",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Nucleophile incorporation into the product skeleton",
+      "rule_ids": [
+        "r_nucleophile_incorporation"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "phosphine_regeneration",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "PEt3 regeneration",
+      "rule_ids": [
+        "r_phosphine_regeneration"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "product_structure",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Complete cyclopentenone product",
+      "rule_ids": [
+        "r_product_structure"
+      ],
+      "evidence_ids": [
+        "pe_main",
+        "pe_a"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "reaction_free_energy",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Total free energy of the balanced products",
+      "rule_ids": [
+        "r_reaction_free_energy"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "initial_step_order",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "The initial step is the highest saddle point on the investigated profile",
+      "rule_ids": [
+        "r_initial_step_order"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "migration_competition",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "Comparison of direct cyclization and migration branches",
+      "rule_ids": [
+        "r_migration_competition"
+      ],
+      "evidence_ids": [
+        "pe_a",
+        "pe_b"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "route_conclusion",
+      "kind": "conclusion",
+      "max_score": 12,
+      "description": "Final: select the direct-cyclization catalytic route",
+      "rule_ids": [
+        "r_route_conclusion"
+      ],
+      "evidence_ids": [
+        "pe_a",
+        "pe_b",
+        "pe_main"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "accessibility_conclusion",
+      "kind": "conclusion",
+      "max_score": 12,
+      "description": "Final: kinetic and thermodynamic accessibility",
+      "rule_ids": [
+        "r_accessibility_conclusion"
+      ],
+      "evidence_ids": [
+        "pe_a",
+        "pe_main"
+      ],
+      "required_for_whole_case_success": true
+    }
+  ],
+  "scope_changes": [],
+  "reference_issues": [
+    "The existing product free-energy residual is approximately −7.087. The rules primarily assess scientific propositions; no additional exact numerical thresholds were introduced. Stoichiometric balance, geometries and thermal corrections must be reviewed before quantitative comparison."
+  ],
+  "source_location": "Main text p4–5 Scheme 4/5; SI from p97 onward",
+  "source_files": [
+    "03_论文原文_仅供评测者/case_10/main.pdf",
+    "03_论文原文_仅供评测者/case_10/supplementary_001.pdf"
+  ]
+}

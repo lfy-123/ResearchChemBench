@@ -1,0 +1,22 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "case_id": "case_01",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "existing_verification_reference_reused": true,
+  "new_quantum_validation_performed": false,
+  "new_agent_run_performed": false,
+  "scientific_acceptance_reassessed_this_migration": false,
+  "scoring_definition_reviewed": true,
+  "numerical_evidence_policy": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。",
+  "verification_support": "正文 Fig.5、结论及 SI 能量/频率表；历史验证有两条重排通道、相关振动和四方向连接/端点支持。",
+  "reference_issues": [
+    "只覆盖给定 3a/S，不加入论文其他底物的双自由基、负活化能或轨迹结论。",
+    "P1/P2 结构已给定，单独重画产物、找到一个 TS 或复述反应名称均不计分。",
+    "机制结论与通道排序是不同科学问题；不要求作者的双船构象或固定搜索方法。",
+    "路线解释与关键 TS 化学确认分别计分；可靠替代机制可接受，真实分子图/立体映射优先于单独 CIP 标签，算法标签差异不单独导致失分。"
+  ],
+  "human_review_resolution": "每条30分机制拆为有据路线15分和关键TS化学确认15分；竞争40分保留。“任意路线”须有真实计算支持，不解释为猜路线即可得分。",
+  "note": "Reference definitions and scoring have been audited; this is not new quantum validation, a blind agent run, strict numeric reproduction or publication approval. Native logs and historical verification remain unchanged.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail."
+}

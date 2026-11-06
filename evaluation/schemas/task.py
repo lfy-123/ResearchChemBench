@@ -75,7 +75,7 @@ class GroundTruth(BaseModel):
     expected_tool_calls: list[dict[str, Any]] = Field(default_factory=list)
     expected_result: Any = ""
     expected_structured_output: Any = None
-    evaluation_mode: Literal["binary", "rubric_100", "dual_axis_100"] = "binary"
+    evaluation_mode: Literal["binary", "rubric_100", "dual_axis_100", "paper_science_100", "final_results_100"] = "binary"
     evaluation_profile: Literal[
         "", "autonomous_discovery", "paper_reproduction"
     ] = ""
@@ -95,17 +95,24 @@ class GroundTruth(BaseModel):
 
     @model_validator(mode="after")
     def validate_scoring_definition(self) -> "GroundTruth":
+        if self.evaluation_mode == "final_results_100":
+            from ..scoring.final_results import validate_runtime
+            validate_runtime(self)
+            return self
         if self.evaluation_mode == "binary":
             if self.score_max != 1:
                 raise ValueError("binary evaluation requires score_max=1")
             return self
         if self.score_max != 100:
             raise ValueError("100-point evaluation modes require score_max=100")
-        if not self.scoring_rubric:
+        rubric = self.scientific_conclusion_rubric if self.evaluation_mode == "paper_science_100" else self.scoring_rubric
+        if self.evaluation_mode == "paper_science_100" and (self.scoring_rubric or self.dual_axis_scoring_policy):
+            raise ValueError("paper_science_100 has no process rubric or dual-axis policy")
+        if not rubric:
             raise ValueError("100-point evaluation modes require a non-empty scoring_rubric")
         criterion_ids: list[str] = []
         maximum_total = 0.0
-        for criterion in self.scoring_rubric:
+        for criterion in rubric:
             criterion_id = str(criterion.get("id") or "").strip()
             maximum = float(criterion.get("max_score") or 0)
             if not criterion_id or maximum <= 0:

@@ -1,0 +1,34 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "scope_upgrade": "20261011T081201Z/group_06",
+  "status": "CURRENT_BOUNDED_SCOPE_VERIFIED",
+  "structural_validation_is_not_scientific_pass": true,
+  "scientific_pass": true,
+  "release_ready": false,
+  "historical_reference_sha256": "43558d7dd514008228cf8118ed5bb46086e8d5a325802db0f13f24a57b74d92f",
+  "historical_reference_bytes_preserved": false,
+  "current_target_ids": [
+    "kp_thermodynamics",
+    "kp_condition_dependence",
+    "kp_recycling",
+    "c_stereochemistry"
+  ],
+  "target_map": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/reports/paper_4e9774f4128551d3/target_map.json",
+  "verification_plan": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/reports/paper_4e9774f4128551d3/verification_plan.md",
+  "remaining_issues": [
+    "Current thermodynamics, bounded condition and recycling results have 2026-10-12 PASS evidence; release/judge calibration is separate and no blind AR run is claimed.",
+    "Source solvent-ratio and implementation differences remain documented.",
+    "Actual protonation TS/kinetics or exact single-pass selectivity are not certified and are not new mandatory results."
+  ],
+  "old_policy_is_inactive": "Archived legacy evaluations and provenance describe prior contracts; only current evaluation/*.json scientific targets/rules are active.",
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Current bounded scientific coverage is accepted. Exact-source, scoring and release qualifications remain separate; this does not certify every result in the paper.",
+  "historical_reference_byte_preservation_note": "The live reference now has an explicit status header and corrected historical strategy label; byte-exact pre-maintenance content is preserved in the archive, not claimed for the live file.",
+  "pre_maintenance_reference_archive": {
+    "path": "docs/handle/自主科研11篇_最小修复_20261017/before/paper_4e9774f4128551d3/evaluation/verified_computation_reference.md",
+    "sha256": "9bf9923f82f45bbad3d9ad4dc7899d96a7ac17ee649d3f459e9a56ff86300783"
+  }
+}

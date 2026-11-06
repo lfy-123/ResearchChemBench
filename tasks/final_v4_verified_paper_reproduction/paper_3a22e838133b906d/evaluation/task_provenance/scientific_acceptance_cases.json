@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.579976+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_3a22e838133b906d/documents/main.pdf",
+      "sha256": "0b3a6429a4f8d324616b78c736daedf397971e63fdeff848f1b28058a39a1238",
+      "locator": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p2 Scheme1为Cy/OEt真实物种及LiI去烷基化，描述MeCN和二聚晶体；SI p78明确原DFT用了model neutral/anion。",
+      "actual_read_pages_and_sections": "Main pp2–3 Scheme1/Fig1 and Scheme2; SI pp62,69 crystallographic tables (previous source review) and p78 complete computational method re-read."
+    },
+    {
+      "path": "papers/paper_3a22e838133b906d/documents/supplementary_001.pdf",
+      "sha256": "0179f85740483c73a9996ca3c5ef36fd4f0044eca862b18eadc90e03463a7235",
+      "locator": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p2 Scheme1为Cy/OEt真实物种及LiI去烷基化，描述MeCN和二聚晶体；SI p78明确原DFT用了model neutral/anion。",
+      "actual_read_pages_and_sections": "Main pp2–3 Scheme1/Fig1 and Scheme2; SI pp62,69 crystallographic tables (previous source review) and p78 complete computational method re-read."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "Correct full neutral/dealkylated-anion identities and consistently mapped P/B/O observations support a local structural account with justified model/environment choices.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Real local-model evidence cannot uniquely attribute the crystalline bond change to one cause; the observed change remains distinct from an unsupported association mechanism.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "The author methyl-substituted model is called the full experimental molecule, or different crystal O labels are compared without mapping and an invented Li association ladder is required.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A justified small-model bond response is reported with representation limits; it is not called a complete crystal or Li2O2 aggregation calculation.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular account of the local B/O/P structural differences between phosphonate–borane2a and its dealkylated lithium salt is supported by the crystallographic observations and a defensible model investigation? Determine what can be attributed within the studied models and where experimental environment or model representation limits the conclusion.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Check full Cy/OEt identities and deethylation bookkeeping, distinguish the B-interacting O atom from other phosphonate oxygens through explicit mapping, and preserve Li/MeCN charge/stoichiometry in whatever models are used. Coordinate and atom labels from different crystal/model files are not automatically equivalent. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Any attribution must be supported by evidence capable of separating the claimed effects, with explicitly defined model/environment and uncertainty. Verify structures to the extent claimed; thermodynamic/association claims require balanced reference states and conventions. An observed crystal dimer does not itself validate a finite optimized dimer or mandate its calculation for a narrower conclusion. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Conclusions concern the full experimental identities or explicitly labeled approximations. A methyl-truncated model does not automatically establish the geometry of the full Cy/OEt lithium salt. Finite structures do not prove solution aggregation, reaction kinetics, solubility, electrolyte performance or thermal robustness. A gas-phase model and a crystal are different physical environments. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

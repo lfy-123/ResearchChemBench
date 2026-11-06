@@ -1,0 +1,213 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_cycloaddition_formation",
+      "r_imine_formation",
+      "r_product_competition_interpretation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "This is a product-family prediction task. Candidate structures are public but their experimental preference is withheld. A guessed winning product without calculations earns no credit.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Which of the two supplied net product families, bicyclic and imine, is kinetically favored from the specified N-allyl gem-difluoroenamine under the defined thermal model, and what molecular and electronic factors explain the competition? This is a prediction task: both candidate connectivities are supplied, but their experimental preference and relative calculated energies are not.",
+  "active_rule_ids": [
+    "r_cycloaddition_formation",
+    "r_imine_formation",
+    "r_product_competition_interpretation"
+  ],
+  "current_outcome_ids": [
+    "cycloaddition_formation",
+    "imine_formation",
+    "product_competition_interpretation"
+  ],
+  "historical_record": {
+    "paper_id": "paper_9f24eac60feca79d",
+    "scoring_policy": "paper_science_v3",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "verification_status": "V3_NOT_REASSESSED",
+    "current_scientific_question_verified": false,
+    "required_results_complete": false,
+    "required_conclusions_supported": false,
+    "expert_review_required": true,
+    "expert_review_notes": "Assess the per-outcome native evidence and retained physical/numerical limitations. Historical process-score text is inactive; only V3 final conclusions receive credit.",
+    "acceptance_decision": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/parent_acceptance_decision.json",
+    "independent_audit": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+    "release_note": "评分迁移和当前科学问题验证不自动授予出版批准；尚无专家发布裁定。",
+    "scoring_mode": "final_results_100",
+    "status": "V3_DESIGN_AND_EVIDENCE_MAPPING_COMPLETE",
+    "current_scope_verified": false,
+    "scientific_acceptance_reassessed_this_migration": false,
+    "new_quantum_validation_performed": false,
+    "new_arche_run_performed": false,
+    "historical_reference_status": {
+      "verification_status": "RESULTS_REPRODUCED",
+      "strict_numeric_whole_pass": true
+    },
+    "reason": "Final outcomes were mapped individually to source and existing native evidence. Historical acceptance is not inherited. See outcome_evidence_coverage and the per-paper Chinese change record.",
+    "outcome_count": 3,
+    "active_rule_ids": [
+      "r_cycloaddition_formation",
+      "r_imine_formation",
+      "r_product_competition_interpretation"
+    ],
+    "historical_non_scoring_numeric_pass_scope": "The historical native reference meets both unchanged hard windows; this is evidence coverage, not a new V3 run or current submission PASS.",
+    "historical_non_scoring_outcome_evidence_coverage": [
+      {
+        "rule_id": "r_overall_cycloaddition_barrier",
+        "source": "Main PDF pp.7-8/Figure4a; SI PDF pp.23-26 (S22-S25), methods and Supplementary Figures3-5",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+        "actual_evidence": "Native overall height 31.01240299650827 kcal/mol from Int1, error +0.0124029965 vs original31.0; qualified main closure28.343666749, pucker19.910706 and newly qualified rotation19.026829816 remain below initial TS. Numeric evidence lies in unchanged [29.0,33.0].",
+        "coverage": "Existing latest native evidence covers the bounded outcome; author-informed finite candidates, broken-symmetry contamination and implementation-control differences remain. No new quantum or blind autonomous validation in this migration."
+      },
+      {
+        "rule_id": "r_overall_imine_barrier",
+        "source": "Main PDF pp.7-8/Figure4a; SI PDF pp.23-26 (S22-S25), methods and Supplementary Figures3-5",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+        "actual_evidence": "Native closed-shell trans-imine height37.09261211976716 kcal/mol, error -0.0073878802 vs original37.1; two-sided TS8 endpoints and cis39.969492/stepwise40.918456 comparisons. Numeric evidence lies in unchanged [35.1,39.1].",
+        "coverage": "Existing latest native evidence covers the bounded outcome; author-informed finite candidates, broken-symmetry contamination and implementation-control differences remain. No new quantum or blind autonomous validation in this migration."
+      },
+      {
+        "rule_id": "r_thermal_mechanism_explanation",
+        "source": "Main PDF pp.7-8/Figure4a; SI PDF pp.23-26 (S22-S25), methods and Supplementary Figures3-5",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+        "actual_evidence": "Own OSS state/bond-mode/endpoint evidence plus conformational route; restricted CSS initial38.733078762 has R-to-U instability, triplet50.848579881; new torsional Hessian -17.6271356 cm^-1, rotational-mode overlap0.993076. Source source-label mapping: ZIP TS5 equals main-text TS4.",
+        "coverage": "Existing latest native evidence covers the bounded outcome; author-informed finite candidates, broken-symmetry contamination and implementation-control differences remain. No new quantum or blind autonomous validation in this migration."
+      },
+      {
+        "rule_id": "r_product_competition_interpretation",
+        "source": "Main PDF pp.7-8/Figure4a; SI PDF pp.23-26 (S22-S25), methods and Supplementary Figures3-5",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+        "actual_evidence": "Common-reference imine minus cycloaddition6.080209123258889 kcal/mol supports kinetic preference; chemical connectivity/state evidence is present. Does not establish exact observed yield or exhaustive conformer coverage.",
+        "coverage": "Existing latest native evidence covers the bounded outcome; author-informed finite candidates, broken-symmetry contamination and implementation-control differences remain. No new quantum or blind autonomous validation in this migration."
+      }
+    ],
+    "historical_non_scoring_strict_numeric_whole_pass": false,
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_cycloaddition_formation",
+        "r_imine_formation",
+        "r_product_competition_interpretation"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    },
+    "outcome_evidence_coverage": [
+      {
+        "scientific_requirement": "必需结果1与3：双环整体活化、连接及电子/成键解释",
+        "rule_id": "r_cycloaddition_formation",
+        "conclusion_id": "cycloaddition_formation",
+        "independence": "回答双环如何热形成，不借亚胺相对高低作为充分判据。",
+        "source_locator": "正文PDF7–8 Fig.4a；SI PDF23–26，方法及Supplementary Fig.3–5",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/native_return.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/verification_matrix.json"
+        ],
+        "existing_support": "OSS路线整体31.012403；闭环28.343667、必要转动19.026830均更低；CSS受限解有R→U不稳定。",
+        "limits": [
+          "破缺对称态的自旋污染与受限CSS波函数不稳定必须按实际物理状态解释。",
+          "已有作者引导有限候选和连接审计不等于盲发现或全局穷尽；保留方法/实现差别。",
+          "孤立烯胺暗对照为N-(4-氯苯基)类似物；不能定量移用到给定N-苯基模型。"
+        ],
+        "evidence_ids": [
+          "e_profile",
+          "e_method",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果2：同参照亚胺族整体活化及形成连接",
+        "rule_id": "r_imine_formation",
+        "conclusion_id": "imine_formation",
+        "independence": "回答亚胺如何形成及所需活化，可独立于双环机理解释成立。",
+        "source_locator": "正文PDF7–8 Fig.4a；SI PDF23–26，方法及Supplementary Fig.3–5",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/native_return.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/verification_matrix.json"
+        ],
+        "existing_support": "闭壳层trans-imine 37.092612，two-sided TS8连接；cis39.969492和stepwise40.918456为有限候选。",
+        "limits": [
+          "破缺对称态的自旋污染与受限CSS波函数不稳定必须按实际物理状态解释。",
+          "已有作者引导有限候选和连接审计不等于盲发现或全局穷尽；保留方法/实现差别。",
+          "孤立烯胺暗对照为N-(4-氯苯基)类似物；不能定量移用到给定N-苯基模型。"
+        ],
+        "evidence_ids": [
+          "e_profile",
+          "e_method",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果4：两产物族动力学竞争及实验解释边界",
+        "rule_id": "r_product_competition_interpretation",
+        "conclusion_id": "product_competition_interpretation",
+        "independence": "比较两族的竞争及观察意义，不再次奖励单条路径或绝对势垒数字。",
+        "source_locator": "正文PDF7–8 Fig.4a；SI PDF23–26，方法及Supplementary Fig.3–5",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/native_return.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/verification_matrix.json"
+        ],
+        "existing_support": "同参照imine−cycloaddition=6.080209 kcal/mol支持双环动力学优势；不是80°C精确收率。",
+        "limits": [
+          "破缺对称态的自旋污染与受限CSS波函数不稳定必须按实际物理状态解释。",
+          "已有作者引导有限候选和连接审计不等于盲发现或全局穷尽；保留方法/实现差别。",
+          "孤立烯胺暗对照为N-(4-氯苯基)类似物；不能定量移用到给定N-苯基模型。"
+        ],
+        "evidence_ids": [
+          "e_profile",
+          "e_method",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      }
+    ],
+    "objective_issue_flags": [
+      {
+        "issue": "破缺对称态的自旋污染与受限CSS波函数不稳定必须按实际物理状态解释。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "已有作者引导有限候选和连接审计不等于盲发现或全局穷尽；保留方法/实现差别。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "孤立烯胺暗对照为N-(4-氯苯基)类似物；不能定量移用到给定N-苯基模型。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      }
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "cycloaddition_formation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "imine_formation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "product_competition_interpretation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

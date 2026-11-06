@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_f2a9e1bc87fc9b54",
+  "task_type": "autonomous_research",
+  "title": "Computational investigation of nitropyrrole N-alkylation",
+  "category": "Small-molecule homogeneous organic reaction chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "A connected reaction explanation must be established from starting identities without a supplied pathway or optimized geometries.",
+    "The molecular base/reagent chemistry in solvent requires defensible model choices and explicit limits on mechanistic inference.",
+    "Reliable conclusions require actual computation, claim-appropriate validation and separation of energetic difficulty from net product formation."
+  ],
+  "paper": {
+    "title": "Synthesis and characterization of N-propargyl-3-nitropyrrole derivatives: in silico molecular docking studies, and cytotoxic activities in lung cancer",
+    "doi": "10.1016/j.molstruc.2025.144925",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-03-15"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "The scientific question and neutral starting chemical identities, reaction conditions and isolated-product observation."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Shared-schema research records with linked hypotheses, investigations, actual evidence, conclusions and reproducibility information."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific account of executed research, the connected explanation, energetic and structural support, uncertainty and resource use."
+    },
+    {
+      "path": "research/",
+      "description": "Actual molecular inputs, raw computational outputs, logs and analysis code referenced by the report and results."
+    }
+  ]
+}

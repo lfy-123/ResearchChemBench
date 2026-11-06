@@ -112,13 +112,63 @@ class WorkspaceTextWriteRequest(BaseModel):
     overwrite: bool = False
 
 
+def _workspace_read_default() -> int:
+    from .response_policy import compact_enabled, DEFAULT_TEXT_CHARS
+    return DEFAULT_TEXT_CHARS if compact_enabled() else 100_000
+
+
 class WorkspaceTextReadRequest(BaseModel):
     """Read an existing UTF-8 workspace file with an explicit output limit."""
 
     model_config = ConfigDict(extra="forbid")
 
     path: str = Field(min_length=1, max_length=1000)
-    max_chars: int = Field(default=100_000, ge=1, le=2_000_000)
+    max_chars: int = Field(default_factory=_workspace_read_default, ge=1, le=2_000_000,
+        description="Defaults to 4000 characters in compact mode, 100000 in legacy; final response budget still applies.")
+    offset: int = Field(default=0, ge=0, description="Zero-based Unicode character offset.")
+    end_offset: int | None = Field(default=None, ge=0, description="Exclusive character end; used for exact range continuation.")
+    start_line: int | None = Field(default=None, ge=1)
+    end_line: int | None = Field(default=None, ge=1)
+    json_pointer: str | None = Field(default=None, max_length=2000)
+    start_index: int = Field(default=0, ge=0)
+    max_items: int = Field(default=100, ge=1, le=1000)
+    expected_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+
+    @model_validator(mode="after")
+    def validate_selection(self):
+        lines = self.start_line is not None or self.end_line is not None
+        text_range = self.offset != 0 or self.end_offset is not None
+        if sum((lines, text_range, self.json_pointer is not None)) > 1:
+            raise ValueError("text offsets, line ranges and JSON Pointer are mutually exclusive")
+        if self.end_line is not None and self.end_line < (self.start_line or 1):
+            raise ValueError("end_line precedes start_line")
+        if self.end_offset is not None and self.end_offset < self.offset:
+            raise ValueError("end_offset precedes offset")
+        if self.json_pointer is not None and self.json_pointer and not self.json_pointer.startswith("/"):
+            raise ValueError("JSON Pointer must be empty or start with /")
+        if self.json_pointer is None and (self.start_index or self.max_items != 100):
+            raise ValueError("array pagination requires json_pointer")
+        return self
+
+
+class ResponsePageRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    cursor: str = Field(min_length=1, max_length=16000)
+
+
+class ExecutionJobListRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    states: list[str] | None = Field(default=None, max_length=30)
+    entity_types: list[Literal["job", "batch"]] | None = None
+    page_size: int = Field(default=25, ge=1, le=100)
+    cursor: str | None = Field(default=None, max_length=16000)
+    include_result_facts: bool = False
+
+    @model_validator(mode="after")
+    def validate_cursor(self):
+        if self.cursor and (self.states is not None or self.entity_types is not None or self.include_result_facts):
+            raise ValueError("cursor continues a fixed query; omit filters")
+        return self
 
 
 class StagedInput(BaseModel):
@@ -140,7 +190,7 @@ class AnalysisInputDeclaration(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    name: str
+    name: str = Field(description="Case-sensitive logical identifier, preserved exactly; use the same name in JobContext.input().")
     source_path: str = Field(min_length=1, max_length=1000)
     semantic_type: str = Field(default="InputFile", min_length=1, max_length=200)
     target_path: str | None = Field(default=None, max_length=1000)
@@ -148,7 +198,7 @@ class AnalysisInputDeclaration(BaseModel):
     @field_validator("name")
     @classmethod
     def validate_name(cls, value: str) -> str:
-        return _catalog_name(value, field_name="input name")
+        return _analysis_name(value, field_name="input name")
 
     @model_validator(mode="after")
     def set_target_path(self) -> "AnalysisInputDeclaration":
@@ -166,7 +216,7 @@ class AnalysisOutputDeclaration(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    name: str
+    name: str = Field(description="Case-sensitive logical identifier, preserved exactly; use the same name in JobContext output helpers.")
     path: str = Field(min_length=1, max_length=1000)
     semantic_type: str = Field(min_length=1, max_length=200)
     media_type: str = Field(default="application/octet-stream", min_length=1, max_length=200)
@@ -178,14 +228,14 @@ class AnalysisOutputDeclaration(BaseModel):
     @field_validator("name")
     @classmethod
     def validate_name(cls, value: str) -> str:
-        return _catalog_name(value, field_name="output name")
+        return _analysis_name(value, field_name="output name")
 
     @field_validator("path")
     @classmethod
     def validate_path(cls, value: str) -> str:
         normalized = _validate_relative_target(value)
-        if PurePosixPath(normalized).parts[0] not in {"outputs", "report", "logs"}:
-            raise ValueError("analysis output path must be under outputs/, report/, or logs/")
+        if PurePosixPath(normalized).parts[0] not in {"outputs", "report", "research", "logs"}:
+            raise ValueError("analysis output path must be under outputs/, report/, research/, or logs/")
         return normalized
 
 
@@ -201,11 +251,10 @@ class AnalysisInputInspectionRequest(BaseModel):
     include_scalar_samples: bool = False
 
 
-def _catalog_name(value: str, *, field_name: str) -> str:
-    normalized = value.strip().lower().replace("-", "_")
-    if not _SOFTWARE_ID.fullmatch(normalized):
-        raise ValueError(f"{field_name} must use lower_snake_case")
-    return normalized
+def _analysis_name(value: str, *, field_name: str) -> str:
+    if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", value):
+        raise ValueError(f"{field_name} must be an identifier (letters, digits, underscores); case is preserved")
+    return value
 
 
 class NativeJobRequest(BaseModel):
@@ -317,7 +366,10 @@ class AnalysisJobRequest(BaseModel):
     arguments: list[str] = Field(default_factory=list, max_length=500)
     staged_inputs: list[StagedInput] = Field(default_factory=list, max_length=1000)
     required_modules: list[str] = Field(default_factory=list, max_length=500)
-    required_module_versions: dict[str, str] = Field(default_factory=dict)
+    required_module_versions: dict[str, str] = Field(
+        default_factory=dict,
+        description='PEP 440 version constraints, e.g. {"numpy": "==2.4.6"} or {"numpy": ">=2"}; bare version numbers are not constraints.',
+    )
     required_symbols: dict[str, list[str]] = Field(default_factory=dict)
     inputs: list[AnalysisInputDeclaration] = Field(default_factory=list, max_length=1000)
     outputs: list[AnalysisOutputDeclaration] = Field(default_factory=list, max_length=1000)
@@ -378,7 +430,8 @@ class AnalysisJobRequest(BaseModel):
                 SpecifierSet(specifier)
             except InvalidSpecifier as exc:
                 raise ValueError(
-                    f"invalid version specifier for {name!r}: {raw_specifier!r}"
+                    f"invalid version specifier for {name!r}: {raw_specifier!r}; "
+                    "use a PEP 440 constraint such as '==2.4.6' or '>=2'"
                 ) from exc
             normalized[name] = specifier
         return normalized
@@ -492,7 +545,14 @@ class JobWaitRequest(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    job_ids: list[str] = Field(min_length=1, max_length=128)
+    job_ids: list[str] = Field(default_factory=list, max_length=128)
+    response_cursor: str | None = Field(default=None, max_length=16000)
+
+    @model_validator(mode="after")
+    def validate_page_or_jobs(self):
+        if bool(self.job_ids) == bool(self.response_cursor):
+            raise ValueError("provide job_ids or response_cursor, exclusively")
+        return self
 
     @field_validator("job_ids")
     @classmethod

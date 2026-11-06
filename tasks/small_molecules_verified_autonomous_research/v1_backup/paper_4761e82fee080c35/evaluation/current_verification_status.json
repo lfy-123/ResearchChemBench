@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "updated_on": "2026-10-17",
+  "current_scope_verified": true,
+  "scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE",
+  "scope": "Two retained donor-activation BDEs and their bounded interpretation.",
+  "covered_reference_ids": [
+    "kp_bond_strength_donor",
+    "kp_bond_strength_cation",
+    "c_activation"
+  ],
+  "acceptance_date": "2026-10-13",
+  "existing_evidence": {
+    "accepted_on": "2026-10-13",
+    "existing_evidence_path": "tasks/small_molecules_verified_autonomous_research/paper_4761e82fee080c35/evaluation/verified_computation_reference.md",
+    "sha256_before_repair": "dfeb3854bd08a7ff833351029fa3adfaa13bbae51af55eb305e5f1e4cff2d546",
+    "current_reference": "evaluation/verified_computation_reference.md"
+  },
+  "acceptance_record": "evaluation/verified_computation_reference.md",
+  "additional_quantum_calculations_required": false,
+  "new_quantum_jobs": 0,
+  "formal_release_certified_by_this_maintenance": false,
+  "remaining_qualification_or_interpretation_limits": [
+    "Archived absolute-potential mismatches remain inactive and unchanged.",
+    "Formal release adjudication is separate."
+  ],
+  "task_sha256": "6ce9fc71c949a01889f84311faaef2155896286d2c6ac6e1793c67199c27faf6",
+  "historical_status_policy": "Historical pending/failure labels apply to their dated scope. This current summary does not change original results or clear scoring/release qualifications.",
+  "current_contract_hashes": {
+    "agent_input/task.md": "6ce9fc71c949a01889f84311faaef2155896286d2c6ac6e1793c67199c27faf6",
+    "agent_input/submission_schema.json": "bc80c9db6f01095f03556d1d890d1e50e5374dd7b4254f91da5b75213cf58865",
+    "evaluation/reference_key_points.json": "83c1aac98c495965873d8995cb779609ac1dd887dd904aeee0c31325f04bf439",
+    "evaluation/reference_conclusions.json": "527e8cc48118437cae7ca372b7249425265566ede21759fc43cd51ecba03a646",
+    "evaluation/scoring_rules.json": "9a75989897d02f06c7fb872ad4b1fe44a8a8b04b087799bf5c7c393a73278ea2"
+  },
+  "scoring_update_20261020": {
+    "revision": "expert_round1_20261020",
+    "description": "新增局部光催化活化模型 20 分；两项 BDE 各 25 分，最终键弱化解释 30 分。新增项只评价有计算支持的局部模型及合理性，不评价尝试次数，不要求完整催化循环或恢复旧电位目标。",
+    "active_rule_ids": [
+      "r_neutral_bde",
+      "r_oxidized_bde",
+      "r_photoactivation_model",
+      "r_activation_conclusion"
+    ],
+    "new_quantum_jobs": 0,
+    "verification_boundary": "Existing acceptance applies to the dated computational scope above. Rule revision is not a new computational verification or formal-release certification.",
+    "new_item_basis": "Source main PDF pp3,5,6 and existing donor-state calculations support a bounded qualitative activation model; initial PC2 electron-transfer energetics, absolute redox targets and a complete catalytic cycle are not newly verified."
+  }
+}

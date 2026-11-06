@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "items": [
+    {
+      "statement": "cis/trans 端点自由能差",
+      "expected": "Recover G(cis)-G(trans) for the correctly mapped local epimers with the remaining polycyclic skeleton and stereocentres preserved. Validate the endpoints; this is equilibrium thermodynamics, not a protonation activation barrier.",
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_001_p71"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "endpoint_gap",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "可逆平衡与两步单次反应的区别",
+      "expected": "Use actual endpoint thermodynamics and a quantitative consistency analysis to show why reversible keto-enol conditions favor trans, while soft enolization followed by separate-pot CSA protonolysis can give nearly equal products. Do not equate the 1.1:1 single-pass ratio to the calculated equilibrium ratio. No source protonation TS or mandatory new TS search exists.",
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p20_21_71"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "condition_interpretation",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "三轮分离—循环的物料衡算与 70% 收率合理性",
+      "expected": "Provide a reproducible quantitative three-cycle mass balance using an explicitly identified single-pass cis/trans product fraction and its provenance; track isolated cis, recycled trans and any stated loss/conversion assumptions to assess whether the reported 70% cumulative isolated cis yield is compatible with the model. The paper trans:cis ratio about 1.1:1 may be used for mathematical consistency analysis, but must not be presented as independently predicted selectivity. A calculated ratio must describe the actual single-pass process: the endpoint Boltzmann equilibrium ratio is not automatically the protonolysis product ratio. For lossless identical cycles with complete cis separation and trans recycling, Y3=1-(1-p_cis)^3; other physically justified, mass-balanced models are acceptable. Merely repeating 70%, fitting hidden losses and claiming independent prediction, or equating single-pass and cumulative yields does not pass. No new protonation-TS study or exact isolated-yield prediction is required.",
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p21"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "recycle_balance",
+      "key_point_type": "result"
+    }
+  ]
+}

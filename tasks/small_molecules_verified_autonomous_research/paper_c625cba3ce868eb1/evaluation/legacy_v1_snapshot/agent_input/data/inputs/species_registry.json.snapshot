@@ -1,0 +1,1313 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "coordinate_policy": "Only given reactant starters; new graph definitions are not optimized minima or TSs. Explicit atom maps, charge and multiplicity take priority over distance-based bond guesses.",
+  "species": [
+    {
+      "id": "NBS",
+      "smiles": "O=C1CCC(=O)N1Br",
+      "mapped_smiles": "[O:1]=[C:2]1[C:3]([H:9])([H:10])[C:4]([H:11])([H:12])[C:5](=[O:6])[N:7]1[Br:8]",
+      "formula": "C4H4BrNO2",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "NBS",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "O",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "O",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 7,
+          "element": "N",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 8,
+          "element": "Br",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 9,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 10,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 11,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 12,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 2.0
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 2.0
+        },
+        {
+          "atoms": [
+            5,
+            7
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            9
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            12
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "Et3N",
+      "smiles": "CCN(CC)CC",
+      "mapped_smiles": "[C:1]([C:2]([N:3]([C:4]([C:5]([H:15])([H:16])[H:17])([H:13])[H:14])[C:6]([C:7]([H:20])([H:21])[H:22])([H:18])[H:19])([H:11])[H:12])([H:8])([H:9])[H:10]",
+      "formula": "C6H15N",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "Et3N",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "N",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 7,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 8,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 9,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 10,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 11,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 12,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 13,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 14,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 15,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 16,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 17,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 18,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 19,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 20,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 21,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 22,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            6
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            8
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            9
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            13
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            14
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            16
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            17
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            18
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            19
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            20
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            21
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            22
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "succinimide",
+      "smiles": "O=C1CCC(=O)N1",
+      "mapped_smiles": "[O:1]=[C:2]1[C:3]([H:8])([H:9])[C:4]([H:10])([H:11])[C:5](=[O:6])[N:7]1[H:12]",
+      "formula": "C4H5NO2",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "succinimide",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "O",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "O",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 7,
+          "element": "N",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 8,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 9,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 10,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 11,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 12,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 2.0
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 2.0
+        },
+        {
+          "atoms": [
+            5,
+            7
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            8
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            9
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            12
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "compound_4_R",
+      "coordinates": "compound_4_R.xyz",
+      "atom_map": "one-based XYZ row, including hydrogen",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C"
+        },
+        {
+          "map_id": 2,
+          "element": "C"
+        },
+        {
+          "map_id": 3,
+          "element": "H"
+        },
+        {
+          "map_id": 4,
+          "element": "C"
+        },
+        {
+          "map_id": 5,
+          "element": "H"
+        },
+        {
+          "map_id": 6,
+          "element": "C"
+        },
+        {
+          "map_id": 7,
+          "element": "H"
+        },
+        {
+          "map_id": 8,
+          "element": "H"
+        },
+        {
+          "map_id": 9,
+          "element": "C"
+        },
+        {
+          "map_id": 10,
+          "element": "H"
+        },
+        {
+          "map_id": 11,
+          "element": "C"
+        },
+        {
+          "map_id": 12,
+          "element": "H"
+        },
+        {
+          "map_id": 13,
+          "element": "H"
+        },
+        {
+          "map_id": 14,
+          "element": "H"
+        },
+        {
+          "map_id": 15,
+          "element": "C"
+        },
+        {
+          "map_id": 16,
+          "element": "H"
+        },
+        {
+          "map_id": 17,
+          "element": "H"
+        },
+        {
+          "map_id": 18,
+          "element": "C"
+        },
+        {
+          "map_id": 19,
+          "element": "H"
+        },
+        {
+          "map_id": 20,
+          "element": "H"
+        },
+        {
+          "map_id": 21,
+          "element": "O"
+        },
+        {
+          "map_id": 22,
+          "element": "H"
+        },
+        {
+          "map_id": 23,
+          "element": "O"
+        },
+        {
+          "map_id": 24,
+          "element": "O"
+        },
+        {
+          "map_id": 25,
+          "element": "H"
+        },
+        {
+          "map_id": 26,
+          "element": "C"
+        },
+        {
+          "map_id": 27,
+          "element": "H"
+        },
+        {
+          "map_id": 28,
+          "element": "H"
+        },
+        {
+          "map_id": 29,
+          "element": "H"
+        },
+        {
+          "map_id": 30,
+          "element": "C"
+        },
+        {
+          "map_id": 31,
+          "element": "H"
+        },
+        {
+          "map_id": 32,
+          "element": "H"
+        },
+        {
+          "map_id": 33,
+          "element": "H"
+        }
+      ],
+      "charge": 0,
+      "multiplicity": 1,
+      "mapped_smiles": "[C:1](/[C:2]([H:3])=[C:4](\\[H:5])[C:6]([H:7])([H:8])[C@@:9]([H:10])([C:11]([H:12])([H:13])[H:14])[C:15]([H:16])([H:17])[C:18]([H:19])([H:20])[O:21][H:22])([O:23][O:24][H:25])([C:26]([H:27])([H:28])[H:29])[C:30]([H:31])([H:32])[H:33]",
+      "bonds": [
+        {
+          "atoms": [
+            2,
+            1
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            2
+          ],
+          "order": 2.0
+        },
+        {
+          "atoms": [
+            5,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            6
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            6
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            9,
+            6
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            10,
+            9
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            11,
+            9
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            12,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            13,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            14,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            15,
+            9
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            16,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            17,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            18,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            19,
+            18
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            20,
+            18
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            21,
+            18
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            22,
+            21
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            23,
+            1
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            24,
+            23
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            25,
+            24
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            26,
+            1
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            27,
+            26
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            28,
+            26
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            29,
+            26
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            30,
+            1
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            31,
+            30
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            32,
+            30
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            33,
+            30
+          ],
+          "order": 1.0
+        }
+      ],
+      "formula": "C10H20O3",
+      "graph_origin": "RDKit distance-derived graph cross-checked with named source connectivity; no energy calculation."
+    },
+    {
+      "id": "compound_7",
+      "coordinates": "compound_7.xyz",
+      "atom_map": "one-based XYZ row, including hydrogen",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C"
+        },
+        {
+          "map_id": 2,
+          "element": "H"
+        },
+        {
+          "map_id": 3,
+          "element": "H"
+        },
+        {
+          "map_id": 4,
+          "element": "H"
+        },
+        {
+          "map_id": 5,
+          "element": "C"
+        },
+        {
+          "map_id": 6,
+          "element": "H"
+        },
+        {
+          "map_id": 7,
+          "element": "H"
+        },
+        {
+          "map_id": 8,
+          "element": "C"
+        },
+        {
+          "map_id": 9,
+          "element": "H"
+        },
+        {
+          "map_id": 10,
+          "element": "C"
+        },
+        {
+          "map_id": 11,
+          "element": "H"
+        },
+        {
+          "map_id": 12,
+          "element": "C"
+        },
+        {
+          "map_id": 13,
+          "element": "H"
+        },
+        {
+          "map_id": 14,
+          "element": "H"
+        },
+        {
+          "map_id": 15,
+          "element": "C"
+        },
+        {
+          "map_id": 16,
+          "element": "H"
+        },
+        {
+          "map_id": 17,
+          "element": "H"
+        },
+        {
+          "map_id": 18,
+          "element": "C"
+        },
+        {
+          "map_id": 19,
+          "element": "H"
+        },
+        {
+          "map_id": 20,
+          "element": "H"
+        },
+        {
+          "map_id": 21,
+          "element": "C"
+        },
+        {
+          "map_id": 22,
+          "element": "H"
+        },
+        {
+          "map_id": 23,
+          "element": "H"
+        },
+        {
+          "map_id": 24,
+          "element": "O"
+        },
+        {
+          "map_id": 25,
+          "element": "H"
+        }
+      ],
+      "charge": 0,
+      "multiplicity": 1,
+      "mapped_smiles": "[C:1]([H:2])([H:3])([H:4])[C:5]([H:6])([H:7])/[C:8]([H:9])=[C:10](\\[H:11])[C:12]([H:13])([H:14])[C:15]([H:16])([H:17])[C:18]([H:19])([H:20])[C:21]([H:22])([H:23])[O:24][H:25]",
+      "bonds": [
+        {
+          "atoms": [
+            2,
+            1
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            1
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            1
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            1
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            5
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            5
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            5
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            9,
+            8
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            10,
+            8
+          ],
+          "order": 2.0
+        },
+        {
+          "atoms": [
+            11,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            12,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            13,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            14,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            15,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            16,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            17,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            18,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            19,
+            18
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            20,
+            18
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            21,
+            18
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            22,
+            21
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            23,
+            21
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            24,
+            21
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            25,
+            24
+          ],
+          "order": 1.0
+        }
+      ],
+      "formula": "C8H16O",
+      "graph_origin": "RDKit distance-derived graph cross-checked with named source connectivity; no energy calculation."
+    }
+  ],
+  "construction_definitions": {
+    "mapping_correction": {
+      "alkene": [
+        2,
+        4
+      ],
+      "alcohol_O": 21,
+      "hydroperoxide_O": [
+        23,
+        24
+      ],
+      "six_ring_new_bond": [
+        21,
+        4
+      ],
+      "seven_ring_new_bond": [
+        21,
+        2
+      ]
+    },
+    "source_discrepancy": "NBS is 0.284mmol/6mL =47.3mM; source text prints473mM. Amount/volume define context, not the typo."
+  }
+}

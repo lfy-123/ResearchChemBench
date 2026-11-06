@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_8769f3cc6d18e26c",
+  "task_type": "autonomous_research",
+  "title": "Substrate structure and site response in rotaxane amination",
+  "category": "small-molecule homogeneous organic reaction chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The complete substrate is a mechanically interlocked 123-atom molecular system whose identity and topology must be preserved.",
+    "The investigation connects structural evidence to comparative aryl-site susceptibility without a supplied explanatory route or computational recipe.",
+    "Indirect substrate properties require careful scientific judgment before they can explain catalytic enantioselectivity; uncertainty and model-condition limits are substantive."
+  ],
+  "paper": {
+    "title": "Catalytic enantioselective synthesis of mechanically planar chiral rotaxanes by organocatalyzed desymmetrization",
+    "doi": "10.1016/j.chempr.2025.102694",
+    "journal": "Chem",
+    "publication_date": "2026-01-15"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "Neutral graph-explicit substrate/reagent/product identities, experimental conditions and observed reaction context for the shared scientific question."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured research status, hypotheses, investigations, evidence, conclusions, limitations and artifact index using the shared schema."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific report, evidence-based decisions, scope, uncertainty, actual resource use and, if guidance is supplied, protocol fidelity/substitutions."
+    },
+    {
+      "path": "research/",
+      "description": "Actual molecular inputs, calculation outputs, execution logs and analysis code supporting reported completed, partial or failed work."
+    }
+  ]
+}

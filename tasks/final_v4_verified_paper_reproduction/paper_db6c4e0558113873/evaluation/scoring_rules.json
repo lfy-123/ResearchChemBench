@@ -1,0 +1,114 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_regioselective_capture_account",
+      "reference_id": "regioselective_capture_account",
+      "type": "semantic",
+      "expected": "A physically justified local model connects actual atom-resolved calculations to preferential chlorine placement at the benzylic allene terminus while phenylsulfonyl is on the central carbon. The source-supported account uses lower C1 than C3 capture precursors within both stereochemical families and local steric/coordination differences. It must explain the connectivity and preference, not just repeat the observed product or list structures. Thermodynamic evidence uses matched molecular inventories, charge/spin, solvent and free-energy reference at 313.15 K or demonstrated transfer to it. In AR, an established alternative local mechanism may pass without constructing the four author minima. In PR, assess the disclosed baseline and any documented substitution. A stronger kinetic claim requires its own appropriate evidence. For PR, report the three requested reconstructed source-column relative solution Gibbs energies with their electronic and thermal components, including both C3 values relative to C1 syn,syn. Preserve the unresolved printed G273.15 temperature and distinguish reconstruction from 313.15 K reaction inference. These numerical results substantiate the explanation without source-target or tolerance gates. AR has no required author-four-minimum inventory.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_stereochemical_product_account",
+      "reference_id": "stereochemical_product_account",
+      "type": "semantic",
+      "expected": "Connect genuine calculated relative stability and chemically mapped substituent arrangement to the observed Z product. The source-supported account has lower C1 syn,syn than syn,anti, with structural differences compatible with greater crowding/distortion in syn,anti; distinguish n-propyl and ester-carbonyl atoms consistently. Explain how precursor geometry gives the product configuration using actual chemical priorities or equivalent unambiguous mapping. An angle or the source 2.3 kcal/mol difference alone is not an isolated strain energy. Use reaction-condition evidence or supported transfer to 313.15 K. Equivalent demonstrated physical explanations pass, with no mandatory author-intermediate sequence in AR. In PR assess the disclosed source geometry rationale; panel-local C4 labels are not invariant chemical roles. For PR, the requested C1 syn,anti minus syn,syn source-column Gibbs result remains evidence for this structural explanation. Preserve its declared reconstruction assumptions rather than matching the printed 2.292292 kcal/mol; the two C3 source-column values are required evidence for the regioselectivity comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_local_inference_limits",
+      "reference_id": "local_inference_limits",
+      "type": "semantic",
+      "expected": "Derive the explanatory scope of the computed local model from the observables it actually establishes and the supplied controls. For the reference evidence, finite intermediate free energies and mapped outlet geometry establish a conditional thermodynamic/structural rationale, while radical trapping, catalyst omission and quenching support participation without uniquely selecting the local C–Cl transfer route. Show why those data do not determine competing activation barriers, an exact Z/E ratio or a unique active Cu coordination/spin state. Temperature/model transfer must be assessed from actual calculations; a missing calculation or a generic list of cautions does not establish this conclusion. A quantitatively stronger, properly supported bounded conclusion is acceptable. PR must distinguish source-column reconstruction, unresolved source temperature and reaction-condition inference.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "regioselective_capture_account",
+      "kind": "conclusion",
+      "max_score": 35,
+      "description": "Explain the observed benzylic C–Cl connectivity through a computed local regioselectivity account.",
+      "rule_ids": [
+        "r_regioselective_capture_account"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "stereochemical_product_account",
+      "kind": "conclusion",
+      "max_score": 40,
+      "description": "Explain the observed Z alkene geometry through a computed local stereochemical account.",
+      "rule_ids": [
+        "r_stereochemical_product_account"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "local_inference_limits",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Determine what the computed local evidence and supplied controls establish about selectivity under the reaction conditions.",
+      "rule_ids": [
+        "r_local_inference_limits"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

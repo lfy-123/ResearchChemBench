@@ -1,0 +1,90 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How can the supplied phosphoryl-substituted 1,4-dihydropyridine donor be activated under blue light with PC2, and how does activation change its ability to transfer a phosphoryl group to an alcohol?",
+  "active_rule_ids": [
+    "r_local_activation_model",
+    "r_reactivity_change"
+  ],
+  "current_outcome_ids": [
+    "local_activation_model",
+    "reactivity_change"
+  ],
+  "historical_record": {
+    "paper_id": "paper_4761e82fee080c35",
+    "version": "20261027_v3",
+    "new_quantum_jobs": 0,
+    "automatic_inheritance_of_pass": false,
+    "items": [
+      {
+        "rule_id": "r_local_activation_model",
+        "source_evidence_ids": [
+          "main_p3_5_6",
+          "main_p3_6",
+          "supplementary_002_p9"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/paper_4761e82fee080c35/core7_upgrade_20261012T190159Z/native_evidence.json",
+        "local_support": "Four correctly mapped donor states and calculated electronic-state changes support a source-compatible local activation hypothesis. Component observations and actual PC2 identity constrain it; no independent PC2 initial ET thermodynamics exist. BDE matching alone is insufficient.",
+        "evidence_status": "partial_bounded_support_not_full_PC2_validation"
+      },
+      {
+        "rule_id": "r_reactivity_change",
+        "source_evidence_ids": [
+          "main_p3_5_6",
+          "main_p3_6",
+          "supplementary_002_p9"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/paper_4761e82fee080c35/core7_upgrade_20261012T190159Z/native_evidence.json",
+        "local_support": "Independent H reference gives neutral/oxidized BDE74.813621/31.576963 kcal/mol and43.236658 weakening, quantitatively supporting the bounded H-atom-removal susceptibility interpretation. Both former windows are met but not separately scored.",
+        "supporting_numeric_evidence": [
+          {
+            "rule_id": "r_neutral_bde",
+            "source_evidence_ids": [
+              "main_p6",
+              "supplementary_002_p9"
+            ],
+            "native_index": "docs/verification/small_molecules_autonomous_research/paper_4761e82fee080c35/core7_upgrade_20261012T190159Z/native_evidence.json",
+            "local_support": "Re-read full-donor opt/freq, separate same-root stability and independent H SP: neutral homolytic enthalpy74.8136212808 kcal/mol, residual-1.2863787192 within unchanged76.1±2.0.",
+            "evidence_status": "reusable_numeric_support"
+          },
+          {
+            "rule_id": "r_oxidized_bde",
+            "source_evidence_ids": [
+              "main_p6",
+              "supplementary_002_p9"
+            ],
+            "native_index": "docs/verification/small_molecules_autonomous_research/paper_4761e82fee080c35/core7_upgrade_20261012T190159Z/native_evidence.json",
+            "local_support": "Oxidized homolytic enthalpy31.5769634989 kcal/mol, residual-1.3230365011 within unchanged32.9±2.0. Source molecular H values reproduced; H-atom convention is explicit and unfitted.",
+            "evidence_status": "reusable_numeric_support"
+          }
+        ],
+        "evidence_status": "reusable_bounded_reactivity_support"
+      }
+    ],
+    "limits": [
+      "Nine original logs were re-read and SHA256 matched: four full-donor opt/freq, four separate stability, one H SP. No new QM/HPC or blind run.",
+      "The original PC2 activation model has no independently verified PC2 excited-state ET thermodynamics; BDEs alone do not establish that step.",
+      "Source H-atom numerical convention is not reported; local same-method PCM H electronic energy plus5RT/2 is explicit and unfitted.",
+      "Source SI32.9 versus main32.7 discrepancy remains private evaluator context, not a participant demand.",
+      "Archived absolute electrode predictions1.852163207/0.050225210 V disagree with old1.33/-0.54 targets and remain non-scoring; they were already outside the inherited public scope."
+    ],
+    "scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

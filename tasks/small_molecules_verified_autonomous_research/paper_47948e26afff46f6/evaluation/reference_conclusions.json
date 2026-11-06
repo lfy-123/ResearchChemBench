@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_47948e26afff46f6",
+  "scoring_policy": "paper_science_v3",
+  "items": [
+    {
+      "conclusion_id": "n_capture_mechanism",
+      "statement": "N 位点捕获的局部化学机制",
+      "expected": "实际反应模式/连接及对应N产物局部最低点支持从所声明局部前体到 N–C 连接的化学解释。参考为失氮/氢转移后的自由基对中 N 侧与碳自由基耦合，最终相容于闭壳层 N 产物；允许充分支持的等效局部模型。交代质子位置和电子态，不凭一个任意负频或产品图代替机理解释；无需计算前体上游生成或完整自旋转化。此项不比较 N/O 快慢。 只要所声明局部模型在公开边界内且确实支持本项成键机理，本项不以它同时预测N优势为前提；模型给出O优先并不抹去已证实的N/O局部化学。若与参考局部前体不同，必须交代该假设及质子/自旋账本，不可混用两个前体制造比较。",
+      "required_numerical_evidence": [
+        {
+          "id": "n_activation",
+          "description": "局部 N–C 形成的实际 Gibbs 势垒及共同前体/反应态能量，绑定质子位置和电子态。",
+          "public_requirement": "Computed local N–C formation Gibbs barrier and precursor/reactive-state energies, with proton positions and electronic states defined."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 局部 N–C 形成的实际 Gibbs 势垒及共同前体/反应态能量，绑定质子位置和电子态。",
+      "evidence_ids": [
+        "main_selectivity",
+        "si_method",
+        "si_geometry",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "o_capture_mechanism",
+      "statement": "O 位点捕获的竞争化学机制",
+      "expected": "实际连接/反应证据解释竞争 O–C 成键及其与 N 通道的化学区别，参考为同一局部自由基对在羰基 O 侧的耦合。前体的质子/组成/电子态应可比；不能把上游 H 转移、另一原子连接或改名 N 路径当 O 结果。无需计算 O 最终产物全部热力学、完整 ISC 或上游光化学，不对完成 TS 作业本身给分。 只要所声明局部模型在公开边界内且确实支持本项成键机理，本项不以它同时预测N优势为前提；模型给出O优先并不抹去已证实的N/O局部化学。若与参考局部前体不同，必须交代该假设及质子/自旋账本，不可混用两个前体制造比较。",
+      "required_numerical_evidence": [
+        {
+          "id": "o_activation",
+          "description": "局部 O–C 形成的实际 Gibbs 势垒及相容前体/反应态能量，绑定质子位置和电子态。",
+          "public_requirement": "Computed local O–C formation Gibbs barrier and compatible precursor/reactive-state energies, with proton positions and electronic states defined."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 局部 O–C 形成的实际 Gibbs 势垒及相容前体/反应态能量，绑定质子位置和电子态。",
+      "evidence_ids": [
+        "main_selectivity",
+        "si_method",
+        "si_geometry",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "local_n_preference",
+      "statement": "局部 N 优于 O 的位点结论",
+      "expected": "同一有物理意义前体的实际竞争形成证据支持 N–C 而非 O–C 更有利，并明确最终优选 N 连接。按真实原子图而不是源 TS 编号判断；不能只说 N 已形成就判定胜过 O。局部结果不足以证明完整光反应布居、产率或唯一因果；允许有实际支持的相互作用说明，但不强制 π 堆积是唯一原因。不要求本次两个绝对势垒或差值与作者数值吻合，但本次计算的量必须提交。 若已完成的有效比较明确支持O优先，或没有可比N/O形成证据，本项直接fail，不转need_review，也不因该局部模型计算有效就自动改写N目标。其他两个机制项分别按自身证据判定。",
+      "required_numerical_evidence": [
+        {
+          "id": "n_activation",
+          "description": "局部 N–C 形成的实际 Gibbs 势垒及共同前体/反应态能量，绑定质子位置和电子态。",
+          "public_requirement": "Computed local N–C formation Gibbs barrier and precursor/reactive-state energies, with proton positions and electronic states defined."
+        },
+        {
+          "id": "o_activation",
+          "description": "局部 O–C 形成的实际 Gibbs 势垒及相容前体/反应态能量，绑定质子位置和电子态。",
+          "public_requirement": "Computed local O–C formation Gibbs barrier and compatible precursor/reactive-state energies, with proton positions and electronic states defined."
+        },
+        {
+          "id": "site_difference",
+          "description": "同一局部前体参照下 N/O 形成势垒差。",
+          "public_requirement": "The N/O formation barrier difference relative to the same local precursor."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 局部 N–C 形成的实际 Gibbs 势垒及共同前体/反应态能量，绑定质子位置和电子态。\n- 局部 O–C 形成的实际 Gibbs 势垒及相容前体/反应态能量，绑定质子位置和电子态。\n- 同一局部前体参照下 N/O 形成势垒差。",
+      "evidence_ids": [
+        "main_selectivity",
+        "si_method",
+        "si_geometry",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    }
+  ]
+}

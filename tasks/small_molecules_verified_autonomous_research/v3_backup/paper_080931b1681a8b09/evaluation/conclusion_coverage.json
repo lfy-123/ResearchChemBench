@@ -1,0 +1,106 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "Ni/PyBOX 去芳构化环加成机制、绝对构型、选择性物理来源及与实验强度的有界比较。",
+  "source_location": "Main PDF p.3 Table 1 entry 6 and pp.5–6 Scheme 6D/discussion; supplementary_001 PDF/S pp.126–130, chiral-method paragraph, Figs.S3–S5 and Table S6.",
+  "public_result_requirements": [
+    "Explain catalyst binding and the bond-reorganization chemistry producing the supplied cycloadduct connectivity.",
+    "Predict the preferred absolute configuration at the specified saturated CH from competing enantiomer-forming processes.",
+    "Explain the physical origin using actual comparative molecular evidence and assess what the model can establish about the supplied experimental enrichment, without treating numerical agreement as a scoring criterion."
+  ],
+  "required_numerical_evidence": [
+    {
+      "id": "formation_profile",
+      "description": "实际结合、开环/闭合或等效形成机制的关键态能量与活化量。",
+      "public_requirement": "Computed key-state energies and activation requirements supporting binding and the proposed ring-opening/closure or equivalent product-formation mechanism."
+    },
+    {
+      "id": "rs_competition",
+      "description": "正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+      "public_requirement": "Computed R/S Gibbs activation energies and ΔΔG‡ for the correctly mapped competing configurations."
+    },
+    {
+      "id": "physical_origin",
+      "description": "支撑所选物理解释的实际 R/S 结构/电子分析数据，例如距离、角度、形变或相互作用量；按论断选择，不指定唯一分解算法。",
+      "public_requirement": "Computed R/S structural or electronic data supporting the chosen physical explanation, such as contact distances, angles, deformation or interaction quantities; choose data appropriate to the claim, with no mandatory decomposition algorithm."
+    }
+  ],
+  "coverage": [
+    {
+      "scientific_question": "Ni/L6 如何促成指定的环加成骨架？",
+      "outcome_id": "cycloaddition_mechanism",
+      "required_numerical_evidence_ids": [
+        "formation_profile"
+      ],
+      "old_outcome_ids": [
+        "cycloaddition_mechanism"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 30,
+      "criterion": "实际分子结果支持催化剂与底物结合、亲核开环及去芳构化 C–C 闭合形成给定产物的化学解释，或证据充分的等效机制。说明电荷/自旋/配位假设，不能把作者未公开的状态当题给事实。仅提供终产物图、无连接的若干态或用另一镍盐的路线不足。不要求完整配位布居、唯一电子态、作者各中间体标签或精确能量。"
+    },
+    {
+      "scientific_question": "两个对映形成过程偏向哪个绝对构型？",
+      "outcome_id": "absolute_configuration_preference",
+      "required_numerical_evidence_ids": [
+        "rs_competition"
+      ],
+      "old_outcome_ids": [
+        "absolute_configuration_preference"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 25,
+      "criterion": "同一催化剂和物理参照的实际竞争证据支持指定苯并噻唑 C2 来源饱和 CH 的 R 优势，并用完整产物原子映射/CIP 确认。不能从 (S,S) 配体直接猜产物 R，不能混淆其他手性中心或不同对映催化剂。这里评价构型方向，不评价 er 或作者 ΔΔG 的数值吻合。"
+    },
+    {
+      "scientific_question": "催化环境的哪些真实分子差别支持该选择性？",
+      "outcome_id": "selectivity_physical_origin",
+      "required_numerical_evidence_ids": [
+        "rs_competition",
+        "physical_origin"
+      ],
+      "old_outcome_ids": [
+        "selectivity_physical_origin"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 25,
+      "criterion": "从实际 R/S 竞争结构的可比较几何、相互作用、形变或电子证据解释差异来源，并使其与总竞争结果自洽。参考局部 C–H···π 接触与 R 偏好相容；不要求全部 R 接触更强或 CH–π 是唯一/定量主因。允许实际支持的形变-相互作用权衡解释。只有两条势垒、泛称位阻/π 相互作用或未经计算的因果故事不足；不强制 IGMH、NCI 或分解算法。"
+    },
+    {
+      "scientific_question": "代表性计算能解释实验选择性的哪些方面，外推到哪里停止？",
+      "outcome_id": "selectivity_scope_vs_experiment",
+      "required_numerical_evidence_ids": [
+        "rs_competition"
+      ],
+      "old_outcome_ids": [
+        "selectivity_scope_vs_experiment"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 20,
+      "criterion": "把本次实际竞争用于有假设的产物富集解释，说明与已给实验的同向非消旋/明显偏好是否相容，并区分代表通道的条件预测与全构象/配位群体实验结果。可用有假设的比值估计或对实际能量尺度的定性论证，无需输出或命中精确 er。不能只重复 R 标签、照抄实验比、或把一对 TS 的数值直接称为精确实验复现。此项评价模型对实验强度的解释及外推边界，物理起源另计。"
+    }
+  ],
+  "excluded_scope": [
+    "限定 Ni(OTf)2/(S,S)-tBuPyBOX/CHCl3，不能混入另一镍盐、配体或 DCM 数据。",
+    "验证的 +1 triplet 是重建模型，不是原卡已公开或全溶液物种的唯一答案。",
+    "R 侧若干局部接触增强，但吸引子域积分及总相互作用分解可偏 S；不把“所有 R 吸引更强”硬化成答案。",
+    "代表 TS 预测的富集强度与实验同向但非精确一致；不设 er/ΔΔG 容差。"
+  ],
+  "verification_support": "正文 Table 1 entry 6/Scheme 6D、SI S126–130；历史验证支持结合/开环与两支闭环、R 构型，以及局部弱接触和形变/相互作用分解的有界解释。"
+}

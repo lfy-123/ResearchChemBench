@@ -1,0 +1,376 @@
+{
+  "paper_id": "paper_7516a3cbacb70032",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_formation_explanation",
+      "r_ligand_promotion",
+      "r_helicity_explanation",
+      "r_kinetic_distinction"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Explain how the specified Ir(III)-catalyzed annulation of 3-(phenanthren-4-yl)-1H-indazole with diphenylacetylene forms the diaza[6]helicene, how the axially chiral nitrile–phosphine oxide ligand influences helicity, and how stereochemical selection relates to the relative kinetic difficulty of product formation. This is an explanation task: the observed product connectivity and M helicity are given facts.",
+  "active_rule_ids": [
+    "r_formation_explanation",
+    "r_ligand_promotion",
+    "r_helicity_explanation",
+    "r_kinetic_distinction"
+  ],
+  "current_outcome_ids": [
+    "formation_explanation",
+    "ligand_promotion",
+    "helicity_explanation",
+    "kinetic_distinction"
+  ],
+  "historical_record": {
+    "decision": "pass",
+    "rationale": "The paper reports a homogeneous small-molecule Ir(III)-catalyzed C-H annulation of 3-(phenanthren-4-yl)-1H-indazole with diphenylacetylene to form pyrazole-containing diaza[6]helicenes, with experimental yields/ee and mechanistic evidence. The authors also performed and reported DFT calculations directly addressing the enantioselective C-H cleavage step, including relative barriers for the two helicene helicity-forming pathways. This supports a bounded research question about predicting/explaining the helicity preference for the identified model reaction without requiring the solver to reproduce the authors' full mechanism or all pathways.",
+    "domain": {
+      "small_molecule": true,
+      "homogeneous": true,
+      "organic_reaction": true,
+      "evidence_ids": [
+        "ev_doc_0f676ddde554_000028_7317150a8c69",
+        "ev_doc_0f676ddde554_000029_dfcca0140131",
+        "ev_doc_0f676ddde554_000035_66fb6e1ac72b",
+        "ev_doc_0f676ddde554_000042_3799047d0508",
+        "ev_doc_0f676ddde554_000068_ad69b1b6594e",
+        "ev_doc_0f676ddde554_000069_2ad3f6d0218a",
+        "ev_doc_0f676ddde554_000070_cac4d33409ec",
+        "ev_doc_86333f5a9e46_000520_775bb9db98c2"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_0f676ddde554_000028_7317150a8c69",
+          "quote": "Optimization of the Reaction Conditions"
+        },
+        {
+          "evidence_id": "ev_doc_0f676ddde554_000029_dfcca0140131",
+          "quote": "Our investigation began with the model reaction between 3- (phenanthren-4-yl)-1H-indazole (1a) and diphenylacetylene (2a). After a preliminary optimization, the target racemic Ndoped helicene product 3aa was obtained in the presence of [ \\dot { \\mathrm { C p } } ^ { * t \\mathrm { B u } } \\mathrm { I r } { \\mathrm { C l } } _ { 2 } ] _ { 2 } , AgOTf and H O in DCE (Table 1, entry 1). Guided by the prevalence of axially chiral biaryls as privileged ligand scafolds, we designed and synthesized a binaphthylderived chiral nitrile ligand (L1) bearing a sterically demanding diphenylphosphine oxide group at the 2′-position. Encouragingly, the use of L1 aforded the chiral helicene 3aa in 72% yield with 89% ee (entry 2), validating our ligand design hypothesis. Subsequent evaluation of phosphine oxide analogs (L2−L4) failed to improve the enantiocontrol (entries 3−5). Ligand L5, derived from (S)-SPINOL, provided only moderate yield and enantioselectivity (entry 6). It should be noted that the corresponding chiral carboxylic acid ligand L6 resulted in low enantioselectivity (entry 7). Further evaluation of silver sources revealed that alternative salts or combinations thereof led to diminished enantioselectivity (see Table S2 for details in Supporting Information). The presence of water was found to enhance both yield and ee (entry 8), whereas its replacement with triethylamine or pyridine led to a sharp decrease in enantioselectivity (entries 9−10), likely due to competitive coordination with the chiral nitrile ligand. The addition of a small amount of water acts as a beneficial additive (See Table S7 in SI for details), enhancing reaction eficiency likely through hydrogen-bonding interactions that stabilize key transition states, potentially involving the triflate anion or the phosphine oxide moiety of L1.<sup>22</sup> Screening of various solvents identified dichloromethane as optimal, afording the product in 80% yield and 91% ee under an argon atmosphere (entries 11− 14). The tert-butyl substitution on the \\mathsf { C } \\bar { \\mathsf { p } } ^ { X } ligand was also crucial, as the parent [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } catalyst led to inferior reactivity and stereocontrol (entry 15).<sup>23</sup> Ultimately, the optimized conditions were established on a 0.1 mmol scale, furnishing helicene 3aa in 82% isolated yield and 91% ee (entry 16)."
+        },
+        {
+          "evidence_id": "ev_doc_0f676ddde554_000035_66fb6e1ac72b",
+          "quote": "Table 1. Optimization of the Reaction Conditions<sup>a</sup>\nentry Ligand Solvent Yield (%)b ee (%)c\n1 no Ligand DCE 84 一\n2 L1 DCE 72 89\n3 L2 DCE 30 82\n4 L3 DCE 48 40\n5 L4 DCE 40 35\n6 L5 DCE 40 -55\n7 L6 DCE 70 23\n$8 ^ { d }$ L1 DCE 46 86\n$9 ^ { e }$ L1 DCE 55 6\n$1 0 ^ { f }$ L1 DCE 17 1\n11 L1 Chlorobenzene 30 82\n12 L1 Toluene 20 73\n13 L1 CH3CN n.d. 1\n$1 4 ^ { g }$ L1 DCM 80 91\n$1 5 ^ { g , h }$ L1 DCM 62 86\n$1 6 ^ { g , i }$ L1 DCM 82j 91\n$[ \\mathrm { C p } ^ { * ^ { t \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 }$ $( 0 . 1 \\mathrm { { M } ) , 5 0 ^ { \\circ } C , N _ { 2 } , 3 6 \\mathrm { { h } . \\ ^ { \\ d ^ { b 1 } } H } }$ NMR yield using 1,3,5-trimethoxybenzene as the internal standard. The ee value was determined by HPLC on chiralstationary phase. dWithout $\\mathrm { H } _ { 2 } \\mathrm { O } .$ eTriethylamine instead of water. fPyridine instead of water. 8Ar atmosphere. ${ } ^ { h } [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 }$ was used. i0.1 mmolscale. Isolated yield.\n« HPLC | C on chiral"
+        },
+        {
+          "evidence_id": "ev_doc_0f676ddde554_000042_3799047d0508",
+          "quote": "Figure 2. Scope of alkynes. Reaction conditions: 1 (0.1 mmol), 2 (2 equiv), [ \\mathrm { C p } ^ { * ^ { t \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] (5 mol %), L1 (20 mol %), AgOTf (2.5 equiv), H O (10 equiv), DCM (1 mL), 50 °C, Ar, 36 h. Isolated yield. The ee value was determined by HPLC on chiral stationary phase. <sup>a</sup>DCE as solvent. <sup>b</sup>Without water."
+        },
+        {
+          "evidence_id": "ev_doc_0f676ddde554_000068_ad69b1b6594e",
+          "quote": "Mechanistic Studies"
+        },
+        {
+          "evidence_id": "ev_doc_0f676ddde554_000069_2ad3f6d0218a",
+          "quote": "To elucidate the reaction mechanism, a series of mechanistic studies were conducted (Figure 6). H/D exchange experiments using \\mathrm { D } _ { 2 } \\mathrm { O } instead of _ \\mathrm { H } _ { 2 } \\mathrm { O } revealed 15% deuteration at the substrate 1a in the absence of alkyne 2a, whereas no deuteration was observed when 2a was present (Figure 6a). These results indicate that the C−H activation step is reversible and that the subsequent alkyne insertion is significantly faster. A racemic cyclometalated iridium complex III−Cl was isolated in 27% yield from the reaction of 1a with an equimolar amount of [ { \\dot { \\mathrm { C } } } { \\mathrm { p } } ^ { * t { \\mathrm { B u } } } { \\mathrm { I r } } { \\mathrm { C l } } _ { 2 } ] _ { 2 } and excess NaOAc (Figure 6b). When III−Cl was subjected to a stoichiometric reaction with 2a in the presence of L1 and AgOTf, product 3aa was obtained with only 20% ee, suggesting that enantioselectivity is primarily determined at the C−H activation step, with reversibility in this step accounting for the eroded ee. Furthermore, a key chiral cationic iridium intermediate III was detected by high-resolution ESI mass spectrometry (Figure 6b). The structure of this intermediate, particularly the nitrilecoordination mode of L1, is proposed based on subsequent DFT calculations. A linear correlation between the ee of L1 and that of 3aa was observed (Figure 6c), consistent with the involvement of a single ligand molecule in the stereodetermining transition state. Interestingly, the addition of 10 equiv of acetonitrile at 5 0 ~ ^ { \\circ } \\mathrm { C } completely suppressed product formation, regardless of the presence of L1 (Figure 6d). However, raising the temperature to 9 0 ~ ^ { \\circ } \\mathrm { C } under otherwise identical conditions allowed the reaction to proceed, afording 3aa in 31% yield. This suggests that strongly coordinating acetonitrile may block the coordination of the substrate at lower temperatures, thereby inhibiting C−H activation. In contrast, the chiral nitrile ligand L1 is essential for enabling eficient C−H activation under mild conditions, thus achieving high enantiocontrol (3aa obtained in only 53% ee at 90 °C under standard conditions)."
+        },
+        {
+          "evidence_id": "ev_doc_0f676ddde554_000070_cac4d33409ec",
+          "quote": "Density functional theory (DFT) calculations were performed to gain deeper mechanistic insights into the reaction (Figure 7). The active catalyst I is initially generated from [ \\mathrm { C p } ^ { * t \\bar { \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } and AgOTf. In the absence of the chiral ligand (gray pathway), substrate 1a coordinates to the iridium center in I to form intermediate INT-1a, stabilized by a hydrogen bond with a triflate anion. Subsequently, INT-1a undergoes a CMD process assisted by another triflate molecule, yielding the cyclometalated complex III-1a. In the presence of chiral nitrile ligand L1 (blue pathway), the mechanism diverges. Both INT-L1 (with L1 coordinated first) and INT-1a (with 1a coordinated first) may form initially. These species readily equilibrate to a more stable cationic intermediate II-1a-L1 via facile dissociation of one triflate anion. Subsequent enantio-determining C(sp<sup>2</sup>)−H cleavage proceeds via a CMD transition state, where the phosphine oxide moiety of L1 acts as a key Lewis base instead of the triflate anion. The free energy barrier for the C−H cleavage leading to the (M)-configured product via TSII-(M)-L1 is 16.4 kcal·mol<sup>−1</sup>, which is 1.7 kcal·mol<sup>−1</sup> lower than that for the (P)- pathway (18.1 kcal·mol<sup>−1</sup> for TSII-(P)-L1; Figure 7b). This enantioselectivity is attributed to enhanced hydrogen-bonding interactions among the triflate anion, the chiral ligand, and substrate 1a in the favored transition state. The free energies of subsequent steps were also calculated (see Figure S2 in the Supporting Information). The barrier for the alkyne insertion step is indeed lower than that for C−H activation, consistent with previous mechanistic studies. In addition, reductive elimination is likely to be the rate-determining step."
+        },
+        {
+          "evidence_id": "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+          "quote": "All the quantum chemical calculations were carried out with the Gaussian 1 6 ^ { 9 } package. Optimizations of the geometries of minima and transition states (TSs) were carried out at the \\mathrm { P B E 0 – D 3 ( B J ) ^ { 1 0 , 1 1 } } / 6 \\mathrm { - } 3 1 \\mathrm { G ( d , p ) ^ { 1 2 } } \\mathrm { - } \\mathrm { S D D ( I r , A g ) ^ { 1 3 - 1 5 } } level of theory. Frequency calculations were performed at the same level to ensure their nature as minimal (no imaginary frequency) or transition states (only one imaginary frequency). The single point energy calculations were performed at the \\mathrm { P B E 0 - D 3 ( B J ) } / 6 - 3 1 1 \\mathrm { + + } \\mathrm { G ( d , p ) } \\mathrm { - } \\mathrm { S D D } ( \\mathrm { I r } , \\mathbf { A g } ) level of theory to obtain more accurate electronic energies, \\mathrm { S M D } ^ { 1 6 } solvation model was used to account for the solvation effects of dichloromethane (DCM), which were used in the corresponding experiments. Grimme’s quasi-RRHO correction<sup>17</sup> for the frequencies that are below 1 0 0 \\mathrm { c m } ^ { - 1 } and concentration correction from 1 atm to 1 mol/L were implemented by GoodVibes 3.2<sup>18</sup>. The 3D plots for the molecules were created with CYLview 2 0 ^ { 1 9 }"
+        }
+      ]
+    },
+    "scientific_question": "For the Ir(III)-catalyzed annulation of 3-(phenanthren-4-yl)-1H-indazole with diphenylacetylene under the reported chiral nitrile-phosphine oxide ligand conditions, what molecular-level features of the C-H cleavage step explain the observed preference for one helicene helicity over the other?",
+    "computation_relevance": "The authors performed DFT calculations on the active Ir(III) system and compared the C-H cleavage transition states leading to the two helicene helicities. Their reported relative free-energy barriers provide a private reference for evaluating whether a new computation can reproduce the helicity preference and identify the structural/electronic features responsible.",
+    "author_computation": {
+      "performed_by_authors": true,
+      "results_reported": true,
+      "non_routine": true,
+      "evidence_ids": [
+        "ev_doc_0f676ddde554_000070_cac4d33409ec",
+        "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+        "ev_doc_86333f5a9e46_000527_28b34224851c",
+        "asset-caption-693db619c33813a0"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_0f676ddde554_000070_cac4d33409ec",
+          "quote": "Density functional theory (DFT) calculations were performed to gain deeper mechanistic insights into the reaction (Figure 7). The active catalyst I is initially generated from [ \\mathrm { C p } ^ { * t \\bar { \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } and AgOTf. In the absence of the chiral ligand (gray pathway), substrate 1a coordinates to the iridium center in I to form intermediate INT-1a, stabilized by a hydrogen bond with a triflate anion. Subsequently, INT-1a undergoes a CMD process assisted by another triflate molecule, yielding the cyclometalated complex III-1a. In the presence of chiral nitrile ligand L1 (blue pathway), the mechanism diverges. Both INT-L1 (with L1 coordinated first) and INT-1a (with 1a coordinated first) may form initially. These species readily equilibrate to a more stable cationic intermediate II-1a-L1 via facile dissociation of one triflate anion. Subsequent enantio-determining C(sp<sup>2</sup>)−H cleavage proceeds via a CMD transition state, where the phosphine oxide moiety of L1 acts as a key Lewis base instead of the triflate anion. The free energy barrier for the C−H cleavage leading to the (M)-configured product via TSII-(M)-L1 is 16.4 kcal·mol<sup>−1</sup>, which is 1.7 kcal·mol<sup>−1</sup> lower than that for the (P)- pathway (18.1 kcal·mol<sup>−1</sup> for TSII-(P)-L1; Figure 7b). This enantioselectivity is attributed to enhanced hydrogen-bonding interactions among the triflate anion, the chiral ligand, and substrate 1a in the favored transition state. The free energies of subsequent steps were also calculated (see Figure S2 in the Supporting Information). The barrier for the alkyne insertion step is indeed lower than that for C−H activation, consistent with previous mechanistic studies. In addition, reductive elimination is likely to be the rate-determining step."
+        },
+        {
+          "evidence_id": "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+          "quote": "All the quantum chemical calculations were carried out with the Gaussian 1 6 ^ { 9 } package. Optimizations of the geometries of minima and transition states (TSs) were carried out at the \\mathrm { P B E 0 – D 3 ( B J ) ^ { 1 0 , 1 1 } } / 6 \\mathrm { - } 3 1 \\mathrm { G ( d , p ) ^ { 1 2 } } \\mathrm { - } \\mathrm { S D D ( I r , A g ) ^ { 1 3 - 1 5 } } level of theory. Frequency calculations were performed at the same level to ensure their nature as minimal (no imaginary frequency) or transition states (only one imaginary frequency). The single point energy calculations were performed at the \\mathrm { P B E 0 - D 3 ( B J ) } / 6 - 3 1 1 \\mathrm { + + } \\mathrm { G ( d , p ) } \\mathrm { - } \\mathrm { S D D } ( \\mathrm { I r } , \\mathbf { A g } ) level of theory to obtain more accurate electronic energies, \\mathrm { S M D } ^ { 1 6 } solvation model was used to account for the solvation effects of dichloromethane (DCM), which were used in the corresponding experiments. Grimme’s quasi-RRHO correction<sup>17</sup> for the frequencies that are below 1 0 0 \\mathrm { c m } ^ { - 1 } and concentration correction from 1 atm to 1 mol/L were implemented by GoodVibes 3.2<sup>18</sup>. The 3D plots for the molecules were created with CYLview 2 0 ^ { 1 9 }"
+        },
+        {
+          "evidence_id": "ev_doc_86333f5a9e46_000527_28b34224851c",
+          "quote": "Table S10. Combining final single point energy with thermal corrections of stationary points created by Goodvibes.\nSpecies | EsPC | E | ZPE | HsPC | qh-HsPC | T.S | T.qh-S | | G(T)sPc qh-G(T)sPC\nL1 | | | | -1740.828 -1740.462 0.455663 -1740.339 -1740.344 0.098625 0.091773 -1740.437 -1740.436 | | | | | \n1a | | | | -917.404 -917.182 0.295953 -917.088 -917.091 0.065438 0.062967 -917.154 -917.153 | | | | | \n1 | | | | -2533.914-2533.389 0.371159-2533.503-2533.5090.111492 0.103763-2533.615-2533.613 | | | | | \nI+ | | | | -1572.769-1572.398 0.340885 -1572.398 -1572.402 0.090593 0.084846 -1572.489-1572.487 | | | | | \nINT-1a | | | | -3451.376-3450.6390.669653-3450.646-3450.6560.155414 0.142070-3450.801-3450.798 | | | | | \nTS-1a | | | | -3451.335-3450.594 0.662716-3450.613-3450.622 0.151976 0.140229-3450.765-3450.763 | | | | | \nIII-1a | -3451.341-3450.602 0.667102 -3450.614-3450.624 0.154943 0.142110-3450.769-3450.766 | | | | | | | | \nINT-L1 | -4274.797-4273.917 0.829164-4273.893-4273.907 0.188019 0.169741-4274.081-4274.077 | | | | | | | | \n | | | | INT-L1-1a -5192.202 -5194.520 1.131366 -5190.977 -5190.995 0.229806 0.206228-5191.207 -5191.201 | | | | | \nOTf | | | | -961.101 -960.809 0.028118 -961.064 -961.065 0.041569 0.040990 -961.106 -961.106 | | | | | \n | INT-L1+ -3313.657-3312.958 0.799184-3312.793 -3312.805 0.166978 0.151455-3312.960-3312.956 | | | | | | | | \n | INT-1a+ -2490.234 -2489.6580.639817-2489.544 -2489.551 0.1318400.122800-2489.676 -2489.674 | | | | | | | | \n | II-1a-L1 -4231.123-4230.218 1.097910-4229.941-4229.956 0.208678 0.188133-4230.149-4230.144 | | | | | | | | \n | TSII-(M)-L1-4231.094-4230.186 1.092342 -4229.918-4229.932 0.203612 0.185136-4230.122 -4230.118 | | | | | | | | \n | TSII-(P)-L1 -4231.092 -4230.180 1.091806 -4229.917 -4229.931 0.201482 0.184090-4230.118-4230.115 | | | | | | | | \n | III-(M) -4231.119-4230.210 1.097350-4229.937-4229.952 0.204609 0.186343 -4230.142 -4230.138 | | | | | | | | \n | AgOTf -1107.922 -1107.692 0.028894 -1107.882 -1107.883 0.049437 0.047767 -1107.931 -1107.931 | | | | | | | | \n | L1Ag0Tf·H0Tf -3810.362 -3809.592 0.524983 -3809.78 -3809.792 0.155601 0.138416 -3809.936 -3809.93 | | | | | | | | \n | IV-(M) -2067.681 -2067.198 0.793148 -2066.834 -2066.842 0.139899 0.129645 -2066.974 -2066.972 | | | | | | | | \n | TSIV-(M) -2067.662 -2067.179 0.792109 -2066.817 -2066.825 0.137486 0.127893 -2066.954 -2066.953 | | | | | | | | \nV-(M) | | | | | | | | -2067.705-2067.2160.793735-2066.858-2066.866 0.140158 0.129623-2066.998-2066.996 | \nTSV-(M) | -2067.665 -2067.18 0.792519 -2066.82-2066.828 0.135998 0.126784 -2066.956 -2066.955 | | | | | | | | \nVI-(M) | | | | -2067.68-2067.195 0.794661 -2066.833 -2066.841 0.137034 0.127141 -2066.97-2066.968 | | | | |"
+        },
+        {
+          "evidence_id": "asset-caption-693db619c33813a0",
+          "quote": "Figure 7. DFT calculations. a) Detailed free energy profile for the transformation of active iridium catalyst I before C−H activation. b) Compared free energy barrier for the enantiocontrol model in C−H activation."
+        }
+      ]
+    },
+    "computational_references": [
+      {
+        "reference_id": "CR1",
+        "result": "DFT free-energy barrier for C-H cleavage leading to the M-configured product via TSII-(M)-L1",
+        "observable": "activation free energy",
+        "value": 16.4,
+        "unit": "kcal/mol",
+        "method": "PBE0-D3(BJ)/6-31G(d,p)-SDD(Ir,Ag) optimizations; PBE0-D3(BJ)/6-311++G(d,p)-SDD(Ir,Ag) single points; SMD(DCM); quasi-RRHO and concentration corrections",
+        "model_system": "Ir(III) complex with chiral nitrile-phosphine oxide ligand L1 and substrate 1a",
+        "conditions": "DCM solvation model; 50 °C experimental context",
+        "comparison_scope": "enantioselective C-H cleavage pathway",
+        "uncertainty": "not reported",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000070_cac4d33409ec",
+          "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+          "ev_doc_86333f5a9e46_000527_28b34224851c"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000070_cac4d33409ec",
+            "quote": "Density functional theory (DFT) calculations were performed to gain deeper mechanistic insights into the reaction (Figure 7). The active catalyst I is initially generated from [ \\mathrm { C p } ^ { * t \\bar { \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } and AgOTf. In the absence of the chiral ligand (gray pathway), substrate 1a coordinates to the iridium center in I to form intermediate INT-1a, stabilized by a hydrogen bond with a triflate anion. Subsequently, INT-1a undergoes a CMD process assisted by another triflate molecule, yielding the cyclometalated complex III-1a. In the presence of chiral nitrile ligand L1 (blue pathway), the mechanism diverges. Both INT-L1 (with L1 coordinated first) and INT-1a (with 1a coordinated first) may form initially. These species readily equilibrate to a more stable cationic intermediate II-1a-L1 via facile dissociation of one triflate anion. Subsequent enantio-determining C(sp<sup>2</sup>)−H cleavage proceeds via a CMD transition state, where the phosphine oxide moiety of L1 acts as a key Lewis base instead of the triflate anion. The free energy barrier for the C−H cleavage leading to the (M)-configured product via TSII-(M)-L1 is 16.4 kcal·mol<sup>−1</sup>, which is 1.7 kcal·mol<sup>−1</sup> lower than that for the (P)- pathway (18.1 kcal·mol<sup>−1</sup> for TSII-(P)-L1; Figure 7b). This enantioselectivity is attributed to enhanced hydrogen-bonding interactions among the triflate anion, the chiral ligand, and substrate 1a in the favored transition state. The free energies of subsequent steps were also calculated (see Figure S2 in the Supporting Information). The barrier for the alkyne insertion step is indeed lower than that for C−H activation, consistent with previous mechanistic studies. In addition, reductive elimination is likely to be the rate-determining step."
+          },
+          {
+            "evidence_id": "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+            "quote": "All the quantum chemical calculations were carried out with the Gaussian 1 6 ^ { 9 } package. Optimizations of the geometries of minima and transition states (TSs) were carried out at the \\mathrm { P B E 0 – D 3 ( B J ) ^ { 1 0 , 1 1 } } / 6 \\mathrm { - } 3 1 \\mathrm { G ( d , p ) ^ { 1 2 } } \\mathrm { - } \\mathrm { S D D ( I r , A g ) ^ { 1 3 - 1 5 } } level of theory. Frequency calculations were performed at the same level to ensure their nature as minimal (no imaginary frequency) or transition states (only one imaginary frequency). The single point energy calculations were performed at the \\mathrm { P B E 0 - D 3 ( B J ) } / 6 - 3 1 1 \\mathrm { + + } \\mathrm { G ( d , p ) } \\mathrm { - } \\mathrm { S D D } ( \\mathrm { I r } , \\mathbf { A g } ) level of theory to obtain more accurate electronic energies, \\mathrm { S M D } ^ { 1 6 } solvation model was used to account for the solvation effects of dichloromethane (DCM), which were used in the corresponding experiments. Grimme’s quasi-RRHO correction<sup>17</sup> for the frequencies that are below 1 0 0 \\mathrm { c m } ^ { - 1 } and concentration correction from 1 atm to 1 mol/L were implemented by GoodVibes 3.2<sup>18</sup>. The 3D plots for the molecules were created with CYLview 2 0 ^ { 1 9 }"
+          },
+          {
+            "evidence_id": "ev_doc_86333f5a9e46_000527_28b34224851c",
+            "quote": "Table S10. Combining final single point energy with thermal corrections of stationary points created by Goodvibes.\nSpecies | EsPC | E | ZPE | HsPC | qh-HsPC | T.S | T.qh-S | | G(T)sPc qh-G(T)sPC\nL1 | | | | -1740.828 -1740.462 0.455663 -1740.339 -1740.344 0.098625 0.091773 -1740.437 -1740.436 | | | | | \n1a | | | | -917.404 -917.182 0.295953 -917.088 -917.091 0.065438 0.062967 -917.154 -917.153 | | | | | \n1 | | | | -2533.914-2533.389 0.371159-2533.503-2533.5090.111492 0.103763-2533.615-2533.613 | | | | | \nI+ | | | | -1572.769-1572.398 0.340885 -1572.398 -1572.402 0.090593 0.084846 -1572.489-1572.487 | | | | | \nINT-1a | | | | -3451.376-3450.6390.669653-3450.646-3450.6560.155414 0.142070-3450.801-3450.798 | | | | | \nTS-1a | | | | -3451.335-3450.594 0.662716-3450.613-3450.622 0.151976 0.140229-3450.765-3450.763 | | | | | \nIII-1a | -3451.341-3450.602 0.667102 -3450.614-3450.624 0.154943 0.142110-3450.769-3450.766 | | | | | | | | \nINT-L1 | -4274.797-4273.917 0.829164-4273.893-4273.907 0.188019 0.169741-4274.081-4274.077 | | | | | | | | \n | | | | INT-L1-1a -5192.202 -5194.520 1.131366 -5190.977 -5190.995 0.229806 0.206228-5191.207 -5191.201 | | | | | \nOTf | | | | -961.101 -960.809 0.028118 -961.064 -961.065 0.041569 0.040990 -961.106 -961.106 | | | | | \n | INT-L1+ -3313.657-3312.958 0.799184-3312.793 -3312.805 0.166978 0.151455-3312.960-3312.956 | | | | | | | | \n | INT-1a+ -2490.234 -2489.6580.639817-2489.544 -2489.551 0.1318400.122800-2489.676 -2489.674 | | | | | | | | \n | II-1a-L1 -4231.123-4230.218 1.097910-4229.941-4229.956 0.208678 0.188133-4230.149-4230.144 | | | | | | | | \n | TSII-(M)-L1-4231.094-4230.186 1.092342 -4229.918-4229.932 0.203612 0.185136-4230.122 -4230.118 | | | | | | | | \n | TSII-(P)-L1 -4231.092 -4230.180 1.091806 -4229.917 -4229.931 0.201482 0.184090-4230.118-4230.115 | | | | | | | | \n | III-(M) -4231.119-4230.210 1.097350-4229.937-4229.952 0.204609 0.186343 -4230.142 -4230.138 | | | | | | | | \n | AgOTf -1107.922 -1107.692 0.028894 -1107.882 -1107.883 0.049437 0.047767 -1107.931 -1107.931 | | | | | | | | \n | L1Ag0Tf·H0Tf -3810.362 -3809.592 0.524983 -3809.78 -3809.792 0.155601 0.138416 -3809.936 -3809.93 | | | | | | | | \n | IV-(M) -2067.681 -2067.198 0.793148 -2066.834 -2066.842 0.139899 0.129645 -2066.974 -2066.972 | | | | | | | | \n | TSIV-(M) -2067.662 -2067.179 0.792109 -2066.817 -2066.825 0.137486 0.127893 -2066.954 -2066.953 | | | | | | | | \nV-(M) | | | | | | | | -2067.705-2067.2160.793735-2066.858-2066.866 0.140158 0.129623-2066.998-2066.996 | \nTSV-(M) | -2067.665 -2067.18 0.792519 -2066.82-2066.828 0.135998 0.126784 -2066.956 -2066.955 | | | | | | | | \nVI-(M) | | | | -2067.68-2067.195 0.794661 -2066.833 -2066.841 0.137034 0.127141 -2066.97-2066.968 | | | | |"
+          }
+        ]
+      },
+      {
+        "reference_id": "CR2",
+        "result": "DFT free-energy barrier for C-H cleavage leading to the P-configured product via TSII-(P)-L1",
+        "observable": "activation free energy",
+        "value": 18.1,
+        "unit": "kcal/mol",
+        "method": "PBE0-D3(BJ)/6-31G(d,p)-SDD(Ir,Ag) optimizations; PBE0-D3(BJ)/6-311++G(d,p)-SDD(Ir,Ag) single points; SMD(DCM); quasi-RRHO and concentration corrections",
+        "model_system": "Ir(III) complex with chiral nitrile-phosphine oxide ligand L1 and substrate 1a",
+        "conditions": "DCM solvation model; 50 °C experimental context",
+        "comparison_scope": "enantioselective C-H cleavage pathway",
+        "uncertainty": "not reported",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000070_cac4d33409ec",
+          "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+          "ev_doc_86333f5a9e46_000527_28b34224851c"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000070_cac4d33409ec",
+            "quote": "Density functional theory (DFT) calculations were performed to gain deeper mechanistic insights into the reaction (Figure 7). The active catalyst I is initially generated from [ \\mathrm { C p } ^ { * t \\bar { \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } and AgOTf. In the absence of the chiral ligand (gray pathway), substrate 1a coordinates to the iridium center in I to form intermediate INT-1a, stabilized by a hydrogen bond with a triflate anion. Subsequently, INT-1a undergoes a CMD process assisted by another triflate molecule, yielding the cyclometalated complex III-1a. In the presence of chiral nitrile ligand L1 (blue pathway), the mechanism diverges. Both INT-L1 (with L1 coordinated first) and INT-1a (with 1a coordinated first) may form initially. These species readily equilibrate to a more stable cationic intermediate II-1a-L1 via facile dissociation of one triflate anion. Subsequent enantio-determining C(sp<sup>2</sup>)−H cleavage proceeds via a CMD transition state, where the phosphine oxide moiety of L1 acts as a key Lewis base instead of the triflate anion. The free energy barrier for the C−H cleavage leading to the (M)-configured product via TSII-(M)-L1 is 16.4 kcal·mol<sup>−1</sup>, which is 1.7 kcal·mol<sup>−1</sup> lower than that for the (P)- pathway (18.1 kcal·mol<sup>−1</sup> for TSII-(P)-L1; Figure 7b). This enantioselectivity is attributed to enhanced hydrogen-bonding interactions among the triflate anion, the chiral ligand, and substrate 1a in the favored transition state. The free energies of subsequent steps were also calculated (see Figure S2 in the Supporting Information). The barrier for the alkyne insertion step is indeed lower than that for C−H activation, consistent with previous mechanistic studies. In addition, reductive elimination is likely to be the rate-determining step."
+          },
+          {
+            "evidence_id": "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+            "quote": "All the quantum chemical calculations were carried out with the Gaussian 1 6 ^ { 9 } package. Optimizations of the geometries of minima and transition states (TSs) were carried out at the \\mathrm { P B E 0 – D 3 ( B J ) ^ { 1 0 , 1 1 } } / 6 \\mathrm { - } 3 1 \\mathrm { G ( d , p ) ^ { 1 2 } } \\mathrm { - } \\mathrm { S D D ( I r , A g ) ^ { 1 3 - 1 5 } } level of theory. Frequency calculations were performed at the same level to ensure their nature as minimal (no imaginary frequency) or transition states (only one imaginary frequency). The single point energy calculations were performed at the \\mathrm { P B E 0 - D 3 ( B J ) } / 6 - 3 1 1 \\mathrm { + + } \\mathrm { G ( d , p ) } \\mathrm { - } \\mathrm { S D D } ( \\mathrm { I r } , \\mathbf { A g } ) level of theory to obtain more accurate electronic energies, \\mathrm { S M D } ^ { 1 6 } solvation model was used to account for the solvation effects of dichloromethane (DCM), which were used in the corresponding experiments. Grimme’s quasi-RRHO correction<sup>17</sup> for the frequencies that are below 1 0 0 \\mathrm { c m } ^ { - 1 } and concentration correction from 1 atm to 1 mol/L were implemented by GoodVibes 3.2<sup>18</sup>. The 3D plots for the molecules were created with CYLview 2 0 ^ { 1 9 }"
+          },
+          {
+            "evidence_id": "ev_doc_86333f5a9e46_000527_28b34224851c",
+            "quote": "Table S10. Combining final single point energy with thermal corrections of stationary points created by Goodvibes.\nSpecies | EsPC | E | ZPE | HsPC | qh-HsPC | T.S | T.qh-S | | G(T)sPc qh-G(T)sPC\nL1 | | | | -1740.828 -1740.462 0.455663 -1740.339 -1740.344 0.098625 0.091773 -1740.437 -1740.436 | | | | | \n1a | | | | -917.404 -917.182 0.295953 -917.088 -917.091 0.065438 0.062967 -917.154 -917.153 | | | | | \n1 | | | | -2533.914-2533.389 0.371159-2533.503-2533.5090.111492 0.103763-2533.615-2533.613 | | | | | \nI+ | | | | -1572.769-1572.398 0.340885 -1572.398 -1572.402 0.090593 0.084846 -1572.489-1572.487 | | | | | \nINT-1a | | | | -3451.376-3450.6390.669653-3450.646-3450.6560.155414 0.142070-3450.801-3450.798 | | | | | \nTS-1a | | | | -3451.335-3450.594 0.662716-3450.613-3450.622 0.151976 0.140229-3450.765-3450.763 | | | | | \nIII-1a | -3451.341-3450.602 0.667102 -3450.614-3450.624 0.154943 0.142110-3450.769-3450.766 | | | | | | | | \nINT-L1 | -4274.797-4273.917 0.829164-4273.893-4273.907 0.188019 0.169741-4274.081-4274.077 | | | | | | | | \n | | | | INT-L1-1a -5192.202 -5194.520 1.131366 -5190.977 -5190.995 0.229806 0.206228-5191.207 -5191.201 | | | | | \nOTf | | | | -961.101 -960.809 0.028118 -961.064 -961.065 0.041569 0.040990 -961.106 -961.106 | | | | | \n | INT-L1+ -3313.657-3312.958 0.799184-3312.793 -3312.805 0.166978 0.151455-3312.960-3312.956 | | | | | | | | \n | INT-1a+ -2490.234 -2489.6580.639817-2489.544 -2489.551 0.1318400.122800-2489.676 -2489.674 | | | | | | | | \n | II-1a-L1 -4231.123-4230.218 1.097910-4229.941-4229.956 0.208678 0.188133-4230.149-4230.144 | | | | | | | | \n | TSII-(M)-L1-4231.094-4230.186 1.092342 -4229.918-4229.932 0.203612 0.185136-4230.122 -4230.118 | | | | | | | | \n | TSII-(P)-L1 -4231.092 -4230.180 1.091806 -4229.917 -4229.931 0.201482 0.184090-4230.118-4230.115 | | | | | | | | \n | III-(M) -4231.119-4230.210 1.097350-4229.937-4229.952 0.204609 0.186343 -4230.142 -4230.138 | | | | | | | | \n | AgOTf -1107.922 -1107.692 0.028894 -1107.882 -1107.883 0.049437 0.047767 -1107.931 -1107.931 | | | | | | | | \n | L1Ag0Tf·H0Tf -3810.362 -3809.592 0.524983 -3809.78 -3809.792 0.155601 0.138416 -3809.936 -3809.93 | | | | | | | | \n | IV-(M) -2067.681 -2067.198 0.793148 -2066.834 -2066.842 0.139899 0.129645 -2066.974 -2066.972 | | | | | | | | \n | TSIV-(M) -2067.662 -2067.179 0.792109 -2066.817 -2066.825 0.137486 0.127893 -2066.954 -2066.953 | | | | | | | | \nV-(M) | | | | | | | | -2067.705-2067.2160.793735-2066.858-2066.866 0.140158 0.129623-2066.998-2066.996 | \nTSV-(M) | -2067.665 -2067.18 0.792519 -2066.82-2066.828 0.135998 0.126784 -2066.956 -2066.955 | | | | | | | | \nVI-(M) | | | | -2067.68-2067.195 0.794661 -2066.833 -2066.841 0.137034 0.127141 -2066.97-2066.968 | | | | |"
+          }
+        ]
+      },
+      {
+        "reference_id": "CR3",
+        "result": "Reported energy difference between the two C-H cleavage transition states",
+        "observable": "relative activation free energy",
+        "value": 1.7,
+        "unit": "kcal/mol",
+        "method": "PBE0-D3(BJ)/6-31G(d,p)-SDD(Ir,Ag) optimizations; PBE0-D3(BJ)/6-311++G(d,p)-SDD(Ir,Ag) single points; SMD(DCM); quasi-RRHO and concentration corrections",
+        "model_system": "Ir(III) complex with chiral nitrile-phosphine oxide ligand L1 and substrate 1a",
+        "conditions": "DCM solvation model; 50 °C experimental context",
+        "comparison_scope": "M vs P C-H cleavage transition states",
+        "uncertainty": "not reported",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000070_cac4d33409ec",
+          "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+          "ev_doc_86333f5a9e46_000527_28b34224851c"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000070_cac4d33409ec",
+            "quote": "Density functional theory (DFT) calculations were performed to gain deeper mechanistic insights into the reaction (Figure 7). The active catalyst I is initially generated from [ \\mathrm { C p } ^ { * t \\bar { \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } and AgOTf. In the absence of the chiral ligand (gray pathway), substrate 1a coordinates to the iridium center in I to form intermediate INT-1a, stabilized by a hydrogen bond with a triflate anion. Subsequently, INT-1a undergoes a CMD process assisted by another triflate molecule, yielding the cyclometalated complex III-1a. In the presence of chiral nitrile ligand L1 (blue pathway), the mechanism diverges. Both INT-L1 (with L1 coordinated first) and INT-1a (with 1a coordinated first) may form initially. These species readily equilibrate to a more stable cationic intermediate II-1a-L1 via facile dissociation of one triflate anion. Subsequent enantio-determining C(sp<sup>2</sup>)−H cleavage proceeds via a CMD transition state, where the phosphine oxide moiety of L1 acts as a key Lewis base instead of the triflate anion. The free energy barrier for the C−H cleavage leading to the (M)-configured product via TSII-(M)-L1 is 16.4 kcal·mol<sup>−1</sup>, which is 1.7 kcal·mol<sup>−1</sup> lower than that for the (P)- pathway (18.1 kcal·mol<sup>−1</sup> for TSII-(P)-L1; Figure 7b). This enantioselectivity is attributed to enhanced hydrogen-bonding interactions among the triflate anion, the chiral ligand, and substrate 1a in the favored transition state. The free energies of subsequent steps were also calculated (see Figure S2 in the Supporting Information). The barrier for the alkyne insertion step is indeed lower than that for C−H activation, consistent with previous mechanistic studies. In addition, reductive elimination is likely to be the rate-determining step."
+          },
+          {
+            "evidence_id": "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+            "quote": "All the quantum chemical calculations were carried out with the Gaussian 1 6 ^ { 9 } package. Optimizations of the geometries of minima and transition states (TSs) were carried out at the \\mathrm { P B E 0 – D 3 ( B J ) ^ { 1 0 , 1 1 } } / 6 \\mathrm { - } 3 1 \\mathrm { G ( d , p ) ^ { 1 2 } } \\mathrm { - } \\mathrm { S D D ( I r , A g ) ^ { 1 3 - 1 5 } } level of theory. Frequency calculations were performed at the same level to ensure their nature as minimal (no imaginary frequency) or transition states (only one imaginary frequency). The single point energy calculations were performed at the \\mathrm { P B E 0 - D 3 ( B J ) } / 6 - 3 1 1 \\mathrm { + + } \\mathrm { G ( d , p ) } \\mathrm { - } \\mathrm { S D D } ( \\mathrm { I r } , \\mathbf { A g } ) level of theory to obtain more accurate electronic energies, \\mathrm { S M D } ^ { 1 6 } solvation model was used to account for the solvation effects of dichloromethane (DCM), which were used in the corresponding experiments. Grimme’s quasi-RRHO correction<sup>17</sup> for the frequencies that are below 1 0 0 \\mathrm { c m } ^ { - 1 } and concentration correction from 1 atm to 1 mol/L were implemented by GoodVibes 3.2<sup>18</sup>. The 3D plots for the molecules were created with CYLview 2 0 ^ { 1 9 }"
+          },
+          {
+            "evidence_id": "ev_doc_86333f5a9e46_000527_28b34224851c",
+            "quote": "Table S10. Combining final single point energy with thermal corrections of stationary points created by Goodvibes.\nSpecies | EsPC | E | ZPE | HsPC | qh-HsPC | T.S | T.qh-S | | G(T)sPc qh-G(T)sPC\nL1 | | | | -1740.828 -1740.462 0.455663 -1740.339 -1740.344 0.098625 0.091773 -1740.437 -1740.436 | | | | | \n1a | | | | -917.404 -917.182 0.295953 -917.088 -917.091 0.065438 0.062967 -917.154 -917.153 | | | | | \n1 | | | | -2533.914-2533.389 0.371159-2533.503-2533.5090.111492 0.103763-2533.615-2533.613 | | | | | \nI+ | | | | -1572.769-1572.398 0.340885 -1572.398 -1572.402 0.090593 0.084846 -1572.489-1572.487 | | | | | \nINT-1a | | | | -3451.376-3450.6390.669653-3450.646-3450.6560.155414 0.142070-3450.801-3450.798 | | | | | \nTS-1a | | | | -3451.335-3450.594 0.662716-3450.613-3450.622 0.151976 0.140229-3450.765-3450.763 | | | | | \nIII-1a | -3451.341-3450.602 0.667102 -3450.614-3450.624 0.154943 0.142110-3450.769-3450.766 | | | | | | | | \nINT-L1 | -4274.797-4273.917 0.829164-4273.893-4273.907 0.188019 0.169741-4274.081-4274.077 | | | | | | | | \n | | | | INT-L1-1a -5192.202 -5194.520 1.131366 -5190.977 -5190.995 0.229806 0.206228-5191.207 -5191.201 | | | | | \nOTf | | | | -961.101 -960.809 0.028118 -961.064 -961.065 0.041569 0.040990 -961.106 -961.106 | | | | | \n | INT-L1+ -3313.657-3312.958 0.799184-3312.793 -3312.805 0.166978 0.151455-3312.960-3312.956 | | | | | | | | \n | INT-1a+ -2490.234 -2489.6580.639817-2489.544 -2489.551 0.1318400.122800-2489.676 -2489.674 | | | | | | | | \n | II-1a-L1 -4231.123-4230.218 1.097910-4229.941-4229.956 0.208678 0.188133-4230.149-4230.144 | | | | | | | | \n | TSII-(M)-L1-4231.094-4230.186 1.092342 -4229.918-4229.932 0.203612 0.185136-4230.122 -4230.118 | | | | | | | | \n | TSII-(P)-L1 -4231.092 -4230.180 1.091806 -4229.917 -4229.931 0.201482 0.184090-4230.118-4230.115 | | | | | | | | \n | III-(M) -4231.119-4230.210 1.097350-4229.937-4229.952 0.204609 0.186343 -4230.142 -4230.138 | | | | | | | | \n | AgOTf -1107.922 -1107.692 0.028894 -1107.882 -1107.883 0.049437 0.047767 -1107.931 -1107.931 | | | | | | | | \n | L1Ag0Tf·H0Tf -3810.362 -3809.592 0.524983 -3809.78 -3809.792 0.155601 0.138416 -3809.936 -3809.93 | | | | | | | | \n | IV-(M) -2067.681 -2067.198 0.793148 -2066.834 -2066.842 0.139899 0.129645 -2066.974 -2066.972 | | | | | | | | \n | TSIV-(M) -2067.662 -2067.179 0.792109 -2066.817 -2066.825 0.137486 0.127893 -2066.954 -2066.953 | | | | | | | | \nV-(M) | | | | | | | | -2067.705-2067.2160.793735-2066.858-2066.866 0.140158 0.129623-2066.998-2066.996 | \nTSV-(M) | -2067.665 -2067.18 0.792519 -2066.82-2066.828 0.135998 0.126784 -2066.956 -2066.955 | | | | | | | | \nVI-(M) | | | | -2067.68-2067.195 0.794661 -2066.833 -2066.841 0.137034 0.127141 -2066.97-2066.968 | | | | |"
+          }
+        ]
+      }
+    ],
+    "public_inputs": [
+      {
+        "input_id": "PI1",
+        "kind": "identity",
+        "content": "3-(phenanthren-4-yl)-1H-indazole (1a)",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000029_dfcca0140131",
+          "ev_doc_86333f5a9e46_000091_e4a763b4f2ac",
+          "ev_doc_86333f5a9e46_000094_f78cc8c427d3"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000029_dfcca0140131",
+            "quote": "Our investigation began with the model reaction between 3- (phenanthren-4-yl)-1H-indazole (1a) and diphenylacetylene (2a). After a preliminary optimization, the target racemic Ndoped helicene product 3aa was obtained in the presence of [ \\dot { \\mathrm { C p } } ^ { * t \\mathrm { B u } } \\mathrm { I r } { \\mathrm { C l } } _ { 2 } ] _ { 2 } , AgOTf and H O in DCE (Table 1, entry 1). Guided by the prevalence of axially chiral biaryls as privileged ligand scafolds, we designed and synthesized a binaphthylderived chiral nitrile ligand (L1) bearing a sterically demanding diphenylphosphine oxide group at the 2′-position. Encouragingly, the use of L1 aforded the chiral helicene 3aa in 72% yield with 89% ee (entry 2), validating our ligand design hypothesis. Subsequent evaluation of phosphine oxide analogs (L2−L4) failed to improve the enantiocontrol (entries 3−5). Ligand L5, derived from (S)-SPINOL, provided only moderate yield and enantioselectivity (entry 6). It should be noted that the corresponding chiral carboxylic acid ligand L6 resulted in low enantioselectivity (entry 7). Further evaluation of silver sources revealed that alternative salts or combinations thereof led to diminished enantioselectivity (see Table S2 for details in Supporting Information). The presence of water was found to enhance both yield and ee (entry 8), whereas its replacement with triethylamine or pyridine led to a sharp decrease in enantioselectivity (entries 9−10), likely due to competitive coordination with the chiral nitrile ligand. The addition of a small amount of water acts as a beneficial additive (See Table S7 in SI for details), enhancing reaction eficiency likely through hydrogen-bonding interactions that stabilize key transition states, potentially involving the triflate anion or the phosphine oxide moiety of L1.<sup>22</sup> Screening of various solvents identified dichloromethane as optimal, afording the product in 80% yield and 91% ee under an argon atmosphere (entries 11− 14). The tert-butyl substitution on the \\mathsf { C } \\bar { \\mathsf { p } } ^ { X } ligand was also crucial, as the parent [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } catalyst led to inferior reactivity and stereocontrol (entry 15).<sup>23</sup> Ultimately, the optimized conditions were established on a 0.1 mmol scale, furnishing helicene 3aa in 82% isolated yield and 91% ee (entry 16)."
+          },
+          {
+            "evidence_id": "ev_doc_86333f5a9e46_000091_e4a763b4f2ac",
+            "quote": "3-(phenanthren-4-yl)-1H-indazole (1a)"
+          },
+          {
+            "evidence_id": "ev_doc_86333f5a9e46_000094_f78cc8c427d3",
+            "quote": "<sup>13</sup>C NMR (101 MHz, DMSO-d6) δ 147.7, 141.6, 133.7, 133.4, 132.1, 131.0, 130.0, 129.5, 129.0, 128.0, 127.8, 126.9, 126.8, 126.8, 126.6, 125.7, 122.0, 121.1, 120.6, 110.9. HRMS (ESI-TOF) m / z \\left[ \\mathrm { M } { + } \\mathrm { H } \\right] ^ { + } calculated for { \\mathrm { C } } _ { 2 1 } { \\mathrm { H } } _ { 1 5 } { \\mathrm { N } } _ { 2 } , 295.1230; found 295.1231."
+          }
+        ]
+      },
+      {
+        "input_id": "PI2",
+        "kind": "identity",
+        "content": "diphenylacetylene (2a)",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000029_dfcca0140131",
+          "ev_doc_0f676ddde554_000036_73d557d14c9a",
+          "ev_doc_0f676ddde554_000042_3799047d0508"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000029_dfcca0140131",
+            "quote": "Our investigation began with the model reaction between 3- (phenanthren-4-yl)-1H-indazole (1a) and diphenylacetylene (2a). After a preliminary optimization, the target racemic Ndoped helicene product 3aa was obtained in the presence of [ \\dot { \\mathrm { C p } } ^ { * t \\mathrm { B u } } \\mathrm { I r } { \\mathrm { C l } } _ { 2 } ] _ { 2 } , AgOTf and H O in DCE (Table 1, entry 1). Guided by the prevalence of axially chiral biaryls as privileged ligand scafolds, we designed and synthesized a binaphthylderived chiral nitrile ligand (L1) bearing a sterically demanding diphenylphosphine oxide group at the 2′-position. Encouragingly, the use of L1 aforded the chiral helicene 3aa in 72% yield with 89% ee (entry 2), validating our ligand design hypothesis. Subsequent evaluation of phosphine oxide analogs (L2−L4) failed to improve the enantiocontrol (entries 3−5). Ligand L5, derived from (S)-SPINOL, provided only moderate yield and enantioselectivity (entry 6). It should be noted that the corresponding chiral carboxylic acid ligand L6 resulted in low enantioselectivity (entry 7). Further evaluation of silver sources revealed that alternative salts or combinations thereof led to diminished enantioselectivity (see Table S2 for details in Supporting Information). The presence of water was found to enhance both yield and ee (entry 8), whereas its replacement with triethylamine or pyridine led to a sharp decrease in enantioselectivity (entries 9−10), likely due to competitive coordination with the chiral nitrile ligand. The addition of a small amount of water acts as a beneficial additive (See Table S7 in SI for details), enhancing reaction eficiency likely through hydrogen-bonding interactions that stabilize key transition states, potentially involving the triflate anion or the phosphine oxide moiety of L1.<sup>22</sup> Screening of various solvents identified dichloromethane as optimal, afording the product in 80% yield and 91% ee under an argon atmosphere (entries 11− 14). The tert-butyl substitution on the \\mathsf { C } \\bar { \\mathsf { p } } ^ { X } ligand was also crucial, as the parent [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } catalyst led to inferior reactivity and stereocontrol (entry 15).<sup>23</sup> Ultimately, the optimized conditions were established on a 0.1 mmol scale, furnishing helicene 3aa in 82% isolated yield and 91% ee (entry 16)."
+          },
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000036_73d557d14c9a",
+            "quote": "We next examined the scope of alkynes in the reaction with indazole 1a (Figure 2). A variety of diarylacetylenes proved compatible, furnishing the corresponding helicenes 3aa−3au in moderate to high yields with good enantioselectivity. The reaction tolerated diverse substituents at the para position of diarylacetylenes. Both electron-donating alkyl groups (3ab− 3af) and electron-withdrawing groups (fluoro, chloro, bromo, acetyl, and ester; 3ag−3al) were compatible, afording the desired helicenes in moderate to good yields with 87−90% ee. The para-trifluoromethyl diarylacetylene gave the desired product 3al with excellent enantiocontrol (91% ee), albeit in lower yield. Meta-substituted diarylacetylenes, bearing either electron-donating or -withdrawing groups were also suitable, providing products 3am−3ar in 21−92% yields with 88−95% ee. Disubstituted diarylacetylenes reacted eficiently under slightly modified conditions (3at, 3au). Notably, the scope extends beyond diarylacetylenes. Challenging dialkylacetylenes were also tolerated, afording products 3av and 3aw in good yields and high enantioselectivity. Furthermore, the unsymmetrical alkylarylacetylene 1x yielded two regioisomeric helicenes with 90% ee and a regioselectivity ratio of 3:1. Unfortunately, heteroaryl alkynes such as dipyridinylacetylene and dithiophenylacetylene proved unreactive under the standard conditions, yielding no annulation product. The absolute configuration of 3aa was determined by X-ray difraction analysis to be M (CCDC 2167940), and the configurations of analogous products were assigned accordingly."
+          },
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000042_3799047d0508",
+            "quote": "Figure 2. Scope of alkynes. Reaction conditions: 1 (0.1 mmol), 2 (2 equiv), [ \\mathrm { C p } ^ { * ^ { t \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] (5 mol %), L1 (20 mol %), AgOTf (2.5 equiv), H O (10 equiv), DCM (1 mL), 50 °C, Ar, 36 h. Isolated yield. The ee value was determined by HPLC on chiral stationary phase. <sup>a</sup>DCE as solvent. <sup>b</sup>Without water."
+          }
+        ]
+      },
+      {
+        "input_id": "PI3",
+        "kind": "identity",
+        "content": "chiral nitrile-phosphine oxide ligand L1",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000029_dfcca0140131",
+          "ev_doc_0f676ddde554_000035_66fb6e1ac72b",
+          "ev_doc_0f676ddde554_000070_cac4d33409ec"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000029_dfcca0140131",
+            "quote": "Our investigation began with the model reaction between 3- (phenanthren-4-yl)-1H-indazole (1a) and diphenylacetylene (2a). After a preliminary optimization, the target racemic Ndoped helicene product 3aa was obtained in the presence of [ \\dot { \\mathrm { C p } } ^ { * t \\mathrm { B u } } \\mathrm { I r } { \\mathrm { C l } } _ { 2 } ] _ { 2 } , AgOTf and H O in DCE (Table 1, entry 1). Guided by the prevalence of axially chiral biaryls as privileged ligand scafolds, we designed and synthesized a binaphthylderived chiral nitrile ligand (L1) bearing a sterically demanding diphenylphosphine oxide group at the 2′-position. Encouragingly, the use of L1 aforded the chiral helicene 3aa in 72% yield with 89% ee (entry 2), validating our ligand design hypothesis. Subsequent evaluation of phosphine oxide analogs (L2−L4) failed to improve the enantiocontrol (entries 3−5). Ligand L5, derived from (S)-SPINOL, provided only moderate yield and enantioselectivity (entry 6). It should be noted that the corresponding chiral carboxylic acid ligand L6 resulted in low enantioselectivity (entry 7). Further evaluation of silver sources revealed that alternative salts or combinations thereof led to diminished enantioselectivity (see Table S2 for details in Supporting Information). The presence of water was found to enhance both yield and ee (entry 8), whereas its replacement with triethylamine or pyridine led to a sharp decrease in enantioselectivity (entries 9−10), likely due to competitive coordination with the chiral nitrile ligand. The addition of a small amount of water acts as a beneficial additive (See Table S7 in SI for details), enhancing reaction eficiency likely through hydrogen-bonding interactions that stabilize key transition states, potentially involving the triflate anion or the phosphine oxide moiety of L1.<sup>22</sup> Screening of various solvents identified dichloromethane as optimal, afording the product in 80% yield and 91% ee under an argon atmosphere (entries 11− 14). The tert-butyl substitution on the \\mathsf { C } \\bar { \\mathsf { p } } ^ { X } ligand was also crucial, as the parent [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } catalyst led to inferior reactivity and stereocontrol (entry 15).<sup>23</sup> Ultimately, the optimized conditions were established on a 0.1 mmol scale, furnishing helicene 3aa in 82% isolated yield and 91% ee (entry 16)."
+          },
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000035_66fb6e1ac72b",
+            "quote": "Table 1. Optimization of the Reaction Conditions<sup>a</sup>\nentry Ligand Solvent Yield (%)b ee (%)c\n1 no Ligand DCE 84 一\n2 L1 DCE 72 89\n3 L2 DCE 30 82\n4 L3 DCE 48 40\n5 L4 DCE 40 35\n6 L5 DCE 40 -55\n7 L6 DCE 70 23\n$8 ^ { d }$ L1 DCE 46 86\n$9 ^ { e }$ L1 DCE 55 6\n$1 0 ^ { f }$ L1 DCE 17 1\n11 L1 Chlorobenzene 30 82\n12 L1 Toluene 20 73\n13 L1 CH3CN n.d. 1\n$1 4 ^ { g }$ L1 DCM 80 91\n$1 5 ^ { g , h }$ L1 DCM 62 86\n$1 6 ^ { g , i }$ L1 DCM 82j 91\n$[ \\mathrm { C p } ^ { * ^ { t \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 }$ $( 0 . 1 \\mathrm { { M } ) , 5 0 ^ { \\circ } C , N _ { 2 } , 3 6 \\mathrm { { h } . \\ ^ { \\ d ^ { b 1 } } H } }$ NMR yield using 1,3,5-trimethoxybenzene as the internal standard. The ee value was determined by HPLC on chiralstationary phase. dWithout $\\mathrm { H } _ { 2 } \\mathrm { O } .$ eTriethylamine instead of water. fPyridine instead of water. 8Ar atmosphere. ${ } ^ { h } [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 }$ was used. i0.1 mmolscale. Isolated yield.\n« HPLC | C on chiral"
+          },
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000070_cac4d33409ec",
+            "quote": "Density functional theory (DFT) calculations were performed to gain deeper mechanistic insights into the reaction (Figure 7). The active catalyst I is initially generated from [ \\mathrm { C p } ^ { * t \\bar { \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } and AgOTf. In the absence of the chiral ligand (gray pathway), substrate 1a coordinates to the iridium center in I to form intermediate INT-1a, stabilized by a hydrogen bond with a triflate anion. Subsequently, INT-1a undergoes a CMD process assisted by another triflate molecule, yielding the cyclometalated complex III-1a. In the presence of chiral nitrile ligand L1 (blue pathway), the mechanism diverges. Both INT-L1 (with L1 coordinated first) and INT-1a (with 1a coordinated first) may form initially. These species readily equilibrate to a more stable cationic intermediate II-1a-L1 via facile dissociation of one triflate anion. Subsequent enantio-determining C(sp<sup>2</sup>)−H cleavage proceeds via a CMD transition state, where the phosphine oxide moiety of L1 acts as a key Lewis base instead of the triflate anion. The free energy barrier for the C−H cleavage leading to the (M)-configured product via TSII-(M)-L1 is 16.4 kcal·mol<sup>−1</sup>, which is 1.7 kcal·mol<sup>−1</sup> lower than that for the (P)- pathway (18.1 kcal·mol<sup>−1</sup> for TSII-(P)-L1; Figure 7b). This enantioselectivity is attributed to enhanced hydrogen-bonding interactions among the triflate anion, the chiral ligand, and substrate 1a in the favored transition state. The free energies of subsequent steps were also calculated (see Figure S2 in the Supporting Information). The barrier for the alkyne insertion step is indeed lower than that for C−H activation, consistent with previous mechanistic studies. In addition, reductive elimination is likely to be the rate-determining step."
+          }
+        ]
+      },
+      {
+        "input_id": "PI4",
+        "kind": "condition",
+        "content": "DCM, 50 °C, Ar, 36 h; [Cp*tBuIrCl2]2 (5 mol %), L1 (20 mol %), AgOTf (2.5 equiv), H2O (10 equiv)",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000029_dfcca0140131",
+          "ev_doc_0f676ddde554_000035_66fb6e1ac72b",
+          "ev_doc_0f676ddde554_000042_3799047d0508"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000029_dfcca0140131",
+            "quote": "Our investigation began with the model reaction between 3- (phenanthren-4-yl)-1H-indazole (1a) and diphenylacetylene (2a). After a preliminary optimization, the target racemic Ndoped helicene product 3aa was obtained in the presence of [ \\dot { \\mathrm { C p } } ^ { * t \\mathrm { B u } } \\mathrm { I r } { \\mathrm { C l } } _ { 2 } ] _ { 2 } , AgOTf and H O in DCE (Table 1, entry 1). Guided by the prevalence of axially chiral biaryls as privileged ligand scafolds, we designed and synthesized a binaphthylderived chiral nitrile ligand (L1) bearing a sterically demanding diphenylphosphine oxide group at the 2′-position. Encouragingly, the use of L1 aforded the chiral helicene 3aa in 72% yield with 89% ee (entry 2), validating our ligand design hypothesis. Subsequent evaluation of phosphine oxide analogs (L2−L4) failed to improve the enantiocontrol (entries 3−5). Ligand L5, derived from (S)-SPINOL, provided only moderate yield and enantioselectivity (entry 6). It should be noted that the corresponding chiral carboxylic acid ligand L6 resulted in low enantioselectivity (entry 7). Further evaluation of silver sources revealed that alternative salts or combinations thereof led to diminished enantioselectivity (see Table S2 for details in Supporting Information). The presence of water was found to enhance both yield and ee (entry 8), whereas its replacement with triethylamine or pyridine led to a sharp decrease in enantioselectivity (entries 9−10), likely due to competitive coordination with the chiral nitrile ligand. The addition of a small amount of water acts as a beneficial additive (See Table S7 in SI for details), enhancing reaction eficiency likely through hydrogen-bonding interactions that stabilize key transition states, potentially involving the triflate anion or the phosphine oxide moiety of L1.<sup>22</sup> Screening of various solvents identified dichloromethane as optimal, afording the product in 80% yield and 91% ee under an argon atmosphere (entries 11− 14). The tert-butyl substitution on the \\mathsf { C } \\bar { \\mathsf { p } } ^ { X } ligand was also crucial, as the parent [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } catalyst led to inferior reactivity and stereocontrol (entry 15).<sup>23</sup> Ultimately, the optimized conditions were established on a 0.1 mmol scale, furnishing helicene 3aa in 82% isolated yield and 91% ee (entry 16)."
+          },
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000035_66fb6e1ac72b",
+            "quote": "Table 1. Optimization of the Reaction Conditions<sup>a</sup>\nentry Ligand Solvent Yield (%)b ee (%)c\n1 no Ligand DCE 84 一\n2 L1 DCE 72 89\n3 L2 DCE 30 82\n4 L3 DCE 48 40\n5 L4 DCE 40 35\n6 L5 DCE 40 -55\n7 L6 DCE 70 23\n$8 ^ { d }$ L1 DCE 46 86\n$9 ^ { e }$ L1 DCE 55 6\n$1 0 ^ { f }$ L1 DCE 17 1\n11 L1 Chlorobenzene 30 82\n12 L1 Toluene 20 73\n13 L1 CH3CN n.d. 1\n$1 4 ^ { g }$ L1 DCM 80 91\n$1 5 ^ { g , h }$ L1 DCM 62 86\n$1 6 ^ { g , i }$ L1 DCM 82j 91\n$[ \\mathrm { C p } ^ { * ^ { t \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 }$ $( 0 . 1 \\mathrm { { M } ) , 5 0 ^ { \\circ } C , N _ { 2 } , 3 6 \\mathrm { { h } . \\ ^ { \\ d ^ { b 1 } } H } }$ NMR yield using 1,3,5-trimethoxybenzene as the internal standard. The ee value was determined by HPLC on chiralstationary phase. dWithout $\\mathrm { H } _ { 2 } \\mathrm { O } .$ eTriethylamine instead of water. fPyridine instead of water. 8Ar atmosphere. ${ } ^ { h } [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 }$ was used. i0.1 mmolscale. Isolated yield.\n« HPLC | C on chiral"
+          },
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000042_3799047d0508",
+            "quote": "Figure 2. Scope of alkynes. Reaction conditions: 1 (0.1 mmol), 2 (2 equiv), [ \\mathrm { C p } ^ { * ^ { t \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] (5 mol %), L1 (20 mol %), AgOTf (2.5 equiv), H O (10 equiv), DCM (1 mL), 50 °C, Ar, 36 h. Isolated yield. The ee value was determined by HPLC on chiral stationary phase. <sup>a</sup>DCE as solvent. <sup>b</sup>Without water."
+          }
+        ]
+      },
+      {
+        "input_id": "PI5",
+        "kind": "observation",
+        "content": "The reaction gives helicene 3aa in 82% isolated yield and 91% ee under the optimized conditions",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000029_dfcca0140131",
+          "ev_doc_0f676ddde554_000035_66fb6e1ac72b"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000029_dfcca0140131",
+            "quote": "Our investigation began with the model reaction between 3- (phenanthren-4-yl)-1H-indazole (1a) and diphenylacetylene (2a). After a preliminary optimization, the target racemic Ndoped helicene product 3aa was obtained in the presence of [ \\dot { \\mathrm { C p } } ^ { * t \\mathrm { B u } } \\mathrm { I r } { \\mathrm { C l } } _ { 2 } ] _ { 2 } , AgOTf and H O in DCE (Table 1, entry 1). Guided by the prevalence of axially chiral biaryls as privileged ligand scafolds, we designed and synthesized a binaphthylderived chiral nitrile ligand (L1) bearing a sterically demanding diphenylphosphine oxide group at the 2′-position. Encouragingly, the use of L1 aforded the chiral helicene 3aa in 72% yield with 89% ee (entry 2), validating our ligand design hypothesis. Subsequent evaluation of phosphine oxide analogs (L2−L4) failed to improve the enantiocontrol (entries 3−5). Ligand L5, derived from (S)-SPINOL, provided only moderate yield and enantioselectivity (entry 6). It should be noted that the corresponding chiral carboxylic acid ligand L6 resulted in low enantioselectivity (entry 7). Further evaluation of silver sources revealed that alternative salts or combinations thereof led to diminished enantioselectivity (see Table S2 for details in Supporting Information). The presence of water was found to enhance both yield and ee (entry 8), whereas its replacement with triethylamine or pyridine led to a sharp decrease in enantioselectivity (entries 9−10), likely due to competitive coordination with the chiral nitrile ligand. The addition of a small amount of water acts as a beneficial additive (See Table S7 in SI for details), enhancing reaction eficiency likely through hydrogen-bonding interactions that stabilize key transition states, potentially involving the triflate anion or the phosphine oxide moiety of L1.<sup>22</sup> Screening of various solvents identified dichloromethane as optimal, afording the product in 80% yield and 91% ee under an argon atmosphere (entries 11− 14). The tert-butyl substitution on the \\mathsf { C } \\bar { \\mathsf { p } } ^ { X } ligand was also crucial, as the parent [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } catalyst led to inferior reactivity and stereocontrol (entry 15).<sup>23</sup> Ultimately, the optimized conditions were established on a 0.1 mmol scale, furnishing helicene 3aa in 82% isolated yield and 91% ee (entry 16)."
+          },
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000035_66fb6e1ac72b",
+            "quote": "Table 1. Optimization of the Reaction Conditions<sup>a</sup>\nentry Ligand Solvent Yield (%)b ee (%)c\n1 no Ligand DCE 84 一\n2 L1 DCE 72 89\n3 L2 DCE 30 82\n4 L3 DCE 48 40\n5 L4 DCE 40 35\n6 L5 DCE 40 -55\n7 L6 DCE 70 23\n$8 ^ { d }$ L1 DCE 46 86\n$9 ^ { e }$ L1 DCE 55 6\n$1 0 ^ { f }$ L1 DCE 17 1\n11 L1 Chlorobenzene 30 82\n12 L1 Toluene 20 73\n13 L1 CH3CN n.d. 1\n$1 4 ^ { g }$ L1 DCM 80 91\n$1 5 ^ { g , h }$ L1 DCM 62 86\n$1 6 ^ { g , i }$ L1 DCM 82j 91\n$[ \\mathrm { C p } ^ { * ^ { t \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 }$ $( 0 . 1 \\mathrm { { M } ) , 5 0 ^ { \\circ } C , N _ { 2 } , 3 6 \\mathrm { { h } . \\ ^ { \\ d ^ { b 1 } } H } }$ NMR yield using 1,3,5-trimethoxybenzene as the internal standard. The ee value was determined by HPLC on chiralstationary phase. dWithout $\\mathrm { H } _ { 2 } \\mathrm { O } .$ eTriethylamine instead of water. fPyridine instead of water. 8Ar atmosphere. ${ } ^ { h } [ \\mathrm { C p } ^ { * } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 }$ was used. i0.1 mmolscale. Isolated yield.\n« HPLC | C on chiral"
+          }
+        ]
+      },
+      {
+        "input_id": "PI6",
+        "kind": "observation",
+        "content": "The absolute configuration of 3aa was determined by X-ray diffraction to be M",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000036_73d557d14c9a",
+          "ev_doc_86333f5a9e46_000601_176bf1a8e6b5"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_0f676ddde554_000036_73d557d14c9a",
+            "quote": "We next examined the scope of alkynes in the reaction with indazole 1a (Figure 2). A variety of diarylacetylenes proved compatible, furnishing the corresponding helicenes 3aa−3au in moderate to high yields with good enantioselectivity. The reaction tolerated diverse substituents at the para position of diarylacetylenes. Both electron-donating alkyl groups (3ab− 3af) and electron-withdrawing groups (fluoro, chloro, bromo, acetyl, and ester; 3ag−3al) were compatible, afording the desired helicenes in moderate to good yields with 87−90% ee. The para-trifluoromethyl diarylacetylene gave the desired product 3al with excellent enantiocontrol (91% ee), albeit in lower yield. Meta-substituted diarylacetylenes, bearing either electron-donating or -withdrawing groups were also suitable, providing products 3am−3ar in 21−92% yields with 88−95% ee. Disubstituted diarylacetylenes reacted eficiently under slightly modified conditions (3at, 3au). Notably, the scope extends beyond diarylacetylenes. Challenging dialkylacetylenes were also tolerated, afording products 3av and 3aw in good yields and high enantioselectivity. Furthermore, the unsymmetrical alkylarylacetylene 1x yielded two regioisomeric helicenes with 90% ee and a regioselectivity ratio of 3:1. Unfortunately, heteroaryl alkynes such as dipyridinylacetylene and dithiophenylacetylene proved unreactive under the standard conditions, yielding no annulation product. The absolute configuration of 3aa was determined by X-ray difraction analysis to be M (CCDC 2167940), and the configurations of analogous products were assigned accordingly."
+          },
+          {
+            "evidence_id": "ev_doc_86333f5a9e46_000601_176bf1a8e6b5",
+            "quote": "Figure S3. X-Ray crystallographic data of compound 3aa (CCDC 2167940)."
+          }
+        ]
+      }
+    ],
+    "missing_critical_inputs": [],
+    "reference_limitations": [
+      "The DFT study is limited to the authors' selected model system and does not report uncertainty estimates or error bars.",
+      "The reported calculations focus on the C-H cleavage step and do not provide a complete exhaustive search of all possible conformers or pathways.",
+      "The experimental reaction conditions are reported, but the DFT comparison is a model-system reference rather than a full kinetic simulation of the entire catalytic cycle."
+    ],
+    "evidence_requests": [],
+    "schema_version": "author-computation-research/v5-20261014",
+    "task_archetype": "author_computation_grounded_research",
+    "record_role": "Private historical source/reference material; source-route statements do not create additional public tasks or scored intermediate requirements.",
+    "active_evaluation": "Only scoring_rules.json defines the V3 final outcomes and weights. Historical contract decisions are source-qualification records, not current scientific acceptance.",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "scoring_requirements": "Only independent final conclusions in scoring_rules.json receive binary weights totaling 100. Actual claim-specific evidence is necessary, with no separate process or intermediate points."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "public_inputs": [
+    "data/identities.json",
+    "data/system.json",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "required_results": "s\n\n1. Give a connected energetic and molecular explanation for formation of the specified helicene skeleton, identifying why the proposed product-forming chemistry is feasible and where your model ends.\n2. Determine and explain the ligand's effect on activation difficulty relative to a controlled ligand-free comparison, reporting comparable activation free energies.\n3. Explain the observed M helicity with computed competing formation free energies and a molecular account of the ligand's stereochemical discrimination.\n4. Identify the most difficult tested product-forming transformation from local activation free energies, and explain whether it coincides with the stage setting helicity.\n\nChoose hypotheses and computational methods independently. State numerical definitions, local versus overall references, conditions and uncertainties. Support transition-state and connectivity claims with appropriate native evidence. No fixed count of intermediates, hypotheses, searches or trajectories is required. The supplied product identity and ee do not replace calculated explanatory evidence; an endpoint ee is not automatically a two-transition-state prediction.\n\n#"
+}

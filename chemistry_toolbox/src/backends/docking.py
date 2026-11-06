@@ -7,6 +7,7 @@ from typing import Any
 
 from .common import (
     command_artifacts,
+    external_failure,
     output_directory,
     partial_success,
     relative_workspace_path,
@@ -76,7 +77,7 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         install = "conda install -c conda-forge vina" if backend_id == "vina" else "Download GNINA and set CHEMGRAPH_GNINA_COMMAND"
         return unavailable(completed["stderr"], install=install)
     if completed["returncode"] != 0 or not poses.is_file():
-        raise RuntimeError(f"{backend_id} docking failed: {completed['stderr'][-2000:]}")
+        raise external_failure(completed, directory, backend_id)
     pose_text = poses.read_text(encoding="utf-8", errors="replace")
     score_matches = re.findall(r"REMARK VINA RESULT:\s+(-?\S+)\s+(-?\S+)\s+(-?\S+)", pose_text)
     scores = [

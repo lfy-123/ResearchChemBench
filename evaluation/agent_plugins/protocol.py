@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 from pathlib import Path
 
-from .registry import evaluator_environment, sensitive_name
 
 REQUEST_VERSION = "rcb-agent-request-v1"
 EVENT_VERSION = "rcb-agent-event-v1"
@@ -18,12 +18,12 @@ def write_external_request(runner, definition) -> Path:
     directory = runner.workspace / "_agent_protocol"
     directory.mkdir(exist_ok=True)
     servers = []
-    for spec in runner._mcp_server_specs():
-        environment = {k: v for k, v in spec.get("environment", {}).items() if not evaluator_environment(k)}
+    for index, spec in enumerate(runner._mcp_server_specs()):
+        from chemistry_toolbox.src import sandbox_stdio
         servers.append({"name": spec["name"], "transport": "stdio",
-                        "command": spec["command"][0], "args": spec["command"][1:],
-                        "env": {k: v for k, v in environment.items() if not sensitive_name(k)},
-                        "env_from": {k: k for k in environment if sensitive_name(k)},
+                        "command": sys.executable, "args": [sandbox_stdio.__file__, str(index)],
+                        "env": {},
+                        "env_from": {k: k for k in ('RCB_MCP_AUTH_TOKEN', f'RCB_MCP_ENDPOINT_{index}')},
                         "disabled_tools": spec.get("disabled_tools", []),
                         "tool_timeout_ms": runner.mcp_tool_timeout_ms})
     atomic_json(directory / "tools.json", {"protocol": "rcb-tools-v1", "servers": servers})

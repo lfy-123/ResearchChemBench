@@ -1,0 +1,65 @@
+{
+  "scientific_question": "What molecular factors can account for the contrasting benzoate-substitution outcomes and electrochemical behavior of the seven specified alpha-carbonyl TEMPO-derived alkoxyamines, and how do carbonyl functionality, alpha-carbon substitution and side-chain structure influence productive substitution versus unproductive reaction under the stated experimental conditions?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "1-Phenyl-2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propan-1-one, a secondary alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Methyl 2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propanoate, a secondary alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "identity",
+      "content": "N-methoxy-N-methyl-2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propanamide, a secondary alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "identity",
+      "content": "N-methoxy-N-methyl-2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)hexanamide, a secondary alpha-carbonyl TEMPO-derived alkoxyamine substrate with a butyl side chain."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "identity",
+      "content": "2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propanal, an alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+    },
+    {
+      "input_id": "PI6",
+      "kind": "identity",
+      "content": "2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propanoic acid, an alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+    },
+    {
+      "input_id": "PI7",
+      "kind": "identity",
+      "content": "1-Phenyl-2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)ethan-1-one, a primary alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+    },
+    {
+      "input_id": "PI8",
+      "kind": "condition",
+      "content": "The baseline batch electrolysis for the first six identified substrates used 0.3 mmol alkoxyamine, benzoic acid (3.0 equivalents), 2,4,6-trimethylpyridine (2.0 equivalents), tetrabutylammonium hexafluorophosphate (0.3 mmol), deionized water (50 microliters), and anhydrous MeCN (3.0 mL) in an undivided cell at room temperature, with a graphite anode and platinum cathode. The mixture was stirred until homogeneous before constant-current electrolysis at 15 mA with 13 F/mol charge. The primary ketone screening used different conditions, specified in PI12. The target benzoates retain the carbonyl backbone: the alpha-carbon-O-N alkoxyamine linkage is replaced by alpha-carbon-O-C(=O)-phenyl connectivity. Cyclic voltammetry was measured separately in MeCN with 2.5 mM substrate and 0.1 M tetrabutylammonium hexafluorophosphate, using a glassy-carbon working electrode, platinum-wire counter electrode, and Ag/AgNO3 reference electrode, with ferrocene calibration. The reported comparisons used 250 mV/s scans from 0 V toward higher potentials and back to 0 V. Potentials in PI9-PI12 are in volts versus Fc/Fc+. For irreversible profiles, Ep/2 is the reported half-peak potential, not a reversible half-wave potential E1/2."
+    },
+    {
+      "input_id": "PI9",
+      "kind": "observation",
+      "content": "The propiophenone-derived substrate in PI1 gave the benzoate substitution product in 82% isolated yield under the baseline MeCN electrolysis conditions. Its voltammetric response was quasi-reversible, with reported E1/2 = 0.86 V."
+    },
+    {
+      "input_id": "PI10",
+      "kind": "observation",
+      "content": "The methyl ester in PI2 gave the desired benzoate in 70% yield by crude quantitative 1H NMR and 66% isolated yield; its voltammetric response was reversible, with E1/2 = 0.90 V. The methyl-side-chain Weinreb amide in PI3 gave 44% benzoate yield and a largely reversible voltammetric response, with E1/2 = 0.87 V. The butyl-side-chain Weinreb amide in PI4 gave no desired product and an irreversible voltammetric response, with Ep/2 = 0.86 V. The additional reverse-scan feature reported for the aldehyde and acid substrates in PI11 was not observed for this butyl-side-chain amide."
+    },
+    {
+      "input_id": "PI11",
+      "kind": "observation",
+      "content": "The aldehyde in PI5 and carboxylic acid in PI6 gave no detected desired benzoate products in the reported MeCN electrolysis experiments. Both showed irreversible voltammetric profiles with an additional pronounced reverse-scan peak; their reported Ep/2 values were 1.0 V and 1.1 V, respectively. No detection limit for the desired products is supplied."
+    },
+    {
+      "input_id": "PI12",
+      "kind": "observation",
+      "content": "The primary acetophenone-derived substrate in PI7 gave 12% benzoate yield and 10% remaining starting material by crude quantitative 1H NMR relative to a mesitylene internal standard. This was an optimization-screening observation in DCM at 0.2 M substrate, with benzoic acid (3 equivalents), 2,4,6-trimethylpyridine (1 equivalent), tetrabutylammonium hexafluorophosphate (0.1 M), a graphite anode and platinum cathode, 15 mA current and 6 F/mol charge. These are not matched baseline MeCN conditions; no water-additive quantity is specified for this screening entry. Its separately measured MeCN voltammetric response was reversible, with E1/2 = 0.95 V."
+    }
+  ]
+}

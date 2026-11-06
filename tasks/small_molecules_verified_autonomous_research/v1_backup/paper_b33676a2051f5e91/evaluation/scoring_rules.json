@@ -1,0 +1,152 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Numerical targets and existing tolerances are not adjustable. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate.",
+  "rules": [
+    {
+      "rule_id": "r_acetophenone_branch",
+      "reference_id": "acetophenone_branch",
+      "type": "semantic",
+      "expected": "A derived, validated local alkoxy-radical model establishes cleavage to acetophenone plus ethyl radical with atom/electron-balanced identities and actual connected transformation evidence. The observed product alone does not prove the modeled intermediate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_ethyl_scission_barrier",
+      "reference_id": "ethyl_scission_barrier",
+      "type": "numeric",
+      "expected": "Compute G(TS4b)-G(Int3) for the physically connected local alkoxy reference, MeCN at 298.15 K/1 atm. Validate saddle character and connection with IRC or equivalent demonstrated endpoint evidence. Do not substitute a different common zero or unrelated matching scalar.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      },
+      "target": 9.07,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_methyl_scission",
+      "reference_id": "methyl_scission",
+      "type": "semantic",
+      "expected": "Independently establish and quantify the competing cleavage to propiophenone plus methyl radical from the comparable local alkoxy model. Source barrier13.39 kcal/mol is contextual without an existing calibrated absolute tolerance; this item assesses the supported competing transformation and its computed energetics, not a newly invented magnitude gate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_chlorine_hat",
+      "reference_id": "chlorine_hat",
+      "type": "semantic",
+      "expected": "Computed local transformation evidence supports chlorine-mediated benzylic H abstraction from sec-butylbenzene to a substrate radical and HCl under balanced definitions. Ground accessibility in actual local energetics/connection evidence; no disputed singlet-oxygen capture sequence or photophysical-cycle calculation is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_oxidation_conclusion",
+      "reference_id": "oxidation_conclusion",
+      "type": "semantic",
+      "expected": "The final answer uses comparable connected cleavage barriers to favor the acetophenone/ethyl branch over propiophenone/methyl and relates that finding to the supplied product. Integrate the independent chlorine-HAT result without claiming an uncomputed continuous connection, unique dominant flux or complete polymer/photocatalytic cycle. Measured yield is not a branching ratio.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "acetophenone_branch",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "苯乙酮与乙基自由基的裂解通道",
+      "rule_ids": [
+        "r_acetophenone_branch"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37"
+      ]
+    },
+    {
+      "id": "ethyl_scission_barrier",
+      "kind": "intermediate",
+      "max_score": 25,
+      "description": "乙基断裂通道的局部势垒",
+      "rule_ids": [
+        "r_ethyl_scission_barrier"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_35"
+      ]
+    },
+    {
+      "id": "methyl_scission",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "苯丙酮与甲基自由基的竞争通道",
+      "rule_ids": [
+        "r_methyl_scission"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ]
+    },
+    {
+      "id": "chlorine_hat",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "氯自由基苄位夺氢节点",
+      "rule_ids": [
+        "r_chlorine_hat"
+      ],
+      "evidence_ids": [
+        "main_p6_7",
+        "supplementary_001_p25_26_27_28_29"
+      ]
+    },
+    {
+      "id": "oxidation_conclusion",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "最终：有利于苯乙酮的局部氧化解释",
+      "rule_ids": [
+        "r_oxidation_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_34_35"
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@ from chemistry_toolbox.src.execution_feedback import execution_feedback, feedbac
 from .execution_store import execution_store
 
 
-def conditional_result(value, known_version=None):
+def conditional_result(value, known_version=None, *, view_scope=None):
     """A client must explicitly name the same interpretation to omit details."""
     import hashlib
     import json
@@ -12,6 +12,9 @@ def conditional_result(value, known_version=None):
     identity = {k: feedback.get(k) for k in ("job_id", "job_status", "result_state", "result_revision",
                                            "result_receipt_id", "diagnostic", "artifact_count")}
     identity.update(parser_version=PARSER_VERSION, feedback_version=feedback_schema_version())
+    from .response_policy import compact_enabled, response_profile
+    if compact_enabled():
+        identity.update(response_profile=response_profile(), view_scope=view_scope or {"tool":"get_execution_job"})
     version = hashlib.sha256(json.dumps(identity, sort_keys=True, default=str).encode()).hexdigest()
     value["result_version"] = version
     if known_version == version and feedback.get("terminal"):
@@ -36,7 +39,8 @@ def page_collection(value, request):
         value[key] = files[request.file_offset:end]
     value["pagination"] = pages
     value["truncated"] = any(p["offset"] > 0 or p["next_offset"] is not None for p in pages.values())
-    return conditional_result(value, request.known_result_version)
+    return conditional_result(value, request.known_result_version, view_scope={"tool":"collect_execution_job",
+        "file_offset":request.file_offset,"max_files":request.max_files,"include_inputs":request.include_inputs,"tail_chars":request.tail_chars})
 
 
 def job_feedback(directory, status, *, axes=None, program_diagnostic=None, record=None):

@@ -1,0 +1,90 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_cycloaddition_formation",
+      "r_imine_formation",
+      "r_product_competition_interpretation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "This is a product-family prediction task. Candidate structures are public but their experimental preference is withheld. A guessed winning product without calculations earns no credit.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Which of the two supplied net product families, bicyclic and imine, is kinetically favored from the specified N-allyl gem-difluoroenamine under the defined thermal model, and what molecular and electronic factors explain the competition? This is a prediction task: both candidate connectivities are supplied, but their experimental preference and relative calculated energies are not.",
+  "active_rule_ids": [
+    "r_cycloaddition_formation",
+    "r_imine_formation",
+    "r_product_competition_interpretation"
+  ],
+  "current_outcome_ids": [
+    "cycloaddition_formation",
+    "imine_formation",
+    "product_competition_interpretation"
+  ],
+  "historical_record": {
+    "paper_id": "paper_9f24eac60feca79d",
+    "updated": "2026-10-27",
+    "status": "V3_DESIGN_AND_EVIDENCE_MAPPING_COMPLETE",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "scientific_pass": false,
+    "scientific_acceptance_reassessed_this_migration": false,
+    "release_ready": false,
+    "current_target_ids": [
+      "overall_cycloaddition_barrier",
+      "overall_imine_barrier",
+      "thermal_mechanism_explanation",
+      "product_competition_interpretation"
+    ],
+    "evidence_mapping": "reference_qualification.json#/outcome_evidence_coverage",
+    "remaining_required_calculations_identified_this_migration": [],
+    "remaining_issues": [
+      "Historical native evidence covers the bounded four outcomes, with broken-symmetry contamination, restricted CSS instability and finite candidate coverage retained. No new scientific submission or blind autonomous run was assessed."
+    ],
+    "historical_scope_status": {
+      "paper_id": "paper_9f24eac60feca79d",
+      "updated": "2026-10-25",
+      "status": "RESULTS_REPRODUCED",
+      "scientific_pass": true,
+      "release_ready": false,
+      "current_target_ids": [
+        "kp_cycloaddition_barrier",
+        "kp_imine_barrier",
+        "electronic_state",
+        "connected_path",
+        "c_competition"
+      ],
+      "remaining_required_calculations": [],
+      "remaining_issues": [
+        "当前主要数值和连接已复现；仍需保留OSS自旋污染、CSS受限不稳定和未报告数值控制的解释边界。未增加全文底物范围、单氟/全氟替换或全局构象搜索。原pending和最终项无独立权重的私有文字已被本轮明确替换。"
+      ],
+      "acceptance_decision": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/parent_acceptance_decision.json"
+    },
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_cycloaddition_formation",
+        "r_imine_formation",
+        "r_product_competition_interpretation"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

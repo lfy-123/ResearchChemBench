@@ -1,0 +1,268 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_low_state_1a",
+      "reference_id": "low_state_1a",
+      "type": "semantic",
+      "expected": "For full neutral singlet 1a, actual state-resolved excitation and orbital or transition-density evidence assigns the lower-energy absorption feature to a singlet pi–pi* excitation, with source-compatible dominant HOMO-to-LUMO character or a demonstrated physically equivalent state description. Report the calculated energy/wavelength and intensity under a stated molecular environment, and distinguish them from the supplied toluene band maximum. A frontier gap, copied band maximum, or nearest-root choice without physical character does not establish the assignment. This outcome scores the physical identity of the band, not a separate optimization, frequency or orbital-generation step.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_low_state_1b",
+      "reference_id": "low_state_1b",
+      "type": "semantic",
+      "expected": "For full neutral singlet 1b, actual state-resolved excitation and orbital or transition-density evidence assigns the lower-energy absorption feature to a singlet pi–pi* excitation, with source-compatible dominant HOMO-to-LUMO character or a demonstrated physically equivalent state description. Report the calculated energy/wavelength and intensity under a stated molecular environment, and distinguish them from the supplied toluene band maximum. A frontier gap, copied band maximum, or nearest-root choice without physical character does not establish the assignment. This outcome scores the physical identity of the band, not a separate optimization, frequency or orbital-generation step.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_low_state_1c",
+      "reference_id": "low_state_1c",
+      "type": "semantic",
+      "expected": "For full neutral singlet 1c, actual state-resolved excitation and orbital or transition-density evidence assigns the lower-energy absorption feature to a singlet pi–pi* excitation, with source-compatible dominant HOMO-to-LUMO character or a demonstrated physically equivalent state description. Report the calculated energy/wavelength and intensity under a stated molecular environment, and distinguish them from the supplied toluene band maximum. A frontier gap, copied band maximum, or nearest-root choice without physical character does not establish the assignment. This outcome scores the physical identity of the band, not a separate optimization, frequency or orbital-generation step.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_low_state_1d",
+      "reference_id": "low_state_1d",
+      "type": "semantic",
+      "expected": "For full neutral singlet 1d, actual state-resolved excitation and orbital or transition-density evidence assigns the lower-energy absorption feature to a singlet pi–pi* excitation, with source-compatible dominant HOMO-to-LUMO character or a demonstrated physically equivalent state description. Report the calculated energy/wavelength and intensity under a stated molecular environment, and distinguish them from the supplied toluene band maximum. A frontier gap, copied band maximum, or nearest-root choice without physical character does not establish the assignment. This outcome scores the physical identity of the band, not a separate optimization, frequency or orbital-generation step.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_conjugation_explanation",
+      "reference_id": "conjugation_explanation",
+      "type": "semantic",
+      "expected": "Actual comparable excitation and state/orbital evidence connects the lower transition energies of each of 1b, 1c and 1d relative to 1a to extension and connectivity of the aromatic pi system. The added final finding is the molecular electronic explanation, not repetition of the supplied experimental red shifts. Distinct fused connectivities need not have identical excited states, and no robust ordering between 1c and 1d or universal causal decomposition is required. Explain the declared molecular medium and the limits of comparing vertical roots with toluene absorption maxima. Source and calculated wavelengths are contextual; no hard nm window is defined.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_weak_low_band",
+      "reference_id": "weak_low_band",
+      "type": "semantic",
+      "expected": "Actual comparable transition strengths and state-character evidence explain the low intensity of the lower-energy 1c feature relative to the corresponding 1b and 1d bands: its lowest pi–pi* transition carries much less oscillator strength. The explanation must follow calculated transition intensity rather than observed extinction coefficients, an orbital gap, or a list of state labels. The source f values 0.008/0.143/0.135 are non-scoring context, not hard windows. This outcome concerns the intensity contrast; the physical identity of the 1c low state is scored separately.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_upper_band_1c",
+      "reference_id": "upper_band_1c",
+      "type": "semantic",
+      "expected": "Actual energy, transition-strength and state-character evidence attributes the stronger higher-energy 1c absorption feature to higher singlet pi–pi* contributions rather than identifying the brightest band with the lowest state. The source representation involves HOMO to LUMO+1 and HOMO-1 to LUMO contributions (S2/S3), but these are supporting state descriptions, not independently required computational nodes or fixed root indices. A physically equivalent mixed-state or spectral account passes when it establishes the higher-band origin and relative brightness. Distinguish the observed 339 nm maximum from calculated vertical roots; no exact line-shape fit or source wavelength window is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "low_state_1a",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "Physical assignment of the 1a lower-energy absorption band",
+      "rule_ids": [
+        "r_low_state_1a"
+      ],
+      "evidence_ids": [
+        "main_assignment",
+        "si_structures",
+        "native_state_synthesis"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "low_state_1b",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "Physical assignment of the 1b lower-energy absorption band",
+      "rule_ids": [
+        "r_low_state_1b"
+      ],
+      "evidence_ids": [
+        "main_assignment",
+        "si_structures",
+        "native_state_synthesis"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "low_state_1c",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "Physical assignment of the 1c lower-energy absorption band",
+      "rule_ids": [
+        "r_low_state_1c"
+      ],
+      "evidence_ids": [
+        "main_assignment",
+        "si_structures",
+        "native_state_synthesis"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "low_state_1d",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "Physical assignment of the 1d lower-energy absorption band",
+      "rule_ids": [
+        "r_low_state_1d"
+      ],
+      "evidence_ids": [
+        "main_assignment",
+        "si_structures",
+        "native_state_synthesis"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "conjugation_explanation",
+      "kind": "conclusion",
+      "max_score": 28,
+      "description": "Electronic explanation of the shifts across 1a–1d",
+      "rule_ids": [
+        "r_conjugation_explanation"
+      ],
+      "evidence_ids": [
+        "main_absorption",
+        "main_assignment",
+        "native_state_synthesis"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "weak_low_band",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Physical explanation of the weak lower-energy 1c band",
+      "rule_ids": [
+        "r_weak_low_band"
+      ],
+      "evidence_ids": [
+        "main_assignment",
+        "native_state_synthesis"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "upper_band_1c",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Physical assignment of the stronger higher-energy 1c band",
+      "rule_ids": [
+        "r_upper_band_1c"
+      ],
+      "evidence_ids": [
+        "main_absorption",
+        "main_assignment",
+        "native_state_synthesis"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

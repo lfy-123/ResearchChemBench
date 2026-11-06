@@ -1,0 +1,244 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_r5_site_answer",
+      "r_r5_product_class",
+      "r_r5_second_competition",
+      "r_r6_thermodynamic_fate",
+      "r_r6_accessible_fate",
+      "r_comparative_robustness"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only PI1/PI2 and their stated reaction comparisons are scored. PI3 is outside scope. Supplied unranked candidate sites and structures do not determine a preferred outcome.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "items": [
+    {
+      "key_point_id": "support_r5_site_answer",
+      "key_point_type": "scientific_evidence",
+      "statement": "PI1 monoaddition has weak, model-dependent site selectivity",
+      "expected": "Identify the compared PI1 protonated monoaddition connectivities and conclude from actual balanced computed energies that a unique strongly preferred site is not robustly resolved. The reference method7 favors the delta-connected neutral product by small gaps, although its lowest initial anion is beta-prime-derived. This distinction is supporting evidence, not an independently scored intermediate inventory. A physically supported equivalent account of weak site selectivity passes. Do not equate anion stability with final neutral selectivity or claim an exclusive measured distribution. Report the computed relative energies with their definitions; no fixed energy window applies. A different PI1 ordering is acceptable as a conditional model result when actual balanced competitor energies and informative sensitivity evidence justify its stated resolution; it must not be presented as a uniquely established experimental distribution.",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_r5_product_class",
+      "key_point_type": "scientific_evidence",
+      "statement": "PI1 favors accessible simple addition over the considered cyclized outcomes",
+      "expected": "Use actual accessibility and energetic evidence to explain why PI1 preferentially retains simple-addition connectivity over the competing cyclized class in the tested model. The reference explanation is restricted cyclization caused by a costly alpha-directed closure and local instability of a gamma-cyclic state; an equivalent supported explanation passes without reproducing both author intermediates or their labels. A low-energy final furan alone cannot establish its accessibility, and one reverted optimization cannot prove global nonexistence. Source 35.6 kcal/mol is a local Gibbs barrier used as evidence context, not a hard target.",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_r5_second_competition",
+      "key_point_type": "scientific_evidence",
+      "statement": "A second MeSH addition to PI1 is weakly thermodynamically competitive",
+      "expected": "Conclude from an actual balanced monoaddition-product + MeSH to double-addition-product comparison that second addition to PI1 can be weakly favorable thermodynamically. Give the incremental reaction free energy and identify the competing connectivity; total double-adduct formation energy is not the second-step increment. The source approximately -2 kcal/mol is contextual, with no hard window. This result does not establish a second-addition rate or exclusive experimental double addition. Because this second-addition driving force is small and model dependent, a substantiated near-thermoneutral or weakly unfavorable result can also pass when its actual incremental free energy and uncertainty establish the extent of thermodynamic competition. Do not enforce the source sign across methods or claim unavoidable double addition.",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_r6_thermodynamic_fate",
+      "key_point_type": "scientific_evidence",
+      "statement": "PI2 cyclized endpoints are substantially more stable than simple adducts",
+      "expected": "Determine and report balanced relative free energies for PI2 simple-addition and relevant cyclic product connectivities. Conclude that the cyclic endpoint class is substantially more stable while the alternative cyclic endpoints are close in energy. This is a final thermodynamic comparison, distinct from selecting an accessible formation route. Source cyclic values around -17 to -18 versus simple products around -4 kcal/mol are contextual. No unique initial-anion ranking is required because source prose and diagrams disagree.",
+      "evidence_ids": [
+        "V2_R6",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_r6_accessible_fate",
+      "key_point_type": "scientific_evidence",
+      "statement": "PI2 accessible cyclization selects the gamma-derived furan connectivity",
+      "expected": "Predict and explain the accessible PI2 cyclic product connectivity using actual competing-path evidence: the reference beta-prime addition followed by gamma-directed closure reaches the furan class more readily than alpha-directed closure, even though both final rings are stable. Equivalent supported formation explanations pass; the author sequence is not a mandatory checklist. Explain the contrast with PI1 in terms of calculated accessibility/structural effects, rather than endpoint energy alone. Keep local Gibbs barriers distinct from overall energy heights and constrained electronic-energy scans. Source alpha barrier 27.6 kcal/mol and local finite gamma scans do not impose a hard target or prove a globally barrierless full network.",
+      "evidence_ids": [
+        "V2_R6",
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_comparative_robustness",
+      "key_point_type": "scientific_evidence",
+      "statement": "Selectivity reliability across the two cyclic-enone substrates",
+      "expected": "Use actual informative model-sensitivity comparisons to assess PI1 monoaddition-site ranking and PI2 cyclic-versus-simple product-class stability, distinguishing the latter from the ordering of close PI2 cyclic endpoints. The source supports weak/model-sensitive PI1 site ranking and a more stable PI2 cyclic-class conclusion. Quantify how the tested conformer, method or other justified comparisons support or limit these inferences. A revised robustness assessment can pass with actual quantitative evidence covering both substrates. Generic uncertainty or repeated product labels fails. No PI3 evidence is required. Relevant results already generated may supply the sensitivity evidence without a prescribed additional method, fixed matrix or rerun. Do not turn the MeSH model into an exact EtSH yield prediction.",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_R6",
+        "V2_SULF",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "statement": "R5初始加成阴离子的位点比较",
+      "expected": "对PI1正确分子图的δ、α和β′加成阴离子建立可比连接和配平能量证据，支持所比较来源态中β′阴离子较稳定。该结论仅针对初始阴离子，不把其直接当成最终质子化产物偏好；不要求证明全部初始进攻无势垒。",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK"
+      ],
+      "key_point_id": "r5_anion_sites",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "R5简单质子化产物接近且与初始阴离子排序不同",
+      "expected": "实际计算区分PI1的δ、α和β′简单质子化产物连接，并在统一的底物加MeSH或科学等价配平参照下支持三者能差较小。来源method7中δ产物最低而初始阴离子β′最低是比较基线；本项要求得到质子化后位点竞争与初始阴离子不同的结果，不将一个阴离子的低能量当作中性产物选择性。具体数值不是固定窗口。",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK"
+      ],
+      "key_point_id": "r5_simple_products",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "R5的α方向成环受高势垒限制",
+      "expected": "正确β′加成烯醇盐向α位形成C–O键的实际路径证据支持R5的5(O)-endo-trig成环动力学困难。作者局部G势垒35.6 kcal/mol为上下文；若主张过渡态，应有相应反应振型及连接证据。低环产物能量本身不足，亦不要求复刻作者软件或完整IRC。",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK"
+      ],
+      "key_point_id": "r5_alpha_access",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "R5来源附近γ成环态局部不稳定",
+      "expected": "对R5正确γ方向成环连接，实际几何或路径证据支持来源附近环化阴离子不稳定并返回开链态，从而限制这一路径的可达性。重构种子、有限局部优化或等价证据只支持其所覆盖区域；不能以单次失败证明所有γ路径不存在，也不能以假设的稳定中性环端点替代阴离子可达性。",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK"
+      ],
+      "key_point_id": "r5_gamma_local",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "R5二次MeSH加成在热力学上具有弱竞争性",
+      "expected": "以PI1正确单加成物加MeSH为配平参照，实际双加成连接及能量证据支持第二次加成略有利、可以在热力学上竞争。作者约−2 kcal/mol仅作上下文；不把总双加成形成能当第二步增量，不由该结果推断实验必然双加成或已确定二次加成速率。",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK"
+      ],
+      "key_point_id": "r5_second_addition",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "R6环化产物类别显著低于简单加成产物类别",
+      "expected": "对PI2正确连接的简单质子化产物与α、γ两类环化终点作统一配平比较，实际结果支持环化产物类别明显更稳定，两个环终点能量接近。作者环端点约−17至−18、简单端点约−4 kcal/mol为上下文；本项是端点热力学，不把最低终点直接认作动力学产物，也不规定有来源歧义的初始阴离子唯一排序。",
+      "evidence_ids": [
+        "V2_R6",
+        "V2_SI_NETWORK"
+      ],
+      "key_point_id": "r6_product_stability",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "R6的α方向成环仍有显著局部势垒",
+      "expected": "实际路径证据支持PI2的β′加成烯醇盐向α位5(O)-endo-trig成环有显著局部势垒，尽管相应环产物稳定。作者局部G势垒27.6 kcal/mol为上下文；所声称过渡态须有对应成环振型和连接，不能把相对分离反应物的绝对高度当局部势垒。",
+      "evidence_ids": [
+        "V2_R6",
+        "V2_SI_NETWORK"
+      ],
+      "key_point_id": "r6_alpha_access",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "R6的γ方向成环比α方向相对可达",
+      "expected": "PI2的β′加成烯醇盐经γ方向5(O)-exo-trig成环的实际连接或路径证据支持其相对α方向更易到达。若以电子能路径比较，必须使用同方法、同物理量和同参照；有限受约束扫描只能证明所采样路径的相对可达性，不能称精确γ自由能势垒、全局无势垒或完整动力学网络。",
+      "evidence_ids": [
+        "V2_R6",
+        "V2_SI_NETWORK"
+      ],
+      "key_point_id": "r6_gamma_access",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "指定Sulf异构体的α加成阴离子较稳定",
+      "expected": "保留PI3指定的E型appendage及母体烯烃构型，实际比较α与其他相关位点加成阴离子的连接及配平能量，支持所比较α阴离子较稳定。不能更换为未指定E/Z异构体，不能仅凭砜吸电子或Fukui标签推断该排序；不强制唯一构象或电子效应解释。",
+      "evidence_ids": [
+        "V2_SULF",
+        "V2_SI_NETWORK",
+        "V2_SI_IDENTITY"
+      ],
+      "key_point_id": "sulf_anion_sites",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "Sulf的α加成质子化连接为较低能简单产物",
+      "expected": "对PI3正确异构体的α及竞争位点简单质子化产物作真实配平比较，支持α加成连接的中性产物较稳定。作者α/SMe6/SMe1产物约−10.9/−9.7/−5.4 kcal/mol为上下文；初始阴离子排序不能代替中性产物证据，不额外要求Sulf环化或二次加成。",
+      "evidence_ids": [
+        "V2_SULF",
+        "V2_SI_NETWORK",
+        "V2_SI_IDENTITY"
+      ],
+      "key_point_id": "sulf_products",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "key_point_id": "support_sulf_site_answer",
+      "key_point_type": "scientific_evidence",
+      "statement": "PI3 favors alpha-connected protonated addition products",
+      "expected": "Identify the favored alpha-addition neutral product of the specified PI3 appendage isomer and explain its preference using actual balanced comparisons to competing connectivities. Report the compared neutral-product energies. The source alpha anion and neutral preferences support this outcome; they are evidence rather than separate mandatory intermediate results. Source neutral values -10.9/-9.7/-5.4 kcal/mol are contextual. Electronic withdrawal/planarization is a possible interpretation, but a descriptor label alone is insufficient and another supported physical explanation is accepted. No PI3 cyclization or second addition is required.",
+      "evidence_ids": [
+        "V2_SULF",
+        "V2_SI_NETWORK",
+        "V2_SI_IDENTITY",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ]
+}

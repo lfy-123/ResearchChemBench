@@ -1,0 +1,7 @@
+# Private source route and scope
+
+Experimentally generated side-on FeIII-peroxo 12-TMC reacts with DMA in TFE/MeOH at213K (main p2/p9). The parent coordinate atom inventory derives from an author calculation, but public inputs are now split into two independently centered, rotated and displaced molecules; no encounter conformation is supplied. Main p7 supports a high-spin initial state, but SI TableS2 electronic energies put the doublet 1.16kcal/mol below the sextet while full Gibbs ordering favors sextet. Thus do not silently turn the main text statement into a global electronic-spin proof.
+
+Figure7 and SI TableS10 use TPSSH/def2-TZVPP//def2-SVP CPCM(TFE) electronic energies, without D3/RRHO additions. The paper computed dispersion separately; adding it to these source targets is wrong. Relative to sextet1RC: TS1b13.1,IM1b−2.2,TS2b9.2,IM2b−10.1,IM3b−46.2. The second local barrier is11.4. DirectHAT TS1a27.6,IM1a22.5. Original13.1/9.2±2 windows retained; other numbers are source context without invented calibration.
+
+The main p7 explicitly states terminal product release is unresolved. The benchmark asks initial oxidation and does not mislabel a single transferred H as complete N-demethylation. States/methods/routes remain agent choices; only physically equivalent findings may satisfy the source-scoped quantitative targets. Main-text/TableS2 spin-order discrepancy, method sensitivity and incomplete current route connections remain open. Verified computation history is unchanged.

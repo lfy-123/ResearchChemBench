@@ -1,0 +1,12 @@
+{
+  "managed_commands": [
+    "g16",
+    "formchk",
+    "orca",
+    "Multiwfn_noGUI"
+  ],
+  "input_contract": "Use the native interface appropriate to the selected code, author complete inputs and expose every required dependency. g16 accepts stdin_file; ORCA accepts an input-deck argument; Multiwfn needs the wavefunction and an explicit menu-command stream.",
+  "availability_evidence": "The listed interfaces are available only as exposed by the actual runner; inspect capabilities before use.",
+  "budget": "Use the actual run budget and installed interfaces; no extra HPC allocation, paid service or software license is granted. Choose and justify the scientific work within available resources.",
+  "access_boundary": "Supplied public inputs and authorized run outputs only. The operator must isolate private evaluation materials, prior snapshots and other workspaces outside the authorized inputs."
+}

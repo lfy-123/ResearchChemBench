@@ -813,6 +813,7 @@ def _tautomers(request: dict[str, Any]) -> dict[str, Any]:
 
 def _stereoisomers(request: dict[str, Any]) -> dict[str, Any]:
     from rdkit import Chem
+    from rdkit.Chem import rdCIPLabeler
     from rdkit.Chem.EnumerateStereoisomers import EnumerateStereoisomers, StereoEnumerationOptions
 
     inputs, _method, settings = request_parts(request)
@@ -827,8 +828,21 @@ def _stereoisomers(request: dict[str, Any]) -> dict[str, Any]:
     )
     values = EnumerateStereoisomers(_molecule(inputs["molecule"]), options=options)
     smiles = sorted({Chem.MolToSmiles(value, canonical=True, isomericSmiles=True) for value in values})
+    molecules = []
+    for value in smiles:
+        # Indices refer to the returned SMILES, not the input atom order.
+        mol = Chem.MolFromSmiles(value)
+        for atom in mol.GetAtoms():
+            if atom.HasProp("_CIPCode"):
+                atom.ClearProp("_CIPCode")
+        rdCIPLabeler.AssignCIPLabels(mol)
+        molecules.append({"smiles": value, "atom_cip_labels": [
+            {"atom_index_0based": atom.GetIdx(), "atom_map": atom.GetAtomMapNum() or None,
+             "cip": atom.GetProp("_CIPCode")}
+            for atom in mol.GetAtoms() if atom.HasProp("_CIPCode")],
+            "cip_algorithm": "rdkit.Chem.rdCIPLabeler.AssignCIPLabels"})
     return success(
-        {"molecules": [{"smiles": value} for value in smiles], "count": len(smiles), "settings": settings},
+        {"molecules": molecules, "count": len(smiles), "settings": settings},
         backend_version=module_version("rdkit"),
     )
 

@@ -1,0 +1,68 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "items": [
+    {
+      "statement": "The specified Ni–chiral-ligand system forms a reaction-relevant binding structure with acylimidazole BCB",
+      "expected": "Actual structural or electronic evidence supports binding of the specified Ni(OTf)2/(S,S)-tert-butyl PyBOX system to the acylimidazole site of the supplied BCB, establishing substrate positioning or an activation environment relevant to subsequent transformation. The authors' O,N-bidentate IM5 with one inner-sphere OTf is a reference; equivalent binding models supported by evidence are permitted. Ranking IM5A/B/C, matching a binding energy or determining complete solution speciation is not required. Merely constructing the correct identities, an isolated catalyst or repeating a Lewis-acid label is insufficient.",
+      "evidence_ids": [
+        "V2_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ni_substrate_binding",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Benzothiazole N bonds to a BCB bridgehead while the bridgehead C–C bond opens",
+      "expected": "Actual connectivity evidence supports formation of a C–N bond between benzothiazole N and the originally phenyl-substituted BCB bridgehead while the original BCB bridgehead C–C bond opens, yielding an open-ring skeleton capable of proceeding to the supplied product. The authors' IM5+1a to IM6 is a reference; preserve the correct atom inventory and atom mapping. The authors did not supply this chiral ring-opening TS; providing this TS, a full IRC or using the ambiguous SI +2.3 value as a local energy target is not required. Equivalent routes supporting the same net connectivity event are acceptable.",
+      "evidence_ids": [
+        "V2_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ni_ring_opening",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Established dearomative C–C ring-closure connection leading to the R product",
+      "expected": "Actual calculations support C–C bond formation between the acyl-substituted BCB bridgehead and the carbon derived from benzothiazole C2, connecting to the R-related branch of the supplied product skeleton. Enantiomer labels must correspond to the saturated CH specified in PI4. The authors' TS3R/IM7R is a reference; TS claims require relevant single-imaginary-frequency motion and evidence for the claimed chemical connections on both sides. Scientifically equivalent connectivity checks are permitted; a full IRC or reproduction of −242.04 cm−1 is not mandatory. Names or the final product graph alone cannot establish this result.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ni_r_closure",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Established competing dearomative C–C ring-closure connection leading to the S product",
+      "expected": "Actual calculations support the same net C–C ring-closure event along the competing branch leading to S at the saturated CH specified in PI4, with product connectivity, composition and the catalyst model comparable to the R branch. The authors' TS3S/IM7S is a reference; TS claims require relevant single-imaginary-frequency motion and evidence for the claimed chemical connections on both sides. Scientifically equivalent connectivity checks are permitted; a full IRC or reproduction of −200.59 cm−1 is not mandatory. Merely relabeling R as S or optimizing a product without connectivity evidence cannot establish this result.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ni_s_closure",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "A common-reference comparison supports a more favorable R-forming channel",
+      "expected": "With correct reactants, ligand stereochemistry, compatible composition/charge/spin and a common reactant reference, actual energies or other valid competition evidence support more favorable R formation than S formation. The authors' C–C ring-closure TS3R lying approximately 2.2 kcal/mol below TS3S is a reference, with no numerical window. Product stability, absolute energies of incomparable models or the supplied er cannot directly substitute for formation competition. This item assesses the direction of competition and does not replace the final selection of the product's absolute configuration.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ni_r_competition",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Direct computational evidence for different physical environments in R/S-forming structures",
+      "expected": "For comparable R/S-forming structures, actual structural, density or energy analyses reveal ligand–substrate environmental differences capable of explaining the competition difference. The authors' local C–H···π weak-contact observations provide a reference: some R-side contact features are enhanced, consistent with R preference. Every contact need not trend in the same direction; greater total attraction for R, exact red-circle counts or a specified IGMH metric are not required. Evidence-supported interaction, deformation or other physical analyses with compatible scope are acceptable. Energy ordering alone or an unpaired contact plot is insufficient.",
+      "evidence_ids": [
+        "V2_MAIN"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ni_selectivity_features",
+      "key_point_type": "result"
+    }
+  ]
+}

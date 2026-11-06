@@ -1,0 +1,144 @@
+{
+  "paper_id": "paper_9455a82229de2427",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_p1_product_channel",
+      "reference_id": "p1_product_channel",
+      "type": "semantic",
+      "expected": "Establish the supported first regioisomeric H-loss product as a neutral-singlet six-membered adjacent-Si/N heterocycle with the 4-methyl connectivity corresponding to P1, and interpret its actual product-plus-H thermochemistry. Mapped geometry, bonding and electronic-state evidence must identify the product; a name or empirical formula alone is insufficient. Calculate the atom-balanced 0 K E0=electronic energy+ZPVE relative to separated neutral-doublet SiN and neutral-singlet isoprene, including the neutral-doublet H coproduct, and explain whether and how the resulting exothermic channel is compatible with the measured −162±27 kJ/mol observation. Preserve the full 15-atom/59-electron doublet total inventory. Neither the source −156 value nor the experimental interval is a numerical pass window; assess actual physical compatibility, method limitations and any discrepancy. A copied interval, an unbalanced reaction, a 298 K solution Gibbs substitution or an unsupported product label fails. This is a product/channel conclusion, not proof that its formation route or branching has been established.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_p2_product_channel",
+      "reference_id": "p2_product_channel",
+      "type": "semantic",
+      "expected": "Establish the distinct second regioisomeric H-loss product as the neutral-singlet six-membered adjacent-Si/N heterocycle with the 5-methyl connectivity corresponding to P2, and interpret its actual product-plus-H thermochemistry. Use independently mapped product structure/state evidence; relabelling P1 does not establish a second candidate. Compare its atom-balanced 0 K electronic-plus-ZPVE channel energy, including neutral-doublet H, with the same separated SiN+isoprene reference and the measured −162±27 kJ/mol observation. Explain the physical exothermicity and compatibility or discrepancy; the source −150 and the measured interval are evidence, not scalar acceptance windows. Keep the complete 15-atom/59-electron total doublet inventory, and distinguish this product/channel claim from a demonstrated formation route or branching ratio. No complete second formation network is required.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_formation_account",
+      "reference_id": "formation_account",
+      "type": "semantic",
+      "expected": "Explain how the separated SiN/isoprene reactants can form a supported methyl-substituted adjacent-Si/N cyclic product and eliminate H under the stated single-collision conditions. The reference connected P1 route supports terminal N-addition, cyclization and hydrogen rearrangement followed by Si–H loss, but these labels, individual author intermediates, order of shifts, number of saddles and particular IRC algorithm are not scoring requirements. An independently demonstrated chemically equivalent route passes. Actual graph/state-consistent connections from intact reactants to product+H and energies relative to the same reactants must substantiate the claimed formation account; an energy-compatible endpoint or copied reaction sketch alone fails. Assess reachability against the collision energy, distinguishing local barriers from total energy heights. No complete P2 network is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_product_identifiability",
+      "reference_id": "product_identifiability",
+      "type": "semantic",
+      "expected": "Conclude that the two computed product asymptotes are consistent with the observed H-loss channel, while the energy interval alone cannot distinguish their branching or exclude every unsearched isomer. Distinguish the product family supported by structural/energy calculations from the product for which a connected formation route is actually demonstrated. Use the actual overlap and finite route coverage to explain the unresolved alternatives; do not infer equilibrium fractions, exclusive products, universal infinite-distance barrierlessness or interstellar rates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "p1_product_channel",
+      "description": "Structure and thermochemical meaning of the first H-loss channel",
+      "max_score": 30,
+      "evidence_ids": [
+        "source_products",
+        "native_products"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_p1_product_channel"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "p2_product_channel",
+      "description": "Structure and thermochemical meaning of the second H-loss channel",
+      "max_score": 30,
+      "evidence_ids": [
+        "source_products",
+        "native_products"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_p2_product_channel"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "formation_account",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "A physically connected formation explanation for the H-loss product family",
+      "rule_ids": [
+        "r_formation_account"
+      ],
+      "evidence_ids": [
+        "source_products",
+        "native_products",
+        "native_route"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "product_identifiability",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "What the observed energy and finite formation evidence identify",
+      "rule_ids": [
+        "r_product_identifiability"
+      ],
+      "evidence_ids": [
+        "source_products",
+        "native_products",
+        "native_route"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

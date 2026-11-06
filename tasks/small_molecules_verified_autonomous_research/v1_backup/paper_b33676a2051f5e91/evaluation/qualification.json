@@ -1,0 +1,124 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "scope_version": "substrate-local-author-results-20261012",
+  "updated_at_utc": "2026-10-12T19:33:41.535837+00:00",
+  "design_implemented": true,
+  "scientifically_verified": true,
+  "release_ready": false,
+  "qualification_status": "CURRENT_LOCAL_SCOPE_VERIFIED_SOURCE_EXCLUSIONS_AND_RELEASE_LIMITS_RETAINED",
+  "active_scientific_ids": [
+    "product_fate",
+    "preferred_barrier",
+    "competing_fate",
+    "selectivity",
+    "hat_chlorine"
+  ],
+  "blocked_targets": [
+    {
+      "id": "hat_singlet_oxygen",
+      "status": "SOURCE_STATE_UNRESOLVED",
+      "active_scoring_rule_ids": [],
+      "source": "main p8; SI p23, pp25-28,30,41-42",
+      "author_value": 4.6,
+      "unit": "kcal/mol",
+      "reason": "The reported singlet-O2, TS1' and radical-pair electronic-state/wavefunction convention is not traceable from the printed SI tables. Do not substitute an invented closed-shell or broken-symmetry reference.",
+      "activation_requirement": "Resolve the author's actual state and thermochemical definitions, then independently verify the reported local step. Any later activation must update the active contract and weights explicitly."
+    },
+    {
+      "id": "oxygen_capture_competition",
+      "status": "SOURCE_DEFINITION_CONFLICT",
+      "active_scoring_rule_ids": [],
+      "source": "main p6/Fig7,p8; SI pp27-32,41-45",
+      "reason": "TS2'a mapping and the 41.06/41.61 and 15.7/14.17 discrepancies are unresolved. Source clarification only; no new replacement reference or automatic calculation submission."
+    }
+  ],
+  "active_target_validation": [
+    {
+      "id": "product_fate",
+      "status": "VERIFIED_CURRENT_SCOPE_PARENT_REVIEW",
+      "limitation": "Mapped products verified; author-route evidence, not blind agent recovery."
+    },
+    {
+      "id": "preferred_barrier",
+      "status": "VERIFIED_CURRENT_SCOPE_PARENT_REVIEW",
+      "limitation": "10.050192-10.149338 versus 9.07 kcal/mol, within existing +/-2 using the true connected reference."
+    },
+    {
+      "id": "competing_fate",
+      "status": "VERIFIED_CURRENT_SCOPE_PARENT_REVIEW",
+      "limitation": "14.549435-14.648581 versus 13.39: manually accepted source TS agreement plus lower connected reactant conformer; no new tolerance."
+    },
+    {
+      "id": "selectivity",
+      "status": "VERIFIED_CURRENT_SCOPE_PARENT_REVIEW",
+      "limitation": "Common-reference difference 4.499243 versus 4.32 preserves ordering; no yield prediction."
+    },
+    {
+      "id": "hat_chlorine",
+      "status": "VERIFIED_CURRENT_SCOPE_PARENT_REVIEW",
+      "limitation": "3.239204 versus 3.23 from separated reactants with validated TS/IRC; existing manual comparison retained."
+    }
+  ],
+  "later_endpoint_operational_records": [
+    {
+      "case_id": "methyl_reactant_endpoint",
+      "job_id": "hpc-job-7df43723-4ae6-4ccb-8585-1aa8a9111618",
+      "run_status_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/methyl_reactant_endpoint/outputs/run_status.json",
+      "native_log_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/methyl_reactant_endpoint/outputs/gaussian.log",
+      "finished_at": "2026-10-12T16:18:28.949188+00:00",
+      "operational_phase": "terminal_requires_scientific_review",
+      "scientific_pass": false,
+      "log_sha256_recorded": "bf1e9551adf67cd54f6c6851b6dc0380d531b0ebdd9afaec7c015f0ba368724a",
+      "next_action": "Audit existing outputs and compare endpoint basins; do not resubmit this existing calculation."
+    },
+    {
+      "case_id": "ethyl_reactant_endpoint",
+      "job_id": "hpc-job-ce579e03-9b80-4965-b508-e9b47742974d",
+      "run_status_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/ethyl_reactant_endpoint/outputs/run_status.json",
+      "native_log_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/ethyl_reactant_endpoint/outputs/gaussian.log",
+      "finished_at": "2026-10-12T16:23:30.500750+00:00",
+      "operational_phase": "terminal_requires_scientific_review",
+      "scientific_pass": false,
+      "log_sha256_recorded": "c09b51bff37a721e889a19686cbb08d10bf8a48260474d77f7d121db6e6274a4",
+      "next_action": "Audit existing outputs and compare endpoint basins; do not resubmit this existing calculation."
+    }
+  ],
+  "implementation_does_not_certify_computation": true,
+  "runtime_note": "The scorer consumes the five authored evaluation documents. Blocked results are physically omitted from those active reference items and rules; no enabled flag is used. This non-release qualification is maintenance metadata, not a new runner feature.",
+  "no_new_quantum_jobs": true,
+  "no_task_movement": true,
+  "approved_design": {
+    "final_proposal": {
+      "path": "tasks/small_molecules_autonomous_research/verification_dispatch/core_question_design_20261012T171955Z/papers/paper_b33676a2051f5e91/final_proposal.md",
+      "sha256": "851ce918a0042bed61f06aab4c95f8b069dc25195637121e540f3e1d6315558b"
+    },
+    "final_decision": {
+      "path": "tasks/small_molecules_autonomous_research/verification_dispatch/core_question_design_20261012T171955Z/papers/paper_b33676a2051f5e91/final_decision.json",
+      "sha256": "d5f1dc09a5c4cf8513f69fb56a3accfba18f5cbd1e7f611e6b92536fd7fd6db6"
+    },
+    "parent_review": {
+      "path": "tasks/small_molecules_autonomous_research/verification_dispatch/core_question_design_20261012T171955Z/parent_reviews/paper_b33676a2051f5e91.md",
+      "sha256": "12f76aace95a10b18b3ea9e02b1df1edbb868eb592c6a53b6a6b1a7628433e2d"
+    }
+  },
+  "excluded_scientific_requirements": [
+    "来源冲突的TS2′a/TS2′b竞争数值、未明确总反应零点与额外氢来源的全局自由能。",
+    "Bi–Cl光解、ISC/SOC/能量转移动力学、完整Bi(II)/O2再生、Russell途径、未报告TS的过氧化物断裂。",
+    "聚合物全链、完整底物系列描述符及通过新络合物/多光子模型修补光启动。"
+  ],
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Current bounded scientific coverage is accepted. Exact-source, scoring and release qualifications remain separate; this does not certify every result in the paper.",
+  "historical_scientific_audit": {
+    "path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/coverage.json",
+    "updated_at_utc": "2026-10-12T15:20:40.004320+00:00",
+    "scientific_status": "PARTIAL"
+  },
+  "latest_scientific_audit": {
+    "record": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_acceptance.json",
+    "accepted_on": "2026-10-13",
+    "scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE"
+  }
+}

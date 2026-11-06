@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 
@@ -21,15 +22,44 @@ ORCA_METHOD_DEFAULT_BASIS_SENTINELS = {
 }
 
 
+class OrcaParameterError(ValueError):
+    """Identify an invalid typed field without changing the requested chemistry."""
+
+    def __init__(self, field: str, message: str):
+        super().__init__(message)
+        self.field = field
+
+
+def orca_method_token(value: Any) -> str:
+    token = value.strip() if isinstance(value, str) else ""
+    if not token or not re.fullmatch(r"[A-Za-z0-9_+().,/=-]+", token):
+        raise OrcaParameterError(
+            "method_spec.method",
+            "ORCA method_spec.method must be a single method keyword, not an ORCA "
+            "input line. Use the documented typed fields for other options, or "
+            "submit a native ORCA input when those options are not exposed.",
+        )
+    return token
+
+
+def orca_solvent_token(value: Any) -> str:
+    token = value.strip() if isinstance(value, str) else ""
+    if not token or not re.fullmatch(r"[A-Za-z0-9_.,+-]+", token):
+        raise OrcaParameterError(
+            "method_spec.solvent",
+            "ORCA method_spec.solvent must be a solvent name using letters, digits, "
+            "commas, periods, underscores, plus or minus signs.",
+        )
+    return token
+
+
 def normalize_orca_method_basis(
     method_value: Any,
     basis_value: Any | None,
 ) -> tuple[str, str | None]:
     """Return the ORCA method token and optional explicit orbital-basis token."""
 
-    method = str(method_value).strip()
-    if not method:
-        raise ValueError("ORCA method_spec.method must not be empty")
+    method = orca_method_token(method_value)
     composite = ORCA_COMPOSITE_3C_METHODS.get(method.casefold())
     basis = "" if basis_value is None else str(basis_value).strip()
     basis_is_default = not basis or basis.casefold() in ORCA_METHOD_DEFAULT_BASIS_SENTINELS
@@ -53,4 +83,7 @@ __all__ = [
     "ORCA_COMPOSITE_3C_METHODS",
     "ORCA_METHOD_DEFAULT_BASIS_SENTINELS",
     "normalize_orca_method_basis",
+    "OrcaParameterError",
+    "orca_method_token",
+    "orca_solvent_token",
 ]

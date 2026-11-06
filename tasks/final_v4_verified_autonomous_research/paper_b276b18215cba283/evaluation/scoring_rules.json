@@ -1,0 +1,155 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_single_arm_optical_response",
+      "reference_id": "single_arm_optical_response",
+      "type": "semantic",
+      "expected": "Explain the change in the principal low-energy absorption when the complete neutral-singlet C26H27NO3 single-arm model changes from transoid to cisoid geometry. Use actual gas-phase vertical S0-to-S1 transition energies, oscillator strengths and corresponding physical-state evidence for both candidates. The reference cisoid response is red-shifted and weaker, consistent with changed conjugated-arm geometry; neither the source energy shift nor either energy/strength is a target. Establish which transition is being compared, its molecular origin and whether the geometry is conditional or freely stable. A supported model-sensitive alternative can pass if actual comparable states, geometry and response evidence explain the revised optical conclusion. Source sample labels, two copied scalars, or a frozen torsion presented as a populated free minimum fail. This item concerns the one-arm response, not the full dye or the identity of the 700 nm band.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.artifacts"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_three_arm_optical_response",
+      "reference_id": "three_arm_optical_response",
+      "type": "semantic",
+      "expected": "Determine how transoid/cisoid arm arrangement changes the low-energy absorption pattern of the full neutral-singlet C66H69N3O3 chromophore. Report the actual S1-S4 energies and oscillator strengths at both declared S0 gas-phase geometries and interpret their physical-state correspondence and redistribution of intensity. Reference spectra retain two bright low states and much weaker higher states, with a modest cisoid redshift and a redistribution between the two bright transitions. Score the supported spectral conclusion rather than an exact eight-state matrix: no source energies, strengths, dark-root order or fixed configuration percentage is required to match. A changed state ordering or mixing is acceptable when actual response evidence establishes which states exchange character and explains the resulting spectrum. Distinguish a constrained cisoid candidate from an unconstrained minimum; this spectral calculation does not itself establish solution populations or a photoproduct.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.artifacts"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_full_dye_transfer",
+      "reference_id": "full_dye_transfer",
+      "type": "semantic",
+      "expected": "Explain which single-arm findings transfer to the full three-arm chromophore and which do not, using actual comparative spectral and transition-density/orbital evidence. The conformational redshift tendency transfers, while the full dye has two low bright states with coupled/mixed arm response instead of a single isolated-arm excitation; higher states are much weaker. Exact canonical orbital indices or printed configuration percentages are not required. This is a physical account of model reduction, not another point for the same redshift sign or a generic limitations paragraph.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.claims",
+          "$.artifacts"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_molecular_band_account",
+      "reference_id": "molecular_band_account",
+      "type": "semantic",
+      "expected": "Use actual conformer-resolved absorption calculations and state correspondence to explain a cisoid redshift as a possible molecular contribution to the extra long-wavelength feature. Compare the calculated transition energies to the approximately 700 nm observation: this finite gas-phase conformer model does not quantitatively reproduce that band or uniquely establish its photoproduct. Explain the physical limits of this inference and distinguish a conditional twisted geometry from a thermally populated free minimum. A raw redshift list or repetition of the observed band does not pass; genuine alternative physically equivalent analyses can pass.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.claims",
+          "$.artifacts"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "single_arm_optical_response",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Conformational optical response of the single arm",
+      "rule_ids": [
+        "r_single_arm_optical_response"
+      ],
+      "evidence_ids": [
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "three_arm_optical_response",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Conformational redistribution of the full-dye absorption",
+      "rule_ids": [
+        "r_three_arm_optical_response"
+      ],
+      "evidence_ids": [
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "full_dye_transfer",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Final reduced-model transfer assessment",
+      "rule_ids": [
+        "r_full_dye_transfer"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "molecular_band_account",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Final molecular photoisomerization account",
+      "rule_ids": [
+        "r_molecular_band_account"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

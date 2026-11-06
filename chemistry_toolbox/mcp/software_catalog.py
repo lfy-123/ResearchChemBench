@@ -832,7 +832,7 @@ def _searchable_text(path: Path) -> str | None:
     text = path.read_text(encoding="utf-8", errors="ignore")
     if path.suffix.lower() in {".html", ".htm"}:
         text = html.unescape(_HTML_TAG.sub(" ", text))
-    return _SPACE.sub(" ", text)
+    return text if path.name.endswith(".pdf.txt") else _SPACE.sub(" ", text)
 
 
 def _normalize_topic(value: str) -> str:
@@ -914,22 +914,22 @@ def software_document_chunks(
         if text is None:
             continue
         relative = str(path.relative_to(PROJECT_ROOT))
-        for index, start in enumerate(range(0, len(text), 1800)):
-            excerpt = text[start : start + 2000]
-            chunks.append(
-                {
-                    "chunk_id": f"{relative}#cached-{index}",
+        pages = text.split("\f") if path.name.endswith(".pdf.txt") else [text]
+        for page_number, page in enumerate(pages, 1):
+            for index, start in enumerate(range(0, len(page), 1800)):
+                excerpt = page[start : start + 2000]
+                chunks.append({
+                    "chunk_id": f"{relative}#page-{page_number}-cached-{index}",
                     "software_id": resolved_id,
                     "path": relative,
-                    "heading": "Cached documentation",
+                    "heading": f"PDF page {page_number}" if path.name.endswith(".pdf.txt") else "Cached documentation",
                     "section": "cached-documentation",
                     "topics": [],
                     "aliases": [],
                     "text": excerpt,
                     "shared": False,
                     "source_type": "cached_external_document",
-                }
-            )
+                })
     return chunks
 
 

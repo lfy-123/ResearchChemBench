@@ -1,0 +1,105 @@
+{
+  "catalysts": [
+    {
+      "id": "A",
+      "name": "F12-ortho-iodo-p-terphenyl axial isomer A",
+      "smiles": "Fc1c(F)c(F)c(-c2c(F)c(F)c(-c3c(F)c(F)c(F)c(F)c3I)c(F)c2F)c(I)c1F",
+      "formula": "C18F12I2",
+      "formal_charge": 0,
+      "starting_multiplicity": 1,
+      "axial_identity": "Separate isolated atropisomer: in the conventional extended terphenyl drawing both terminal ortho iodine substituents lie on the same side of the long terphenyl axis. Racemic if axial chirality is resolved. The constitution-only SMILES does not encode this relative axial identity.",
+      "catalyst_mmol": 0.0025
+    },
+    {
+      "id": "B",
+      "name": "F12-ortho-iodo-p-terphenyl axial isomer B",
+      "smiles": "Fc1c(F)c(F)c(-c2c(F)c(F)c(-c3c(F)c(F)c(F)c(F)c3I)c(F)c2F)c(I)c1F",
+      "formula": "C18F12I2",
+      "formal_charge": 0,
+      "starting_multiplicity": 1,
+      "axial_identity": "Separate isolated atropisomer: in the conventional extended terphenyl drawing terminal ortho iodine substituents lie on opposite sides of the long terphenyl axis. The constitution-only SMILES does not encode this relative axial identity.",
+      "catalyst_mmol": 0.0025
+    },
+    {
+      "id": "C",
+      "name": "1,4-bis(2-iodo-3,4,5,6-tetrafluorophenyl)benzene",
+      "smiles": "Fc1c(F)c(F)c(-c2ccc(-c3c(F)c(F)c(F)c(F)c3I)cc2)c(I)c1F",
+      "formula": "C18H4F8I2",
+      "formal_charge": 0,
+      "starting_multiplicity": 1,
+      "catalyst_mmol": 0.0025
+    },
+    {
+      "id": "D",
+      "name": "1,2-bis(2-iodo-3,4,5,6-tetrafluorophenyl)ethyne",
+      "smiles": "Fc1c(F)c(F)c(C#Cc2c(F)c(F)c(F)c(F)c2I)c(I)c1F",
+      "formula": "C14F8I2",
+      "formal_charge": 0,
+      "starting_multiplicity": 1,
+      "catalyst_mmol": 0.0025
+    },
+    {
+      "id": "E",
+      "name": "2,2′-diiodo-3,3′,4,4′,5,5′,6,6′-octafluorobiphenyl",
+      "smiles": "Fc1c(F)c(F)c(-c2c(F)c(F)c(F)c(F)c2I)c(I)c1F",
+      "formula": "C12F8I2",
+      "formal_charge": 0,
+      "starting_multiplicity": 1,
+      "catalyst_mmol": 0.0025
+    }
+  ],
+  "reagents": [
+    {
+      "id": "Q",
+      "name": "isoquinoline",
+      "smiles": "c1ccc2cnccc2c1",
+      "formula": "C9H7N",
+      "formal_charge": 0,
+      "mmol": 0.5,
+      "starting_multiplicity": 1
+    },
+    {
+      "id": "T",
+      "name": "2,2,2-trichloroethyl chloroformate",
+      "smiles": "O=C(Cl)OCC(Cl)(Cl)Cl",
+      "formula": "C3H2Cl4O2",
+      "formal_charge": 0,
+      "mmol": 0.525,
+      "starting_multiplicity": 1
+    },
+    {
+      "id": "K",
+      "name": "1-methoxy-2-methyl-1-(trimethylsiloxy)prop-1-ene",
+      "smiles": "COC(O[Si](C)(C)C)=C(C)C",
+      "formula": "C8H18O2Si",
+      "formal_charge": 0,
+      "mmol": 0.75,
+      "starting_multiplicity": 1
+    }
+  ],
+  "conditions": {
+    "solvent": "dry THF",
+    "solvent_mL": 10,
+    "temperature_K": 193.15,
+    "atmosphere": "nitrogen",
+    "catalyst_loading_mol_percent": 0.5,
+    "mixing_order": "Q and T at -80 °C for 30 min; add catalyst, stir 5 min; add K at -80 °C.",
+    "yield_definition": "Measured product yield (%) at each time point. The general 6 h synthetic procedure isolates product. Time-course assay details and replicate errors are not separately stated.",
+    "workup": "The general 6 h procedure uses saturated aqueous NaHCO3 (4 mL), ether extraction, brine wash, drying and silica chromatography."
+  },
+  "product": {
+    "id": "P",
+    "name": "Methyl 1,2-dihydro-α,α-dimethyl-2-[(2,2,2-trichloroethoxy)carbonyl]-1-isoquinolineacetate",
+    "smiles": "COC(=O)C(C)(C)C1c2ccccc2C=CN1C(=O)OCC(Cl)(Cl)Cl",
+    "formula": "C17H18Cl3NO4",
+    "formal_charge": 0,
+    "starting_multiplicity": 1,
+    "stereochemistry": "Product constitution specified; no absolute stereochemical assignment is supplied.",
+    "identity_basis": "Structure of the experimentally isolated product; the SMILES is a transcription of that structure."
+  },
+  "model_conventions": {
+    "starting_multiplicity": "Supplied neutral closed-shell starting models have singlet labels; these labels are model specifications.",
+    "solution_free_energy_reporting": "Solution free-energy reports require the raw thermal and standard-state conventions and any conversion to the common 1 M convention.",
+    "identity_boundary": "A and B are distinct prepared samples. Other supplied SMILES specify constitution without assigning solution populations."
+  }
+}

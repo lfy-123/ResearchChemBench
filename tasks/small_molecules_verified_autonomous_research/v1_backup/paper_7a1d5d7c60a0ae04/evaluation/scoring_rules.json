@@ -1,0 +1,299 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价当前任务范围内的科学发现与最终结论，总分100。各叶子项满足全部条件得满分，否则0，不临时给部分分。真实、可定位且物理身份/参照/单位相容的计算证据是结果成立前提，不是单独过程奖励。普通失败只影响有关项；不按假设数、工具序列、计算次数、资源投入、失败诊断或写作完整度给分。作者结果是参照，不以验证值替换目标；未设numeric规则的上下文数字不形成隐藏硬阈值，必须有对应科学方向/关系的实际证据。允许物理可比的替代方法和等价解释，不强制复刻搜索流程。未解决或与该项科学结果矛盾的内容不得仅因合理讨论获得该项分。最终结论必须在最终交付中明确采用；定量与独立定性分别计分，数值落窗不替代正确方向。公开材料及历史协议中的旧研究质量分或60/40分配不参与本轮评分，现行唯一计分清单为scientific_rubric。",
+  "rules": [
+    {
+      "rule_id": "r_fluoride_affinity",
+      "reference_id": "fluoride_affinity",
+      "type": "semantic",
+      "expected": "相同气相298.15 K焓定义和配平组成的实际FIA比较支持B1>B3>B2。作者467/423/409 kJ/mol为参考；不把自由能或反应势垒当作FIA，单原子热项约定须一致。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_hydride_affinity",
+      "reference_id": "hydride_affinity",
+      "type": "semantic",
+      "expected": "同一配平焓定义下实际HIA比较支持B1>B3>B2。作者519/477/464 kJ/mol为参考；不得用FIA结果代替未计算的HIA或将该亲和力当作H2裂解势垒。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_d4_a_formation",
+      "reference_id": "d4_a_formation",
+      "type": "semantic",
+      "expected": "正确D4五环产物立体映射、反应相关驻点和相同前体参照的实际比较支持催化剂A/B1下cis形成较有利。作者G(TStrans)−G(TScis)=0.7 kcal/mol为参考，不是硬数值窗；不能以实验10:1代替计算。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_d4_b_formation",
+      "reference_id": "d4_b_formation",
+      "type": "semantic",
+      "expected": "对应D4五环、催化剂B/B3的实际反应连接及自由能支持cis形成较有利。作者G(TStrans)−G(TScis)=2.1 kcal/mol为参考；保持催化剂和电子态，不将另一催化剂的结果复用为本项。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_d4_product_stability",
+      "reference_id": "d4_product_stability",
+      "type": "semantic",
+      "expected": "同一条件的独立cis/trans五环产物计算支持两者近简并，作者模型为trans稍低，G(trans)−G(cis)=−0.3 kcal/mol。必须区分微弱稳定性偏向与cis形成优势；不可将产物稳定性等同生成势垒。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_d5_formation",
+      "reference_id": "d5_formation",
+      "type": "semantic",
+      "expected": "正确六环cis/trans产物映射和反应相关结构的实际自由能比较支持D5/B1下cis形成较有利。作者G(TStrans)−G(TScis)=4.1 kcal/mol为参考；不以D4或其他催化剂替代。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_d5_product_stability",
+      "reference_id": "d5_product_stability",
+      "type": "semantic",
+      "expected": "独立六环产物计算在声明且一致的热化学定义下支持cis更稳定。作者G(trans)−G(cis)=2.6 kcal/mol为参考；低频处理须与所报告G一致，不能混用QRRHO、RRHO或为接近目标挑选截止。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_catalyst_function_answer",
+      "reference_id": "catalyst_function_answer",
+      "type": "semantic",
+      "expected": "最终将两类亲和力排序与实际D4形成竞争联系起来，解释更强Lewis酸性不能单独决定更高cis选择性或端点产率。作者B1酸性较强而B3偏好较大为参考；近简并只能作条件性名义排序。K4筛选与D4条件分开，不声称计算出呋喃通道、收率或全周转。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_d4_selection_answer",
+      "reference_id": "d4_selection_answer",
+      "type": "semantic",
+      "expected": "最终依据两个催化剂的配对形成比较和独立产物稳定性，解释D4的cis选择主要来自形成竞争，不能由微弱trans稳定性解释。作者B3比B1的cis偏好较强为参考；需实际跨催化剂比较，幅度和不确定性按证据表述，不强求精确10:1/20:1或把近简并说成稳健增强。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_ring_size_answer",
+      "reference_id": "ring_size_answer",
+      "type": "semantic",
+      "expected": "最终在固定B1下综合D4/D5的形成和产物比较，得出D5的cis形成偏向较大，且动力学和产物热力学同向偏cis；D4则形成偏cis而产物近简并。不得用一个数值替代双环四组比较，不能把实验>20:1下界当精确计算比值。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "fluoride_affinity",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "三催化剂的氟离子亲和力顺序",
+      "rule_ids": [
+        "r_fluoride_affinity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "hydride_affinity",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "三催化剂的氢负离子亲和力顺序",
+      "rule_ids": [
+        "r_hydride_affinity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "d4_a_formation",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "D4与催化剂A的cis/trans形成竞争",
+      "rule_ids": [
+        "r_d4_a_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "d4_b_formation",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "D4与催化剂B的cis/trans形成竞争",
+      "rule_ids": [
+        "r_d4_b_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "d4_product_stability",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "D4产物的弱热力学偏向",
+      "rule_ids": [
+        "r_d4_product_stability"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "d5_formation",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "D5与催化剂A的形成竞争",
+      "rule_ids": [
+        "r_d5_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "d5_product_stability",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "D5产物的cis稳定性偏好",
+      "rule_ids": [
+        "r_d5_product_stability"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "catalyst_function_answer",
+      "kind": "conclusion",
+      "max_score": 12,
+      "description": "最终：酸性与反应表现的有限联系",
+      "rule_ids": [
+        "r_catalyst_function_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "d4_selection_answer",
+      "kind": "conclusion",
+      "max_score": 14,
+      "description": "最终：五环动力学选择及催化剂比较",
+      "rule_ids": [
+        "r_d4_selection_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ring_size_answer",
+      "kind": "conclusion",
+      "max_score": 14,
+      "description": "最终：环大小改变动力学/热力学关系",
+      "rule_ids": [
+        "r_ring_size_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

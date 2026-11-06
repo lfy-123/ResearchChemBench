@@ -1,0 +1,203 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "result_policy": {
+    "shared_across_modes": true,
+    "method_independent": true,
+    "author_route_required_for_autonomous_research": false,
+    "agreement_alone_sufficient": false,
+    "unresolved_is_scientific_pass": false,
+    "result_identity_policy": "Match submitted quantities by scientific name AND definition, molecular/state identity, stereochemical mapping, charge/multiplicity, solvent, temperature, energy reference and particle ledger. Do not match by nearest value or array order. Inspect linked real inputs/outputs and stationary-point/connectivity evidence before awarding result credit; a quotation, inferred missing value or job-success status is not a calculation. Convert units explicitly when necessary. A different method is allowed, but a different physical quantity is not a substitute. ",
+    "tolerance_policy": "Conservative provisional evaluation tolerance for the stated molecular model and physical quantity, not an experimental uncertainty and not calibrated by an independent recomputation. It has not been enlarged to fit any submitted or failed calculation. Numerical agreement never overrides an independently evaluated direction or identity requirement.",
+    "process_axis": "Use the runtime independent process rubric. Scientific rubric items below contain only computed results and their supported chemical implications.",
+    "source_release_blockers": []
+  },
+  "rules": [
+    {
+      "rule_id": "R_TS_GAP",
+      "reference_id": "KP_TS_GAP",
+      "type": "numeric",
+      "target": 8.6,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "tolerance_basis": "Conservative provisional evaluation tolerance for the stated molecular model and physical quantity, not an experimental uncertainty and not calibrated by an independent recomputation. It has not been enlarged to fit any submitted or failed calculation. Numerical agreement never overrides an independently evaluated direction or identity requirement.",
+      "quantity": "stereochemical C-H-activation TS free-energy separation",
+      "definition": "G(TS20-b)-G(TS20-a) for the identical-composition Pd/L-pGlu/S C-H-activation models, mapped to the author a/b structures. Common-reference profile separation, not [G(TS20-b)-G(19-b)]-[G(TS20-a)-G(19-a)]. Common spectator species cancel exactly.",
+      "conditions": "SMD acetonitrile, thermal correction 363.15 K; full public S and L-pGlu. Use the same total charge, spin and particle/proton inventory in both TSs. The source does not explicitly state charge/multiplicity; neutral closed-shell Pd(II)/doubly deprotonated L-pGlu plus neutral S is a graph-based reconstruction, not a reported input. Declare and validate it.",
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE"
+      ],
+      "source_qualification": "Author-reported model result; independent computation pending.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities"
+        ],
+        "comparison": "Match submitted quantities by scientific name AND definition, molecular/state identity, stereochemical mapping, charge/multiplicity, solvent, temperature, energy reference and particle ledger. Do not match by nearest value or array order. Inspect linked real inputs/outputs and stationary-point/connectivity evidence before awarding result credit; a quotation, inferred missing value or job-success status is not a calculation. Convert units explicitly when necessary. A different method is allowed, but a different physical quantity is not a substitute. For stereochemical C-H-activation TS free-energy separation, evaluate absolute error <= 1.5 kcal/mol against the specified target only after the definition and conditions match. Author-reported model result; independent computation pending."
+      }
+    },
+    {
+      "rule_id": "R_TS_DIRECTION",
+      "reference_id": "KP_TS_GAP",
+      "type": "ordering",
+      "expected": "For the same mapped molecular states and conditions, G(TS20-a) < G(TS20-b). Evaluate the sign independently of numerical tolerance; a reversed or unmapped result fails this direction comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.conclusions"
+        ],
+        "comparison": "Match submitted quantities by scientific name AND definition, molecular/state identity, stereochemical mapping, charge/multiplicity, solvent, temperature, energy reference and particle ledger. Do not match by nearest value or array order. Inspect linked real inputs/outputs and stationary-point/connectivity evidence before awarding result credit; a quotation, inferred missing value or job-success status is not a calculation. Convert units explicitly when necessary. A different method is allowed, but a different physical quantity is not a substitute. For the same mapped molecular states and conditions, G(TS20-a) < G(TS20-b). Evaluate the sign independently of numerical tolerance; a reversed or unmapped result fails this direction comparison. "
+      }
+    },
+    {
+      "rule_id": "R_INV_S",
+      "reference_id": "KP_INV_S",
+      "type": "numeric",
+      "target": 31.82,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "tolerance_basis": "Conservative provisional evaluation tolerance for the stated molecular model and physical quantity, not an experimental uncertainty and not calibrated by an independent recomputation. It has not been enlarged to fit any submitted or failed calculation. Numerical agreement never overrides an independently evaluated direction or identity requirement.",
+      "quantity": "S inversion free-energy barrier",
+      "definition": "G(S inversion saddle)-G(the connected isolated S/1b ground-state minimum), same neutral molecular formula and particle number, no Pd or ligand. Zero is the S minimum at its own conditions.",
+      "conditions": "SMD acetonitrile; 353.15 K; charge 0, singlet closed-shell reconstruction from the neutral graph. Source input charge/multiplicity was not explicitly printed.",
+      "evidence_ids": [
+        "E_INV"
+      ],
+      "source_qualification": "Author-reported model result; independent computation pending.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities"
+        ],
+        "comparison": "Match submitted quantities by scientific name AND definition, molecular/state identity, stereochemical mapping, charge/multiplicity, solvent, temperature, energy reference and particle ledger. Do not match by nearest value or array order. Inspect linked real inputs/outputs and stationary-point/connectivity evidence before awarding result credit; a quotation, inferred missing value or job-success status is not a calculation. Convert units explicitly when necessary. A different method is allowed, but a different physical quantity is not a substitute. For S inversion free-energy barrier, evaluate absolute error <= 2.0 kcal/mol against the specified target only after the definition and conditions match. Author-reported model result; independent computation pending."
+      }
+    },
+    {
+      "rule_id": "R_INV_P",
+      "reference_id": "KP_INV_P",
+      "type": "numeric",
+      "target": 33.99,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "tolerance_basis": "Conservative provisional evaluation tolerance for the stated molecular model and physical quantity, not an experimental uncertainty and not calibrated by an independent recomputation. It has not been enlarged to fit any submitted or failed calculation. Numerical agreement never overrides an independently evaluated direction or identity requirement.",
+      "quantity": "P inversion free-energy barrier",
+      "definition": "G(P inversion saddle)-G(the connected isolated P/3ba ground-state minimum), same neutral E-alkenylated formula and particle number, no Pd or ligand. Zero is the P minimum at its own conditions.",
+      "conditions": "SMD n-octane; 398.15 K; charge 0, singlet closed-shell reconstruction from the neutral graph. Source input charge/multiplicity was not explicitly printed.",
+      "evidence_ids": [
+        "E_INV"
+      ],
+      "source_qualification": "Author-reported model result; independent computation pending.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities"
+        ],
+        "comparison": "Match submitted quantities by scientific name AND definition, molecular/state identity, stereochemical mapping, charge/multiplicity, solvent, temperature, energy reference and particle ledger. Do not match by nearest value or array order. Inspect linked real inputs/outputs and stationary-point/connectivity evidence before awarding result credit; a quotation, inferred missing value or job-success status is not a calculation. Convert units explicitly when necessary. A different method is allowed, but a different physical quantity is not a substitute. For P inversion free-energy barrier, evaluate absolute error <= 2.0 kcal/mol against the specified target only after the definition and conditions match. Author-reported model result; independent computation pending."
+      }
+    },
+    {
+      "rule_id": "R_REACTIVITY",
+      "reference_id": "C_REACTIVITY",
+      "type": "semantic",
+      "expected": "Connect the two valid stereochemical models to their relative facility; the author model has TS20-a below TS20-b. Its 8.6 kcal/mol common-reference separation supports discrimination in this model. It does not imply exactly zero reaction of the higher pathway, an absolute configuration without mapping, a global rate-determining assignment, or a quantitative prediction of the experimental endpoint ee. An alternative mechanism must carry its own relevant executed evidence; it does not turn missing numerical results into completed results.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.conclusions"
+        ],
+        "comparison": "Match submitted quantities by scientific name AND definition, molecular/state identity, stereochemical mapping, charge/multiplicity, solvent, temperature, energy reference and particle ledger. Do not match by nearest value or array order. Inspect linked real inputs/outputs and stationary-point/connectivity evidence before awarding result credit; a quotation, inferred missing value or job-success status is not a calculation. Convert units explicitly when necessary. A different method is allowed, but a different physical quantity is not a substitute. Connect the two valid stereochemical models to their relative facility; the author model has TS20-a below TS20-b. Its 8.6 kcal/mol common-reference separation supports discrimination in this model. It does not imply exactly zero reaction of the higher pathway, an absolute configuration without mapping, a global rate-determining assignment, or a quantitative prediction of the experimental endpoint ee. An alternative mechanism must carry its own relevant executed evidence; it does not turn missing numerical results into completed results. "
+      }
+    },
+    {
+      "rule_id": "R_CONFIG",
+      "reference_id": "C_CONFIG",
+      "type": "semantic",
+      "expected": "Establish both isolated-molecule barriers with their own minima, solvents and temperatures, then state the limits of connecting them to the public time-course and stability observations. Their numeric ordering across conditions does not establish a same-condition kinetic ordering. In particular these data do not prove rapid S interconversion during the 36 h reaction or close a quantitative DKR model. No coordinated-interconversion calculation, full catalytic network or precise endpoint ee is mandatory. The source author interpretation remains a hypothesis; a demonstrated limit on it is a valid bounded conclusion when grounded in computed results.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.conclusions"
+        ],
+        "comparison": "Match submitted quantities by scientific name AND definition, molecular/state identity, stereochemical mapping, charge/multiplicity, solvent, temperature, energy reference and particle ledger. Do not match by nearest value or array order. Inspect linked real inputs/outputs and stationary-point/connectivity evidence before awarding result credit; a quotation, inferred missing value or job-success status is not a calculation. Convert units explicitly when necessary. A different method is allowed, but a different physical quantity is not a substitute. Establish both isolated-molecule barriers with their own minima, solvents and temperatures, then state the limits of connecting them to the public time-course and stability observations. Their numeric ordering across conditions does not establish a same-condition kinetic ordering. In particular these data do not prove rapid S interconversion during the 36 h reaction or close a quantitative DKR model. No coordinated-interconversion calculation, full catalytic network or precise endpoint ee is mandatory. The source author interpretation remains a hypothesis; a demonstrated limit on it is a valid bounded conclusion when grounded in computed results. "
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "TS_SEPARATION",
+      "max_score": 25,
+      "description": "Mapped stereochemical transition-state free-energy separation.",
+      "rule_ids": [
+        "R_TS_GAP"
+      ]
+    },
+    {
+      "id": "TS_DIRECTION",
+      "max_score": 10,
+      "description": "Independent direction of stereochemical discrimination.",
+      "rule_ids": [
+        "R_TS_DIRECTION"
+      ]
+    },
+    {
+      "id": "SUBSTRATE_INVERSION",
+      "max_score": 20,
+      "description": "Isolated-substrate inversion barrier at its specified conditions.",
+      "rule_ids": [
+        "R_INV_S"
+      ]
+    },
+    {
+      "id": "PRODUCT_INVERSION",
+      "max_score": 20,
+      "description": "Isolated-product inversion barrier at its specified conditions.",
+      "rule_ids": [
+        "R_INV_P"
+      ]
+    },
+    {
+      "id": "REACTIVITY_INFERENCE",
+      "max_score": 10,
+      "description": "Supported implication of computed discrimination.",
+      "rule_ids": [
+        "R_REACTIVITY"
+      ]
+    },
+    {
+      "id": "CONFIGURATION_INFERENCE",
+      "max_score": 15,
+      "description": "Condition-aware connection of computed inversion results and observations.",
+      "rule_ids": [
+        "R_CONFIG"
+      ]
+    }
+  ]
+}

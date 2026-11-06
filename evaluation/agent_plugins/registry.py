@@ -48,7 +48,7 @@ def validate_external_definition(key, definition, *, config_dir: Path) -> dict:
         raise AgentConfigError(f"Cannot override built-in agent {key!r}")
     if not isinstance(definition, dict):
         raise AgentConfigError(f"Agent {key!r} must be a mapping")
-    unknown = set(definition) - {"kind", "label", "command", "env_allowlist", "options", "execution_backend", "model_budget_enforcement"}
+    unknown = set(definition) - {"kind", "label", "command", "env_allowlist", "options", "execution_backend", "model_budget_enforcement", "resume_protocol"}
     if unknown:
         raise AgentConfigError(f"Unknown agent definition fields: {sorted(unknown, key=str)}")
     if definition.get("kind", "external") != "external":
@@ -84,9 +84,13 @@ def validate_external_definition(key, definition, *, config_dir: Path) -> dict:
     label = definition.get("label", key)
     if not isinstance(label, str) or not label.strip():
         raise AgentConfigError("label must be a nonempty string")
+    resume_protocol = definition.get("resume_protocol")
+    if resume_protocol not in {None, "arche-checkpoint-v1"}:
+        raise AgentConfigError("Unsupported external resume protocol")
     return {"kind": "external", "label": label, "command": command,
             "env_allowlist": list(dict.fromkeys(allowed)), "options": copy.deepcopy(options),
-            "execution_backend": backend, "model_budget_enforcement": enforcement}
+            "execution_backend": backend, "model_budget_enforcement": enforcement,
+            **({"resume_protocol": resume_protocol} if resume_protocol else {})}
 
 
 def resolve_agent_definitions(config, *, config_dir: Path) -> dict:

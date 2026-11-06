@@ -1,0 +1,148 @@
+{
+  "paper_id": "paper_8769f3cc6d18e26c",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_structural_account",
+      "r_relative_susceptibility",
+      "r_enantioselectivity_reach"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only first-amination substrate structure, two para-site responses and their explanatory reach are scored. Subsequent di-amination and its time trend are outside scope.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "items": [
+    {
+      "key_point_id": "support_structural_account",
+      "key_point_type": "scientific_evidence",
+      "statement": "Computed solution structure and equivalence or inequivalence of para environments",
+      "expected": "Establish a physically valid, singly threaded rotaxane model through actual calculations and explain whether its macrocycle/axle organization gives equivalent or inequivalent para environments in the modeled solvent and states. The source hydrogen-bond-organized asymmetric pose, with one ring more parallel-displaced against the CF3 axle aryl ring and the other more tilted/offset, is a sufficient reference account; no particular contact checklist or asymmetric outcome is mandatory. A fully supported equivalent environment or alternative organization passes directly. Distinguish equivalence within one computed conformation from equivalence after averaging symmetry-related conformations; an ensemble claim requires justified state mapping and weights or applicable physical symmetry, and does not establish identical local geometries. A demonstrated symmetry operation on an actually computed pose may establish a related pose without a second independent quantum calculation, but does not establish solution populations or exchange rates. A bare symmetry assumption, crystal distance, unthreaded mixture or generic contact list without a valid computed solution model fails.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_relative_susceptibility",
+      "key_point_type": "scientific_evidence",
+      "statement": "Computed para-site response and its implication for electrophilic amination",
+      "expected": "Report actual numerical para-site electronic responses with consistent physical definitions and mapping, comparing the two sites within the same computed conformation or within an explicitly justified ensemble. Infer whether those results support different or equivalent susceptibility under that model. In the reference asymmetric pose, the axle-stacked ring para carbon is more electron rich: source NPA −0.277 versus −0.259 e is context without a hard window. A physically substantiated alternative response comparison, including established equivalence, passes directly; the reference charge sign is not mandatory for another valid descriptor or conformation. An ensemble average must use justified state mapping and weights or demonstrated applicable symmetry on computed states, and must be distinguished from each local site response. Mere symmetry assumptions or arbitrary averaging do not replace the numerical calculations. Explain the relevance to amination without equating a descriptor with a barrier, rate ratio or unique reactive site. Mirror relabeling alone is not a physical reversal; experimental product preference is not computed electronic evidence.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_enantioselectivity_reach",
+      "key_point_type": "scientific_evidence",
+      "statement": "Scope of substrate evidence for first-amination site susceptibility and net ee",
+      "expected": "Use the actual computed substrate structure, numerical para-site responses and demonstrated relevant symmetry relationships to assess local first-amination susceptibility and whether substrate-only evidence can determine a net enantiomeric excess. Either supported local inequivalence or established equivalence can answer this item. Distinguish a conditional local site preference from chiral-catalyst selection and reaction kinetics. An explicit symmetry operation on an actually computed pose may establish a related pose without a second quantum calculation, but not ensemble populations or exchange rates. A descriptor or equivalence result does not prove a unique catalytic mechanism. Generic limitations or assumed symmetry without the actual structural/site argument fail. No subsequent di-amination, kinetic resolution, time-course, catalyst TS or quantitative ee calculation is required.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "statement": "来源构象参照：穿线结构的氢键组织",
+      "expected": "来源及已复核原生局部最低点保持完整单次穿线图，包含轴NH与宏环醚氧、宏环NH与轴羰基的有方向性接触。这些接触是来源预组织解释的证据，不是所有提交模型必须复现的接触清单；现行结构项接受由实际计算充分支持的其他组织及等价环境，无通用距离窗。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "nh_contacts",
+      "key_point_type": "result",
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "statement": "来源构象参照：两个芳环的不同轴向接触环境",
+      "expected": "来源非对称穿线构象中，一侧宏环芳环与轴含CF3芳环呈相对平行位移接触，另一侧更倾斜/偏移，对应该局部构象的不等价para环境。这不是全部合理模型的唯一结果；现行评分接受经实际计算成立的等价或其他组织。必须区别单构象局部环境与有物理依据的系综平均，不能由晶体距离或假设的对称性替代计算。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "aryl_environment",
+      "key_point_type": "result",
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "statement": "来源构象参照：宏环—轴的辅助空间组织",
+      "expected": "来源构象的宏环C–H与轴芳环定向近接触为双组件相对姿态提供支持。作者CH···π是该构象的结构参照，不是当前答案必须采用的解释；单条接触线或距离不证明稳定化能或反应速率。其他组织包括等价环境按实际计算证据判断。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "chpi_environment",
+      "key_point_type": "result",
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "statement": "来源构象参照：同构象para电子响应差异",
+      "expected": "来源非对称构象的NPA比较为与轴堆积环para −0.277 e、另一环para −0.259 e，差−0.018 e；这些是上下文，无硬阈值。现行评分接受由实际数值、物理定义和位点映射支持的替代响应或等价结果。单构象比较与系综平均须分清；后者须有状态映射、权重或已证实适用的物理对称性，不能任意混合构象或从产物选择性倒推电荷。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "para_response",
+      "key_point_type": "result",
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_structural_account",
+      "key_point_type": "scientific_evidence",
+      "statement": "Computed solution structure and equivalence or inequivalence of para environments",
+      "expected": "Establish a physically valid, singly threaded rotaxane model through actual calculations and explain whether its macrocycle/axle organization gives equivalent or inequivalent para environments in the modeled solvent and states. The source hydrogen-bond-organized asymmetric pose, with one ring more parallel-displaced against the CF3 axle aryl ring and the other more tilted/offset, is a sufficient reference account; no particular contact checklist or asymmetric outcome is mandatory. A fully supported equivalent environment or alternative organization passes directly. Distinguish equivalence within one computed conformation from equivalence after averaging symmetry-related conformations; an ensemble claim requires justified state mapping and weights or applicable physical symmetry, and does not establish identical local geometries. A demonstrated symmetry operation on an actually computed pose may establish a related pose without a second independent quantum calculation, but does not establish solution populations or exchange rates. A bare symmetry assumption, crystal distance, unthreaded mixture or generic contact list without a valid computed solution model fails.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_relative_susceptibility",
+      "key_point_type": "scientific_evidence",
+      "statement": "Computed para-site response and its implication for electrophilic amination",
+      "expected": "Report actual numerical para-site electronic responses with consistent physical definitions and mapping, comparing the two sites within the same computed conformation or within an explicitly justified ensemble. Infer whether those results support different or equivalent susceptibility under that model. In the reference asymmetric pose, the axle-stacked ring para carbon is more electron rich: source NPA −0.277 versus −0.259 e is context without a hard window. A physically substantiated alternative response comparison, including established equivalence, passes directly; the reference charge sign is not mandatory for another valid descriptor or conformation. An ensemble average must use justified state mapping and weights or demonstrated applicable symmetry on computed states, and must be distinguished from each local site response. Mere symmetry assumptions or arbitrary averaging do not replace the numerical calculations. Explain the relevance to amination without equating a descriptor with a barrier, rate ratio or unique reactive site. Mirror relabeling alone is not a physical reversal; experimental product preference is not computed electronic evidence.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_enantioselectivity_reach",
+      "key_point_type": "scientific_evidence",
+      "statement": "What the computed substrate structure and site responses establish about net enantioselectivity",
+      "expected": "Use the actual computed substrate structure, numerical site responses and demonstrated relevant symmetry relationships to assess the explanatory reach for the given enantioselectivity and mono/di-amination time trend. Either supported local inequivalence or established equivalence can answer this item. Distinguish a conditional substrate-site preference from selection of net enantiomeric excess: substrate-only structure and responses do not determine chiral catalyst selection or the required reaction kinetics. A symmetry relation may be established by an explicit operation on an actually computed pose without an additional independent quantum calculation; it does not establish ensemble populations or exchange rates. Relate the resulting inference to the observations without claiming a calculated kinetic-resolution rate or quantitative ee. The source permits a less-hindered-ring alternative, so neither an electronic descriptor nor an equivalence result proves a unique catalytic mechanism. A generic limitations paragraph or assumed symmetry without the actual structural/site argument fails. No catalyst calculation, transition state or ensemble calculation is newly required.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ]
+}

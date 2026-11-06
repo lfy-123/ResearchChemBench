@@ -1,0 +1,128 @@
+{
+  "paper_id": "paper_47948e26afff46f6",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。",
+  "rules": [
+    {
+      "rule_id": "r_n_coupling",
+      "reference_id": "n_coupling",
+      "type": "semantic",
+      "expected": "对完整给定底物、保留苯基与甲酯的失氮后氢转移模型，实际结构和相称连接证据支持芳基酯碳中心与喹喔啉酮氮成键。作者参考为中性三重态自由基对后的N成键TS；主张TS需正确反应负模及驻点质量。有效局部模式/结构连接可接受，不强制完整IRC；仅给定N产物或复制坐标不能得分。不得把这一条件通道当作已验证上游光生成或氢转移。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    },
+    {
+      "rule_id": "r_o_coupling",
+      "reference_id": "o_coupling",
+      "type": "semantic",
+      "expected": "实际结构和反应证据支持相同底物模型中芳基酯碳与羰基氧的竞争成键事件，保持与N路径可比的组成、质子位置、电子态和参照。主张TS需相应O–C负模及有效驻点；不能只将N/O标签互换或展示无关O结构。正文与SI编号相反，按真实成键原子识别。只评价竞争成键，不要求未完成的O终产物热力学或整个光物理网络。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    },
+    {
+      "rule_id": "r_n_product",
+      "reference_id": "n_product",
+      "type": "semantic",
+      "expected": "实际无约束有效最低点支持给定N-烷基化产物的完整连接图和闭壳层身份，保留苯基、甲酯及正确N–C键。正频还需结合适用的驻点收敛证据；未合格的三重态N产物不能冒充合格闭壳层产物。此项只评价产物结构/态的计算成立，不证明自旋转换速率、产物不可逆性或N/O平衡比例。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    },
+    {
+      "rule_id": "r_site_selectivity_answer",
+      "reference_id": "site_selectivity_answer",
+      "type": "semantic",
+      "expected": "最终从实际可比的N/O成键活化自由能和目标N产物证据，明确判断在所研究的失氮且已发生氢转移的自由基对模型内N通道低于O通道，并将此竞争结果用于解释给定N位点偏好。作者局部势垒25.8/33.7及O−N=7.9 kcal/mol是上下文，不要求精确数值命中；方向反转、没有竞争证据或只复述产物观察均不得分。允许科学等价方法/标签和有证据的物理解释；需区分条件模型与实验唯一机制，不能把未核实的π–π/NCI因果、实际布居、ISC速率、不可逆性或72%产率作为已证明结论。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "n_coupling",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "条件模型内的N–C成键通道",
+      "rule_ids": [
+        "r_n_coupling"
+      ],
+      "evidence_ids": [
+        "main_selectivity",
+        "si_method",
+        "si_geometry"
+      ]
+    },
+    {
+      "id": "o_coupling",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "同一模型内的竞争O–C成键通道",
+      "rule_ids": [
+        "r_o_coupling"
+      ],
+      "evidence_ids": [
+        "main_selectivity",
+        "si_method",
+        "si_geometry"
+      ]
+    },
+    {
+      "id": "n_product",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "正确闭壳层N连接产物最低点",
+      "rule_ids": [
+        "r_n_product"
+      ],
+      "evidence_ids": [
+        "main_selectivity",
+        "si_geometry"
+      ]
+    },
+    {
+      "id": "site_selectivity_answer",
+      "kind": "conclusion",
+      "max_score": 40,
+      "description": "最终：N/O活化竞争解释N位点偏好",
+      "rule_ids": [
+        "r_site_selectivity_answer"
+      ],
+      "evidence_ids": [
+        "main_selectivity",
+        "si_method",
+        "si_geometry"
+      ]
+    }
+  ]
+}

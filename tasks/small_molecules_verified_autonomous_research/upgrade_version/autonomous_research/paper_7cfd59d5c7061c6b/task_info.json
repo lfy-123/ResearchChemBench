@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "task_type": "autonomous_research",
+  "title": "Autonomous investigation of initial DMA oxidation by a nonheme iron-peroxo complex",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires identifying active oxidant/substrate chemistry, states and physically comparable connected pathways."
+  ],
+  "paper": {
+    "title": "Mononuclear Non-Heme Iron(III)-Peroxo Complexes in Oxidative N-Demethylation Reaction as a Chemical Model Study of Rieske Oxygenases",
+    "doi": "10.1021/jacs.5c18643",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-20"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Complete FeIII-peroxo and DMA identities supplied as two independent unoptimized molecules; agent assembles encounter models."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Agent-defined models, computed evidence, claims, validation and truthful completion status."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Scientific answer, reasoning, methods, evidence interpretation and unresolved scope."
+    }
+  ]
+}

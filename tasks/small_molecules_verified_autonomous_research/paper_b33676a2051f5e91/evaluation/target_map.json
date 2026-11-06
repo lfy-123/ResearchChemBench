@@ -1,0 +1,65 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required chemistry begins at supplied Int-3. Int-2 is contextual only; no benzylic activation, peroxide cleavage or upstream radical generation is required. Both product drawings are inputs, not discoveries.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Starting from the supplied oxygen-centered radical Int-3 derived from sec-butylbenzene, what local chemistry explains acetophenone formation, and which of the two supplied carbon–carbon beta-scission channels is kinetically favored? This is a local explanation task; product structures are supplied and must be supported by independently calculated formation evidence.",
+  "active_rule_ids": [
+    "r_local_cleavage_chemistry",
+    "r_cleavage_selectivity"
+  ],
+  "current_outcome_ids": [
+    "local_cleavage_chemistry",
+    "cleavage_selectivity"
+  ],
+  "historical_record": {
+    "paper_id": "paper_b33676a2051f5e91",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity",
+      "r_local_activation"
+    ],
+    "scope": "Local cleavage chemistry and accessibility of acetophenone formation; Kinetic preference between acetophenone- and propiophenone-forming local cleavages; Accessibility and limits of a reagent-derived local benzylic activation route. Public molecular inputs and scientific scope are unchanged.",
+    "verification_status": "EXISTING_LOCAL_EVIDENCE_REVIEWED_NO_AUTOMATIC_V3_PASS",
+    "native_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+    "new_quantum_jobs": 0,
+    "release_ready": false,
+    "limitations": "Unresolved source singlet-oxygen states/capture definitions and uncomputed connecting peroxide chemistry remain outside the approved local scope. Local barriers use connected basins; no yield/branch ratio or polymer prediction is verified.",
+    "qualification_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+    "historical_records": {},
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_local_cleavage_chemistry",
+        "r_cleavage_selectivity",
+        "r_local_activation"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

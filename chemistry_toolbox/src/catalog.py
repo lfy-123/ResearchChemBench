@@ -56,8 +56,9 @@ def _agent_resource_contract(budget: dict[str, Any]) -> str:
         f"cpu_cores={budget['cpu_cores']}, "
         f"memory_mb={budget['memory_mb']}, "
         f"gpu_count={budget['gpu_count']}. The Agent may choose requests within this "
-        "envelope; single requests and concurrent reservations above it are rejected "
-        "without automatic reduction."
+        "envelope. Each job and all simultaneous reservations must fit the budget; "
+        "accepted queued jobs wait for capacity without reserving resources. "
+        "Requests are never automatically reduced."
     )
 
 
@@ -531,8 +532,8 @@ def progressive_toolbox_overview(
         "declared by `inspect_action`; fixed-source and deterministic internal Actions do not accept "
         "invented provider choices. The dispatcher validates exactly what you provide and never "
         "substitutes another choice. " + action_execution_description(persistent),
-        "For two or more independent inputs that use the same batch_safe Action and Backend, build "
-        "one complete unique stage list and call `submit_action_batch_async` once. The toolbox "
+        "Prepare the complete unique list of independent inputs and group those sharing the same "
+        "batch_safe Action, Backend, and settings into `submit_action_batch_async` calls. The toolbox "
         "queues excess items, preserves independent results and provenance, and returns stable "
         "terminal/running/queued updates through `wait_execution_events`. Reuse pilot results; do "
         "not split a stage into overlapping batches or poll internal status files.",

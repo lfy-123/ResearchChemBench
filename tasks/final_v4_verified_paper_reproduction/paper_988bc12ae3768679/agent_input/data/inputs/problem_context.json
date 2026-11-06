@@ -1,0 +1,17 @@
+{
+  "problem": "What molecular changes can account jointly for the supplied acid–base-dependent optical and NMR observations of dye 2a, and how uniquely do those observations identify the responsive species?",
+  "facts": [
+    "Water absorption maxima are 350 nm at pH2 and 440 nm at pH14 for dye2a.",
+    "Reported aromatic-proton NMR signals near the phenolic groups are 6.95 ppm (acid),6.80 ppm (neutral),6.10 ppm (base); the SI uses DMSO PCM and TMS referencing for comparison.",
+    "No neutral-water absorption maximum or experimental error bars are supplied."
+  ],
+  "scope": "Preserve the supplied C30N6O4 heavy-atom skeleton of neutral C30H20N6O4 dye2a. The study concerns reversible solution acid–base response, not synthesis, degradation or redox chemistry. Proton exchange and internal bond/proton rearrangement must have explicit atom, charge and electron bookkeeping. Optical measurements are in water; NMR conditions and reference are distinct.",
+  "data_files": [
+    "observations.json",
+    "parent_identity.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "No complete raw spectral/titration dataset or calibrated observable-error model is supplied. Experimental summaries and solvent differences limit unique species/population assignments."
+  ]
+}

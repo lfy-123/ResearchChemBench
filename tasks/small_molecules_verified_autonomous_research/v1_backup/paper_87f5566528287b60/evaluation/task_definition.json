@@ -1,0 +1,96 @@
+{
+  "scientific_question": "For the visible-light C(sp3)–H amidation of tetrahydrofuran by N-benzoyl dibenzothiophene sulfilimine, what molecular features of the photocatalyst set are most consistent with the observed productive versus nonproductive reaction outcomes under the reported solution-phase conditions?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Sulfilimine reactant: N-benzoyl dibenzothiophene sulfilimine. The benzoyl carbonyl carbon is bonded to nitrogen, and that nitrogen is bonded to the sulfur of an otherwise unsubstituted dibenzothiophene framework. The imino representation is Ph–C(=O)–N=S; sulfur also closes the central five-membered ring through its two carbon bonds and has no oxygen substituent. Connectivity-only SMILES: O=C(c1ccccc1)N=S1c2ccccc2-c2ccccc21. No stereochemistry is specified."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "C(sp3)–H donor and solvent: tetrahydrofuran (THF), a saturated five-membered ring with one oxygen and four carbon atoms. Connectivity-only SMILES: C1CCOC1."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "identity",
+      "content": "Observed product: N-(tetrahydrofuran-2-yl)benzamide. The benzamide nitrogen is bonded to a ring carbon adjacent to the ether oxygen and retains one hydrogen. Connectivity-only SMILES: O=C(NC1CCCO1)c1ccccc1. No product absolute stereochemistry or enantiomeric composition is specified."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "Standard reaction conditions: N-benzoyl dibenzothiophene sulfilimine (0.1 mmol) and Ir[dF(CF3)ppy]2(dtbbpy)PF6 (1 mol%) in THF (1.0 mL; sulfilimine concentration 0.1 M), irradiated with 36 W blue LEDs at room temperature for 3 h under N2. The blue LEDs have a maximum emission at 470 nm; the photocatalyst screening specifies 25 °C."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "Under the standard conditions, the THF C(sp3)–H amidation product was obtained in 76% isolated yield."
+    },
+    {
+      "input_id": "PI6",
+      "kind": "observation",
+      "content": "Photocatalyst-dependent isolated product yields for this reaction: thioxanthen-9-one (thioxanthone), 66%; Ir(dFppy)3, 61%; Ir[dF(CF3)ppy]2(dtbbpy)PF6, 76%; fac-Ir(ppy)3, trace; Mes-Acr+ClO4−, trace. The iridium and acridinium entries use the standard 1 mol% catalyst and 36 W blue LED conditions. The thioxanthen-9-one entry instead uses 10 mol% catalyst with a 100 W 370 nm lamp. Trace is qualitative; no numerical detection threshold is supplied."
+    }
+  ],
+  "changes": [
+    {
+      "subject_id": "PI1",
+      "change_type": "identity_clarification",
+      "reason": "Make the same unsubstituted N-benzoyl dibenzothiophene sulfilimine graph explicit from the repeatedly drawn reactant. Remove the source label and the answer-bearing nitrene-precursor role without changing the molecular identity. The viewed graph has benzoyl C–N–S connectivity, two ring-closing S–C bonds, and no S–O bond; no optimized author geometry is published.",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000021_623189ba8909",
+        "pdf-page-doc_62bb736a59d7-p2",
+        "pdf-page-doc_62bb736a59d7-p5",
+        "pdf-page-doc_e4d53982d550-p33"
+      ]
+    },
+    {
+      "subject_id": "PI2",
+      "change_type": "identity_clarification",
+      "reason": "Express the unchanged THF graph as an ordinary connectivity-only SMILES and ring description; the donor and solvent roles are reported experimental starting facts, not a computational route.",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000021_623189ba8909",
+        "ev_doc_62bb736a59d7_000023_41566a92e22e",
+        "pdf-page-doc_62bb736a59d7-p2"
+      ]
+    },
+    {
+      "subject_id": "PI3",
+      "change_type": "identity_clarification",
+      "reason": "Remove the source label and make the observed product connectivity explicit. The viewed product drawings and spectral-data name agree that benzamide N is attached to the carbon adjacent to the THF oxygen. No wedge/dash assignment or absolute stereochemical claim is introduced.",
+      "evidence_ids": [
+        "ev_doc_e4d53982d550_000125_2497eb7c858f",
+        "ev_doc_e4d53982d550_000126_235f1c4b781e",
+        "pdf-page-doc_62bb736a59d7-p2",
+        "pdf-page-doc_e4d53982d550-p14"
+      ]
+    },
+    {
+      "subject_id": "PI4",
+      "change_type": "neutral_rewording",
+      "reason": "Replace the source compound label by the same chemical identity, clarify that 0.1 M is the sulfilimine concentration in 1.0 mL THF, and expose the reported blue-light wavelength and screening temperature as neutral experimental conditions. Preserve loading, amount, medium, irradiation power, time and atmosphere.",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000023_41566a92e22e",
+        "ev_doc_e4d53982d550_000110_84a88b8dcb9b",
+        "ev_doc_e4d53982d550_000286_d9b7a448456e",
+        "pdf-page-doc_e4d53982d550-p10",
+        "ev_doc_e4d53982d550_000041_20a5596d9d12",
+        "pdf-page-doc_e4d53982d550-p3"
+      ]
+    },
+    {
+      "subject_id": "PI6",
+      "change_type": "neutral_rewording",
+      "reason": "Retain the same five photocatalyst identities and all supplied yield observations, but withhold the author-selected triplet-energy descriptor and its values. Make the thioxanthone loading/irradiation exception explicit so the comparison is not falsely presented as fully condition matched. Normalize the explicitly drawn/printed perchlorate counteranion notation; trace remains qualitative, not zero.",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000047_a0bfea3a8674",
+        "ev_doc_62bb736a59d7_000052_c117fcdc8383",
+        "ev_doc_62bb736a59d7_000023_41566a92e22e",
+        "ev_doc_e4d53982d550_000285_a02a4fda3005",
+        "ev_doc_e4d53982d550_000286_d9b7a448456e",
+        "pdf-page-doc_e4d53982d550-p31",
+        "pdf-page-doc_e4d53982d550-p10"
+      ]
+    }
+  ]
+}

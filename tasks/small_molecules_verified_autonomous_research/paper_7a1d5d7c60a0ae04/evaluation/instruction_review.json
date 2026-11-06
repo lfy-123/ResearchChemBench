@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "instruction_revision": "research_completion_reinforced_20261103",
+  "scoring_revision": "expert_round1_20261103",
+  "scoring_policy": "paper_science_v3",
+  "reason_zh": "按用户要求强化现有一句提示：持续研究直至得到最终结论，不要草草结束并提交尚未完成的报告。",
+  "changed_public_files": [
+    "task.md"
+  ],
+  "scientific_scope_changed": false,
+  "scoring_rules_changed": false,
+  "scoring_rules_sha256": "6dfc57cd40c0f6ef5c94fa413c9ef79ebe2313bb60bc0235f795d6571588a133",
+  "previous_public_file_sha256": {
+    "submission_guide.md": "5d25407a707a3731878674dc9162d13a4e473b173f49ad3084f5567b83d73a13",
+    "submission_schema.json": "5987725856edc7bd37248523d779e2793b7be64758917f3bd40babc8a3bb91de",
+    "task.md": "7db6608645818ced3c7bf3661550ba2cd3116b2611f926d98ad7a066e199672f",
+    "data/inputs/oxocarbenium_D5.sdf": "892b98c5ec9289122a0a35d0e4a2788258cdba07aee6a6b7c2c1bd8579744425",
+    "data/inputs/borohydride_A.sdf": "88577483164341de0b8d02bf6b4faa5e0b1491ae22b000ef3f86b6313b95c21e",
+    "data/inputs/system.json": "04d0992aee3f07b638c2716c4f172a1dec7b6e526add4c639ab87a03ef6719a7",
+    "data/inputs/borane_B.sdf": "40c948ac18ede7f8d6a113b99a93adbbbc5f1d8e62c3e3bebbb5b97de210d28b",
+    "data/inputs/local_reduction_structures.json": "69cf9e16cca3bde76012491993630fd2c52ee6fadc68f3fba7c2b8764d7fef8f",
+    "data/inputs/borane_C.sdf": "ad089c4e057243da1c2acee079d238ff4e39e760da6b8411502cbef3aac4ba95",
+    "data/inputs/borane_A.sdf": "5ca1fa6981b5e1fb49eda85d494a5204f4dcdc4d8814e62f73d0e38c879f0288",
+    "data/inputs/borohydride_B.sdf": "c93bcfd631d95febe22912dec75866bc08f67b7fc920675a6fa3dd5ab85e3efc",
+    "data/inputs/oxocarbenium_D4.sdf": "8068f318a340f88423cd58d2fbc060d9e372697b00f47aadfab8b351b125877b"
+  },
+  "public_file_sha256": {
+    "submission_guide.md": "5d25407a707a3731878674dc9162d13a4e473b173f49ad3084f5567b83d73a13",
+    "submission_schema.json": "5987725856edc7bd37248523d779e2793b7be64758917f3bd40babc8a3bb91de",
+    "task.md": "006f9ae4d2cfeb4d8710a08f4c182c47f483258f89d9c1e67d543d4951a8edbf",
+    "data/inputs/oxocarbenium_D5.sdf": "892b98c5ec9289122a0a35d0e4a2788258cdba07aee6a6b7c2c1bd8579744425",
+    "data/inputs/borohydride_A.sdf": "88577483164341de0b8d02bf6b4faa5e0b1491ae22b000ef3f86b6313b95c21e",
+    "data/inputs/system.json": "04d0992aee3f07b638c2716c4f172a1dec7b6e526add4c639ab87a03ef6719a7",
+    "data/inputs/borane_B.sdf": "40c948ac18ede7f8d6a113b99a93adbbbc5f1d8e62c3e3bebbb5b97de210d28b",
+    "data/inputs/local_reduction_structures.json": "69cf9e16cca3bde76012491993630fd2c52ee6fadc68f3fba7c2b8764d7fef8f",
+    "data/inputs/borane_C.sdf": "ad089c4e057243da1c2acee079d238ff4e39e760da6b8411502cbef3aac4ba95",
+    "data/inputs/borane_A.sdf": "5ca1fa6981b5e1fb49eda85d494a5204f4dcdc4d8814e62f73d0e38c879f0288",
+    "data/inputs/borohydride_B.sdf": "c93bcfd631d95febe22912dec75866bc08f67b7fc920675a6fa3dd5ab85e3efc",
+    "data/inputs/oxocarbenium_D4.sdf": "8068f318a340f88423cd58d2fbc060d9e372697b00f47aadfab8b351b125877b"
+  },
+  "previous_task_text": "## Scientific question\n\nStarting from the supplied cyclic oxocarbenium ions and triarylborohydride anions, explain catalyst-dependent cis/trans formation selectivity in the local reduction stage of hydrogenative reductive cycloetherification of D4 (1,4-diphenylbutane-1,4-dione) and D5 (1,5-diphenylpentane-1,5-dione), and its relation to product stability across ring sizes. Account for the supplied triarylborane performance comparisons using molecular evidence. This is an explanation task; the measured ratios and yields are supplied observations.\n\n## Input files\n\n`data/inputs/system.json` supplies molecular identities and cis/trans definitions (PI1), reaction conditions (PI2), and the observation matrix (PI3). A repeated terminal O in a ring description indicates the same ring-closing atom. Catalyst A is B(C6F5)3; B and C have the distinct specified aryl substitution patterns. `data/inputs/local_reduction_structures.json` and the corresponding SDF files define the D4/D5 oxocarbenium ions (+1, singlet) and A/B borohydrides (-1, singlet), together with A/B/C borane graphs. Oxonium and carbon-centered resonance drawings describe the same delocalized cation. The chosen single stereocentre in each cation is an arbitrary enantiomer for modeling cis/trans competition; no experimental enantiopurity is implied. SDF coordinates are two-dimensional depictions. `submission_schema.json` and `submission_guide.md` specify the output contract.\n\n## Scope\n\nCompare hydride delivery to the supplied D4 cation by A/B borohydrides, and D4 versus D5 cations with A fixed. Formation of these local reactants from diketones, H2 cleavage and catalyst regeneration are outside the required scope. Use a common, balanced cation-plus-borohydride or justified associated-pair reference for each formation competition; neutral products include the returned borane. The K4 screen with A/B/C provides context for catalyst function; it does not require calculating furan pathways or endpoint yields. Preserve the distinct D4/D5 conditions (80 °C, CPME) and K4 screen (50 °C, diisopropyl ether), each under 100 bar H2 for 18 h. Keep isolated and NMR yields, ratios and lower bounds distinct. Choose and justify reactive states, molecular models, charge/spin and computational methods. A complete catalytic network, unlisted catalyst/substrate pairs, quantitative turnover, pressure dependence and solvent-screen mechanisms are outside scope.\n\n## Required results\n\n1. Give a computed molecular account of the three catalysts' relevant behavior and explain what it establishes about the performance screen. Report quantitative comparisons with their physical definitions; distinguish affinity, activation and endpoint conversion.\n2. Explain D4 cis enrichment for both A and B using competing formation calculations and independent product stability. Report the formation and product free-energy differences.\n3. Quantify how the A-to-B substitution changes D4 stereochemical discrimination and assess the strength and robustness of the calculated contrast.\n4. With A fixed, explain the D4/D5 ring-size effect on formation preference and product stability, reporting both types of free-energy differences and their physical origin.\n\nChoose your own hypotheses and competing hydride-delivery geometries within this local starting boundary. Verify states, reaction connectivity and numerical definitions to the extent needed for the claims. No specific intermediate sequence, descriptor, transition-state count or exhaustive conformer search is prescribed. Separate formation barriers from product free energies, and disclose low-frequency and conformational sensitivity where material. Repeating the observations does not supply computational evidence.\n\nContinue the research until you reach the final conclusions.\n\n## Submission and permitted resources\n\nSubmit `report/results.json`, `report/report.md` and real input/output/log/analysis files under `research/`, linked through the existing schema. Use the supplied public inputs and independently generated calculations with chosen software. Report actual resource use, evidence-supported conclusions and remaining uncertainty; preserve failed attempts. Scientific credit is assigned only to final supported outcomes, totaling 100 points, without process points.\n",
+  "previous_submission_guide_text": "# Submission guide\n\nSubmit `report/results.json`, `report/report.md`, and the actual inputs, outputs,\nlogs and analysis code under `research/`. Follow `submission_schema.json`.\n\nUse stable IDs for hypotheses, investigations, evidence and conclusions. Every\nevidence investigation ID and every conclusion evidence ID must resolve to a\nsubmitted record. Refer to real files with safe relative paths; absolute paths,\nparent-directory traversal and symlinks escaping the submission are forbidden.\nList each referenced artifact in reproducibility.artifact_index. Preserve object,\nstate and unit mappings. Numerical evidence includes its definition, units and\nconditions; use null with an explanation when a value is unavailable.\n\nFor each investigation record a brief purpose, chosen method, actual outcome and\nany resulting decision. Do not provide private chain of thought. No fixed number\nof hypotheses or tests is required. Requirements for stationary points, kinetics\nor other model checks follow the claims actually made.\n\nResearch status is complete, partial or execution_failed. Question status is\nresolved, partially_resolved or unresolved. These describe different things:\ncareful research can leave a question unresolved. Complete or resolved claims\nrequire completed investigations, evidence and linked conclusions; a status label\nalone establishes nothing. Failed work must include attempted inputs, error logs\nand an explanation; do not invent missing results. No fixed scientific compute\nquota is imposed. Report actual resource use in the readable report.\n\nScientific credit is awarded only for independently supported final outcomes, totaling 100 points. There is no separate process or research-quality score. A supported equivalent scientific explanation can pass; missing or unsupported conclusions fail.\nSchema acceptance checks structure and does not certify scientific completion.\n\nChoose your own hypotheses, computational models and research approach.\n",
+  "new_quantum_jobs": false,
+  "new_agent_run_performed": false,
+  "existing_run_snapshots_changed": false,
+  "validation_boundary": "Instruction and package consistency only; stronger persistence is not yet demonstrated by a new agent run.",
+  "added_sentence": "Continue the research until you reach the final conclusions; do not end prematurely by submitting an unfinished report.",
+  "revision_history": [
+    {
+      "instruction_revision": "research_completion_20261103",
+      "reason_zh": "按用户要求仅在任务正文增加一句“持续研究，直至得到最终结论”的提示；其余任务文字、提交指南、研究范围、评分规则及权重保持原样。",
+      "added_sentence": "Continue the research until you reach the final conclusions.",
+      "previous_task_text": "## Scientific question\n\nStarting from the supplied cyclic oxocarbenium ions and triarylborohydride anions, explain catalyst-dependent cis/trans formation selectivity in the local reduction stage of hydrogenative reductive cycloetherification of D4 (1,4-diphenylbutane-1,4-dione) and D5 (1,5-diphenylpentane-1,5-dione), and its relation to product stability across ring sizes. Account for the supplied triarylborane performance comparisons using molecular evidence. This is an explanation task; the measured ratios and yields are supplied observations.\n\n## Input files\n\n`data/inputs/system.json` supplies molecular identities and cis/trans definitions (PI1), reaction conditions (PI2), and the observation matrix (PI3). A repeated terminal O in a ring description indicates the same ring-closing atom. Catalyst A is B(C6F5)3; B and C have the distinct specified aryl substitution patterns. `data/inputs/local_reduction_structures.json` and the corresponding SDF files define the D4/D5 oxocarbenium ions (+1, singlet) and A/B borohydrides (-1, singlet), together with A/B/C borane graphs. Oxonium and carbon-centered resonance drawings describe the same delocalized cation. The chosen single stereocentre in each cation is an arbitrary enantiomer for modeling cis/trans competition; no experimental enantiopurity is implied. SDF coordinates are two-dimensional depictions. `submission_schema.json` and `submission_guide.md` specify the output contract.\n\n## Scope\n\nCompare hydride delivery to the supplied D4 cation by A/B borohydrides, and D4 versus D5 cations with A fixed. Formation of these local reactants from diketones, H2 cleavage and catalyst regeneration are outside the required scope. Use a common, balanced cation-plus-borohydride or justified associated-pair reference for each formation competition; neutral products include the returned borane. The K4 screen with A/B/C provides context for catalyst function; it does not require calculating furan pathways or endpoint yields. Preserve the distinct D4/D5 conditions (80 °C, CPME) and K4 screen (50 °C, diisopropyl ether), each under 100 bar H2 for 18 h. Keep isolated and NMR yields, ratios and lower bounds distinct. Choose and justify reactive states, molecular models, charge/spin and computational methods. A complete catalytic network, unlisted catalyst/substrate pairs, quantitative turnover, pressure dependence and solvent-screen mechanisms are outside scope.\n\n## Required results\n\n1. Give a computed molecular account of the three catalysts' relevant behavior and explain what it establishes about the performance screen. Report quantitative comparisons with their physical definitions; distinguish affinity, activation and endpoint conversion.\n2. Explain D4 cis enrichment for both A and B using competing formation calculations and independent product stability. Report the formation and product free-energy differences.\n3. Quantify how the A-to-B substitution changes D4 stereochemical discrimination and assess the strength and robustness of the calculated contrast.\n4. With A fixed, explain the D4/D5 ring-size effect on formation preference and product stability, reporting both types of free-energy differences and their physical origin.\n\nChoose your own hypotheses and competing hydride-delivery geometries within this local starting boundary. Verify states, reaction connectivity and numerical definitions to the extent needed for the claims. No specific intermediate sequence, descriptor, transition-state count or exhaustive conformer search is prescribed. Separate formation barriers from product free energies, and disclose low-frequency and conformational sensitivity where material. Repeating the observations does not supply computational evidence.\n\n## Submission and permitted resources\n\nSubmit `report/results.json`, `report/report.md` and real input/output/log/analysis files under `research/`, linked through the existing schema. Use the supplied public inputs and independently generated calculations with chosen software. Report actual resource use, evidence-supported conclusions and remaining uncertainty; preserve failed attempts. Scientific credit is assigned only to final supported outcomes, totaling 100 points, without process points.\n",
+      "previous_public_file_sha256": {
+        "submission_guide.md": "5d25407a707a3731878674dc9162d13a4e473b173f49ad3084f5567b83d73a13",
+        "submission_schema.json": "5987725856edc7bd37248523d779e2793b7be64758917f3bd40babc8a3bb91de",
+        "task.md": "cdfeae132ffd0be367f6c74aba0624f3ce96c16f17917c946594c9c7b44bfc89",
+        "data/inputs/oxocarbenium_D5.sdf": "892b98c5ec9289122a0a35d0e4a2788258cdba07aee6a6b7c2c1bd8579744425",
+        "data/inputs/borohydride_A.sdf": "88577483164341de0b8d02bf6b4faa5e0b1491ae22b000ef3f86b6313b95c21e",
+        "data/inputs/system.json": "04d0992aee3f07b638c2716c4f172a1dec7b6e526add4c639ab87a03ef6719a7",
+        "data/inputs/borane_B.sdf": "40c948ac18ede7f8d6a113b99a93adbbbc5f1d8e62c3e3bebbb5b97de210d28b",
+        "data/inputs/local_reduction_structures.json": "69cf9e16cca3bde76012491993630fd2c52ee6fadc68f3fba7c2b8764d7fef8f",
+        "data/inputs/borane_C.sdf": "ad089c4e057243da1c2acee079d238ff4e39e760da6b8411502cbef3aac4ba95",
+        "data/inputs/borane_A.sdf": "5ca1fa6981b5e1fb49eda85d494a5204f4dcdc4d8814e62f73d0e38c879f0288",
+        "data/inputs/borohydride_B.sdf": "c93bcfd631d95febe22912dec75866bc08f67b7fc920675a6fa3dd5ab85e3efc",
+        "data/inputs/oxocarbenium_D4.sdf": "8068f318a340f88423cd58d2fbc060d9e372697b00f47aadfab8b351b125877b"
+      },
+      "public_file_sha256": {
+        "submission_guide.md": "5d25407a707a3731878674dc9162d13a4e473b173f49ad3084f5567b83d73a13",
+        "submission_schema.json": "5987725856edc7bd37248523d779e2793b7be64758917f3bd40babc8a3bb91de",
+        "task.md": "7db6608645818ced3c7bf3661550ba2cd3116b2611f926d98ad7a066e199672f",
+        "data/inputs/oxocarbenium_D5.sdf": "892b98c5ec9289122a0a35d0e4a2788258cdba07aee6a6b7c2c1bd8579744425",
+        "data/inputs/borohydride_A.sdf": "88577483164341de0b8d02bf6b4faa5e0b1491ae22b000ef3f86b6313b95c21e",
+        "data/inputs/system.json": "04d0992aee3f07b638c2716c4f172a1dec7b6e526add4c639ab87a03ef6719a7",
+        "data/inputs/borane_B.sdf": "40c948ac18ede7f8d6a113b99a93adbbbc5f1d8e62c3e3bebbb5b97de210d28b",
+        "data/inputs/local_reduction_structures.json": "69cf9e16cca3bde76012491993630fd2c52ee6fadc68f3fba7c2b8764d7fef8f",
+        "data/inputs/borane_C.sdf": "ad089c4e057243da1c2acee079d238ff4e39e760da6b8411502cbef3aac4ba95",
+        "data/inputs/borane_A.sdf": "5ca1fa6981b5e1fb49eda85d494a5204f4dcdc4d8814e62f73d0e38c879f0288",
+        "data/inputs/borohydride_B.sdf": "c93bcfd631d95febe22912dec75866bc08f67b7fc920675a6fa3dd5ab85e3efc",
+        "data/inputs/oxocarbenium_D4.sdf": "8068f318a340f88423cd58d2fbc060d9e372697b00f47aadfab8b351b125877b"
+      }
+    }
+  ],
+  "previous_instruction_revision": "research_completion_20261103"
+}

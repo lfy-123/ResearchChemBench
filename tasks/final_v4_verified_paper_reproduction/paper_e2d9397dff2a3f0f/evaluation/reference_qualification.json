@@ -1,0 +1,378 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "scoring_policy": "paper_science_v3",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "physical_definition": "The physical comparison concerns the full Ru/bda/two-pyridine local nitrogen model with one additional N, charge +1, singlet, and neutral singlet NH3 in MeCN at 298.15 K. Closed and N–O-open states must retain this inventory and corresponding electronic state. Opening is G(opening saddle)-G(closed state); direct association is G(direct-attack saddle)-G(closed state)-G(NH3), reduced to the same 1 M association convention once. Electronic path energies, thermal Gibbs terms and proton/electron-reservoir free energies are different observables. Compare matched stationary branches and references; a scan maximum is not automatically a saddle. A method may use a different functional, basis, relativistic treatment or implementation if it establishes these same objects, state/path connections, medium and thermodynamic reference. Thermal/symmetry and concentration corrections must be accounted for once; source software and a particular dispersion implementation are not scientific eligibility requirements.",
+  "retained_scientific_limitations": "Legacy user authorization accepts the roughly 0.65 kcal/mol bda direct-attack discrepancy; it remains unexplained and is not independent strict replication or a new universal tolerance. Opening and direct-attack saddles have mode/two-sided descent evidence, not full IRC. Finite electronic scans do not prove diffusion control, absolute rate or full-cycle rate-determining step. No exact SP-energy target or unknown source parameter is manufactured.",
+  "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+  "historical_before_v3": {
+    "status": "USER_ACCEPTED_DEVIATION",
+    "reason": "Authorized scoring-only migration 2026-10-19. Existing acceptance category is preserved, not upgraded. Runtime scoring is permitted; publication calibration is separate.",
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_e2d9397dff2a3f0f",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "scope": "Scoring-contract repair and read-only scientific re-audit; no new chemical verification.",
+      "acceptance_status_unchanged": "USER_ACCEPTED_DEVIATION",
+      "source_method_provenance": "SI physical p47: B3LYP-D3BJ/SDD(Ru)/6-31G(d,p) gas Opt/Freq; def2-TZVP/SMD MeCN SP, 298.15 K; source standard-state and NH3 symmetry accounting. This is provenance for the retained benchmark numbers, not an additional AR method gate.",
+      "method_eligibility": "Use the concrete object/state/observable equivalence criteria in current rules, not a source software switch. Numeric reference values/tolerances are unchanged; method uncertainty beyond these preliminary windows remains a calibration limit.",
+      "dependency_policy": "Relevant key-point links are evidence references, not a demand to pass all numeric windows or unrelated ligand branches.",
+      "changes": [
+        "Removed method implementation from mandatory physical definitions.",
+        "Synchronized independent scientific leaves and evidence references.",
+        "Replaced only obsolete public scoring prose where present."
+      ],
+      "evaluator_private_history": "Historical bda direct-attack source Table S22 target 21.920259635394032 kcal/mol versus native 21.271705690975633, residual -0.648553944418399. USER_ACCEPTED_DEVIATION remains unchanged and does not make the V2 ±0.5, 8-point numeric leaf pass. New agents need not know, cite or preserve this evaluator history. V3 bda leaves score their independently supported scientific propositions."
+    },
+    "current_scope_verified": true,
+    "tolerance_policy": {
+      "status": "provisional_benchmark_policy",
+      "basis": "Both source-comparable local Gibbs activation barriers use a fixed ±0.5 kcal/mol preliminary benchmark window, a common class acknowledging 0.1 kcal/mol reporting, low-frequency thermochemistry and same-model numerical sensitivity while resolving the ~15.7 kcal/mol path difference. It is not an author error bar or a residual-fitted threshold. Opening is source6.2; direct attack is Table S22-derived21.9202596354 (body21.9), not the verifier21.2717056910. The direct native residual−0.6485539444 is outside this window and would receive zero for its8-point numeric leaf even though historical chemistry acceptance remains USER_ACCEPTED_DEVIATION. Correct saddle identity, local ordering and final interpretation retain independent eligibility. The host uses inclusive boundaries.",
+      "not_author_error_bars": true
+    }
+  },
+  "evaluation_mode": "final_results_100",
+  "status": "V3_DESIGN_CHECKED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+  "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+  "evidence_gaps": [
+    "直接进攻21.2717相对原目标21.92026残差−0.64855 kcal/mol，超±0.5窗口；原用户接受偏差不等于数值pass。",
+    "有限扫描只覆盖声明的电子势能段，不能证明扩散控制、全溶液自由能无垒或全循环RDS。",
+    "Py局部模型与NH3实验催化剂不同；不是给定CPE产量的因果/定量复现。"
+  ],
+  "required_new_validation": "当前局部解释可复用历史证据；直接进攻的严格数值复现仍需另行查明来源/模型差异，不能改窗。扩散控制或完整溶液自由能若另行主张需新证据，本版不要求且本轮不提交。",
+  "historical_non_scoring_tolerance_policy": {
+    "status": "provisional_benchmark_policy",
+    "basis": "Both local Gibbs activation energies retain inclusive ±0.5 kcal/mol provisional windows: opening 6.2 kcal/mol (30 points) and direct NH3 attack 21.920259635394032 kcal/mol (20 points). These are source targets, not verifier results or author error bars. The native direct value 21.271705690975633 has residual −0.648553944418399 and fails its 20-point rule. Historical USER_ACCEPTED_DEVIATION does not widen that window. The downstream electronic-path result and supported mechanistic explanations retain independent eligibility; structures and saddles are supporting evidence, with no separate points. Broad method/conformer calibration remains incomplete.",
+    "not_author_error_bars": true
+  },
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_activation_chemistry",
+      "r_direct_attack_chemistry",
+      "r_post_opening_nn_path",
+      "r_opening_preferred_local_route",
+      "r_oxygen_proton_acceptor_role"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_reason": "Final-results redesign dated 2026-10-28. Historical acceptance is retained separately; no new scientific computation or blind evaluation was performed.",
+  "historical_non_scoring_evidence_reuse_summary": "Historical status is USER_ACCEPTED_DEVIATION, not strict numerical replication. The retained opening RRHO barrier is 6.47915454585207 kcal/mol (target 6.2 ±0.5); documented thermal variants span 6.205814785–6.479287064. The matched-grid direct-attack result is 21.271705690975633 kcal/mol versus the unchanged Table S22-derived target 21.920259635394032 ±0.5: residual −0.648553944418399, FAIL for that numeric outcome. UltraFine gives 21.28054020860675, so the grid shift −0.0088345176311 does not explain the residual. Source-user acceptance of about 0.65 kcal/mol does not alter the current window. Native opening/direct saddles have one negative mode (−82.8205/−303.8323 cm−1) and mode/two-sided-descent evidence, not full IRC. The 15-point constrained-geometry electronic path in MeCN decreases by 30.6018173 kcal/mol over N–N 3.35→1.39 Å; it is not a solution free-energy path or proof of diffusion control. The optimized product has N–N 1.270210347 Å and ligand O–H 0.973232916 Å, with positive frequencies (minimum 31.5233 cm−1), supporting local N–N formation and oxygen proton acceptance. Source Figure S57 shows the corresponding H–N/H–O exchange. This evidence supports a local mechanistic comparison, not the whole experimental catalytic cycle.",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "局部活化的Gibbs代价、化学变化与连接",
+      "rule_id": "r_local_activation_chemistry",
+      "conclusion_id": "local_activation_chemistry",
+      "independence": "确立初始位点释放，不要求直接进攻排序或后续氧受质子结论。",
+      "source_locator": "正文局部bda比较；SI PDF47（S46）方法、TableS22及S57后开环路径；原生模式下降/复合G/15点电子路径",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e2d9397dff2a3f0f/evaluation/verified_computation_reference.md",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/input.com",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/Ru_TS3prime_independent_highSP_ECP_control_20261002/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/input.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/RU_SAME_BARRIER_GRID_RESULT.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/provenance/mode_descent_results.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/open_scan15_common_reference_analysis/a01/results/profile.json",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/input.com",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/input.com"
+      ],
+      "existing_support": "开环G6.479155、直接21.271706kcal/mol；后开环有限路径下降30.601817，独立成键产物N10–N49=1.270210Å、O4–H51=.973233Å且正曲率。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；直接势垒相对源−0.648554kcal/mol，网格变化仅−0.008835，偏差未解释。两个±0.5硬窗已取消，未宣称严格复现或新科学接受。",
+        "源单重态是参考证据而非AR隐藏强制态；其他态须有真实身份/连接/共同参照支持。局部+1库存、溶剂温度及1M定义保持，不能从总电荷推氧化态。",
+        "有限电子路径不证明无垒溶液G面、扩散控制或完整动力学；鞍点有模式/两侧下降但并非完整IRC。NH3对称修正、2→1标准态修正及不同closed分支均须保留且只计一次。",
+        "Py计算模型与NH3配位实验催化剂不同；bda受质子羧酸氧不能改称bcs悬垂磺酸根。没有全循环N2/TOF/全局控速步证据。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "previous_rule_ids": [
+        "r_opening_g_barrier"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "直接NH3成键的Gibbs需求与物理连接",
+      "rule_id": "r_direct_attack_chemistry",
+      "conclusion_id": "direct_attack_chemistry",
+      "independence": "不同起始物库和成键路线，可独立于开环过程解释。",
+      "source_locator": "正文局部bda比较；SI PDF47（S46）方法、TableS22及S57后开环路径；原生模式下降/复合G/15点电子路径",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e2d9397dff2a3f0f/evaluation/verified_computation_reference.md",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/input.com",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/Ru_TS3prime_independent_highSP_ECP_control_20261002/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/input.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/RU_SAME_BARRIER_GRID_RESULT.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/provenance/mode_descent_results.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/open_scan15_common_reference_analysis/a01/results/profile.json",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/input.com",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/input.com"
+      ],
+      "existing_support": "开环G6.479155、直接21.271706kcal/mol；后开环有限路径下降30.601817，独立成键产物N10–N49=1.270210Å、O4–H51=.973233Å且正曲率。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；直接势垒相对源−0.648554kcal/mol，网格变化仅−0.008835，偏差未解释。两个±0.5硬窗已取消，未宣称严格复现或新科学接受。",
+        "源单重态是参考证据而非AR隐藏强制态；其他态须有真实身份/连接/共同参照支持。局部+1库存、溶剂温度及1M定义保持，不能从总电荷推氧化态。",
+        "有限电子路径不证明无垒溶液G面、扩散控制或完整动力学；鞍点有模式/两侧下降但并非完整IRC。NH3对称修正、2→1标准态修正及不同closed分支均须保留且只计一次。",
+        "Py计算模型与NH3配位实验催化剂不同；bda受质子羧酸氧不能改称bcs悬垂磺酸根。没有全循环N2/TOF/全局控速步证据。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "previous_rule_ids": [
+        "r_direct_attack_g_barrier"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "活化后N–N可达性及有限路径附加电子势垒",
+      "rule_id": "r_post_opening_nn_path",
+      "conclusion_id": "post_opening_nn_path",
+      "independence": "后续成键路径独立于前置两Gibbs成本及质子受体身份。",
+      "source_locator": "正文局部bda比较；SI PDF47（S46）方法、TableS22及S57后开环路径；原生模式下降/复合G/15点电子路径",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e2d9397dff2a3f0f/evaluation/verified_computation_reference.md",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/input.com",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/Ru_TS3prime_independent_highSP_ECP_control_20261002/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/input.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/RU_SAME_BARRIER_GRID_RESULT.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/provenance/mode_descent_results.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/open_scan15_common_reference_analysis/a01/results/profile.json",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/input.com",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/input.com"
+      ],
+      "existing_support": "开环G6.479155、直接21.271706kcal/mol；后开环有限路径下降30.601817，独立成键产物N10–N49=1.270210Å、O4–H51=.973233Å且正曲率。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；直接势垒相对源−0.648554kcal/mol，网格变化仅−0.008835，偏差未解释。两个±0.5硬窗已取消，未宣称严格复现或新科学接受。",
+        "源单重态是参考证据而非AR隐藏强制态；其他态须有真实身份/连接/共同参照支持。局部+1库存、溶剂温度及1M定义保持，不能从总电荷推氧化态。",
+        "有限电子路径不证明无垒溶液G面、扩散控制或完整动力学；鞍点有模式/两侧下降但并非完整IRC。NH3对称修正、2→1标准态修正及不同closed分支均须保留且只计一次。",
+        "Py计算模型与NH3配位实验催化剂不同；bda受质子羧酸氧不能改称bcs悬垂磺酸根。没有全循环N2/TOF/全局控速步证据。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "previous_rule_ids": [
+        "r_post_opening_nn_path"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "两局部路线竞争及初始成键环境作用",
+      "rule_id": "r_opening_preferred_local_route",
+      "conclusion_id": "opening_preferred_local_route",
+      "independence": "跨路线的选择推断不等同任一化学步骤或两个标量相减。",
+      "source_locator": "正文局部bda比较；SI PDF47（S46）方法、TableS22及S57后开环路径；原生模式下降/复合G/15点电子路径",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e2d9397dff2a3f0f/evaluation/verified_computation_reference.md",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/input.com",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/Ru_TS3prime_independent_highSP_ECP_control_20261002/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/input.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/RU_SAME_BARRIER_GRID_RESULT.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/provenance/mode_descent_results.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/open_scan15_common_reference_analysis/a01/results/profile.json",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/input.com",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/input.com"
+      ],
+      "existing_support": "开环G6.479155、直接21.271706kcal/mol；后开环有限路径下降30.601817，独立成键产物N10–N49=1.270210Å、O4–H51=.973233Å且正曲率。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；直接势垒相对源−0.648554kcal/mol，网格变化仅−0.008835，偏差未解释。两个±0.5硬窗已取消，未宣称严格复现或新科学接受。",
+        "源单重态是参考证据而非AR隐藏强制态；其他态须有真实身份/连接/共同参照支持。局部+1库存、溶剂温度及1M定义保持，不能从总电荷推氧化态。",
+        "有限电子路径不证明无垒溶液G面、扩散控制或完整动力学；鞍点有模式/两侧下降但并非完整IRC。NH3对称修正、2→1标准态修正及不同closed分支均须保留且只计一次。",
+        "Py计算模型与NH3配位实验催化剂不同；bda受质子羧酸氧不能改称bcs悬垂磺酸根。没有全循环N2/TOF/全局控速步证据。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "previous_rule_ids": [
+        "r_opening_preferred_local_route"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "配体对N–N/质子转移的局部作用",
+      "rule_id": "r_oxygen_proton_acceptor_role",
+      "conclusion_id": "oxygen_proton_acceptor_role",
+      "independence": "质子接收者和角色不由N–N接近能量或路线排序自动获得。",
+      "source_locator": "正文局部bda比较；SI PDF47（S46）方法、TableS22及S57后开环路径；原生模式下降/复合G/15点电子路径",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e2d9397dff2a3f0f/evaluation/verified_computation_reference.md",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_5D_matched_reference_20261007/a01/input.com",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/gaussian.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/NH3_d_representation_20261007/a01/low5D/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/Ru_TS3prime_independent_highSP_ECP_control_20261002/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_after_open_NH3_approach1_scan/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_direct_attack_source_ts_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_attack_source_product_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/bda_open_scan15_MeCN_high_SP/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_minus_descent_optfreq_sp/a01/input.com",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/direct_attack_mode_plus_descent_optfreq_sp/a01/input.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/NH3/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/RU_SAME_BARRIER_GRID_RESULT.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/closed/gaussian.log",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS.com",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W08/papers/paper_e2d9397dff2a3f0f/outputs/Ru_same_barrier_grid_20261009/a01/direct_TS/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/provenance/mode_descent_results.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_e2d9397dff2a3f0f/v2_execution_20260929/outputs/open_scan15_common_reference_analysis/a01/results/profile.json",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/5bda_author_route_strict_v2/1/input.com",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/gaussian.log",
+        "docs/verification/group_3/paper_e2d9397dff2a3f0f/provenance/qzcli_hpc/TS3bda_author_route_strict_v2/1/input.com"
+      ],
+      "existing_support": "开环G6.479155、直接21.271706kcal/mol；后开环有限路径下降30.601817，独立成键产物N10–N49=1.270210Å、O4–H51=.973233Å且正曲率。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；直接势垒相对源−0.648554kcal/mol，网格变化仅−0.008835，偏差未解释。两个±0.5硬窗已取消，未宣称严格复现或新科学接受。",
+        "源单重态是参考证据而非AR隐藏强制态；其他态须有真实身份/连接/共同参照支持。局部+1库存、溶剂温度及1M定义保持，不能从总电荷推氧化态。",
+        "有限电子路径不证明无垒溶液G面、扩散控制或完整动力学；鞍点有模式/两侧下降但并非完整IRC。NH3对称修正、2→1标准态修正及不同closed分支均须保留且只计一次。",
+        "Py计算模型与NH3配位实验催化剂不同；bda受质子羧酸氧不能改称bcs悬垂磺酸根。没有全循环N2/TOF/全局控速步证据。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "previous_rule_ids": [
+        "r_oxygen_proton_acceptor_role"
+      ],
+      "no_new_computation": true
+    }
+  ],
+  "objective_issue_flags": [
+    {
+      "issue": "历史USER_ACCEPTED_DEVIATION保持；直接势垒相对源−0.648554kcal/mol，网格变化仅−0.008835，偏差未解释。两个±0.5硬窗已取消，未宣称严格复现或新科学接受。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "源单重态是参考证据而非AR隐藏强制态；其他态须有真实身份/连接/共同参照支持。局部+1库存、溶剂温度及1M定义保持，不能从总电荷推氧化态。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "有限电子路径不证明无垒溶液G面、扩散控制或完整动力学；鞍点有模式/两侧下降但并非完整IRC。NH3对称修正、2→1标准态修正及不同closed分支均须保留且只计一次。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "Py计算模型与NH3配位实验催化剂不同；bda受质子羧酸氧不能改称bcs悬垂磺酸根。没有全循环N2/TOF/全局控速步证据。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    }
+  ]
+}

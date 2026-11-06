@@ -1,0 +1,284 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_axial_activity_contrast",
+      "r_linker_accessibility_contrast",
+      "r_framework_electronic_explanation",
+      "r_background_contrast"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required molecular explanation concerns catalyst-level structure–activity relationships at initial activation; hypotheses and quantitative molecular comparisons are selected independently. A complete cycle, yield-time model or resolved C/E crossing mechanism is not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How do catalysts A–E promote the initial activation of the isoquinoline Mukaiyama–Mannich reaction, and which molecular differences explain their principal activity contrasts? This is an explanation task: the measured yields are given; the molecular explanation must come from your calculations.",
+  "active_rule_ids": [
+    "r_axial_activity_contrast",
+    "r_linker_accessibility_contrast",
+    "r_framework_electronic_explanation",
+    "r_background_contrast"
+  ],
+  "current_outcome_ids": [
+    "axial_activity_contrast",
+    "linker_accessibility_contrast",
+    "framework_electronic_explanation",
+    "background_contrast"
+  ],
+  "historical_record": {
+    "reviewed_at_utc": "2026-10-11T01:13:52.115395+00:00",
+    "new_quantum_jobs": 0,
+    "rows": [
+      {
+        "path": "docs/verification/group_4/paper_2a71ffa4b0a90809/hpc_runs/1a_s129_gd3_193K_smd18_start_optfreq_20260927_hpc20_p6/stdout.log",
+        "role": "Historical constrained rotation profile only; not chloride affinity",
+        "exists": true,
+        "bytes": 1072557,
+        "sha256": "7ed003c2bda7fd43bc9ac8a73c35e26da25abb849222fd57d943b26c803da1a1",
+        "matches_previous_hash": true,
+        "charge_multiplicity": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "last_scf_hartree": -1906.58064709,
+        "last_g_hartree": -1906.46902,
+        "normal_termination_count": 2,
+        "optimization_completed": true,
+        "reported_natoms": 32,
+        "basis_functions": 682,
+        "first_route": [
+          " #p M062X/GenECP EmpiricalDispersion=GD3 Opt=(Tight,MaxCycles=300) Freq\n  SCRF=(SMD,Solvent=THF,Read) Temperature=193.15 NoSymm SCF=(XQC,MaxCyc\n le=512)"
+        ],
+        "printed_frequency_count": 90,
+        "printed_negative_frequency_count": 0,
+        "lowest_printed_frequency_cm1": 11.6971,
+        "frequency_caveat": "All printed frequency blocks; inspect final Hessian and constraints before stationarity or TS acceptance.",
+        "last_spin_before_after": [],
+        "scope": "Re-extracted existing raw bytes; not a new computation, nor automatic scientific acceptance."
+      },
+      {
+        "path": "docs/verification/group_4/paper_2a71ffa4b0a90809/hpc_runs/1a_s129_gd3_193K_smd18_scanp00_freq_20260927_hpc20_p6/stdout.log",
+        "role": "Historical constrained rotation profile only; not chloride affinity",
+        "exists": true,
+        "bytes": 279629,
+        "sha256": "52e94410c954c43aaf04d8f9caa4a8520acb023e0cd3996f79ec34bb7b915849",
+        "matches_previous_hash": true,
+        "charge_multiplicity": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "last_scf_hartree": -1906.57982116,
+        "last_g_hartree": -1906.467663,
+        "normal_termination_count": 1,
+        "optimization_completed": false,
+        "reported_natoms": 32,
+        "basis_functions": 682,
+        "first_route": [
+          " #p M062X/GenECP EmpiricalDispersion=GD3 Freq SCRF=(SMD,Solvent=THF,Rea\n d) Temperature=193.15 NoSymm SCF=(XQC,MaxCycle=512)"
+        ],
+        "printed_frequency_count": 90,
+        "printed_negative_frequency_count": 0,
+        "lowest_printed_frequency_cm1": 14.8953,
+        "frequency_caveat": "All printed frequency blocks; inspect final Hessian and constraints before stationarity or TS acceptance.",
+        "last_spin_before_after": [],
+        "scope": "Re-extracted existing raw bytes; not a new computation, nor automatic scientific acceptance."
+      },
+      {
+        "path": "docs/verification/group_4/paper_2a71ffa4b0a90809/hpc_runs/1a_s129_gd3_193K_smd18_scanp01_freq_20260927_hpc20_p6/stdout.log",
+        "role": "Historical constrained rotation profile only; not chloride affinity",
+        "exists": true,
+        "bytes": 279294,
+        "sha256": "cd96897babbecdb5a81ea6527d6c44cd62c96f74a0decc97b41c80d6aea775c1",
+        "matches_previous_hash": true,
+        "charge_multiplicity": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "last_scf_hartree": -1906.57583372,
+        "last_g_hartree": -1906.463656,
+        "normal_termination_count": 1,
+        "optimization_completed": false,
+        "reported_natoms": 32,
+        "basis_functions": 682,
+        "first_route": [
+          " #p M062X/GenECP EmpiricalDispersion=GD3 Freq SCRF=(SMD,Solvent=THF,Rea\n d) Temperature=193.15 NoSymm SCF=(XQC,MaxCycle=512)"
+        ],
+        "printed_frequency_count": 90,
+        "printed_negative_frequency_count": 0,
+        "lowest_printed_frequency_cm1": 14.3695,
+        "frequency_caveat": "All printed frequency blocks; inspect final Hessian and constraints before stationarity or TS acceptance.",
+        "last_spin_before_after": [],
+        "scope": "Re-extracted existing raw bytes; not a new computation, nor automatic scientific acceptance."
+      },
+      {
+        "path": "docs/verification/group_4/paper_2a71ffa4b0a90809/hpc_runs/1a_s129_gd3_193K_smd18_scanp02_freq_20260927_hpc20_p6/stdout.log",
+        "role": "Historical constrained rotation profile only; not chloride affinity",
+        "exists": true,
+        "bytes": 278934,
+        "sha256": "3f67c15d32d369de3e8f4b267c066a5065d57edbfd98a94869ec9709718b1a54",
+        "matches_previous_hash": true,
+        "charge_multiplicity": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "last_scf_hartree": -1906.56848066,
+        "last_g_hartree": -1906.456289,
+        "normal_termination_count": 1,
+        "optimization_completed": false,
+        "reported_natoms": 32,
+        "basis_functions": 682,
+        "first_route": [
+          " #p M062X/GenECP EmpiricalDispersion=GD3 Freq SCRF=(SMD,Solvent=THF,Rea\n d) Temperature=193.15 NoSymm SCF=(XQC,MaxCycle=512)"
+        ],
+        "printed_frequency_count": 90,
+        "printed_negative_frequency_count": 0,
+        "lowest_printed_frequency_cm1": 13.462,
+        "frequency_caveat": "All printed frequency blocks; inspect final Hessian and constraints before stationarity or TS acceptance.",
+        "last_spin_before_after": [],
+        "scope": "Re-extracted existing raw bytes; not a new computation, nor automatic scientific acceptance."
+      },
+      {
+        "path": "docs/verification/group_4/paper_2a71ffa4b0a90809/hpc_runs/1a_s129_gd3_193K_smd18_scanp03_freq_20260927_hpc20_p6/stdout.log",
+        "role": "Historical constrained rotation profile only; not chloride affinity",
+        "exists": true,
+        "bytes": 278437,
+        "sha256": "ec6867475785b462912b26cdb501c8339656328a9a26ed483a14e98f7744223b",
+        "matches_previous_hash": true,
+        "charge_multiplicity": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "last_scf_hartree": -1906.55921272,
+        "last_g_hartree": -1906.44739,
+        "normal_termination_count": 1,
+        "optimization_completed": false,
+        "reported_natoms": 32,
+        "basis_functions": 682,
+        "first_route": [
+          " #p M062X/GenECP EmpiricalDispersion=GD3 Freq SCRF=(SMD,Solvent=THF,Rea\n d) Temperature=193.15 NoSymm SCF=(XQC,MaxCycle=512)"
+        ],
+        "printed_frequency_count": 90,
+        "printed_negative_frequency_count": 0,
+        "lowest_printed_frequency_cm1": 14.4327,
+        "frequency_caveat": "All printed frequency blocks; inspect final Hessian and constraints before stationarity or TS acceptance.",
+        "last_spin_before_after": [],
+        "scope": "Re-extracted existing raw bytes; not a new computation, nor automatic scientific acceptance."
+      },
+      {
+        "path": "docs/verification/group_4/paper_2a71ffa4b0a90809/hpc_runs/1a_s129_gd3_193K_smd18_scanp04_freq_20260927_hpc20_p6/stdout.log",
+        "role": "Historical constrained rotation profile only; not chloride affinity",
+        "exists": true,
+        "bytes": 279790,
+        "sha256": "d3749015425283ad3ba9e7554699c5e956bfcf5b83a0fac063483dc77a1b9a7d",
+        "matches_previous_hash": true,
+        "charge_multiplicity": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "last_scf_hartree": -1906.54977835,
+        "last_g_hartree": -1906.437258,
+        "normal_termination_count": 1,
+        "optimization_completed": false,
+        "reported_natoms": 32,
+        "basis_functions": 682,
+        "first_route": [
+          " #p M062X/GenECP EmpiricalDispersion=GD3 Freq SCRF=(SMD,Solvent=THF,Rea\n d) Temperature=193.15 NoSymm SCF=(XQC,MaxCycle=512)"
+        ],
+        "printed_frequency_count": 90,
+        "printed_negative_frequency_count": 1,
+        "lowest_printed_frequency_cm1": -12.054,
+        "frequency_caveat": "All printed frequency blocks; inspect final Hessian and constraints before stationarity or TS acceptance.",
+        "last_spin_before_after": [],
+        "scope": "Re-extracted existing raw bytes; not a new computation, nor automatic scientific acceptance."
+      },
+      {
+        "path": "docs/verification/group_4/paper_2a71ffa4b0a90809/hpc_runs/1a_s129_gd3_193K_smd18_scanp05_freq_20260927_hpc20_p6/stdout.log",
+        "role": "Historical constrained rotation profile only; not chloride affinity",
+        "exists": true,
+        "bytes": 279884,
+        "sha256": "571016d2996a651c888401027f0d8ea578852cef0f559e84e12263bfdcc6b6b5",
+        "matches_previous_hash": true,
+        "charge_multiplicity": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "last_scf_hartree": -1906.54100702,
+        "last_g_hartree": -1906.428599,
+        "normal_termination_count": 1,
+        "optimization_completed": false,
+        "reported_natoms": 32,
+        "basis_functions": 682,
+        "first_route": [
+          " #p M062X/GenECP EmpiricalDispersion=GD3 Freq SCRF=(SMD,Solvent=THF,Rea\n d) Temperature=193.15 NoSymm SCF=(XQC,MaxCycle=512)"
+        ],
+        "printed_frequency_count": 90,
+        "printed_negative_frequency_count": 1,
+        "lowest_printed_frequency_cm1": -28.3986,
+        "frequency_caveat": "All printed frequency blocks; inspect final Hessian and constraints before stationarity or TS acceptance.",
+        "last_spin_before_after": [],
+        "scope": "Re-extracted existing raw bytes; not a new computation, nor automatic scientific acceptance."
+      },
+      {
+        "path": "docs/verification/group_4/paper_2a71ffa4b0a90809/hpc_runs/1a_s129_gd3_193K_smd18_scanp06_freq_20260927_hpc20_p6/stdout.log",
+        "role": "Historical constrained rotation profile only; not chloride affinity",
+        "exists": true,
+        "bytes": 281081,
+        "sha256": "1af3d56f3afd890d5efa2ec79c73690ddc74310cca31630cbe32a8ae2a66adeb",
+        "matches_previous_hash": true,
+        "charge_multiplicity": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "last_scf_hartree": -1906.53365432,
+        "last_g_hartree": -1906.421219,
+        "normal_termination_count": 1,
+        "optimization_completed": false,
+        "reported_natoms": 32,
+        "basis_functions": 682,
+        "first_route": [
+          " #p M062X/GenECP EmpiricalDispersion=GD3 Freq SCRF=(SMD,Solvent=THF,Rea\n d) Temperature=193.15 NoSymm SCF=(XQC,MaxCycle=512)"
+        ],
+        "printed_frequency_count": 90,
+        "printed_negative_frequency_count": 1,
+        "lowest_printed_frequency_cm1": -30.2774,
+        "frequency_caveat": "All printed frequency blocks; inspect final Hessian and constraints before stationarity or TS acceptance.",
+        "last_spin_before_after": [],
+        "scope": "Re-extracted existing raw bytes; not a new computation, nor automatic scientific acceptance."
+      }
+    ],
+    "current_scope_addendum": {
+      "scope_version": "core_question_upgrade_20261012T190159Z",
+      "latest_read_coverage": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/coverage.json",
+      "latest_read_coverage_utc": "2026-10-12T12:38:14.804856+00:00",
+      "binding_and_electronic_native_index": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/analysis/halogen_recomputed.json",
+      "applicability": "The original rows below remain historical A constrained-profile diagnostics. Reuse the seven association comparisons and five wavefunctions from the latest index. C/D connectivity is partial; reactive QT/A/B endpoints are excluded extensions.",
+      "new_quantum_jobs": 0,
+      "scientifically_verified": false,
+      "release_ready": false
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

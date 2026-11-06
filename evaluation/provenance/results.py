@@ -65,6 +65,17 @@ def _agent_usage(workspace: Path) -> dict[str, Any]:
     }
 
 
+def _final_result_fields(score):
+    """Expose V3 pending points separately without changing legacy summaries."""
+    if score.get("evaluation_mode") != "final_results_100":
+        return {}
+    return {key: score.get(key) for key in (
+        "whole_case_verdict", "score_is_final", "confirmed_science_score",
+        "pending_science_score", "possible_science_score_upper_bound", "need_review_item_ids",
+        "evidence_qualification",
+    )}
+
+
 def read_scoring_status(workspace):
     """One read-only interpretation for reports, CLI and Web, including old runs."""
     workspace = Path(workspace)
@@ -82,12 +93,31 @@ def read_scoring_status(workspace):
             "agent_declared_outcome": latest.get("agent_declared_outcome"),
             "evaluated_outcome": latest.get("evaluated_outcome", "undetermined"),
             "judge_usage": latest.get("judge_usage"), "evidence_coverage": latest.get("evidence_coverage"),
-            "validation": "current" if latest.get("score_id") else "legacy_unvalidated" if latest else "unavailable"}
+            "validation": "current" if latest.get("score_id") else "legacy_unvalidated" if latest else "unavailable",
+            **_final_result_fields(latest)}
 
 
 def _known_sum(values):
     values = list(values)
     return None if any(v is None for v in values) else sum(values)
+
+
+def run_completion_status(meta):
+    """Execution outcome from controller facts, never from the Agent's report."""
+    state = meta.get("run_state", meta.get("status"))
+    if state in {"ready", "running", "recovering", "finalizing", "attempt_finished"}:
+        return None
+    termination = meta.get("termination")
+    if termination == "agent_completed" or (termination == "process_exit" and meta.get("exit_code") == 0):
+        return "complete"
+    if termination:
+        return "incomplete"
+    if state == "completed":
+        return "complete"  # Legacy summaries may not record a termination event.
+    if state in {"failed", "cancelled", "budget_exhausted", "timeout", "stopped",
+                 "suspended_infrastructure", "recovery_blocked", "preflight_failed"}:
+        return "incomplete"
+    return None
 
 
 def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
@@ -142,6 +172,7 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
         "rationale": score.get("rationale"),
         "error": score.get("error") or score.get("parse_error"),
         "score_id": score.get("score_id"),
+        **_final_result_fields(score),
     }
     # Current facts, including zero counts, supersede cached metadata/old scores.
     tools = {label: process[key] for label, key in {
@@ -184,6 +215,7 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
             "id": meta.get("run_id", root.name),
             "workspace": str(root),
             "status": meta.get("status", "unknown"),
+            "completion_status": run_completion_status(meta),
             "error": meta.get("error"),
             "last_failure": meta.get("last_failure"),
             "termination": meta.get("termination"),
@@ -282,6 +314,14 @@ def write_batch_results(
         for item in runs
         if item["score"]["normalized"] is not None
     ]
+    from ..scoring.final_results import batch_finality_fields
+    finality = batch_finality_fields([
+        {"score": item["score"]["total"], "score_max": item["score"]["maximum"],
+         "normalized_score": item["score"]["normalized"],
+         **{key: item["score"][key] for key in ("score_is_final", "pending_science_score", "whole_case_verdict")
+            if key in item["score"]}}
+        for item in runs
+    ] + [{"score": None} for _ in unstarted])
     result = {
         "schema_version": RESULTS_SCHEMA_VERSION,
         "result_type": "researchchembench_batch",
@@ -304,6 +344,7 @@ def write_batch_results(
                                              for item in runs if item["score"]["total"] is None)),
             "mean_score": statistics.mean(scores) if scores else None,
             "mean_normalized_score": statistics.mean(normalized) if normalized else None,
+            **finality,
             "duration_seconds_sum": sum(
                 float(item["run"]["duration_seconds"] or 0.0) for item in runs
             ),

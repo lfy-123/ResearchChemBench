@@ -1,0 +1,162 @@
+{
+  "reactants": [
+    {
+      "id": "donor",
+      "name": "diethyl 1-(diphenoxyphosphoryl)-1,4-dihydropyridine-3,5-dicarboxylate",
+      "formula": "C23H24NO7P",
+      "charge": 0,
+      "multiplicity": 1,
+      "smiles": "CCOC(=O)C1=CN(P(=O)(Oc2ccccc2)Oc2ccccc2)C=C(C(=O)OCC)C1",
+      "stereochemistry": "No configured stereocentre; the ring C4 is CH2."
+    },
+    {
+      "id": "ethanol",
+      "smiles": "CCO",
+      "charge": 0,
+      "multiplicity": 1,
+      "formula": "C2H6O"
+    },
+    {
+      "id": "MeCN",
+      "smiles": "CC#N",
+      "charge": 0,
+      "multiplicity": 1,
+      "formula": "C2H3N"
+    }
+  ],
+  "catalysts_and_additives": [
+    {
+      "id": "PC2",
+      "name": "2,7,10-trimethyl-9-(2,4,6-trimethylphenyl)acridinium perchlorate",
+      "identity": "Acridinium N at position 10 bears methyl; ring positions 2 and 7 bear methyl; C9 bears mesityl; cation +1 and perchlorate −1. No substituents beyond these.",
+      "counterion_smiles": "[O-][Cl](=O)(=O)=O",
+      "supplied_form_charge": 0,
+      "ground_state": "Closed-shell supplied acridinium cation and perchlorate anion.",
+      "cation_smiles": "Cc1cc(C)cc(C)c1-c1c2cc(C)ccc2[n+](C)c2ccc(C)cc12",
+      "cation_formula": "C25H26N+",
+      "cation_charge": 1,
+      "cation_multiplicity": 1,
+      "counterion_charge": -1
+    },
+    {
+      "id": "persulfate",
+      "name": "sodium peroxydisulfate",
+      "smiles": "[Na+].[Na+].[O-]S(=O)(=O)OOS(=O)(=O)[O-]",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "TPI",
+      "name": "BINOL-derived cyclic O,O-thiophosphoric N-triflyl imide",
+      "smiles": "S=P1(NS(=O)(=O)C(F)(F)F)Oc2ccc3ccccc3c2-c2c(O1)ccc1ccccc21",
+      "identity": "Both 2,2-prime oxygens of 1,1-prime-binaphthyl connect to the same P; P also has =S and –NH–S(=O)2–CF3. No BINOL 3,3-prime substituents.",
+      "charge": 0,
+      "multiplicity": 1,
+      "stereochemistry": "The supplied reagent has no assigned axial configuration; no enantioselectivity observation is supplied.",
+      "formula": "C21H13F3NO4PS2"
+    },
+    {
+      "id": "cobalt_complex",
+      "name": "chloropyridinebis(dimethylglyoximato)cobalt(III), Co(dmgH)2Cl(py)",
+      "identity": "Octahedral Co(III), two equatorial bidentate N,N-dimethylglyoximato monoanions (each CH3–C(=N–OH)–C(=N–O−)–CH3), trans axial Cl− and pyridine; each ligand contributes two oxime N donors. Two oxime protons total, with interligand O–H···O hydrogen bonding.",
+      "formula": "C13H19ClCoN5O4",
+      "charge": 0,
+      "pyridine_smiles": "c1ccncc1",
+      "coordination_definition": {
+        "metal": {
+          "element": "Co",
+          "oxidation_state": 3
+        },
+        "equatorial_ligands": {
+          "count": 2,
+          "ligand_smiles": "[O-]N=C(C)C(C)=NO",
+          "formula": "C4H7N2O2-",
+          "charge_each": -1,
+          "binding": "Both oxime nitrogen atoms of each ligand coordinate to Co."
+        },
+        "axial_ligands": [
+          {
+            "smiles": "[Cl-]",
+            "count": 1
+          },
+          {
+            "smiles": "c1ccncc1",
+            "count": 1,
+            "binding_atom": "N"
+          }
+        ],
+        "geometry": "Two N,N-chelates in the equatorial plane; chloride and pyridine trans on the axial sites.",
+        "protons": "Two retained oxime protons total; interligand O-H...O hydrogen bonds.",
+        "state_boundary": "The coordination graph specifies the supplied complex."
+      }
+    },
+    {
+      "id": "phosphate",
+      "name": "sodium dihydrogen phosphate",
+      "smiles": "[Na+].[O-]P(=O)(O)O",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "PC1",
+      "name": "10-methyl-9-(2,4,6-trimethylphenyl)acridinium perchlorate",
+      "identity": "N10-methyl, C9-mesityl acridinium; unlike PC2, no methyl substituents at positions 2 and 7.",
+      "cation_smiles": "Cc1cc(C)cc(C)c1-c1c2ccccc2[n+](C)c2ccccc12",
+      "cation_formula": "C23H22N+",
+      "cation_charge": 1,
+      "cation_multiplicity": 1,
+      "counterion_smiles": "[O-][Cl](=O)(=O)=O",
+      "counterion_charge": -1,
+      "supplied_form_charge": 0,
+      "use": "Comparison experiments only; the standard settings use PC2."
+    }
+  ],
+  "setting_A": {
+    "donor_mmol": 0.1,
+    "persulfate_mmol": 0.2,
+    "solvent": "EtOH",
+    "solvent_mL": 1.0,
+    "oxidant_equivalents_in_variations": [
+      0.0,
+      1.0,
+      1.5,
+      2.0
+    ],
+    "temperature": "room temperature, fan controlled",
+    "time_h": 18,
+    "atmosphere": "Ar; dry solvents",
+    "PC2_mmol": 0.005,
+    "added_external_base": false
+  },
+  "setting_B": {
+    "donor_mmol": 0.1,
+    "TPI_mmol": 0.005,
+    "cobalt_complex_mmol": 0.01,
+    "phosphate_mmol": 0.02,
+    "EtOH_mL": 0.5,
+    "MeCN_mL": 0.5,
+    "temperature": "room temperature, fan controlled",
+    "time_h": 18,
+    "atmosphere": "Ar; dry solvents",
+    "added_persulfate": false,
+    "added_external_base": false,
+    "PC2_mmol": 0.0025
+  },
+  "irradiation": {
+    "wavelength_nm": 430,
+    "source": "Kessil A160WE Tuna Blue, rated 40 W",
+    "note": "Reported power is the lamp nameplate rating. Absorbed photon flux is unreported."
+  },
+  "products": [
+    {
+      "id": "phosphate_product",
+      "name": "ethyl diphenyl phosphate",
+      "smiles": "CCOP(=O)(Oc1ccccc1)Oc1ccccc1",
+      "formula": "C14H15O4P",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "Experimentally characterized product in both settings."
+    }
+  ],
+  "identity_and_model_boundary": "Structures and reagent forms identify the experimental inputs."
+}

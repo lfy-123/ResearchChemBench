@@ -1,0 +1,71 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "items": [
+    {
+      "statement": "neutral_bde — non-scoring source evidence",
+      "expected": "Full donor ring-C4 C–H homolysis 1 -> 3 + H atom: neutral singlet C23H24NO7P to neutral doublet C23H23NO7P. Compare enthalpies with a defined hydrogen-atom reference, not free energies, deprotonation or electronic dissociation energies.",
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_002_p9"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "neutral_bde",
+      "key_point_type": "result",
+      "scored": false,
+      "window_status": "Former numeric window preserved for provenance; not an active V3 final-result gate.",
+      "historical_numeric_context_20261029": {
+        "target": 76.1,
+        "tolerance": 2.0,
+        "unit": "kcal/mol"
+      }
+    },
+    {
+      "statement": "oxidized_bde — non-scoring source evidence",
+      "expected": "Ring-C4 C–H homolysis 2 -> 4 + H atom: +1 doublet C23H24NO7P to +1 singlet C23H23NO7P. SI reports 32.9 while main Figure 6 prints 32.7 kcal/mol; both remain non-scoring source values. Do not fit away that discrepancy.",
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_002_p9"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "oxidized_bde",
+      "key_point_type": "result",
+      "scored": false,
+      "window_status": "Former numeric window preserved for provenance; not an active V3 final-result gate.",
+      "historical_numeric_context_20261029": {
+        "target": 32.9,
+        "tolerance": 2.0,
+        "unit": "kcal/mol"
+      }
+    },
+    {
+      "statement": "photoactivation_model — non-scoring source evidence",
+      "expected": "Correctly construct a local photocatalytic donor-activation model consistent with the source oxidation-based activation hypothesis: identify the donor-to-photoexcited-catalyst electron-transfer direction and actual PC2 identity, and represent the neutral donor and oxidized radical cation with correct connectivity, atom inventory, charge and spin. Use genuine molecular calculations together with the supplied reaction/component observations to explain why this activation model is plausible and how it changes donor reactivity. A computed, correctly assigned local model and an evidence-linked explanation are required; an attempted calculation or an unsupported mechanism sketch is insufficient. This qualitative item does not require a unique elementary pathway, a complete catalytic turnover, or a new absolute-redox-potential target. Distinguish PC1 comparison data from PC2 and distinguish a plausible model from demonstrated initial electron-transfer energetics: BDE weakening alone does not prove initial electron transfer or H-transfer kinetics. Explicitly identify unsupported steps without claiming the whole cycle is established.",
+      "evidence_ids": [
+        "main_p3_5_6",
+        "supplementary_002_p9"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "photoactivation_model",
+      "key_point_type": "result",
+      "scored": false
+    }
+  ],
+  "historical_non_scoring_items": [],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "historical_scoring_applicability_20261029": "Supporting evidence only. No independent points or numeric gates; any retained author values and former tolerances are historical non-scoring context."
+}

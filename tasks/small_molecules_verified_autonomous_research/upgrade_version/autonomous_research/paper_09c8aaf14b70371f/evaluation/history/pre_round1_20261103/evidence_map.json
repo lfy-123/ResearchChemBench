@@ -1,0 +1,143 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "evidence": [
+    {
+      "evidence_id": "main_p7_14",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          7,
+          14
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p1_2_3_4",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/supplementary_001.pdf",
+        "sha256": "c2416d2146ed3052530e1fd39a9a07dd3d333ffc420742317566d84b3743d1b2",
+        "pdf_pages_1based": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p7_10_14",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          7,
+          10,
+          14
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p12_13",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          12,
+          13
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p7_12",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          7,
+          12
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p14",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          14
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p12_13_14_15",
+      "source": {
+        "path": "papers/paper_09c8aaf14b70371f/documents/main.pdf",
+        "sha256": "f2b0b4417ac5dac3cfa55eac0cbc9b2f26d1f4f2dec35073608808c9a40a4180",
+        "pdf_pages_1based": [
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "final_result_bindings": [
+    {
+      "conclusion_id": "series_3_5",
+      "rule_id": "r_series_3_5",
+      "evidence_ids": [
+        "main_p7_14",
+        "supplementary_001_p1_2_3_4"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "coverage": "Existing neutral calculations cover the comparison; source absolute scalar attribution is not certified."
+    },
+    {
+      "conclusion_id": "hydroxy_departure",
+      "rule_id": "r_hydroxy_departure",
+      "evidence_ids": [
+        "main_p7_10_14"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "coverage": "Existing neutral-LUMO calculations support departure for that descriptor; they do not test or exclude a different independently established descriptor. Exact source conformer/scalar attribution remains uncertified."
+    },
+    {
+      "conclusion_id": "acn_dmso",
+      "rule_id": "r_acn_dmso",
+      "evidence_ids": [
+        "main_p7_12"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "coverage": "Existing neutral calculations cover the comparison; source absolute scalar attribution is not certified."
+    },
+    {
+      "conclusion_id": "dcm_comparison",
+      "rule_id": "r_dcm_comparison",
+      "evidence_ids": [
+        "main_p14"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "coverage": "Existing neutral calculations cover the comparison; source absolute scalar attribution is not certified."
+    },
+    {
+      "conclusion_id": "bounded_relationship",
+      "rule_id": "r_bounded_relationship",
+      "evidence_ids": [
+        "main_p12_13_14_15"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "coverage": "Descriptor-based interpretation supported; unique microscopic cause of peak potentials remains unresolved."
+    }
+  ],
+  "scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+}

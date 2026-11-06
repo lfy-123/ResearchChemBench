@@ -1,0 +1,61 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "case_id": "case_08",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "Ni/PyBOX 去芳构化环加成机制、绝对构型、选择性物理来源及与实验强度的有界比较。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "formation_profile",
+      "description": "实际结合、开环/闭合或等效形成机制的关键态能量与活化量。",
+      "public_requirement": "Computed key-state energies and activation requirements supporting binding and the proposed ring-opening/closure or equivalent product-formation mechanism."
+    },
+    {
+      "id": "rs_competition",
+      "description": "正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+      "public_requirement": "Computed R/S Gibbs activation energies and ΔΔG‡ for the correctly mapped competing configurations."
+    },
+    {
+      "id": "physical_origin",
+      "description": "支撑所选物理解释的实际 R/S 结构/电子分析数据，例如距离、角度、形变或相互作用量；按论断选择，不指定唯一分解算法。",
+      "public_requirement": "Computed R/S structural or electronic data supporting the chosen physical explanation, such as contact distances, angles, deformation or interaction quantities; choose data appropriate to the claim, with no mandatory decomposition algorithm."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "cycloaddition_mechanism",
+      "points": 30,
+      "description": "催化开环与去芳构化闭环的解释",
+      "allow_need_review": false
+    },
+    {
+      "id": "absolute_configuration_preference",
+      "points": 25,
+      "description": "目标饱和 CH 的 R 偏好",
+      "allow_need_review": false
+    },
+    {
+      "id": "selectivity_physical_origin",
+      "points": 25,
+      "description": "选择性的有证据分子起源",
+      "allow_need_review": false
+    },
+    {
+      "id": "selectivity_scope_vs_experiment",
+      "points": 20,
+      "description": "模型富集与实验 er 的关系",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Table 1 entry 6/Scheme 6D、SI S126–130；历史验证支持结合/开环与两支闭环、R 构型，以及局部弱接触和形变/相互作用分解的有界解释。",
+  "boundaries": [
+    "限定 Ni(OTf)2/(S,S)-tBuPyBOX/CHCl3，不能混入另一镍盐、配体或 DCM 数据。",
+    "验证的 +1 triplet 是重建模型，不是原卡已公开或全溶液物种的唯一答案。",
+    "R 侧若干局部接触增强，但吸引子域积分及总相互作用分解可偏 S；不把“所有 R 吸引更强”硬化成答案。",
+    "代表 TS 预测的富集强度与实验同向但非精确一致；不设 er/ΔΔG 容差。"
+  ],
+  "source_locator": "Main PDF p.3 Table 1 entry 6 and pp.5–6 Scheme 6D/discussion; supplementary_001 PDF/S pp.126–130, chiral-method paragraph, Figs.S3–S5 and Table S6.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

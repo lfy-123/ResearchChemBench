@@ -1,0 +1,461 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "scope_version": "substrate-local-author-results-20261012",
+  "recorded_at_utc": "2026-10-12T19:33:41.535837+00:00",
+  "previous_evidence_reusable": {
+    "native_records": [
+      {
+        "id": "Int3",
+        "path": "docs/verification/group_4/paper_b33676a2051f5e91/artifacts/gaussian_batch/baseline_int3/stdout.log",
+        "sha256": "0228b545c6b3518ded46d6c0020716ecd8a2875d74620d0184f241a3faf26764"
+      },
+      {
+        "id": "ethylTS",
+        "path": "docs/verification/group_4/paper_b33676a2051f5e91/artifacts/gaussian_batch/b336_beta_scission_cc_2p30_ts_retry1/stdout.log",
+        "sha256": "12f4d432d27b4d60544c1b74a9cc050c46c7913d7dbefc548b5c6fa504bda77b"
+      },
+      {
+        "id": "methylTS",
+        "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/alternative_TS4a_optfreq/outputs/optfreq/gaussian.log",
+        "sha256": "fbe3c3c468031b5992932bf9f587239b3c3d6c1c40ec10b79508ba44db8c5f9e"
+      },
+      {
+        "id": "finite_IRC_0",
+        "path": "docs/verification/group_4/paper_b33676a2051f5e91/hpc_runs/b336_beta_scission_reverse_lqa_irc_20260914_hpc20_p6/stdout.log",
+        "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+      },
+      {
+        "id": "finite_IRC_1",
+        "path": "docs/verification/group_4/paper_b33676a2051f5e91/hpc_runs/b336_beta_scission_forward_lqa_irc_20260914_hpc20_p6/stdout.log",
+        "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+      },
+      {
+        "id": "finite_IRC_4",
+        "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/TS4a_IRC_forward_storage_recovery1/outputs/irc/gaussian.log",
+        "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+      },
+      {
+        "id": "finite_IRC_5",
+        "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/TS4a_IRC_reverse_storage_recovery1/outputs/irc/gaussian.log",
+        "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+      }
+    ],
+    "scientific_audit": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/coverage.json",
+    "scope": "Both local product connections and existing minima/TS/IRC data are reusable; scalar barriers remain conditional on the common-reference audit. None proves blind recovery from the new input.",
+    "later_existing_endpoint_outputs": [
+      {
+        "case_id": "methyl_reactant_endpoint",
+        "job_id": "hpc-job-7df43723-4ae6-4ccb-8585-1aa8a9111618",
+        "run_status_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/methyl_reactant_endpoint/outputs/run_status.json",
+        "native_log_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/methyl_reactant_endpoint/outputs/gaussian.log",
+        "finished_at": "2026-10-12T16:18:28.949188+00:00",
+        "operational_phase": "terminal_requires_scientific_review",
+        "scientific_pass": false,
+        "log_sha256_recorded": "bf1e9551adf67cd54f6c6851b6dc0380d531b0ebdd9afaec7c015f0ba368724a",
+        "next_action": "Audit existing outputs and compare endpoint basins; do not resubmit this existing calculation."
+      },
+      {
+        "case_id": "ethyl_reactant_endpoint",
+        "job_id": "hpc-job-ce579e03-9b80-4965-b508-e9b47742974d",
+        "run_status_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/ethyl_reactant_endpoint/outputs/run_status.json",
+        "native_log_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/ethyl_reactant_endpoint/outputs/gaussian.log",
+        "finished_at": "2026-10-12T16:23:30.500750+00:00",
+        "operational_phase": "terminal_requires_scientific_review",
+        "scientific_pass": false,
+        "log_sha256_recorded": "c09b51bff37a721e889a19686cbb08d10bf8a48260474d77f7d121db6e6274a4",
+        "next_action": "Audit existing outputs and compare endpoint basins; do not resubmit this existing calculation."
+      }
+    ]
+  },
+  "removed_requirements": [
+    "Public supplied Int3/oxygen-radical starting geometry",
+    "Universal 24-nucleus inventory or one starting radical for every model",
+    "Complete light-driven initiation or uninterrupted oxidation/polymer cycle",
+    "Active singlet-HAT score before author-state qualification",
+    "Disputed oxygen-capture/global-energy numbers",
+    "Unreported TS, descriptors or maintainer-built substitute reference"
+  ],
+  "targets": [
+    {
+      "id": "scission_local_connections",
+      "scoring_ids": [
+        "product_fate",
+        "competing_fate"
+      ],
+      "rule_ids": [
+        "rule_product_fate",
+        "rule_competing_fate"
+      ],
+      "author_source": "main p6/Fig7, pp7-8; SI pp33-38",
+      "physical_quantity": "Mapped local channel identity: C10H13O -> C8H8O+C2H5 radical or C9H10O+CH3 radical; C=O formation and distinct C-C cleavage.",
+      "method": {
+        "software": "Gaussian 16",
+        "functional": "BHandHLYP",
+        "basis": "aug-cc-pVDZ",
+        "solvent_model": "SMD(acetonitrile)",
+        "explicit_solvent": 0,
+        "temperature_K": 298.15,
+        "standard_state": "1 atm native harmonic thermochemistry",
+        "source_locator": "SI physical p23",
+        "state_note": "Open-shell implementations and the source thermal convention must be recorded from actual inputs/outputs; no replacement reference."
+      },
+      "model": "24 nuclei, C10H13O",
+      "charge_state": "Neutral doublet parent/TS; neutral singlet ketone and neutral doublet hydrocarbon radical fragments.",
+      "reference": "Connection to the correctly identified parent basin; no product minimum/free energy required.",
+      "existing_evidence": [
+        {
+          "id": "Int3",
+          "path": "docs/verification/group_4/paper_b33676a2051f5e91/artifacts/gaussian_batch/baseline_int3/stdout.log",
+          "sha256": "0228b545c6b3518ded46d6c0020716ecd8a2875d74620d0184f241a3faf26764"
+        },
+        {
+          "id": "ethylTS",
+          "path": "docs/verification/group_4/paper_b33676a2051f5e91/artifacts/gaussian_batch/b336_beta_scission_cc_2p30_ts_retry1/stdout.log",
+          "sha256": "12f4d432d27b4d60544c1b74a9cc050c46c7913d7dbefc548b5c6fa504bda77b"
+        },
+        {
+          "id": "methylTS",
+          "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/alternative_TS4a_optfreq/outputs/optfreq/gaussian.log",
+          "sha256": "fbe3c3c468031b5992932bf9f587239b3c3d6c1c40ec10b79508ba44db8c5f9e"
+        },
+        {
+          "id": "finite_IRC_0",
+          "path": "docs/verification/group_4/paper_b33676a2051f5e91/hpc_runs/b336_beta_scission_reverse_lqa_irc_20260914_hpc20_p6/stdout.log",
+          "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+        },
+        {
+          "id": "finite_IRC_1",
+          "path": "docs/verification/group_4/paper_b33676a2051f5e91/hpc_runs/b336_beta_scission_forward_lqa_irc_20260914_hpc20_p6/stdout.log",
+          "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+        },
+        {
+          "id": "finite_IRC_4",
+          "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/TS4a_IRC_forward_storage_recovery1/outputs/irc/gaussian.log",
+          "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+        },
+        {
+          "id": "finite_IRC_5",
+          "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/TS4a_IRC_reverse_storage_recovery1/outputs/irc/gaussian.log",
+          "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+        }
+      ],
+      "missing_evidence": "No missing computation for the accepted current bounded result; retained source/scoring limits are separate.",
+      "prerequisites": "Current bounded evidence review completed; retain its physical definitions and limitations.",
+      "can_compute_immediately": false,
+      "next_action": "Reuse the accepted native evidence in the current status record; no new QC is required.",
+      "necessary_native_success_markers": [
+        "Correct atom mapping and branch-specific bond changes; fragment spin assignment",
+        "TS NImag=1 in existing output",
+        "Both native IRC directions and their finite-endpoint limitations retained"
+      ],
+      "status": "VERIFIED_CURRENT_BOUNDED_SCOPE_EXISTING_EVIDENCE",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "scission_common_reference",
+      "scoring_ids": [
+        "preferred_barrier",
+        "competing_fate",
+        "selectivity"
+      ],
+      "rule_ids": [
+        "ar_r4",
+        "rule_competing_fate",
+        "rule_selectivity"
+      ],
+      "author_source": "main p8; SI p23, pp33-36",
+      "physical_quantity": "DeltaG_ethyl=G(TS4b)-G(connected Int3); DeltaG_methyl=G(TS4a)-G(the same connected Int3); their difference.",
+      "author_values": {
+        "ethyl_kcal_mol": 9.07,
+        "ethyl_tolerance_kcal_mol": 2.0,
+        "methyl_kcal_mol": 13.39,
+        "methyl_minus_ethyl_context": 4.32
+      },
+      "method": {
+        "software": "Gaussian 16",
+        "functional": "BHandHLYP",
+        "basis": "aug-cc-pVDZ",
+        "solvent_model": "SMD(acetonitrile)",
+        "explicit_solvent": 0,
+        "temperature_K": 298.15,
+        "standard_state": "1 atm native harmonic thermochemistry",
+        "source_locator": "SI physical p23",
+        "state_note": "Open-shell implementations and the source thermal convention must be recorded from actual inputs/outputs; no replacement reference."
+      },
+      "model": "24 nuclei, C10H13O; source Int3/TS4a/TS4b",
+      "charge_state": "0 / doublet for all three",
+      "reference": "A physically common reactant conformer/basin. Do not select a baseline because it gives a closer paper number.",
+      "existing_evidence": {
+        "conditional_metrics": [
+          {
+            "name": "ethyl",
+            "paper_value": 9.07,
+            "computed_value": 8.89745683274874,
+            "signed_difference": -0.17254316725126095,
+            "absolute_difference": 0.17254316725126095,
+            "unit": "kcal/mol",
+            "original_tolerance": 2,
+            "scalar_within_original_window": true,
+            "scientific_validity": "oldInt3 reference; endpoint conformer linkage pending"
+          },
+          {
+            "name": "methyl",
+            "paper_value": 13.39,
+            "computed_value": 13.396699761800331,
+            "signed_difference": 0.006699761800330606,
+            "absolute_difference": 0.006699761800330606,
+            "unit": "kcal/mol",
+            "original_tolerance": null,
+            "scalar_within_original_window": null,
+            "scientific_validity": "no calibrated window; commonreference pending"
+          },
+          {
+            "name": "methyl_minus_ethyl",
+            "paper_value": 4.32,
+            "computed_value": 4.499242929051592,
+            "signed_difference": 0.17924292905159156,
+            "absolute_difference": 0.17924292905159156,
+            "unit": "kcal/mol",
+            "original_tolerance": null,
+            "scalar_within_original_window": null,
+            "scientific_validity": "positiveTSdifference; common basin pending"
+          }
+        ],
+        "native_reuse": [
+          {
+            "id": "Int3",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/artifacts/gaussian_batch/baseline_int3/stdout.log",
+            "sha256": "0228b545c6b3518ded46d6c0020716ecd8a2875d74620d0184f241a3faf26764"
+          },
+          {
+            "id": "ethylTS",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/artifacts/gaussian_batch/b336_beta_scission_cc_2p30_ts_retry1/stdout.log",
+            "sha256": "12f4d432d27b4d60544c1b74a9cc050c46c7913d7dbefc548b5c6fa504bda77b"
+          },
+          {
+            "id": "methylTS",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/alternative_TS4a_optfreq/outputs/optfreq/gaussian.log",
+            "sha256": "fbe3c3c468031b5992932bf9f587239b3c3d6c1c40ec10b79508ba44db8c5f9e"
+          },
+          {
+            "id": "finite_IRC_0",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/hpc_runs/b336_beta_scission_reverse_lqa_irc_20260914_hpc20_p6/stdout.log",
+            "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+          },
+          {
+            "id": "finite_IRC_1",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/hpc_runs/b336_beta_scission_forward_lqa_irc_20260914_hpc20_p6/stdout.log",
+            "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+          },
+          {
+            "id": "finite_IRC_4",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/TS4a_IRC_forward_storage_recovery1/outputs/irc/gaussian.log",
+            "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+          },
+          {
+            "id": "finite_IRC_5",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/TS4a_IRC_reverse_storage_recovery1/outputs/irc/gaussian.log",
+            "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+          }
+        ],
+        "endpoint_calculations": [
+          {
+            "case_id": "methyl_reactant_endpoint",
+            "job_id": "hpc-job-7df43723-4ae6-4ccb-8585-1aa8a9111618",
+            "run_status_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/methyl_reactant_endpoint/outputs/run_status.json",
+            "native_log_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/methyl_reactant_endpoint/outputs/gaussian.log",
+            "finished_at": "2026-10-12T16:18:28.949188+00:00",
+            "operational_phase": "terminal_requires_scientific_review",
+            "scientific_pass": false,
+            "log_sha256_recorded": "bf1e9551adf67cd54f6c6851b6dc0380d531b0ebdd9afaec7c015f0ba368724a",
+            "next_action": "Audit existing outputs and compare endpoint basins; do not resubmit this existing calculation."
+          },
+          {
+            "case_id": "ethyl_reactant_endpoint",
+            "job_id": "hpc-job-ce579e03-9b80-4965-b508-e9b47742974d",
+            "run_status_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/ethyl_reactant_endpoint/outputs/run_status.json",
+            "native_log_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/ethyl_reactant_endpoint/outputs/gaussian.log",
+            "finished_at": "2026-10-12T16:23:30.500750+00:00",
+            "operational_phase": "terminal_requires_scientific_review",
+            "scientific_pass": false,
+            "log_sha256_recorded": "c09b51bff37a721e889a19686cbb08d10bf8a48260474d77f7d121db6e6274a4",
+            "next_action": "Audit existing outputs and compare endpoint basins; do not resubmit this existing calculation."
+          }
+        ],
+        "record_role": "Historical pre-acceptance snapshot, retained for provenance. Current completed evidence is in evaluation/current_verification_status.json and the latest dated verification reference."
+      },
+      "missing_evidence": "No missing computation for the accepted current bounded result; retained source/scoring limits are separate.",
+      "prerequisites": "Current bounded evidence review completed; retain its physical definitions and limitations.",
+      "can_compute_immediately": false,
+      "next_action": "Reuse the accepted native evidence in the current status record; no new QC is required.",
+      "necessary_native_success_markers": [
+        "Optimization convergence and complete frequency stage, with recorded normal termination for each executed stage",
+        "66 real vibrational modes per minimum, charge 0/doublet, documented S2/spin density",
+        "Consistent 298.15 K/1 atm E+thermal G and connected conformer mapping",
+        "Only ethyl has the existing numeric tolerance; methyl/difference need explicit manual numerical review"
+      ],
+      "status": "VERIFIED_CURRENT_BOUNDED_SCOPE_EXISTING_EVIDENCE",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "chlorine_HAT_replay",
+      "scoring_ids": [
+        "hat_chlorine"
+      ],
+      "rule_ids": [
+        "rule_hat_chlorine"
+      ],
+      "author_source": "main physical p7 (3.23), p6/Fig7; SI p23 method, pp25-29 R/Cl/R-radical/HCl/TS1",
+      "physical_quantity": "G(TS1)-G(R)-G(Cl radical), kcal/mol; local benzylic H transfer R+Cl radical -> R radical+HCl.",
+      "author_value": 3.23,
+      "numeric_window": null,
+      "comparison_mode": "manual quantitative review; no invented tolerance",
+      "method": {
+        "software": "Gaussian 16",
+        "functional": "BHandHLYP",
+        "basis": "aug-cc-pVDZ",
+        "solvent_model": "SMD(acetonitrile)",
+        "explicit_solvent": 0,
+        "temperature_K": 298.15,
+        "standard_state": "1 atm native harmonic thermochemistry",
+        "source_locator": "SI physical p23",
+        "state_note": "Open-shell implementations and the source thermal convention must be recorded from actual inputs/outputs; no replacement reference."
+      },
+      "model": "R=C10H14; total reactive inventory C10H14Cl, 25 nuclei; no Bi or O2 in this local TS",
+      "charge_state": {
+        "R": [
+          0,
+          1
+        ],
+        "Cl_radical": [
+          0,
+          2
+        ],
+        "TS1": [
+          0,
+          2
+        ],
+        "R_radical_C10H13": [
+          0,
+          2
+        ],
+        "HCl": [
+          0,
+          1
+        ]
+      },
+      "reference": "Separated R and chlorine radical with both native thermal terms; not an encounter complex or a catalytic-cycle zero.",
+      "existing_evidence": {
+        "author_G_Eh": {
+          "R": -389.117475,
+          "Cl_radical": -460.170257,
+          "TS1": -849.282575,
+          "R_radical": -388.490351,
+          "HCl": -460.826548
+        },
+        "independent_native_validation": null,
+        "record_role": "Historical pre-acceptance snapshot, retained for provenance. Current completed evidence is in evaluation/current_verification_status.json and the latest dated verification reference."
+      },
+      "missing_evidence": "No missing computation for the accepted current bounded result; retained source/scoring limits are separate.",
+      "prerequisites": "Current bounded evidence review completed; retain its physical definitions and limitations.",
+      "can_compute_immediately": false,
+      "next_action": "Reuse the accepted native evidence in the current status record; no new QC is required.",
+      "necessary_native_success_markers": [
+        "Optimized R and R radical minima without imaginary modes; HCl vibrational stability; monatomic Cl has no vibrational modes",
+        "TS1 one imaginary H-transfer mode and intended doublet wavefunction",
+        "Connected reactant/product basins or scientifically equivalent endpoint evidence",
+        "Native normal completion for required stages plus extracted E, G correction, T, standard state and charge/spin",
+        "No inference of Cl radical population or complete photogeneration"
+      ],
+      "status": "VERIFIED_CURRENT_BOUNDED_SCOPE_EXISTING_EVIDENCE",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "singlet_HAT_source_gate",
+      "scoring_ids": [],
+      "candidate_reference_id": "hat_singlet_oxygen",
+      "rule_ids": [],
+      "author_source": "main p8; SI p23, pp25-28,30,41-42",
+      "physical_quantity": "Candidate G(TS1')-G(R)-G(singlet O2); source 4.6 kcal/mol.",
+      "method": {
+        "software": "Gaussian 16",
+        "functional": "BHandHLYP",
+        "basis": "aug-cc-pVDZ",
+        "solvent_model": "SMD(acetonitrile)",
+        "explicit_solvent": 0,
+        "temperature_K": 298.15,
+        "standard_state": "1 atm native harmonic thermochemistry",
+        "source_locator": "SI physical p23",
+        "state_note": "Open-shell implementations and the source thermal convention must be recorded from actual inputs/outputs; no replacement reference."
+      },
+      "model": "C10H14O2 total inventory, 26 nuclei",
+      "charge_state": {
+        "total_charge": 0,
+        "reactants": "R singlet + O2 labeled singlet",
+        "TS_wavefunction_and_spin_coupling": null,
+        "products": "R radical + HO2 radical; state coupling unresolved"
+      },
+      "reference": "Author singlet-oxygen definition and radical-pair/TS state required; never borrow the ground-triplet O2 zero.",
+      "existing_evidence": {
+        "SI_G_Eh": {
+          "singlet_O2": -150.225788,
+          "TS1_prime": -539.335923,
+          "R": -389.117475
+        },
+        "native_author_state_record": null,
+        "record_role": "Historical pre-acceptance snapshot, retained for provenance. Current completed evidence is in evaluation/current_verification_status.json and the latest dated verification reference."
+      },
+      "missing_evidence": "Traceable author electronic-state/wavefunction and thermal definitions, followed by independent reproduction only if those definitions are recovered.",
+      "prerequisites": [
+        "Resolve the source state from author records; no invented broken-symmetry/closed-shell replacement."
+      ],
+      "can_compute_immediately": false,
+      "next_action": "Source clarification only; retain outside active scoring. If unresolved, leave blocked.",
+      "necessary_native_success_markers": [
+        "Before any future activation: recorded author-state correspondence, converged wavefunction, verified TS mode/connection and physically matched thermal references"
+      ],
+      "record_role": "Archived source gate outside active scope; no new computation requested."
+    },
+    {
+      "id": "oxygen_capture_source_gate",
+      "scoring_ids": [],
+      "candidate_reference_id": "oxygen_capture_competition",
+      "rule_ids": [],
+      "author_source": "main p6/Fig7,p8; SI pp27-32,41-45",
+      "physical_quantity": "Disputed TS2'a/TS2'b local barriers; not current scored quantities.",
+      "method": {
+        "software": "Gaussian 16",
+        "functional": "BHandHLYP",
+        "basis": "aug-cc-pVDZ",
+        "solvent_model": "SMD(acetonitrile)",
+        "explicit_solvent": 0,
+        "temperature_K": 298.15,
+        "standard_state": "1 atm native harmonic thermochemistry",
+        "source_locator": "SI physical p23",
+        "state_note": "Open-shell implementations and the source thermal convention must be recorded from actual inputs/outputs; no replacement reference."
+      },
+      "model": "Source radical/HO2 association and radical/O2 capture models",
+      "charge_state": "State and label correspondence to be confirmed from original records, not assigned by the maintainer.",
+      "reference": "Unresolved printed-text/figure/table discrepancy; see qualification.json.",
+      "existing_evidence": "Author structures and tabulated energies plus diagnostic arithmetic; no certified correspondence or numeric window.",
+      "missing_evidence": "Author label, state, balanced zero and number clarification.",
+      "prerequisites": [
+        "Source clarification before any further design decision."
+      ],
+      "can_compute_immediately": false,
+      "next_action": "Record source issue only; do not submit competing-path calculations to invent replacement targets.",
+      "necessary_native_success_markers": [
+        "No computational acceptance is possible until the source reference is determined."
+      ],
+      "record_role": "Archived source gate outside active scope; no new computation requested."
+    }
+  ],
+  "quantum_jobs_submitted_this_change": 0,
+  "scientifically_verified": true,
+  "release_ready": false,
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Current bounded scientific coverage is accepted. Exact-source, scoring and release qualifications remain separate; this does not certify every result in the paper."
+}

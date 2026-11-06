@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "task_type": "autonomous_research",
+  "title": "Product formation and enantiomeric preference in a nickel-catalyzed benzothiazole–bicyclobutane reaction",
+  "category": "small-molecule homogeneous organic reaction chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "A connected molecular reaction account and an enantiomeric prediction must be supported by actual independent computation.",
+    "Catalyst/ligand model choices, ionic bookkeeping and stereochemical mapping require scientific judgment.",
+    "Evidence must support physical explanations without assuming a particular pathway, descriptor or unique computational method."
+  ],
+  "paper": {
+    "title": "Lewis acid catalyzed enantioselective dearomative (3+2) cycloaddition of aromatic N-heterocycles with bicyclobutanes",
+    "doi": "10.1016/j.cclet.2025.111963",
+    "journal": "Chinese Chemical Letters",
+    "publication_date": "2026-03-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "Neutral reactant/catalyst/ligand identities, reaction conditions, ordinary product connectivity and experimental yield/er for the single specified system."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Canonical structured research results with stable linked records and artifact mappings."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific report of actual investigations, evidence-supported conclusions, uncertainty and resource use."
+    },
+    {
+      "path": "research/",
+      "description": "Actual research inputs, outputs, logs and analysis code."
+    }
+  ]
+}

@@ -278,7 +278,7 @@ one complete Chemistry MCP server
 report/report.md + tool artifacts + JSONL traces
         │
         ▼
-dual-axis scientific LLM judge
+native Codex Judger → V3 final-outcome assessments and fixed-weight scoring
 ```
 
 The benchmark does **not** expose `run_ase`, `run_xtb`, `run_cp2k`, or other software/workflow runners. Agent CLIs own the reasoning loop; software packages are internal backends of scientifically named atomic actions.
@@ -293,6 +293,22 @@ Use `scripts/submit_evaluation.sh` for normal evaluations. It validates the
 task list, writes an immutable submission configuration, launches the run in a
 background `tmux` session, and provides status, stop, and summary commands.
 Model and judge credentials are read from the local `config.local.env`.
+
+The Judger uses its own Codex session and the `JUDGE_API_KEY`, `JUDGE_API_BASE`,
+and `JUDGE_MODEL_NAME` configuration, independently of the evaluated Agent.
+Linux Landlock confines evidence reads and keeps evidence outside the writable
+Judge session/scratch directories. The pinned CLI is installed by
+`scripts/ensure_eval_cli_versions.sh`. To grade an existing completed V3 run
+without rerunning research or overwriting its published score:
+
+```bash
+.envs/researchchembench/bin/python -m evaluation.scoring.cli \
+  --workspace /path/to/run --output-dir /path/to/new-judge-version
+```
+
+Use `--resume` with the same output directory to resume the native Judge, and
+`--publish` to publish its score. Historical API grading sessions cannot resume
+through this implementation; create a new scoring directory for them.
 
 Before submission, inspect the CPU affinity and available memory of the current
 server instead of relying on the repository defaults:
@@ -386,8 +402,8 @@ bash scripts/submit_evaluation.sh submit \
 ```
 
 The default per-task limits are 48 CPU cores, 204800 MiB memory, no GPU, a
-10800-second compute Action/job timeout, a 14000-second MCP tool timeout, and a
-14400-second Agent timeout. Override them explicitly when a different fixed
+86400-second (24-hour) walltime for every Action/job, an 86700-second MCP tool
+timeout, and a 90000-second Agent timeout. Override them explicitly when a different fixed
 evaluation budget is required:
 
 ```bash
@@ -395,10 +411,10 @@ bash scripts/submit_evaluation.sh submit \
   --available-cpu-cores 48 \
   --available-memory-mb 204800 \
   --available-gpu-count 0 \
-  --fast-action-timeout-seconds 240 \
-  --compute-action-timeout-seconds 10800 \
-  --mcp-tool-timeout-seconds 14000 \
-  --timeout-seconds 14400 \
+  --fast-action-timeout-seconds 86400 \
+  --compute-action-timeout-seconds 86400 \
+  --mcp-tool-timeout-seconds 86700 \
+  --timeout-seconds 90000 \
   --max-turns 600 \
   --workspaces-dir workspaces/fixed_budget_run \
   Electron_Isodensity_Reproduction_01_Method_Selection
@@ -511,4 +527,4 @@ surface.
 - MACE/CHGNet and other MLIP calculations require a reviewed model and may be expensive.
 - PubChem, RCSB, Catalysis-Hub, and Materials Project lookups require network access; Materials Project also needs `MP_API_KEY`.
 - Registered wrappers for unavailable/licensed software return structured `unavailable`; registration does not mean that backend is installed.
-- The initial judge is an LLM-based binary evaluator; deterministic chemistry scorers are future work.
+- Scoring uses Codex CLI 0.165.0 as a native Judger for `paper_science_v3` tasks. It reads frozen evidence directly; the framework validates citations and aggregates authored weights. Scientific judgments can still require review.

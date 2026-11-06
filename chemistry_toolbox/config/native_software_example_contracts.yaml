@@ -470,6 +470,17 @@ software:
           gpu_count: 0
   orca:
     commands:
+      orca_2json:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [input.gbw, -json]
+        inputs: [input.gbw, input.json.conf]
+        outputs: [input.json]
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 4096
+          gpu_count: 0
       orca:
         enabled: true
         example_kind: scientific_template

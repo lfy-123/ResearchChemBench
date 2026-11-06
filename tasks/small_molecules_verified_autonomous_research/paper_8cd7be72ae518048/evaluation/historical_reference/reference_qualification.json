@@ -1,0 +1,27 @@
+{
+  "paper_id": "paper_8cd7be72ae518048",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+  "strict_numeric_whole_pass": false,
+  "reason": "当前公开科学问题所需作者模型计算及核心结论完整，用户授权迁移科学分V2；数值/来源/模型边界保留专家裁定。不是严格数值全一致、盲测成绩或批准发布。",
+  "unblock_conditions": [],
+  "physical_definition": "G16；B3LYP-D3/def2-SVP气相Freq及M06-L/def2-TZVP SMD乙醚同几何SP；本态RRHO G修正，298.15K、1atm。阳离子+1/单重态，其余中性/单重态。Ph作者简化模型。",
+  "tolerance_policy": {
+    "numeric_rules": 0,
+    "rationale": "解释型题目，以有实际计算支持的科学命题评价；作者数值作为上下文，未为验证残差拟合窗口。"
+  },
+  "publication_review_pending": [
+    "九关键能量最大绝对偏差0.435870 kcal/mol；阳离子α正文17.1与图/SI17.5冲突并列。",
+    "Ph替代实验para-tBuPh；模型298.15K与实验名义100°C；来源标准态/自旋/数值设置未逐项公开。",
+    "作者条件到物种的映射与快速互变/不可逆插入是假设；未计算氧化、电离、完整释放循环、NPA/IGMH或全部可选模型。",
+    "中性碘进入成本与苯氧基/阳离子插入不可直接相加成全局周转势垒。"
+  ],
+  "verification_scope": "current_autonomous_research_scientific_question",
+  "independent_acceptance_review": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/parent_acceptance_review.json"
+}

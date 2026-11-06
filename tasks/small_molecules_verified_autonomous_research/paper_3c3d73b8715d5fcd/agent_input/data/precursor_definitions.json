@@ -1,0 +1,29 @@
+{
+  "representation": "text composition and known precursor connectivity; no active-species prescription",
+  "precursors": [
+    {
+      "id": "Rh_precursor",
+      "formula": "[Rh(CO)2Cl]2",
+      "total_charge": 0,
+      "initial_multiplicity": 1,
+      "composition": [
+        {
+          "element": "Rh",
+          "count": 2,
+          "formal_oxidation_state": 1
+        },
+        {
+          "identity": "CO",
+          "count": 4,
+          "smiles": "[C-]#[O+]"
+        },
+        {
+          "identity": "chloride",
+          "count": 2,
+          "smiles": "[Cl-]"
+        }
+      ],
+      "known_connectivity": "Each of the two Cl ligands bridges the two Rh centers; each Rh has two terminal CO ligands coordinated through carbon. This defines the starting precursor and does not prescribe the active species."
+    }
+  ]
+}

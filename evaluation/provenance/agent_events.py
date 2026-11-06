@@ -7,10 +7,13 @@ from pathlib import Path
 EVENT_VERSION = "agent-events-1"
 
 
-def normalize_agent_event(event):
+def normalize_agent_event(event, *, provider=None):
     """Keep the raw record at its source; normalize only observable fields."""
     if not isinstance(event, dict):
         return {"provider": "unknown", "kind": "unparsed", "raw": event}
+    if provider == "gemini" or event.get("_rcb_provider") == "gemini":
+        from .gemini_events import normalize_gemini_event
+        return normalize_gemini_event(event)
     from ..agent_plugins.protocol import normalize_external_event
     external = normalize_external_event(event)
     if external is not None:
@@ -132,8 +135,17 @@ def load_agent_events(workspace):
                 candidates.append({**value, "source": "model_io", "source_ref": "workspace/_model_io.jsonl",
                                    "line_number": number, "session_step_index": record.get("session_step_index")})
     session, invocation, turn = None, 0, 0
+    gemini = meta.get("agent_kind", meta.get("agent_key")) == "gemini"
+    gemini_tools = {}
     for number, record in _records(workspace / "_agent_output.jsonl"):
-        value = normalize_agent_event(record)
+        if gemini and isinstance(record, dict):
+            if record.get("type") == "tool_use":
+                gemini_tools[record.get("tool_id")] = record.get("tool_name")
+            elif record.get("type") == "tool_result":
+                record = {**record, "tool_name": gemini_tools.get(record.get("tool_id"), "unknown")}
+        if gemini and isinstance(record, dict) and record.get("tool_name") in meta.get("gemini_mcp_tool_names", []):
+            record = {**record, "_rcb_mcp": True}
+        value = normalize_agent_event(record, provider="gemini" if gemini else None)
         if value["kind"] == "session":
             session, invocation, turn = value.get("session_id"), invocation + 1, 0
         if value["kind"] == "turn" and value["phase"] == "started":

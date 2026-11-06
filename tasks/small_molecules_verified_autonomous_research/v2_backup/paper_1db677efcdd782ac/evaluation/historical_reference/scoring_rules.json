@@ -1,0 +1,424 @@
+{
+  "paper_id": "paper_1db677efcdd782ac",
+  "scoring_policy": "paper_science_v2",
+  "total_points": 100,
+  "scientific_requirements": "仅评价下列中间科学发现与最终科学结论，合计100分；每个叶子项满足全部条件得满分，否则0。无研究过程分、倍率、工具效率、资源投入、假设数、调用数、失败诊断或文风奖励。公开task.md保留的旧60分研究质量/40分解决程度及研究记录要求不另获分，现行评分以本文件为准。科学结果须有真实、相关、可定位的计算或原子后处理证据；复制作者数值、产物观察、正常退出、正确措辞或自报完成不能单独得分。身份、电荷/自旋、相对立体化学、物理定义及证据有效性是对应科学项成立的前提，不另计分。声称极小值须有适当驻点/身份检查；声称TS须有相关虚频和连接证据，允许科学等价连接检验，不强制全IRC、特定软件、构象数量或搜索顺序。不同方法可以接受，但须支持本项明确的物理命题且相容可比，不能用来源别列值或不同零点冒充同一目标；有支持的替代机制可解释同一观察关系。仅泛称模型不同或诚实未解决不自动得分。普通失败仅影响相关项，保留其他独立有效结果；伪造/隐藏答案泄漏按有效性规则处理。全部14条为semantic规则，来源数值及残差为非计分上下文，无精确数值窗；主文/SI冲突、方法依赖及电子能/热项歧义不由Judge临时造数值阈值解决。最终结论必须在最终交付中明确采用；只算出候选而未形成相应解释不得结论分。",
+  "comparison_policy": {
+    "numeric_rules_used": false,
+    "reason": "An open explanatory question has no unique numerical answer, author results are method/model dependent, and the original cis-Me B2 reaction-energy reports conflict. Use chemical/state-mapped semantic evidence and defensible comparisons, not invented numerical tolerances.",
+    "energy_conventions": "Frozen CR1-CR6 concern the reported molecular energy differences defined by the source as E(transition state)-E(reactant) and E(ring-opened product)-E(reactant), in kcal/mol. The article and SI do not unambiguously specify an electronic-only, zero-point-corrected or thermal energy convention for these tabulated differences; do not sharpen the frozen record's electronic-energy wording into a verified convention. These are not measured solution free energies or rates. Submitted conventions and corrections must be stated; compare like conventions only when their mapping is established, and never require identical energies across different methods/models. No numerical tolerance is imposed.",
+    "disputed_reference": "An unresolved original-source numerical discrepancy is preserved: Table 3 reports cis-methyl B2 ring-opening reaction energy -2.5 kcal/mol at M06-2X/def2-TZVP//M06-2X/cc-pVDZ, whereas the SI S50 table reports -0.8 kcal/mol for that same named method/model. Both give a 1.5 kcal/mol barrier; both disputed reaction energies have the same favorable sign. Neither value is selected as a corrected truth. The frozen CR3 remains unchanged. This prevents a unique exact-value calibration for that reaction energy, not the shared qualitative scientific problem or execution and critical assessment of the disclosed baseline. There is no numeric scoring target for this quantity.",
+    "uncertainty": "No publication error bars or rate/yield calibration are invented. Source-limited author interpretations remain conditional and do not become unique scoring targets."
+  },
+  "rules": [
+    {
+      "rule_id": "r_pyrrolyl_oxidation",
+      "reference_id": "pyrrolyl_oxidation",
+      "type": "semantic",
+      "expected": "对公开T_Pyr和T_Ph作物种及参照相容的实际分子比较，支持T_Pyr比T_Ph更易氧化。比较必须由实际电子结构或等价氧化可达性证据支持；不能把比较物结果当成S_H等N-cyclopropyl底物的实测绝对溶液电位。作者两种T_Pyr取向及约500 mV差仅作来源背景，不要求指定描述符、构象数量或精确数值。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_phenyl_oxidation_shift",
+      "reference_id": "phenyl_oxidation_shift",
+      "type": "semantic",
+      "expected": "对公开T_Ph和T_H作物种及参照相容的实际分子比较，支持苯基取代对氧化可达性的改变较小，未产生类似吡咯基的显著易氧化效应。须有实际相对氧化或等价电子结构证据，不能以分子名称或实验未给电位替代比较。作者小于100 mV为来源背景，不设精确数值窗；不得将比较物结果当成其它底物的绝对溶液电位。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_h_ring_opening",
+      "reference_id": "h_ring_opening",
+      "type": "semantic",
+      "expected": "在正确S_H分子骨架、电子态及闭环/开环参照下，实际计算支持其开环相对闭环能量上坡。作者自由基阳离子为参考模型，接受有实际证据支持同一环命运命题的等价模型；仅有闭环结构或观察到保环产物不足。该项不要求H的B1/B2全部构象、5.8或3.2 kcal/mol精确命中。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_cis_me_ring_opening",
+      "reference_id": "cis_me_ring_opening",
+      "type": "semantic",
+      "expected": "保留S_Mcis的正确相对立体化学，实际闭环/开环比较支持其开环能量有利。作者主M06-2X模型为参考，物种、参照和能量口径必须对应；不能把其他泛函或热修正下的近零值冒称同一目标。cis-Me B2主文−2.5与SI−0.8 kcal/mol并列保留，二者不是唯一精确靶值；B1/B2细排序不属于本项。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_trans_me_ring_opening",
+      "reference_id": "trans_me_ring_opening",
+      "type": "semantic",
+      "expected": "保留S_Mtrans的正确相对立体化学，实际闭环/开环比较支持其开环相对闭环能量上坡。作者主M06-2X模型为参考；来源其它泛函可改变符号，应按相容物理定义评估，不能通过混用方法构造上坡结果。此项不推断独立trans起始实验产物分布，也不设1.8或2.1 kcal/mol精确窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_methyl_closed_trans_stability",
+      "reference_id": "methyl_closed_trans_stability",
+      "type": "semantic",
+      "expected": "在同组成、同电荷/自旋和共同能量零点下，实际计算支持甲基体系trans闭环态比cis闭环态及所比较的相关开环态更稳定；cis/trans必须由分子相对立体化学识别，不能仅凭文件名。局部开环能之差不能代替跨异构体的共同参照比较；不把作者B1/B2标签或全部构象枚举作为额外配额。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_phenyl_open_preference",
+      "reference_id": "phenyl_open_preference",
+      "type": "semantic",
+      "expected": "保留S_Ptrans骨架及相对立体化学，实际结构/能量证据支持所检验分支的开环偏好，且闭环方向未形成受支持的稳定陷阱。作者缩短断裂C–C键时升能的剖面和闭环优化转为开环是参考；允许等价的物理检验。单个开环极小值不足以证明本项；有限剖面不等于全势能面无闭环极小值，也不是已计算完整双分子解离电子转移轨迹。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_aldehyde_connectivity",
+      "reference_id": "aldehyde_connectivity",
+      "type": "semantic",
+      "expected": "以实际开环分子证据及可核查的原子后处理，建立原环碳到醛羰基、相邻碳和末端碳的连接；所提水解或等价产物形成步骤须保持元素和电荷收支，氧来源须与含微量水的输入相容。作者亚胺鎓水解是参考，不强制特定标签或新水解势垒。只画产物或复述出现醛不足。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_deuterium_mapping",
+      "reference_id": "deuterium_mapping",
+      "type": "semantic",
+      "expected": "从公开S_HD4的N邻位C2/C6标记出发，通过实际原子/同位素映射检验，把底物D纳入CH2DCH2CHO的末端碳并保持同位素收支；不能错误地把D初始放在环丙基或醛羰基上。该项检验标签位置及映射相容性，不声称已经得到H/D转移势垒、唯一转移路径或精确同位素比例。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_light_dependence_account",
+      "reference_id": "light_dependence_account",
+      "type": "semantic",
+      "expected": "最终采用由实际氧化比较支持的分子解释，将T_Pyr较易氧化、T_Ph与T_H接近的关系与公开光/暗观察联系：N-cyclopropyl体系需要更强氧化能力，与光激发黄素背景相容。新增结论是比较物与反应条件的联系；仅复述氧化排序或光照事实不足。不把气相相对电离能当成底物绝对溶液电位，不要求新算黄素激发态或完整光循环。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_nonuniversal_ring_fate",
+      "reference_id": "nonuniversal_ring_fate",
+      "type": "semantic",
+      "expected": "最终整合H、甲基立体异构体与Ph的实际环反应证据，说明开环可达性和闭环稳定性依赖取代基/立体化学，不能普遍假定这些N-cyclopropyl探针一经氧化都快速且不可逆开环。所比较模型内cis-Me开环较H及trans-Me易达，Ph已检验分支更偏好开环；须有支持相对可达性的实际比较，不能仅用反应能当势垒。此结论不要求精确速率、B1/B2细序或把来源方法依赖趋势提升为普适定律。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_cis_trans_interconversion",
+      "reference_id": "cis_trans_interconversion",
+      "type": "semantic",
+      "expected": "最终将实际甲基开环证据、共同参照下trans闭环较稳定的结果与公开cis起始后出现trans的观察连接，支持开环后可进入更稳定trans闭环态的相容解释；允许有证据支持同一转化关系的替代路线。新增结论是对观察到的异构化的解释；仅列能量排序不足。不把该解释称为已求得独立异构化势垒、速率或平衡比例，不新增trans起始产物分布目标。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_retained_phenyl_product",
+      "reference_id": "retained_phenyl_product",
+      "type": "semantic",
+      "expected": "最终把S_Ptrans的实际开环偏好与仍观察到保环吡啶鎓产物联系，给出原子/电子收支相容且有实际证据支撑的保环生成解释。作者由另一中性底物N邻位供H后形成自由基、再氧化而保留环的途径为条件化参考；不要求唯一途径或完整后续氧化势垒。新增结论是不同分子角色使开环倾向与保环产物并存，不能把保环产物量直接当初始自由基阳离子开环/去质子化速率比。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    },
+    {
+      "rule_id": "r_isotope_provenance_account",
+      "reference_id": "isotope_provenance_account",
+      "type": "semantic",
+      "expected": "最终依据实际开环与H/D原子映射，采用能够解释底物标签进入醛末端、同时容纳未标记醛的氢来源解释；底物供H/D与另一相容H来源可以并存。作者底物转移/歧化是条件化参考，接受有证据的等价来源解释。新增结论是标签与产物混合观察对氢来源的约束；仅声明映射守恒不足。不把谱图50:50模拟当必达比例，也不把分子内或分子间H转移定为唯一已证实动力学。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对真实物种、电子态、参照和可定位原生证据，仅判断本项科学命题；全部条件满足得满分，否则0；不临时给比例分或过程分。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "pyrrolyl_oxidation",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "氧化比较：吡咯基对照比苯基对照更易氧化",
+      "rule_ids": [
+        "r_pyrrolyl_oxidation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_OXIDATION",
+        "V2_SI_REDOX"
+      ]
+    },
+    {
+      "id": "phenyl_oxidation_shift",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "氧化比较：苯基对照与无取代对照接近",
+      "rule_ids": [
+        "r_phenyl_oxidation_shift"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_OXIDATION",
+        "V2_SI_REDOX"
+      ]
+    },
+    {
+      "id": "h_ring_opening",
+      "kind": "intermediate",
+      "max_score": 7,
+      "description": "H取代体系的开环在所比较模型内不利",
+      "rule_ids": [
+        "r_h_ring_opening"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING"
+      ]
+    },
+    {
+      "id": "cis_me_ring_opening",
+      "kind": "intermediate",
+      "max_score": 7,
+      "description": "cis-Me开环在相容参考模型内有利",
+      "rule_ids": [
+        "r_cis_me_ring_opening"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING"
+      ]
+    },
+    {
+      "id": "trans_me_ring_opening",
+      "kind": "intermediate",
+      "max_score": 7,
+      "description": "trans-Me开环在相容参考模型内不利",
+      "rule_ids": [
+        "r_trans_me_ring_opening"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING"
+      ]
+    },
+    {
+      "id": "methyl_closed_trans_stability",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "甲基体系trans闭环态低于cis闭环态及相关开环态",
+      "rule_ids": [
+        "r_methyl_closed_trans_stability"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_STEREO",
+        "V2_SI_RING"
+      ]
+    },
+    {
+      "id": "phenyl_open_preference",
+      "kind": "intermediate",
+      "max_score": 9,
+      "description": "Ph取代体系在已检验分支偏好开环",
+      "rule_ids": [
+        "r_phenyl_open_preference"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_PHENYL"
+      ]
+    },
+    {
+      "id": "aldehyde_connectivity",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "环碳骨架与醛生成的原子连接相容",
+      "rule_ids": [
+        "r_aldehyde_connectivity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_PRODUCTS"
+      ]
+    },
+    {
+      "id": "deuterium_mapping",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "底物N邻位D可映射到醛末端碳",
+      "rule_ids": [
+        "r_deuterium_mapping"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_ISOTOPE",
+        "V2_SI_ISOTOPE"
+      ]
+    },
+    {
+      "id": "light_dependence_account",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：氧化比较与光依赖性构成相容解释",
+      "rule_ids": [
+        "r_light_dependence_account"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_OXIDATION",
+        "V2_SI_REDOX"
+      ]
+    },
+    {
+      "id": "nonuniversal_ring_fate",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "最终：取代基与立体效应否定统一快速不可逆开环假设",
+      "rule_ids": [
+        "r_nonuniversal_ring_fate"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_MAIN_STEREO",
+        "V2_SI_RING"
+      ]
+    },
+    {
+      "id": "cis_trans_interconversion",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：开环与更稳定trans闭环态解释cis→trans转化",
+      "rule_ids": [
+        "r_cis_trans_interconversion"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_STEREO",
+        "V2_SI_RING"
+      ]
+    },
+    {
+      "id": "retained_phenyl_product",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "最终：Ph保环产物可与其开环偏好并存",
+      "rule_ids": [
+        "r_retained_phenyl_product"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_PRODUCTS",
+        "V2_MAIN_STEREO"
+      ]
+    },
+    {
+      "id": "isotope_provenance_account",
+      "kind": "conclusion",
+      "max_score": 6,
+      "description": "最终：底物供氢解释醛标签而不指定唯一H转移历史",
+      "rule_ids": [
+        "r_isotope_provenance_account"
+      ],
+      "evidence_ids": [
+        "V2_MAIN_ISOTOPE",
+        "V2_MAIN_PRODUCTS",
+        "V2_SI_ISOTOPE"
+      ]
+    }
+  ]
+}

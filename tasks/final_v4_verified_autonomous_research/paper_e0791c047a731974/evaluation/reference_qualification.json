@@ -1,0 +1,366 @@
+{
+  "paper_id": "paper_e0791c047a731974",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "accepted_limitations": "历史验收为USER_ACCEPTED_DEVIATION，非独立严格通过。Cy1固定源S1/T2残差−0.0112/−0.0196 eV不能通过原硬窗；人口分区和精确跃迁百分比未唯一恢复，不能按论文数字回填本地结果。电子绝热口径来自四物种一致性，原文未明说ZPE。没有分子SOC/ISC速率或唯一S1→T2认证；IR780/Cy1约0.02 eV裕量不证明真实转移自由能、跨方法稳健放能或UC效率。",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "13个最终能量均保留原目标/单位/容差：四个电子绝热T1为1.01993/1.01826/1.08974/0.99675 eV（IR780/Cy1/Cy2/rubrene），对目标1.02/1.02/1.09/1.00±0.01均在窗内。九个垂直能来自response_audit：IR780 S1/T1/T2=1.9389/0.9499/2.1355，Cy1=1.9038/0.9427/2.1011，Cy2=1.8909/1.0555/2.1220 eV；Cy1 S1/T2超原±0.005窗，其余七项在窗内。Cy1固定源几何控制=1.9040/0.9435/2.0995，S1/T2仍超窗，不以替换几何隐藏。T2−S1约0.1966/0.1973/0.2311 eV支持gap-only解释不足。完整XY同分区Mulliken的Cy1/Cy2成对空穴贡献S1=3.27756/15.45674%、T1=0.91660/10.52771%、T2=5.83567/15.19898%，仅作电子解释证据，不等于SOC或ISC速率。匹配电子能的供体减rubrene=+0.0231819/+0.0215130/+0.0929941 eV；一致加ZPVE后+0.0334678/+0.0294316/+0.0979738，支持有条件相容性及Cy2相对裕量。",
+  "historical_qualification": {
+    "paper_id": "paper_e0791c047a731974",
+    "scoring_policy": "paper_science_v2",
+    "status": "USER_ACCEPTED_DEVIATION",
+    "formal_scoring_permitted": true,
+    "current_scope_verified": true,
+    "release_ready": false,
+    "acceptance_class": "USER_ACCEPTED_DEVIATION",
+    "reason": "2026-10-19 round3 authorized scoring-contract repairs. Historical scientific acceptance class is unchanged; no new chemical validation or online Judge calibration. Active rules and mode-specific scope supersede earlier scoring migration wording.",
+    "retained_limitations": [
+      "USER_ACCEPTED_DEVIATION preserved;not upgraded to independent strict.",
+      "Cy1~.01-.02eV vertical andI-hole~.51percentage-point residuals remain;strict numeric leaves may fail for accepted reference results.",
+      "Unique population partition/transition percentage normalization unknown;do not relabel experimental7/9/23%triplet yields as hole contributions.",
+      "Electronic adiabatic convention supported by four-species coherence;source did not explicitly specify ZPE,so both electronic andZPE versions retained.",
+      "No molecular SOC/ISC rate oruniqueS1-to-T2mechanism certified;~.02eV margins do not ensure actual cross-method exergonicity orUC efficiency."
+    ],
+    "tolerance_policy": {
+      "status": "provisional_source_fidelity_policy_not_cross_method_accuracy",
+      "rationale": "Adiabatic four-species gaps±.01eV match paper hundredth-eV precision with minor numerical repeatability,not ZPE substitution. Vertical states use common±.005eV for same-geometry TD numerical comparison;Cy1 S1/T2 source discrepancies remain outside,deliberately not hidden with wider windows. Those historical user-accepted deviations preserve package qualification but do not guarantee100points for reference values. No exact population-percent gates because source partition/normalization unrecovered;actual relative participation can earn independent semantic points. These windows are fixed ex ante to future submissions, not calibrated from historical agent scores, and are not a claim that they predated the archived chemistry runs. Their narrow numerical role is source-observable fidelity after physical comparability is established. Software substitution is allowed; changing method does not create a larger window or a fitted energy offset. A comparable result outside the numeric window can still earn independently evidenced structural, trend and final-inference leaves. Source-model labels specify the physical reference rather than mandate a tool sequence. Round3: source precision and repeated source-route evidence do not establish cross-method fairness. No tolerance was widened to erase an observed residual. Semantic physical-equivalence rules are independent; remaining cross-method numerical calibration is explicitly unresolved."
+    },
+    "verification_status_record": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+    "independently_strict_without_deviation_authorization": false,
+    "prior_user_accepted_numerical_deviation_applies": true,
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_e0791c047a731974",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "round3_repair": {
+      "date": "2026-10-19",
+      "mode": "autonomous_research",
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_05/REPORT.md",
+      "changes": [
+        "Removed B3LYP-only wording from three donor/rubrene sign leaves (13 points) and clarified actual method-equivalence criteria.",
+        "No numeric targets or tolerances were widened. Historical Cy1 residual/user acceptance remains qualification metadata, not a submitter obligation.",
+        "Audited every existing leaf for scientific role, source/verification support and physical definitions; retained unproven narrow-window risks as explicit provisional calibration limits rather than inventing wider tolerances."
+      ],
+      "no_new_chemistry": true,
+      "online_judge_calibration_performed": false,
+      "historical_acceptance_unchanged": true
+    }
+  },
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_sensitization_electronic_account",
+      "r_energy_gap_explanation",
+      "r_IR780_rubrene_matching",
+      "r_Cy1_rubrene_matching",
+      "r_Cy2_rubrene_matching"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_reason": "31条改为18条最终命题/100分：四个绝热物性、九个垂直能级、电子解释、gap-only解释判断和三个供受体适用性结论。九个态字符与三个重元素人口节点退为非评分证据，原rubrene总括项并入三个逐供体结论去重。保持原能量硬窗，未以历史偏差接受替代严格数值判定。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "三敏化剂九垂直能级及电子/重元素解释",
+      "rule_id": "r_sensitization_electronic_account",
+      "conclusion_id": "sensitization_electronic_account",
+      "independence": "态图是参与机制的证据，不独立奖励能量列；不同于gap-only解释和供受体相容性。",
+      "source_locator": "正文pp4–6 Fig3/4；SIpp7–8方法、pp11–12 TablesS2/S3、pp23–24重元素/轨道；8端点/6TD/7稳定性日志",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_seven_own_endpoints_audit_v2_a01/endpoint_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_six_response_readback_strict_v1_a01/cyanine_response_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_response_basis_xy_repair_20261002_a01/cyanine_full_XY_closeout.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_e0791c047a731974/cases/cy1_si_s0_fixed_analysis_20261006_a01/output/Cy1_fixed_source_comparison.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/compute_first_20261009T035336Z/papers/paper_e0791c047a731974/NATIVE_VALIDITY_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_singlets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_triplets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_s0_full_si_tdroute_20260915/stdout.log"
+      ],
+      "existing_support": "电子绝热T1=1.01992766/1.01825878/1.08973983/rubrene .99674573eV；裕量+.02318192/.02151305/.09299410。Cy2 T2−S1 .2311大于其余.1966/.1973，Se参与更大。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；Cy1垂直S1/T2偏差与固定源几何控制残差仍完整记录，13能量硬窗已取消，没有宣称偏差解释或严格复现。",
+        "完整XY人口较源不完全一致；原文UDFT绝热与SI激发优化措辞、ZPE未明均保留。原生日志位移NO与主优化记录分开，不声称全局唯一构象。",
+        "IR780/Cy1约0.02eV小裕量及rubrene模型对实验约−0.14325eV偏差使真实转移稳健性未认证。不能假定误差抵消；无直接SOC/ISC率/唯一S1→T2路线或UC效率证据。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_full_xy",
+        "native_cy1_fixed",
+        "native_response"
+      ],
+      "previous_rule_ids": [
+        "r_sensitization_electronic_account",
+        "r_IR780_S1_vertical",
+        "r_IR780_T1_vertical",
+        "r_IR780_T2_vertical",
+        "r_Cy1_S1_vertical",
+        "r_Cy1_T1_vertical",
+        "r_Cy1_T2_vertical",
+        "r_Cy2_S1_vertical",
+        "r_Cy2_T1_vertical",
+        "r_Cy2_T2_vertical"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "相对单/三重能隙能否单独解释敏化差别",
+      "rule_id": "r_energy_gap_explanation",
+      "conclusion_id": "energy_gap_explanation",
+      "independence": "跨观察与能隙的解释检验，不重复电子参与幅度。",
+      "source_locator": "正文pp4–6 Fig3/4；SIpp7–8方法、pp11–12 TablesS2/S3、pp23–24重元素/轨道；8端点/6TD/7稳定性日志",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_seven_own_endpoints_audit_v2_a01/endpoint_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_six_response_readback_strict_v1_a01/cyanine_response_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_response_basis_xy_repair_20261002_a01/cyanine_full_XY_closeout.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_e0791c047a731974/cases/cy1_si_s0_fixed_analysis_20261006_a01/output/Cy1_fixed_source_comparison.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/compute_first_20261009T035336Z/papers/paper_e0791c047a731974/NATIVE_VALIDITY_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_singlets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_triplets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_s0_full_si_tdroute_20260915/stdout.log"
+      ],
+      "existing_support": "电子绝热T1=1.01992766/1.01825878/1.08973983/rubrene .99674573eV；裕量+.02318192/.02151305/.09299410。Cy2 T2−S1 .2311大于其余.1966/.1973，Se参与更大。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；Cy1垂直S1/T2偏差与固定源几何控制残差仍完整记录，13能量硬窗已取消，没有宣称偏差解释或严格复现。",
+        "完整XY人口较源不完全一致；原文UDFT绝热与SI激发优化措辞、ZPE未明均保留。原生日志位移NO与主优化记录分开，不声称全局唯一构象。",
+        "IR780/Cy1约0.02eV小裕量及rubrene模型对实验约−0.14325eV偏差使真实转移稳健性未认证。不能假定误差抵消；无直接SOC/ISC率/唯一S1→T2路线或UC效率证据。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_response"
+      ],
+      "previous_rule_ids": [
+        "r_energy_gap_explanation"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "IR780及rubrene电子绝热T1、带符号差与条件相容性",
+      "rule_id": "r_IR780_rubrene_matching",
+      "conclusion_id": "IR780_rubrene_matching",
+      "independence": "每个供体的能量允许性单独成立；共享rubrene参考不重复独立奖励。",
+      "source_locator": "正文pp4–6 Fig3/4；SIpp7–8方法、pp11–12 TablesS2/S3、pp23–24重元素/轨道；8端点/6TD/7稳定性日志",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_seven_own_endpoints_audit_v2_a01/endpoint_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_six_response_readback_strict_v1_a01/cyanine_response_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_response_basis_xy_repair_20261002_a01/cyanine_full_XY_closeout.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_e0791c047a731974/cases/cy1_si_s0_fixed_analysis_20261006_a01/output/Cy1_fixed_source_comparison.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/compute_first_20261009T035336Z/papers/paper_e0791c047a731974/NATIVE_VALIDITY_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_singlets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_triplets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_s0_full_si_tdroute_20260915/stdout.log"
+      ],
+      "existing_support": "电子绝热T1=1.01992766/1.01825878/1.08973983/rubrene .99674573eV；裕量+.02318192/.02151305/.09299410。Cy2 T2−S1 .2311大于其余.1966/.1973，Se参与更大。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；Cy1垂直S1/T2偏差与固定源几何控制残差仍完整记录，13能量硬窗已取消，没有宣称偏差解释或严格复现。",
+        "完整XY人口较源不完全一致；原文UDFT绝热与SI激发优化措辞、ZPE未明均保留。原生日志位移NO与主优化记录分开，不声称全局唯一构象。",
+        "IR780/Cy1约0.02eV小裕量及rubrene模型对实验约−0.14325eV偏差使真实转移稳健性未认证。不能假定误差抵消；无直接SOC/ISC率/唯一S1→T2路线或UC效率证据。"
+      ],
+      "evidence_ids": [
+        "main",
+        "native_response",
+        "native_endpoints",
+        "native_validity",
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_IR780_rubrene_matching",
+        "r_IR780_adiabatic_T1",
+        "r_rubrene_adiabatic_T1"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "Cy1及rubrene电子绝热T1、带符号差与条件相容性",
+      "rule_id": "r_Cy1_rubrene_matching",
+      "conclusion_id": "Cy1_rubrene_matching",
+      "independence": "每个供体的能量允许性单独成立；共享rubrene参考不重复独立奖励。",
+      "source_locator": "正文pp4–6 Fig3/4；SIpp7–8方法、pp11–12 TablesS2/S3、pp23–24重元素/轨道；8端点/6TD/7稳定性日志",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_seven_own_endpoints_audit_v2_a01/endpoint_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_six_response_readback_strict_v1_a01/cyanine_response_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_response_basis_xy_repair_20261002_a01/cyanine_full_XY_closeout.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_e0791c047a731974/cases/cy1_si_s0_fixed_analysis_20261006_a01/output/Cy1_fixed_source_comparison.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/compute_first_20261009T035336Z/papers/paper_e0791c047a731974/NATIVE_VALIDITY_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_singlets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_triplets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_s0_full_si_tdroute_20260915/stdout.log"
+      ],
+      "existing_support": "电子绝热T1=1.01992766/1.01825878/1.08973983/rubrene .99674573eV；裕量+.02318192/.02151305/.09299410。Cy2 T2−S1 .2311大于其余.1966/.1973，Se参与更大。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；Cy1垂直S1/T2偏差与固定源几何控制残差仍完整记录，13能量硬窗已取消，没有宣称偏差解释或严格复现。",
+        "完整XY人口较源不完全一致；原文UDFT绝热与SI激发优化措辞、ZPE未明均保留。原生日志位移NO与主优化记录分开，不声称全局唯一构象。",
+        "IR780/Cy1约0.02eV小裕量及rubrene模型对实验约−0.14325eV偏差使真实转移稳健性未认证。不能假定误差抵消；无直接SOC/ISC率/唯一S1→T2路线或UC效率证据。"
+      ],
+      "evidence_ids": [
+        "main",
+        "native_response",
+        "native_endpoints",
+        "native_validity",
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_Cy1_rubrene_matching",
+        "r_Cy1_adiabatic_T1",
+        "r_rubrene_adiabatic_T1"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "Cy2及rubrene电子绝热T1、带符号差与条件相容性",
+      "rule_id": "r_Cy2_rubrene_matching",
+      "conclusion_id": "Cy2_rubrene_matching",
+      "independence": "每个供体的能量允许性单独成立；共享rubrene参考不重复独立奖励。本项另比较三裕量大小。",
+      "source_locator": "正文pp4–6 Fig3/4；SIpp7–8方法、pp11–12 TablesS2/S3、pp23–24重元素/轨道；8端点/6TD/7稳定性日志",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_seven_own_endpoints_audit_v2_a01/endpoint_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_six_response_readback_strict_v1_a01/cyanine_response_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cyanine_response_basis_xy_repair_20261002_a01/cyanine_full_XY_closeout.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_e0791c047a731974/cases/cy1_si_s0_fixed_analysis_20261006_a01/output/Cy1_fixed_source_comparison.json",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/compute_first_20261009T035336Z/papers/paper_e0791c047a731974/NATIVE_VALIDITY_READBACK.json",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy1_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/cy2_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_singlet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_s0_triplet6_strict_v1_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/ir780_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_s0_optfreq_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_endpoint_stability_v2_a01/stdout.log",
+        "docs/upgrade_tasks_verification/group_5/papers/paper_e0791c047a731974/v2_execution_20260929/outputs/rubrene_source_udft_t_optfreq_v2_a01/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_singlets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_triplets_td6_20260915/stdout.log",
+        "docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_s0_full_si_tdroute_20260915/stdout.log"
+      ],
+      "existing_support": "电子绝热T1=1.01992766/1.01825878/1.08973983/rubrene .99674573eV；裕量+.02318192/.02151305/.09299410。Cy2 T2−S1 .2311大于其余.1966/.1973，Se参与更大。",
+      "limits": [
+        "历史USER_ACCEPTED_DEVIATION保持；Cy1垂直S1/T2偏差与固定源几何控制残差仍完整记录，13能量硬窗已取消，没有宣称偏差解释或严格复现。",
+        "完整XY人口较源不完全一致；原文UDFT绝热与SI激发优化措辞、ZPE未明均保留。原生日志位移NO与主优化记录分开，不声称全局唯一构象。",
+        "IR780/Cy1约0.02eV小裕量及rubrene模型对实验约−0.14325eV偏差使真实转移稳健性未认证。不能假定误差抵消；无直接SOC/ISC率/唯一S1→T2路线或UC效率证据。"
+      ],
+      "evidence_ids": [
+        "main",
+        "native_response",
+        "native_endpoints",
+        "native_validity",
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_Cy2_rubrene_matching",
+        "r_Cy2_adiabatic_T1",
+        "r_rubrene_adiabatic_T1"
+      ],
+      "no_new_computation": true
+    }
+  ],
+  "objective_issue_flags": [
+    {
+      "issue": "历史USER_ACCEPTED_DEVIATION保持；Cy1垂直S1/T2偏差与固定源几何控制残差仍完整记录，13能量硬窗已取消，没有宣称偏差解释或严格复现。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "完整XY人口较源不完全一致；原文UDFT绝热与SI激发优化措辞、ZPE未明均保留。原生日志位移NO与主优化记录分开，不声称全局唯一构象。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "IR780/Cy1约0.02eV小裕量及rubrene模型对实验约−0.14325eV偏差使真实转移稳健性未认证。不能假定误差抵消；无直接SOC/ISC率/唯一S1→T2路线或UC效率证据。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+{
+  "paper_id": "paper_6d19b537a0030e5a",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价当前任务范围内的科学发现与最终结论，总分100。各叶子项满足全部条件得满分，否则0，不临时给部分分。真实、可定位且物理身份/参照/单位相容的计算证据是结果成立前提，不是单独过程奖励。普通失败只影响有关项；不按假设数、工具序列、计算次数、资源投入、失败诊断或写作完整度给分。作者结果是参照，不以验证值替换目标；未设numeric规则的上下文数字不形成隐藏硬阈值，必须有对应科学方向/关系的实际证据。允许物理可比的替代方法和等价解释，不强制复刻搜索流程。未解决或与该项科学结果矛盾的内容不得仅因合理讨论获得该项分。最终结论必须在最终交付中明确采用；定量与独立定性分别计分，数值落窗不替代正确方向。公开材料及历史协议中的旧研究质量分或60/40分配不参与本轮评分，现行唯一计分清单为scientific_rubric。",
+  "rules": [
+    {
+      "rule_id": "r_precursor_activation",
+      "reference_id": "precursor_activation",
+      "type": "semantic",
+      "expected": "在指定C_A/Fe4模型中，实际结构、反应模式和配平能量支持Me3NO辅助CO脱除通向可继续活化H2的铁物种。作者TS1相对Fe4+Me3NO为12.2 kcal/mol作参照；不以第二催化剂Fe9或转移氢化替代。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_hydrogen_activation",
+      "reference_id": "hydrogen_activation",
+      "type": "semantic",
+      "expected": "实际反应证据支持H–H断裂形成能向底物供氢的Int-H，并区分相关单重态与三重态中间体。作者3Int2低于1Int2及单重态H2断裂为参考；不得将自旋能序当作已计算的跃迁速率或MECP动力学。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_turnover_comparison",
+      "reference_id": "turnover_comparison",
+      "type": "semantic",
+      "expected": "在统一定义下的实际比较支持H2活化跨度大于前体活化和向底物供氢的跨度。作者H2相对3Int2为27.0，前体12.2，供氢相对Int-H+底物13.7/15.9 kcal/mol；不得混用局部与总体零点或实验收率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_stereo_competition",
+      "reference_id": "stereo_competition",
+      "type": "semantic",
+      "expected": "两条物理可比的协同供氢路径均有正确反应模式和产物构型映射，实际能量支持所给C_A下S产物路径低于R。作者TSS/TSR为13.7/15.9 kcal/mol、差2.2作参考。构型按完整结构/CIP核对，不能只靠同一攻击面或TS名称。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_release_regeneration",
+      "reference_id": "release_regeneration",
+      "type": "semantic",
+      "expected": "配平的独立能量与结构连接支持供氢后释放醇并返回相应铁物种，单重态释放及随后较低三重态再生方向有利。参考1Int1+2a相对1Int3为−5.4、3Int1−1Int1为−3.1 kcal/mol。不能用稳定的孤立产物替代配平释放比较；不强制全自旋交叉速率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_catalyst_organization",
+      "reference_id": "catalyst_organization",
+      "type": "semantic",
+      "expected": "实际前体、Int-H及供氢竞争结构显示指定催化剂侧臂的非等价环境及其与底物接近方式的关系。作者b1/b2/b3=2.969/3.399/1.786 Å与供氢接触为参考，接受相容结构证据；需实际几何，不以画示意图、接触距离或NCI颜色单独宣称唯一稳定化因果。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_substitution_comparison",
+      "reference_id": "substitution_comparison",
+      "type": "semantic",
+      "expected": "同一Fe4骨架、匹配反应和热化学定义下，实际两个对映形成比较支持SiMe3换为tBu后辨别能差减小。作者silyl差2.2，tBu图示差1.3作为参考；不得换催化剂或把不同组成裸总能直接相减。接触由2.354至2.614 Å是关联证据，不单独证明原子半径因果。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_connected_answer",
+      "reference_id": "connected_answer",
+      "type": "semantic",
+      "expected": "最终将前体活化、H2活化、底物供氢、产物释放及返回铁物种组成有实际证据支持的相连氢化解释。保持C_A、H2来源和元素/电荷配平；不把缺少自旋速率的条件路线说成完整实验动力学。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_turnover_answer",
+      "reference_id": "turnover_answer",
+      "type": "semantic",
+      "expected": "最终依据相容跨度比较，采用H2活化较困难的作者条件模型，区分该模型瓶颈与尚未计算的自旋跃迁动力学或实验速率律。仅重复27.0或“限速”一词不足，须与供氢/释放路线联系。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_enantio_answer",
+      "reference_id": "enantio_answer",
+      "type": "semantic",
+      "expected": "最终用已计算的手性环境、供氢结构和竞争能量解释S路径偏好，将组织关系联系到反应而非仅罗列距离。保持完整产物构型；不将单构型差称为精确实验e.r.或将一个接触当作唯一原因。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_substitution_answer",
+      "reference_id": "substitution_answer",
+      "type": "semantic",
+      "expected": "最终把同C_A的SiMe3/tBu竞争比较与已计算结构变化联系起来，解释为何取代后对映辨别减弱。保留tBu仍有较长接触的来源事实；不能声称接触绝对消失或已证明唯一原子半径因果。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "precursor_activation",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Me3NO辅助前体活化",
+      "rule_ids": [
+        "r_precursor_activation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "hydrogen_activation",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "H2活化及相关电子态",
+      "rule_ids": [
+        "r_hydrogen_activation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "turnover_comparison",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "H2活化相对供氢更困难",
+      "rule_ids": [
+        "r_turnover_comparison"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "stereo_competition",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "供氢连接与主底物对映竞争",
+      "rule_ids": [
+        "r_stereo_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "release_regeneration",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "产物释放和铁物种返回",
+      "rule_ids": [
+        "r_release_regeneration"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "catalyst_organization",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "手性环境在反应结构中的组织",
+      "rule_ids": [
+        "r_catalyst_organization"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "substitution_comparison",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "同一C_A中的SiMe3/tBu比较",
+      "rule_ids": [
+        "r_substitution_comparison"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "connected_answer",
+      "kind": "conclusion",
+      "max_score": 12,
+      "description": "最终：完整的当前氢化路线解释",
+      "rule_ids": [
+        "r_connected_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "turnover_answer",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "最终：周转控制的条件解释",
+      "rule_ids": [
+        "r_turnover_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "enantio_answer",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：催化剂组织与S偏好的联系",
+      "rule_ids": [
+        "r_enantio_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "substitution_answer",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：取代导致辨别减弱的解释",
+      "rule_ids": [
+        "r_substitution_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

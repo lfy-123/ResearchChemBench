@@ -1,0 +1,158 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "total_points": 100,
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+  "semantic_review_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+  "rules": [
+    {
+      "rule_id": "r_sulfone_formation_explanation",
+      "reference_id": "sulfone_formation_explanation",
+      "type": "semantic",
+      "expected": "Explain with actual computed molecular and energetic evidence how the specified system can create the target carbon skeleton and the organic/aryl sulfur connectivity, preserving CF2H, sulfur/oxygen and leaving-group inventories. Interpret what the computed states and energies establish about the proposed conversion and its limits; merely listing carbon addition, SO2 capture and substitution structures is not a final explanation. The source radical-addition/SO2-capture/reduction/aryl-substitution account is supporting context, and another physically supported route to the same net transformation passes without reproducing that sequence. Distinguish local molecular formation evidence from a full photoredox cycle or proof of experimental 30 C/48 h kinetics. Evaluator-only context: the existing reference has a connected late-substitution barrier of 28.382461 versus source 21.7 kcal/mol and a positive local reaction energy; it does not validate the experimental timescale. The solver need only interpret its own valid computed quantities and appropriate kinetic scope, and need not know or explain this private reference discrepancy.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_butadiene_regio_explanation",
+      "reference_id": "butadiene_regio_explanation",
+      "type": "semantic",
+      "expected": "Explain the observed butadiene 1,4 preference with actual comparable calculations of the competing 1,4 and 1,2 formation processes and a supported molecular reason for the energy ordering. Report their computed free-energy difference and common reference. The source SO2-capture competition is one accepted model; a population descriptor or lack of detected byproduct alone is insufficient. Evaluator-only context: source prose gives 4.4 kcal/mol while SI absolute energies give about 3.049696. The evaluator must not conflate these or use either as a hidden hard target. This is not information the solver must disclose; assess its own correctly defined comparable result. No exact branching ratio or detection limit is required.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_butadiene_geometry_explanation",
+      "reference_id": "butadiene_geometry_explanation",
+      "type": "semantic",
+      "expected": "Explain E over Z formation using actual energy and structural comparisons with a stated treatment of the relevant precursor populations/interconversion. Report the comparative quantity and its reference: the source local-barrier difference about 1.3 kcal/mol uses distinct Int2-a/b precursors and is not the absolute transition-state gap. Evaluator-only context: existing local-gap/absolute-TS-gap/precursor-gap values are 1.362990/2.754121/1.391131 kcal/mol. They are neither solver targets nor mandatory disclosures; require the solver to distinguish these physical quantities in its own model. A supported equivalent formation explanation passes. Do not turn the supplied 74%/7% isolated yields into elementary rates or infer an exact E/Z ratio or independently proven rapid equilibration from two local barriers alone.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_phenyl_regio_reversal",
+      "reference_id": "phenyl_regio_reversal",
+      "type": "semantic",
+      "expected": "For the actual terminal-phenyl diene, compute and interpret competing 1,2 and 1,4 formation energetics under the stated DMF-related model, explaining why 1,2 is favored and contrasting it with butadiene. Report the numerical gap; the source approximately 3.1 kcal/mol is contextual. Retain terminal phenyl identity and the E alkene; do not assign an unprovided absolute stereocenter. Source distortion/interaction analysis is a possible explanation, not an obligatory decomposition. A supported equivalent molecular explanation passes. Because solvent, base, illumination and substrate conditions differ, do not claim a controlled substituent-only causal experiment.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "sulfone_formation_explanation",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "A connected molecular and energetic account explains formation of the target sulfone",
+      "rule_ids": [
+        "r_sulfone_formation_explanation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "butadiene_regio_explanation",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Computed formation competition explains butadiene 1,4 preference",
+      "rule_ids": [
+        "r_butadiene_regio_explanation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "butadiene_geometry_explanation",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Formation energetics support the observed E preference within explicit interconversion assumptions",
+      "rule_ids": [
+        "r_butadiene_geometry_explanation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "phenyl_regio_reversal",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "The terminal-phenyl system reverses the favored regiochemistry under its specified conditions",
+      "rule_ids": [
+        "r_phenyl_regio_reversal"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "package_version": "conclusion_only_20261029",
+  "scoring_revision": "conclusion_only_20261029",
+  "required_for_whole_case_success_item_ids": [
+    "sulfone_formation_explanation",
+    "butadiene_regio_explanation",
+    "butadiene_geometry_explanation",
+    "phenyl_regio_reversal"
+  ]
+}

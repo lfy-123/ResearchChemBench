@@ -1,0 +1,231 @@
+{
+  "paper_id": "paper_c28b0a1c549f4575",
+  "scoring_policy": "paper_science_v3",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "mode": "final_results_100",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_association_tea",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "reference_id": "association_tea",
+      "expected": "An actual complete isolated gas-phase 1:1 TEA+–PC complex has negative electronic binding energy Eb = E(complex) − E(relaxed ion) − E(relaxed PC), with matched electronic method, charge, singlet state and energy convention. Report the computed value and units and establish the attractive sign at the claimed geometry. The numerical magnitude is supporting evidence for this sign, with no fixed target window. A frozen-fragment interaction energy or Gibbs energy is not this observable; a documented conversion to the relaxed-fragment electronic definition is admissible. Geometry, curvature and monomer identity validate the result without separate points. Copying a source value or comparing unmatched total energies fails.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_association_ded",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "reference_id": "association_ded",
+      "expected": "An actual complete isolated gas-phase 1:1 DED2+–PC complex has negative electronic binding energy Eb = E(complex) − E(relaxed ion) − E(relaxed PC), with matched electronic method, charge, singlet state and energy convention. Report the computed value and units and establish the attractive sign at the claimed geometry. The numerical magnitude is supporting evidence for this sign, with no fixed target window. A frozen-fragment interaction energy or Gibbs energy is not this observable; a documented conversion to the relaxed-fragment electronic definition is admissible. Geometry, curvature and monomer identity validate the result without separate points. Copying a source value or comparing unmatched total energies fails.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_association_bf4",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "reference_id": "association_bf4",
+      "expected": "An actual complete isolated gas-phase 1:1 BF4−–PC complex has negative electronic binding energy Eb = E(complex) − E(relaxed ion) − E(relaxed PC), with matched electronic method, charge, singlet state and energy convention. Report the computed value and units and establish the attractive sign at the claimed geometry. The numerical magnitude is supporting evidence for this sign, with no fixed target window. A frozen-fragment interaction energy or Gibbs energy is not this observable; a documented conversion to the relaxed-fragment electronic definition is admissible. Geometry, curvature and monomer identity validate the result without separate points. Copying a source value or comparing unmatched total energies fails.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_ded_vs_bf4",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "reference_id": "ded_vs_bf4",
+      "expected": "Consistently defined relaxed-fragment electronic binding energies establish greater binding magnitude (more negative Eb) for DED2+–PC than BF4−–PC. Resolve this pairwise comparison using each complete ion and its own matched monomer reference at a common method and environment. Absolute total energies of differently charged complexes do not establish the result. This relative order is independent of whether all three association signs are established; source magnitudes are not fixed acceptance windows.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_bf4_vs_tea",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "reference_id": "bf4_vs_tea",
+      "expected": "Consistently defined relaxed-fragment electronic binding energies establish greater binding magnitude (more negative Eb) for BF4−–PC than TEA+–PC. Resolve this independent pairwise comparison using complete ions, matched monomer references and a common method and environment. Do not award another result for reciting the full order; source magnitudes are not fixed acceptance windows.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_local_competition_account",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "reference_id": "local_competition_account",
+      "expected": "Use actual association evidence and a composition/charge-balanced PC-transfer comparison, TEA·PC + DED → TEA + DED·PC or an equivalent energy cycle, to explain why adding DED can favor PC association near DED relative to TEA within the sampled local gas-phase baseline. The final scientific content is the conditional physical connection between a change in cation composition and competition for a finite local PC supply, not another point award for a pair ranking or the arithmetically derived transfer sign. Account for two BF4 per added DED salt unit and explain why independent 1:1 electronic energies do not fix solvent activities, many-body ion association, coordination populations or a concentration-dependent spectral trajectory. Tie that limit specifically to the supplied nonmonotonic observations; no bulk optimum or device inference follows. An equivalent well-supported conditional interpretation passes directly.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "association_tea",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "TEA+–PC electronic binding relative to relaxed separated molecules",
+      "rule_ids": [
+        "r_association_tea"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "association_ded",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "DED2+–PC electronic binding relative to relaxed separated molecules",
+      "rule_ids": [
+        "r_association_ded"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "association_bf4",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "BF4−–PC electronic binding relative to relaxed separated molecules",
+      "rule_ids": [
+        "r_association_bf4"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "ded_vs_bf4",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Relative local PC binding of DED2+ and BF4−",
+      "rule_ids": [
+        "r_ded_vs_bf4"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bf4_vs_tea",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Relative local PC binding of BF4− and TEA+",
+      "rule_ids": [
+        "r_bf4_vs_tea"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "local_competition_account",
+      "kind": "conclusion",
+      "max_score": 40,
+      "description": "Conditional molecular explanation of the changed local PC environment",
+      "rule_ids": [
+        "r_local_competition_account"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

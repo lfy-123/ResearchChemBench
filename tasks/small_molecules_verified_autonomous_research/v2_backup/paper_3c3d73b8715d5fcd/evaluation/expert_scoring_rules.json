@@ -1,0 +1,191 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_04",
+  "source_paper_id": "paper_3c3d73b8715d5fcd",
+  "scoring_policy": "scientific_results_only_binary_items",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; no arbitrary threshold such as 60 points is used. The original rules assess recovery of a limited set of literature conclusions and do not establish a uniquely true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances; first review comparability of physical identity, references and conditions. When comparability cannot be determined, mark needs_review and explain why; do not alter tolerances without authorization. Source numbers without assigned targets provide context only and are not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_endo_ocm",
+      "reference_id": "endo_ocm",
+      "type": "semantic",
+      "expected": "Recover substrate coordination and endo oxidative cyclometalation to the eta3 organorhodium intermediate using connected, composition- and CO-balanced structures and valid stationary-state evidence. Names INT1/INT2 are source labels, not mandatory output IDs.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_overall_barrier",
+      "reference_id": "overall_barrier",
+      "type": "numeric",
+      "expected": "Recover the overall cycloisomerization activation free energy relative to the physical resting-state reference identified as INT11 in the main discussion. Do not substitute the local 12.9 kcal/mol barrier relative to INT1 or unbalanced CO references.",
+      "target": 22.8,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_co_loss",
+      "reference_id": "co_loss",
+      "type": "semantic",
+      "expected": "Establish a valid CO-dissociation connection from the oxidative-cyclometalation intermediate to the next catalyst state. Include the exchanged CO in composition and energy references. A demonstrated equivalent connection is acceptable; do not require the historical failed-IRC/QRC trajectory.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_beta_h",
+      "reference_id": "beta_h",
+      "type": "semantic",
+      "expected": "Establish the connected beta-H elimination within the paper cycloisomerization channel, with appropriate saddle/mode or equivalent connection evidence and consistent species inventory. The source local 6.0 kcal/mol is context with no new numerical gate.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_product_release",
+      "reference_id": "product_release",
+      "type": "semantic",
+      "expected": "Recover reductive elimination leading to the cycloisomerization product and chemically consistent catalyst regeneration/ligand exchange. The source local 8.9 kcal/mol is contextual; do not impose an uncalibrated magnitude target.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_competing_22",
+      "reference_id": "competing_22",
+      "type": "semantic",
+      "expected": "Recover direct reductive elimination from the OCM intermediate to the distinct [2+2] product with connected molecular evidence and a common energy reference. Product existence alone is insufficient. The local 17.1 kcal/mol is not the overall cycloisomerization barrier.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_endo_exo_gap",
+      "reference_id": "endo_exo_gap",
+      "type": "semantic",
+      "expected": "Compare the correctly assigned endo and exo oxidative-cyclometalation transition structures of the same substrate/catalyst and establish that the endo saddle is lower in Gibbs free energy. Require valid saddle/connectivity evidence and comparable composition, charge/spin, conditions, thermochemical definition and energy reference. This item scores the supported ordering, not agreement with a particular numerical gap; the source 7.5 and SI 7.2 kcal/mol discussions are context only. Comparing unrelated minima or unbalanced states does not establish this ordering.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_competition_conclusion",
+      "reference_id": "competition_conclusion",
+      "type": "semantic",
+      "expected": "The final selected mechanism uses endo OCM followed by connected cycloisomerization and [2+2] branches, and explains their competing accessibility from a balanced free-energy profile. Endo initiation controls the main route; do not confuse local and overall barriers or infer an experimental product yield from this finite model. No CO-insertion [2+1+2] scope expansion.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "endo_ocm",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "endo oxidative-cyclometalation intermediate node",
+      "rule_ids": [
+        "r_endo_ocm"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p39_41"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "overall_barrier",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "Overall activation free energy of cycloisomerization",
+      "rule_ids": [
+        "r_overall_barrier"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41_42"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "co_loss",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "CO-dissociation connection node",
+      "rule_ids": [
+        "r_co_loss"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "beta_h",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "β-H elimination node",
+      "rule_ids": [
+        "r_beta_h"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "product_release",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Reductive-elimination and product-release node",
+      "rule_ids": [
+        "r_product_release"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "competing_22",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Competing [2+2] product channel",
+      "rule_ids": [
+        "r_competing_22"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "endo_exo_gap",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Energy ordering with the initial endo transition state below exo",
+      "rule_ids": [
+        "r_endo_exo_gap"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p35_41"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "competition_conclusion",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final conclusion: endo initiation and the mechanism of competition between the two products",
+      "rule_ids": [
+        "r_competition_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p3"
+      ],
+      "required_for_whole_case_success": true
+    }
+  ],
+  "scope_changes": [],
+  "reference_issues": [],
+  "source_location": "Main text p2–3 Fig.1; SI p39–42",
+  "source_files": [
+    "03_论文原文_仅供评测者/case_04/main.pdf",
+    "03_论文原文_仅供评测者/case_04/supplementary_001.pdf"
+  ]
+}

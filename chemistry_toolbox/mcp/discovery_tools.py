@@ -108,7 +108,7 @@ TOOL_DESCRIPTIONS = {
         "This does not establish backend availability or scientific validity."
     ),
     "submit_action_batch": (
-        "Run up to 32 independent requests concurrently when they share one Action and backend. "
+        "Run independent requests concurrently when they share one Action, backend, and settings. "
         "Use this instead of repeated execute_action calls for two or more independent structures. "
         "Only batch_safe Actions are accepted; concurrency is derived from active CPU, memory, and "
         "GPU capacity, excess items queue automatically, and every child keeps an independent trace."
@@ -307,6 +307,15 @@ def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
                 "message": "Every batch item_id must be unique.",
             },
         }
+
+    from chemistry_toolbox.src.models import ActionRequest
+    from chemistry_toolbox.src.service import validate_orca_method_contract
+    invalid = validate_orca_method_contract(
+        request.action_id, request.backend_id,
+        ActionRequest(backend_id=request.backend_id, method_spec=request.method_spec),
+    )
+    if invalid is not None:
+        return invalid
 
     item_resources = [
         normalize_resource_limits(item.resource_limits) for item in request.items

@@ -1,0 +1,160 @@
+{
+  "paper_id": "paper_ea6fdc38b4a7f8c7",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_carbonyl_function",
+      "r_sidechain_effect",
+      "r_primary_secondary"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "What molecular factors explain the contrasting benzoate-substitution and electrochemical behavior of the seven specified alpha-carbonyl TEMPO-derived alkoxyamines? Address carbonyl functionality, the Weinreb-amide side chain and primary versus secondary substitution. This is an explanation task with measured outcomes supplied as context.",
+  "active_rule_ids": [
+    "r_carbonyl_function",
+    "r_sidechain_effect",
+    "r_primary_secondary"
+  ],
+  "current_outcome_ids": [
+    "carbonyl_function",
+    "sidechain_effect",
+    "primary_secondary"
+  ],
+  "historical_record": {
+    "paper_id": "paper_ea6fdc38b4a7f8c7",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_carbonyl_function",
+      "r_sidechain_effect",
+      "r_primary_secondary"
+    ],
+    "scope": "Carbonyl-function dependence of productive capture and electrochemical behavior; How the Weinreb-amide side chain changes molecular organization and reaction compatibility; Why electrochemical persistence and primary/secondary capture efficiency can differ. Public molecular inputs and scientific scope are unchanged.",
+    "verification_status": "EXISTING_EVIDENCE_MAPPED_TO_FINAL_RESULTS_NO_AUTOMATIC_PASS",
+    "new_quantum_jobs": 0,
+    "release_ready": false,
+    "limitations": "Native eight+1doublet minima support selected-conformer electronic explanations, not full yields/kinetics/HAT/decomposition. Full CREST search not rerun; S1 andS6-c2 rebuilt, source negativeNBO energy definition unresolved, thermal corrections differ and primaryDCM comparison is unmatched.",
+    "qualification_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+    "historical_acceptance": {
+      "verification_status": "PROVISIONAL_PASS_QUALITATIVE"
+    },
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_carbonyl_function",
+        "r_sidechain_effect",
+        "r_primary_secondary"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    },
+    "outcome_evidence_coverage": [
+      {
+        "scientific_requirement": "必需结果1：二级底物羰基官能团效应及伏安关联",
+        "rule_id": "r_carbonyl_function",
+        "conclusion_id": "carbonyl_function",
+        "independence": "官能团系列比较不要求甲基/丁基侧链对照结论成立。",
+        "source_locator": "正文PDF3–4 Fig.3；SI PDF73–74 §§10.1–10.3及74–81坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T2343Z/acceptance_audit_ea6/independent_native_checks.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T2343Z/acceptance_audit_ea6/acceptance_audit.json"
+        ],
+        "existing_support": "ketone/ester/methylamide α-C +0.06362/+0.05850/+0.07440，aldehyde/acid +0.04955/+0.04550 e。",
+        "limits": [
+          "8个选定模型不是完整CREST系综；S1漏两个芳H及S6-c2重建事实保留。",
+          "S1正文+0.062与SI+0.07359矛盾；热G残差约−0.78至−3.44 kcal/mol仍未解释。",
+          "SI负NBO能列物理定义不清，不能当BDE/势垒；未计算HAT/取代全路径或精确产率。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果2：甲基/丁基Weinreb酰胺组织、电子与构象偏好",
+        "rule_id": "r_sidechain_effect",
+        "conclusion_id": "sidechain_effect",
+        "independence": "同一酰胺侧链效应是不同结构变量，构象/电荷只支持此独立解释。",
+        "source_locator": "正文PDF3–4 Fig.3；SI PDF73–74 §§10.1–10.3及74–81坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T2343Z/acceptance_audit_ea6/independent_native_checks.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T2343Z/acceptance_audit_ea6/acceptance_audit.json"
+        ],
+        "existing_support": "S5近接2.508211 Å；S6远离3.337674 Å与近接2.545133 Å；近−远G+2.862083。",
+        "limits": [
+          "8个选定模型不是完整CREST系综；S1漏两个芳H及S6-c2重建事实保留。",
+          "S1正文+0.062与SI+0.07359矛盾；热G残差约−0.78至−3.44 kcal/mol仍未解释。",
+          "SI负NBO能列物理定义不清，不能当BDE/势垒；未计算HAT/取代全路径或精确产率。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果3：一级/二级酮捕获和电化学持久性区别",
+        "rule_id": "r_primary_secondary",
+        "conclusion_id": "primary_secondary",
+        "independence": "一级/二级酮取代对比与官能团或酰胺侧链变量不同。",
+        "source_locator": "正文PDF3–4 Fig.3；SI PDF73–74 §§10.1–10.3及74–81坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T2343Z/acceptance_audit_ea6/independent_native_checks.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T2343Z/acceptance_audit_ea6/acceptance_audit.json"
+        ],
+        "existing_support": "一级α-C −0.10894相对二级+0.06362 e；一级DCM粗NMR/二级MeCN分离收率不匹配。",
+        "limits": [
+          "8个选定模型不是完整CREST系综；S1漏两个芳H及S6-c2重建事实保留。",
+          "S1正文+0.062与SI+0.07359矛盾；热G残差约−0.78至−3.44 kcal/mol仍未解释。",
+          "SI负NBO能列物理定义不清，不能当BDE/势垒；未计算HAT/取代全路径或精确产率。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      }
+    ],
+    "objective_issue_flags": [
+      {
+        "issue": "8个选定模型不是完整CREST系综；S1漏两个芳H及S6-c2重建事实保留。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "S1正文+0.062与SI+0.07359矛盾；热G残差约−0.78至−3.44 kcal/mol仍未解释。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "SI负NBO能列物理定义不清，不能当BDE/势垒；未计算HAT/取代全路径或精确产率。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      }
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "carbonyl_function": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "sidechain_effect": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "primary_secondary": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "release_ready": false
+}

@@ -1,0 +1,200 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_activation_origin",
+      "type": "semantic",
+      "reference_id": "activation_origin",
+      "expected": "Recover the author-supported energetic discrimination using actual computations and explicit state/electrode/solvent definitions. SI9.1 reports Eox(2a)=+1.10 V and Ered(2a)=-2.69 V versus SCE in MeCN, using the neutral singlet, +1 doublet and -1 doublet of the complete 65-atom substrate. Compare on a compatible scale with the supplied catalyst data, preserving the MeCN/DCM distinction; exact DCM SET free energies are not author results. SI9.2 supports a substrate triplet requirement above the reported PC A/B triplet energies, disfavouring triplet energy transfer. The exact substrate triplet target is source-conflicted (main73.9 versus SI74.1 kcal/mol) and is not a numerical scoring requirement. Assess only the robust energetic ordering after verifying the submitter's definition and actual evidence. Redox values have no calibrated new tolerance: manual scientific comparison, no invented acceptance window. Merely repeating the public catalyst screen or proposing a radical cation without quantitative discriminating evidence earns no activation result credit. Do not require explicit PC-substrate SET TSs, transfer rates, counterion energetics or a complete cycle. Supported portions may earn partial credit; an unresolved calculation does not establish the corresponding finding. Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model. New numerical tolerances may not be inferred from source values or from old verification failures. Reagent reference data are not substrate calculations. Separate author computations, experiments and mechanistic proposals.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "Manual result-based comparison of the author-defined activation discrimination; no new automatic numeric window and no exact disputed triplet target."
+      }
+    },
+    {
+      "rule_id": "rule_first_rearrangement",
+      "type": "semantic",
+      "expected": "Main p7/SI SchemeS6 support radical-cation C5–C6 rearrangement to prefulvene-like Int1 through TS1. Source ΔG‡ is +1.9 kcal/mol from [2a]•+, with Int1−8.0. A negative disconnected node difference does not recover this finding. There was no calibrated numerical window for1.9; manual comparison and calibration remain explicitly pending rather than borrowing the4.6±1.5 window. Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model. New numerical tolerances may not be inferred from source values or from old verification failures. Reagent reference data are not substrate calculations. Separate author computations, experiments and mechanistic proposals.",
+      "reference_id": "first_rearrangement",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "Main p7/SI SchemeS6 support radical-cation C5–C6 rearrangement to prefulvene-like Int1 through TS1. Source ΔG‡ is +1.9 kcal/mol from [2a]•+, with Int1−8.0. A negative disconnected node difference does not recover this finding. There was no calibrated numerical window for1.9; manual comparison and calibration remain explicitly pending rather than borrowing the4.6±1.5 window."
+      }
+    },
+    {
+      "rule_id": "ar_rule_barrier",
+      "type": "numeric",
+      "target": 4.6,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "reference_id": "second_rearrangement",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "G(TS2)−G(Int1) on the same+1 doublet chemical surface at298K/1atm, not a global maximum or neutral product energy. Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model."
+      },
+      "validity_requirements": "Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model."
+    },
+    {
+      "rule_id": "rule_selectivity",
+      "type": "semantic",
+      "expected": "SI SchemeS7 C5 alternative TS-A6.3 above initial radical cation exceeds the C4 first TS1+1.9; TS-B5.3 and IntA+1.0 use the same initial reference. Genuine connected paths and common-reference discrimination must support C4 selectivity, with aryl radical stabilization or equivalent physical explanation. These additional source numbers have no calibrated automatic window. Unconnected scalar gaps or honest failure do not recover the selectivity result. Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model. New numerical tolerances may not be inferred from source values or from old verification failures. Reagent reference data are not substrate calculations. Separate author computations, experiments and mechanistic proposals.",
+      "reference_id": "selectivity",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "SI SchemeS7 C5 alternative TS-A6.3 above initial radical cation exceeds the C4 first TS1+1.9; TS-B5.3 and IntA+1.0 use the same initial reference. Genuine connected paths and common-reference discrimination must support C4 selectivity, with aryl radical stabilization or equivalent physical explanation. These additional source numbers have no calibrated automatic window. Unconnected scalar gaps or honest failure do not recover the selectivity result."
+      }
+    },
+    {
+      "rule_id": "rule_endpoint_balance",
+      "type": "semantic",
+      "expected": "Recover the neutral 2a and neutral 3a identities (C26H36BNSi, 65 atoms, charge0 singlets), together with the computed rearranged +1 doublet Int2 having C4-product connectivity. Source Int2 lies at -37.4 kcal/mol on the radical-cation profile; this contextual value has no new numeric window. Int2 + e- -> 3a conserves all atoms, without a required proton transfer or loss. Link actual computed endpoint graphs/states to the neutral-start interpretation, not bookkeeping alone. For supplied catalyst B, consistent stoichiometric accounting is PC(+1)* + 2a -> PC(0) + [2a](+1), then PC(0) + [3a](+1) -> PC(+1) + 3a; PF6- is unchanged. These catalyst statements are electron bookkeeping for the author-proposed mechanism, not computed SET kinetics or an independently proven catalytic cycle. Do not require or score an absolute cross-charge reduction free energy, the plotted -170.8 endpoint as a reaction energy, or an electron-transfer TS. Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model. New numerical tolerances may not be inferred from source values or from old verification failures. Reagent reference data are not substrate calculations. Separate author computations, experiments and mechanistic proposals.",
+      "reference_id": "endpoint_balance",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "Recover the neutral 2a and neutral 3a identities (C26H36BNSi, 65 atoms, charge0 singlets), together with the computed rearranged +1 doublet Int2 having C4-product connectivity. Source Int2 lies at -37.4 kcal/mol on the radical-cation profile; this contextual value has no new numeric window. Int2 + e- -> 3a conserves all atoms, without a required proton transfer or loss. Link actual computed endpoint graphs/states to the neutral-start interpretation, not bookkeeping alone. For supplied catalyst B, consistent stoichiometric accounting is PC(+1)* + 2a -> PC(0) + [2a](+1), then PC(0) + [3a](+1) -> PC(+1) + 3a; PF6- is unchanged. These catalyst statements are electron bookkeeping for the author-proposed mechanism, not computed SET kinetics or an independently proven catalytic cycle. Do not require or score an absolute cross-charge reduction free energy, the plotted -170.8 endpoint as a reaction energy, or an electron-transfer TS."
+      }
+    },
+    {
+      "rule_id": "rule_evidence_validity",
+      "reference_id": "evidence_validity",
+      "type": "condition",
+      "expected": "Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model. New numerical tolerances may not be inferred from source values or from old verification failures. Reagent reference data are not substrate calculations. Separate author computations, experiments and mechanistic proposals.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model. New numerical tolerances may not be inferred from source values or from old verification failures. Reagent reference data are not substrate calculations. Separate author computations, experiments and mechanistic proposals."
+      }
+    },
+    {
+      "rule_id": "rule_answer",
+      "type": "semantic",
+      "reference_id": "answer",
+      "expected": "The source-supported interpretation begins with oxidation of neutral 2a, disfavouring substrate reduction and triplet energy transfer through defined energetic comparisons, and proceeds through connected low-barrier framework rearrangements that favour C4 connectivity over the C5 alternative. The computed endpoint identity and atom/electron balance relate this chemistry to neutral 3a. This is a bounded recovery of the author-calculated activation and rearrangement findings, not proof of a unique or fully calculated photocatalytic cycle. Award credit only for the stated source-supported scientific finding established by genuine linked computation. Resolve submitted model/result/claim/operation/artifact IDs, molecular graphs, charge/spin, units, reference states and conditions. A claimed minimum or saddle needs appropriate frequency/state evidence, and any mechanistic connection needs an IRC or scientifically equivalent endpoint/connection test. Normal termination, source coordinates, value proximity, copied numbers and unsupported labels alone are insufficient. Independently valid components retain their own credit; missing, opposite or unresolved results earn zero for that finding. Honest failure, search coverage and ordinary limitations are assessed on the process axis and have no standalone scientific points. Methods and labels are open; the source-supported physical result must still be recovered. Do not impose a unique global mechanism when the source only supports the scoped model. New numerical tolerances may not be inferred from source values or from old verification failures. Reagent reference data are not substrate calculations. Separate author computations, experiments and mechanistic proposals. Integrate the scored findings without duplicate scientific points.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "Integrate all scoped component results; final synthesis has no additional scientific points."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "activation_origin",
+      "max_score": 25,
+      "description": "Calculated activation-state comparisons support oxidation of neutral 2a rather than substrate reduction or triplet energy transfer under the supplied catalyst conditions.",
+      "rule_ids": [
+        "rule_activation_origin"
+      ]
+    },
+    {
+      "id": "first_rearrangement",
+      "max_score": 20,
+      "description": "The first source-supported rearrangement is connected and has a positive small barrier.",
+      "rule_ids": [
+        "rule_first_rearrangement"
+      ]
+    },
+    {
+      "id": "second_rearrangement",
+      "max_score": 25,
+      "description": "The following connected rearrangement has the original quantitative local barrier.",
+      "rule_ids": [
+        "ar_rule_barrier"
+      ]
+    },
+    {
+      "id": "selectivity",
+      "max_score": 20,
+      "description": "Competing local chemistry favors the observed C4 connectivity.",
+      "rule_ids": [
+        "rule_selectivity"
+      ]
+    },
+    {
+      "id": "endpoint_balance",
+      "max_score": 10,
+      "description": "Computed framework endpoints relate the neutral substrate and observed neutral product with conserved atoms and a consistent electron account.",
+      "rule_ids": [
+        "rule_endpoint_balance"
+      ]
+    }
+  ],
+  "notes": "Explicit revised-scope allocation: activation25, first20, second25, selectivity20, computed endpoints/balance10; total100. No automatic renormalization, no process points on this axis, no duplicate final/support points. Old second-barrier target4.6 kcal/mol and tolerance1.5 unchanged. Other source values receive no invented window. Exact conflicted triplet values are documentary context only; activation scoring uses the source-robust energetic discrimination. Current release remains blocked by independent verification gaps.",
+  "reference_validation_status": "scope_upgraded_author_only_verification_incomplete_release_false"
+}

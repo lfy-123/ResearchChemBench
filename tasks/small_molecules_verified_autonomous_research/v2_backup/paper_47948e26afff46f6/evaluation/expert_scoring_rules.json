@@ -1,0 +1,110 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_13",
+  "source_paper_id": "paper_47948e26afff46f6",
+  "scoring_policy": "scientific_results_only_binary_items",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; arbitrary thresholds such as 60 points are not used. The original rules assess recovery of bounded conclusions from the literature and do not establish a uniquely true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances. First review comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not unilaterally change tolerances. Source numbers without targets are context only, not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_n_coupling",
+      "reference_id": "n_coupling",
+      "type": "semantic",
+      "expected": "For the complete given substrates in a model after nitrogen loss and hydrogen transfer, retaining the phenyl and methyl ester groups, actual structures and commensurate connectivity evidence support bond formation between the aryl ester carbon center and the quinoxalinone nitrogen. The authors' reference is the N-bond-forming TS following a neutral triplet radical pair; a TS claim requires the correct imaginary reaction mode and adequate stationary-point quality. Valid local modes/structural connectivity are acceptable; a complete IRC is not mandatory. The given N product alone or copied coordinates do not earn credit. Do not treat this conditional channel as verified upstream photogeneration or hydrogen transfer.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_o_coupling",
+      "reference_id": "o_coupling",
+      "type": "semantic",
+      "expected": "Actual structures and reaction evidence support the competing bond-forming event between the aryl ester carbon and carbonyl oxygen in the same substrate model, maintaining composition, proton positions, electronic states and references comparable to the N pathway. A TS claim requires the corresponding O–C imaginary mode and a valid stationary point; merely exchanging N/O labels or displaying an unrelated O structure is insufficient. Numbering is reversed between the main text and SI; identify pathways by the atoms actually forming the bond. Only competing bond formation is assessed; the unfinished thermochemistry of the final O product or the entire photophysical network is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_n_product",
+      "reference_id": "n_product",
+      "type": "semantic",
+      "expected": "An actual valid unconstrained minimum supports the complete connectivity graph and closed-shell identity of the specified N-alkylated product, retaining the phenyl group, methyl ester and correct N–C bond. Positive frequencies must be accompanied by applicable evidence of stationary-point convergence. An unqualified triplet N product cannot stand in for a qualified closed-shell product. This item assesses only the computational establishment of the product structure/state; it does not establish the spin-conversion rate, product irreversibility or the N/O equilibrium ratio.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_site_selectivity_answer",
+      "reference_id": "site_selectivity_answer",
+      "type": "semantic",
+      "expected": "Finally, use actual comparable N/O bond-formation activation free energies and evidence for the target N product to explicitly conclude that the N channel is lower than the O channel within the investigated radical-pair model after nitrogen loss and hydrogen transfer, and apply this competition result to explain the given N-site preference. The authors' local barriers of 25.8/33.7 and O−N=7.9 kcal/mol are context; exact numerical agreement is not required. A reversed direction, lack of competition evidence or merely restating the product observation earns no credit. Scientifically equivalent methods/labels and evidence-supported physical explanations are allowed. Distinguish the conditional model from an experimentally unique mechanism; do not present unverified π–π/NCI causation, actual populations, ISC rates, irreversibility or the 72% yield as established conclusions.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "n_coupling",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "N–C bond-formation channel within the conditional model",
+      "rule_ids": [
+        "r_n_coupling"
+      ],
+      "evidence_ids": [
+        "main_selectivity",
+        "si_method",
+        "si_geometry"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "o_coupling",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "Competing O–C bond-formation channel within the same model",
+      "rule_ids": [
+        "r_o_coupling"
+      ],
+      "evidence_ids": [
+        "main_selectivity",
+        "si_method",
+        "si_geometry"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "n_product",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "Correct closed-shell minimum of the N-connected product",
+      "rule_ids": [
+        "r_n_product"
+      ],
+      "evidence_ids": [
+        "main_selectivity",
+        "si_geometry"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "site_selectivity_answer",
+      "kind": "conclusion",
+      "max_score": 40,
+      "description": "Final: competing N/O activation explains the N-site preference",
+      "rule_ids": [
+        "r_site_selectivity_answer"
+      ],
+      "evidence_ids": [
+        "main_selectivity",
+        "si_method",
+        "si_geometry"
+      ],
+      "required_for_whole_case_success": true
+    }
+  ],
+  "scope_changes": [],
+  "reference_issues": [
+    "Barrier discrepancies exist between the ORCA source and the existing reconstruction across software packages. Identify N/O by the atoms forming the bond, not by SI labels; no numerical windows are added."
+  ],
+  "source_location": "Main text p4 Fig.2; SI from p29 onward",
+  "source_files": [
+    "03_论文原文_仅供评测者/case_13/main.pdf",
+    "03_论文原文_仅供评测者/case_13/supplementary_001.pdf"
+  ]
+}

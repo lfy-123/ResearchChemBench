@@ -1,0 +1,19 @@
+{
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "items": [
+    {
+      "failure_id": "fabrication_or_answer_leakage",
+      "condition": "Demonstrated fabricated computational evidence or unauthorized access to hidden evaluator answers invalidates the submission. Mere failure, missing files, an incorrect state, numerical disagreement, or an unsupported claim does not by itself establish fabrication.",
+      "severity": "critical",
+      "action": "invalidate_submission"
+    },
+    {
+      "failure_id": "local_scientific_mismatch",
+      "condition": "Wrong composition, charge/spin, energy definition, connectivity, unsupported or contradictory evidence fails only the affected scientific leaf; no global zero for an ordinary local failure.",
+      "severity": "item_failure",
+      "action": "score_affected_items_zero"
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "status_policy": "Each final scientific item is pass/fail. Missing, incorrect or insufficient evidence fails only the affected item; independent supported points are retained. There is no need_review outcome."
+}

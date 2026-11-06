@@ -1,0 +1,154 @@
+{
+  "paper_id": "paper_8cd7be72ae518048",
+  "revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "Pd Heck 反应条件引起的区域选择性变化、生产性状态可达性，以及苯乙烯对照的底物效应。",
+  "source_location": "Main PDF pp.10–15 (journal pp.3592–3597), Figs.13/14/16 and associated insertion/access discussion; computational supplementary_001 PDF/SI pp.2,7,9,10 (methods and Figs.S4/S6/S7).",
+  "public_result_requirements": [
+    "Explain the change in alpha/beta preference between the two supplied conditions through actual competing bond-forming calculations.",
+    "Explain how catalyst coordination changes access to productive states, separately from competition within an accessible state.",
+    "Use styrene as a matched control to assess its access, regioselectivity and product-forming activation relative to the cyclic olefin; do not infer exact yields or rates."
+  ],
+  "required_numerical_evidence": [
+    {
+      "id": "beta_condition",
+      "description": "第一组条件下 α/β 形成的 Gibbs 活化量与差值，明确催化状态。",
+      "public_requirement": "Computed α/β formation Gibbs activation energies and their difference under the first supplied conditions, with the catalyst state defined."
+    },
+    {
+      "id": "alpha_condition",
+      "description": "第二组条件下 α/β 形成的 Gibbs 活化量与差值，明确催化状态。",
+      "public_requirement": "Computed α/β formation Gibbs activation energies and their difference under the second supplied conditions, with the catalyst state defined."
+    },
+    {
+      "id": "ligand_access",
+      "description": "两相关配位环境形成生产性烯烃结合/接近状态的自由能及比较。",
+      "public_requirement": "Computed free energies for reaching productive olefin-bound/access states in the relevant coordination environments and their comparison."
+    },
+    {
+      "id": "styrene_access",
+      "description": "苯乙烯与原环状烯烃在匹配环境下的结合/接近自由能及差值。",
+      "public_requirement": "Computed binding/access free energies and their difference for styrene versus the original cyclic olefin in matched environments."
+    },
+    {
+      "id": "styrene_regio",
+      "description": "苯乙烯 α/β 成键的实际 Gibbs 活化量及差值。",
+      "public_requirement": "Computed Gibbs activation energies and their difference for styrene α/β bond formation."
+    },
+    {
+      "id": "styrene_activation",
+      "description": "原环状底物与苯乙烯在匹配催化模型/参照下的插入活化量及差值。",
+      "public_requirement": "Computed insertion activation energies and their difference for the original cyclic substrate and styrene using matched catalyst models and references."
+    }
+  ],
+  "coverage": [
+    {
+      "scientific_question": "为何第一组条件下原底物偏 β？",
+      "outcome_id": "beta_condition_explanation",
+      "required_numerical_evidence_ids": [
+        "beta_condition"
+      ],
+      "old_outcome_ids": [
+        "beta_condition_explanation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 20,
+      "criterion": "真实 α/β 成键竞争及可比能量支持 β 偏好，并把所选催化状态与给定 β 条件关联。参考 phenoxide/dippf(O) 模型，但不限定其唯一性；有充分证据的等效解释可通过。实验 β/α 和产率已给，复述不计分。须核对真实 α/β 原子连接及模型简化，不能用作者状态名或单条通道替代分子解释。"
+    },
+    {
+      "scientific_question": "为何另一组条件下同一底物偏 α？",
+      "outcome_id": "alpha_condition_explanation",
+      "required_numerical_evidence_ids": [
+        "alpha_condition"
+      ],
+      "old_outcome_ids": [
+        "alpha_condition_explanation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 20,
+      "criterion": "实际竞争形成过程支持 α 偏好，并解释所研究催化环境与第二组条件的联系。参考阳离子 dippf 模型；允许充分支持的等效环境解释。不能借用 β 条件或苯乙烯的能量，不能只重述给定 α/β 观察。不要求作者 α 势垒、差分数值或精确产物比。"
+    },
+    {
+      "scientific_question": "配位环境如何影响原底物进入生产性状态？",
+      "outcome_id": "ligand_access_effect",
+      "required_numerical_evidence_ids": [
+        "ligand_access"
+      ],
+      "old_outcome_ids": [
+        "ligand_access_effect"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 20,
+      "criterion": "实际配位变化与配平自由能支持配位位点开放/烯烃结合的环境效应，参考为单氧化配体模型较母体双膦降低原烯烃接近代价。说明此效应不同于已经结合后的 α/β 竞争；等效且有证据的解释可接受。结合平衡自由能不能当氧化/交换速率势垒，不同电荷/组成的量不可直接相加。仅重复“配体更活泼”不足。"
+    },
+    {
+      "scientific_question": "在同一配位环境中苯乙烯与环状底物谁更容易接近？",
+      "outcome_id": "styrene_access_effect",
+      "required_numerical_evidence_ids": [
+        "styrene_access"
+      ],
+      "old_outcome_ids": [
+        "styrene_access_effect"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 15,
+      "criterion": "使用各自游离底物的匹配参照，实际比较支持苯乙烯比环状底物更易进入同一研究配位环境，并解释这对底物反应性差别的意义。不能直接比较不同组成绝对能、一个孤立结合结果或换用其他催化剂；也不能从结合差预测精确产率。这是底物效应，与前项配体环境效应不同。"
+    },
+    {
+      "scientific_question": "苯乙烯对照的未公开区域偏好是什么？",
+      "outcome_id": "styrene_regiopreference",
+      "required_numerical_evidence_ids": [
+        "styrene_regio"
+      ],
+      "old_outcome_ids": [
+        "styrene_regiopreference"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 10,
+      "criterion": "正确映射、实际可比的苯乙烯竞争形成证据支持 α 而非 β，采用与研究相关的匹配催化模型。不能把原环状底物结果复制给苯乙烯；不要求特定 TS 标签、完整释放循环或精确差值。仅选择 α 字样不足。"
+    },
+    {
+      "scientific_question": "底物换成苯乙烯如何改变成键活化困难？",
+      "outcome_id": "styrene_activation_effect",
+      "required_numerical_evidence_ids": [
+        "styrene_regio",
+        "styrene_activation"
+      ],
+      "old_outcome_ids": [
+        "styrene_activation_effect"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 15,
+      "criterion": "匹配催化模型和各自对应前体的实际形成比较支持苯乙烯的产物形成活化需求低于环状底物，并将此与底物难易联系。结合自由能差不能代替该活化比较，苯乙烯 α/β 内部排序也不能代替跨底物比较。不设差值阈值、不推断未经证明的实验速率。"
+    }
+  ],
+  "excluded_scope": [
+    "原底物两组实验选择性是已给事实，计其分子解释而非复述预测。",
+    "Ph 替换对位 tBuPh 的模型简化须说明；中性结合模型与带电插入模型不可直接拼接成完整循环。",
+    "正文 17.1 与图/SI 17.5 不一致，均不作评分目标；不要求氧化速率、完整物种分布或产率。"
+  ],
+  "verification_support": "正文 Figs.13/14/16、SI S4/S6/S7；历史验证有两种条件下的 α/β 比较、配位接近自由能及匹配苯乙烯对照。"
+}

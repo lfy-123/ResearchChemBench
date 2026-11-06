@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "核对后保留",
+  "changes_zh": "专家认为信息充分；保留砜形成、区域/EZ选择性和苯基体系反转，不增加额外全循环计算。",
+  "source_locator": "正文 Scheme 3G/H；SI §VIII",
+  "scientific_scope_changed": false,
+  "active_rule_ids": [
+    "r_sulfone_formation_explanation",
+    "r_butadiene_regio_explanation",
+    "r_butadiene_geometry_explanation",
+    "r_phenyl_regio_reversal"
+  ],
+  "active_outcome_ids": [
+    "sulfone_formation_explanation",
+    "butadiene_regio_explanation",
+    "butadiene_geometry_explanation",
+    "phenyl_regio_reversal"
+  ],
+  "removed_outcome_ids": [],
+  "public_file_sha256": {
+    "data/inputs/system.json": "6d15d1b8a45fda6d5b3b3e3d07d77aa2cfde551306e1f797f9f8abce39796646",
+    "submission_guide.md": "5d25407a707a3731878674dc9162d13a4e473b173f49ad3084f5567b83d73a13",
+    "submission_schema.json": "5987725856edc7bd37248523d779e2793b7be64758917f3bd40babc8a3bb91de",
+    "task.md": "caaf95e4424dd618635b03b6a758eb343ecf040e481462ae619a1551d67dc0dc"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_sulfone_formation_explanation",
+      "r_butadiene_regio_explanation",
+      "r_butadiene_geometry_explanation",
+      "r_phenyl_regio_reversal"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

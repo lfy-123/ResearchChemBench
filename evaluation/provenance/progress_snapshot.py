@@ -10,7 +10,7 @@ import time
 from chemistry_toolbox.mcp.execution_store import ExecutionStore
 from chemistry_toolbox.src.recovery_io import atomic_json, control_directory
 from .evidence_archive import audit_directory, read_json
-from .results import read_scoring_status
+from .results import read_scoring_status, run_completion_status
 
 
 class JsonlCursor:
@@ -127,7 +127,8 @@ def build_progress_snapshot(workspace, *, controller_observed=False):
     if tools["tool_trace_backlog_bytes"]: stale_reasons.append("tool_trace_backlog")
     if tools["tool_trace_skipped_records"]: stale_reasons.append("oversized_tool_event")
     result = {"schema_version": 2, "run_id": run_id, "observed_at": datetime.now(timezone.utc).isoformat(),
-              "run_status": state, "phase": phase, "stale": bool(stale_reasons), "stale_reasons": stale_reasons,
+              "run_status": state, "completion_status": run_completion_status({**meta, **manifest, "run_state": state}),
+              "phase": phase, "stale": bool(stale_reasons), "stale_reasons": stale_reasons,
               "controller_observed_at": heartbeat, "controller_heartbeat_age_seconds": heartbeat_age,
               "errors": errors, "usage": usage, "controller_alive": controller_alive,
               "controller_identity": controller, "resume_policy": policy, "retry": retry,
@@ -183,7 +184,7 @@ def format_progress_summary(value):
     def count(number): return "unknown" if number is None else f"{number:,}"
     usage = value.get("usage") or {}
     return "\n".join([
-        f"Run: {value['run_id']} | {value['run_status']} | phase={value['phase']} | stale={value['stale']}",
+        f"Run: {value['run_id']} | {value['run_status']} | completion={value.get('completion_status') or 'pending'} | phase={value['phase']} | stale={value['stale']}",
         "Tokens: input=" + count(usage.get("input_total_tokens", usage.get("input_tokens")))
             + " cached(subset)=" + count(usage.get("cached_input_tokens")) + " output=" + count(usage.get("output_tokens")),
         "Activity: requests=" + count(value.get("model_request_count")) + " completed_turns=" + count(value.get("agent_completed_turns"))

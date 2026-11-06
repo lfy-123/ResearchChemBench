@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "evidence": [
+    {
+      "evidence_id": "main_p4",
+      "source": {
+        "path": "papers/paper_c49993ae88ffa0e3/documents/main.pdf",
+        "sha256": "48520faea35bc3c38e6968d31d919b761438a3b3709e140b5c11a18883c57e5c",
+        "pdf_pages_1based": [
+          4
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p38_39_40_41",
+      "source": {
+        "path": "papers/paper_c49993ae88ffa0e3/documents/supplementary_001.pdf",
+        "sha256": "cf0053aef07ca8e0531885cf14c61a0efd2c347f519153e8367790cfd4a77005",
+        "pdf_pages_1based": [
+          38,
+          39,
+          40,
+          41
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_cumulative_f_dry",
+      "r_cumulative_f_water",
+      "r_reductant_molecular_role",
+      "r_local_hydration_effect"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Explicit waters define finite hydration energy comparisons, not a required water-catalyzed path. Local ionic stabilization and net reaction thermodynamics are distinct conclusions.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "final_result_bindings": [
+    {
+      "conclusion_id": "cumulative_f_dry",
+      "rule_id": "r_cumulative_f_dry",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "scientific_requirement": "Thermodynamic driving force for deoxygenation without added water"
+    },
+    {
+      "conclusion_id": "cumulative_f_water",
+      "rule_id": "r_cumulative_f_water",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "scientific_requirement": "Thermodynamic driving force for deoxygenation with two added waters"
+    },
+    {
+      "conclusion_id": "reductant_molecular_role",
+      "rule_id": "r_reductant_molecular_role",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "scientific_requirement": "Molecular basis of light-driven reduction by preformed H2PQ"
+    },
+    {
+      "conclusion_id": "local_hydration_effect",
+      "rule_id": "r_local_hydration_effect",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "scientific_requirement": "Why finite hydration changes reaction thermodynamics and what it can explain"
+    }
+  ]
+}

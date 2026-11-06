@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_5d9fa6b2dd23daf1",
+  "items": [
+    {
+      "statement": "最终：以亲电成环解释两类trans产物",
+      "expected": "最终以实际连接和结构证据，将金刚烷基亲电成键、羧基氧或磺酰胺氮闭环与两给定trans产物联系为化学配平的路径解释。作者协同亲电环化是参考答案；科学等价且有实际证据的物理解释可接受，不能只复述产物或罗列候选。需要解释相对trans构型，不能由仅有trans路线声称已量化trans/cis选择性，也不要求证明唯一机制或完整催化循环。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD"
+      ],
+      "conclusion_id": "trans_pathway_answer",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "acid_trans_connection",
+        "sulfonamide_trans_connection"
+      ]
+    },
+    {
+      "statement": "最终：磺酰胺较易环化且两净转化放能",
+      "expected": "最终在一致物理参照下，由实际势垒和净反应热力学判断磺酰胺局部环化比酸底物更容易、两类净产物形成均放能，并把该比较用于回答给定体系的可及性问题。数值是否落入独立窗口不代替排序与符号；数值超窗也不自动取消有证据的定性结论。不把完整曲线高度当局部势垒、离子形成能当活化势垒，或把小的0.2 kcal/mol产物差当鲁棒排序；不由此推断精确实验速率/产率。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_ENERGY"
+      ],
+      "conclusion_id": "energetic_comparison_answer",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "acid_local_barrier",
+        "sulfonamide_local_barrier",
+        "acid_product_energy",
+        "sulfonamide_product_energy"
+      ]
+    }
+  ]
+}

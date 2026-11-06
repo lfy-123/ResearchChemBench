@@ -1,0 +1,725 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_5ea491c741fbd8d4",
+      "scoring_policy": "paper_science_v3",
+      "scientific_requirements": "Score only independent final scientific answers to the public question. Each outcome earns its full fixed weight or zero; only explicitly reviewable unresolved scientific conflicts may receive need_review, which earns no points and is not success. Fully supported physically equivalent explanations pass directly. Missing calculations, unsupported guesses, wrong identity/state/reference/environment/units and hard-window failures fail, never need_review. Genuine native outputs and reproducible analyses must support each claim; supplied observations and PR source targets are not newly computed results. Structures, convergence, frequencies and state correspondence establish claim validity and earn no independent points. Evidence requirements are proportional to the particular claim, with no fixed workflow, software, root count or control grid. AR selects its method independently. PR addresses its disclosed author baseline or a scientifically justified comparable substitute, without separate route-completion points. No historical PASS certifies the revised V3 rubric.",
+      "rules": [
+        {
+          "rule_id": "r_hh_fraction",
+          "reference_id": "hh_fraction",
+          "type": "numeric",
+          "expected": "The H···H contact pair contributes 38.7% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.source_structure",
+              "$.quantitative_observations",
+              "$.comparisons",
+              "$.claims",
+              "$.packing_assessment",
+              "$.conclusion"
+            ],
+            "comparison": "Identify the correct molecule or crystal, atom/state mapping, charge/spin, observable, reference, environment and units in the submitted structured records and linked genuine artifacts. The listed scientific claim is binary and independent. Method equivalence is permitted; copied targets or normal termination alone are not evidence."
+          },
+          "target": 38.7,
+          "tolerance": 0.5,
+          "unit": "%"
+        },
+        {
+          "rule_id": "r_ho_fraction",
+          "reference_id": "ho_fraction",
+          "type": "numeric",
+          "expected": "The H···O/O···H contact pair contributes 29.1% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.source_structure",
+              "$.quantitative_observations",
+              "$.comparisons",
+              "$.claims",
+              "$.packing_assessment",
+              "$.conclusion"
+            ],
+            "comparison": "Identify the correct molecule or crystal, atom/state mapping, charge/spin, observable, reference, environment and units in the submitted structured records and linked genuine artifacts. The listed scientific claim is binary and independent. Method equivalence is permitted; copied targets or normal termination alone are not evidence."
+          },
+          "target": 29.1,
+          "tolerance": 0.5,
+          "unit": "%"
+        },
+        {
+          "rule_id": "r_cc_fraction",
+          "reference_id": "cc_fraction",
+          "type": "numeric",
+          "expected": "The C···C contact pair contributes 13.4% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.source_structure",
+              "$.quantitative_observations",
+              "$.comparisons",
+              "$.claims",
+              "$.packing_assessment",
+              "$.conclusion"
+            ],
+            "comparison": "Identify the correct molecule or crystal, atom/state mapping, charge/spin, observable, reference, environment and units in the submitted structured records and linked genuine artifacts. The listed scientific claim is binary and independent. Method equivalence is permitted; copied targets or normal termination alone are not evidence."
+          },
+          "target": 13.4,
+          "tolerance": 0.5,
+          "unit": "%"
+        },
+        {
+          "rule_id": "r_hn_fraction",
+          "reference_id": "hn_fraction",
+          "type": "numeric",
+          "expected": "The H···N/N···H contact pair contributes 9.7% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.source_structure",
+              "$.quantitative_observations",
+              "$.comparisons",
+              "$.claims",
+              "$.packing_assessment",
+              "$.conclusion"
+            ],
+            "comparison": "Identify the correct molecule or crystal, atom/state mapping, charge/spin, observable, reference, environment and units in the submitted structured records and linked genuine artifacts. The listed scientific claim is binary and independent. Method equivalence is permitted; copied targets or normal termination alone are not evidence."
+          },
+          "target": 9.7,
+          "tolerance": 0.5,
+          "unit": "%"
+        },
+        {
+          "rule_id": "r_ch_fraction",
+          "reference_id": "ch_fraction",
+          "type": "numeric",
+          "expected": "The C···H/H···C contact pair contributes 6.2% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.source_structure",
+              "$.quantitative_observations",
+              "$.comparisons",
+              "$.claims",
+              "$.packing_assessment",
+              "$.conclusion"
+            ],
+            "comparison": "Identify the correct molecule or crystal, atom/state mapping, charge/spin, observable, reference, environment and units in the submitted structured records and linked genuine artifacts. The listed scientific claim is binary and independent. Method equivalence is permitted; copied targets or normal termination alone are not evidence."
+          },
+          "target": 6.2,
+          "tolerance": 0.5,
+          "unit": "%"
+        },
+        {
+          "rule_id": "r_contact_network",
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.source_structure",
+              "$.quantitative_observations",
+              "$.comparisons",
+              "$.claims",
+              "$.packing_assessment",
+              "$.conclusion"
+            ],
+            "comparison": "Identify the correct molecule or crystal, atom/state mapping, charge/spin, observable, reference, environment and units in the submitted structured records and linked genuine artifacts. Apply the independent final proposition and its V3 rubric state policy; unresolved review earns no points. Method equivalence is permitted; copied targets or normal termination alone are not evidence."
+          },
+          "reference_id": "contact_network",
+          "expected": "The authenticated crystal geometry establishes that the directional C8–H8···O3 and C12–H12B···O2 contacts link neighboring molecules in an R2^2(9) motif, while C6–H6···O3 is an intramolecular S(7) contact. Explain the resulting intermolecular connectivity using mapped atoms, symmetry and geometry rather than merely listing close distances. These source edges support the final network assignment; equivalent atom labels or graph-set descriptions pass when the same topology is demonstrated. The self-contact cannot be counted as an intermolecular bond. Geometric network identification does not establish an interaction-energy ranking."
+        },
+        {
+          "rule_id": "r_aromatic_packing",
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.source_structure",
+              "$.quantitative_observations",
+              "$.comparisons",
+              "$.claims",
+              "$.packing_assessment",
+              "$.conclusion"
+            ],
+            "comparison": "Identify the correct molecule or crystal, atom/state mapping, charge/spin, observable, reference, environment and units in the submitted structured records and linked genuine artifacts. Apply the independent final proposition and its V3 rubric state policy; unresolved review earns no points. Method equivalence is permitted; copied targets or normal termination alone are not evidence."
+          },
+          "reference_id": "aromatic_packing",
+          "expected": "For the neighboring isoxazole and methoxyphenyl rings, establish nearly parallel but laterally offset packing with explicit ring membership and symmetry. Report and distinguish centroid separation, normal projection and lateral offset (angstrom), and plane angle (degrees); infer the aromatic packing arrangement from those quantities. The source-linked geometry has centroid norm 3.7482107 angstrom and one normal projection 3.3883652 angstrom with angle 3.24986 degrees; these are non-gating evidence context, not new scalar windows. Either equivalent orientation is valid with consistent definitions. Confusing a projection with the centroid norm fails. No source-label criticism is required from AR, and no energetic pi-stabilization magnitude is inferred merely from geometry."
+        },
+        {
+          "rule_id": "r_surface_contribution_interpretation",
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.source_structure",
+              "$.quantitative_observations",
+              "$.comparisons",
+              "$.claims",
+              "$.packing_assessment",
+              "$.conclusion"
+            ],
+            "comparison": "Identify the correct molecule or crystal, atom/state mapping, charge/spin, observable, reference, environment and units in the submitted structured records and linked genuine artifacts. Apply the independent final proposition and its V3 rubric state policy; unresolved review earns no points. Method equivalence is permitted; copied targets or normal termination alone are not evidence."
+          },
+          "reference_id": "surface_contribution_interpretation",
+          "expected": "Use actual calculated contact-area evidence and lattice-resolved geometry to identify H–H as the most prevalent surface-contact class and H–O as the next substantial contribution, and explain how the distribution relates to the identified directional and aromatic motifs. The final physical inference is about geometric prevalence and packing roles; surface dominance does not identify the strongest stabilizing interaction or lattice free energy. Merely repeating fractions or stating a generic disclaimer fails. This item does not add a second numeric acceptance gate or reward any particular software."
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "hh_fraction",
+          "kind": "conclusion",
+          "max_score": 8,
+          "description": "H···H Hirshfeld contact area",
+          "rule_ids": [
+            "r_hh_fraction"
+          ],
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "ho_fraction",
+          "kind": "conclusion",
+          "max_score": 8,
+          "description": "H···O/O···H Hirshfeld contact area",
+          "rule_ids": [
+            "r_ho_fraction"
+          ],
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "cc_fraction",
+          "kind": "conclusion",
+          "max_score": 7,
+          "description": "C···C Hirshfeld contact area",
+          "rule_ids": [
+            "r_cc_fraction"
+          ],
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "hn_fraction",
+          "kind": "conclusion",
+          "max_score": 6,
+          "description": "H···N/N···H Hirshfeld contact area",
+          "rule_ids": [
+            "r_hn_fraction"
+          ],
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "ch_fraction",
+          "kind": "conclusion",
+          "max_score": 6,
+          "description": "C···H/H···C Hirshfeld contact area",
+          "rule_ids": [
+            "r_ch_fraction"
+          ],
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "contact_network",
+          "kind": "conclusion",
+          "max_score": 25,
+          "description": "Intermolecular contact network and its distinction from intramolecular contacts",
+          "rule_ids": [
+            "r_contact_network"
+          ],
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "A reproducible analysis of the same deposited crystal supports a materially different contact-network interpretation with consistent atom/symmetry mapping, and its scientific relevance remains unresolved. Established equivalent topology passes; missing geometry, wrong neighbors or inventing a packing fails."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "aromatic_packing",
+          "kind": "conclusion",
+          "max_score": 25,
+          "description": "Quantitative physical description of the aromatic packing contact",
+          "rule_ids": [
+            "r_aromatic_packing"
+          ],
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "surface_contribution_interpretation",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "What the calculated surface distribution establishes about packing",
+          "rule_ids": [
+            "r_surface_contribution_interpretation"
+          ],
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "A valid matched crystal calculation supplies a competing interpretation of how contact distribution relates to packing, with substantive unresolved physical conflict. A hard fraction outside its fixed window remains fail for that numeric item; missing calculations cannot receive review."
+          ],
+          "required_for_success": true
+        }
+      ],
+      "mode": "final_results_100"
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_5ea491c741fbd8d4",
+      "items": [
+        {
+          "statement": "H···H Hirshfeld contact area",
+          "expected": "The H···H contact pair contributes 38.7% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "hh_fraction",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "H···O/O···H Hirshfeld contact area",
+          "expected": "The H···O/O···H contact pair contributes 29.1% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "ho_fraction",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "C···C Hirshfeld contact area",
+          "expected": "The C···C contact pair contributes 13.4% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "cc_fraction",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "H···N/N···H Hirshfeld contact area",
+          "expected": "The H···N/N···H contact pair contributes 9.7% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "hn_fraction",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "C···H/H···C Hirshfeld contact area",
+          "expected": "The C···H/H···C contact pair contributes 6.2% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "ch_fraction",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "C8–H8···O3 connects separate molecules",
+          "expected": "Actual symmetry-expanded crystal geometry supports the directional intermolecularC8–H8···O3 contact, with explicit atom labels and the neighbor transformation. An intramolecular distance or a contact in an invented relaxed packing does not establish it. No universal cutoff replaces the real geometry.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "c8_h8_o3_contact",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "C12–H12B···O2 connects separate molecules",
+          "expected": "Actual symmetry-expanded crystal geometry supports the distinct intermolecularC12–H12B···O2 contact, with explicit labeledH and neighboring molecule. Merely finding another methylH close to a differentoxygen or reporting element composition fails.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "c12_h12b_o2_contact",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "C6–H6···O3 is an intramolecularS7 motif",
+          "expected": "Source-mapped geometry supports theC6–H6···O3 self-contact within one molecule, correctly distinguished asS(7) from the intermolecularR2^2(9) network. Its presence cannot be counted as an independent inter-molecule bond.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "intramolecular_s7",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "Nearly parallel slipped ring packing",
+          "expected": "Actual neighboring isoxazole and methoxyphenyl ring geometry supports a nearly parallel, laterally offset packing contact, with explicit rings and symmetry; equivalent shape-index/curvedness evidence can corroborate it. Distinguish plane orientation and lateral slip from simply asserting pi stacking on the basis of aromaticity.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "slipped_ring_packing",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        },
+        {
+          "statement": "Geometric distinction between ring-centroid separation and normal projection",
+          "expected": "For the relevant symmetry-related isoxazole/phenyl packing contact in the supplied crystal, compute the centroid separation vector and the centroid-to-ring-plane projection with explicit ring membership and symmetry. Establish that the norm and normal projection are distinct because the contact has nonzero lateral offset; identify which quantity is used in the packing interpretation. Either symmetry-equivalent orientation is valid if its own ring/plane definitions are consistent. The supplied coordinates permit this result without knowing, citing or criticizing any private source label or its reported number. A projection mislabeled as centroid norm fails. No exact scalar target or arbitrary tolerance is imposed.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "key_point_id": "centroid_projection_conflict",
+          "key_point_type": "result",
+          "claim_role": "supporting_evidence",
+          "scored": false
+        }
+      ],
+      "scope_note": "Non-scoring source and computational context. Only reference_conclusions and the V3 rubric define scored outcomes; these supporting nodes are not mandatory workflow steps."
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_5ea491c741fbd8d4",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabrication of computational or experimental evidence, including copied reference answers falsely presented as independent results, invalidates the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Local failed calculations, wrong physical assignments or incomplete conclusions affect only their dependent scientific items."
+        }
+      ],
+      "scope_note": "Apply these integrity failures only on demonstrated evidence. An ordinary unsupported or failed result receives zero for the dependent V3 outcome, not an unrelated global process penalty."
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_5ea491c741fbd8d4",
+      "scoring_policy": "paper_science_v3",
+      "mode": "final_results_100",
+      "items": [
+        {
+          "conclusion_id": "hh_fraction",
+          "claim_role": "final",
+          "statement": "H···H Hirshfeld contact area",
+          "expected": "The H···H contact pair contributes 38.7% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "supporting_key_point_ids": [
+            "hh_fraction"
+          ]
+        },
+        {
+          "conclusion_id": "ho_fraction",
+          "claim_role": "final",
+          "statement": "H···O/O···H Hirshfeld contact area",
+          "expected": "The H···O/O···H contact pair contributes 29.1% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "supporting_key_point_ids": [
+            "ho_fraction"
+          ]
+        },
+        {
+          "conclusion_id": "cc_fraction",
+          "claim_role": "final",
+          "statement": "C···C Hirshfeld contact area",
+          "expected": "The C···C contact pair contributes 13.4% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "supporting_key_point_ids": [
+            "cc_fraction"
+          ]
+        },
+        {
+          "conclusion_id": "hn_fraction",
+          "claim_role": "final",
+          "statement": "H···N/N···H Hirshfeld contact area",
+          "expected": "The H···N/N···H contact pair contributes 9.7% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "supporting_key_point_ids": [
+            "hn_fraction"
+          ]
+        },
+        {
+          "conclusion_id": "ch_fraction",
+          "claim_role": "final",
+          "statement": "C···H/H···C Hirshfeld contact area",
+          "expected": "The C···H/H···C contact pair contributes 6.2% of total molecular Hirshfeld surface area within inclusive0.5percentage point, for the authenticated300KCCDC2445596 crystal and physically comparable stockholder/H-normalized definition. Combine both inside/outside element orientations where applicable; count area rather than atoms or raw histogram hits. Preserve symmetry neighbors, sourceZ geometry and declaredH treatment.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "supporting_key_point_ids": [
+            "ch_fraction"
+          ]
+        },
+        {
+          "conclusion_id": "contact_network",
+          "claim_role": "final",
+          "statement": "Intermolecular contact network and its distinction from intramolecular contacts",
+          "expected": "The authenticated crystal geometry establishes that the directional C8–H8···O3 and C12–H12B···O2 contacts link neighboring molecules in an R2^2(9) motif, while C6–H6···O3 is an intramolecular S(7) contact. Explain the resulting intermolecular connectivity using mapped atoms, symmetry and geometry rather than merely listing close distances. These source edges support the final network assignment; equivalent atom labels or graph-set descriptions pass when the same topology is demonstrated. The self-contact cannot be counted as an intermolecular bond. Geometric network identification does not establish an interaction-energy ranking.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "supporting_key_point_ids": [
+            "c8_h8_o3_contact",
+            "c12_h12b_o2_contact",
+            "intramolecular_s7"
+          ]
+        },
+        {
+          "conclusion_id": "aromatic_packing",
+          "claim_role": "final",
+          "statement": "Quantitative physical description of the aromatic packing contact",
+          "expected": "For the neighboring isoxazole and methoxyphenyl rings, establish nearly parallel but laterally offset packing with explicit ring membership and symmetry. Report and distinguish centroid separation, normal projection and lateral offset (angstrom), and plane angle (degrees); infer the aromatic packing arrangement from those quantities. The source-linked geometry has centroid norm 3.7482107 angstrom and one normal projection 3.3883652 angstrom with angle 3.24986 degrees; these are non-gating evidence context, not new scalar windows. Either equivalent orientation is valid with consistent definitions. Confusing a projection with the centroid norm fails. No source-label criticism is required from AR, and no energetic pi-stabilization magnitude is inferred merely from geometry.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ],
+          "supporting_key_point_ids": [
+            "slipped_ring_packing",
+            "centroid_projection_conflict"
+          ]
+        },
+        {
+          "conclusion_id": "surface_contribution_interpretation",
+          "claim_role": "final",
+          "statement": "What the calculated surface distribution establishes about packing",
+          "expected": "Use actual calculated contact-area evidence and lattice-resolved geometry to identify H–H as the most prevalent surface-contact class and H–O as the next substantial contribution, and explain how the distribution relates to the identified directional and aromatic motifs. The final physical inference is about geometric prevalence and packing roles; surface dominance does not identify the strongest stabilizing interaction or lattice free energy. Merely repeating fractions or stating a generic disclaimer fails. This item does not add a second numeric acceptance gate or reward any particular software.",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ],
+          "supporting_key_point_ids": [
+            "hh_fraction",
+            "ho_fraction",
+            "cc_fraction",
+            "hn_fraction",
+            "ch_fraction"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_5ea491c741fbd8d4",
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "accepted_limitations": "Historical strict acceptance is observed-crystal contact/surface interpretation, not lattice energies or biomedical effects. CE25.8/OCC is a documented supported substitute for17.5, not identical software. SourceE/Z, centroid/projection anddnorm range/unit conflicts remain. Contact fraction and shape-index support packing geometry but do not quantify interaction stabilization; source claims of energy causation are bounded accordingly. No monomer HOMO–LUMO or docking work substitutes for crystal evidence. AR centroid/projection credit requires geometry from its supplied CIF, never criticism of an inaccessible article label. Surface-area leaves remain observables specific to the Hirshfeld representation: energetic alternatives can support geometric/synthesis leaves but cannot substitute energy fractions for area. Cross-representation weight calibration remains a disclosed residual policy risk.",
+      "tolerance_basis": "Each source HSA fraction uses inclusive±0.5percentage point, a common small class reflecting one-decimal source reporting, finite mesh quadrature and explicitly matchedH normalization/stockholder definition. Actual fine-grid residuals are all<0.05; the window was not fitted to the largest residual and remains much smaller than separations among main contact classes. It does not admit a different crystal or an unnormalized count. No numerical window is imposed around mislabeled3.3883Å; the geometry conflict is semantic and requires recomputing both physical definitions. Source0.0006Å is not borrowed as uncertainty for a different distance. Conditional propagated marginalESDs do not supply full-covariance confidence intervals.",
+      "authority": [
+        "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "tasks/v2_autonomous_research/paper_5ea491c741fbd8d4/evaluation/verified_computation_reference.md"
+      ],
+      "historical_qualification": {
+        "status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+        "acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+        "reason": "Authorized 2026-10-19 scientific-scoring migration preserves existing independent strict acceptance. This is not new chemistry validation, a blind agent experiment or publication approval.",
+        "scoring_policy": "paper_science_v2",
+        "formal_scoring_permitted": true,
+        "release_ready": false,
+        "coordinator_review": {
+          "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+          "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+          "review_key": "v2_paper_5ea491c741fbd8d4",
+          "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+          "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+          "publication_readiness_unchanged": true
+        },
+        "repair_round3": {
+          "date": "2026-10-19",
+          "mode_scope": "AR remains open-method for public identities; PR author-baseline provenance retained.",
+          "historical_chemical_acceptance_changed": false,
+          "new_computations": false,
+          "review_report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_02/paper_5ea491c741fbd8d4.md"
+        },
+        "current_scope_verified": true
+      },
+      "scoring_policy": "paper_science_v3",
+      "mode": "final_results_100",
+      "status": "V3_FINAL_RESULTS_EVIDENCE_REUSED_NOT_REVALIDATED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+      "reason": "Retain the authenticated isoxazole crystal-packing question. Eight final outcomes comprise five surface fractions, the directional contact network, quantitatively defined aromatic packing and a distinct interpretation of surface prevalence; no new energetic task or chemical identity is introduced.",
+      "evidence_gaps": [
+        "CE25.8/OCC is an evidenced substitute for CE17.5, not exact software/session identity",
+        "Deposited Z geometry conflicts with the source E name; centroid norm and source 3.3883 angstrom label conflict",
+        "Exact source hydrogen policy and crystallographic covariance are unavailable; no energy ranking or lattice thermodynamics follows",
+        "No new V3 semantic calibration or blind run"
+      ],
+      "new_computations": false,
+      "online_judge_calibration": false,
+      "rule_evidence_reuse": [
+        {
+          "rule_id": "r_hh_fraction",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ]
+        },
+        {
+          "rule_id": "r_ho_fraction",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ]
+        },
+        {
+          "rule_id": "r_cc_fraction",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ]
+        },
+        {
+          "rule_id": "r_hn_fraction",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ]
+        },
+        {
+          "rule_id": "r_ch_fraction",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ]
+        },
+        {
+          "rule_id": "r_contact_network",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ]
+        },
+        {
+          "rule_id": "r_aromatic_packing",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "verification_records"
+          ]
+        },
+        {
+          "rule_id": "r_surface_contribution_interpretation",
+          "evidence_ids": [
+            "source_main",
+            "source_cif",
+            "native_surface"
+          ]
+        }
+      ]
+    }
+  }
+}

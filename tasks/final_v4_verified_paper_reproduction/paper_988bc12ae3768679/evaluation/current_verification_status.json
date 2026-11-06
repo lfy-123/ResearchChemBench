@@ -1,0 +1,545 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "status": "V3_SCOPE_MIGRATED_EXISTING_QUALITATIVE_EVIDENCE",
+  "formal_scoring_permitted": true,
+  "current_scope_verified": false,
+  "strict_numerical_reproduction_claimed": false,
+  "source_native_comparisons": [
+    {
+      "quantity": "acid water bright cLR E",
+      "source": 3.24,
+      "native": 3.3011,
+      "signed_native_minus_source": "0.0611",
+      "absolute_deviation": "0.0611",
+      "unit": "eV",
+      "definition": "SourceTable4 correctedLR comparison"
+    },
+    {
+      "quantity": "acid water bright oscillator strength",
+      "source": 2.5632,
+      "native": 2.5532,
+      "signed_native_minus_source": "-0.0100",
+      "absolute_deviation": "0.0100",
+      "unit": "dimensionless",
+      "definition": "Associated native LR oscillator strength, not a separately corrected intensity"
+    },
+    {
+      "quantity": "base water bright cLR E",
+      "source": 2.58,
+      "native": 2.6072,
+      "signed_native_minus_source": "0.0272",
+      "absolute_deviation": "0.0272",
+      "unit": "eV",
+      "definition": "SourceTable4 correctedLR comparison"
+    },
+    {
+      "quantity": "base water bright oscillator strength",
+      "source": 2.9064,
+      "native": 2.9118,
+      "signed_native_minus_source": "0.0054",
+      "absolute_deviation": "0.0054",
+      "unit": "dimensionless",
+      "definition": "Associated native LR oscillator strength, not a separately corrected intensity"
+    },
+    {
+      "quantity": "neutral DMSO Hmean vs source calculation",
+      "source": 6.95,
+      "native": 7.124741666666666,
+      "signed_native_minus_source": "0.174741666666666",
+      "absolute_deviation": "0.174741666666666",
+      "unit": "ppm",
+      "definition": "FourH arithmetic mean; source scalar averaging not fully specified"
+    },
+    {
+      "quantity": "neutral DMSO Hmean vs experiment",
+      "source": 6.8,
+      "native": 7.124741666666666,
+      "signed_native_minus_source": "0.324741666666666",
+      "absolute_deviation": "0.324741666666666",
+      "unit": "ppm",
+      "definition": "Experimental comparison is separate from calculated-source residual"
+    },
+    {
+      "quantity": "acid DMSO Hmean vs source calculation",
+      "source": 7.98,
+      "native": 8.118841666666667,
+      "signed_native_minus_source": "0.138841666666667",
+      "absolute_deviation": "0.138841666666667",
+      "unit": "ppm",
+      "definition": "FourH arithmetic mean; source scalar averaging not fully specified"
+    },
+    {
+      "quantity": "acid DMSO Hmean vs experiment",
+      "source": 6.95,
+      "native": 8.118841666666667,
+      "signed_native_minus_source": "1.168841666666667",
+      "absolute_deviation": "1.168841666666667",
+      "unit": "ppm",
+      "definition": "Experimental comparison is separate from calculated-source residual"
+    },
+    {
+      "quantity": "base DMSO Hmean vs source calculation",
+      "source": 6.35,
+      "native": 6.356666666666667,
+      "signed_native_minus_source": "0.006666666666667",
+      "absolute_deviation": "0.006666666666667",
+      "unit": "ppm",
+      "definition": "FourH arithmetic mean; source scalar averaging not fully specified"
+    },
+    {
+      "quantity": "base DMSO Hmean vs experiment",
+      "source": 6.1,
+      "native": 6.356666666666667,
+      "signed_native_minus_source": "0.256666666666667",
+      "absolute_deviation": "0.256666666666667",
+      "unit": "ppm",
+      "definition": "Experimental comparison is separate from calculated-source residual"
+    },
+    {
+      "quantity": "acid gas bright E",
+      "source": 2.94,
+      "native": 2.9356,
+      "signed_native_minus_source": "-0.0044",
+      "absolute_deviation": "0.0044",
+      "unit": "eV",
+      "definition": "Gas table; not water"
+    },
+    {
+      "quantity": "acid gas bright f",
+      "source": 2.6656,
+      "native": 2.6672,
+      "signed_native_minus_source": "0.0016",
+      "absolute_deviation": "0.0016",
+      "unit": "dimensionless",
+      "definition": "Gas table"
+    },
+    {
+      "quantity": "base gas bright E",
+      "source": 1.99,
+      "native": 1.9889,
+      "signed_native_minus_source": "-0.0011",
+      "absolute_deviation": "0.0011",
+      "unit": "eV",
+      "definition": "Gas table; not water"
+    },
+    {
+      "quantity": "base gas bright f",
+      "source": 2.2512,
+      "native": 2.2511,
+      "signed_native_minus_source": "-0.0001",
+      "absolute_deviation": "0.0001",
+      "unit": "dimensionless",
+      "definition": "Gas table"
+    }
+  ],
+  "qualitative_checks": [
+    {
+      "claim": "Identity and proton/charge balance",
+      "result": "SUPPORTED: complete balanced models and same-electron singlet states; no cross-charge total-energy population comparison.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "Base relative optical red shift",
+      "result": "SUPPORTED: dominant source-assigned acidS4/baseS1 cLR bands retain acid higher energy than base.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "Aromatic proton NMR acid>neutral>base",
+      "result": "SUPPORTED: four graph-mapped protons and one consistentTMS reference; mean acid8.11884>neutral7.12474>base6.35667ppm.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "OH protonation/deprotonation response interpretation",
+      "result": "SUPPORTED within explicit acid/base models; no unique solution protonation-site or population assignment claimed.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "Hydrazone alternative",
+      "result": "SUPPORTED bounded exclusion: valid minima with174positive modes; same-charge RRHO differences+9.9761water/+9.0405DMSO kcal/mol and different optical/NMR response do not support hydrazone as principal switch carrier.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "Calculation validity and root correspondence",
+      "result": "SUPPORTED for dominant bands and NMR: correction stages explicit, native files complete. Weak gas-base sourceS4/nativeS5 issue retained without renumbering native roots.",
+      "evidence_role": "task-critical"
+    }
+  ],
+  "source_native_conflicts": [
+    "Formal SI is a DOCX, not a missing PDF. NMR method paragraph uses TableS1 wording but the actual chemical-shift caption is TableS2; paragraph locations are explicit.",
+    "Source water values are compared to nonequilibrium cLR corrected energies; native LR intermediates happen to be closer and are not substituted.",
+    "Gas base sourceS4(3.05eV,f.1374) resembles nativeS5 while nativeS4 is2.8994eV/f0. Weak-state ordinal correspondence is unresolved and excluded from dominant-band scoring.",
+    "Source calculated acid7.98ppm already differs from experiment6.95ppm; native8.11884167ppm retains rather than conceals the disagreement. Source scalar aggregation is incompletely disclosed."
+  ],
+  "native_artifacts": [
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_dmso_GIAO_20261006_a01/input.com",
+      "sha256": "074729230389aaee951fd2da3b0405ebbaa8a1252126fa9b4babe5d1477422b5",
+      "bytes": 2935,
+      "expected_sha256": "074729230389aaee951fd2da3b0405ebbaa8a1252126fa9b4babe5d1477422b5",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+      "sha256": "0cd29a2d552a48fcb94e021186f56d484c53485a0198be9ab8f2fcc97e212c90",
+      "bytes": 75017,
+      "expected_sha256": "0cd29a2d552a48fcb94e021186f56d484c53485a0198be9ab8f2fcc97e212c90",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_gas_B3LYP_TD6_20261005_a01/input.com",
+      "sha256": "b8e662e845ba3da0c8750a363fe971fdb51d5bd312497ec41afa6fb9a4cb616e",
+      "bytes": 2901,
+      "expected_sha256": "b8e662e845ba3da0c8750a363fe971fdb51d5bd312497ec41afa6fb9a4cb616e",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_gas_B3LYP_TD6_20261005_a01/stdout.log",
+      "sha256": "7504116d0e06e430cad25610c106de6eb1849a9d216a52792a10e035ab2298d4",
+      "bytes": 77719,
+      "expected_sha256": "7504116d0e06e430cad25610c106de6eb1849a9d216a52792a10e035ab2298d4",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_gas_CAM_TD6_20261005_a01/input.com",
+      "sha256": "8ac56b242cf2ee40a7fcadb1139672de491c5bf84f7ca5ad8c40dfb46237bb8f",
+      "bytes": 2909,
+      "expected_sha256": "8ac56b242cf2ee40a7fcadb1139672de491c5bf84f7ca5ad8c40dfb46237bb8f",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_gas_CAM_TD6_20261005_a01/stdout.log",
+      "sha256": "99fc8b3e8093388ee4825e0c6bceda694df0f1786847915b2bd93d37b33bcfbf",
+      "bytes": 78414,
+      "expected_sha256": "99fc8b3e8093388ee4825e0c6bceda694df0f1786847915b2bd93d37b33bcfbf",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_dmso_GIAO_20261006_a01/input.com",
+      "sha256": "e878bc14aba04a5e45a1ec4bdc0bf30ca429d063698597dc5aeb345f3e5ef95a",
+      "bytes": 2762,
+      "expected_sha256": "e878bc14aba04a5e45a1ec4bdc0bf30ca429d063698597dc5aeb345f3e5ef95a",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+      "sha256": "65ac4181e30fd985f62d641175ea71acb12acc928cea534e920d760ed712017d",
+      "bytes": 73517,
+      "expected_sha256": "65ac4181e30fd985f62d641175ea71acb12acc928cea534e920d760ed712017d",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_gas_B3LYP_TD6_20261005_a01/input.com",
+      "sha256": "8568663b93ca06547e6dcfa9027751a6c36b310b221b983f18bc6ddfd7a7962f",
+      "bytes": 2725,
+      "expected_sha256": "8568663b93ca06547e6dcfa9027751a6c36b310b221b983f18bc6ddfd7a7962f",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_gas_B3LYP_TD6_20261005_a01/stdout.log",
+      "sha256": "32273db5117829811a5f99bd4a3d0aaf6151d35f680826de6a191eba1ae9a71a",
+      "bytes": 75394,
+      "expected_sha256": "32273db5117829811a5f99bd4a3d0aaf6151d35f680826de6a191eba1ae9a71a",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_gas_CAM_TD6_20261005_a01/input.com",
+      "sha256": "94e9a894e4d7135d2d6911ee3b4cf9ccf9124e641b4d133e35f0091d9d9fbf4f",
+      "bytes": 2733,
+      "expected_sha256": "94e9a894e4d7135d2d6911ee3b4cf9ccf9124e641b4d133e35f0091d9d9fbf4f",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_gas_CAM_TD6_20261005_a01/stdout.log",
+      "sha256": "42c4fc47dfea3c88268d9c8c9d5a15cf3293717dabd3987b1055873fcbebeb2d",
+      "bytes": 77663,
+      "expected_sha256": "42c4fc47dfea3c88268d9c8c9d5a15cf3293717dabd3987b1055873fcbebeb2d",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_neutral_literalSI_dmso_GIAO_20261006_a01/input.com",
+      "sha256": "5e153245fefa1a08cb13b392b673d83a837031e76b9d50002fb3b1c07bcd3adc",
+      "bytes": 2848,
+      "expected_sha256": "5e153245fefa1a08cb13b392b673d83a837031e76b9d50002fb3b1c07bcd3adc",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_neutral_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+      "sha256": "b1d3ca6c4936dd341806202021ba4da85ebf7e553376fd8dd945faeeedab658f",
+      "bytes": 74663,
+      "expected_sha256": "b1d3ca6c4936dd341806202021ba4da85ebf7e553376fd8dd945faeeedab658f",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_acid_water_clr_root4_v2_a01/input.com",
+      "sha256": "917da26c203f88da7bb94ef43ac3f7180fedbb8fef5519d0742a91d825ce8b62",
+      "bytes": 340,
+      "expected_sha256": "917da26c203f88da7bb94ef43ac3f7180fedbb8fef5519d0742a91d825ce8b62",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_acid_water_clr_root4_v2_a01/stdout.log",
+      "sha256": "c48f282da16202eb30977e612deced1459aef77315843b27ec203670299856ff",
+      "bytes": 120894,
+      "expected_sha256": "c48f282da16202eb30977e612deced1459aef77315843b27ec203670299856ff",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_acid_water_optfreq_v2_a01/input.com",
+      "sha256": "4f7ad89c49378c09f19a17468a2fe99c989f04bcccb3a573a12bffa7aaffc4a9",
+      "bytes": 326,
+      "expected_sha256": "4f7ad89c49378c09f19a17468a2fe99c989f04bcccb3a573a12bffa7aaffc4a9",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_acid_water_optfreq_v2_a01/stdout.log",
+      "sha256": "6707be792d0cbcdc7b11924c3d7be8dc68b76ee359fdc3e177e40e8e9f5b667b",
+      "bytes": 2400842,
+      "expected_sha256": "6707be792d0cbcdc7b11924c3d7be8dc68b76ee359fdc3e177e40e8e9f5b667b",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_base_water_clr_td6_v2_a01/input.com",
+      "sha256": "da37aa5b1bd515d7abd6055daf69b73ad871c255523c04258127a8d98f97a5cc",
+      "bytes": 338,
+      "expected_sha256": "da37aa5b1bd515d7abd6055daf69b73ad871c255523c04258127a8d98f97a5cc",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_base_water_clr_td6_v2_a01/stdout.log",
+      "sha256": "7ab1ef0f47f65d7adfe8307b93e205e21ceaacff939240a177fab23cc74e64b4",
+      "bytes": 118665,
+      "expected_sha256": "7ab1ef0f47f65d7adfe8307b93e205e21ceaacff939240a177fab23cc74e64b4",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_base_water_optfreq_v2_a01/input.com",
+      "sha256": "3b49c7eb278e7e6a756fe9ac934777828962b26afad215beadff24ee23603fa8",
+      "bytes": 327,
+      "expected_sha256": "3b49c7eb278e7e6a756fe9ac934777828962b26afad215beadff24ee23603fa8",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_base_water_optfreq_v2_a01/stdout.log",
+      "sha256": "72079fd1f96345567638165b6c539fc2aa3def7a1e805c42fe64c54830a8290b",
+      "bytes": 1783610,
+      "expected_sha256": "72079fd1f96345567638165b6c539fc2aa3def7a1e805c42fe64c54830a8290b",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_tms_dmso_giao_v2_a01/input.com",
+      "sha256": "09d33ea5858fc05c16f1225a1b28bfbe4b00b71f180045450bcebf58f1d29bdd",
+      "bytes": 301,
+      "expected_sha256": "09d33ea5858fc05c16f1225a1b28bfbe4b00b71f180045450bcebf58f1d29bdd",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_tms_dmso_giao_v2_a01/stdout.log",
+      "sha256": "7e00e9c0ad2401dfcec6d16fae0fe9426fb2450a0676db3226e2267021d831c5",
+      "bytes": 48157,
+      "expected_sha256": "7e00e9c0ad2401dfcec6d16fae0fe9426fb2450a0676db3226e2267021d831c5",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    }
+  ],
+  "new_scientific_calculations": 0,
+  "supplemental_verification_artifacts": [
+    {
+      "path": "docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_returned_geometry_definition_merge_20261009_a01/isodpp_returned_geometry_definition_merge.json",
+      "sha256": "17bc2f4c3656b3cd4ef701585b654b7b9f913cbfc291a15f2198bb7915ded59c",
+      "bytes": 101649
+    }
+  ],
+  "recorded_resource_entries": [],
+  "historical_acceptance": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+  "scoring_policy": "paper_science_v3",
+  "scope_note": "The same dye-2a acid/base optical–NMR explanation and species-identifiability question is retained. Five final propositions replace seven V2 nodes: one optical electronic explanation, two local NMR responses, the neutral-tautomer alternative and the responsive-species inference. Bright-state amplitudes and root correspondence support the optical conclusion rather than receiving separate intermediate credit. AR retains independent model choice; PR retains the disclosed CAM-B3LYP/cLR/GIAO author baseline.",
+  "historical_rule_verification_map": [
+    {
+      "rule_id": "r_aqueous_base_redshift",
+      "reference_id": "aqueous_base_redshift",
+      "role": "intermediate",
+      "points": 20,
+      "actual_verification_support": "AcidS4 cLR3.3011eV versus baseS1 cLR2.6072eV; retain LR3.2271/2.5779 separately.",
+      "locator_within_full_paths_in_evidence_manifest": "EXISTING_RESULTS_UNIFIED_COMPARISON.json/water_optics; isodpp_returned_geometry_definition_merge.json",
+      "source_evidence_ids": [
+        "source_optical",
+        "source_switch"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_nmr_acid_vs_neutral",
+      "reference_id": "nmr_acid_vs_neutral",
+      "role": "intermediate",
+      "points": 12,
+      "actual_verification_support": "CommonTMS fourH acid8.1188416667>neutral7.1247416667ppm; all four atom shifts retained.",
+      "locator_within_full_paths_in_evidence_manifest": "EXISTING_RESULTS_UNIFIED_COMPARISON.json/NMR_cases",
+      "source_evidence_ids": [
+        "source_nmr",
+        "source_switch"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_nmr_base_vs_neutral",
+      "reference_id": "nmr_base_vs_neutral",
+      "role": "intermediate",
+      "points": 12,
+      "actual_verification_support": "CommonTMS fourH base6.3566666667<neutral7.1247416667ppm.",
+      "locator_within_full_paths_in_evidence_manifest": "EXISTING_RESULTS_UNIFIED_COMPARISON.json/NMR_cases",
+      "source_evidence_ids": [
+        "source_nmr",
+        "source_switch"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_bright_character_acid",
+      "reference_id": "bright_character_acid",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "Main H137→L138 forward amplitude .64058; truncated doubled-square weight .8206854728, with other configurations retained; acidS4 dominant intensity.",
+      "locator_within_full_paths_in_evidence_manifest": "isodpp_returned_geometry_definition_merge.json/paired_water_controls/acid",
+      "source_evidence_ids": [
+        "source_optical"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_bright_character_base",
+      "reference_id": "bright_character_base",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "BaseS1 H137→L138 amplitude .5763 with further occupied contributions; bright f2.9118; no demanded pure single-configuration equality.",
+      "locator_within_full_paths_in_evidence_manifest": "EXISTING_RESULTS_UNIFIED_COMPARISON.json/water_optics",
+      "source_evidence_ids": [
+        "source_optical"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_hydrazone_competitor",
+      "reference_id": "hydrazone_competitor",
+      "role": "intermediate",
+      "points": 16,
+      "actual_verification_support": "Neutral hydrazone valid174positive modes; +9.9761456177/+9.0405289920kcal/mol same-charge RRHO vsazo; cLR2.898eV andHmean6.5262916667ppm.",
+      "locator_within_full_paths_in_evidence_manifest": "EXISTING_RESULTS_UNIFIED_COMPARISON.json/neutral_hydrazone_vs_azo_thermochemistry",
+      "source_evidence_ids": [
+        "source_switch",
+        "source_optical"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_joint_proton_response",
+      "reference_id": "joint_proton_response",
+      "role": "conclusion",
+      "points": 20,
+      "actual_verification_support": "BalancedOH2protonated+2/phenoxide−2 identities jointly support optical/NMR direction and exclude a neutral-tautomer-only primary account, without unique site/population claim.",
+      "locator_within_full_paths_in_evidence_manifest": "NATIVE_PARAMETER_READBACK.json; EXISTING_RESULTS_UNIFIED_COMPARISON.json",
+      "source_evidence_ids": [
+        "source_optical",
+        "source_switch",
+        "source_nmr"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    }
+  ],
+  "rule_verification_map": [
+    {
+      "rule_id": "r_aqueous_optical_explanation",
+      "conclusion_id": "aqueous_optical_explanation",
+      "evidence_ids": [
+        "source_optical",
+        "source_switch"
+      ]
+    },
+    {
+      "rule_id": "r_nmr_acid_vs_neutral",
+      "conclusion_id": "nmr_acid_vs_neutral",
+      "evidence_ids": [
+        "source_nmr",
+        "source_switch"
+      ]
+    },
+    {
+      "rule_id": "r_nmr_base_vs_neutral",
+      "conclusion_id": "nmr_base_vs_neutral",
+      "evidence_ids": [
+        "source_nmr",
+        "source_switch"
+      ]
+    },
+    {
+      "rule_id": "r_hydrazone_competitor",
+      "conclusion_id": "hydrazone_competitor",
+      "evidence_ids": [
+        "source_switch",
+        "source_optical"
+      ]
+    },
+    {
+      "rule_id": "r_joint_proton_response",
+      "conclusion_id": "joint_proton_response",
+      "evidence_ids": [
+        "source_optical",
+        "source_switch",
+        "source_nmr"
+      ]
+    }
+  ]
+}

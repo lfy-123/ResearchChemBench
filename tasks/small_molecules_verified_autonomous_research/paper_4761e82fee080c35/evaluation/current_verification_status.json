@@ -1,0 +1,64 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How can the supplied phosphoryl-substituted 1,4-dihydropyridine donor be activated under blue light with PC2, and how does activation change its ability to transfer a phosphoryl group to an alcohol?",
+  "active_rule_ids": [
+    "r_local_activation_model",
+    "r_reactivity_change"
+  ],
+  "current_outcome_ids": [
+    "local_activation_model",
+    "reactivity_change"
+  ],
+  "historical_record": {
+    "paper_id": "paper_4761e82fee080c35",
+    "updated_on": "2026-10-27",
+    "scoring_policy": "paper_science_v3",
+    "scientific_status": "ITEMWISE_EVIDENCE_REUSE_REVIEW",
+    "current_scope_verified": false,
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blind_agent_run_performed": false,
+    "new_quantum_jobs": 0,
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "current_reference": "evaluation/final_result_coverage.json",
+    "remaining_qualification_or_interpretation_limits": [
+      "Nine original logs were re-read and SHA256 matched: four full-donor opt/freq, four separate stability, one H SP. No new QM/HPC or blind run.",
+      "The original PC2 activation model has no independently verified PC2 excited-state ET thermodynamics; BDEs alone do not establish that step.",
+      "Source H-atom numerical convention is not reported; local same-method PCM H electronic energy plus5RT/2 is explicit and unfitted.",
+      "Source SI32.9 versus main32.7 discrepancy remains private evaluator context, not a participant demand.",
+      "Archived absolute electrode predictions1.852163207/0.050225210 V disagree with old1.33/-0.54 targets and remain non-scoring; they were already outside the inherited public scope."
+    ],
+    "v3_numeric_policy": "No independently scored numeric targets; source BDEs and former windows are supporting context for the model."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "local_activation_model": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "reactivity_change": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

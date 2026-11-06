@@ -1,0 +1,23 @@
+{
+  "paper_id": "paper_d142c9737f95225b",
+  "case_id": "case_11",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "existing_verification_reference_reused": true,
+  "new_quantum_validation_performed": false,
+  "new_agent_run_performed": false,
+  "scientific_acceptance_reassessed_this_migration": false,
+  "scoring_definition_reviewed": true,
+  "numerical_evidence_policy": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。",
+  "verification_support": "正文 Figs.2/4–6/8、SI DOCX Tables S2/S3；历史验证支持配平候选平衡、两半反应及固定构型竞争。主文/打印热项/重构热项有差异，部分连接为有效 IRC 前缀或模式位移。",
+  "reference_issues": [
+    "含硫配体但 S 臂不配位的 NN 三羰基候选，不等于无硫 HL_0 实验对照。",
+    "不强制 Me/tBu 内部细排序、不强制跨家族所有 R 通道排序或作者绝对值。",
+    "固定构型的微观偏好不能直接变为 achiral 镜像等布居群体的宏观 ee。",
+    "候选局部平衡不等于完整溶液物种分布。",
+    "题给三羰基前驱体不等于所有活性中间体固定为三羰基；不强制NNS+2CO，但NN/NNS两半反应比较在当前公开任务中已明示，不删除。旧冻结输入不由本次修改追溯覆盖。"
+  ],
+  "human_review_resolution": "人工意见是条件性删除。已核对当前task.md明确要求NN/NNS氧化与还原，因此保留20+20；说明不强制作者NNS+2CO活性模型，保留含硫NN与无硫HL_0区别。",
+  "note": "Reference definitions and scoring have been audited; this is not new quantum validation, a blind agent run, strict numeric reproduction or publication approval. Native logs and historical verification remain unchanged.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail."
+}

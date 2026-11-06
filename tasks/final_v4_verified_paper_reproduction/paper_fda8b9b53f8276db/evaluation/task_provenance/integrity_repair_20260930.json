@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-30",
+  "finding_id": "B3-I06",
+  "mode": "paper_reproduction",
+  "sources": [
+    {
+      "path": "agent_input/data/inputs/ccdc_2433822.cif",
+      "sha256": "a293d9f910e0831b14dbf92baf50f1f8601c36eabcef7b5fd9c5beb541c51fa3",
+      "locator": "formula fields lines44–48; atom-site loop lines251–281"
+    }
+  ],
+  "correction": "The unmodified source CIF contains conflicting metadata: _chemical_formula_sum and _chemical_formula_moiety are C15H13N3 and agree with the refined atom table, whereas _chemical_oxdiff_formula retains C12H12N2O. Use the refined atom identities/connectivity and consistent formula fields for ligand mapping, not the conflicting legacy acquisition field. See data/inputs/crystal_provenance.json; preserve the original CIF and CCDC attribution.",
+  "existing_evidence_reuse": {
+    "reusable": "Existing mapped cis/trans free-ligand geometry and selected bond comparisons can be reused after confirming their atom mapping to the unchanged CIF refined atom table.",
+    "remaining": "Metadata correction requires no new calculation. Retain uncertainty, stationary-point and molecular-versus-lattice limits of prior evidence; it does not establish crystal-phase causality."
+  },
+  "source_precedence": "This current repair supersedes inconsistent pre-repair identity/protocol descriptions, not original bytes or historical raw calculation results.",
+  "mode_visibility": "AR public inputs disclose experimental identity/observations and limitations only; author approximations, shell coordinates and structural assignments remain PR/private. Public/private filesystem isolation is not certified.",
+  "verification_status": "Source-bound package repair and offline QA only. No new scientific calculation, paid judge or blind-run semantic calibration.",
+  "chronology": {
+    "repair_date": "2026-09-30",
+    "not_an_original_plan": "This is a later source correction, not knowledge or a plan recorded on 2026-09-28. Original dated design and casebook bytes remain unchanged.",
+    "superseded_records": [
+      {
+        "path": "evaluation/task_provenance/v2_design_audit.md",
+        "sha256": "531a096abf31dedbd301a86d9697e14bc025057d904166840608660edee7e12a"
+      },
+      {
+        "path": "evaluation/task_provenance/source_scope_audit.md",
+        "sha256": "0d4768428d870afea8e001adfe8b4a2f00b3bba145cc87ef1ef15deb8d537e72"
+      },
+      {
+        "path": "evaluation/task_provenance/scientific_acceptance_cases.json",
+        "sha256": "3ecde7bc9ac79d0ca9876eb1e65a39ed80a348b1f699f0cd96c55d266c2031c5"
+      }
+    ],
+    "precedence": "Use current task, current evaluator nodes/rules and this repair for identity, observation, protocol and credit decisions. Conflicting old identity or rule descriptions in dated records are historical and superseded."
+  }
+}

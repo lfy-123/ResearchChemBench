@@ -1,0 +1,228 @@
+{
+  "paper_id": "paper_3deba7268b769ce6",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_electronic_origin_dye3",
+      "reference_id": "electronic_origin_dye3",
+      "type": "semantic",
+      "expected": "The final answer assigns the lower-energy band of complete E-imine phenolate dye3 to phenolate-to-conjugated-bridge/nitroaryl intramolecular charge redistribution, supported by actual transition-density, NTO, spatial-orbital or equivalent electronic evidence. Bind the state to the modeled band and solvent; a donor/acceptor drawing, arbitrary root index or source quotation does not establish this conclusion. No exact NTO weight, acceptor percentage or excitation-energy threshold is imposed. A well-supported physically equivalent assignment passes.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_electronic_origin_dye4",
+      "reference_id": "electronic_origin_dye4",
+      "type": "semantic",
+      "expected": "The final answer assigns the lower-energy band of complete E-imine phenolate dye4 to phenolate-to-conjugated-bridge/nitroaryl intramolecular charge redistribution, supported by actual transition-density, NTO, spatial-orbital or equivalent electronic evidence. Bind the state to the modeled band and solvent; a donor/acceptor drawing, arbitrary root index or source quotation does not establish this conclusion. No exact NTO weight, acceptor percentage or excitation-energy threshold is imposed. A well-supported physically equivalent assignment passes.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_inter_dye_response",
+      "reference_id": "inter_dye_response",
+      "type": "semantic",
+      "expected": "Report matched lower-band excitation energies and their signed dye4-minus-dye3 difference in a common medium, and conclude that the computed molecular response accounts for the lower dye3 band. The reference common-medium comparison has dye3 below dye4; use consistent response definitions and physically matched transitions. This is the new calculated contrast, not a score for copying the observed six energies. No exact gap window applies; unresolved/reversed computed ordering fails this deterministic comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_solvent_explanation_dye3",
+      "reference_id": "solvent_explanation_dye3",
+      "type": "semantic",
+      "expected": "Give a quantitative, reproducible molecular/solvent explanation of dye3 across toluene, ethyl acetate and methanol. The reference interpretation combines electronic redistribution with differential solvation: net stabilization supporting the Tol-to-EtOAc red shift and preferential stabilization of the phenolate-bearing ground-state contribution in hydrogen-bond-donor methanol supporting its blue shift. Actual electronic evidence plus evaluated solvent-interaction contributions (or equivalent computed evidence) must connect the changes to the band. The fixed Catalán model is one permissible evidentiary route, not a mandatory AR method or a unique causal proof. State modeled band energies/shifts and discrepancies; no numeric fit window exists. Repeating supplied directions, freely fitting three points or giving only a coefficient sign fails. A continuum result with the wrong aprotic direction must not be claimed to reproduce that branch. Other well-supported physically equivalent differential-solvation accounts pass.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_solvent_explanation_dye4",
+      "reference_id": "solvent_explanation_dye4",
+      "type": "semantic",
+      "expected": "Give a quantitative, reproducible molecular/solvent explanation of dye4 across toluene, ethyl acetate and methanol. The reference interpretation combines electronic redistribution with differential solvation: net stabilization supporting the Tol-to-EtOAc red shift and preferential stabilization of the phenolate-bearing ground-state contribution in hydrogen-bond-donor methanol supporting its blue shift. Actual electronic evidence plus evaluated solvent-interaction contributions (or equivalent computed evidence) must connect the changes to the band. The fixed Catalán model is one permissible evidentiary route, not a mandatory AR method or a unique causal proof. State modeled band energies/shifts and discrepancies; no numeric fit window exists. Repeating supplied directions, freely fitting three points or giving only a coefficient sign fails. A continuum result with the wrong aprotic direction must not be claimed to reproduce that branch. Other well-supported physically equivalent differential-solvation accounts pass.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_sample_applicability",
+      "reference_id": "sample_applicability",
+      "type": "semantic",
+      "expected": "Infer specifically what the computed molecular/solvent account establishes for the prepared samples and what it cannot resolve. Relate the actual modeled composition and response to added NBu4OH/MeOH and short-lived dye3 in EtOAc; retain any computed-versus-observed discrepancy. Establish that this limited evidence supports a bounded molecular interpretation but neither identifies a continuous inversion threshold nor uniquely establishes full solution speciation, exclusive solvent causality or photodegradation kinetics. This conclusion must follow the submitted models/results and the supplied stability/preparation data, not a generic limitations paragraph or a repeated solvent ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "electronic_origin_dye3",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Electronic origin of dye3 lower-energy absorption",
+      "rule_ids": [
+        "r_electronic_origin_dye3"
+      ],
+      "evidence_ids": [
+        "source_ict",
+        "source_dye4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "electronic_origin_dye4",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Electronic origin of dye4 lower-energy absorption",
+      "rule_ids": [
+        "r_electronic_origin_dye4"
+      ],
+      "evidence_ids": [
+        "source_ict",
+        "source_dye4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "inter_dye_response",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Calculated contrast between the two dyes",
+      "rule_ids": [
+        "r_inter_dye_response"
+      ],
+      "evidence_ids": [
+        "source_ict",
+        "source_dye4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "solvent_explanation_dye3",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Differential-solvation explanation for dye3",
+      "rule_ids": [
+        "r_solvent_explanation_dye3"
+      ],
+      "evidence_ids": [
+        "source_ict",
+        "source_solvents",
+        "source_dye4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "solvent_explanation_dye4",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Differential-solvation explanation for dye4",
+      "rule_ids": [
+        "r_solvent_explanation_dye4"
+      ],
+      "evidence_ids": [
+        "source_ict",
+        "source_solvents",
+        "source_dye4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "sample_applicability",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Applicability of the molecular account to the prepared samples",
+      "rule_ids": [
+        "r_sample_applicability"
+      ],
+      "evidence_ids": [
+        "source_sample",
+        "source_solvents"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

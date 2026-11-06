@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "scoring_revision": "conclusion_only_20261029",
+  "scientific_scope_changed": false,
+  "scope_note": "The same public scientific questions, inputs, identities and conditions are retained. Final propositions and their evidential boundaries are clarified without extending scope.",
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1：目标砜形成",
+      "rule_id": "r_sulfone_formation_explanation",
+      "conclusion_id": "sulfone_formation_explanation",
+      "weight": 30,
+      "independence": "净成键及驱动力的连通分子解释，不要求命中作者节点。",
+      "source_location": "Main PDF pp. 5–7 Scheme 3G–I; SI PDF pp. 29–34 and 38–42 (printed S27–S32/S36–S40)",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/native_recheck.json",
+      "existing_support_or_gap": "TS1 7.656093; late TS3 connected barrier 28.382461 and product-reactant 8.344715 kcal/mol; validated C-S/C-F mode and endpoint graph.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果2：丁二烯区域竞争",
+      "rule_id": "r_butadiene_regio_explanation",
+      "conclusion_id": "butadiene_regio_explanation",
+      "weight": 25,
+      "independence": "同体系1,4/1,2形成竞争，与E/Z不同。",
+      "source_location": "Main PDF pp. 5–7 Scheme 3G–I; SI PDF pp. 29–34 and 38–42 (printed S27–S32/S36–S40)",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/native_recheck.json",
+      "existing_support_or_gap": "Common-reference capture barriers 3.185193/6.234892, gap 3.049699 kcal/mol; source SI 3.049696 versus prose 4.4.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果3：丁二烯E偏好",
+      "rule_id": "r_butadiene_geometry_explanation",
+      "conclusion_id": "butadiene_geometry_explanation",
+      "weight": 20,
+      "independence": "不同前体基线及构型竞争，可独立于区域方向成败。",
+      "source_location": "Main PDF pp. 5–7 Scheme 3G–I; SI PDF pp. 29–34 and 38–42 (printed S27–S32/S36–S40)",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/native_recheck.json",
+      "existing_support_or_gap": "Local E/Z barrier gap 1.362990; absolute TS gap 2.754121 and precursor gap 1.391131 kcal/mol.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果4：末端苯基体系反转",
+      "rule_id": "r_phenyl_regio_reversal",
+      "conclusion_id": "phenyl_regio_reversal",
+      "weight": 25,
+      "independence": "另一已规定底物/条件的区域竞争，不新增控制变量实验。",
+      "source_location": "Main PDF pp. 5–7 Scheme 3G–I; SI PDF pp. 29–34 and 38–42 (printed S27–S32/S36–S40)",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/native_recheck.json",
+      "existing_support_or_gap": "Terminal-phenyl DMF 1,4 minus 1,2 TS gap 3.108123 kcal/mol, source 3.108682 SI/3.1 main.",
+      "historical_status_promoted": false
+    }
+  ],
+  "task_input_changes": [],
+  "new_computation": false,
+  "record_role": "Historical dated record; superseded for current scope and scoring by expert_round1_20261103. See round1_review.json and scoring_rules.json.",
+  "superseded_by": "expert_round1_20261103"
+}

@@ -732,15 +732,16 @@ software:
     display_name: ORCA
     installed_version: 6.1.1
     operational_status: runnable
-    official_docs: [https://www.faccts.de/docs/orca/6.1/manual/, https://www.faccts.de/docs/orca/6.1/tutorials/]
-    primary_task: molecular electronic-structure calculation from an ORCA input deck
-    task_types: [single point, optimization, frequency, transition state, IRC, excited states, correlated density]
-    inputs: [input.inp, optional external XYZ, basis, point charges, or restart files]
-    outputs: [stdout.log, .gbw, .xyz, .hess, .densities, property files]
+    official_docs: [https://www.faccts.de/docs/orca/6.1/manual/, https://www.faccts.de/docs/orca/6.1/tutorials/, https://www.faccts.de/docs/orca/6.1/manual/contents/utilitiesvisualization/orca_2json.html]
+    primary_task: molecular electronic-structure calculation or explicit export of an existing GBW
+    task_types: [single point, optimization, frequency, transition state, IRC, excited states, correlated density, existing GBW to ASCII JSON]
+    inputs: [input.inp, optional external XYZ, basis, point charges, or restart files, "export: input.gbw and optional input.json.conf; input.densities for requested densities"]
+    outputs: [stdout.log, .gbw, .xyz, .hess, .densities, property files, "export: input.json"]
     normal_markers: [ORCA TERMINATED NORMALLY]
-    convergence_notes: SCF CONVERGED, geometry convergence, frequency completion, imaginary-mode count, and IRC completion are separate checks.
+    convergence_notes: SCF CONVERGED, geometry convergence, frequency completion, imaginary-mode count, and IRC completion are separate checks. orca_2json is postprocessing with no SCF convergence criterion; inspect native return code, the JSON writing marker and collected JSON identity/fields, not an ORCA TERMINATED NORMALLY footer.
     resource_notes: "%pal nprocs must not exceed cpu_cores; %maxcore is MiB per process, so nprocs times maxcore must remain below total memory with headroom."
     known_errors:
+      - ["orca_2json missing GBW/configuration/densities", "input basename or staged dependencies do not match", "stage the existing GBW, at most one explicit configuration, and matching .densities for density requests; MO export alone is not TD density analysis"]
       - ["unrecognized or unexpected keyword", "input syntax is malformed or version-specific", "reduce to a tested 6.1.1 input and add blocks incrementally"]
       - ["Cannot open input or XYZ file", "a referenced file was not staged under the exact name", "stage every dependency in the job directory"]
       - ["SCF NOT CONVERGED or optimization failed", "electronic or geometric convergence failed", "inspect the relevant convergence history and do not treat normal process exit as scientific success"]

@@ -1,0 +1,62 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "补结构并删除独立底物",
+  "changes_zh": "补PI1/PI2带映射2Z,4E结构与SDF、未排序候选位点及MeS-/MeSH；删PI3及15分，鲁棒性仅比较PI1/PI2；六项20/20/10/15/20/15。",
+  "source_locator": "正文 Fig. 4、Schemes 12–14；SI §5",
+  "scientific_scope_changed": true,
+  "active_rule_ids": [
+    "r_r5_site_answer",
+    "r_r5_product_class",
+    "r_r5_second_competition",
+    "r_r6_thermodynamic_fate",
+    "r_r6_accessible_fate",
+    "r_comparative_robustness"
+  ],
+  "active_outcome_ids": [
+    "r5_site_answer",
+    "r5_product_class",
+    "r5_second_competition",
+    "r6_thermodynamic_fate",
+    "r6_accessible_fate",
+    "comparative_robustness"
+  ],
+  "removed_outcome_ids": [
+    "sulf_site_answer"
+  ],
+  "public_file_sha256": {
+    "data/inputs/PI1.sdf": "047bfe5fcf786467bf5f2bc5ad539429adafa35220c5ff718aaabaa450846619",
+    "data/inputs/PI2.sdf": "b18f2e4eb1bc11f8d4174f515eaf08ce2cf7d47d7d49d8ca1eb427a53affc059",
+    "data/inputs/methanethiol.sdf": "68249f6ff5892d11453411b765e0e63438ffb28dc5e9386e6bb78e6fad3528f7",
+    "data/inputs/methanethiolate.sdf": "4ab3cffdf8a56806336460141ba00ffb1b3688d003504a3829e56cf9f24a5d87",
+    "data/inputs/molecular_structures.json": "1ee4abba61eec31cddd852ae89ead77bd3597d9d2f66dfc776b3e416aa707efc",
+    "data/inputs/system.json": "595b7f97e85614b8ede60f1714ab6f2a2fc653976e70021c7fca221de972ef2f",
+    "submission_guide.md": "5d25407a707a3731878674dc9162d13a4e473b173f49ad3084f5567b83d73a13",
+    "submission_schema.json": "5987725856edc7bd37248523d779e2793b7be64758917f3bd40babc8a3bb91de",
+    "task.md": "98368fcede6b21db8e570bd8e039b1d96319c692d9f83d162c40499e06faf157"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_r5_site_answer",
+      "r_r5_product_class",
+      "r_r5_second_competition",
+      "r_r6_thermodynamic_fate",
+      "r_r6_accessible_fate",
+      "r_comparative_robustness"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only PI1/PI2 and their stated reaction comparisons are scored. PI3 is outside scope. Supplied unranked candidate sites and structures do not determine a preferred outcome.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

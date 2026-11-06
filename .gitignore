@@ -345,6 +345,23 @@ AGENTS.local/
 /*.wfx
 /*.cube
 
-# Exclude local agents and evaluation workspaces from publication.
-/custom_agents/
+# Local-only directories excluded from GitHub publication.
+/docs/
 /workspaces/
+/tests/
+/runs/
+/outputs/
+/minichem_toolbox/
+/exports/
+/examples/
+/download/
+/custom_agents/
+/crashed_freezing_string_image_008/
+/papers/
+/.localbin/
+/.qzcli/
+/chemistry_toolbox/evidence/
+/*.zip
+/*.local.yaml
+/selected_papers.list
+/--json

@@ -1,0 +1,62 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "role": "Unscored evidence for independent final scientific conclusions. Original numerical and historical reference records are preserved in historical_scoring_20261029.json and verified_computation_reference.md.",
+  "items": [
+    {
+      "key_point_id": "support_generation_loss_account",
+      "key_point_type": "scientific_evidence",
+      "statement": "Physical explanation of the time–temperature yield response",
+      "expected": "An executed quantitative observation-model analysis connects the measured temperature/residence-time response to competing availability/generation and loss of capturable species: longer cold residence can increase recoverable product, whereas prolonged warm residence can reduce it with byproduct formation. Explain this relationship using both regimes and the post-MeOH/NH4Cl GC measurement, with correct flow dilution and residence-time conventions. This is a bounded kinetic interpretation, not proof of a unique microscopic network or a direct measurement of intermediate concentration. Observations and supplied maxima alone earn no points. Physically supported equivalent kinetic explanations pass; no fixed five-pool model, RBF implementation or elementary pathway is mandatory for this conclusion.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ]
+    },
+    {
+      "key_point_id": "support_conditional_kinetic_information",
+      "key_point_type": "scientific_evidence",
+      "statement": "Quantitative kinetic information under explicit assumptions",
+      "expected": "Derive and interpret a quantitative effective rate, bound or identifiable parameter combination from the supplied 1a observations under explicit physical assumptions. The inference must go beyond a contour plot or repeated yields, state its unit and applicable temperature/time/geometry interval, and distinguish effective net behavior from elementary rates. Same-diameter -20 C log-yield contrasts 0.413262 and 0.152054 s^-1 are eligible reference examples, not mandatory targets. A supported alternative same-scope inference passes. Invented detection limits, confidence precision, a fitted rate presented as uniquely elementary, or no executed analysis fails.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ]
+    },
+    {
+      "key_point_id": "support_microscopic_nonuniqueness",
+      "key_point_type": "scientific_evidence",
+      "statement": "Limits on identifying elementary kinetics from the measurement",
+      "expected": "Establish which microscopic formation/loss/capture parameters are not uniquely identified by the available post-quench observations, using a mathematical counterexample, identifiability analysis or equivalent decisive evidence with a stated observation operator. For example, a product-only ambiguity under uncalibrated capture is a valid bounded result, but it must not be called proof that the complete precursor/byproduct dataset under every possible model is nonidentifiable. Address how the other supplied channels would constrain the example if their mapping were known. A failed fit, generic uncertainty or an assertion of nonuniqueness without evidence fails.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ]
+    },
+    {
+      "key_point_id": "support_continuous_optimum_limit",
+      "key_point_type": "scientific_evidence",
+      "statement": "What the finite grid establishes about a continuous optimum",
+      "expected": "Establish the distinction between the observed sampled productive region and a uniquely determined continuous time/temperature optimum. Use actual sensitivity analysis or an equivalent mathematical argument to demonstrate how finite/categorical/missing observations and unspecified interpolation affect the inferred optimum. Preserve clogged points as missing and trace/n.d./dash without invented numerical thresholds. Different empirical surfaces may be supported without defining an experimental optimum; an interpolated maximum copied as an observed optimum or a generic caution without analysis fails.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "items": [
+    {
+      "statement": "Common-reference free-energy difference between C–H activation transition states",
+      "expected": "Compare G(TS20-b)−G(TS20-a) for the complete Pd/L-pGlu/S system with the same composition and particle/proton inventory, and map the authors' a/b structures. This is a difference on a common-reference profile, not a difference between two separately defined local barriers. Use MeCN/SMD, thermal corrections at 363.15 K and the same charge/spin. The source does not specify the input charge/multiplicity; a neutral closed-shell Pd(II)/doubly deprotonated L-pGlu + neutral S system is a graph reconstruction that must be declared and supported. Once genuine relevant saddle points and reaction connectivity qualify, compare against 8.6±1.5 kcal/mol.",
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ts_gap",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Inversion free-energy barrier of isolated S",
+      "expected": "Compare G(S inversion saddle point)−G(its connected isolated S/1b minimum) for the complete neutral molecule without Pd/ligand and with the same particle count; use MeCN/SMD and 353.15 K. A singlet is a graph-reconstruction assumption that must be supported. Use its own minimum and thermal corrections, genuinely relevant modes and connectivity; compare against 31.82±2.0 kcal/mol. Do not substitute the catalytic temperature of 363.15 K.",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "inversion_s",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Inversion free-energy barrier of isolated P",
+      "expected": "Compare G(P inversion saddle point)−G(its connected isolated P/3ba minimum) for the complete neutral E-alkenylated molecule without Pd/ligand and with the same particle count; use n-octane/SMD and 398.15 K. A singlet is a graph-reconstruction assumption that must be supported. Use its own minimum/thermal corrections, genuinely relevant modes and connectivity; compare against 33.99±3.0 kcal/mol. Do not switch RRHO/qRRHO, the minimum or the temperature after the fact to approach the target.",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "inversion_p",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Independent direction of stereoselectivity",
+      "expected": "For the same mapped species, composition, state and MeCN/363.15 K conditions, actual calculations support G(TS20-a)<G(TS20-b). Assess the direction independently; an unmapped comparison or reversed direction fails. Passing the 8.6 numerical window is not a prerequisite.",
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ts_direction",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Actual bond changes and configurational assignment in C–H activation",
+      "expected": "Structures, relevant vibrations and connectivity evidence from actual calculations of both configurations support CMD: aryl C–H cleavage, H transfer to a ligand acceptor and C–Pd bond formation, while maintaining a consistent mapping of ligand chirality and seven-membered-ring configuration. A change in a single local signed volume around nearly coplanar nitrogen cannot directly replace a complete configurational assignment; a TS label alone does not pass. A complete catalytic cycle or fixed number of IRC points is not required.",
+      "evidence_ids": [
+        "E_PATH",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "cmd_structure",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Structural finding of configurational interconversion in S",
+      "expected": "Genuine S minima and inversion saddle points, relevant soft modes/paths or equivalent connectivity support interconversion of the two configurations of the same molecule, preserving composition and protonation, with a positive inversion free-energy barrier at 353.15 K/MeCN. Source coordinates, frequency signs or a statement that inversion is possible alone do not pass; this structural/qualitative result is independent of the 31.82 numerical window.",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "inversion_s_identity",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Structural finding of configurational interconversion in P",
+      "expected": "Genuine E-alkenylated P minima and inversion saddle points, relevant soft modes/paths or equivalent connectivity support interconversion of the two configurations of the same molecule without changing the E alkene or chemical composition, with a positive inversion free-energy barrier at 398.15 K/n-octane. Source coordinates or a statement that the product is stable alone are insufficient; this item does not require passing the 33.99 numerical window.",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "inversion_p_identity",
+      "key_point_type": "result"
+    }
+  ]
+}

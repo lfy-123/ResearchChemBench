@@ -1,0 +1,90 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "evidence": [
+    {
+      "evidence_id": "main",
+      "source": {
+        "path": "papers/paper_7cfd59d5c7061c6b/documents/main.pdf",
+        "sha256": "c2d1a9530e1479952958c85e03e7770320f4de8f953ceb1c8eeb1efacbe8e882",
+        "pdf_pages_1based": [
+          7,
+          8,
+          9
+        ]
+      },
+      "description": "Figure 7、局部机理与电子能口径"
+    },
+    {
+      "evidence_id": "supplementary_001",
+      "source": {
+        "path": "papers/paper_7cfd59d5c7061c6b/documents/supplementary_001.pdf",
+        "sha256": "e79acbc6bf85035789f67e76cd3db180ccbe9b859bf592f5c13f38a9552e0fe1",
+        "pdf_pages_1based": [
+          35,
+          37,
+          38
+        ]
+      },
+      "description": "Tables S6/S7/S10/S11；仅n=12相关行"
+    },
+    {
+      "evidence_id": "V3_EXISTING_NATIVE_EVIDENCE",
+      "source": {
+        "paths": [
+          "docs/verification/small_molecules_autonomous_research/qualitative_acceptance_check_20261022T0725Z/7cfd_independent_review/review.json"
+        ]
+      },
+      "description": "Existing native computation and audited arithmetic, mapped per final outcome in reference_qualification.json. Source values are not local computed values."
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_preferred_initial_mechanism",
+      "r_oxidizing_activity_explanation",
+      "r_initial_oxidation_outcome"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "final_result_bindings": [
+    {
+      "conclusion_id": "preferred_initial_mechanism",
+      "rule_id": "r_preferred_initial_mechanism",
+      "evidence_ids": [
+        "main",
+        "supplementary_001",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scientific_requirement": "Energetically supported initial oxidation mechanism from a justified competition analysis"
+    },
+    {
+      "conclusion_id": "oxidizing_activity_explanation",
+      "rule_id": "r_oxidizing_activity_explanation",
+      "evidence_ids": [
+        "main",
+        "supplementary_001",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scientific_requirement": "Molecular and electronic explanation of the oxidant's ability to initiate DMA oxidation"
+    },
+    {
+      "conclusion_id": "initial_oxidation_outcome",
+      "rule_id": "r_initial_oxidation_outcome",
+      "evidence_ids": [
+        "main",
+        "supplementary_001",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scientific_requirement": "Initial oxidation yields a hydroxylated DMA moiety without establishing final N-demethylation"
+    }
+  ],
+  "historical_scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+}

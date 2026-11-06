@@ -1,0 +1,25 @@
+{
+  "schema_version": "mapped-public-structures-1",
+  "precursor": {
+    "file": "data/inputs/precursor_1_cis.xyz",
+    "mapped_smiles": "[c:1]1(/[C:29]([H:26])=[C:33](/[H:30])[c:39]2[c:8]([H:52])[c:6]([H:50])[c:4]([H:48])[c:2]([H:46])[c:51]2[H:44])[c:3]([H:10])[c:5]2[c:7]([c:9]([H:12])[c:11]1[H:14])[c:19]1[c:17]([c:15]([H:18])[c:13]2[H:16])[c:21]([H:20])[c:23](/[C:31]([H:28])=[C:35](/[H:32])[c:37]2[c:41]([H:34])[c:43]([H:36])[c:45]([H:38])[c:47]([H:40])[c:49]2[H:42])[c:25]([H:22])[c:27]1[H:24]",
+    "formula": "C30H22",
+    "charge": 0,
+    "multiplicity": 1
+  },
+  "molecules": [
+    {
+      "id": "product_2",
+      "mapped_smiles": "[c:1]12[c:3]([c:5]3[c:7]([c:9]([H:12])[c:11]1[H:14])[c:19]1[c:17]([c:15]([H:18])[c:13]3[H:16])[c:21]3[c:23]([c:25]([H:22])[c:27]1[H:24])[c:31]([H:28])[c:35]([H:32])[c:37]1[c:41]([H:34])[c:43]([H:36])[c:45]([H:38])[c:47]([H:40])[c:49]31)[c:51]1[c:2]([H:46])[c:4]([H:48])[c:6]([H:50])[c:8]([H:52])[c:39]1[c:33]([H:30])[c:29]2[H:26]",
+      "formula": "C30H18",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "supplied observed product connectivity",
+      "structure_file": "data/inputs/product_2.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry",
+      "atom_mapping": "Atom-map numbers retain the one-based atom order of precursor_1_cis.xyz. Missing hydrogen labels are absent from product 2; this does not prescribe an oxidation mechanism."
+    }
+  ],
+  "mapping_namespace": "Original precursor one-based atom indices",
+  "input_scope": "Observed product identity only. No intermediate geometries, energies, preferred sequence or electronic descriptors are supplied."
+}

@@ -1,0 +1,114 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_preferred_initial_mechanism",
+      "r_oxidizing_activity_explanation",
+      "r_initial_oxidation_outcome"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How does the mononuclear side-on [FeIII(O2)(12-TMC)]+ complex initiate oxidation of N,N-dimethylaniline (DMA), and which mechanism is energetically supported for this initial chemistry? Explain the oxidant's reactive behavior and the chemical outcome before final fragment release.",
+  "active_rule_ids": [
+    "r_preferred_initial_mechanism",
+    "r_oxidizing_activity_explanation",
+    "r_initial_oxidation_outcome"
+  ],
+  "current_outcome_ids": [
+    "preferred_initial_mechanism",
+    "oxidizing_activity_explanation",
+    "initial_oxidation_outcome"
+  ],
+  "historical_record": {
+    "paper_id": "paper_7cfd59d5c7061c6b",
+    "scoring_policy": "paper_science_v3",
+    "status": "V3_DESIGN_AND_EVIDENCE_MAPPING_COMPLETE",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "current_scope_verified": false,
+    "verification_status": "V3_NOT_REASSESSED",
+    "reason": "Final outcomes were mapped individually to source and existing native evidence. Historical acceptance is not inherited. See outcome_evidence_coverage and the per-paper Chinese change record.",
+    "unblock_conditions": [],
+    "publication_review_pending": [
+      "旧HAT连通IM2b对作者差+6.839624 kcal/mol；来源IM2b构象吻合但不是同一构象，互变动力学未计算。",
+      "反弹已采样低层最高+2.862579不是认证鞍点或严格零势垒；直接HAT产物缺独立高层量对照。",
+      "G16 B.01→C.01；作者CPCM纯TFE是对实验TFE/MeOH混合溶剂的近似；不证明全局最低路线、最终脱甲基或环境无关控速步。"
+    ],
+    "scoring_mode": "final_results_100",
+    "scientific_acceptance_reassessed_this_migration": false,
+    "new_quantum_validation_performed": false,
+    "new_arche_run_performed": false,
+    "historical_reference_status": {
+      "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+      "current_scope_verified": true,
+      "verification_status": "PROVISIONAL_PASS_QUALITATIVE",
+      "reason": "2026-10-22用户授权按科学分V2整理已验收AR问题；有来源和有效验证支持的有限科学目标可评分，专家出版审查另行进行，不宣称量化计算逐数值严格一致或盲测成绩。"
+    },
+    "outcome_evidence_coverage": [
+      {
+        "rule_id": "r_preferred_initial_mechanism",
+        "source": "Main PDF pp. 7–9/Figures 7–8; SI S33/S35/S37–38 Tables S2/S6/S10/S11, structures S44/S49 and coordinates S56 onward",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/qualitative_acceptance_check_20261022T0725Z/7cfd_independent_review/review.json",
+        "actual_evidence": "Electronic common-RC heights: direct HAT 28.085485; activation 13.069805; later HAT 9.172639 kcal/mol, with local mode/connection evidence.",
+        "coverage": "Existing full-model local evidence supports the bounded claim. HAT endpoint and rebound start are different conformers; no interconversion kinetics, final fragment release or global spin/conformer proof."
+      },
+      {
+        "rule_id": "r_oxidizing_activity_explanation",
+        "source": "Main PDF pp. 7–9/Figures 7–8; SI S33/S35/S37–38 Tables S2/S6/S10/S11, structures S44/S49 and coordinates S56 onward",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/qualitative_acceptance_check_20261022T0725Z/7cfd_independent_review/review.json",
+        "actual_evidence": "Fe/O spin distributions and bond changes in independent_native_audit; TS1b O-O mode, TS2b C-H/O-H transfer, activated oxygen-centered spin.",
+        "coverage": "Existing full-model local evidence supports the bounded claim. HAT endpoint and rebound start are different conformers; no interconversion kinetics, final fragment release or global spin/conformer proof."
+      },
+      {
+        "rule_id": "r_initial_oxidation_outcome",
+        "source": "Main PDF pp. 7–9/Figures 7–8; SI S33/S35/S37–38 Tables S2/S6/S10/S11, structures S44/S49 and coordinates S56 onward",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/qualitative_acceptance_check_20261022T0725Z/7cfd_independent_review/review.json",
+        "actual_evidence": "New connected endpoint E=-2473.98653993 Eh, -45.752726 vs RC; C55-O6=1.402251 Å, N48-C55=1.453281 Å; substrate spin=0.003852; relative source IM2 -35.666503 kcal/mol.",
+        "coverage": "Existing full-model local evidence supports the bounded claim. HAT endpoint and rebound start are different conformers; no interconversion kinetics, final fragment release or global spin/conformer proof."
+      }
+    ],
+    "outcome_count": 3,
+    "active_rule_ids": [
+      "r_preferred_initial_mechanism",
+      "r_oxidizing_activity_explanation",
+      "r_initial_oxidation_outcome"
+    ],
+    "reference_physical_definition": "47原子完整Fe(III)-peroxo/12-TMC与20原子DMA，67原子/+1六重态有限模型；TPSSh/def2-TZVPP//def2-SVP、CPCM(TFE)电子能，相对共同RC；不加D3、ZPE、RRHO或混用213 K实验自由能。",
+    "model_admissibility": "The experimental S=5/2 assignment constrains the supplied starting oxidant, not every subsequent state. The existing sextet CPCM(TFE) electronic-energy profile is a source/native reference model, not the only admissible route or solvent/state treatment. Evaluate the participant's justified states and solvent representation for the same full oxidant/DMA system and experimental context, with balanced inventories and compatible quantities/references. A scientifically established equivalent final explanation passes directly without matching the reference model. A difference of model alone does not fail. Supported equivalent findings pass directly; an unsupported conflicting conclusion fails with the specific evidence gap recorded. Demonstrated reference defects are recorded separately in objective_issue_flags. Do not require new state/solvent calculations merely to reproduce the reference baseline.",
+    "reference_coverage_boundary": "Existing numerical and connection evidence remains specific to its documented sextet CPCM(TFE) model. It is not verification of every admissible alternative state or solvent representation; each submitted claim requires its own valid evidence. This repair runs no new quantum validation and does not inherit historical PASS.",
+    "historical_tolerance_policy_non_scoring_20261029": {
+      "numeric_rules": 0,
+      "rationale": "Existing final numerical targets are unchanged; source-route intermediate values remain non-scoring context."
+    },
+    "scoring_revision": "conclusion_only_20261029",
+    "active_numeric_rules": 0,
+    "binary_final_result_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+    "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+    "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+    "migration_20261029": "Scoring-contract update only. Historical scientific status, acceptance labels, evidence gaps and source/native values remain unchanged. No quantum jobs, new scientific validation or automatic promotion to strict acceptance."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "preferred_initial_mechanism": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "oxidizing_activity_explanation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "initial_oxidation_outcome": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

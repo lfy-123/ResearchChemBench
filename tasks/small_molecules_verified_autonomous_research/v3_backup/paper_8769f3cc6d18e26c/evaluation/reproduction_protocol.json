@@ -1,0 +1,101 @@
+{
+  "paper_id": "paper_8769f3cc6d18e26c",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_structural_account",
+      "r_relative_susceptibility",
+      "r_enantioselectivity_reach"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only first-amination substrate structure, two para-site responses and their explanatory reach are scored. Subsequent di-amination and its time trend are outside scope.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "What structural features of the specified prochiral rotaxane can differentiate its two enantiotopic para sites in the first electrophilic amination, and what can substrate-level calculations establish about local site susceptibility and the limits of an enantioselectivity inference? This is an explanation task; the reaction observations are known context.",
+  "active_rule_ids": [
+    "r_structural_account",
+    "r_relative_susceptibility",
+    "r_enantioselectivity_reach"
+  ],
+  "current_outcome_ids": [
+    "structural_account",
+    "relative_susceptibility",
+    "enantioselectivity_reach"
+  ],
+  "historical_record": {
+    "paper_id": "paper_8769f3cc6d18e26c",
+    "guidance_markdown": "## Author-provided scientific guidance\n\nWhen this guidance is publicly supplied, execute and critically assess the computational baseline described here. Record protocol fidelity, ambiguities and justified substitutions in the investigation records and report. This guidance introduces no additional scientific outcome or submission artifact, and agreement alone does not establish question resolution.\n\nSource labels 1a, 2a and 3a refer to public S, R and P, respectively. Author ring labels A/B describe their structural representation, not a fixed assignment of the arbitrary public alpha/beta labels. Reported results and proposed explanations are guidance, not evidence of your execution or proof of a unique mechanism.\n\n### Reported computational method\n\nThe authors conducted structure optimization and frequency analysis at B3LYP/Def2-SVP with the Grimme D3(BJ) dispersion correction and the SMD toluene model. Calculations used Gaussian 09, Revision E.01, and molecular visualization used CYLview 20. NPA analysis used M06-2X/Def2-SVP with SMD toluene in Gaussian 09, Revision E.01. The authors state that their site-selectivity analysis of electrophilic substitution was based on previous studies.\n\n### Reported solution-state structural investigation\n\nThe authors used DFT to study the structure of prochiral rotaxane 1a in solution (toluene). They report that the hydrogen bonding, parallel-displaced π-π interaction and C-H···π interactions between the macrocycle and axle observed in the solid-state X-ray structure were replicated in the calculated structure. They describe 1a as a pair of dynamic enantiomeric conformations, 1a-A and 1a-B, and interpret attack by ring A on the azodicarboxylate as facilitating formation of the desired mechanically planar chiral rotaxane (R_mp)-3a.\n\n### Reported comparative electronic results\n\n```text\nTable S2. NPA charge analysis of conformer 1a-A.\nAtom Index (ring A) | NPA Charge / a.u. | Atom Index (ring B) | NPA Charge / a.u.\nC1 | +0.206 | C1' | +0.197\nC2 | -0.294 | C2' | -0.284\nC3 | -0.212 | C3' | -0.207\nC4 | -0.277 | C4' | -0.259\nC5 | -0.062 | C5' | -0.053\nC6 | -0.268 | C6' | -0.267\n```\n\nFor conformer 1a-A, the authors describe the para carbon C4 of ring A, which engages in the parallel-displaced π-π interaction with the axle, as relatively more electron rich (NPA charge -0.277 a.u.) than C4' of ring B without that interaction (-0.259 a.u.). They suggest that this may favor the proposed mechanism involving TS-A.\n\n### Reported interpretation and retained alternative\n\nThe authors propose sequential desymmetrization and kinetic resolution to interpret the high enantioselectivity: desymmetrization favors 3a, while subsequent kinetic resolution preferentially consumes ent-3a. Their plausible mechanism proposes hydrogen bonding, π···π and C-H···π interactions between the axle and macrocycle that preorganize the substrate, followed by dual hydrogen-bond activation of the diarylamine N-H and azodicarboxylate by the chiral phosphoric acid. They propose selective para addition by ring A, possibly because of its higher electron density. They explicitly retain an alternative in which ring B engages in the parallel-displaced π-π interaction with the axle in the alternative dynamic enantiomeric conformer, while the less sterically hindered ring A attacks the azodicarboxylate. The proposed addition gives the dearomatized intermediate INT-A as the enantiodetermining step, followed by aromatization to para-C-H-aminated (R_mp)-rotaxane products 3.",
+    "statements": [
+      {
+        "protocol_id": "AP_method",
+        "statement": "The authors conducted structure optimization and frequency analysis at B3LYP/Def2-SVP with the Grimme D3(BJ) dispersion correction and the SMD toluene model. Calculations used Gaussian 09, Revision E.01, and molecular visualization used CYLview 20. NPA analysis used M06-2X/Def2-SVP with SMD toluene in Gaussian 09, Revision E.01. The authors state that their site-selectivity analysis of electrophilic substitution was based on previous studies.",
+        "evidence_ids": [
+          "ev_doc_4b5d1c8b6138_000443_4eccfc4fe423",
+          "pdf-page-doc_4b5d1c8b6138-p70"
+        ]
+      },
+      {
+        "protocol_id": "AP_structural_results",
+        "statement": "The authors used DFT to study the structure of prochiral rotaxane 1a in solution (toluene). They report that the hydrogen bonding, parallel-displaced π-π interaction and C-H···π interactions between the macrocycle and axle observed in the solid-state X-ray structure were replicated in the calculated structure. They describe 1a as a pair of dynamic enantiomeric conformations, 1a-A and 1a-B, and interpret attack by ring A on the azodicarboxylate as facilitating formation of the desired mechanically planar chiral rotaxane (R_mp)-3a.",
+        "evidence_ids": [
+          "ev_doc_4b5d1c8b6138_000444_0e3effea787d",
+          "pdf-page-doc_4b5d1c8b6138-p71"
+        ]
+      },
+      {
+        "protocol_id": "AP_charge_table",
+        "statement": "Table S2. NPA charge analysis of conformer 1a-A.\nAtom Index (ring A) | NPA Charge / a.u. | Atom Index (ring B) | NPA Charge / a.u.\nC1 | +0.206 | C1' | +0.197\nC2 | -0.294 | C2' | -0.284\nC3 | -0.212 | C3' | -0.207\nC4 | -0.277 | C4' | -0.259\nC5 | -0.062 | C5' | -0.053\nC6 | -0.268 | C6' | -0.267",
+        "evidence_ids": [
+          "ev_doc_4b5d1c8b6138_000459_457faf23c3eb",
+          "pdf-page-doc_4b5d1c8b6138-p79",
+          "pdf-page-doc_4b5d1c8b6138-p80"
+        ]
+      },
+      {
+        "protocol_id": "AP_charge_interpretation",
+        "statement": "For conformer 1a-A, the authors describe the para carbon C4 of ring A, which engages in the parallel-displaced π-π interaction with the axle, as relatively more electron rich (NPA charge -0.277 a.u.) than C4' of ring B without that interaction (-0.259 a.u.). They suggest that this may favor the proposed mechanism involving TS-A.",
+        "evidence_ids": [
+          "ev_doc_4b5d1c8b6138_000461_1807d8a7d69e",
+          "pdf-page-doc_4b5d1c8b6138-p80"
+        ]
+      },
+      {
+        "protocol_id": "AP_mechanistic_interpretation_and_alternative",
+        "statement": "The authors propose sequential desymmetrization and kinetic resolution to interpret the high enantioselectivity: desymmetrization favors 3a, while subsequent kinetic resolution preferentially consumes ent-3a. Their plausible mechanism proposes hydrogen bonding, π···π and C-H···π interactions between the axle and macrocycle that preorganize the substrate, followed by dual hydrogen-bond activation of the diarylamine N-H and azodicarboxylate by the chiral phosphoric acid. They propose selective para addition by ring A, possibly because of its higher electron density. They explicitly retain an alternative in which ring B engages in the parallel-displaced π-π interaction with the axle in the alternative dynamic enantiomeric conformer, while the less sterically hindered ring A attacks the azodicarboxylate. The proposed addition gives the dearomatized intermediate INT-A as the enantiodetermining step, followed by aromatization to para-C-H-aminated (R_mp)-rotaxane products 3.",
+        "evidence_ids": [
+          "ev_doc_e1783ea73595_000107_1aed8e653d61",
+          "pdf-page-doc_e1783ea73595-p9",
+          "pdf-page-doc_e1783ea73595-p10"
+        ]
+      }
+    ],
+    "visibility": "evaluator_private",
+    "applicability": "Historical source method/evidence only. Not a public instruction or mandatory autonomous route; only current V3 final conclusions are scored.",
+    "scoring_policy": "paper_science_v3",
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_structural_account",
+        "r_relative_susceptibility",
+        "r_enantioselectivity_reach"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

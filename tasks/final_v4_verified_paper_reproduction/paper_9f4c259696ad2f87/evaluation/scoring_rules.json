@@ -1,0 +1,321 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_redshift_pxx1_mono",
+      "reference_id": "redshift_pxx1_mono",
+      "type": "semantic",
+      "expected": "For an admissible complete carbonyl-associated pxx1_mono model, actual matched solution-optical calculations support the principal low-energy absorption red-shifted relative to free PXX1. Count the explicit B(C6F5)3 units, preserve neutral-singlet identity and use a consistent response convention. A labeled acid-added experimental sample or unbalanced composition alone is not a calculated adduct result. No exact S1 magnitude or every higher-root match is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.results",
+          "$.claims",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_redshift_pxx2_mono",
+      "reference_id": "redshift_pxx2_mono",
+      "type": "semantic",
+      "expected": "For an admissible complete carbonyl-associated pxx2_mono model, actual matched solution-optical calculations support the principal low-energy absorption red-shifted relative to free PXX2. Count the explicit B(C6F5)3 units, preserve neutral-singlet identity and use a consistent response convention. A labeled acid-added experimental sample or unbalanced composition alone is not a calculated adduct result. No exact S1 magnitude or every higher-root match is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.results",
+          "$.claims",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_redshift_pxx2_bis",
+      "reference_id": "redshift_pxx2_bis",
+      "type": "semantic",
+      "expected": "For an admissible complete carbonyl-associated pxx2_bis model, actual matched solution-optical calculations support the principal low-energy absorption red-shifted relative to free PXX2. Count the explicit B(C6F5)3 units, preserve neutral-singlet identity and use a consistent response convention. A labeled acid-added experimental sample or unbalanced composition alone is not a calculated adduct result. No exact S1 magnitude or every higher-root match is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.results",
+          "$.claims",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_association_step1",
+      "reference_id": "association_step1",
+      "type": "semantic",
+      "expected": "A balanced free-energy comparison supports favorable PXX2 association step1 with one additional explicit B(C6F5)3 under a common declared solution and standard-state convention. Use G(products)−G(reactants) with appropriate thermal terms when claiming free energy; comparing total energies across unequal acid counts does not pass. No exact source free-energy tolerance or measured association constant is imposed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.results",
+          "$.claims",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_association_step2",
+      "reference_id": "association_step2",
+      "type": "semantic",
+      "expected": "A balanced free-energy comparison supports favorable PXX2 association step2 with one additional explicit B(C6F5)3 under a common declared solution and standard-state convention. Use G(products)−G(reactants) with appropriate thermal terms when claiming free energy; comparing total energies across unequal acid counts does not pass. No exact source free-energy tolerance or measured association constant is imposed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.results",
+          "$.claims",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_second_association_weaker",
+      "reference_id": "second_association_weaker",
+      "type": "semantic",
+      "expected": "Actual balanced sequential PXX2 free energies under one convention support the second binding step less favorable than the first, while keeping separate the independently scored favorability signs. No assertion of equal equilibrium constants or exact source gap is required; standard-state differences cannot be mixed between steps.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.results",
+          "$.claims",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_carbonyl_optical_account",
+      "reference_id": "carbonyl_optical_account",
+      "type": "semantic",
+      "expected": "The final molecular account integrates admissible carbonyl Lewis-acid association geometry, electronic-transition evidence and optical shifts to explain enhanced acceptor character/changed charge redistribution and the lower excitation energy on acid binding. The inference must go beyond repeating the red shifts or naming B(C6F5)3; it is supported by actual molecular/electronic calculations. No particular analysis package, charge partition, failed optional relaxed excited-density calculation or exact ground/response density amplitude is prescribed. A physically equivalent electronic account can pass when actual mapped association and transition/density evidence explains the same optical response; an unsupported alternative label cannot.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.results",
+          "$.claims",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_occupancy_identifiability",
+      "reference_id": "occupancy_identifiability",
+      "type": "semantic",
+      "expected": "The final answer uses actual comparison of admissible PXX2 mono/bis spectra together with balanced association evidence to conclude that the supplied unresolved absorption alone does not uniquely identify one versus two bound acids. Similar calculated signatures can explain the experimental ambiguity, but neither prove coexistence nor equalKa. Establish this finite evidence limitation through genuine computed alternatives/spectral distinguishability, not merely failure to calculate or a generic uncertainty statement. No invented measured linewidth or universal minimum peak-separation cutoff is allowed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.results",
+          "$.claims",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "redshift_pxx1_mono",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "pxx1_mono acid-association red shift: For an admissible complete carbonyl-associated pxx1_mono model, actual matched solution-optical calculations support the principal low-energy absorption red-shifted relative to free PXX1. Count the explicit B(C6F5)3 units, preserve neutral-singlet identity and use a consistent response convention. A labeled acid-added experimental sample or unbalanced composition alone is not a calculated adduct result. No exact S1 magnitude or every higher-root match is required.",
+      "rule_ids": [
+        "r_redshift_pxx1_mono"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_td",
+        "native_five_species",
+        "native_updated_pxx1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "redshift_pxx2_mono",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "pxx2_mono acid-association red shift: For an admissible complete carbonyl-associated pxx2_mono model, actual matched solution-optical calculations support the principal low-energy absorption red-shifted relative to free PXX2. Count the explicit B(C6F5)3 units, preserve neutral-singlet identity and use a consistent response convention. A labeled acid-added experimental sample or unbalanced composition alone is not a calculated adduct result. No exact S1 magnitude or every higher-root match is required.",
+      "rule_ids": [
+        "r_redshift_pxx2_mono"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_td",
+        "native_five_species"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "redshift_pxx2_bis",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "pxx2_bis acid-association red shift: For an admissible complete carbonyl-associated pxx2_bis model, actual matched solution-optical calculations support the principal low-energy absorption red-shifted relative to free PXX2. Count the explicit B(C6F5)3 units, preserve neutral-singlet identity and use a consistent response convention. A labeled acid-added experimental sample or unbalanced composition alone is not a calculated adduct result. No exact S1 magnitude or every higher-root match is required.",
+      "rule_ids": [
+        "r_redshift_pxx2_bis"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_td",
+        "native_five_species"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "association_step1",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "PXX2 association step1 favorable: A balanced free-energy comparison supports favorable PXX2 association step1 with one additional explicit B(C6F5)3 under a common declared solution and standard-state convention. Use G(products)−G(reactants) with appropriate thermal terms when claiming free energy; comparing total energies across unequal acid counts does not pass. No exact source free-energy tolerance or measured association constant is imposed.",
+      "rule_ids": [
+        "r_association_step1"
+      ],
+      "evidence_ids": [
+        "source_association",
+        "source_method",
+        "native_five_species"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "association_step2",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "PXX2 association step2 favorable: A balanced free-energy comparison supports favorable PXX2 association step2 with one additional explicit B(C6F5)3 under a common declared solution and standard-state convention. Use G(products)−G(reactants) with appropriate thermal terms when claiming free energy; comparing total energies across unequal acid counts does not pass. No exact source free-energy tolerance or measured association constant is imposed.",
+      "rule_ids": [
+        "r_association_step2"
+      ],
+      "evidence_ids": [
+        "source_association",
+        "source_method",
+        "native_five_species"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "second_association_weaker",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Second association less favorable than first: Actual balanced sequential PXX2 free energies under one convention support the second binding step less favorable than the first, while keeping separate the independently scored favorability signs. No assertion of equal equilibrium constants or exact source gap is required; standard-state differences cannot be mixed between steps.",
+      "rule_ids": [
+        "r_second_association_weaker"
+      ],
+      "evidence_ids": [
+        "source_association",
+        "native_five_species"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "carbonyl_optical_account",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Carbonyl coordination explains optical response: The final molecular account integrates admissible carbonyl Lewis-acid association geometry, electronic-transition evidence and optical shifts to explain enhanced acceptor character/changed charge redistribution and the lower excitation energy on acid binding. The inference must go beyond repeating the red shifts or naming B(C6F5)3; it is supported by actual molecular/electronic calculations. No particular analysis package, charge partition, failed optional relaxed excited-density calculation or exact ground/response density amplitude is prescribed.",
+      "rule_ids": [
+        "r_carbonyl_optical_account"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_td",
+        "native_five_species",
+        "native_updated_pxx1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "occupancy_identifiability",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Evidence-based PXX2 occupancy identifiability: The final answer uses actual comparison of admissible PXX2 mono/bis spectra together with balanced association evidence to conclude that the supplied unresolved absorption alone does not uniquely identify one versus two bound acids. Similar calculated signatures can explain the experimental ambiguity, but neither prove coexistence nor equalKa. Establish this finite evidence limitation through genuine computed alternatives/spectral distinguishability, not merely failure to calculate or a generic uncertainty statement. No invented measured linewidth or universal minimum peak-separation cutoff is allowed.",
+      "rule_ids": [
+        "r_occupancy_identifiability"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_association",
+        "source_td",
+        "native_five_species"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

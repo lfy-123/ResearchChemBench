@@ -1,0 +1,241 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。 本批为解释/比较型题目，全部采用定性科学结果项。来源数值保留为可比性上下文，没有新设精确能量窗口；不使用验证值替换作者值。合理替代模型或路径可按相同科学命题的证据评价，不能仅因未选作者软件、描述符或机理标签扣分。",
+  "rules": [
+    {
+      "rule_id": "r_cf2h_addition",
+      "reference_id": "cf2h_addition",
+      "type": "semantic",
+      "expected": "有效分子计算支持指定二烯与CF2H来源形成目标加成碳骨架及可后续捕获的中间态。作者自由基加成TS1/烯丙基中间态为参考；接受能支持同一净连接事件的等价路线。需实际成键及态证据，不能只从产物图反推或写自由基加成标签。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_sulfur_reintegration",
+      "reference_id": "sulfur_reintegration",
+      "type": "semantic",
+      "expected": "计算证据支持SO2与正确加成骨架建立C–S连接，形成能够继续得到砜产物的含硫态；作者SO2捕获模型为参考。需保持硫/氧原子库存及正确自旋、电荷关联，不能只列一个SO2能量或凭产物含S得分。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_aryl_substitution",
+      "reference_id": "aryl_substitution",
+      "type": "semantic",
+      "expected": "对指定多氟芳基和含硫片段，实际证据支持产物对应位置C–S形成及C–F离去。作者TS3单虚频和有效两侧端点为参考；允许科学等价连接证据，不强制完整IRC。正确产物结构之外还须有转化连接，不能用未收敛末帧冒称极小点。此项不要求21.7的数值命中或实验速率复现。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_butadiene_regio_competition",
+      "reference_id": "butadiene_regio_competition",
+      "type": "semantic",
+      "expected": "在正确丁二烯图、同组成及相容参照下，实际计算比较支持通向1,4连接的竞争较有利。作者SO2捕获差正文4.4、SI约3.049696 kcal/mol仅作并列上下文；不能把不同零点直接相减，也不能以未检出副产物代替竞争计算。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_butadiene_ez_competition",
+      "reference_id": "butadiene_ez_competition",
+      "type": "semantic",
+      "expected": "实际可比能量/结构证据支持E相关产物形成相对较有利。作者局部基线差约1.3 kcal/mol；须处理Int2-a/b不同参考态，不能将绝对TS差与各自局部势垒混用。不要求精确比例或证明无限快异构化。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_connected_formation_answer",
+      "reference_id": "connected_formation_answer",
+      "type": "semantic",
+      "expected": "将实际验证的碳骨架生成、硫重新引入和芳基C–S连接整合为从指定起始系统到目标砜的化学解释，物料、电子态与参考定义自洽。作者级联路线为参考，但有证据的不同路径可按等价净转化接受。最终明确采用由证据支持的连接解释；单个驻点或未经验证的循环图不得分，不将局部28.38势垒说成已证明实验时标。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_butadiene_selectivity_answer",
+      "reference_id": "butadiene_selectivity_answer",
+      "type": "semantic",
+      "expected": "最终利用区域与立体两个实际比较共同解释给定丁二烯体系的1,4/E偏好；二者均须得到支持。只有产物观察、一个通道能量或未经验证的自旋密度推断不足；不要求精确90:10、产率或唯一机制。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_phenyl_reversal_answer",
+      "reference_id": "phenyl_reversal_answer",
+      "type": "semantic",
+      "expected": "在保留端苯基的实际分子计算中比较1,2/1,4通道，明确得到指定DMF相关条件下1,2较有利，并将这一结果与丁二烯反向偏好联系。作者两TS差约3.1 kcal/mol为参考，不要求精确窗口。不把不同反应条件的对比声称为严格单变量取代基因果实验。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "cf2h_addition",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "CF2H与丁二烯形成可继续转化的碳骨架",
+      "rule_ids": [
+        "r_cf2h_addition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "sulfur_reintegration",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "SO2重新进入有机骨架形成含硫中间态",
+      "rule_ids": [
+        "r_sulfur_reintegration"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "aryl_substitution",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "多氟芳基C–S成键与C–F离去连接成立",
+      "rule_ids": [
+        "r_aryl_substitution"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "butadiene_regio_competition",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "丁二烯1,4通道低于1,2竞争通道",
+      "rule_ids": [
+        "r_butadiene_regio_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "butadiene_ez_competition",
+      "kind": "intermediate",
+      "max_score": 7,
+      "description": "丁二烯E相关通道较Z相关通道有利",
+      "rule_ids": [
+        "r_butadiene_ez_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "connected_formation_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "最终：连通的生成化学解释目标砜形成",
+      "rule_ids": [
+        "r_connected_formation_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "butadiene_selectivity_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：竞争证据共同解释丁二烯1,4及E偏好",
+      "rule_ids": [
+        "r_butadiene_selectivity_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "phenyl_reversal_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：端苯基体系转向1,2形成偏好",
+      "rule_ids": [
+        "r_phenyl_reversal_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

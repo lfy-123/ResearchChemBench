@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. The precursor is the tetrasubstituted O-TMS enol ether made from 50: transform C6–C47 to double, C47=O52 to single, replace H7 on C6 by an O52–SiMe3 group; retain all other mapped stereocentres. It is neutral singlet C23H38O3Si. Reprotonate C6 from the two faces using racemic camphorsulfonic acid (CSA), not a bare proton. Model both acid enantiomers in an achiral medium or demonstrate the appropriate symmetry equivalence. Stage 1: HMDS/TMSI in DCM at 23°C. Stage 2: CSA in THF/MeOH at 23°C; SI pp20–21 specifies 6/0.60 mL (10:1), whereas main Scheme5 says 1:1. Use a THF continuum plus one explicit MeOH in every cluster for the primary local model and a MeOH-continuum matched sensitivity; neither is an exact mixed-solvent model. Use 296.15 K and 1 M. Keep CSA− and the protonated silyl ether in the same neutral cluster; downstream desilylation is outside the required path segment.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.results"
+        ],
+        "comparison": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. The precursor is the tetrasubstituted O-TMS enol ether made from 50: transform C6–C47 to double, C47=O52 to single, replace H7 on C6 by an O52–SiMe3 group; retain all other mapped stereocentres. It is neutral singlet C23H38O3Si. Reprotonate C6 from the two faces using racemic camphorsulfonic acid (CSA), not a bare proton. Model both acid enantiomers in an achiral medium or demonstrate the appropriate symmetry equivalence. Stage 1: HMDS/TMSI in DCM at 23°C. Stage 2: CSA in THF/MeOH at 23°C; SI pp20–21 specifies 6/0.60 mL (10:1), whereas main Scheme5 says 1:1. Use a THF continuum plus one explicit MeOH in every cluster for the primary local model and a MeOH-continuum matched sensitivity; neither is an exact mixed-solvent model. Use 296.15 K and 1 M. Keep CSA− and the protonated silyl ether in the same neutral cluster; downstream desilylation is outside the required path segment."
+      }
+    },
+    {
+      "rule_id": "rule_facial_paths",
+      "reference_id": "kp_facial_paths",
+      "type": "condition",
+      "expected": "Two faces under racemic CSA with symmetry-supported equivalence allowed through explicit records. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.facial_paths",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Two faces under racemic CSA with symmetry-supported equivalence allowed through explicit records. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_facial_comparison",
+      "reference_id": "kp_facial_comparison",
+      "type": "condition",
+      "expected": "Same-reference facial barrier differences and preorganization. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.facial_comparison",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Same-reference facial barrier differences and preorganization. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_racemate_control",
+      "reference_id": "kp_racemate_control",
+      "type": "condition",
+      "expected": "Racemate and solvent-composition sensitivity, without equating endpoint stability and protonation selectivity. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.racemate_control",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Racemate and solvent-composition sensitivity, without equating endpoint stability and protonation selectivity. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_robustness",
+      "reference_id": "kp_robustness",
+      "type": "condition",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong alpha carbon, source product coordinates passed as independently found TS, omitted acid/counterion, unbalanced silicon/proton inventory, or endpoint G used as kinetic selectivity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong alpha carbon, source product coordinates passed as independently found TS, omitted acid/counterion, unbalanced silicon/proton inventory, or endpoint G used as kinetic selectivity."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_local_investigation",
+      "type": "semantic",
+      "expected": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Wrong alpha carbon, source product coordinates passed as independently found TS, omitted acid/counterion, unbalanced silicon/proton inventory, or endpoint G used as kinetic selectivity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.hypotheses",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Wrong alpha carbon, source product coordinates passed as independently found TS, omitted acid/counterion, unbalanced silicon/proton inventory, or endpoint G used as kinetic selectivity."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. The precursor is the tetrasubstituted O-TMS enol ether made from 50: transform C6–C47 to double, C47=O52 to single, replace H7 on C6 by an O52–SiMe3 group; retain all other mapped stereocentres. It is neutral singlet C23H38O3Si. Reprotonate C6 from the two faces using racemic camphorsulfonic acid (CSA), not a bare proton. Model both acid enantiomers in an achiral medium or demonstrate the appropriate symmetry equivalence. Stage 1: HMDS/TMSI in DCM at 23°C. Stage 2: CSA in THF/MeOH at 23°C; SI pp20–21 specifies 6/0.60 mL (10:1), whereas main Scheme5 says 1:1. Use a THF continuum plus one explicit MeOH in every cluster for the primary local model and a MeOH-continuum matched sensitivity; neither is an exact mixed-solvent model. Use 296.15 K and 1 M. Keep CSA− and the protonated silyl ether in the same neutral cluster; downstream desilylation is outside the required path segment.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "facial_paths",
+      "max_score": 30,
+      "description": "Two faces under racemic CSA with symmetry-supported equivalence allowed through explicit records. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_facial_paths"
+      ]
+    },
+    {
+      "id": "facial_comparison",
+      "max_score": 25,
+      "description": "Same-reference facial barrier differences and preorganization. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_facial_comparison"
+      ]
+    },
+    {
+      "id": "racemate_control",
+      "max_score": 15,
+      "description": "Racemate and solvent-composition sensitivity, without equating endpoint stability and protonation selectivity. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_racemate_control"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 10,
+      "description": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong alpha carbon, source product coordinates passed as independently found TS, omitted acid/counterion, unbalanced silicon/proton inventory, or endpoint G used as kinetic selectivity.",
+      "rule_ids": [
+        "rule_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Wrong alpha carbon, source product coordinates passed as independently found TS, omitted acid/counterion, unbalanced silicon/proton inventory, or endpoint G used as kinetic selectivity.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Schema/transport validation does not establish scientific correctness or calibrated scoring.",
+    "No new target tolerance is frozen; calibrate using complete paths, conformer/method sensitivity and source measurement uncertainty.",
+    "Supporting, contradictory and fully evidenced indistinguishable results receive equal endpoint credit.",
+    "Uncomputed core controls receive no endpoint credit; bounded failure cannot acquire a completion PASS."
+  ]
+}

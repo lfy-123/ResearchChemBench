@@ -1,0 +1,23 @@
+{
+  "case_id": "case_02",
+  "source_locator": "Main text p4 Scheme 3c; SI p34–40",
+  "numeric_rules": [
+    {
+      "rule_id": "r_benzyl_barrier",
+      "target": 13.08,
+      "tolerance": 1.5,
+      "unit": "kcal/mol",
+      "definition": "Identify the benzyl-tethered aryl closure by connectivity and forming-bond/negative-mode evidence, corresponding to source TS2. Compute G(TS)-G(uncyclized radical minimum), 298.15 K/1 atm, implicit DMSO, charge0 doublet. Validate the minimum and relevant first-order saddle; source -0.05 is on a different plot zero and is not this barrier."
+    },
+    {
+      "rule_id": "r_sulfonyl_barrier",
+      "target": 19.25,
+      "tolerance": 1.5,
+      "unit": "kcal/mol",
+      "definition": "Identify the arenesulfonyl aryl closure by connectivity and forming-bond/negative-mode evidence, corresponding to source TS2-prime. Use the same radical-reference definition and valid saddle evidence. Arbitrary candidate numbers or closest energies do not determine identity."
+    }
+  ],
+  "notes": [],
+  "whole_case_success": "all required scientific items pass after evidence qualification",
+  "is_new_quantum_validation": false
+}

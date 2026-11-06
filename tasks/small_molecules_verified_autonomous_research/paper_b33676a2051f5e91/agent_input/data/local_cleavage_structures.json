@@ -1,0 +1,87 @@
+{
+  "schema_version": "mapped-public-structures-1",
+  "molecules": [
+    {
+      "id": "int3",
+      "mapped_smiles": "[c:1]1([C:7]([CH3:8])([CH2:9][CH3:10])[O:11])[cH:2][cH:3][cH:4][cH:5][cH:6]1",
+      "formula": "C10H13O",
+      "charge": 0,
+      "multiplicity": 2,
+      "role": "required local starting radical",
+      "structure_file": "data/int3.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry"
+    },
+    {
+      "id": "int2",
+      "mapped_smiles": "[c:1]1([C:7]([CH3:8])([CH2:9][CH3:10])[O:11][OH:12])[cH:2][cH:3][cH:4][cH:5][cH:6]1",
+      "formula": "C10H14O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "contextual hydroperoxide model; formation and cleavage are not required",
+      "structure_file": "data/int2.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry"
+    },
+    {
+      "id": "acetophenone",
+      "mapped_smiles": "[c:1]1([C:7]([CH3:8])=[O:11])[cH:2][cH:3][cH:4][cH:5][cH:6]1",
+      "formula": "C8H8O",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "candidate ketone",
+      "structure_file": "data/acetophenone.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry"
+    },
+    {
+      "id": "ethyl_radical",
+      "mapped_smiles": "[CH2:9][CH3:10]",
+      "formula": "C2H5",
+      "charge": 0,
+      "multiplicity": 2,
+      "role": "candidate coproduct",
+      "structure_file": "data/ethyl_radical.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry"
+    },
+    {
+      "id": "propiophenone",
+      "mapped_smiles": "[c:1]1([C:7]([CH2:9][CH3:10])=[O:11])[cH:2][cH:3][cH:4][cH:5][cH:6]1",
+      "formula": "C9H10O",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "candidate ketone",
+      "structure_file": "data/propiophenone.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry"
+    },
+    {
+      "id": "methyl_radical",
+      "mapped_smiles": "[CH3:8]",
+      "formula": "CH3",
+      "charge": 0,
+      "multiplicity": 2,
+      "role": "candidate coproduct",
+      "structure_file": "data/methyl_radical.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry"
+    }
+  ],
+  "channels": [
+    {
+      "id": "channel_A",
+      "reactant": "int3",
+      "products": [
+        "acetophenone",
+        "ethyl_radical"
+      ]
+    },
+    {
+      "id": "channel_B",
+      "reactant": "int3",
+      "products": [
+        "propiophenone",
+        "methyl_radical"
+      ]
+    }
+  ],
+  "mapping_namespace": "Shared heavy-atom labels within this file, independent of legacy sec_butylbenzene XYZ/SDF ordering. Explicitly map between namespaces if using legacy substrate files.",
+  "source_status": "Int-2/Int-3 are supplied mechanistic models. Hydroperoxide NMR detection in the source concerned an ethylbenzene analogue, not direct detection of the sec-butylbenzene model Int-2.",
+  "stereochemistry": "Unspecified; no experimental absolute configuration is inferred.",
+  "boundary": "Required work begins at int3. No radical-generation, peroxide-cleavage, oxygen activation or full oxidation calculation is required."
+}

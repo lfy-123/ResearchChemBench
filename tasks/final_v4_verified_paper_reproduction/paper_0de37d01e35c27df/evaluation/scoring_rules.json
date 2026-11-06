@@ -1,0 +1,199 @@
+{
+  "paper_id": "paper_0de37d01e35c27df",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_contraction_nor",
+      "reference_id": "contraction_nor",
+      "type": "semantic",
+      "expected": "Actual relaxed structures of full norDTCO establish d(S···S,neutral singlet)>d(S···S,radical cation doublet) for a declared comparable local conformational family, with atom mapping and structural uncertainty sufficient to resolve the contraction. The molecular graph and redox state, not an inaccessible source twist geometry, define eligibility. A different justified conformational family is not automatically rejected, but it must actually show this contraction; imposed contacts, averaging unrelated basins without a physical population definition, a charge+1 input, or an unresolved/reversed change do not establish it. No absolute endpoint target or mandatory conformer-search protocol applies. For PR assess the disclosed twist-basin neutral/radical endpoints and their response, or justify a physically comparable substitution; report both distances without author-value windows.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_contraction_dtco",
+      "reference_id": "contraction_dtco",
+      "type": "semantic",
+      "expected": "Actual relaxed structures of full DTCO establish d(S···S,neutral singlet)>d(S···S,radical cation doublet) for a declared comparable local conformational family, with atom mapping and structural uncertainty sufficient to resolve the contraction. The molecular graph and redox state, not an inaccessible source twist geometry, define eligibility. A different justified conformational family is not automatically rejected, but it must actually show this contraction; imposed contacts, averaging unrelated basins without a physical population definition, a charge+1 input, or an unresolved/reversed change do not establish it. No absolute endpoint target or mandatory conformer-search protocol applies. For PR assess the disclosed twist-basin neutral/radical endpoints and their response, or justify a physically comparable substitution; report both distances without author-value windows.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_first_oxidation_bonding_nor",
+      "reference_id": "first_oxidation_bonding_nor",
+      "type": "semantic",
+      "expected": "The final norDTCO interpretation combines the computed modest S···S contraction, distributed sulfur spin/oxidation response and orbital evidence into a weak delocalized transannular two-center/three-electron-compatible radical interaction. This is not a conventional closed-shell S–S single bond. A bonding name alone, or sulfur spin without the structural/orbital synthesis, does not pass; no unperformed second oxidation is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_first_oxidation_bonding_dtco",
+      "reference_id": "first_oxidation_bonding_dtco",
+      "type": "semantic",
+      "expected": "The final DTCO interpretation combines the computed modest S···S contraction, distributed sulfur spin/oxidation response and orbital evidence into a weak delocalized transannular two-center/three-electron-compatible radical interaction. This is not a conventional closed-shell S–S single bond. A bonding name alone, or sulfur spin without the structural/orbital synthesis, does not pass; no unperformed second oxidation is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_framework_explanation",
+      "reference_id": "framework_explanation",
+      "type": "semantic",
+      "expected": "Actual comparable neutral/radical geometries and electronic analyses support the smaller structural relaxation of norDTCO as a consequence of its constrained nortricyclene framework, while both molecules retain a sulfur-pair oxidation response. Use the calculated contraction comparison as evidence for this causal distinction, not as proof of a different integer bond or of absent sulfur interaction. Limit the inference to the characterized conformational basins; no global population or unique quantitative strain decomposition is implied. A fully established physically equivalent explanation passes directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "contraction_nor",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "norDTCO contracts on first oxidation",
+      "rule_ids": [
+        "r_contraction_nor"
+      ],
+      "evidence_ids": [
+        "main_response",
+        "si_structures",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "contraction_dtco",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "DTCO contracts on first oxidation",
+      "rule_ids": [
+        "r_contraction_dtco"
+      ],
+      "evidence_ids": [
+        "main_response",
+        "si_structures",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "first_oxidation_bonding_nor",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final norDTCO first-oxidation bonding account",
+      "rule_ids": [
+        "r_first_oxidation_bonding_nor"
+      ],
+      "evidence_ids": [
+        "main_response",
+        "main_spin",
+        "si_orbitals",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "first_oxidation_bonding_dtco",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final DTCO first-oxidation bonding account",
+      "rule_ids": [
+        "r_first_oxidation_bonding_dtco"
+      ],
+      "evidence_ids": [
+        "main_response",
+        "main_spin",
+        "si_orbitals",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "framework_explanation",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Physical origin of the difference between the two framework responses",
+      "rule_ids": [
+        "r_framework_explanation"
+      ],
+      "evidence_ids": [
+        "main_response",
+        "main_orbitals",
+        "main_spin",
+        "si_structures",
+        "second_native_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

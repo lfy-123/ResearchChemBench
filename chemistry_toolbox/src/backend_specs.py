@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from .models import BackendSpec
+from .gaussian_contract import GAUSSIAN_EXCITED_FUNCTIONALS
 from .parameter_specs import (
     fixed_parameter_specs_for_backend,
     parameter_specs_for_backend,
@@ -689,6 +690,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={
             "calculate_excited_states": ("number_of_states", "spin_symmetry"),
         },
+        allowed_methods={
+            "calculate_atomic_charges": {"population_analysis": ("mulliken",)},
+            "calculate_excited_states": {"method": ("rhf", "rks"), "excited_state_method": ("tda", "tddft")},
+        },
+        allowed_settings={"calculate_excited_states": {"spin_symmetry": ("singlet", "triplet")}},
         electronic_state_model="finite_molecular",
     ),
     _backend(
@@ -1157,7 +1163,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "and resources. This server's validated execution contract permits up to 48 "
             "CPU cores; the evaluator supplies the common compute timeout."
         ),
-        executables=("orca",), environment=("CHEMGRAPH_ORCA_COMMAND",),
+        executables=("orca", "orca_2json"), environment=("CHEMGRAPH_ORCA_COMMAND",),
         license_class="manual_license",
         install_notes=(
             "Configured from the operator-downloaded ORCA 6.1.1 installer under "
@@ -1221,9 +1227,14 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "calculate_energy", "calculate_forces", "calculate_hessian",
                 "optimize_geometry", "calculate_dipole_moment",
                 "calculate_atomic_charges", "calculate_orbitals",
-                "calculate_bond_orders", "calculate_excited_states",
+                "calculate_bond_orders",
             )
         } | {
+            "calculate_atomic_charges": {"solvation_model": ("cpcm", "smd"), "population_analysis": ("mulliken", "loewdin")},
+            "calculate_excited_states": {
+                "solvation_model": ("cpcm", "smd"),
+                "excited_state_method": ("tda", "tddft"),
+            },
             "calculate_correlated_electron_density": {
                 "density_type": ("scf", "relaxed_mp2", "unrelaxed_ccsd"),
             }
@@ -1232,6 +1243,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "optimize_geometry": {
                 "optimization_convergence": ("Loose", "Normal", "Tight", "VeryTight")
             },
+            "calculate_excited_states": {"spin_symmetry": ("singlet",)},
             "calculate_correlated_electron_density": {
                 "scf_convergence": ("LooseSCF", "TightSCF", "VeryTightSCF"),
             },
@@ -1244,8 +1256,8 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     ),
     _backend(
         "gaussian", "Gaussian 16", "gaussian",
-        ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment"),
-        "Operator-provided Gaussian 16 C.01 SCF/DFT jobs rendered from typed molecular structures and explicit method settings.",
+        ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment", "calculate_excited_states"),
+        "Operator-provided Gaussian 16 C.01 SCF/DFT jobs, including vertical TD-DFT/TDA singlet or triplet excitations from a restricted closed-shell DFT reference.",
         executables=("g16", "formchk"),
         environment=("CHEMGRAPH_GAUSSIAN_COMMAND", "CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND"),
         license_class="commercial_license",
@@ -1272,12 +1284,13 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_methods={
             action: ("method", "basis")
             for action in ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment")
-        },
+        } | {"calculate_excited_states": ("method", "basis", "excited_state_method")},
         required_settings={
             "calculate_energy": ("scf_convergence",),
             "calculate_hessian": ("scf_convergence",),
             "calculate_dipole_moment": ("scf_convergence",),
             "optimize_geometry": ("scf_convergence", "optimization_convergence", "max_steps"),
+            "calculate_excited_states": ("scf_convergence", "number_of_states", "spin_symmetry"),
         },
         allowed_methods={
             action: {"solvation_model": ("pcm", "cpcm", "smd")}
@@ -1285,12 +1298,22 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "calculate_energy", "calculate_hessian", "optimize_geometry",
                 "calculate_dipole_moment",
             )
+        } | {
+            "calculate_excited_states": {
+                "method": GAUSSIAN_EXCITED_FUNCTIONALS,
+                "excited_state_method": ("tddft", "tda"),
+                "solvation_model": ("pcm", "cpcm", "smd"),
+            }
         },
         allowed_settings={
             "optimize_geometry": {
                 "scf_convergence": ("Loose", "Tight", "VeryTight"),
                 "optimization_convergence": ("Loose", "Tight", "VeryTight"),
-            }
+            },
+            "calculate_excited_states": {
+                "scf_convergence": ("Loose", "Tight", "VeryTight"),
+                "spin_symmetry": ("singlet", "triplet"),
+            },
         },
         electronic_state_model="finite_molecular",
     ),

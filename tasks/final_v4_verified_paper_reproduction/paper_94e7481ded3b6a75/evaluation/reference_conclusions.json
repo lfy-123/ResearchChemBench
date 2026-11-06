@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_94e7481ded3b6a75",
+  "items": [
+    {
+      "conclusion_id": "frontier_electronic_picture",
+      "statement": "Ground-state frontier electronic picture of the author molecular model",
+      "expected": "Establish the ground-state frontier electronic picture of the disclosed 50-atom N-methyl PBNA model C24H22B2N2 from actual gas-phase calculations or a physically justified comparable baseline. Use both computed HOMO and LUMO eigenvalues, their separation and their spatial character to support predominantly BN-anthracene-scaffold frontier orbitals, or a demonstrated equivalent description. Define the geometry/state and vacuum energy reference, and distinguish these one-electron quantities from vertical absorption, relaxed emission and a measured optical onset. No author eigenvalue or orbital-population percentage is a matching target. Reporting two unexplained values, substituting the 80-atom molecule without addressing the disclosed baseline, or treating an orbital gap as an optical transition fails. This is a model-specific ground-state conclusion; optical transitions and transfer to experimental N-hexyl PBNA are assessed separately.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping"
+      ],
+      "supporting_key_point_ids": [
+        "support_frontier_electronic_picture"
+      ]
+    },
+    {
+      "conclusion_id": "absorption_account",
+      "statement": "Molecular explanation of solution absorption",
+      "expected": "Explain the supplied near-UV PBNA absorption by actual computed solution transitions and their physical state character within the declared molecular model. Establish a predominantly scaffold-local aromatic excitation account with limited core/B-phenyl charge transfer, or a scientifically established equivalent description; quantify relevant transition energies/wavelengths and intensities with matched geometry and DCM conventions. Frontier localization is supporting evidence, not a required pair of separately scored nodes. Distinguish the 321/375/392 nm experimental bands, the 404 nm onset, orbital gaps and vertical electronic roots; do not assign one root to every fine-structured feature. A copied observed spectrum, a HOMO-LUMO gap alone or an unsupported state assignment fails. This item assesses the optical account within the explicitly identified model; applicability to the full experimental identity is assessed separately.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping",
+        "verified_full80_absorption"
+      ],
+      "supporting_key_point_ids": [
+        "support_absorption_account"
+      ]
+    },
+    {
+      "conclusion_id": "emission_account",
+      "statement": "Molecular explanation of fluorescence and relaxation",
+      "expected": "Explain the supplied PBNA fluorescence and its photon-energy relation to absorption using actual relaxed excited-state/emission or equivalent vibronic evidence in a declared model. Quantify the relevant transition and show what state, structural relaxation and solvent response support the account. Keep vertical emission, equilibrium endpoint E00 and measured peak maxima distinct. A valid equivalent explanation passes without a required author geometry or fixed motion/control grid. No unreported exact computed emission target is imposed. A ground-state gap, a raw oscillator strength or the copied 409/427 nm observation alone does not establish this result or a photophysical rate. This item assesses the model-scoped emission account; transfer to experimental PBNA is separate.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping",
+        "verified_full80_relaxation",
+        "native_optical_transfer",
+        "native_full80_equilibrium_gap"
+      ],
+      "supporting_key_point_ids": [
+        "support_emission_account"
+      ]
+    },
+    {
+      "conclusion_id": "absorption_applicability",
+      "statement": "Applicability of the absorption account to experimental PBNA",
+      "expected": "Establish the applicability of the absorption account to full neutral-singlet N-hexyl PBNA, C34H42B2N2 (80 atoms), in dilute DCM. Direct full-molecule transition/state evidence can show that the retained conjugated framework rather than the N-alkyl tails carries the relevant absorption, without a separate N-methyl control. An approximate model requires explicit atom/substituent mapping and quantitative property-specific evidence for this transfer. Quantify the effect or limit of changed groups, not just their atom count. Source adoption of truncation, a reasonable model spectrum by itself or a generic limitations paragraph cannot establish this experimental-identity claim.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping",
+        "verified_full80_absorption"
+      ],
+      "supporting_key_point_ids": [
+        "support_absorption_applicability"
+      ]
+    },
+    {
+      "conclusion_id": "emission_applicability",
+      "statement": "Applicability of the relaxed-emission account to experimental PBNA",
+      "expected": "Establish the applicability of the relaxed-emission account to full N-hexyl PBNA under the stated solution conditions. Resolve the emitting-state character and relaxation/solvent response of the retained chromophore, including any contribution of the actual or changed N substituents. Direct full-molecule evidence is eligible without a prescribed truncated control; an approximation needs relaxation-sensitive transfer evidence. Agreement only for vertical absorption is insufficient. State which observed optical features can be interpreted and which remain unassigned from this evidence; do not extend the result to AIE, crystal packing, two-photon cross sections or rates. A generic caveat or source model label alone fails.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping",
+        "verified_full80_emitting_character",
+        "native_optical_transfer",
+        "native_full80_equilibrium_gap"
+      ],
+      "supporting_key_point_ids": [
+        "support_emission_applicability"
+      ]
+    }
+  ]
+}

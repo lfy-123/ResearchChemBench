@@ -1,0 +1,306 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_snaft_vacuum_preference",
+      "reference_id": "snaft_vacuum_preference",
+      "type": "semantic",
+      "expected": "Genuine same-environment comparison of complete neutral-singlet SNaft establishes a low-energy V-like basin or near-degenerate V pair below the Z-like geometry in vacuo. An unresolved or reversed preference does not meet this target. Structures and relative energetic definition must substantiate the finding; source family names are not a substitute for evidence. Physical comparison: Full neutral-singlet SNaft35atoms and SAntr41atoms; compare in-vacuo and methanol molecular settings separately. The historical reference used R2SCAN geometries and separate omegaB97M-V densities; these are provenance, not mandatory method choices. Establish each quantity with a physically comparable and internally consistent model. RelativeE and relativeG are different observables; a finite constrained scan is not a saddle-point barrier. Report the actual within-vacuum relative energies in kcal/mol, the conformer geometries and a consistent reference; merely naming V below Z is insufficient. Retain unresolved V-pair splitting without equating it with an unresolved V-versus-Z preference.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_snaft_methanol_preference",
+      "reference_id": "snaft_methanol_preference",
+      "type": "semantic",
+      "expected": "Genuine matched methanol comparison of complete neutral-singlet SNaft establishes the V-like preference over Z-like geometry. An unresolved or reversed preference does not meet this target. Do not mix vacuum and methanol energies or electronic and Gibbs quantities. Physical comparison: Full neutral-singlet SNaft35atoms and SAntr41atoms; compare in-vacuo and methanol molecular settings separately. The historical reference used R2SCAN geometries and separate omegaB97M-V densities; these are provenance, not mandatory method choices. Establish each quantity with a physically comparable and internally consistent model. RelativeE and relativeG are different observables; a finite constrained scan is not a saddle-point barrier. Report the actual within-methanol relative energies in kcal/mol and explicitly compare the magnitude and direction of the corresponding family gap with vacuum using the same observable definition. Merely repeating V below Z in both media is insufficient. No new numerical gap target is imposed, and unresolved small V-pair splitting must be retained.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_snaft_weak_contact",
+      "reference_id": "snaft_weak_contact",
+      "type": "semantic",
+      "expected": "Geometry and actual electronic/interaction evidence for SNaft support a weak closed-shell aromatic C–H···O contact in V-like conformations. QTAIM is eligible but not compulsory; a BCP or short distance alone does not quantify total conformational stabilization. Physical comparison: Full neutral-singlet SNaft35atoms and SAntr41atoms; compare in-vacuo and methanol molecular settings separately. The historical reference used R2SCAN geometries and separate omegaB97M-V densities; these are provenance, not mandatory method choices. Establish each quantity with a physically comparable and internally consistent model. RelativeE and relativeG are different observables; a finite constrained scan is not a saddle-point barrier. Explain how this weak local contact is consistent with the conformational preference without asserting that its empirical energy alone equals or proves the whole conformer stabilization. Equivalent physically supported interaction explanations pass.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_snaft_flexibility",
+      "reference_id": "snaft_flexibility",
+      "type": "semantic",
+      "expected": "Actual path or accessible-configuration evidence for SNaft supports finite torsional access among V-like andZ-like states with a nonzero energy penalty, without claiming a coarse scan maximum is a verified transition-state rate. Source6–7kcal/mol finite rotational scale is context, not a compulsory continuous barrier target. Physical comparison: Full neutral-singlet SNaft35atoms and SAntr41atoms; compare in-vacuo and methanol molecular settings separately. The historical reference used R2SCAN geometries and separate omegaB97M-V densities; these are provenance, not mandatory method choices. Establish each quantity with a physically comparable and internally consistent model. RelativeE and relativeG are different observables; a finite constrained scan is not a saddle-point barrier. The final conclusion relates the finite torsional access to the local interaction: the preferred conformer is not permanently locked by that contact. This does not quantify a rate. The conclusion must be supported by quantitative energies in kcal/mol along mapped torsional configurations or a connected path, with medium, energy reference and constraint/release status stated. Identify the configurations reached and the sampled energetic cost; an unspecified nonzero penalty or an isolated displaced structure is insufficient. No particular scan mesh, numerical peak target or TS search is added.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_santr_vacuum_preference",
+      "reference_id": "santr_vacuum_preference",
+      "type": "semantic",
+      "expected": "Genuine same-environment comparison of complete neutral-singlet SAntr establishes a low-energy V-like basin or near-degenerate V pair below the Z-like geometry in vacuo. An unresolved or reversed preference does not meet this target. Structures and relative energetic definition must substantiate the finding; source family names are not a substitute for evidence. Physical comparison: Full neutral-singlet SNaft35atoms and SAntr41atoms; compare in-vacuo and methanol molecular settings separately. The historical reference used R2SCAN geometries and separate omegaB97M-V densities; these are provenance, not mandatory method choices. Establish each quantity with a physically comparable and internally consistent model. RelativeE and relativeG are different observables; a finite constrained scan is not a saddle-point barrier. Report the actual within-vacuum relative energies in kcal/mol, the conformer geometries and a consistent reference; merely naming V below Z is insufficient. Retain unresolved V-pair splitting without equating it with an unresolved V-versus-Z preference.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_santr_methanol_preference",
+      "reference_id": "santr_methanol_preference",
+      "type": "semantic",
+      "expected": "Genuine matched methanol comparison of complete neutral-singlet SAntr establishes the V-like preference over Z-like geometry. An unresolved or reversed preference does not meet this target. Do not mix vacuum and methanol energies or electronic and Gibbs quantities. Physical comparison: Full neutral-singlet SNaft35atoms and SAntr41atoms; compare in-vacuo and methanol molecular settings separately. The historical reference used R2SCAN geometries and separate omegaB97M-V densities; these are provenance, not mandatory method choices. Establish each quantity with a physically comparable and internally consistent model. RelativeE and relativeG are different observables; a finite constrained scan is not a saddle-point barrier. Report the actual within-methanol relative energies in kcal/mol and explicitly compare the magnitude and direction of the corresponding family gap with vacuum using the same observable definition. Merely repeating V below Z in both media is insufficient. No new numerical gap target is imposed, and unresolved small V-pair splitting must be retained.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_santr_weak_contact",
+      "reference_id": "santr_weak_contact",
+      "type": "semantic",
+      "expected": "Geometry and actual electronic/interaction evidence for SAntr support a weak closed-shell aromatic C–H···O contact in V-like conformations. QTAIM is eligible but not compulsory; a BCP or short distance alone does not quantify total conformational stabilization. Physical comparison: Full neutral-singlet SNaft35atoms and SAntr41atoms; compare in-vacuo and methanol molecular settings separately. The historical reference used R2SCAN geometries and separate omegaB97M-V densities; these are provenance, not mandatory method choices. Establish each quantity with a physically comparable and internally consistent model. RelativeE and relativeG are different observables; a finite constrained scan is not a saddle-point barrier. Explain how this weak local contact is consistent with the conformational preference without asserting that its empirical energy alone equals or proves the whole conformer stabilization. Equivalent physically supported interaction explanations pass.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_santr_flexibility",
+      "reference_id": "santr_flexibility",
+      "type": "semantic",
+      "expected": "Actual path or accessible-configuration evidence for SAntr supports finite torsional access among V-like andZ-like states with a nonzero energy penalty, without claiming a coarse scan maximum is a verified transition-state rate. Source6–7kcal/mol finite rotational scale is context, not a compulsory continuous barrier target. Physical comparison: Full neutral-singlet SNaft35atoms and SAntr41atoms; compare in-vacuo and methanol molecular settings separately. The historical reference used R2SCAN geometries and separate omegaB97M-V densities; these are provenance, not mandatory method choices. Establish each quantity with a physically comparable and internally consistent model. RelativeE and relativeG are different observables; a finite constrained scan is not a saddle-point barrier. The final conclusion relates the finite torsional access to the local interaction: the preferred conformer is not permanently locked by that contact. This does not quantify a rate. The conclusion must be supported by quantitative energies in kcal/mol along mapped torsional configurations or a connected path, with medium, energy reference and constraint/release status stated. Identify the configurations reached and the sampled energetic cost; an unspecified nonzero penalty or an isolated displaced structure is insufficient. No particular scan mesh, numerical peak target or TS search is added.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "snaft_vacuum_preference",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "SNaft in-vacuo conformational preference",
+      "rule_ids": [
+        "r_snaft_vacuum_preference"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "snaft_methanol_preference",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "SNaft methanol conformational preference",
+      "rule_ids": [
+        "r_snaft_methanol_preference"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "snaft_weak_contact",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "SNaft weak intramolecular aromatic C–H···O contact",
+      "rule_ids": [
+        "r_snaft_weak_contact"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "snaft_flexibility",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "SNaft finite conformational flexibility",
+      "rule_ids": [
+        "r_snaft_flexibility"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "santr_vacuum_preference",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "SAntr in-vacuo conformational preference",
+      "rule_ids": [
+        "r_santr_vacuum_preference"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "santr_methanol_preference",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "SAntr methanol conformational preference",
+      "rule_ids": [
+        "r_santr_methanol_preference"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "santr_weak_contact",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "SAntr weak intramolecular aromatic C–H···O contact",
+      "rule_ids": [
+        "r_santr_weak_contact"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "santr_flexibility",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "SAntr finite conformational flexibility",
+      "rule_ids": [
+        "r_santr_flexibility"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

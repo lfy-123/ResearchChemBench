@@ -14,6 +14,7 @@ from .dual_axis import (
 )
 from .rules import associate_rules
 from ..contracts.scientific_rubric import scientific_rubric
+from . import paper_science
 
 
 class EvaluatorAdapterError(RuntimeError):
@@ -50,6 +51,19 @@ def _runtime_contract(
     conclusions = reference["reference_conclusions.json"]["items"]
     rules = reference["scoring_rules.json"]["rules"]
     authored_policy = reference["scoring_rules.json"].get("scoring_policy")
+    if authored_policy == "paper_science_v3":
+        from .final_results import runtime_contract
+        return runtime_contract(task_type=task_type, reference=reference, submission=submission)
+    if authored_policy == paper_science.POLICY_ID:
+        rubric = scientific_rubric(reference["scoring_rules.json"])
+        if rubric is None:
+            raise EvaluatorReferenceInvalid("V2 task requires scientific_rubric")
+        truth = {"score_max": 100,
+                 "evaluation_profile": "paper_reproduction" if task_type == "paper_reproduction" else "autonomous_discovery",
+                 "reference_evidence": reference, "rule_table": associate_rules(reference),
+                 "expected_structured_output": submission["required_files"]}
+        return paper_science.with_rubric(truth, [{"expected": i["description"],
+            **{k: i[k] for k in ("id", "kind", "max_score", "rule_ids", "evidence_ids")}} for i in rubric])
     if authored_policy not in (None, DUAL_AXIS_POLICY_ID, RESULTS_POLICY_ID, OPEN_RESEARCH_POLICY_ID):
         raise EvaluatorReferenceInvalid(f"unknown authored scoring_policy:{authored_policy}")
     scientific_results = authored_policy == RESULTS_POLICY_ID
@@ -132,10 +146,19 @@ def load_runtime_evaluation(*, paper_id: str, task_type: str, repository=None) -
         raise EvaluatorReferenceInvalid(
             f"evaluator files cannot be adapted: {type(exc).__name__}: {exc}"
         ) from exc
+    if ground_truth["evaluation_mode"] == "final_results_100":
+        return RuntimeEvaluation(
+            ground_truth=ground_truth, adapter_id="split-computational-evaluator.paper-science-v3",
+            policy_id="paper_science_v3", task_type=task_type,
+            package_content_sha256=package.package_content_sha256,
+        )
+    v2 = ground_truth["evaluation_mode"] == paper_science.MODE
+    adapter = ("split-computational-evaluator.v3-flat"
+               if reference["scoring_rules.json"].get("scientific_rubric") else "split-computational-evaluator.v2")
     return RuntimeEvaluation(
         ground_truth=ground_truth,
-        adapter_id="split-computational-evaluator.v3-flat" if reference["scoring_rules.json"].get("scientific_rubric") else "split-computational-evaluator.v2",
-        policy_id=ground_truth["dual_axis_scoring_policy"]["policy_id"],
+        adapter_id="split-computational-evaluator.paper-science-v2" if v2 else adapter,
+        policy_id=paper_science.POLICY_ID if v2 else ground_truth["dual_axis_scoring_policy"]["policy_id"],
         task_type=task_type,
         package_content_sha256=package.package_content_sha256,
     )

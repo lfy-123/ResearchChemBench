@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_f2a9e1bc87fc9b54",
+  "case_id": "case_14",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "NaH/DMF 下吡咯 N-炔丙基化机制、局部活化比较与配平净热力学。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "local_energies",
+      "description": "碱/氮活化及 N–C 取代的实际局部活化量、各自前体/反应态能量和差值；耦合机制需提供对应实际剖面支持同一比较。",
+      "public_requirement": "Computed local activation energies, precursor/reactive-state energies and differences for base/nitrogen activation and N–C substitution; a coupled mechanism must supply an actual profile addressing the same comparison."
+    },
+    {
+      "id": "net_energies",
+      "description": "完整配平的反应物、产物及必需离子/气体/副产物能量账本和净 Gibbs ΔG。",
+      "public_requirement": "Computed energies for the complete balanced reactant/product inventory, including required ions, gases and coproducts, and the resulting net Gibbs ΔG."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "base_enabled_n_alkylation",
+      "points": 35,
+      "description": "碱活化氮与 N–C 成键机制",
+      "allow_need_review": false
+    },
+    {
+      "id": "local_activation_order",
+      "points": 30,
+      "description": "N–C 取代较去质子化更费活化",
+      "allow_need_review": false
+    },
+    {
+      "id": "balanced_net_exergonicity",
+      "points": 35,
+      "description": "配平净反应放能",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Fig.1、SI DOCX Theoretical study/Table 1/坐标；历史验证支持 N–H 去质子化/氢气、亲核取代、局部活化排序与净反应放能。",
+  "boundaries": [
+    "源 TS 不含完整 Na 环境，不能宣称复现固体/聚集/全溶液 NaH；可使用明确配平的局部模型。",
+    "产物 N 连接已公开，单独给产物图不计预测分。",
+    "不加入药物对接、细胞活性、后续衍生或全固体 NaH。"
+  ],
+  "source_locator": "Main text pp2–3, Figure 1 on p3; SI DOCX Theoretical study, Table 1 and Cartesian coordinates",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

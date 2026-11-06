@@ -1,0 +1,135 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "四低态均为pi–pi*；1c低态f=0.008，高S2/S3为0.2334/0.0719。PCM中1c/1d差约0.0001 eV。",
+  "accepted_limitations": "1c/1d无稳健排序；跨CAM态对应0.5297仅支持混合对应，不是精确同态。不能把根序和光谱最大值混同。",
+  "objective_issue_flags": [
+    "1c/1d无稳健排序；跨CAM态对应0.5297仅支持混合对应，不是精确同态。不能把根序和光谱最大值混同。"
+  ],
+  "current_rules": [
+    "r_low_state_1a",
+    "r_low_state_1b",
+    "r_low_state_1c",
+    "r_low_state_1d",
+    "r_conjugation_explanation",
+    "r_weak_low_band",
+    "r_upper_band_1c"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_2f2aa11ea61a32bb",
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "accepted_limitations": "Source solvent implementation remains incompletely specified; PCM toluene is an explicit extension. Native1b TD20 f0.1425 matches source rounding; a TD10 f0.1424 record is distinct.1c source S3 maps to CAM S4 in the existing correspondence check, so root indices alone are not physical identity. Four-molecule solution absorption only; no fluorescence efficiency, solid-state polymorph, white-light or OLED claim. No claim that discrete transitions reconstruct the complete observed spectrum.",
+    "tolerance_basis": "Semantic-only by design: the question is explanation and band/state assignment; measured band maxima cannot legitimately be assigned the same target as vertical TD roots, and source solvent implementation is incomplete. Existing source-compatible gas calculations reproduce six source theoretical anchors at their printed resolution, but this does not define a universal nm tolerance for alternate physically justified toluene representations. Therefore no synthetic numeric window is invented. Final assignments and explanations follow the V3 outcome-specific review triggers; equivalent supported states pass, and missing evidence fails. The full numerical comparisons and residuals are retained in this handoff for expert review.",
+    "authority": [
+      "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+      "evaluation/verified_computation_reference.md"
+    ],
+    "historical_qualification": {
+      "status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+      "acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+      "reason": "Pure-science migration authorized 2026-10-19; existing independent strict acceptance is preserved, not revalidated or upgraded. New scoring criteria are auditable provisional benchmark policy, not publication certification.",
+      "scoring_policy": "paper_science_v2",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "coordinator_review": {
+        "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+        "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+        "review_key": "v2_paper_2f2aa11ea61a32bb",
+        "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+        "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+        "publication_readiness_unchanged": true
+      },
+      "repair_round3": {
+        "date": "2026-10-19",
+        "status": "WORKER_REPAIRED_PENDING_INDEPENDENT_COORDINATOR_REVIEW",
+        "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_01/REPORT.md",
+        "notes": [
+          "All13 original leaves76/24 retained after source/native review. Clarified gas baseline versus toluene interpretation; no numerical windows added and no root-count gate."
+        ],
+        "historical_acceptance_unchanged": true,
+        "new_chemistry_validation": false,
+        "online_judge_calibration": false
+      }
+    },
+    "scoring_policy": "paper_science_v3",
+    "mode": "final_results_100",
+    "status": "V3_FINAL_RESULTS_EVIDENCE_REUSED_NOT_REVALIDATED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+    "reason": "Four neutral BF2 chelates: retain the original solution-absorption explanation, with four lower-band assignments, aromatic-extension interpretation and the distinct weak-low/strong-high 1c features. Seven nonduplicated final outcomes replace thirteen V2 leaves; no numeric target or scientific object is changed.",
+    "evidence_gaps": [
+      "Source solvent implementation is incompletely specified; PCM toluene and CAM are explicit extensions",
+      "1c source S3 maps only approximately to CAM S4 (transition overlap 0.5297355); root equality is not physical identity",
+      "No exact experimental line shape, robust 1c/1d fine ordering, emission or solid-state conclusion is established",
+      "V3 semantic review and blind AR calibration were not rerun"
+    ],
+    "new_computations": false,
+    "online_judge_calibration": false,
+    "rule_evidence_reuse": [
+      {
+        "rule_id": "r_low_state_1a",
+        "evidence_ids": [
+          "main_assignment",
+          "si_structures",
+          "native_state_synthesis"
+        ]
+      },
+      {
+        "rule_id": "r_low_state_1b",
+        "evidence_ids": [
+          "main_assignment",
+          "si_structures",
+          "native_state_synthesis"
+        ]
+      },
+      {
+        "rule_id": "r_low_state_1c",
+        "evidence_ids": [
+          "main_assignment",
+          "si_structures",
+          "native_state_synthesis"
+        ]
+      },
+      {
+        "rule_id": "r_low_state_1d",
+        "evidence_ids": [
+          "main_assignment",
+          "si_structures",
+          "native_state_synthesis"
+        ]
+      },
+      {
+        "rule_id": "r_conjugation_explanation",
+        "evidence_ids": [
+          "main_absorption",
+          "main_assignment",
+          "native_state_synthesis"
+        ]
+      },
+      {
+        "rule_id": "r_weak_low_band",
+        "evidence_ids": [
+          "main_assignment",
+          "native_state_synthesis"
+        ]
+      },
+      {
+        "rule_id": "r_upper_band_1c",
+        "evidence_ids": [
+          "main_absorption",
+          "main_assignment",
+          "native_state_synthesis"
+        ]
+      }
+    ]
+  }
+}

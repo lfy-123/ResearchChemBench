@@ -1,0 +1,185 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "scoring_policy": "paper_science_v3",
+  "evaluation_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_local_activation_chemistry",
+      "reference_id": "local_activation_chemistry",
+      "type": "semantic",
+      "expected": "Establish a chemically connected local activation of the intact Ru/bda/two-pyridine nitrogen-containing complex and explain how it changes access to the reactive nitrogen site. The reference +1 singlet has a stabilizing N-O interaction to a bda carboxylate oxygen and can open that contact at an accessible local Gibbs cost. Determine the activation height from the actual local initial state in MeCN at 298.15 K, 1 M, with evidence for the relevant bond/electronic change and path connection; a scan maximum, geometry label or a presumed oxidation state is insufficient. Source 6.2 kcal/mol is not a target. A physically established alternative activation/state description is acceptable when the full RuC22H16N5O4 inventory, charge, atom mapping and state correspondence support the same local-reactivity question. Account for thermal/symmetry terms consistently, and distinguish opening Gibbs energy from electronic path energy or electron/proton-reservoir work. This item establishes the activation chemistry, not its ranking against direct NH3 attack or the later proton-acceptor role.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_direct_attack_chemistry",
+      "reference_id": "direct_attack_chemistry",
+      "type": "semantic",
+      "expected": "Establish the physical direct NH3-to-complex N-N-forming reaction being compared and interpret its Gibbs activation demand from actual connected local structures and electronic states. For the reference closed N-O-stabilized +1 singlet complex plus neutral singlet NH3, define DeltaG‡=G(direct-attack saddle)-G(local closed state)-G(separated NH3) in MeCN at 298.15 K and 1 M. Support the assigned saddle/route with atom-resolved N-N bond-change and connection evidence appropriate to the claimed chemistry; an isolated imaginary frequency or copied barrier does not suffice. State how retention of the local bonding environment conditions the direct approach, without awarding the separate route preference again. Apply the bimolecular standard-state correction once, use consistent symmetry/thermal conventions and do not substitute the local opening barrier or a product energy. Source 21.920259635 kcal/mol is historical evidence, not a target. A justified equivalent direct-path/state account can pass if it retains the full composition and physically comparable initial reservoirs and establishes its own activation result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_post_opening_nn_path",
+      "reference_id": "post_opening_nn_path",
+      "type": "semantic",
+      "expected": "Determine whether NH3 can reach an N-N-bonded product after the supported local activation of the full Ru/bda/two-pyridine model. Use actual continuous approach/path and atom-mapped product evidence, report any resolved additional electronic barrier over the examined range, and state the resolution and path domain. The reference finite electronic path descends without a resolved further uphill feature; this is not proof of a completely barrierless solution Gibbs surface or diffusion control. An established alternative with a finite additional electronic barrier, different path shape or state crossing can pass when actual comparable energies, physical state/connection evidence and quantitative resolution still establish the same bounded accessibility of N-N formation. Do not require source scan nodes or a fixed sampling count. Distinguish constrained path points from a freely characterized product and electronic energy from Gibbs energy; a product drawing or an unevaluated gap between structures fails. This conclusion concerns onward N-N access rather than the identity of the proton acceptor.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_opening_preferred_local_route",
+      "reference_id": "opening_preferred_local_route",
+      "type": "semantic",
+      "expected": "Use the actual direct-attack and local-activation Gibbs demands together with onward N-N path evidence to decide which local route is better supported. The reference favors releasing the N-O-stabilized nitrogen site before NH3 attack rather than direct attack on the closed structure. Explain how the initial bonding environment and comparative activation costs lead to that route inference, with consistent full inventory, electronic states, MeCN, 298.15 K and 1 M references; compare reactant reservoirs and molecularity explicitly. This final mechanistic competition is distinct from establishing either elementary chemical pathway or subtracting two numbers. An established equivalent mechanism or state description can pass when its actual connected evidence supports the same preference for activation before attack under comparable physical references. A reversed or unresolved preference does not satisfy this item; changing methods or presenting shifted numbers is insufficient. A demonstrated reference defect or inapplicability is recorded separately in objective_issue_flags and does not automatically confer this item's points. Do not infer a global catalytic rate-determining step, concentration-independent rate ratio, diffusion coefficient or whole-cycle N2 yield.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_oxygen_proton_acceptor_role",
+      "reference_id": "oxygen_proton_acceptor_role",
+      "type": "semantic",
+      "expected": "Explain the ligand's local role in the coupled N-N/proton-transfer chemistry from actual atom-resolved structural or density evidence. The reference carboxylate oxygen of bda accepts an incoming NH3 proton as N-N bonding develops; establish the relevant N, H and ligand O identities and distinguish this oxygen from the bcs analogue's sulfonate environment. Equivalent physical evidence can support the same proton-acceptor function without a prescribed population scheme or exact N-N/O-H distances. A different supported ligand-assistance account is eligible only if its actual connected chemistry and proton inventory establish that explanation for the intact supplied complex, rather than merely naming a generic relay. Neither the ligand name, a guessed short contact nor a copied product proves this role. This local molecular conclusion does not imply a complete catalytic proton/electron sequence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "local_activation_chemistry",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Local activation and release of the nitrogen site",
+      "rule_ids": [
+        "r_local_activation_chemistry"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "direct_attack_chemistry",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Direct ammonia attack on the locally stabilized complex",
+      "rule_ids": [
+        "r_direct_attack_chemistry"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "post_opening_nn_path",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Accessibility of N-N formation after local activation",
+      "rule_ids": [
+        "r_post_opening_nn_path"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "opening_preferred_local_route",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Competition between activation-first and direct attack",
+      "rule_ids": [
+        "r_opening_preferred_local_route"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "oxygen_proton_acceptor_role",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Ligand oxygen as a local proton acceptor",
+      "rule_ids": [
+        "r_oxygen_proton_acceptor_role"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

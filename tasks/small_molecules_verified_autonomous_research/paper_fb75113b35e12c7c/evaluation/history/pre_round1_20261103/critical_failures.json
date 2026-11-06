@@ -1,0 +1,44 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "items": [
+    {
+      "failure_id": "fabricated_evidence",
+      "statement": "Confirmed fabricated execution or data invalidates the submission.",
+      "trigger": "Affirmative evidence of forged native output or copied private reference numbers presented as independently computed. Honest missing or failed work is not fabrication.",
+      "assessment": "invalid_submission only on confirmed fabrication; ordinary errors fail affected outcomes only.",
+      "evidence_ids": [
+        "V2_SI_METHOD"
+      ]
+    },
+    {
+      "failure_id": "hidden_answer_leakage",
+      "statement": "Confirmed unauthorized use of hidden evaluator answers invalidates an autonomous submission.",
+      "trigger": "Evidence of use of private reference assets misrepresented as independent research.",
+      "assessment": "Otherwise evaluate each supported final outcome independently.",
+      "evidence_ids": [
+        "V2_SI_METHOD"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_r5_site_answer",
+      "r_r5_product_class",
+      "r_r5_second_competition",
+      "r_r6_thermodynamic_fate",
+      "r_r6_accessible_fate",
+      "r_sulf_site_answer",
+      "r_comparative_robustness"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+  }
+}

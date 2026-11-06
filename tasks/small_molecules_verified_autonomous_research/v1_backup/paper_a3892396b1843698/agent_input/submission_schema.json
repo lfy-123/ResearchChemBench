@@ -1,0 +1,464 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "method",
+      "channels",
+      "search_and_validation",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "partial",
+          "failed"
+        ],
+        "description": "completed: both channels validated; partial: one channel validated; failed: neither channel validated. These describe computation completion, not awarded scientific credit."
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "input_path",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "input_path": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model",
+          "thermochemistry",
+          "reference_state"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "thermochemistry": {
+            "type": "string"
+          },
+          "reference_state": {
+            "type": "string"
+          }
+        }
+      },
+      "channels": {
+        "type": "object",
+        "required": [
+          "shift_33",
+          "shift_55"
+        ],
+        "properties": {
+          "shift_33": {
+            "type": "object",
+            "required": [
+              "channel",
+              "outcome",
+              "candidate_id",
+              "barrier_kcal_mol",
+              "imaginary_frequency_cm-1",
+              "validation"
+            ],
+            "properties": {
+              "channel": {
+                "type": "string",
+                "const": "[3,3]"
+              },
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "validated_success",
+                  "bounded_failure"
+                ]
+              },
+              "candidate_id": {
+                "type": "string"
+              },
+              "barrier_kcal_mol": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "imaginary_frequency_cm-1": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "converged",
+                  "one_imaginary_frequency",
+                  "displacement_supports_channel",
+                  "evidence"
+                ],
+                "properties": {
+                  "converged": {
+                    "type": "boolean"
+                  },
+                  "one_imaginary_frequency": {
+                    "type": "boolean"
+                  },
+                  "displacement_supports_channel": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "string"
+                  }
+                }
+              },
+              "attempts": {
+                "type": "string"
+              },
+              "limitation": {
+                "type": "string",
+                "description": "Optional commentary."
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "attempts"
+                ],
+                "properties": {
+                  "outcome": {
+                    "const": "bounded_failure"
+                  },
+                  "attempts": {
+                    "type": "string",
+                    "pattern": "\\S"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "outcome": {
+                    "const": "validated_success"
+                  },
+                  "candidate_id": {
+                    "type": "string",
+                    "pattern": "\\S"
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "imaginary_frequency_cm-1": {
+                    "type": "number"
+                  },
+                  "validation": {
+                    "properties": {
+                      "converged": {
+                        "const": true
+                      },
+                      "one_imaginary_frequency": {
+                        "const": true
+                      },
+                      "displacement_supports_channel": {
+                        "const": true
+                      },
+                      "evidence": {
+                        "type": "string",
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "shift_55": {
+            "type": "object",
+            "required": [
+              "channel",
+              "outcome",
+              "candidate_id",
+              "barrier_kcal_mol",
+              "imaginary_frequency_cm-1",
+              "validation"
+            ],
+            "properties": {
+              "channel": {
+                "type": "string",
+                "const": "[5,5]"
+              },
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "validated_success",
+                  "bounded_failure"
+                ]
+              },
+              "candidate_id": {
+                "type": "string"
+              },
+              "barrier_kcal_mol": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "imaginary_frequency_cm-1": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "converged",
+                  "one_imaginary_frequency",
+                  "displacement_supports_channel",
+                  "evidence"
+                ],
+                "properties": {
+                  "converged": {
+                    "type": "boolean"
+                  },
+                  "one_imaginary_frequency": {
+                    "type": "boolean"
+                  },
+                  "displacement_supports_channel": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "string"
+                  }
+                }
+              },
+              "attempts": {
+                "type": "string"
+              },
+              "limitation": {
+                "type": "string",
+                "description": "Optional commentary."
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "attempts"
+                ],
+                "properties": {
+                  "outcome": {
+                    "const": "bounded_failure"
+                  },
+                  "attempts": {
+                    "type": "string",
+                    "pattern": "\\S"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "outcome": {
+                    "const": "validated_success"
+                  },
+                  "candidate_id": {
+                    "type": "string",
+                    "pattern": "\\S"
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "imaginary_frequency_cm-1": {
+                    "type": "number"
+                  },
+                  "validation": {
+                    "properties": {
+                      "converged": {
+                        "const": true
+                      },
+                      "one_imaginary_frequency": {
+                        "const": true
+                      },
+                      "displacement_supports_channel": {
+                        "const": true
+                      },
+                      "evidence": {
+                        "type": "string",
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "search_and_validation": {
+        "type": "object",
+        "required": [
+          "candidate_generation",
+          "deduplication",
+          "coverage"
+        ],
+        "properties": {
+          "candidate_generation": {
+            "type": "string"
+          },
+          "deduplication": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "string"
+          },
+          "stopping_rule": {
+            "type": "string",
+            "description": "Optional commentary."
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary."
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "completed"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "channels": {
+              "properties": {
+                "shift_33": {
+                  "properties": {
+                    "outcome": {
+                      "const": "validated_success"
+                    }
+                  }
+                },
+                "shift_55": {
+                  "properties": {
+                    "outcome": {
+                      "const": "validated_success"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "failed"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "channels": {
+              "properties": {
+                "shift_33": {
+                  "properties": {
+                    "outcome": {
+                      "const": "bounded_failure"
+                    }
+                  }
+                },
+                "shift_55": {
+                  "properties": {
+                    "outcome": {
+                      "const": "bounded_failure"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "partial"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "channels": {
+              "oneOf": [
+                {
+                  "properties": {
+                    "shift_33": {
+                      "properties": {
+                        "outcome": {
+                          "const": "validated_success"
+                        }
+                      }
+                    },
+                    "shift_55": {
+                      "properties": {
+                        "outcome": {
+                          "const": "bounded_failure"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "shift_33": {
+                      "properties": {
+                        "outcome": {
+                          "const": "bounded_failure"
+                        }
+                      }
+                    },
+                    "shift_55": {
+                      "properties": {
+                        "outcome": {
+                          "const": "validated_success"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,322 @@
+{
+  "paper_id": "paper_c28b0a1c549f4575",
+  "evidence": [
+    {
+      "evidence_id": "pc_main",
+      "source": {
+        "path": "papers/paper_c28b0a1c549f4575/documents/main.pdf",
+        "sha256": "4e3ad96c28503f3a100df2083569811eef0ee848ae6aca2def236523628f8909",
+        "bytes": 10212689,
+        "pdf_pages_1based": [
+          3,
+          4
+        ],
+        "locator": "Text and Fig2d local ion–PC binding"
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "pc_si",
+      "source": {
+        "path": "papers/paper_c28b0a1c549f4575/documents/supplementary_001.pdf",
+        "sha256": "51551c36ef22b1633c2ee346411edf4c5b5f3ec9edd9ea1ce7e923c011387546",
+        "bytes": 3766035,
+        "pdf_pages_1based": [
+          5,
+          6
+        ],
+        "locator": "Computational details, separate association/adsorption/frontier/MD protocols"
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "validation_summary_1",
+      "source": {
+        "path": "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/papers/paper_c28b0a1c549f4575/ACTION_RESULT.json",
+        "sha256": "c355ee9ad7fe9930eed6d670294bd1fd7c3250c31296bb8d2716628ff42abd84",
+        "bytes": 47697
+      },
+      "evidence_type": "existing_computational_validation_summary"
+    },
+    {
+      "evidence_id": "validation_summary_2",
+      "source": {
+        "path": "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c28b0a1c549f4575/PARAMETER_READBACK.json",
+        "sha256": "bc1345d4956a10b81792733521714470ef366de1bd7595e2c56e8b1ee32ff287",
+        "bytes": 202745
+      },
+      "evidence_type": "existing_computational_validation_summary"
+    },
+    {
+      "evidence_id": "validation_summary_3",
+      "source": {
+        "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PC_DIRECT_FREQUENCY_READBACK.json",
+        "sha256": "4617166cea074c82283074dc65fed75e3d65dbbc9740c0911c8df7b8bdc5c756",
+        "bytes": 5019
+      },
+      "evidence_type": "existing_computational_validation_summary"
+    },
+    {
+      "evidence_id": "native_validation",
+      "source": {
+        "path": "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_c28b0a1c549f4575/NATIVE_READBACK.json",
+        "sha256": "aa7a6cfa3a7329bb96e7603d1f2953b06910506e2f4987b8840e9374dafb90d2",
+        "bytes": 38856
+      },
+      "evidence_type": "native_verification_readback"
+    },
+    {
+      "evidence_id": "native_pc_decomposition",
+      "source": {
+        "path": "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/cases/w12_current_reference_decomposition_20261012_a02_parserrepair/PC_CURRENT_DECOMPOSITION.json",
+        "sha256": "7a0e0427c727bb0c7e8bd3f71d3b808f3a8a43c3f78c4f33353bacc20644596f"
+      },
+      "evidence_type": "existing_native_computation_or_analysis",
+      "description": "Existing seven-species single-point energies, relaxed/frozen-fragment decomposition, mapped molecular identity and balanced PC-transfer analysis; no new quantum calculation."
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_association_tea",
+      "r_association_ded",
+      "r_association_bf4",
+      "r_ded_vs_bf4",
+      "r_bf4_vs_tea",
+      "r_local_competition_account"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "TEA+–PC相对松弛分离分子的电子结合",
+      "rule_id": "r_association_tea",
+      "conclusion_id": "association_tea",
+      "independence": "TEA局部缔合的有利性独立于另两离子的结合及相对排序。",
+      "source_locator": "正文Fig2d；SIpp5–6计算方法；原生PC_CURRENT_DECOMPOSITION与frequency readback",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/papers/paper_c28b0a1c549f4575/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c28b0a1c549f4575/PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PC_DIRECT_FREQUENCY_READBACK.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_c28b0a1c549f4575/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/cases/w12_current_reference_decomposition_20261012_a02_parserrepair/PC_CURRENT_DECOMPOSITION.json",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/pc_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_source_binding_sp_20260915/stdout.log"
+      ],
+      "existing_support": "松弛片段电子Eb为TEA−13.1874、DED−30.0887、BF4−16.5408 kcal/mol；转移−16.9013；正曲率局部结构支持，源残差及冻/松弛差保留。",
+      "limits": [
+        "历史临时定性接受保持；TEA/DED/BF4相对来源偏+4.2726/+5.4013/+3.5492 kcal/mol，冻结片段也不消除全部偏差。源构象、原始减法不全，CP/BSSE未计算。",
+        "单PC气相电子量只能支持局部竞争，不能确定非单调浓度光谱、0.2M最优、配位人口、吸附或器件。SI“2nm”时间步错误不作为本题设置。"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "previous_rule_ids": [
+        "r_association_tea"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "DED2+–PC相对松弛分离分子的电子结合",
+      "rule_id": "r_association_ded",
+      "conclusion_id": "association_ded",
+      "independence": "DED局部缔合有利性独立于另两离子。",
+      "source_locator": "正文Fig2d；SIpp5–6计算方法；原生PC_CURRENT_DECOMPOSITION与frequency readback",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/papers/paper_c28b0a1c549f4575/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c28b0a1c549f4575/PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PC_DIRECT_FREQUENCY_READBACK.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_c28b0a1c549f4575/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/cases/w12_current_reference_decomposition_20261012_a02_parserrepair/PC_CURRENT_DECOMPOSITION.json",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/pc_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_source_binding_sp_20260915/stdout.log"
+      ],
+      "existing_support": "松弛片段电子Eb为TEA−13.1874、DED−30.0887、BF4−16.5408 kcal/mol；转移−16.9013；正曲率局部结构支持，源残差及冻/松弛差保留。",
+      "limits": [
+        "历史临时定性接受保持；TEA/DED/BF4相对来源偏+4.2726/+5.4013/+3.5492 kcal/mol，冻结片段也不消除全部偏差。源构象、原始减法不全，CP/BSSE未计算。",
+        "单PC气相电子量只能支持局部竞争，不能确定非单调浓度光谱、0.2M最优、配位人口、吸附或器件。SI“2nm”时间步错误不作为本题设置。"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "previous_rule_ids": [
+        "r_association_ded"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "BF4−–PC相对松弛分离分子的电子结合",
+      "rule_id": "r_association_bf4",
+      "conclusion_id": "association_bf4",
+      "independence": "BF4局部缔合有利性独立于另两离子。",
+      "source_locator": "正文Fig2d；SIpp5–6计算方法；原生PC_CURRENT_DECOMPOSITION与frequency readback",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/papers/paper_c28b0a1c549f4575/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c28b0a1c549f4575/PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PC_DIRECT_FREQUENCY_READBACK.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_c28b0a1c549f4575/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/cases/w12_current_reference_decomposition_20261012_a02_parserrepair/PC_CURRENT_DECOMPOSITION.json",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/pc_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_source_binding_sp_20260915/stdout.log"
+      ],
+      "existing_support": "松弛片段电子Eb为TEA−13.1874、DED−30.0887、BF4−16.5408 kcal/mol；转移−16.9013；正曲率局部结构支持，源残差及冻/松弛差保留。",
+      "limits": [
+        "历史临时定性接受保持；TEA/DED/BF4相对来源偏+4.2726/+5.4013/+3.5492 kcal/mol，冻结片段也不消除全部偏差。源构象、原始减法不全，CP/BSSE未计算。",
+        "单PC气相电子量只能支持局部竞争，不能确定非单调浓度光谱、0.2M最优、配位人口、吸附或器件。SI“2nm”时间步错误不作为本题设置。"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "previous_rule_ids": [
+        "r_association_bf4"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "DED2+与BF4−的局部PC结合比较",
+      "rule_id": "r_ded_vs_bf4",
+      "conclusion_id": "ded_vs_bf4",
+      "independence": "成对相对差可成立，即使一个绝对缔合符号未确立。",
+      "source_locator": "正文Fig2d；SIpp5–6计算方法；原生PC_CURRENT_DECOMPOSITION与frequency readback",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/papers/paper_c28b0a1c549f4575/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c28b0a1c549f4575/PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PC_DIRECT_FREQUENCY_READBACK.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_c28b0a1c549f4575/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/cases/w12_current_reference_decomposition_20261012_a02_parserrepair/PC_CURRENT_DECOMPOSITION.json",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/pc_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_source_binding_sp_20260915/stdout.log"
+      ],
+      "existing_support": "松弛片段电子Eb为TEA−13.1874、DED−30.0887、BF4−16.5408 kcal/mol；转移−16.9013；正曲率局部结构支持，源残差及冻/松弛差保留。",
+      "limits": [
+        "历史临时定性接受保持；TEA/DED/BF4相对来源偏+4.2726/+5.4013/+3.5492 kcal/mol，冻结片段也不消除全部偏差。源构象、原始减法不全，CP/BSSE未计算。",
+        "单PC气相电子量只能支持局部竞争，不能确定非单调浓度光谱、0.2M最优、配位人口、吸附或器件。SI“2nm”时间步错误不作为本题设置。"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "previous_rule_ids": [
+        "r_ded_vs_bf4"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "BF4−与TEA+的局部PC结合比较",
+      "rule_id": "r_bf4_vs_tea",
+      "conclusion_id": "bf4_vs_tea",
+      "independence": "另一独立成对差，不再因完整排序重复加分。",
+      "source_locator": "正文Fig2d；SIpp5–6计算方法；原生PC_CURRENT_DECOMPOSITION与frequency readback",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/papers/paper_c28b0a1c549f4575/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c28b0a1c549f4575/PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PC_DIRECT_FREQUENCY_READBACK.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_c28b0a1c549f4575/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/cases/w12_current_reference_decomposition_20261012_a02_parserrepair/PC_CURRENT_DECOMPOSITION.json",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/pc_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_source_binding_sp_20260915/stdout.log"
+      ],
+      "existing_support": "松弛片段电子Eb为TEA−13.1874、DED−30.0887、BF4−16.5408 kcal/mol；转移−16.9013；正曲率局部结构支持，源残差及冻/松弛差保留。",
+      "limits": [
+        "历史临时定性接受保持；TEA/DED/BF4相对来源偏+4.2726/+5.4013/+3.5492 kcal/mol，冻结片段也不消除全部偏差。源构象、原始减法不全，CP/BSSE未计算。",
+        "单PC气相电子量只能支持局部竞争，不能确定非单调浓度光谱、0.2M最优、配位人口、吸附或器件。SI“2nm”时间步错误不作为本题设置。"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "previous_rule_ids": [
+        "r_bf4_vs_tea"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "局部PC环境变化的条件性分子解释",
+      "rule_id": "r_local_competition_account",
+      "conclusion_id": "local_competition_account",
+      "independence": "计分对象是盐组成与有限PC竞争的条件性联系及浓度适用边界，不再奖励算术转移符号。",
+      "source_locator": "正文Fig2d；SIpp5–6计算方法；原生PC_CURRENT_DECOMPOSITION与frequency readback",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/papers/paper_c28b0a1c549f4575/ACTION_RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_c28b0a1c549f4575/PARAMETER_READBACK.json",
+        "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PC_DIRECT_FREQUENCY_READBACK.json",
+        "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_c28b0a1c549f4575/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/advance_remaining_20261012T1245Z/cases/w12_current_reference_decomposition_20261012_a02_parserrepair/PC_CURRENT_DECOMPOSITION.json",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/bf4_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/ded2_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/pc_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_pc_a_source_binding_sp_20260915/stdout.log",
+        "docs/verification/group_4/paper_c28b0a1c549f4575/provenance/local_stage_tests_20260914/tea_source_binding_sp_20260915/stdout.log"
+      ],
+      "existing_support": "松弛片段电子Eb为TEA−13.1874、DED−30.0887、BF4−16.5408 kcal/mol；转移−16.9013；正曲率局部结构支持，源残差及冻/松弛差保留。",
+      "limits": [
+        "历史临时定性接受保持；TEA/DED/BF4相对来源偏+4.2726/+5.4013/+3.5492 kcal/mol，冻结片段也不消除全部偏差。源构象、原始减法不全，CP/BSSE未计算。",
+        "单PC气相电子量只能支持局部竞争，不能确定非单调浓度光谱、0.2M最优、配位人口、吸附或器件。SI“2nm”时间步错误不作为本题设置。"
+      ],
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "previous_rule_ids": [
+        "r_local_competition_account"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

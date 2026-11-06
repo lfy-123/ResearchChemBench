@@ -1,0 +1,274 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md",
+    "research/"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "schema_version": {
+        "const": "research-submission/v1-20261014"
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "hypothesis_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "statement": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "hypothesis_id",
+            "statement",
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "investigations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "investigation_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "purpose": {
+              "type": "string",
+              "minLength": 1
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "enum": [
+                "completed",
+                "partial",
+                "failed"
+              ]
+            },
+            "artifact_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*\\x00)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "outcome": {
+              "type": "string",
+              "minLength": 1
+            },
+            "next_decision": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "investigation_id",
+            "purpose",
+            "method",
+            "status",
+            "artifact_paths",
+            "outcome",
+            "next_decision"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "evidence": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "evidence_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "investigation_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "artifact_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*\\x00)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "quantities": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "value": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "conditions": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "definition": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "name",
+                  "value",
+                  "unit",
+                  "conditions",
+                  "definition"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "evidence_id",
+            "investigation_ids",
+            "description",
+            "artifact_paths",
+            "quantities"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "conclusions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "conclusion_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "statement": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "scope_and_uncertainty": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "conclusion_id",
+            "statement",
+            "evidence_ids",
+            "scope_and_uncertainty"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "reproducibility": {
+        "type": "object",
+        "properties": {
+          "software": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "model_and_settings": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifact_index": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*\\x00)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+            },
+            "uniqueItems": true,
+            "minItems": 1
+          }
+        },
+        "required": [
+          "software",
+          "model_and_settings",
+          "artifact_index"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "schema_version",
+      "hypotheses",
+      "investigations",
+      "evidence",
+      "conclusions",
+      "limitations",
+      "reproducibility"
+    ],
+    "additionalProperties": false,
+    "propertyNames": {
+      "not": {
+        "enum": [
+          "status",
+          "completion_status",
+          "research_status",
+          "question_status"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "items": [
+    {
+      "statement": "CF2H与丁二烯形成可继续转化的碳骨架",
+      "expected": "有效分子计算支持指定二烯与CF2H来源形成目标加成碳骨架及可后续捕获的中间态。作者自由基加成TS1/烯丙基中间态为参考；接受能支持同一净连接事件的等价路线。需实际成键及态证据，不能只从产物图反推或写自由基加成标签。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "cf2h_addition",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "SO2重新进入有机骨架形成含硫中间态",
+      "expected": "计算证据支持SO2与正确加成骨架建立C–S连接，形成能够继续得到砜产物的含硫态；作者SO2捕获模型为参考。需保持硫/氧原子库存及正确自旋、电荷关联，不能只列一个SO2能量或凭产物含S得分。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "sulfur_reintegration",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "多氟芳基C–S成键与C–F离去连接成立",
+      "expected": "对指定多氟芳基和含硫片段，实际证据支持产物对应位置C–S形成及C–F离去。作者TS3单虚频和有效两侧端点为参考；允许科学等价连接证据，不强制完整IRC。正确产物结构之外还须有转化连接，不能用未收敛末帧冒称极小点。此项不要求21.7的数值命中或实验速率复现。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "aryl_substitution",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "丁二烯1,4通道低于1,2竞争通道",
+      "expected": "在正确丁二烯图、同组成及相容参照下，实际计算比较支持通向1,4连接的竞争较有利。作者SO2捕获差正文4.4、SI约3.049696 kcal/mol仅作并列上下文；不能把不同零点直接相减，也不能以未检出副产物代替竞争计算。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "butadiene_regio_competition",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "丁二烯E相关通道较Z相关通道有利",
+      "expected": "实际可比能量/结构证据支持E相关产物形成相对较有利。作者局部基线差约1.3 kcal/mol；须处理Int2-a/b不同参考态，不能将绝对TS差与各自局部势垒混用。不要求精确比例或证明无限快异构化。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "butadiene_ez_competition",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "key_point_id": "support_phenyl_regio_reversal",
+      "key_point_type": "scientific_evidence",
+      "statement": "Terminal-phenyl diene regioselectivity under its distinct conditions",
+      "expected": "For the actual terminal-phenyl diene, compute and interpret competing 1,2 and 1,4 formation energetics under the stated DMF-related model, explaining why 1,2 is favored and contrasting it with butadiene. Report the numerical gap; the source approximately 3.1 kcal/mol is contextual. Retain terminal phenyl identity and the E alkene; do not assign an unprovided absolute stereocenter. Source distortion/interaction analysis is a possible explanation, not an obligatory decomposition. A supported equivalent molecular explanation passes. Because solvent, base, illumination and substrate conditions differ, do not claim a controlled substituent-only causal experiment.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "scoring_applicability_20261029": "Supporting evidence only. No independent points or numeric gates; any retained author values and former tolerances are historical non-scoring context."
+}

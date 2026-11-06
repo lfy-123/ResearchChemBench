@@ -1,0 +1,96 @@
+{
+  "evidence_type": "experiment",
+  "observations": [
+    {
+      "observation_id": "standard_product",
+      "condition_id": "standard",
+      "substrate_id": "substrate",
+      "product_id": "acetophenone",
+      "yield_percent": 63,
+      "measurement": "1H NMR; mesitylene internal standard; average of two trials"
+    },
+    {
+      "observation_id": "without_oxygen",
+      "condition_id": "standard",
+      "change": "oxygen omitted",
+      "product_id": "acetophenone",
+      "outcome": "n.d."
+    },
+    {
+      "observation_id": "without_light",
+      "condition_id": "standard",
+      "change": "light omitted",
+      "product_id": "acetophenone",
+      "outcome": "n.d."
+    },
+    {
+      "observation_id": "with_tempo",
+      "condition_id": "standard",
+      "change": "add control reagent",
+      "additive_id": "tempo",
+      "additive_equivalents": 2,
+      "product_id": "acetophenone",
+      "outcome": "n.d."
+    },
+    {
+      "observation_id": "with_dpe",
+      "condition_id": "standard",
+      "change": "add control reagent",
+      "additive_id": "dpe",
+      "additive_equivalents": 2,
+      "product_id": "acetophenone",
+      "outcome": "trace"
+    },
+    {
+      "observation_id": "with_bht",
+      "condition_id": "standard",
+      "change": "add control reagent",
+      "additive_id": "bht",
+      "additive_equivalents": 2,
+      "product_id": "acetophenone",
+      "outcome": "n.d."
+    },
+    {
+      "observation_id": "with_dha",
+      "condition_id": "standard",
+      "change": "add control reagent",
+      "additive_id": "dha",
+      "additive_equivalents": 2,
+      "product_id": "acetophenone",
+      "outcome": "trace"
+    },
+    {
+      "observation_id": "with_sodium_azide",
+      "condition_id": "standard",
+      "change": "add control reagent",
+      "additive_id": "sodium_azide",
+      "additive_equivalents": 2,
+      "product_id": "acetophenone",
+      "outcome": "n.d."
+    },
+    {
+      "observation_id": "with_dabco",
+      "condition_id": "standard",
+      "change": "add control reagent",
+      "additive_id": "dabco",
+      "additive_equivalents": 2,
+      "product_id": "acetophenone",
+      "outcome": "n.d."
+    },
+    {
+      "observation_id": "with_benzoquinone",
+      "condition_id": "standard",
+      "change": "add control reagent",
+      "additive_id": "benzoquinone",
+      "additive_equivalents": 2,
+      "product_id": "acetophenone",
+      "outcome": "n.d."
+    }
+  ],
+  "interpretation_notes": [
+    "The reported quantity is product yield. A quantitative coproduct inventory and competing-ketone ratio are not supplied.",
+    "n.d. means not detected; the detection limit is unreported. Trace is a qualitative observation.",
+    "DPE and 9,10-dihydroanthracene controls report trace product.",
+    "All supplied control observations concern sec-butylbenzene."
+  ]
+}

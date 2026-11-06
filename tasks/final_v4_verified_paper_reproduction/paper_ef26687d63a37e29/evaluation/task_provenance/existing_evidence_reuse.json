@@ -1,0 +1,241 @@
+{
+  "paper_id": "paper_ef26687d63a37e29",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_ef26687d63a37e29_20260921_064813_89a050/runs/cli_runs/batch_20260921_064818_61a71a/autonomous_research-paper_ef26687d63a37e29-codex-20260921_064818-303244/report/results.json",
+      "sha256": "159da8047aa5f901c3bfdb717b3aff9af1bfd5a5c6c31731c26431886209210a",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_4/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "aa256fb22d08ef5e30cc2527663a3bb132b9c79a8199efc86f75ef328e625385",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_ef26687d63a37e29",
+        "packages_frozen": true,
+        "AR": {
+          "mode": "autonomous_research",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_ef26687d63a37e29",
+          "package_content_sha256": "911ac49145f2ea4f26ee6604a3f1c3668556bf614feca76522bbda9ccd3928e9",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_ef26687d63a37e29/package_manifest.json",
+            "sha256": "199121eb20cda4a90361c3f4c87fbe50e209a5bde721e12af2c99379eee259e4"
+          },
+          "payload_entries_checked": 46,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_ef26687d63a37e29",
+            "task_type": "autonomous_research",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "PR": {
+          "mode": "paper_reproduction",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_ef26687d63a37e29",
+          "package_content_sha256": "0ebac9f66bf71e069874341eb463a7bd64bd90cfdaa6c66cf1b3a43e7c9b0508",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_ef26687d63a37e29/package_manifest.json",
+            "sha256": "04a943fe162bc85edf8e43fdb562af3045f6fd0085a56fa725718a20dc78c571"
+          },
+          "payload_entries_checked": 46,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_ef26687d63a37e29",
+            "task_type": "paper_reproduction",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "scientific_disposition": "needs_work",
+        "scientifically_validated": false,
+        "completed_scientific_work": "旧磷鎓PA/PO加合物不等于增长链。PA/noPA完整链、CO2/PO和双Et3B等核素传播/回咬图已建立；12组分和6基本步独立通过全H图、电荷、价态、CIP核查，环状副产物的映射复用已验证。另备5个Et3B配位起点，几何回读通过；未运行新DFT。十倍PO稀释1.61591 kcal/mol仅单位PO级数的化学势恒等式。",
+        "unfinished_validation": "完成PA/noPA双Et3B传播/回咬真实驻点和连通路径、共同储库及结合平衡；匹配R/S构象、浓度和方法控制。",
+        "input_and_reference_gaps": [
+          "PA/noPA增长链、CO2/PO与双Et3B账本及配位初猜已验证，但尚无新驻点。",
+          "传播/回咬、结合平衡、构象及浓度效应未实算；化学势恒等式不等于动力学验证。"
+        ],
+        "scientific_evidence": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/legacy/inventory.json",
+            "sha256": "83510dac047aee8366d2c37c5dcff88f4cb7fbb016847c8732beeb50eeeb4a2a"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/provenance/chain_reaction_preparation.json",
+            "sha256": "ecf8723e34ba1908bfc33957ebc0c3a8ec47bdb4e3f82439044485ec1db37854"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/provenance/chain_reaction_input_audit.json",
+            "sha256": "0f51c490e6d50147b0d7273053190984d89808ac98e023cbd1ee4982cad6c3b0"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/provenance/borane_association_preparation.json",
+            "sha256": "ee7d9f00c69ababd0b86d9d232e52b0367dfcf7432d3cff98c1c937e1d3fc171"
+          }
+        ],
+        "working_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/report/progress_report.md",
+          "sha256": "890d470ec58586f47536fc48b4391ea1e30db444e36096f0fbe37efd6b134f06"
+        },
+        "working_evaluator_mapping": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/report/progress_evaluator_mapping.json",
+          "sha256": "770ecd1664c7040b05d34a60f835da1930d0d80ee2703bfa1ee3c3d48be60d65"
+        },
+        "prepared_inputs_not_automatically_authorized_for_submission": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/CO2_THF_component_optfreq_sp.com",
+            "sha256": "f8af57c83c5a6c6f9a0ded943a6f0568741485bf976a508e7d0b7e67e4b27d3f"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/Et3B_THF_component_optfreq_sp.com",
+            "sha256": "a04f7ce17e846e19afcea141f5fbee11a9ed7cb4be61927f6c37ef74af7771e0"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/PA_carbonate_end_Et3B_THF_association_optfreq_sp.com",
+            "sha256": "2a0c6bedfb24601fff0e8564f59f31ee3eee7ecb7da82d9ca35563558f52e994"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/PA_carbonate_end_THF_component_optfreq_sp.com",
+            "sha256": "780ddd7015b6ec1a6052e01f109570c94b2270050f4ca3951dc9969957afc8de"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/PA_chain_Et3B_THF_association_optfreq_sp.com",
+            "sha256": "b41fe3cad0b0631eac4cb22ac3a3e6463c20a8e954465acf19934ac4ad912dbe"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/PA_chain_THF_component_optfreq_sp.com",
+            "sha256": "655154dc9d5d4e11310c9b69d0eefafbfd20c55d09a34141fcf4ef5c917ae451"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/PA_cyclic_carbonate_THF_component_optfreq_sp.com",
+            "sha256": "a8f3f546e62ce04d5549d8ac3406c753a1fb1410e3c2997e49521a0c7a0087bd"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/PA_propagated_chain_THF_component_optfreq_sp.com",
+            "sha256": "d1010da7c0e80cc6faf35af540889bbf1b5ae4bb7084d43f97eed012bc710fcf"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/PA_shortened_chain_THF_component_optfreq_sp.com",
+            "sha256": "a3daf953e559da09467cc460a1bbc30caeb43013d203027bf7d2cef4dd69e632"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/PO_R_Et3B_THF_association_optfreq_sp.com",
+            "sha256": "e2142d1787c8fb5c97d29efebd4e95be90efe2c3a27e80840619cbc26b6a6c85"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/PO_R_THF_component_optfreq_sp.com",
+            "sha256": "cce4e3a45fb32dbc5f6eafd09f157fc7a81c41105c826c8d4e30ae85fb11eeab"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/noPA_carbonate_end_Et3B_THF_association_optfreq_sp.com",
+            "sha256": "aad95e66e755e55f5e7bb8358bed7161de6692ca15bdc60ffb745a40567d9956"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/noPA_carbonate_end_THF_component_optfreq_sp.com",
+            "sha256": "43113dcb883efc43aef68f523023d93e41c34d759f7c05a0b150f7135d3f298c"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/noPA_chain_Et3B_THF_association_optfreq_sp.com",
+            "sha256": "a89ea64a0a59d6dbbba8020c443d91e8031b98ed367acd19488c61dcb4d04284"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/noPA_chain_THF_component_optfreq_sp.com",
+            "sha256": "bf563b98ba7f6af131ef5ba6a6deb029493ad6d8f933521af6ea44184e4e6936"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/noPA_propagated_chain_THF_component_optfreq_sp.com",
+            "sha256": "54362a4cfdac8062a6eaf715135847d2a1fa36758bf7292ad676f531f3e28921"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/inputs/noPA_shortened_chain_THF_component_optfreq_sp.com",
+            "sha256": "3bd3688943a41fd153fea6df07a8d73231fdb56c6bf18a5c93e52b75cc643279"
+          }
+        ],
+        "active_jobs": [],
+        "root_package_changes_by_this_verification_group": "No root package payload changes by this verification group.",
+        "historical_accounting_limit": "See legacy/inventory.json; native file counts are not attempts. Detailed job/resource reconciliation still in progress.",
+        "development_vs_science": "This freezes the verifier writer and transfers known gaps; it does not claim all scientific endpoints or original-batch development review complete.",
+        "frozen_binding": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/task_snapshot/frozen_binding.json",
+          "sha256": "8389ec914a2a86b3316e2cad0ab509da8b6deccff64a8b2d4cf2ed6e1faf461e"
+        }
+      },
+      "model_and_method_scope": "Historical PA/phosphine/PO adducts and later finite chain/reaction constructions; the simple tenfold concentration chemical-potential calculation is an algebraic identity.",
+      "allowed_use": "Reuse the actual adduct identities and graph/inventory diagnostics. Distinguish source PA/Et3B molecular evidence from later author-created chain preparations.",
+      "not_supported": "Old adducts are not validated growing chains; prepared reactions are not calculated selectivity. A concentration identity does not prove a chain-end mechanism or polymer yield.",
+      "scope": "Reuse the actual adduct identities and graph/inventory diagnostics. Distinguish source PA/Et3B molecular evidence from later author-created chain preparations.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/legacy/inventory.json",
+      "sha256": "83510dac047aee8366d2c37c5dcff88f4cb7fbb016847c8732beeb50eeeb4a2a",
+      "frozen_sha256": "83510dac047aee8366d2c37c5dcff88f4cb7fbb016847c8732beeb50eeeb4a2a",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Historical PA/phosphine/PO adducts and later finite chain/reaction constructions; the simple tenfold concentration chemical-potential calculation is an algebraic identity.",
+      "scope": "Reuse the actual adduct identities and graph/inventory diagnostics. Distinguish source PA/Et3B molecular evidence from later author-created chain preparations.",
+      "not_supported": "Old adducts are not validated growing chains; prepared reactions are not calculated selectivity. A concentration identity does not prove a chain-end mechanism or polymer yield.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/provenance/chain_reaction_preparation.json",
+      "sha256": "ecf8723e34ba1908bfc33957ebc0c3a8ec47bdb4e3f82439044485ec1db37854",
+      "frozen_sha256": "ecf8723e34ba1908bfc33957ebc0c3a8ec47bdb4e3f82439044485ec1db37854",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Historical PA/phosphine/PO adducts and later finite chain/reaction constructions; the simple tenfold concentration chemical-potential calculation is an algebraic identity.",
+      "scope": "Reuse the actual adduct identities and graph/inventory diagnostics. Distinguish source PA/Et3B molecular evidence from later author-created chain preparations.",
+      "not_supported": "Old adducts are not validated growing chains; prepared reactions are not calculated selectivity. A concentration identity does not prove a chain-end mechanism or polymer yield.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/provenance/chain_reaction_input_audit.json",
+      "sha256": "0f51c490e6d50147b0d7273053190984d89808ac98e023cbd1ee4982cad6c3b0",
+      "frozen_sha256": "0f51c490e6d50147b0d7273053190984d89808ac98e023cbd1ee4982cad6c3b0",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Historical PA/phosphine/PO adducts and later finite chain/reaction constructions; the simple tenfold concentration chemical-potential calculation is an algebraic identity.",
+      "scope": "Reuse the actual adduct identities and graph/inventory diagnostics. Distinguish source PA/Et3B molecular evidence from later author-created chain preparations.",
+      "not_supported": "Old adducts are not validated growing chains; prepared reactions are not calculated selectivity. A concentration identity does not prove a chain-end mechanism or polymer yield.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/provenance/borane_association_preparation.json",
+      "sha256": "ee7d9f00c69ababd0b86d9d232e52b0367dfcf7432d3cff98c1c937e1d3fc171",
+      "frozen_sha256": "ee7d9f00c69ababd0b86d9d232e52b0367dfcf7432d3cff98c1c937e1d3fc171",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Historical PA/phosphine/PO adducts and later finite chain/reaction constructions; the simple tenfold concentration chemical-potential calculation is an algebraic identity.",
+      "scope": "Reuse the actual adduct identities and graph/inventory diagnostics. Distinguish source PA/Et3B molecular evidence from later author-created chain preparations.",
+      "not_supported": "Old adducts are not validated growing chains; prepared reactions are not calculated selectivity. A concentration identity does not prove a chain-end mechanism or polymer yield.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "Source molecular structures, adduct DFT and NMR probes establish a feasible bounded interaction question. Earlier free/adduct computations can be reused only for their exact local identity and method; old constructed-chain jobs do not certify an actual polymer mechanism. No scientific engine was started.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Historical PA/phosphine/PO adducts and later finite chain/reaction constructions; the simple tenfold concentration chemical-potential calculation is an algebraic identity.",
+    "allowed": "Reuse the actual adduct identities and graph/inventory diagnostics. Distinguish source PA/Et3B molecular evidence from later author-created chain preparations.",
+    "not_supported": "Old adducts are not validated growing chains; prepared reactions are not calculated selectivity. A concentration identity does not prove a chain-end mechanism or polymer yield."
+  },
+  "new_scientific_calculations_performed": false
+}

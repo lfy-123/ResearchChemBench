@@ -1,0 +1,272 @@
+{
+  "decision": "pass",
+  "rationale": "The paper reports a small-molecule homogeneous organic reaction: base-promoted N-alkylation of 3-nitro-1H-pyrrole with propargyl bromide in DMF to form N-propargyl-3-nitropyrrole. The authors performed and reported DFT calculations directly addressing this reaction phenomenon, including transition states, relative free energies, an intermediate, product free energy, and selected transition-state bond distances. The public question is route-neutral and asks about the computed chemical behavior of the identified reaction system without requiring the authors' selected SN2 explanation or rate-limiting substep.",
+  "domain": {
+    "small_molecule": true,
+    "homogeneous": true,
+    "organic_reaction": true,
+    "evidence_ids": [
+      "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+      "ev_doc_31b188c861e0_000035_6ff85bf0a6a4",
+      "ev_doc_31b188c861e0_000041_1db0347d6edf",
+      "ev_doc_31b188c861e0_000105_417a2e64caf6"
+    ],
+    "source_quotes": [
+      {
+        "evidence_id": "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+        "quote": "Initially, we examined the feasibility of the targeted synthesis method for the N-propargyl-3-nitropyrrole 4 skeleton starting from pyrrole (1). In the first stage, we applied the mixture of acetic anhydride \\mathbf { ( A c _ { 2 } O ) } and nitric acid \\mathrm { ( H N O _ { 3 } ) } used in the method reported previously [30] for the nitration of pyrrole. In experiments conducted using this method, both 2-nitro-1H-pyrrole (2) and 3-nitro-1H-pyrrole (3) compounds were formed as a mixture in varying yields. Column chromatography was then used to separate the nitropyrroles from each other. Since we examined 2-nitro-1H-pyrrole (2) and its derivatives in our previous studies [31] and only 3-nitro-1H-pyrrole (3) was found to show dopamin sensor activities [32], we will focus only on 3-nitro-1- H-pyrrole-derived compounds here. After this decision, the reaction was continued using sodium hydride (NaH) in N,N-dimethyl formamide (DMF) to remove the proton attached to the nitrogen atom of the pyrrole and to attach the propargyl group to this nitrogen atom [33], thus giving the target product N-propargyl-3-nitropyrrole (4)."
+      },
+      {
+        "evidence_id": "ev_doc_31b188c861e0_000035_6ff85bf0a6a4",
+        "quote": "We predicted that an S _ { \\mathrm { N } } 2 \\cdot -type reaction occurred during the formation of product 4, and performed a theoretical mechanism study to testjerry this prediction, as shown in Fig. 1. The calculations were conducted using the software package Gaussian 09 with the 6-31+g(d) basis set and the B3LYP functional of density functional theory (DFT). The SMD method was chosen as the solvent phase model and DMF was the solvent. To construct the compounds, GaussView 6.0 was used and, to visualize the results, CYLview. Compound 4 with the two proposed TSs was formed. While the TS1 step consists of an acid–base reaction, the S<sub>N</sub>2-type reaction was computationally supported in the TS2 step. The hydride anion of NaH attacked the hydrogen atom of pyrrole in TS1, removing it from the environment and releasing hydrogen gas (H<sub>2</sub>). A free energy of −1.6 kcal/mol was determined for this transition state, indicating a reactant-like TS, and no energy barrier was observed. During the formation of the H⋅⋅⋅HN bond, the distance [d(H⋅⋅⋅HN)] shortened from 1.41 to 1.19 Å, resulting in the S2 intermediate with −25.5 kcal/mol. Here, it is clear that H<sub>2</sub> is separated from the pyrrole moiety and is located at a distance of 3.21 Å. In the continuation of the mechanism, the negatively charged pyrrole unit made a nucleophilic attack on the positively charged propargyl carbon, requiring an energy of 16.2 kcal/mol. It is possible to see the S<sub>N</sub>2-type reaction complex in the relevant image of TS2. Here, it was determined that the N⋅⋅⋅C bond formation began at 2.17 Å, while the C⋅⋅⋅Br bond breakage began at 2.47 Å. As a result, product 4 was formed exergonically with a free energy of −45.5 kcal/mol."
+      },
+      {
+        "evidence_id": "ev_doc_31b188c861e0_000041_1db0347d6edf",
+        "quote": "Fig. 1. Mechanistic formation of 4 calculated with the B3LYP/6–31+g(d) level in DMF."
+      },
+      {
+        "evidence_id": "ev_doc_31b188c861e0_000105_417a2e64caf6",
+        "quote": "The 3-nitro-1H-pyrrole (3) obtained above (800 mg, 7.1 mmol) was taken into a 100-mL beaker. It was dissolved by adding 15 mL of N,Ndimethylformamide (DMF). Then sodium hydride (180 mg, 7.5 mmol) was slowly added to the reaction medium. Gas evolution was observed during this time. It was stirred at room temperature for 10 min. Then propargyl bromide (0.7 mL) was injected with a syringe. The reaction was stirred at room temperature for 24 h. Thin-layer chromatography (TLC) was performed to control the reaction. The melting point of the product formed was 5 8 – 6 0 ^ { \\circ } \\mathrm { C } . \\mathrm { R } _ { \\mathrm { f } } = 0 . 4 5 (ethyl acetate/n-hexane: 1/4). The crude product was purified by column chromatography. 3-Nitro-1- (prop-2-yn-1-yl)-1H-pyrrole (4) (0.95 g, 6.3 mmol, 89%) was obtained as light-yellow crystals. <sup>1</sup>H NMR (400 MHz, CDCl<sub>3</sub>) δ 7.71–7.66 (m, 1H), 6.76 (dd, J = 3.2, 1.8 Hz, 1H), 6.73–6.70 (m, 1H), 4.74 (d, J = 2.6 Hz, 2H), 2.60 (t, J = 2.6 Hz, 1H); <sup>13</sup>C NMR (100 MHz, CDCl<sub>3</sub>) δ 137.2, 121.4, 121.2, 106.1, 76.0, 75.7, 39.8; IR (ATR, cm<sup>−</sup> <sup>1</sup>) 3260, 3155, 3125, 2963, 2925, 2130, 1669, 1524, 1477, 1376, 1277, 1132, 811, 726; LCMS (Q-TOF) calculated \\mathrm { ( C _ { 7 } H _ { 6 } N _ { 2 } O _ { 2 } ) } [M + H]<sup>+</sup>: 151.05021; found 151.04793."
+      }
+    ]
+  },
+  "scientific_question": "For the base-promoted N-alkylation of 3-nitro-1H-pyrrole with propargyl bromide in DMF, what computed chemical behavior best describes formation of N-propargyl-3-nitropyrrole, and which computed energetic and structural features support that description?",
+  "computation_relevance": "The authors explicitly performed a DFT mechanism study for formation of N-propargyl-3-nitropyrrole from 3-nitro-1H-pyrrole and propargyl bromide in DMF. They reported two transition states, relative free energies, an intermediate, product free energy, and selected N···C and C···Br distances in the substitution transition state. These results can serve as private references for evaluating a new computation of the same reaction behavior.",
+  "author_computation": {
+    "performed_by_authors": true,
+    "results_reported": true,
+    "non_routine": true,
+    "evidence_ids": [
+      "ev_doc_31b188c861e0_000035_6ff85bf0a6a4",
+      "ev_doc_31b188c861e0_000041_1db0347d6edf"
+    ],
+    "source_quotes": [
+      {
+        "evidence_id": "ev_doc_31b188c861e0_000035_6ff85bf0a6a4",
+        "quote": "We predicted that an S _ { \\mathrm { N } } 2 \\cdot -type reaction occurred during the formation of product 4, and performed a theoretical mechanism study to testjerry this prediction, as shown in Fig. 1. The calculations were conducted using the software package Gaussian 09 with the 6-31+g(d) basis set and the B3LYP functional of density functional theory (DFT). The SMD method was chosen as the solvent phase model and DMF was the solvent. To construct the compounds, GaussView 6.0 was used and, to visualize the results, CYLview. Compound 4 with the two proposed TSs was formed. While the TS1 step consists of an acid–base reaction, the S<sub>N</sub>2-type reaction was computationally supported in the TS2 step. The hydride anion of NaH attacked the hydrogen atom of pyrrole in TS1, removing it from the environment and releasing hydrogen gas (H<sub>2</sub>). A free energy of −1.6 kcal/mol was determined for this transition state, indicating a reactant-like TS, and no energy barrier was observed. During the formation of the H⋅⋅⋅HN bond, the distance [d(H⋅⋅⋅HN)] shortened from 1.41 to 1.19 Å, resulting in the S2 intermediate with −25.5 kcal/mol. Here, it is clear that H<sub>2</sub> is separated from the pyrrole moiety and is located at a distance of 3.21 Å. In the continuation of the mechanism, the negatively charged pyrrole unit made a nucleophilic attack on the positively charged propargyl carbon, requiring an energy of 16.2 kcal/mol. It is possible to see the S<sub>N</sub>2-type reaction complex in the relevant image of TS2. Here, it was determined that the N⋅⋅⋅C bond formation began at 2.17 Å, while the C⋅⋅⋅Br bond breakage began at 2.47 Å. As a result, product 4 was formed exergonically with a free energy of −45.5 kcal/mol."
+      },
+      {
+        "evidence_id": "ev_doc_31b188c861e0_000041_1db0347d6edf",
+        "quote": "Fig. 1. Mechanistic formation of 4 calculated with the B3LYP/6–31+g(d) level in DMF."
+      }
+    ]
+  },
+  "computational_references": [
+    {
+      "reference_id": "CR1",
+      "result": "First transition state for deprotonation of 3-nitro-1H-pyrrole by hydride; described as reactant-like with no observed energy barrier.",
+      "observable": "relative free energy",
+      "value": -1.6,
+      "unit": "kcal/mol",
+      "method": "DFT B3LYP/6-31+g(d), SMD DMF",
+      "model_system": "3-nitro-1H-pyrrole, NaH, propargyl bromide in DMF",
+      "conditions": "DMF solvent model",
+      "comparison_scope": "Authors' computed mechanism for formation of N-propargyl-3-nitropyrrole",
+      "uncertainty": "No uncertainty or convergence details reported in the supplied text.",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000035_6ff85bf0a6a4"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000035_6ff85bf0a6a4",
+          "quote": "We predicted that an S _ { \\mathrm { N } } 2 \\cdot -type reaction occurred during the formation of product 4, and performed a theoretical mechanism study to testjerry this prediction, as shown in Fig. 1. The calculations were conducted using the software package Gaussian 09 with the 6-31+g(d) basis set and the B3LYP functional of density functional theory (DFT). The SMD method was chosen as the solvent phase model and DMF was the solvent. To construct the compounds, GaussView 6.0 was used and, to visualize the results, CYLview. Compound 4 with the two proposed TSs was formed. While the TS1 step consists of an acid–base reaction, the S<sub>N</sub>2-type reaction was computationally supported in the TS2 step. The hydride anion of NaH attacked the hydrogen atom of pyrrole in TS1, removing it from the environment and releasing hydrogen gas (H<sub>2</sub>). A free energy of −1.6 kcal/mol was determined for this transition state, indicating a reactant-like TS, and no energy barrier was observed. During the formation of the H⋅⋅⋅HN bond, the distance [d(H⋅⋅⋅HN)] shortened from 1.41 to 1.19 Å, resulting in the S2 intermediate with −25.5 kcal/mol. Here, it is clear that H<sub>2</sub> is separated from the pyrrole moiety and is located at a distance of 3.21 Å. In the continuation of the mechanism, the negatively charged pyrrole unit made a nucleophilic attack on the positively charged propargyl carbon, requiring an energy of 16.2 kcal/mol. It is possible to see the S<sub>N</sub>2-type reaction complex in the relevant image of TS2. Here, it was determined that the N⋅⋅⋅C bond formation began at 2.17 Å, while the C⋅⋅⋅Br bond breakage began at 2.47 Å. As a result, product 4 was formed exergonically with a free energy of −45.5 kcal/mol."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR2",
+      "result": "Deprotonated pyrrole intermediate after H2 separation from the pyrrole moiety.",
+      "observable": "relative free energy",
+      "value": -25.5,
+      "unit": "kcal/mol",
+      "method": "DFT B3LYP/6-31+g(d), SMD DMF",
+      "model_system": "3-nitro-1H-pyrrole, NaH, propargyl bromide in DMF",
+      "conditions": "DMF solvent model",
+      "comparison_scope": "Authors' computed mechanism for formation of N-propargyl-3-nitropyrrole",
+      "uncertainty": "No uncertainty or convergence details reported in the supplied text.",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000035_6ff85bf0a6a4"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000035_6ff85bf0a6a4",
+          "quote": "We predicted that an S _ { \\mathrm { N } } 2 \\cdot -type reaction occurred during the formation of product 4, and performed a theoretical mechanism study to testjerry this prediction, as shown in Fig. 1. The calculations were conducted using the software package Gaussian 09 with the 6-31+g(d) basis set and the B3LYP functional of density functional theory (DFT). The SMD method was chosen as the solvent phase model and DMF was the solvent. To construct the compounds, GaussView 6.0 was used and, to visualize the results, CYLview. Compound 4 with the two proposed TSs was formed. While the TS1 step consists of an acid–base reaction, the S<sub>N</sub>2-type reaction was computationally supported in the TS2 step. The hydride anion of NaH attacked the hydrogen atom of pyrrole in TS1, removing it from the environment and releasing hydrogen gas (H<sub>2</sub>). A free energy of −1.6 kcal/mol was determined for this transition state, indicating a reactant-like TS, and no energy barrier was observed. During the formation of the H⋅⋅⋅HN bond, the distance [d(H⋅⋅⋅HN)] shortened from 1.41 to 1.19 Å, resulting in the S2 intermediate with −25.5 kcal/mol. Here, it is clear that H<sub>2</sub> is separated from the pyrrole moiety and is located at a distance of 3.21 Å. In the continuation of the mechanism, the negatively charged pyrrole unit made a nucleophilic attack on the positively charged propargyl carbon, requiring an energy of 16.2 kcal/mol. It is possible to see the S<sub>N</sub>2-type reaction complex in the relevant image of TS2. Here, it was determined that the N⋅⋅⋅C bond formation began at 2.17 Å, while the C⋅⋅⋅Br bond breakage began at 2.47 Å. As a result, product 4 was formed exergonically with a free energy of −45.5 kcal/mol."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR3",
+      "result": "Second transition state for nucleophilic attack of the deprotonated pyrrole on propargyl bromide; authors report the required energy for this step.",
+      "observable": "activation free energy",
+      "value": 16.2,
+      "unit": "kcal/mol",
+      "method": "DFT B3LYP/6-31+g(d), SMD DMF",
+      "model_system": "3-nitro-1H-pyrrole, NaH, propargyl bromide in DMF",
+      "conditions": "DMF solvent model",
+      "comparison_scope": "Authors' computed mechanism for formation of N-propargyl-3-nitropyrrole",
+      "uncertainty": "No uncertainty or convergence details reported in the supplied text.",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000035_6ff85bf0a6a4"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000035_6ff85bf0a6a4",
+          "quote": "We predicted that an S _ { \\mathrm { N } } 2 \\cdot -type reaction occurred during the formation of product 4, and performed a theoretical mechanism study to testjerry this prediction, as shown in Fig. 1. The calculations were conducted using the software package Gaussian 09 with the 6-31+g(d) basis set and the B3LYP functional of density functional theory (DFT). The SMD method was chosen as the solvent phase model and DMF was the solvent. To construct the compounds, GaussView 6.0 was used and, to visualize the results, CYLview. Compound 4 with the two proposed TSs was formed. While the TS1 step consists of an acid–base reaction, the S<sub>N</sub>2-type reaction was computationally supported in the TS2 step. The hydride anion of NaH attacked the hydrogen atom of pyrrole in TS1, removing it from the environment and releasing hydrogen gas (H<sub>2</sub>). A free energy of −1.6 kcal/mol was determined for this transition state, indicating a reactant-like TS, and no energy barrier was observed. During the formation of the H⋅⋅⋅HN bond, the distance [d(H⋅⋅⋅HN)] shortened from 1.41 to 1.19 Å, resulting in the S2 intermediate with −25.5 kcal/mol. Here, it is clear that H<sub>2</sub> is separated from the pyrrole moiety and is located at a distance of 3.21 Å. In the continuation of the mechanism, the negatively charged pyrrole unit made a nucleophilic attack on the positively charged propargyl carbon, requiring an energy of 16.2 kcal/mol. It is possible to see the S<sub>N</sub>2-type reaction complex in the relevant image of TS2. Here, it was determined that the N⋅⋅⋅C bond formation began at 2.17 Å, while the C⋅⋅⋅Br bond breakage began at 2.47 Å. As a result, product 4 was formed exergonically with a free energy of −45.5 kcal/mol."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR4",
+      "result": "Product N-propargyl-3-nitropyrrole formed exergonically in the authors' computed profile.",
+      "observable": "relative free energy",
+      "value": -45.5,
+      "unit": "kcal/mol",
+      "method": "DFT B3LYP/6-31+g(d), SMD DMF",
+      "model_system": "3-nitro-1H-pyrrole, NaH, propargyl bromide in DMF",
+      "conditions": "DMF solvent model",
+      "comparison_scope": "Authors' computed mechanism for formation of N-propargyl-3-nitropyrrole",
+      "uncertainty": "No uncertainty or convergence details reported in the supplied text.",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000035_6ff85bf0a6a4"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000035_6ff85bf0a6a4",
+          "quote": "We predicted that an S _ { \\mathrm { N } } 2 \\cdot -type reaction occurred during the formation of product 4, and performed a theoretical mechanism study to testjerry this prediction, as shown in Fig. 1. The calculations were conducted using the software package Gaussian 09 with the 6-31+g(d) basis set and the B3LYP functional of density functional theory (DFT). The SMD method was chosen as the solvent phase model and DMF was the solvent. To construct the compounds, GaussView 6.0 was used and, to visualize the results, CYLview. Compound 4 with the two proposed TSs was formed. While the TS1 step consists of an acid–base reaction, the S<sub>N</sub>2-type reaction was computationally supported in the TS2 step. The hydride anion of NaH attacked the hydrogen atom of pyrrole in TS1, removing it from the environment and releasing hydrogen gas (H<sub>2</sub>). A free energy of −1.6 kcal/mol was determined for this transition state, indicating a reactant-like TS, and no energy barrier was observed. During the formation of the H⋅⋅⋅HN bond, the distance [d(H⋅⋅⋅HN)] shortened from 1.41 to 1.19 Å, resulting in the S2 intermediate with −25.5 kcal/mol. Here, it is clear that H<sub>2</sub> is separated from the pyrrole moiety and is located at a distance of 3.21 Å. In the continuation of the mechanism, the negatively charged pyrrole unit made a nucleophilic attack on the positively charged propargyl carbon, requiring an energy of 16.2 kcal/mol. It is possible to see the S<sub>N</sub>2-type reaction complex in the relevant image of TS2. Here, it was determined that the N⋅⋅⋅C bond formation began at 2.17 Å, while the C⋅⋅⋅Br bond breakage began at 2.47 Å. As a result, product 4 was formed exergonically with a free energy of −45.5 kcal/mol."
+        }
+      ]
+    },
+    {
+      "reference_id": "CR5",
+      "result": "Key bond distances in the substitution transition state: N···C bond formation and C···Br bond breakage.",
+      "observable": "transition-state bond distances",
+      "value": null,
+      "unit": "Å",
+      "method": "DFT B3LYP/6-31+g(d), SMD DMF",
+      "model_system": "3-nitro-1H-pyrrole, NaH, propargyl bromide in DMF",
+      "conditions": "DMF solvent model",
+      "comparison_scope": "Authors' computed substitution transition-state geometry",
+      "uncertainty": "Only two distances are reported in the supplied text; full geometry and uncertainty are not provided.",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000035_6ff85bf0a6a4"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000035_6ff85bf0a6a4",
+          "quote": "We predicted that an S _ { \\mathrm { N } } 2 \\cdot -type reaction occurred during the formation of product 4, and performed a theoretical mechanism study to testjerry this prediction, as shown in Fig. 1. The calculations were conducted using the software package Gaussian 09 with the 6-31+g(d) basis set and the B3LYP functional of density functional theory (DFT). The SMD method was chosen as the solvent phase model and DMF was the solvent. To construct the compounds, GaussView 6.0 was used and, to visualize the results, CYLview. Compound 4 with the two proposed TSs was formed. While the TS1 step consists of an acid–base reaction, the S<sub>N</sub>2-type reaction was computationally supported in the TS2 step. The hydride anion of NaH attacked the hydrogen atom of pyrrole in TS1, removing it from the environment and releasing hydrogen gas (H<sub>2</sub>). A free energy of −1.6 kcal/mol was determined for this transition state, indicating a reactant-like TS, and no energy barrier was observed. During the formation of the H⋅⋅⋅HN bond, the distance [d(H⋅⋅⋅HN)] shortened from 1.41 to 1.19 Å, resulting in the S2 intermediate with −25.5 kcal/mol. Here, it is clear that H<sub>2</sub> is separated from the pyrrole moiety and is located at a distance of 3.21 Å. In the continuation of the mechanism, the negatively charged pyrrole unit made a nucleophilic attack on the positively charged propargyl carbon, requiring an energy of 16.2 kcal/mol. It is possible to see the S<sub>N</sub>2-type reaction complex in the relevant image of TS2. Here, it was determined that the N⋅⋅⋅C bond formation began at 2.17 Å, while the C⋅⋅⋅Br bond breakage began at 2.47 Å. As a result, product 4 was formed exergonically with a free energy of −45.5 kcal/mol."
+        }
+      ]
+    }
+  ],
+  "public_inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "3-nitro-1H-pyrrole is the pyrrole substrate for the N-alkylation reaction.",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+        "ev_doc_31b188c861e0_000105_417a2e64caf6"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+          "quote": "Initially, we examined the feasibility of the targeted synthesis method for the N-propargyl-3-nitropyrrole 4 skeleton starting from pyrrole (1). In the first stage, we applied the mixture of acetic anhydride \\mathbf { ( A c _ { 2 } O ) } and nitric acid \\mathrm { ( H N O _ { 3 } ) } used in the method reported previously [30] for the nitration of pyrrole. In experiments conducted using this method, both 2-nitro-1H-pyrrole (2) and 3-nitro-1H-pyrrole (3) compounds were formed as a mixture in varying yields. Column chromatography was then used to separate the nitropyrroles from each other. Since we examined 2-nitro-1H-pyrrole (2) and its derivatives in our previous studies [31] and only 3-nitro-1H-pyrrole (3) was found to show dopamin sensor activities [32], we will focus only on 3-nitro-1- H-pyrrole-derived compounds here. After this decision, the reaction was continued using sodium hydride (NaH) in N,N-dimethyl formamide (DMF) to remove the proton attached to the nitrogen atom of the pyrrole and to attach the propargyl group to this nitrogen atom [33], thus giving the target product N-propargyl-3-nitropyrrole (4)."
+        },
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000105_417a2e64caf6",
+          "quote": "The 3-nitro-1H-pyrrole (3) obtained above (800 mg, 7.1 mmol) was taken into a 100-mL beaker. It was dissolved by adding 15 mL of N,Ndimethylformamide (DMF). Then sodium hydride (180 mg, 7.5 mmol) was slowly added to the reaction medium. Gas evolution was observed during this time. It was stirred at room temperature for 10 min. Then propargyl bromide (0.7 mL) was injected with a syringe. The reaction was stirred at room temperature for 24 h. Thin-layer chromatography (TLC) was performed to control the reaction. The melting point of the product formed was 5 8 – 6 0 ^ { \\circ } \\mathrm { C } . \\mathrm { R } _ { \\mathrm { f } } = 0 . 4 5 (ethyl acetate/n-hexane: 1/4). The crude product was purified by column chromatography. 3-Nitro-1- (prop-2-yn-1-yl)-1H-pyrrole (4) (0.95 g, 6.3 mmol, 89%) was obtained as light-yellow crystals. <sup>1</sup>H NMR (400 MHz, CDCl<sub>3</sub>) δ 7.71–7.66 (m, 1H), 6.76 (dd, J = 3.2, 1.8 Hz, 1H), 6.73–6.70 (m, 1H), 4.74 (d, J = 2.6 Hz, 2H), 2.60 (t, J = 2.6 Hz, 1H); <sup>13</sup>C NMR (100 MHz, CDCl<sub>3</sub>) δ 137.2, 121.4, 121.2, 106.1, 76.0, 75.7, 39.8; IR (ATR, cm<sup>−</sup> <sup>1</sup>) 3260, 3155, 3125, 2963, 2925, 2130, 1669, 1524, 1477, 1376, 1277, 1132, 811, 726; LCMS (Q-TOF) calculated \\mathrm { ( C _ { 7 } H _ { 6 } N _ { 2 } O _ { 2 } ) } [M + H]<sup>+</sup>: 151.05021; found 151.04793."
+        }
+      ]
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Propargyl bromide is the alkylating reagent used to form N-propargyl-3-nitropyrrole.",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+        "ev_doc_31b188c861e0_000105_417a2e64caf6"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+          "quote": "Initially, we examined the feasibility of the targeted synthesis method for the N-propargyl-3-nitropyrrole 4 skeleton starting from pyrrole (1). In the first stage, we applied the mixture of acetic anhydride \\mathbf { ( A c _ { 2 } O ) } and nitric acid \\mathrm { ( H N O _ { 3 } ) } used in the method reported previously [30] for the nitration of pyrrole. In experiments conducted using this method, both 2-nitro-1H-pyrrole (2) and 3-nitro-1H-pyrrole (3) compounds were formed as a mixture in varying yields. Column chromatography was then used to separate the nitropyrroles from each other. Since we examined 2-nitro-1H-pyrrole (2) and its derivatives in our previous studies [31] and only 3-nitro-1H-pyrrole (3) was found to show dopamin sensor activities [32], we will focus only on 3-nitro-1- H-pyrrole-derived compounds here. After this decision, the reaction was continued using sodium hydride (NaH) in N,N-dimethyl formamide (DMF) to remove the proton attached to the nitrogen atom of the pyrrole and to attach the propargyl group to this nitrogen atom [33], thus giving the target product N-propargyl-3-nitropyrrole (4)."
+        },
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000105_417a2e64caf6",
+          "quote": "The 3-nitro-1H-pyrrole (3) obtained above (800 mg, 7.1 mmol) was taken into a 100-mL beaker. It was dissolved by adding 15 mL of N,Ndimethylformamide (DMF). Then sodium hydride (180 mg, 7.5 mmol) was slowly added to the reaction medium. Gas evolution was observed during this time. It was stirred at room temperature for 10 min. Then propargyl bromide (0.7 mL) was injected with a syringe. The reaction was stirred at room temperature for 24 h. Thin-layer chromatography (TLC) was performed to control the reaction. The melting point of the product formed was 5 8 – 6 0 ^ { \\circ } \\mathrm { C } . \\mathrm { R } _ { \\mathrm { f } } = 0 . 4 5 (ethyl acetate/n-hexane: 1/4). The crude product was purified by column chromatography. 3-Nitro-1- (prop-2-yn-1-yl)-1H-pyrrole (4) (0.95 g, 6.3 mmol, 89%) was obtained as light-yellow crystals. <sup>1</sup>H NMR (400 MHz, CDCl<sub>3</sub>) δ 7.71–7.66 (m, 1H), 6.76 (dd, J = 3.2, 1.8 Hz, 1H), 6.73–6.70 (m, 1H), 4.74 (d, J = 2.6 Hz, 2H), 2.60 (t, J = 2.6 Hz, 1H); <sup>13</sup>C NMR (100 MHz, CDCl<sub>3</sub>) δ 137.2, 121.4, 121.2, 106.1, 76.0, 75.7, 39.8; IR (ATR, cm<sup>−</sup> <sup>1</sup>) 3260, 3155, 3125, 2963, 2925, 2130, 1669, 1524, 1477, 1376, 1277, 1132, 811, 726; LCMS (Q-TOF) calculated \\mathrm { ( C _ { 7 } H _ { 6 } N _ { 2 } O _ { 2 } ) } [M + H]<sup>+</sup>: 151.05021; found 151.04793."
+        }
+      ]
+    },
+    {
+      "input_id": "PI3",
+      "kind": "identity",
+      "content": "The product is N-propargyl-3-nitropyrrole, also named 3-nitro-1-(prop-2-yn-1-yl)-1H-pyrrole.",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+        "ev_doc_31b188c861e0_000105_417a2e64caf6"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+          "quote": "Initially, we examined the feasibility of the targeted synthesis method for the N-propargyl-3-nitropyrrole 4 skeleton starting from pyrrole (1). In the first stage, we applied the mixture of acetic anhydride \\mathbf { ( A c _ { 2 } O ) } and nitric acid \\mathrm { ( H N O _ { 3 } ) } used in the method reported previously [30] for the nitration of pyrrole. In experiments conducted using this method, both 2-nitro-1H-pyrrole (2) and 3-nitro-1H-pyrrole (3) compounds were formed as a mixture in varying yields. Column chromatography was then used to separate the nitropyrroles from each other. Since we examined 2-nitro-1H-pyrrole (2) and its derivatives in our previous studies [31] and only 3-nitro-1H-pyrrole (3) was found to show dopamin sensor activities [32], we will focus only on 3-nitro-1- H-pyrrole-derived compounds here. After this decision, the reaction was continued using sodium hydride (NaH) in N,N-dimethyl formamide (DMF) to remove the proton attached to the nitrogen atom of the pyrrole and to attach the propargyl group to this nitrogen atom [33], thus giving the target product N-propargyl-3-nitropyrrole (4)."
+        },
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000105_417a2e64caf6",
+          "quote": "The 3-nitro-1H-pyrrole (3) obtained above (800 mg, 7.1 mmol) was taken into a 100-mL beaker. It was dissolved by adding 15 mL of N,Ndimethylformamide (DMF). Then sodium hydride (180 mg, 7.5 mmol) was slowly added to the reaction medium. Gas evolution was observed during this time. It was stirred at room temperature for 10 min. Then propargyl bromide (0.7 mL) was injected with a syringe. The reaction was stirred at room temperature for 24 h. Thin-layer chromatography (TLC) was performed to control the reaction. The melting point of the product formed was 5 8 – 6 0 ^ { \\circ } \\mathrm { C } . \\mathrm { R } _ { \\mathrm { f } } = 0 . 4 5 (ethyl acetate/n-hexane: 1/4). The crude product was purified by column chromatography. 3-Nitro-1- (prop-2-yn-1-yl)-1H-pyrrole (4) (0.95 g, 6.3 mmol, 89%) was obtained as light-yellow crystals. <sup>1</sup>H NMR (400 MHz, CDCl<sub>3</sub>) δ 7.71–7.66 (m, 1H), 6.76 (dd, J = 3.2, 1.8 Hz, 1H), 6.73–6.70 (m, 1H), 4.74 (d, J = 2.6 Hz, 2H), 2.60 (t, J = 2.6 Hz, 1H); <sup>13</sup>C NMR (100 MHz, CDCl<sub>3</sub>) δ 137.2, 121.4, 121.2, 106.1, 76.0, 75.7, 39.8; IR (ATR, cm<sup>−</sup> <sup>1</sup>) 3260, 3155, 3125, 2963, 2925, 2130, 1669, 1524, 1477, 1376, 1277, 1132, 811, 726; LCMS (Q-TOF) calculated \\mathrm { ( C _ { 7 } H _ { 6 } N _ { 2 } O _ { 2 } ) } [M + H]<sup>+</sup>: 151.05021; found 151.04793."
+        }
+      ]
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "The reaction is conducted with sodium hydride in N,N-dimethylformamide at room temperature for 24 h.",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+        "ev_doc_31b188c861e0_000105_417a2e64caf6"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000034_0ea544dc6a72",
+          "quote": "Initially, we examined the feasibility of the targeted synthesis method for the N-propargyl-3-nitropyrrole 4 skeleton starting from pyrrole (1). In the first stage, we applied the mixture of acetic anhydride \\mathbf { ( A c _ { 2 } O ) } and nitric acid \\mathrm { ( H N O _ { 3 } ) } used in the method reported previously [30] for the nitration of pyrrole. In experiments conducted using this method, both 2-nitro-1H-pyrrole (2) and 3-nitro-1H-pyrrole (3) compounds were formed as a mixture in varying yields. Column chromatography was then used to separate the nitropyrroles from each other. Since we examined 2-nitro-1H-pyrrole (2) and its derivatives in our previous studies [31] and only 3-nitro-1H-pyrrole (3) was found to show dopamin sensor activities [32], we will focus only on 3-nitro-1- H-pyrrole-derived compounds here. After this decision, the reaction was continued using sodium hydride (NaH) in N,N-dimethyl formamide (DMF) to remove the proton attached to the nitrogen atom of the pyrrole and to attach the propargyl group to this nitrogen atom [33], thus giving the target product N-propargyl-3-nitropyrrole (4)."
+        },
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000105_417a2e64caf6",
+          "quote": "The 3-nitro-1H-pyrrole (3) obtained above (800 mg, 7.1 mmol) was taken into a 100-mL beaker. It was dissolved by adding 15 mL of N,Ndimethylformamide (DMF). Then sodium hydride (180 mg, 7.5 mmol) was slowly added to the reaction medium. Gas evolution was observed during this time. It was stirred at room temperature for 10 min. Then propargyl bromide (0.7 mL) was injected with a syringe. The reaction was stirred at room temperature for 24 h. Thin-layer chromatography (TLC) was performed to control the reaction. The melting point of the product formed was 5 8 – 6 0 ^ { \\circ } \\mathrm { C } . \\mathrm { R } _ { \\mathrm { f } } = 0 . 4 5 (ethyl acetate/n-hexane: 1/4). The crude product was purified by column chromatography. 3-Nitro-1- (prop-2-yn-1-yl)-1H-pyrrole (4) (0.95 g, 6.3 mmol, 89%) was obtained as light-yellow crystals. <sup>1</sup>H NMR (400 MHz, CDCl<sub>3</sub>) δ 7.71–7.66 (m, 1H), 6.76 (dd, J = 3.2, 1.8 Hz, 1H), 6.73–6.70 (m, 1H), 4.74 (d, J = 2.6 Hz, 2H), 2.60 (t, J = 2.6 Hz, 1H); <sup>13</sup>C NMR (100 MHz, CDCl<sub>3</sub>) δ 137.2, 121.4, 121.2, 106.1, 76.0, 75.7, 39.8; IR (ATR, cm<sup>−</sup> <sup>1</sup>) 3260, 3155, 3125, 2963, 2925, 2130, 1669, 1524, 1477, 1376, 1277, 1132, 811, 726; LCMS (Q-TOF) calculated \\mathrm { ( C _ { 7 } H _ { 6 } N _ { 2 } O _ { 2 } ) } [M + H]<sup>+</sup>: 151.05021; found 151.04793."
+        }
+      ]
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "The isolated product was obtained as light-yellow crystals in 89% yield and characterized by NMR, IR, and LC-MS.",
+      "evidence_ids": [
+        "ev_doc_31b188c861e0_000105_417a2e64caf6"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_31b188c861e0_000105_417a2e64caf6",
+          "quote": "The 3-nitro-1H-pyrrole (3) obtained above (800 mg, 7.1 mmol) was taken into a 100-mL beaker. It was dissolved by adding 15 mL of N,Ndimethylformamide (DMF). Then sodium hydride (180 mg, 7.5 mmol) was slowly added to the reaction medium. Gas evolution was observed during this time. It was stirred at room temperature for 10 min. Then propargyl bromide (0.7 mL) was injected with a syringe. The reaction was stirred at room temperature for 24 h. Thin-layer chromatography (TLC) was performed to control the reaction. The melting point of the product formed was 5 8 – 6 0 ^ { \\circ } \\mathrm { C } . \\mathrm { R } _ { \\mathrm { f } } = 0 . 4 5 (ethyl acetate/n-hexane: 1/4). The crude product was purified by column chromatography. 3-Nitro-1- (prop-2-yn-1-yl)-1H-pyrrole (4) (0.95 g, 6.3 mmol, 89%) was obtained as light-yellow crystals. <sup>1</sup>H NMR (400 MHz, CDCl<sub>3</sub>) δ 7.71–7.66 (m, 1H), 6.76 (dd, J = 3.2, 1.8 Hz, 1H), 6.73–6.70 (m, 1H), 4.74 (d, J = 2.6 Hz, 2H), 2.60 (t, J = 2.6 Hz, 1H); <sup>13</sup>C NMR (100 MHz, CDCl<sub>3</sub>) δ 137.2, 121.4, 121.2, 106.1, 76.0, 75.7, 39.8; IR (ATR, cm<sup>−</sup> <sup>1</sup>) 3260, 3155, 3125, 2963, 2925, 2130, 1669, 1524, 1477, 1376, 1277, 1132, 811, 726; LCMS (Q-TOF) calculated \\mathrm { ( C _ { 7 } H _ { 6 } N _ { 2 } O _ { 2 } ) } [M + H]<sup>+</sup>: 151.05021; found 151.04793."
+        }
+      ]
+    }
+  ],
+  "missing_critical_inputs": [],
+  "reference_limitations": [
+    "The supplied text reports the DFT level as B3LYP/6-31+g(d) with SMD DMF, but does not provide full stationary-point coordinates, frequency details, or uncertainty estimates.",
+    "The reported energy convention is not fully specified in the supplied text; values should be treated as the authors' reported relative free energies rather than independently verified barriers.",
+    "The authors' model includes NaH/propargyl bromide in DMF, but the supplied text does not provide complete solvation, counterion, or aggregation treatment details.",
+    "Only selected bond distances are reported for the substitution transition state; a full transition-state geometry is not available in the supplied evidence."
+  ],
+  "evidence_requests": [
+    "Retrieve the full Fig. 1 mechanistic profile and any supplementary Cartesian coordinates or frequency data for the reported transition states and intermediate.",
+    "Retrieve the exact energy reference convention used for the reported free energies in Fig. 1.",
+    "Retrieve any reported imaginary frequencies or transition-state validation details for the two transition states."
+  ],
+  "schema_version": "author-computation-research/v5-20261014",
+  "task_archetype": "author_computation_grounded_research"
+}

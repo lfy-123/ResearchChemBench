@@ -1,0 +1,231 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "evidence": [
+    {
+      "evidence_id": "paper_main",
+      "source": {
+        "path": "papers/paper_fda8b9b53f8276db/documents/main.pdf",
+        "sha256": "0afa69242ab928c082802d029d66eaa4c3c58cea7f791438d64de1c7f88de8d1",
+        "pdf_pages_1based": [
+          3,
+          4
+        ]
+      },
+      "scope": "Section 2.2 crystal ligand description, and Section 2.4 local molecular optimization and cis-versus-trans comparison; source reported six-bond RMSE 0.004 Å."
+    },
+    {
+      "evidence_id": "paper_si",
+      "source": {
+        "path": "papers/paper_fda8b9b53f8276db/documents/supplementary_001.pdf",
+        "sha256": "13ace6b2daec90e737a69c21f21a4af2d7cab7a54b967859e270ca1147c496de",
+        "pdf_pages_1based": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "scope": "Table S2 six free-ligand bonds/angles pp10–11; Table S3 ligand coordinates pp12–13; Fig S10 at pp11–12 and Fig S11 at p15. Re data on shared pages are excluded from this task."
+    },
+    {
+      "evidence_id": "verification_history",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_fda8b9b53f8276db/evaluation/verified_computation_reference.md",
+        "sha256": "704f18c94683c606e03a768161cb301a1fc772d7e86dafd1820f55f185839367"
+      },
+      "scope": "Historical computational provenance, not author targets or new validation."
+    },
+    {
+      "evidence_id": "native_ligand_readback",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/analysis/native_reuse_verification.json",
+        "sha256": "ad0de39bb0551c04c87280d02fac21890b36d28fcc293f555350217bc6285fea",
+        "locator": "rows.cis_gas: mapped six bonds, residuals, 87 modes and orientation; crystal: CIF comparison; trans_gas: existing scope-limiting control"
+      },
+      "evidence_type": "native_computational_readback"
+    },
+    {
+      "evidence_id": "native_source_geometry_diagnostic",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_source_derivative_readback_strict_a1/RESULT.json",
+        "sha256": "ec2ff342afab0a246ef91bad0aba4801a126f97777e624943f44b94563a79bc2",
+        "locator": "Reflection-equivalent source/native mapping and fixed-coordinate force/curvature diagnostics; not another optimization"
+      },
+      "evidence_type": "native_computational_readback"
+    }
+  ],
+  "final_outcome_bindings": {
+    "bond_c1_c2": [
+      "paper_main",
+      "paper_si",
+      "native_ligand_readback"
+    ],
+    "bond_c2_c3": [
+      "paper_main",
+      "paper_si",
+      "native_ligand_readback"
+    ],
+    "bond_n1_c1": [
+      "paper_main",
+      "paper_si",
+      "native_ligand_readback"
+    ],
+    "bond_n2_c2": [
+      "paper_main",
+      "paper_si",
+      "native_ligand_readback"
+    ],
+    "bond_n3_c3": [
+      "paper_main",
+      "paper_si",
+      "native_ligand_readback"
+    ],
+    "bond_c1_c10": [
+      "paper_main",
+      "paper_si",
+      "native_ligand_readback"
+    ],
+    "orientation_contrast": [
+      "paper_main",
+      "paper_si",
+      "native_ligand_readback"
+    ],
+    "local_core_correspondence": [
+      "paper_main",
+      "paper_si",
+      "native_ligand_readback"
+    ],
+    "phase_model_interpretation": [
+      "paper_main",
+      "paper_si",
+      "native_ligand_readback"
+    ]
+  },
+  "current_acceptance": "V3_SCOPE_MAPPED_TO_EXISTING_EVIDENCE_NOT_NEW_SCIENTIFIC_PASS",
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_core_correspondence",
+      "r_orientation_contrast",
+      "r_phase_model_interpretation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "六键、残差统计与局部成键解释",
+      "rule_id": "r_local_core_correspondence",
+      "conclusion_id": "local_core_correspondence",
+      "independence": "局部键框架不同于环间取向及相选择，六量只作该物理结论证据。",
+      "source_locator": "正文p4 §2.4与p10 §4.4；SIp8 S1、pp10–13 S2/S3、pp14–15 S11；CCDC2433822",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_fda8b9b53f8276db/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/analysis/native_reuse_verification.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_source_derivative_readback_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_S2_angles_S3_mapping_archive_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_exact_S3_FineFreq_UltraFineForce_strict_a1/stdout.log"
+      ],
+      "existing_support": "完整cis无约束87正模、扭转36.652415°；晶体−155.187862°；六键RMSE0.00415148 Å，全部残差超0.001Å边际ESD。已有trans低22.84266kJ/mol电子能。",
+      "limits": [
+        "六个作者键长硬窗已取消，所选cis候选/六键/晶体比较范围保持，未恢复为任意分子或扩大为全局搜索。若候选在合法模型中不稳定，可按实际证据和明确比较范围判定。",
+        "CIF旧formula字段C12H12N2O与精修C15H13N3冲突、源角度/标签不一致保留。0.001Å实验ESD不是模型误差容差；小RMSE不等于统计一致。",
+        "已有trans气相更低，不能称cis全局最稳。无晶格自由能或人口；相/模型限制不证明唯一堆积因果。可选MeCN旧检查点缺口不作为气相必需验证。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "native_ligand_readback"
+      ],
+      "previous_rule_ids": [
+        "r_local_core_correspondence",
+        "r_bond_c1_c2",
+        "r_bond_c2_c3",
+        "r_bond_n1_c1",
+        "r_bond_n2_c2",
+        "r_bond_n3_c3",
+        "r_bond_c1_c10"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "所选分子候选与晶体的取向",
+      "rule_id": "r_orientation_contrast",
+      "conclusion_id": "orientation_contrast",
+      "independence": "取向可改变而局部键框架仍保留；候选稳定性按实际模型限定。",
+      "source_locator": "正文p4 §2.4与p10 §4.4；SIp8 S1、pp10–13 S2/S3、pp14–15 S11；CCDC2433822",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_fda8b9b53f8276db/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/analysis/native_reuse_verification.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_source_derivative_readback_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_S2_angles_S3_mapping_archive_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_exact_S3_FineFreq_UltraFineForce_strict_a1/stdout.log"
+      ],
+      "existing_support": "完整cis无约束87正模、扭转36.652415°；晶体−155.187862°；六键RMSE0.00415148 Å，全部残差超0.001Å边际ESD。已有trans低22.84266kJ/mol电子能。",
+      "limits": [
+        "六个作者键长硬窗已取消，所选cis候选/六键/晶体比较范围保持，未恢复为任意分子或扩大为全局搜索。若候选在合法模型中不稳定，可按实际证据和明确比较范围判定。",
+        "CIF旧formula字段C12H12N2O与精修C15H13N3冲突、源角度/标签不一致保留。0.001Å实验ESD不是模型误差容差；小RMSE不等于统计一致。",
+        "已有trans气相更低，不能称cis全局最稳。无晶格自由能或人口；相/模型限制不证明唯一堆积因果。可选MeCN旧检查点缺口不作为气相必需验证。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "native_ligand_readback"
+      ],
+      "previous_rule_ids": [
+        "r_orientation_contrast"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "局部结构、构象偏好与物相推断的界限",
+      "rule_id": "r_phase_model_interpretation",
+      "conclusion_id": "phase_model_interpretation",
+      "independence": "评价证据能识别的物理层次，不再奖励键长或取向本身。",
+      "source_locator": "正文p4 §2.4与p10 §4.4；SIp8 S1、pp10–13 S2/S3、pp14–15 S11；CCDC2433822",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_fda8b9b53f8276db/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/analysis/native_reuse_verification.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_source_derivative_readback_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_S2_angles_S3_mapping_archive_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_exact_S3_FineFreq_UltraFineForce_strict_a1/stdout.log"
+      ],
+      "existing_support": "完整cis无约束87正模、扭转36.652415°；晶体−155.187862°；六键RMSE0.00415148 Å，全部残差超0.001Å边际ESD。已有trans低22.84266kJ/mol电子能。",
+      "limits": [
+        "六个作者键长硬窗已取消，所选cis候选/六键/晶体比较范围保持，未恢复为任意分子或扩大为全局搜索。若候选在合法模型中不稳定，可按实际证据和明确比较范围判定。",
+        "CIF旧formula字段C12H12N2O与精修C15H13N3冲突、源角度/标签不一致保留。0.001Å实验ESD不是模型误差容差；小RMSE不等于统计一致。",
+        "已有trans气相更低，不能称cis全局最稳。无晶格自由能或人口；相/模型限制不证明唯一堆积因果。可选MeCN旧检查点缺口不作为气相必需验证。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "native_ligand_readback"
+      ],
+      "previous_rule_ids": [
+        "r_phase_model_interpretation"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

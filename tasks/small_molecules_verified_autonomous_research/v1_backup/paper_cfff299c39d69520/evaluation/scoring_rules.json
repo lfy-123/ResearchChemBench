@@ -1,0 +1,283 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价任务范围内有论文来源的科学结果，不评价研究过程、工具次数、成本、格式或失败说明。每个叶子项均为二元：全部条件成立得该项满分，否则得0分；没有临时比例分。先核对分子身份、连接关系、原子库存、电荷/自旋、物理量、单位、能量参照、温度、溶剂和标准态，再比较结果。结果须由提交者真实执行且可链接的计算及原生文件支持；公开观察、抄录论文值、正常退出或正确标签本身不充分。最低点与鞍点须有与其声明相适合的频率/态证据；所声称反应连接须有实际结果支持的IRC或科学等价的端点/连接检验，不指定软件、历史验证轨迹、固定假说数量或任务外计算。数值项由宿主按固定target/tolerance作包含边界的绝对差判定，Judge不得修改；允许明确单位及标准态转换，不允许拟合偏移。没有容差的来源背景值不是隐含数值门槛。实质物理身份或来源参照无法厘清时该项needs_review，不用放宽容差掩盖。各项独立，数值超窗不抹去有真实证据的定性项。最终结论项要求提交者明确选择并以计算证据作综合解释，仅计算出或列出一个候选不算最终选择。伪造和隐藏答案泄漏属于有效性问题，普通失败只影响对应项。本文初步容差是维护者按授权提出的benchmark政策，不是作者误差条或统计置信区间；出版专家复审待定不冻结已定义的现行评分。",
+  "rules": [
+    {
+      "rule_id": "r_active_species_identity",
+      "reference_id": "active_species_identity",
+      "type": "semantic",
+      "expected": "真实计算支持中性Zn(II)双prolinate活性物种，配体去质子化、N/O配位且L构型保留。须以实际分子图和电荷/组成支持Zn形式+2，不以任意原子电荷替代氧化态。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_catalyst_formation",
+      "reference_id": "catalyst_formation",
+      "type": "semantic",
+      "expected": "实际平衡形成反应ZnEt2+2 L-proline→中性ZnII双prolinate+2乙烷的G为下坡，支持从所给前体形成活性物种。作者−98.5仅作背景；不能把不同组成的形成能当TS势垒，或用Zn0优化失败证明其普适不可能。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_alkynyl_intermediate",
+      "reference_id": "alkynyl_intermediate",
+      "type": "semantic",
+      "expected": "实际物种及配平反应支持末端炔在ZnII/prolinate与碳酸盐作用下形成alkynylZn中间体Int2，并明确Cs-prolinate/CsHCO3储库。该步骤小幅上坡；只评分结构、配平与正号，不对来源冲突的Int2高度设置精确窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_coupling_connection",
+      "reference_id": "coupling_connection",
+      "type": "semantic",
+      "expected": "真实相关鞍点/反应模及实际连接证据支持alkynylZn与alkynyl bromide形成Csp–Csp、断Csp–Br并释放Zn–C，得到正确不对称1,3-二炔。只评分键变/相连身份，不用29.2数值命中替代连接。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_regeneration",
+      "reference_id": "regeneration",
+      "type": "semantic",
+      "expected": "实际产物后物种及匹配储库支持Int3经Cs-prolinate再生中性Int1，同时形成CsBr，并将CsHCO3计入完整配平网络。需真实物种/热力学支持，不仅书写循环；不强制作者未提供的独立再生鞍点。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_turnover_span",
+      "reference_id": "turnover_span",
+      "type": "numeric",
+      "expected": "G(TS)+G(Cs-prolinate)+G(CsHCO3)−[G(Int1)+G(R1)+G(R2)+G(Cs2CO3)]，目标29.2 kcal/mol、绝对容差1.0 kcal/mol。采用匹配组成、同温度/溶剂/标准态及自身TS热项；不能用TS−Int2−R2局部势垒或未配平高度代替。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      },
+      "target": 29.2,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_mechanism_conclusion",
+      "reference_id": "mechanism_conclusion",
+      "type": "semantic",
+      "expected": "最终明确选择从中性ZnII/prolinate形成、末端炔活化、取代型偶联到再生的配平分子机制，并综合物种/键变/储库证据说明Zn沿该路线保持形式+2。不能只罗列候选或把成键称Pd式Zn0/ZnII氧化还原循环；也不排除全部未经研究的自由基机制。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_temperature_conclusion",
+      "reference_id": "temperature_conclusion",
+      "type": "semantic",
+      "expected": "用真实恢复的有效跨度及显式动力学近似推断398.15 K比298.15 K显著更快，足以解释实验加热的可达性。可采用作者恒定ΔG Eyring近似或合理等价方法；须正确说明它不是实测速率或重算的高温自由能。复制29.2代入而无独立跨度证据不通过；本项不要求跨度精确窗口通过或作者速率数值命中。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "active_species_identity",
+      "kind": "intermediate",
+      "max_score": 12,
+      "description": "中性ZnII双prolinate身份",
+      "rule_ids": [
+        "r_active_species_identity"
+      ],
+      "evidence_ids": [
+        "zn_species"
+      ]
+    },
+    {
+      "id": "catalyst_formation",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "平衡质子解离形成有利",
+      "rule_ids": [
+        "r_catalyst_formation"
+      ],
+      "evidence_ids": [
+        "zn_species",
+        "zn_components"
+      ]
+    },
+    {
+      "id": "alkynyl_intermediate",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "碳酸盐辅助末端炔活化",
+      "rule_ids": [
+        "r_alkynyl_intermediate"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ]
+    },
+    {
+      "id": "coupling_connection",
+      "kind": "intermediate",
+      "max_score": 14,
+      "description": "取代型偶联连接",
+      "rule_ids": [
+        "r_coupling_connection"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_ts"
+      ]
+    },
+    {
+      "id": "regeneration",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "配体储库与催化剂再生",
+      "rule_ids": [
+        "r_regeneration"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ]
+    },
+    {
+      "id": "turnover_span",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "平衡控制能跨",
+      "rule_ids": [
+        "r_turnover_span"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ]
+    },
+    {
+      "id": "mechanism_conclusion",
+      "kind": "conclusion",
+      "max_score": 14,
+      "description": "最终：ZnII氧化还原中性机制",
+      "rule_ids": [
+        "r_mechanism_conclusion"
+      ],
+      "evidence_ids": [
+        "zn_species",
+        "zn_network"
+      ]
+    },
+    {
+      "id": "temperature_conclusion",
+      "kind": "conclusion",
+      "max_score": 12,
+      "description": "最终：125°C加热的动力学解释",
+      "rule_ids": [
+        "r_temperature_conclusion"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_eyring"
+      ]
+    }
+  ]
+}

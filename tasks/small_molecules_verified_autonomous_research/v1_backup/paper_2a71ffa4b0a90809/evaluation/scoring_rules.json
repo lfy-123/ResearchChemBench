@@ -1,0 +1,532 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Use the authored numerical targets and tolerances; the Judge must not adjust them. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate. Qualitative findings carry separate points for actual computed topology, trends or bounded scientific inferences. Numerical failure alone does not invalidate independently supported qualitative findings; correct words without genuine supporting calculations do not pass. Tolerances are provisional benchmark acceptance policies approved on 2026-10-17, not author error bars or statistical confidence intervals. Expert review may revise a future version, but absence of that later review does not block this version.",
+  "rules": [
+    {
+      "rule_id": "r_binding_two_point_a",
+      "reference_id": "binding_two_point_a",
+      "type": "semantic",
+      "expected": "An actual computed A chloride complex supports two directional iodine sigma-hole contacts to the same Cl− within one donor. Use the full optimized complex and interaction evidence; a free donor or crystal geometry alone does not establish the solution-complex result. No fixed universal contact-distance cutoff is imposed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_binding_two_point_c_syn",
+      "reference_id": "binding_two_point_c_syn",
+      "type": "semantic",
+      "expected": "An actual computed C-syn chloride complex supports two directional iodine sigma-hole contacts to the same Cl− within one donor. Use the full optimized complex and interaction evidence; a free donor or crystal geometry alone does not establish the solution-complex result. No fixed universal contact-distance cutoff is imposed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_binding_two_point_d_syn",
+      "reference_id": "binding_two_point_d_syn",
+      "type": "semantic",
+      "expected": "An actual computed D-syn chloride complex supports two directional iodine sigma-hole contacts to the same Cl− within one donor. Use the full optimized complex and interaction evidence; a free donor or crystal geometry alone does not establish the solution-complex result. No fixed universal contact-distance cutoff is imposed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_binding_one_point_b",
+      "reference_id": "binding_one_point_b",
+      "type": "semantic",
+      "expected": "An actual computed B chloride complex supports effectively one-point binding. Two iodine atoms alone do not establish bidentate binding; use actual complex geometry and interactions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_binding_one_point_e",
+      "reference_id": "binding_one_point_e",
+      "type": "semantic",
+      "expected": "An actual computed E chloride complex supports effectively one-point binding. Two iodine atoms alone do not establish bidentate binding; use actual complex geometry and interactions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_affinity_a",
+      "reference_id": "affinity_a",
+      "type": "numeric",
+      "expected": "The paper conformer-specific association free energy is -8.2 kcal/mol, accepted within an inclusive absolute tolerance of 1.0 kcal/mol. Compare G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−), THF,193.15K; free donor neutral singlet, chloride and complex anionic singlets. Match the named free conformer and its complex, not a substituted global minimum or ensemble. Target uses the raw source-table convention supported as 1 atm by the Cl thermal terms, although pressure is not stated explicitly in the paper. If reporting 1 M association values, convert back by adding 1.0605682035 kcal/mol before this comparison, retaining the raw value and transparent conversion. This is a standard-state conversion, not a fitted offset.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -8.2,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_affinity_b",
+      "reference_id": "affinity_b",
+      "type": "numeric",
+      "expected": "The paper conformer-specific association free energy is -2.6 kcal/mol, accepted within an inclusive absolute tolerance of 1.0 kcal/mol. Compare G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−), THF,193.15K; free donor neutral singlet, chloride and complex anionic singlets. Match the named free conformer and its complex, not a substituted global minimum or ensemble. Target uses the raw source-table convention supported as 1 atm by the Cl thermal terms, although pressure is not stated explicitly in the paper. If reporting 1 M association values, convert back by adding 1.0605682035 kcal/mol before this comparison, retaining the raw value and transparent conversion. This is a standard-state conversion, not a fitted offset.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -2.6,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_affinity_c_syn",
+      "reference_id": "affinity_c_syn",
+      "type": "numeric",
+      "expected": "The paper conformer-specific association free energy is -5.9 kcal/mol, accepted within an inclusive absolute tolerance of 1.0 kcal/mol. Compare G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−), THF,193.15K; free donor neutral singlet, chloride and complex anionic singlets. Match the named free conformer and its complex, not a substituted global minimum or ensemble. Target uses the raw source-table convention supported as 1 atm by the Cl thermal terms, although pressure is not stated explicitly in the paper. If reporting 1 M association values, convert back by adding 1.0605682035 kcal/mol before this comparison, retaining the raw value and transparent conversion. This is a standard-state conversion, not a fitted offset.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -5.9,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_affinity_c_anti",
+      "reference_id": "affinity_c_anti",
+      "type": "numeric",
+      "expected": "The paper conformer-specific association free energy is -1.5 kcal/mol, accepted within an inclusive absolute tolerance of 1.0 kcal/mol. Compare G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−), THF,193.15K; free donor neutral singlet, chloride and complex anionic singlets. Match the named free conformer and its complex, not a substituted global minimum or ensemble. Target uses the raw source-table convention supported as 1 atm by the Cl thermal terms, although pressure is not stated explicitly in the paper. If reporting 1 M association values, convert back by adding 1.0605682035 kcal/mol before this comparison, retaining the raw value and transparent conversion. This is a standard-state conversion, not a fitted offset.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -1.5,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_affinity_d_syn",
+      "reference_id": "affinity_d_syn",
+      "type": "numeric",
+      "expected": "The paper conformer-specific association free energy is -7.1 kcal/mol, accepted within an inclusive absolute tolerance of 1.0 kcal/mol. Compare G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−), THF,193.15K; free donor neutral singlet, chloride and complex anionic singlets. Match the named free conformer and its complex, not a substituted global minimum or ensemble. Target uses the raw source-table convention supported as 1 atm by the Cl thermal terms, although pressure is not stated explicitly in the paper. If reporting 1 M association values, convert back by adding 1.0605682035 kcal/mol before this comparison, retaining the raw value and transparent conversion. This is a standard-state conversion, not a fitted offset.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -7.1,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_affinity_d_anti",
+      "reference_id": "affinity_d_anti",
+      "type": "numeric",
+      "expected": "The paper conformer-specific association free energy is -2.5 kcal/mol, accepted within an inclusive absolute tolerance of 1.0 kcal/mol. Compare G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−), THF,193.15K; free donor neutral singlet, chloride and complex anionic singlets. Match the named free conformer and its complex, not a substituted global minimum or ensemble. Target uses the raw source-table convention supported as 1 atm by the Cl thermal terms, although pressure is not stated explicitly in the paper. If reporting 1 M association values, convert back by adding 1.0605682035 kcal/mol before this comparison, retaining the raw value and transparent conversion. This is a standard-state conversion, not a fitted offset.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -2.5,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_affinity_e",
+      "reference_id": "affinity_e",
+      "type": "numeric",
+      "expected": "The paper conformer-specific association free energy is -3.3 kcal/mol, accepted within an inclusive absolute tolerance of 1.0 kcal/mol. Compare G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−), THF,193.15K; free donor neutral singlet, chloride and complex anionic singlets. Match the named free conformer and its complex, not a substituted global minimum or ensemble. Target uses the raw source-table convention supported as 1 atm by the Cl thermal terms, although pressure is not stated explicitly in the paper. If reporting 1 M association values, convert back by adding 1.0605682035 kcal/mol before this comparison, retaining the raw value and transparent conversion. This is a standard-state conversion, not a fitted offset.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -3.3,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_preorganization",
+      "reference_id": "preorganization",
+      "type": "semantic",
+      "expected": "Computed free-donor geometry supports the separately prepared A/B axial identities and shows that A is preorganized for two-point binding whereas B lacks that same relative iodine arrangement. This concerns the prepared donor geometry, distinct from points for the bound-complex topology. Do not substitute an arbitrary global minimum or ensemble.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_conformer_c",
+      "reference_id": "conformer_c",
+      "type": "semantic",
+      "expected": "Computed conformer/connection evidence supports substantially restricted C anti-to-syn conversion at 193.15 K and explains its implication for access to the binding geometry. Source 17.9 kcal/mol is contextual, not an additional numerical gate; do not force an unknown initial population.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_conformer_d",
+      "reference_id": "conformer_d",
+      "type": "semantic",
+      "expected": "Computed conformer/connection evidence supports easy D syn/anti conversion and access to a two-point binding conformer, much less restricted than C. Source 2.2 kcal/mol is contextual, not an additional numerical gate. Do not require exact sub-0.1 kcal/mol endpoint degeneracy or attribute hour-scale lag solely to this low barrier.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_sigma_hole_framework",
+      "reference_id": "sigma_hole_framework",
+      "type": "semantic",
+      "expected": "Comparable electronic-structure calculations establish positive electrostatic-potential regions along C–I bond extensions and framework-dependent iodine sigma-hole differences, including stronger A/D and weaker C in the studied series. Both directional positive sigma-holes and the framework comparison are required for this combined item. Atomic net charge alone is not equivalent to a directional sigma-hole. Paper maxima at density 0.0004 au are contextual, not universal thresholds for other ESP or charge definitions; do not require an unqualified exact grid maximum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_activity_ab",
+      "reference_id": "activity_ab",
+      "type": "semantic",
+      "expected": "The final answer integrates computed donor preorganization, actual binding geometry and affinity trend to explain the principal A-over-B activity contrast at matched experimental times. A single repeated number or unsupported assertion is insufficient. This item does not require every independent affinity magnitude item to pass or claim proof of the complete catalytic cycle.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_activity_series",
+      "reference_id": "activity_series",
+      "type": "semantic",
+      "expected": "The final account explains the different catalyst activity features from both energetic and electronic-structure evidence: combine computed binding free energies, preorganization/conformer accessibility, and framework-dependent electronic effects to explain stronger A/D versus weak B/E and why C prevents a single ESP or affinity descriptor from accounting for all time-dependent observations. Respect C/E time crossings and uncatalyzed background, and do not treat yields as elementary rate constants. No new ML calculation, full catalytic cycle or C–C transition-state study is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "binding_two_point_a",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "A 的双点结合拓扑",
+      "rule_ids": [
+        "r_binding_two_point_a"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p63_64_65"
+      ]
+    },
+    {
+      "id": "binding_two_point_c_syn",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "C-syn 的双点结合拓扑",
+      "rule_ids": [
+        "r_binding_two_point_c_syn"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p63_64_65"
+      ]
+    },
+    {
+      "id": "binding_two_point_d_syn",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "D-syn 的双点结合拓扑",
+      "rule_ids": [
+        "r_binding_two_point_d_syn"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p63_64_65"
+      ]
+    },
+    {
+      "id": "binding_one_point_b",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "B 的有效单点结合拓扑",
+      "rule_ids": [
+        "r_binding_one_point_b"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p63_64_65"
+      ]
+    },
+    {
+      "id": "binding_one_point_e",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "E 的有效单点结合拓扑",
+      "rule_ids": [
+        "r_binding_one_point_e"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p63_64_65"
+      ]
+    },
+    {
+      "id": "affinity_a",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "A 的匹配构象结合自由能",
+      "rule_ids": [
+        "r_affinity_a"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p60_63_64_65_66"
+      ]
+    },
+    {
+      "id": "affinity_b",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "B 的匹配构象结合自由能",
+      "rule_ids": [
+        "r_affinity_b"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p60_63_64_65_66"
+      ]
+    },
+    {
+      "id": "affinity_c_syn",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "C-SYN 的匹配构象结合自由能",
+      "rule_ids": [
+        "r_affinity_c_syn"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p60_63_64_65_66"
+      ]
+    },
+    {
+      "id": "affinity_c_anti",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "C-ANTI 的匹配构象结合自由能",
+      "rule_ids": [
+        "r_affinity_c_anti"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p60_63_64_65_66"
+      ]
+    },
+    {
+      "id": "affinity_d_syn",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "D-SYN 的匹配构象结合自由能",
+      "rule_ids": [
+        "r_affinity_d_syn"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p60_63_64_65_66"
+      ]
+    },
+    {
+      "id": "affinity_d_anti",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "D-ANTI 的匹配构象结合自由能",
+      "rule_ids": [
+        "r_affinity_d_anti"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p60_63_64_65_66"
+      ]
+    },
+    {
+      "id": "affinity_e",
+      "kind": "intermediate",
+      "max_score": 2,
+      "description": "E 的匹配构象结合自由能",
+      "rule_ids": [
+        "r_affinity_e"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p60_63_64_65_66"
+      ]
+    },
+    {
+      "id": "preorganization",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "A/B 轴向身份与预组织差异",
+      "rule_ids": [
+        "r_preorganization"
+      ],
+      "evidence_ids": [
+        "main_p5_7",
+        "supplementary_001_p60"
+      ]
+    },
+    {
+      "id": "conformer_c",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "C 的受限构象转换",
+      "rule_ids": [
+        "r_conformer_c"
+      ],
+      "evidence_ids": [
+        "main_p7",
+        "supplementary_001_p60_66"
+      ]
+    },
+    {
+      "id": "conformer_d",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "D 的易达结合构象",
+      "rule_ids": [
+        "r_conformer_d"
+      ],
+      "evidence_ids": [
+        "main_p7",
+        "supplementary_001_p60_66"
+      ]
+    },
+    {
+      "id": "sigma_hole_framework",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "方向性正 σ-hole 与骨架依赖的电子效应",
+      "rule_ids": [
+        "r_sigma_hole_framework"
+      ],
+      "evidence_ids": [
+        "main_p7",
+        "supplementary_001_p61_62"
+      ]
+    },
+    {
+      "id": "activity_ab",
+      "kind": "conclusion",
+      "max_score": 12,
+      "description": "最终：A/B 主要活性差异的综合解释",
+      "rule_ids": [
+        "r_activity_ab"
+      ],
+      "evidence_ids": [
+        "main_p3_4_8_9"
+      ]
+    },
+    {
+      "id": "activity_series",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "最终：全系列解释与单描述符不足",
+      "rule_ids": [
+        "r_activity_series"
+      ],
+      "evidence_ids": [
+        "main_p8_9_12"
+      ]
+    }
+  ]
+}

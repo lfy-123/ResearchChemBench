@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from ..artifacts import resolve_workspace_path
-from ..orca_contract import normalize_orca_method_basis
+from ..orca_contract import normalize_orca_method_basis, orca_method_token, orca_solvent_token
 from ..parameter_specs import ORCA_DENSITY_DEFAULT_MAXCORE_MB
 from ..paths import PROJECT_ROOT
 from .common import (
@@ -19,6 +19,9 @@ from .common import (
     atoms_and_coordinates,
     atom_spec,
     command_artifacts,
+    external_failure,
+    ExternalProcessError,
+    failed,
     module_version,
     output_directory,
     partial_success,
@@ -592,7 +595,7 @@ def _xtb(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if not completed["available"]:
         return unavailable(completed["stderr"], install="conda install -c conda-forge xtb")
     if completed["returncode"] != 0:
-        raise RuntimeError(f"xTB failed: {completed['stderr'][-2000:]}")
+        raise external_failure(completed, directory, "xTB")
     energy_matches = re.findall(r"TOTAL ENERGY\s+(-?\d+(?:\.\d+)?(?:[Ee][+-]?\d+)?)", completed["stdout"])
     energy = float(energy_matches[-1]) if energy_matches else None
     if action_id == "calculate_energy":
@@ -762,7 +765,19 @@ def _pyscf(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
 
     inputs, method, settings = request_parts(request)
     structure = structure_dict(inputs["structure"])
-    method_name = str(method["method"]).lower()
+    method_name = str(method["method"]).strip().lower()
+    if action_id == "calculate_atomic_charges" and str(method.get("population_analysis", "mulliken")).strip().lower() != "mulliken":
+        raise ValueError("PySCF population_analysis currently supports mulliken only")
+    if action_id == "calculate_excited_states":
+        if method_name not in {"rhf", "rks"}:
+            raise ValueError("This typed PySCF excited-state adapter currently requires a restricted reference (rhf or rks)")
+        excited_method = str(method["excited_state_method"]).strip().lower()
+        spin_symmetry = str(settings["spin_symmetry"]).strip().lower()
+        if excited_method not in {"tda", "tddft"} or spin_symmetry not in {"singlet", "triplet"}:
+            raise ValueError("PySCF excitations require tda/tddft and singlet/triplet")
+        requested_states = settings["number_of_states"]
+        if type(requested_states) is not int or requested_states < 1:
+            raise ValueError("PySCF number_of_states must be a positive integer")
     molecule = gto.M(
         atom=atom_spec(inputs["structure"]),
         basis=str(method["basis"]),
@@ -784,10 +799,17 @@ def _pyscf(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     energy = float(calculation.kernel())
     common = {
         "converged": bool(calculation.converged),
+        "scf_converged": bool(calculation.converged),
         "method": method_name,
         "basis": str(method["basis"]),
         "energy_hartree": energy,
     }
+    if not bool(calculation.converged):
+        return failed(
+            "PySCF SCF did not converge for the requested method and geometry",
+            code="scf_nonconvergence",
+            retryable=False,
+        ) | {"result": common, "backend_version": module_version("pyscf"), "provenance": {"converged": False}}
     if action_id == "calculate_energy":
         result = {**common, "energy": energy, "unit": "hartree"}
     elif action_id == "calculate_forces":
@@ -814,7 +836,7 @@ def _pyscf(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         population, charges = calculation.mulliken_pop(molecule, calculation.make_rdm1(), verbose=0)
         result = {
             **common,
-            "analysis": str(method.get("population_analysis", "mulliken")),
+            "analysis": "mulliken",
             "charges": np.asarray(charges, dtype=float).tolist(),
             "unit": "elementary_charge",
             "orbital_populations": np.asarray(population, dtype=float).tolist(),
@@ -839,21 +861,14 @@ def _pyscf(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         if bool(settings.get("include_coefficients", False)):
             result["coefficients"] = np.asarray(calculation.mo_coeff).tolist()
     elif action_id == "calculate_excited_states":
-        excited_method = str(method["excited_state_method"]).strip().lower()
         if excited_method == "tda":
             excited = calculation.TDA()
-        elif excited_method == "tddft":
-            excited = calculation.TDHF() if method_name in {"rhf", "uhf"} else calculation.TDDFT()
         else:
-            raise ValueError("PySCF excited_state_method must be tda or tddft")
-        spin_symmetry = str(settings["spin_symmetry"]).strip().lower()
-        if spin_symmetry not in {"singlet", "triplet"}:
-            raise ValueError("spin_symmetry must be singlet or triplet")
-        if method_name in {"uhf", "uks"}:
-            raise ValueError("This typed PySCF excited-state adapter currently requires a restricted reference")
+            excited = calculation.TDHF() if method_name == "rhf" else calculation.TDDFT()
         excited.singlet = spin_symmetry == "singlet"
-        excited.nstates = int(settings["number_of_states"])
+        excited.nstates = requested_states
         excitation_hartree, _amplitudes = excited.kernel()
+        root_converged = np.asarray(getattr(excited, "converged", []), dtype=bool).reshape(-1)
         oscillator = np.asarray(excited.oscillator_strength(), dtype=float)
         transition_dipoles = np.asarray(excited.transition_dipole(), dtype=float)
         states = []
@@ -866,6 +881,7 @@ def _pyscf(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
                     "oscillator_strength": float(oscillator[index]),
                     "transition_dipole_atomic_unit": transition_dipoles[index].tolist(),
                     "spin_symmetry": spin_symmetry,
+                    "converged": bool(root_converged[index]) if index < len(root_converged) else False,
                 }
             )
         result = {
@@ -873,7 +889,17 @@ def _pyscf(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "states": states,
             "excited_state_method": excited_method,
             "spin_symmetry": spin_symmetry,
+            "requested_states": requested_states,
+            "returned_states": len(states),
+            "converged": bool(len(states) == requested_states and len(root_converged) == len(states) and root_converged.all()),
+            "complete": len(states) == requested_states,
         }
+        if not result["converged"]:
+            valid = [state for state in states if state["converged"]]
+            if valid:
+                return partial_success(result, backend_version=module_version("pyscf"),
+                                       warnings=["One or more requested TD roots are missing or did not converge."])
+            return failed("PySCF excited-state solver did not converge any requested root", code="td_nonconvergence") | {"result": result, "backend_version": module_version("pyscf")}
     else:
         return unsupported(f"PySCF does not implement {action_id}")
     return success(result, backend_version=module_version("pyscf"))
@@ -2582,9 +2608,7 @@ def _render_orca(
             raise ValueError("ORCA solvation_model must be cpcm or smd")
         if not method.get("solvent"):
             raise ValueError("ORCA solvation_model requires method_spec.solvent")
-        solvent = str(method["solvent"]).strip()
-        if not re.fullmatch(r"[A-Za-z0-9_.+-]+", solvent):
-            raise ValueError("ORCA solvent contains unsupported characters")
+        solvent = orca_solvent_token(method["solvent"])
         if model == "cpcm":
             header += f" CPCM({solvent})"
         else:
@@ -2617,8 +2641,10 @@ def _render_orca(
             ) from exc
         lines.extend(
             [
+                # ORCA's public optimization presets are simple keywords;
+                # the %geom Convergence enum does not accept VeryTight.
+                f"! {convergence}Opt",
                 "%geom",
-                f"  Convergence {convergence}",
                 f"  MaxIter {int(settings['max_steps'])}",
                 "end",
             ]
@@ -2709,7 +2735,7 @@ def _orca_method_and_dispersion_tokens(method: dict[str, Any]) -> tuple[str, str
     a conflicting correction explicitly selected by the agent.
     """
 
-    method_name = _orca_density_token(method["method"], field_name="method")
+    method_name = orca_method_token(method["method"])
     explicit_dispersion = (
         _orca_density_token(method["dispersion"], field_name="dispersion")
         if method.get("dispersion")
@@ -2924,13 +2950,11 @@ def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]
             install="Configure the licensed ORCA 6.1.1 bundle and OpenMPI 4.1.8 runtime",
         )
     if completed["returncode"] != 0:
-        detail = (completed["stderr"] or completed["stdout"])[-4000:]
-        raise RuntimeError(f"ORCA electron-density calculation failed: {detail}")
+        raise external_failure(completed, directory, "ORCA electron-density calculation", log_names=("job.out", "job.err"))
     completion_error = _orca_completion_error(completed["stdout"], completed["stderr"])
     if completion_error is not None:
-        raise RuntimeError(
-            f"ORCA electron-density calculation did not terminate normally: {completion_error}"
-        )
+        raise external_failure(completed, directory, "ORCA", log_names=("job.out", "job.err"),
+                               message=f"ORCA electron-density calculation did not terminate normally: {completion_error}")
 
     density_type = str(method["density_type"]).casefold()
     files = {
@@ -3155,10 +3179,7 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
         if not completed["available"]:
             return unavailable(completed["stderr"], install="Configure ORCA orca_plot")
         if completed["returncode"] != 0:
-            raise RuntimeError(
-                "orca_plot MDCI density export failed: "
-                + (completed["stderr"] or completed["stdout"])[-3000:]
-            )
+            raise external_failure(completed, directory, "orca_plot MDCI density export", log_names=("orca_plot.out", "orca_plot.err"))
         candidates = sorted(directory.glob("*.cube"))
         if not candidates:
             raise RuntimeError("orca_plot completed without producing an MDCI density cube")
@@ -3213,10 +3234,7 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
         if not completed["available"]:
             return unavailable(completed["stderr"], install="Configure ORCA orca_2aim")
         if completed["returncode"] != 0:
-            raise RuntimeError(
-                "orca_2aim density export failed: "
-                + (completed["stderr"] or completed["stdout"])[-3000:]
-            )
+            raise external_failure(completed, directory, "orca_2aim density export", log_names=("orca_2aim.out", "orca_2aim.err"))
         if requested_source == "relaxed_mp2" and "mp2nat" not in completed["stdout"].casefold():
             raise RuntimeError(
                 "orca_2aim did not confirm reading the requested relaxed-MP2 .mp2nat density"
@@ -3305,6 +3323,35 @@ def _orca_completion_error(stdout: str, stderr: str) -> str | None:
     return "ORCA output did not contain the 'ORCA TERMINATED NORMALLY' completion marker"
 
 
+def _parse_orca_population_block(text: str, analysis: str, atom_count: int) -> list[float]:
+    title = {
+        "mulliken": r"MULLIKEN ATOMIC CHARGES(?:\s+AND SPIN POPULATIONS)?",
+        "loewdin": r"LOEWDIN ATOMIC CHARGES(?:\s+AND SPIN POPULATIONS)?",
+    }[analysis]
+    headers = list(re.finditer(rf"^[ \t]*{title}[ \t]*$", text, re.M | re.I))
+    if not headers:
+        raise RuntimeError(f"Could not parse ORCA {analysis} atomic charges")
+    charges: list[float] = []
+    indices: list[int] = []
+    for row in text[headers[-1].end():].splitlines():
+        if not charges and (not row.strip() or set(row.strip()) == {"-"}):
+            continue
+        parsed = re.match(r"^\s*(\d+)\s+[A-Za-z]{1,2}\s*:\s*(\S+)(?:\s|$)", row)
+        if not parsed:
+            break
+        indices.append(int(parsed.group(1)))
+        try:
+            charge = float(parsed.group(2).replace("D", "E").replace("d", "e"))
+        except ValueError as exc:
+            raise RuntimeError(f"Invalid ORCA {analysis} atomic charge: {row.strip()}") from exc
+        if not math.isfinite(charge):
+            raise RuntimeError(f"Non-finite ORCA {analysis} atomic charge")
+        charges.append(charge)
+    if len(charges) != atom_count or indices != list(range(atom_count)):
+        raise RuntimeError(f"ORCA {analysis} charge block contained {len(charges)} of {atom_count} ordered atom rows")
+    return charges
+
+
 def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     import numpy as np
 
@@ -3314,6 +3361,10 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         return _orca_export_electron_density(request)
 
     inputs, method, settings = request_parts(request)
+    if action_id == "calculate_atomic_charges":
+        analysis = str(method["population_analysis"]).strip().lower()
+        if analysis not in {"mulliken", "loewdin"}:
+            raise ValueError("ORCA population_analysis must be mulliken or loewdin")
     directory = output_directory(action_id, "orca")
     input_path = directory / "job.inp"
     input_path.write_text(
@@ -3349,11 +3400,11 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             ),
         )
     if completed["returncode"] != 0:
-        detail = (completed["stderr"] or completed["stdout"])[-4000:]
-        raise RuntimeError(f"ORCA failed: {detail}")
+        raise external_failure(completed, directory, "ORCA", log_names=("job.out", "job.err"))
     completion_error = _orca_completion_error(completed["stdout"], completed["stderr"])
     if completion_error is not None:
-        raise RuntimeError(f"ORCA did not terminate normally: {completion_error}")
+        raise external_failure(completed, directory, "ORCA", log_names=("job.out", "job.err"),
+                               message=f"ORCA did not terminate normally: {completion_error}")
     version_match = re.search(r"Program Version\s+(\d+\.\d+\.\d+)", completed["stdout"])
     backend_version = version_match.group(1) if version_match else None
     energy_matches = re.findall(r"FINAL SINGLE POINT ENERGY\s+(-?\d+(?:\.\d+)?)", completed["stdout"])
@@ -3396,30 +3447,14 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "raw_gradient_path": relative_workspace_path(engrad_files[-1]),
         }
     elif action_id == "calculate_atomic_charges":
-        analysis = str(method["population_analysis"]).strip().lower()
-        title = {
-            "mulliken": "MULLIKEN ATOMIC CHARGES",
-            "loewdin": "LOEWDIN ATOMIC CHARGES",
-        }.get(analysis)
-        if title is None:
-            raise ValueError("ORCA population_analysis must be mulliken or loewdin")
-        block = re.search(
-            rf"{title}\s*-+\s*(.*?)(?:\n\s*\n|\n\s*Sum of)",
-            completed["stdout"],
-            flags=re.S,
-        )
-        if not block:
-            raise RuntimeError(f"Could not parse ORCA {analysis} atomic charges")
-        charges = [
-            float(match.group(1))
-            for match in re.finditer(
-                r"^\s*\d+\s+[A-Za-z][A-Za-z]?\s*:\s*(-?\d+(?:\.\d+)?)",
-                block.group(1),
-                flags=re.M,
+        try:
+            charges = _parse_orca_population_block(
+                completed["stdout"], analysis, len(atoms_and_coordinates(structure_dict(inputs["structure"]))[0])
             )
-        ]
-        if not charges:
-            raise RuntimeError(f"ORCA {analysis} charge block contained no atom rows")
+        except RuntimeError as exc:
+            raise ExternalProcessError({"code": "output_parsing_failed", "category": "output_parsing",
+                "failure_stage": "output_parsing", "message": str(exc),
+                "source_file": str(output_path), "log_paths": [str(output_path)]}) from exc
         result = {
             "charges": charges,
             "analysis": analysis,
@@ -3474,6 +3509,11 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "energy_hartree": energy,
         }
     elif action_id == "calculate_excited_states":
+        import hashlib
+        from ..orca_excited_transitions import parse_orbital_transitions
+        transitions_by_header = parse_orbital_transitions(completed["stdout"],
+            source_path=relative_workspace_path(output_path),
+            source_sha256=hashlib.sha256(output_path.read_bytes()).hexdigest())
         oscillator_by_state = {}
         absorption = re.search(
             r"ABSORPTION SPECTRUM VIA TRANSITION ELECTRIC DIPOLE MOMENTS(.*?)(?:ABSORPTION SPECTRUM VIA TRANSITION VELOCITY|CD SPECTRUM)",
@@ -3514,6 +3554,7 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
                     "multiplicity": int(match.group(6)),
                     "spin_symmetry": "singlet",
                     **oscillator_by_state.get(index, {}),
+                    **transitions_by_header.get(match.start(), {}),
                 }
             )
         if not states:

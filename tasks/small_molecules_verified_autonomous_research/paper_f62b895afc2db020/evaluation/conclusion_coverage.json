@@ -1,0 +1,113 @@
+{
+  "paper_id": "paper_f62b895afc2db020",
+  "revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "TXO 光敏化可达性、局部骨架重排与 cis/trans 形成偏好。",
+  "source_location": "Main text p6–8 Fig.3; SI p105–121",
+  "public_result_requirements": [
+    "Explain how the relevant reactive state can be accessed under the supplied sensitizer/light conditions, using compatible electronic-state evidence.",
+    "Explain the actual bond formation, cleavage and ring expansion producing the supplied skeleton.",
+    "Predict cis/trans formation preference using matched competing formation evidence, distinguishing a conditional model prediction from a complete photophysical explanation and from product stability.",
+    "Separate the conditional cis/trans formation prediction from evidence that its precursor and electronic state connect to the investigated skeletal pathway; explicitly reconcile any calculated contrary pathways or configurational evidence."
+  ],
+  "required_numerical_evidence": [
+    {
+      "id": "state_access",
+      "description": "定义相容的敏化剂/底物相关电子态能量及态间差值，交代垂直/绝热定义与电子态。",
+      "public_requirement": "Computed compatible sensitizer/substrate electronic-state energies and state gaps, identifying vertical/adiabatic definitions and electronic states."
+    },
+    {
+      "id": "skeleton_energies",
+      "description": "支撑实际成键、断裂和扩环机制的关键态/反应剖面能量与适用活化量，注明各电子态和参照。",
+      "public_requirement": "Computed key-state/profile energies and applicable activation requirements supporting bond formation, cleavage and ring expansion, identifying electronic states and references."
+    },
+    {
+      "id": "conditional_cis_trans_formation",
+      "description": "明确局部前体/态上匹配cis/trans形成的实际活化、交叉或闭环能量及差值；仅限本模型，不要求本项完成全程电子态衔接。",
+      "public_requirement": "Computed activation, crossing or closure energies and differences for matched cis/trans formation from an explicitly defined local precursor/state. Distinguish this conditional comparison from proof of access through the entire investigated pathway."
+    },
+    {
+      "id": "selectivity_connection_evidence",
+      "description": "支持局部选择性模型与已研究骨架/电子态过程关联的实际态能或连接剖面，并提交、解释相关反向证据的数值；可复用已提交剖面，不强制新算完整光物理网络。",
+      "public_requirement": "Computed state or connection-profile energies supporting the link between the selectivity model and the investigated skeletal/electronic-state pathway, including the relevant calculated contrary evidence and its interpretation. Existing computed profiles may be reused; a complete photophysical network is not required."
+    }
+  ],
+  "coverage": [
+    {
+      "scientific_question": "规定敏化剂/光照能否合理到达需要的反应态？",
+      "outcome_id": "sensitized_accessibility",
+      "required_numerical_evidence_ids": [
+        "state_access"
+      ],
+      "old_outcome_ids": [
+        "sensitized_accessibility"
+      ],
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107",
+        "existing_native_verification"
+      ],
+      "points": 30,
+      "criterion": "实际、定义相容的电子态/能量证据支持 TXO 敏化使给定底物反应态可达的局部解释，参考为能量转移到烯烃相关三重态。须把能量层级与给定敏化/光条件联系，而非只比较不相容的垂直/绝热能或把一个波长与任意热自由能相减。允许明确假设下的局部可达性论证，不要求完整吸收/ISC 速率、网络或精确光谱吻合。"
+    },
+    {
+      "scientific_question": "目标骨架通过怎样的实际键重组形成？",
+      "outcome_id": "skeletal_mechanism",
+      "required_numerical_evidence_ids": [
+        "skeleton_energies"
+      ],
+      "old_outcome_ids": [
+        "skeletal_mechanism"
+      ],
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107",
+        "si_p108_121",
+        "existing_native_verification"
+      ],
+      "points": 30,
+      "criterion": "真实反应结果支持分子内成 C–C 键、相应 C–C 断裂及扩环得到题给骨架的机制解释，参考为激发/自由基相关加成后重排；等效机制可接受。交代所用电子态及改变电子态时的证据/假设，不把不同自旋的未连接点硬拼成已证明连续路径。只有产物最低点、若干断开的扫描或一句“扩环可行”不足；不要求作者全部节点、唯一顺序或完整光物理。"
+    },
+    {
+      "scientific_question": "在明确的相关局部形成模型内，cis/trans竞争支持什么方向？",
+      "outcome_id": "conditional_cis_formation_preference",
+      "required_numerical_evidence_ids": [
+        "conditional_cis_trans_formation"
+      ],
+      "old_outcome_ids": [
+        "cis_formation_preference"
+      ],
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121",
+        "existing_native_verification"
+      ],
+      "points": 20,
+      "criterion": "对正确映射、同一物理参照及比较层级的cis/trans形成过程作实际计算，支持C1甲氧羰基与C7苯基同面cis的形成优势。明确前体连接、电子态、构型与模型假设，并将结论限定于该局部模型。需有真实活化/交叉/闭环反应证据，只有产物稳定性、单侧计算或任意不相关扫描不能通过。不要求本项已证实从全部已研究激发态到该局部前体的实际可达性，该关联单独计分；仅关联未确定时，可如实保留条件性预测而不将本20分悬置。若计算方向为trans、构型错误或将局部结果无条件宣称为完整光物理选择性，本项fail。"
+    },
+    {
+      "scientific_question": "形成模型能否与所研究反应过程相接并处理已有反向证据？",
+      "outcome_id": "selectivity_pathway_applicability",
+      "required_numerical_evidence_ids": [
+        "conditional_cis_trans_formation",
+        "selectivity_connection_evidence"
+      ],
+      "old_outcome_ids": [
+        "cis_formation_preference"
+      ],
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121",
+        "existing_native_verification"
+      ],
+      "points": 20,
+      "criterion": "在有实际计算支持的cis/trans形成模型基础上，用前体几何/成键、电子态与相关连接或交叉证据说明该模型为何适用于本次研究的加成、断裂及扩环过程，形成有依据的整体定性cis选择解释。明确处理已有的相反反应方向或构型证据：用实际比较/连接证据证明其可兼容、被相关路径取代或不适用，不能删去不利结果或仅称“需要进一步研究”。若使用单重态闭环模型，须说明与已研究三重态/断裂后前体的具体物理联系；泛泛承认局限、任意拼接不同自旋态或无证据假定互变均fail。允许充分的几何/模式/态能及连接分析，不强制完整ISC速率、指定MECP算法、精确交叉能量或dr；证据不足直接fail并保留其他独立得分，不转need_review。"
+    }
+  ],
+  "excluded_scope": [
+    "题面只要求局部机制及定性选择，不要求精确 ISC、dr 或产率。",
+    "较稳定 cis 产物不是更易形成的充分证据；热量、电子能与 Gibbs 能不可混比较。",
+    "匹配且化学相关的形成过程可支持明确限定的 cis 预测；不能把任意单重态扫描直接称为已经证明实际光通道唯一选择。",
+    "条件模型支持并不自动证明实际路径适用；后20分必须有具体计算证据支撑关联和反证处理，不能凭一般性局限声明得分。"
+  ],
+  "verification_support": "正文 Fig.3、SI S105–121；历史验证支持敏化/反应态比较、加成-断裂扩环及参考交叉点/产物比较，不能等同完整光物理/ISC 动力学验证。"
+}

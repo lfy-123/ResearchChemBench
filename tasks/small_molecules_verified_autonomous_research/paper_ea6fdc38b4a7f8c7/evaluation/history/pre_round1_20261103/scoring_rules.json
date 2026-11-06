@@ -1,0 +1,111 @@
+{
+  "paper_id": "paper_ea6fdc38b4a7f8c7",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_carbonyl_function",
+      "reference_id": "carbonyl_function",
+      "type": "semantic",
+      "expected": "Explain the secondary ketone/ester/methyl-Weinreb-amide versus aldehyde/acid substitution contrast using genuine comparable electronic calculations on the correct identities, and relate the result to the given voltammetry. The source radical-cation route gives greater alpha-carbon electrophilic character for ketone/ester/amide than aldehyde/acid; compatible alternative molecular evidence passes directly. Report numerical descriptors and define the modeled states. Establish why a near-contact geometry or electrochemical reversibility alone does not guarantee productive benzoate capture; do not demand a monotonic82/70/44 yield law or equate charges with rates. Distinguish E1/2 from irreversible Ep/2 and an observed return peak from proof of a unique decomposition pathway.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_sidechain_effect",
+      "reference_id": "sidechain_effect",
+      "type": "semantic",
+      "expected": "Use actual methyl/butyl-Weinreb-amide calculations to explain their different reaction behavior through a supported change in molecular organization and electronic response. The source route links a close-contact, backbone-delocalized methyl state to a preferred distal, more nitrogen-localized butyl state, with a higher-G close-contact conformer for the same butyl identity (source+2.5kcal/mol, no hard window). Report quantitative structural/electronic comparisons and any conformational free-energy comparison used. These are supporting evidence for the single side-chain conclusion, not independently scored author nodes. Equivalent well-supported physical explanations pass. Do not call a conformer penalty a HAT barrier or infer a proven1,5/1,6-HAT product network from irreversible CV. The butyl case lacks the aldehyde/acid return-peak feature and must not be assigned the same proven fate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_primary_secondary",
+      "reference_id": "primary_secondary",
+      "type": "semantic",
+      "expected": "Use a genuine primary/secondary ketone electronic comparison to explain why similar electrochemical persistence need not imply similar benzoate-capture efficiency. Reference radical-cation alpha-carbon charge is more negative for the primary graph (SI S19, mainS14) than the secondary ketone (S1), supporting reduced nucleophilic capture compatibility; physically equivalent validated evidence passes directly. Give the numerical comparison and its model definition. Preserve the primaryDCM/crude-NMR versus secondaryMeCN/isolated-yield condition difference; no matched-condition exact yield ratio, stereochemical prediction or unique full mechanism follows. Merely restating12% versus82% fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "carbonyl_function",
+      "kind": "conclusion",
+      "max_score": 35,
+      "description": "Carbonyl-function dependence of productive capture and electrochemical behavior",
+      "rule_ids": [
+        "r_carbonyl_function"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "sidechain_effect",
+      "kind": "conclusion",
+      "max_score": 35,
+      "description": "How the Weinreb-amide side chain changes molecular organization and reaction compatibility",
+      "rule_ids": [
+        "r_sidechain_effect"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "primary_secondary",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Why electrochemical persistence and primary/secondary capture efficiency can differ",
+      "rule_ids": [
+        "r_primary_secondary"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

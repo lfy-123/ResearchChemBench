@@ -1,0 +1,127 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Numerical targets and existing tolerances are not adjustable. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate.",
+  "rules": [
+    {
+      "rule_id": "r_neutral_bde",
+      "reference_id": "neutral_bde",
+      "type": "numeric",
+      "expected": "Full donor ring-C4 C–H homolysis 1 -> 3 + H atom: neutral singlet C23H24NO7P to neutral doublet C23H23NO7P. Compare enthalpies with a defined hydrogen-atom reference, not free energies, deprotonation or electronic dissociation energies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      },
+      "target": 76.1,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_oxidized_bde",
+      "reference_id": "oxidized_bde",
+      "type": "numeric",
+      "expected": "Ring-C4 C–H homolysis 2 -> 4 + H atom: +1 doublet C23H24NO7P to +1 singlet C23H23NO7P. Retain the SI 32.9 target; main Figure 6 prints 32.7. No fitted shift or replacement target.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      },
+      "target": 32.9,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_photoactivation_model",
+      "reference_id": "photoactivation_model",
+      "type": "semantic",
+      "expected": "Correctly construct a local photocatalytic donor-activation model consistent with the source oxidation-based activation hypothesis: identify the donor-to-photoexcited-catalyst electron-transfer direction and actual PC2 identity, and represent the neutral donor and oxidized radical cation with correct connectivity, atom inventory, charge and spin. Use genuine molecular calculations together with the supplied reaction/component observations to explain why this activation model is plausible and how it changes donor reactivity. A computed, correctly assigned local model and an evidence-linked explanation are required; an attempted calculation or an unsupported mechanism sketch is insufficient. This qualitative item does not require a unique elementary pathway, a complete catalytic turnover, or a new absolute-redox-potential target. Distinguish PC1 comparison data from PC2 and distinguish a plausible model from demonstrated initial electron-transfer energetics: BDE weakening alone does not prove initial electron transfer or H-transfer kinetics. Explicitly identify unsupported steps without claiming the whole cycle is established.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_activation_conclusion",
+      "reference_id": "activation_conclusion",
+      "type": "semantic",
+      "expected": "The final molecular explanation connects the independently calculated neutral and oxidized bond strengths to strong oxidation-induced C4–H weakening and greater susceptibility to activation. The source pair differs by about 43 kcal/mol, a derived interpretation rather than a third numerical target. Do not claim that BDE alone proves an H-transfer rate, unique catalyst role, full product cycle or absolute redox potential.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "neutral_bde",
+      "kind": "intermediate",
+      "max_score": 25,
+      "description": "中性供体 C4–H 键解离焓",
+      "rule_ids": [
+        "r_neutral_bde"
+      ],
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_002_p9"
+      ]
+    },
+    {
+      "id": "oxidized_bde",
+      "kind": "intermediate",
+      "max_score": 25,
+      "description": "氧化后供体 C4–H 键解离焓",
+      "rule_ids": [
+        "r_oxidized_bde"
+      ],
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_002_p9"
+      ]
+    },
+    {
+      "id": "photoactivation_model",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "局部光催化供体活化模型及原因解释",
+      "rule_ids": [
+        "r_photoactivation_model"
+      ],
+      "evidence_ids": [
+        "main_p3_5_6",
+        "supplementary_002_p9"
+      ]
+    },
+    {
+      "id": "activation_conclusion",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "最终：单电子氧化导致显著键弱化",
+      "rule_ids": [
+        "r_activation_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p3_6",
+        "supplementary_002_p9"
+      ]
+    }
+  ]
+}

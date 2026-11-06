@@ -1,0 +1,197 @@
+{
+  "paper_id": "paper_d142c9737f95225b",
+  "items": [
+    {
+      "statement": "NN三羰基候选的实际配位结构",
+      "expected": "实际计算结构支持完整中性NN-Mn(I)(CO)3酰胺型候选，硫臂游离，保留给定配体连接及CO库存；说明并支持所用电子态。不能仅凭画图或提出假设得分；不要求证明真实溶液布居或前体活化势垒。等价且有证据支持的候选映射可接受。",
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "active_nn",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "NNS二羰基候选的实际配位结构",
+      "expected": "实际计算结构支持完整中性NNS-Mn(I)(CO)2酰胺型候选，硫参与配位；与NN三羰基保持完整配体身份，显式说明失去CO和电子态。不能仅凭候选标签得分；不要求真实布居或额外前体活化计算。",
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "active_nns",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "异丙醇氧化的氢转移连接",
+      "expected": "实际驻点和相关振动/反应连接支持异丙醇O–H与C–H氢转移，形成丙酮及相应胺-氢化物；质子、氢化物、原子及电荷配平。要求真实反应态连接，不以任务执行成功或任意负频代替；无需复刻验证者IRC步骤，不设来源冲突绝对势垒窗口。",
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "oxidation_connection",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "苯乙酮还原的氢转移连接",
+      "expected": "实际驻点及相关振动/反应连接支持由匹配胺-氢化物向苯乙酮转移Mn–H氢化物至碳和N–H质子至氧，形成正确1-苯乙醇；结构/原子映射支持所称产物面。与氧化半反应区分，不能用氧化势垒替代；不设冲突绝对势垒窗口。",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "reduction_connection",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Mn1-Me静息态稳定化",
+      "expected": "对Mn1-Me（Mn1为NN三羰基，Mn2为NNS二羰基），实际自由能支持N质子化Mn异丙氧基静息态低于匹配amido+iPrOH，故同一氧化TS相对该静息态的有效势垒高于其相对分离反应物的纵坐标。必须使用同一TS、配平粒子/电荷及一致热项；独立评价稳定化符号和零点改变，不要求来源冲突数值命中。",
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "rest_Mn1_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Mn1-tBu静息态稳定化",
+      "expected": "对Mn1-tBu（Mn1为NN三羰基，Mn2为NNS二羰基），实际自由能支持N质子化Mn异丙氧基静息态低于匹配amido+iPrOH，故同一氧化TS相对该静息态的有效势垒高于其相对分离反应物的纵坐标。必须使用同一TS、配平粒子/电荷及一致热项；独立评价稳定化符号和零点改变，不要求来源冲突数值命中。",
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "rest_Mn1_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Mn2-Me静息态稳定化",
+      "expected": "对Mn2-Me（Mn1为NN三羰基，Mn2为NNS二羰基），实际自由能支持N质子化Mn异丙氧基静息态低于匹配amido+iPrOH，故同一氧化TS相对该静息态的有效势垒高于其相对分离反应物的纵坐标。必须使用同一TS、配平粒子/电荷及一致热项；独立评价稳定化符号和零点改变，不要求来源冲突数值命中。",
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "rest_Mn2_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Mn2-tBu静息态稳定化",
+      "expected": "对Mn2-tBu（Mn1为NN三羰基，Mn2为NNS二羰基），实际自由能支持N质子化Mn异丙氧基静息态低于匹配amido+iPrOH，故同一氧化TS相对该静息态的有效势垒高于其相对分离反应物的纵坐标。必须使用同一TS、配平粒子/电荷及一致热项；独立评价稳定化符号和零点改变，不要求来源冲突数值命中。",
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "rest_Mn2_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Me取代下NN/NNS氧化比较",
+      "expected": "在相同Me取代、异丙醇介质、298.15 K及一致1 atm/透明换算条件下，匹配amido+iPrOH参照的实际计算支持NN三羰基氧化势垒低于NNS二羰基。判断家族顺序，不要求Me/tBu内部顺序或绝对势垒命中；不能比较不相容零点。",
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "oxidation_order_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "tBu取代下NN/NNS氧化比较",
+      "expected": "在相同tBu取代、异丙醇介质、298.15 K及一致1 atm/透明换算条件下，匹配amido+iPrOH参照的实际计算支持NN三羰基氧化势垒低于NNS二羰基。判断家族顺序，不要求Me/tBu内部顺序或绝对势垒命中；不能比较不相容零点。",
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "oxidation_order_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Me取代下S通道NN/NNS还原比较",
+      "expected": "在匹配Me取代、相同底物面和已映射催化剂构型下，实际计算支持NNS二羰基S通道还原势垒低于NN三羰基；分别使用对应amine-hydride+acetophenone的参照并保持相同热力学条件。不要求来源冲突的R通道跨家族顺序或数值窗口。",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "reduction_order_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "tBu取代下S通道NN/NNS还原比较",
+      "expected": "在匹配tBu取代、相同底物面和已映射催化剂构型下，实际计算支持NNS二羰基S通道还原势垒低于NN三羰基；分别使用对应amine-hydride+acetophenone的参照并保持相同热力学条件。不要求来源冲突的R通道跨家族顺序或数值窗口。",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "reduction_order_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Mn1-Me固定构型的S/R偏向",
+      "expected": "对Mn1-Me的同一催化剂手性构型、组成及热力学条件，配对真实计算支持映射到作者构型时S面还原TS低于R面。镜像催化剂必须相应反转产物面映射；若构型未映射或方向反转则不通过。该定性差异不要求正文或SI的冲突ΔΔG数值命中，也不代表宏观ee。",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "stereo_Mn1_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Mn1-tBu固定构型的S/R偏向",
+      "expected": "对Mn1-tBu的同一催化剂手性构型、组成及热力学条件，配对真实计算支持映射到作者构型时S面还原TS低于R面。镜像催化剂必须相应反转产物面映射；若构型未映射或方向反转则不通过。该定性差异不要求正文或SI的冲突ΔΔG数值命中，也不代表宏观ee。",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "stereo_Mn1_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Mn2-Me固定构型的S/R偏向",
+      "expected": "对Mn2-Me的同一催化剂手性构型、组成及热力学条件，配对真实计算支持映射到作者构型时S面还原TS低于R面。镜像催化剂必须相应反转产物面映射；若构型未映射或方向反转则不通过。该定性差异不要求正文或SI的冲突ΔΔG数值命中，也不代表宏观ee。",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "stereo_Mn2_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Mn2-tBu固定构型的S/R偏向",
+      "expected": "对Mn2-tBu的同一催化剂手性构型、组成及热力学条件，配对真实计算支持映射到作者构型时S面还原TS低于R面。镜像催化剂必须相应反转产物面映射；若构型未映射或方向反转则不通过。该定性差异不要求正文或SI的冲突ΔΔG数值命中，也不代表宏观ee。",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "stereo_Mn2_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "两半反应闭合的有机转化",
+      "expected": "实际氧化和还原态共同支持净反应acetophenone+iPrOH→1-phenylethanol+acetone，并通过相容amido/amine-hydride状态闭合氢、原子和电荷账本。此项新增科学信息是两个局部过程能组成同一转移氢化循环；仅分别列出两条无关路线或示意图不通过，不要求完整真实溶液物种平衡。",
+      "evidence_ids": [
+        "E_CYCLE",
+        "E_OX",
+        "E_RED"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "cycle_hydrogen_ledger",
+      "key_point_type": "result"
+    }
+  ]
+}

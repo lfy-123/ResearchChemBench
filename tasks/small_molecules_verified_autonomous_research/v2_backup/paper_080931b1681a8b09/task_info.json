@@ -1,0 +1,34 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "task_type": "autonomous_research",
+  "title": "Ni/chiral-PyBOX-catalyzed dearomative cycloaddition and enantiomer prediction",
+  "category": "small-molecule homogeneous organic reaction chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires a computed connected explanation of substrate binding and formation of the supplied cycloaddition-product connectivity.",
+    "Predicts the major absolute configuration at the specified saturated CH while only product connectivity and experimental er are supplied.",
+    "Requires physical evidence for competing enantiomer-forming environments and a bounded comparison of selectivity strength."
+  ],
+  "paper": {
+    "title": "Lewis acid catalyzed enantioselective dearomative (3+2) cycloaddition of aromatic N-heterocycles with bicyclobutanes",
+    "doi": "10.1016/j.cclet.2025.111963",
+    "journal": "Chinese Chemical Letters",
+    "publication_date": "2026-03-01"
+  },
+  "data": [
+    {
+      "path": "data/input_index.json",
+      "description": "Index of the complete text-based molecular identities, constraints, conditions and task inputs."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured models, states, metrics, claims, evidence and unresolved issues under the supplied schema."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific findings with links to the submitted native inputs, outputs, geometries and supporting analyses."
+    }
+  ]
+}

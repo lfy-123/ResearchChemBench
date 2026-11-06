@@ -1,0 +1,195 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_cumulative_f_dry",
+      "r_cumulative_f_water",
+      "r_reductant_molecular_role",
+      "r_local_hydration_effect"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Explicit waters define finite hydration energy comparisons, not a required water-catalyzed path. Local ionic stabilization and net reaction thermodynamics are distinct conclusions.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Explain the molecular basis and thermodynamic feasibility of light-driven pyridine N-oxide deoxygenation by preformed phenanthrene-9,10-diol (H2PQ) in acetonitrile. Determine how adding two explicit water molecules changes the net deoxygenation thermodynamics and the stabilization of relevant ionic transfer states. This is an explanation task with quantitative net thermodynamic outputs.",
+  "active_rule_ids": [
+    "r_cumulative_f_dry",
+    "r_cumulative_f_water",
+    "r_reductant_molecular_role",
+    "r_local_hydration_effect"
+  ],
+  "current_outcome_ids": [
+    "cumulative_f_dry",
+    "cumulative_f_water",
+    "reductant_molecular_role",
+    "local_hydration_effect"
+  ],
+  "historical_record": {
+    "paper_id": "paper_c49993ae88ffa0e3",
+    "version": "conclusion_only_20261029",
+    "new_quantum_jobs": 0,
+    "automatic_inheritance_of_pass": false,
+    "limits": [
+      "The source original 0_PES.yaml and original frequency outputs are unavailable; the full source-label GoodVibes3.0.2 protocol is reconstructed, not an original file.",
+      "Hydrated PyOH2-H2O conf3 has qhG residual -0.321883 kcal/mol despite close electronic energies; canonical dedup sensitivity is retained, not chosen for closeness.",
+      "Finite hydration is not the full substituted experimental mixture or optimum bulk-water model.",
+      "No new QM/HPC job or blind agent run; 132 native log hashes, SCF/TD energies and printed frequency blocks reread in this migration."
+    ],
+    "historical_non_scoring_reporting_reference_scope": "The two net Gibbs-energy rules require the standardized S1/ground-state and associated-product references in task.md, including one added water per fragment for the hydrated comparison. These conventions define the scored quantities only; they neither certify unique reactive states/solution associations nor impose a transfer sequence. Mechanistic explanations may examine other justified states and associations, reported distinctly. Numeric targets, tolerances, weights and binary decisions are unchanged.",
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_cumulative_f_dry",
+        "r_cumulative_f_water",
+        "r_reductant_molecular_role",
+        "r_local_hydration_effect"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    },
+    "historical_non_scoring_items": [
+      {
+        "rule_id": "r_cumulative_f_dry",
+        "source_evidence_ids": [
+          "main_p4",
+          "supplementary_001_p38_39_40_41"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T020500Z/parent_pq_native_readback.json",
+        "evidence_status": "reusable_bounded_support",
+        "local_support": "Full-label native net dry G -115.102153417 kcal/mol versus -115.1±2.0; matched excited reactant reference and associated Py/generated water product."
+      },
+      {
+        "rule_id": "r_cumulative_f_water",
+        "source_evidence_ids": [
+          "main_p4",
+          "supplementary_001_p38_39_40_41"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T020500Z/parent_pq_native_readback.json",
+        "evidence_status": "reusable_bounded_support",
+        "local_support": "Full-label native net hydrated G -112.238810567 kcal/mol versus -112.1±2.0; two added waters retained."
+      },
+      {
+        "rule_id": "r_reductant_molecular_role",
+        "source_evidence_ids": [
+          "main_p4",
+          "supplementary_001_p38_39_40_41"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T020500Z/parent_pq_native_readback.json",
+        "evidence_status": "reusable_bounded_support",
+        "local_support": "66 paired low/high stationary-point calculations with S1 TD total energies and ground-state radical/ionic endpoints support dual proton/electron donation. No unique kinetic sequence inferred."
+      },
+      {
+        "rule_id": "r_local_hydration_effect",
+        "source_evidence_ids": [
+          "main_p4",
+          "supplementary_001_p38_39_40_41"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T020500Z/parent_pq_native_readback.json",
+        "evidence_status": "reusable_bounded_support",
+        "local_support": "First ET dry/hydrated -1.433879342/-8.220574861; second ET +7.328581289/-9.583635690 kcal/mol. Direct differential stabilization supported, no bulk water-rate mapping."
+      }
+    ],
+    "items": [
+      {
+        "scientific_requirement": "必需结果1中的无加水规范净G及其驱动力",
+        "rule_id": "r_cumulative_f_dry",
+        "conclusion_id": "cumulative_f_dry",
+        "independence": "无加水净热力学命题可独立于双水计算成功。",
+        "source_locator": "正文PDF4 Fig.2；SI PDF38–41方法、GoodVibes表和电子态说明",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T020500Z/parent_pq_native_readback.json"
+        ],
+        "existing_support": "规范干净G−115.102153417，来源−115.1；S1反应物与Py/生成水缔合物参照配平。",
+        "limits": [
+          "原始GoodVibes YAML及作者频率输出未取得，重建全标签协议不冒充作者原件。",
+          "双水末端conf3热项残差−0.321883 kcal/mol保留；不为贴值选去重/其他后处理。",
+          "两水母体模型不能证明取代实验体系的最佳水比例、唯一动力学顺序、速率或完整再生。"
+        ],
+        "evidence_ids": [
+          "main_p4",
+          "supplementary_001_p38_39_40_41"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果1中的双加水规范净G及其驱动力",
+        "rule_id": "r_cumulative_f_water",
+        "conclusion_id": "cumulative_f_water",
+        "independence": "双水净热力学命题可独立于无水计算成功，不对两情景差值重复加分。",
+        "source_locator": "正文PDF4 Fig.2；SI PDF38–41方法、GoodVibes表和电子态说明",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T020500Z/parent_pq_native_readback.json"
+        ],
+        "existing_support": "双水净G−112.238810567，来源−112.1；两侧各两个附加水，生成水另计。",
+        "limits": [
+          "原始GoodVibes YAML及作者频率输出未取得，重建全标签协议不冒充作者原件。",
+          "双水末端conf3热项残差−0.321883 kcal/mol保留；不为贴值选去重/其他后处理。",
+          "两水母体模型不能证明取代实验体系的最佳水比例、唯一动力学顺序、速率或完整再生。"
+        ],
+        "evidence_ids": [
+          "main_p4",
+          "supplementary_001_p38_39_40_41"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果2：光还原剂角色与配平电子/质子变化",
+        "rule_id": "r_reductant_molecular_role",
+        "conclusion_id": "reductant_molecular_role",
+        "independence": "解释光激发还原剂提供氢/电子当量，不以净G负号取代分子作用机制。",
+        "source_locator": "正文PDF4 Fig.2；SI PDF38–41方法、GoodVibes表和电子态说明",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T020500Z/parent_pq_native_readback.json"
+        ],
+        "existing_support": "既有132原生日志及热项组装支持PT/ET状态与两个氢当量转移；不确立唯一先后。",
+        "limits": [
+          "原始GoodVibes YAML及作者频率输出未取得，重建全标签协议不冒充作者原件。",
+          "双水末端conf3热项残差−0.321883 kcal/mol保留；不为贴值选去重/其他后处理。",
+          "两水母体模型不能证明取代实验体系的最佳水比例、唯一动力学顺序、速率或完整再生。"
+        ],
+        "evidence_ids": [
+          "main_p4",
+          "supplementary_001_p38_39_40_41"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果3：干/水合定量对比、局部水合作用及实验解释范围",
+        "rule_id": "r_local_hydration_effect",
+        "conclusion_id": "local_hydration_effect",
+        "independence": "判断离子型局部转移的差异水合稳定，与两种净终态驱动是不同命题。",
+        "source_locator": "正文PDF4 Fig.2；SI PDF38–41方法、GoodVibes表和电子态说明",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T020500Z/parent_pq_native_readback.json"
+        ],
+        "existing_support": "首次ET干/水合−1.433879/−8.220575，第二次+7.328581/−9.583636；局部端点不是动力学势垒。",
+        "limits": [
+          "原始GoodVibes YAML及作者频率输出未取得，重建全标签协议不冒充作者原件。",
+          "双水末端conf3热项残差−0.321883 kcal/mol保留；不为贴值选去重/其他后处理。",
+          "两水母体模型不能证明取代实验体系的最佳水比例、唯一动力学顺序、速率或完整再生。"
+        ],
+        "evidence_ids": [
+          "main_p4",
+          "supplementary_001_p38_39_40_41"
+        ],
+        "no_new_computation": true
+      }
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

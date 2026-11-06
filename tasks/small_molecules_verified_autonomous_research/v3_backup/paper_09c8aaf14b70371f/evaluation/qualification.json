@@ -1,0 +1,154 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "source_checked_evidence_scope_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_series_3_5",
+      "r_hydroxy_departure",
+      "r_acn_dmso",
+      "r_dcm_comparison",
+      "r_bounded_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The series_3_5 outcome requires evidence for compounds 3–5 only. The complete task and the other outcomes still cover compounds 1/2 and all five compounds as authored.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Using computational chemistry evidence, estimate the relative reduction tendency and cathodic peak-potential ordering of the five supplied E-chalcones, compare it with the measured ordering, and explain agreements or departures in terms of molecular structural differences and solvent effects. This is an explanation task: the measured peak potentials are given; the computational relationship and its physical interpretation are to be established.",
+  "active_rule_ids": [
+    "r_series_3_5",
+    "r_hydroxy_departure",
+    "r_acn_dmso",
+    "r_dcm_comparison",
+    "r_bounded_relationship"
+  ],
+  "current_outcome_ids": [
+    "series_3_5",
+    "hydroxy_departure",
+    "acn_dmso",
+    "dcm_comparison",
+    "bounded_relationship"
+  ],
+  "historical_record": {
+    "paper_id": "paper_09c8aaf14b70371f",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "updated_on": "2026-10-27",
+    "active_rule_ids": [
+      "r_series_3_5",
+      "r_hydroxy_departure",
+      "r_acn_dmso",
+      "r_dcm_comparison",
+      "r_bounded_relationship"
+    ],
+    "active_conclusion_ids": [
+      "series_3_5",
+      "hydroxy_departure",
+      "acn_dmso",
+      "dcm_comparison",
+      "bounded_relationship"
+    ],
+    "scope": "The active task retains the five-chalcone explanatory scope and uses five independent final conclusions (25/20/15/10/30); electronic localization/spin and E/Z barriers are historical supporting context only. Applicability to 1/2 is judged for the submitted computed descriptor; neutral-LUMO counterexamples do not rule out an independently established alternative relationship.",
+    "evidence_reuse": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+    "scientific_status": "EXISTING_BOUNDED_EVIDENCE_REVIEWED_NO_AUTOMATIC_V3_PASS",
+    "new_quantum_jobs": 0,
+    "release_ready": false,
+    "limitations": "Absolute LUMO residuals of about 0.127–0.136 eV for 1/3/4/5 and unresolved source conformer attribution for 2 remain. Small ACN/DMSO Epc directions and a unique causal mechanism are not certified.",
+    "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+    "historical_records": {
+      "blocked_source_targets": [
+        {
+          "id": "compound_2_property_conformer",
+          "affected_result_ids": [
+            "series_relationship",
+            "electron_addition_region",
+            "solvent_relationship"
+          ],
+          "reason": "Table 6 E1 minimizes G while E2 minimizes E. SI coordinates and Table 4/Fig.11 property-conformer attribution remain unresolved.",
+          "source_values_not_active_targets": {
+            "acetonitrile_lumo_eV": -2.493,
+            "dmso_lumo_eV": -2.496
+          },
+          "resolution": "Map the already reported conformer/state using the original figures, SI and any actual author data. Do not choose whichever new calculation matches the target. If unresolved, retain the hold.",
+          "scoring_consequence": "Only exact author compound-2 property-conformer/scalar attribution is held. Source-supported bounded relationship, spatial topology and solvent-scale findings are active; no exact scalar match, fitted coordinate or exhaustive conformer coverage is required."
+        }
+      ],
+      "retired_numeric_rules_unchanged": [
+        {
+          "rule_id": "ar_r3",
+          "reference_id": "gas_path",
+          "target": 1.43,
+          "unit": "eV",
+          "tolerance": 0.15
+        },
+        {
+          "rule_id": "ar_r8",
+          "reference_id": "gas_path",
+          "target": 92.5,
+          "unit": "degrees",
+          "tolerance": 2.0
+        },
+        {
+          "rule_id": "ar_r4",
+          "reference_id": "solution_path",
+          "target": 1.42,
+          "unit": "eV",
+          "tolerance": 0.15
+        },
+        {
+          "rule_id": "ar_r9",
+          "reference_id": "solution_path",
+          "target": 92.5,
+          "unit": "degrees",
+          "tolerance": 2.0
+        },
+        {
+          "rule_id": "ar_r10",
+          "reference_id": "endpoint_stability",
+          "target": 0.23,
+          "unit": "eV",
+          "tolerance": 0.15
+        },
+        {
+          "rule_id": "ar_r11",
+          "reference_id": "endpoint_stability",
+          "target": 0.27,
+          "unit": "eV",
+          "tolerance": 0.15
+        }
+      ],
+      "latest_legacy_verification": {
+        "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_09c8aaf14b70371f/remaining24_20261012T134810Z_group_A/verification_report.md",
+        "timestamp": "2026-10-12T15:20:40.004320+00:00",
+        "overall": "MISMATCH",
+        "endpoint_stability": "PASS",
+        "gas_path": "MISMATCH",
+        "solution_path": "PARTIAL",
+        "transfer": "Only compatible compound-3 E geometries/frequencies are reusable; no new orbital/spin/series scientific result is certified."
+      }
+    },
+    "scoring_revision": "conclusion_only_20261029",
+    "active_numeric_rules": 0,
+    "binary_final_result_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+    "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+    "migration_20261029": "Scoring-contract update only. Historical scientific status, acceptance labels, evidence gaps and source/native values remain unchanged. No quantum jobs, new scientific validation or automatic promotion to strict acceptance."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "series_3_5": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "hydroxy_departure": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "acn_dmso": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "dcm_comparison": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "bounded_relationship": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "release_ready": false
+}

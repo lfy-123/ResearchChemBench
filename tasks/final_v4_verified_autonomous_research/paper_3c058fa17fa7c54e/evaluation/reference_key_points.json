@@ -1,0 +1,110 @@
+{
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "scoring_status": "All items are non-scoring evidence. Only scoring_rules.json defines independently scored final conclusions.",
+  "items": [
+    {
+      "key_point_id": "evidence_singlet_substitution_response",
+      "key_point_type": "result",
+      "statement": "Evidence for DA substitution lowers S1 relative to Ph",
+      "expected": "State-matched molecular evidence gives E(S1,DA)<E(S1,Ph), with the substituent response supported on the correct full structures rather than accidental root or band matching.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    },
+    {
+      "key_point_id": "evidence_triplet_similarity",
+      "key_point_type": "result",
+      "statement": "Evidence for Triplet energies change much less than singlet energies",
+      "expected": "Same-definition computed T1 values are similar between Ph and DA, and their change is clearly smaller than the singlet shift. Resolve spin/root character; approximate equality is a comparative claim, not an invented narrow scalar window.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    },
+    {
+      "key_point_id": "evidence_ph_tta_compatible",
+      "key_point_type": "result",
+      "statement": "Evidence for Ph supports energetic TTA compatibility",
+      "expected": "Explicitly conclude from the same-definition Ph energies that two T1 excitations contain enough energy for S1 formation,2E(T1)>E(S1). Show the derived positive margin from actual evidence, not a reversed inequality or a generic TTA label.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    },
+    {
+      "key_point_id": "evidence_da_tta_compatible",
+      "key_point_type": "result",
+      "statement": "Evidence for DA supports energetic TTA compatibility",
+      "expected": "Explicitly conclude from the same-definition DA energies that2E(T1)>E(S1), using an actual positive margin. Do not infer this molecule from the Ph result.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    },
+    {
+      "key_point_id": "evidence_molecular_solution_interpretation",
+      "key_point_type": "result",
+      "statement": "Evidence for Energy-compatible triplets explain bounded solution behavior",
+      "expected": "Using the calculated states and supplied absorption/PL maxima and prompt/delayed lifetimes, explain the distinction between a molecular excitation and a solution band maximum, and why delayed emission can be consistent with triplet participation without uniquely identifying annihilation kinetics. The observed DA PL maximum is at a shorter wavelength despite its lower calculated vertical S1; distinguish absorption/emission, state brightness and relaxation rather than treating the maxima as direct S1/T1 measurements. No oxygen-sensitivity observation is supplied, and none is required. Do not award this item for restating TTA margin or substitution ordering; it assesses the connection and limits between molecular and supplied solution observables.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    },
+    {
+      "key_point_id": "evidence_small_gap_tadf",
+      "key_point_type": "result",
+      "statement": "Evidence for Compatibility of the state separations with a small-gap TADF account",
+      "expected": "Use the actual same-convention S1-minus-T1 separations of both molecules to assess the small-gap thermally activated delayed-fluorescence interpretation. The supported result is that these gaps are large relative to the relevant thermal energy scale and thus this molecular evidence does not support a small-gap TADF account. Explain the mechanistic implication with the calculated gaps and stated temperature/energy definition, rather than merely reporting a gap. No fixed eV threshold is a scoring gate. This conclusion does not universally exclude vibronic or higher-state mechanisms.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ]
+    }
+  ],
+  "historical_numeric_references": [
+    {
+      "former_rule_id": "r_ph_s1",
+      "source_reference_value": 3.1457,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_ph_t1",
+      "source_reference_value": 1.7347,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_da_s1",
+      "source_reference_value": 2.9835,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_da_t1",
+      "source_reference_value": 1.7284,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    }
+  ]
+}

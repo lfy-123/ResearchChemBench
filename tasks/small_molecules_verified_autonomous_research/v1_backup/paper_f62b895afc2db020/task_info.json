@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_f62b895afc2db020",
+  "task_type": "autonomous_research",
+  "title": "Computational investigation of a cyclic-ketone rearrangement and relative stereoselectivity",
+  "category": "Small-molecule homogeneous organic reaction chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The task requires an independently designed, executed computational explanation of both a skeletal transformation and a relative stereochemical observation.",
+    "Choosing informative models and establishing the scope of evidence require scientific judgment rather than a supplied calculation recipe.",
+    "Chemical identity, state and energy definitions, execution reliability, and uncertainty must remain traceable across the investigation."
+  ],
+  "paper": {
+    "title": "Energy-Transfer-Enabled Skeletal Rearrangement of Cyclic Ketones into Strained Cyclopropane-Fused Medium Rings",
+    "doi": "10.1002/anie.202522620",
+    "journal": "Angewandte Chemie International Edition",
+    "publication_date": "2026-01-10"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "Definitive shared scientific question and neutral substrate, conditions, and observed product inputs."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured research record using the unchanged shared result schema, with linked investigations, evidence, conclusions, and status."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific report, including actual work, decisions, uncertainty, limitations, resource use, and disclosed-baseline fidelity when applicable."
+    },
+    {
+      "path": "research/",
+      "description": "Actual computational inputs, outputs, execution logs, and analysis code indexed by the structured submission."
+    }
+  ]
+}

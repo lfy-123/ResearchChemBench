@@ -1,0 +1,71 @@
+{
+  "model": "ET = intercept + a SA + b SB + c SP + d SdP",
+  "unit": "kcal/mol photon energy",
+  "descriptor_definitions": {
+    "SA": "hydrogen-bond donor acidity",
+    "SB": "hydrogen-bond acceptor basicity",
+    "SP": "polarizability",
+    "SdP": "dipolarity"
+  },
+  "descriptors": {
+    "toluene": {
+      "SA": "0.000",
+      "SB": "0.128",
+      "SP": "0.782",
+      "SdP": "0.284"
+    },
+    "ethyl_acetate": {
+      "SA": "0.000",
+      "SB": "0.542",
+      "SP": "0.656",
+      "SdP": "0.603"
+    },
+    "methanol": {
+      "SA": "0.605",
+      "SB": "0.545",
+      "SP": "0.608",
+      "SdP": "0.904"
+    }
+  },
+  "reported_coefficients": {
+    "dye3": {
+      "coefficients": {
+        "intercept": "58.64",
+        "SA": "11.97",
+        "SB": "-0.38",
+        "SP": "-0.90",
+        "SdP": "-1.64"
+      },
+      "source_coefficient_uncertainties": {
+        "SA": "0.38",
+        "SB": "0.26",
+        "SP": "1.07",
+        "SdP": "0.34"
+      },
+      "r_squared": "0.986"
+    },
+    "dye4": {
+      "coefficients": {
+        "intercept": "69.85",
+        "SA": "18.39",
+        "SB": "-4.14",
+        "SP": "-8.48",
+        "SdP": "-3.82"
+      },
+      "source_coefficient_uncertainties": {
+        "SA": "0.60",
+        "SB": "0.41",
+        "SP": "1.51",
+        "SdP": "0.52"
+      },
+      "r_squared": "0.979"
+    }
+  },
+  "descriptor_provenance": "Published standard Catalan solvent descriptors; these are not a recovered private author input file.",
+  "source_locator": "Main Eq. 1; SI Table S3.",
+  "calculated_DCM_context_kcal_mol": {
+    "dye3": 59.44,
+    "dye4": 66.18
+  },
+  "qualification": "Disclosed baseline context, not a new hard numerical target. Fixed-coefficient evaluation is retrospective; no new regression is implied."
+}

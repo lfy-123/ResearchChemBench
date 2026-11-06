@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_7516a3cbacb70032",
+  "scoring_revision": "conclusion_only_20261029",
+  "scientific_scope_changed": false,
+  "scope_note": "The same public scientific questions, inputs, identities and conditions are retained. Final propositions and their evidential boundaries are clarified without extending scope.",
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1：螺烯骨架形成",
+      "rule_id": "r_formation_explanation",
+      "conclusion_id": "formation_explanation",
+      "weight": 30,
+      "independence": "连通能量和成键解释，不重复已给产物图。",
+      "source_location": "Main pp. 7–8, Figure 7; SI S65–S67 Figure S2/Table S10, endpoint coordinates S101–S103 and crystal identity S104",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1533Z/parent_ir7516_audit/audit.json",
+      "existing_support_or_gap": "Native C26-C73 and N55-C72 formation modes; 37-heavy-atom product graph match, VI organic C35H23N2 bound to Ir; no released-product kinetics.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果2：有/无配体活化对照",
+      "rule_id": "r_ligand_promotion",
+      "conclusion_id": "ligand_promotion",
+      "weight": 20,
+      "independence": "平衡各自参照后的配体促进，不由M/P竞争推出。",
+      "source_location": "Main pp. 7–8, Figure 7; SI S65–S67 Figure S2/Table S10, endpoint coordinates S101–S103 and crystal identity S104",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1533Z/parent_ir7516_audit/audit.json",
+      "existing_support_or_gap": "Corrected ligand M barrier 16.428767 and ligand-free 22.455003; difference -6.026236 kcal/mol.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果3：M螺旋选择",
+      "rule_id": "r_helicity_explanation",
+      "conclusion_id": "helicity_explanation",
+      "weight": 25,
+      "independence": "同配体对映体的竞争形成及分子原因，M观察本身不计分。",
+      "source_location": "Main pp. 7–8, Figure 7; SI S65–S67 Figure S2/Table S10, endpoint coordinates S101–S103 and crystal identity S104",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1533Z/parent_ir7516_audit/audit.json",
+      "existing_support_or_gap": "Corrected M/P barriers 16.428767/18.141479, P-M=1.712713 kcal/mol; same positive axial ligand sign.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果4：化学困难与定螺旋阶段",
+      "rule_id": "r_kinetic_distinction",
+      "conclusion_id": "kinetic_distinction",
+      "weight": 25,
+      "independence": "局部能垒比较与选择阶段区分，不是再评价形成机制。",
+      "source_location": "Main pp. 7–8, Figure 7; SI S65–S67 Figure S2/Table S10, endpoint coordinates S101–S103 and crystal identity S104",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1533Z/parent_ir7516_audit/audit.json",
+      "existing_support_or_gap": "Corrected insertion/CMD/elimination local barriers 11.879554/16.428767/25.596144 kcal/mol.",
+      "historical_status_promoted": false
+    }
+  ],
+  "task_input_changes": [],
+  "new_computation": false,
+  "record_role": "Historical dated record; superseded for current scope and scoring by expert_round1_20261103. See round1_review.json and scoring_rules.json.",
+  "superseded_by": "expert_round1_20261103"
+}

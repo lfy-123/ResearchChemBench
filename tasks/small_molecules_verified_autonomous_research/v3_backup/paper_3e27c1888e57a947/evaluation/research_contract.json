@@ -1,0 +1,398 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_sulfone_formation_explanation",
+      "r_butadiene_regio_explanation",
+      "r_butadiene_geometry_explanation",
+      "r_phenyl_regio_reversal"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Explain how the specified visible-light reaction of buta-1,3-diene, sodium difluoromethanesulfinate and methyl pentafluorobenzoate forms the observed polyfluoroaryl sulfone. What explains its 1,4-versus-1,2 competition and E preference, and the reversal to 1,2 addition for the specified terminal-phenyl diene? This is an explanation task: observed products and preferences are supplied starting facts.",
+  "active_rule_ids": [
+    "r_sulfone_formation_explanation",
+    "r_butadiene_regio_explanation",
+    "r_butadiene_geometry_explanation",
+    "r_phenyl_regio_reversal"
+  ],
+  "current_outcome_ids": [
+    "sulfone_formation_explanation",
+    "butadiene_regio_explanation",
+    "butadiene_geometry_explanation",
+    "phenyl_regio_reversal"
+  ],
+  "historical_record": {
+    "decision": "pass",
+    "rationale": "The paper reports a homogeneous small-molecule photoredox organic reaction and includes author-performed DFT calculations directly addressing the reaction selectivity: 1,4 vs 1,2 SO2 trapping of allylic radical intermediates and E/Z stereochemical preference. Experimental conditions and product identities are sufficiently defined, and the computed energy profile and spin-density results provide private reference values for evaluating a route-neutral question about the observed selectivity. The question is framed around chemical behavior rather than requiring reproduction of the authors' named mechanism or transition states.",
+    "domain": {
+      "small_molecule": true,
+      "homogeneous": true,
+      "organic_reaction": true,
+      "evidence_ids": [
+        "ev_doc_e2120ae96275_000006_12208ceaadc6",
+        "ev_doc_e2120ae96275_000027_0f0de8852e58",
+        "ev_doc_e2120ae96275_000036_253b0fa9216f",
+        "ev_doc_e2120ae96275_000039_a8a653f3a08a",
+        "ev_doc_e2120ae96275_000064_ed83a363574b"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_e2120ae96275_000006_12208ceaadc6",
+          "quote": "Polyfluoroarylsulfones represent an important class of compounds with broad applications in pharmaceutical chemistry and materials science, yet their eficient and selective synthesis remains challenging. Herein, we report a visible-light-driven, photoredox-catalyzed cascade reaction that enables simultaneous difluoromethylation, sulfur dioxide reintegration, and polyfluoroarylation of conjugated dienes using sodium difluoromethanesulfinate ( \\mathsf { C F } _ { 2 } \\mathsf { H S O } _ { 2 } \\mathsf { N a } ) as a bifunctional reagent. This strategy leverages the dual role of \\mathsf { C F } _ { 2 } \\mathsf { H S O } _ { 2 } \\mathsf { N a } . which acts as both a source of { \\mathsf { C F } } _ { 2 } { \\mathsf { H } } radicals and an in situ { \\mathsf { S O } } _ { 2 } surrogate, facilitating the atom-economical construction of polyfluoroaryl-substituted allylic sulfones under exceptionally mild conditions. The reaction proceeds with high regio- and stereoselectivity, afording either 1,4- or 1,2-addition products depending on the diene substrate. Notably, the method is applicable to commodity chemicals such as 1,3-butadiene and enables late-stage functionalization of complex polyfluoroarenes. Mechanistic studies and DFT calculations provide insight into the reaction pathway, including the unprecedented trapping of a delocalized allylic radical by { \\mathsf { S O } } _ { 2 } and the origin of selectivity. This work ofers a practical, modular, and sustainable approach to accessing structurally diverse polyfluoroarylsulfones, with potential utility in synthetic and medicinal chemistry."
+        },
+        {
+          "evidence_id": "ev_doc_e2120ae96275_000027_0f0de8852e58",
+          "quote": "In our investigation of the radical difluoromethylation/SO reincorporation/polyfluoroarylation cascade reaction, model substrates ^ { 1 , 3 \\cdot } -butadiene (1a), \\mathrm { C F } _ { 2 } \\mathrm { H S O } _ { 2 } \\mathrm { N a } (2a), and methyl pentafluorobenzoate (3a) were employed. The reaction was carried out using 4-CzIPN as the photocatalyst (PC), \\mathbf { Z } \\mathbf { n } \\mathbf { C l } _ { 2 } as an additive, and DMSO as the solvent under irradiation with 5 W blue LEDs for 48 h. Pleasingly, the desired ^ { 1 , 4 \\cdot } -difluoromethylation/sulfonylation product 4aa was obtained in an excellent yield of 86% with an E / Z selectivity of 6 . 2 : 1 . The addition of inorganic bases such as { \\bf K } _ { 3 } { \\bf P } { \\bf O } _ { 4 } and \\mathbf { K } _ { 2 } \\mathbf { C O } _ { 3 } improved the E/Z selectivity, albeit with a slight reduction in yield. Notably, when \\mathrm { N a } _ { 2 } \\mathrm { C O } _ { 3 } was used as the base, the target product 4aa (CCDC 2350968)<sup>21</sup> was obtained in 74% yield along with 4aa′ (7%). In contrast, the use of \\mathrm { C s } _ { 2 } \\mathrm { C O } _ { 3 } resulted in decreased selectivity and eficiency. Organic bases such as DABCO proved inefective for this transformation. Screening of photocatalysts showed that an organic photocatalyst (PC-2) efectively promoted the reaction, delivering 4aa (79%) and 4aa′ (13%) with slightly lower E / Z selectivity. Conversely, Ru- or Ir-based complexes (PC-3 to PC-5) proved suboptimal, leading to diminished yields. Solvents such as DMF and DMAc aforded the product with moderately reduced yields and selectivity, whereas \\mathrm { C H } _ { 3 } \\mathrm { C N } , THF, and DCM did not yield the desired product. Based on these results, the conditions in the equation shown in Table 1 were selected as optimal and identified as the standard conditions for further substrate scope investigations."
+        },
+        {
+          "evidence_id": "ev_doc_e2120ae96275_000036_253b0fa9216f",
+          "quote": "Table 1 Optimization of the reaction conditions<sup>a</sup> <sup>a</sup> Unless otherwise specified, all reactions were conducted under a nitrogen atmosphere with 1a (1.0 mmol, 5.0 equiv.), 2 (0.6 mmol, 3.0 equiv.), 3a (0.2 mmol), photocatalyst (PC, 1.5 mol%), ZnCl (1.0 equiv.), base (2.0 equiv.), and anhydrous solvent (1.5 mL) at 30 °C under irradiation from 5 W blue LEDs for 48 h. Yields refer to isolated products and are based on 3a. n.d. = not detected."
+        },
+        {
+          "evidence_id": "ev_doc_e2120ae96275_000039_a8a653f3a08a",
+          "quote": "Mechanistic investigations were carried out to elucidate the potential reaction pathways. Control experiments demonstrated that both visible-light irradiation and the photoredox catalyst are indispensable for the formation of compound 4aa (Scheme 3A). When TEMPO (3.0 equiv.) was added as a radical inhibitor, the formation of 4aa was completely suppressed, and the TEMPO-adducted difluoromethyl radical species 6a was detected by GC-MS (Scheme 3B). The use of the cyclopropane-containing styrene derivative 7a as a radical clock aforded the ring-opening product 6b in 49% yield. Similarly, when a 1,6-diene was employed as the substrate, the radical cyclization product 6c was obtained in 68% yield (Scheme 3C). These results suggest the involvement of a difluoromethyl radical species in the reaction system and indicate that the addition of the difluoromethyl group to the alkene proceeds via a radical pathway. Furthermore, a two-step experiment was designed to evaluate the potential formation of a difluoromethylation/sulfonylation intermediate derived from 1,3-butadiene (1a). As illustrated in Scheme 3D, a mixture of 1a and 2 was first subjected to blue LED irradiation in the presence of 4-CzIPN as the photocatalyst for 24 hours. Compound 3a was then added, and the reaction was continued for an additional 24 hours in the dark. Notably, 4aa was isolated in 46% yield, supporting the putative involvement of a difluoromethylation/ sulfonylation intermediate, tentatively assigned as sulfinate salt 6d. The formation of this intermediate was further corroborated by HRMS analysis of the reaction mixture. To further verify the accumulation of sulfinate in the reaction system, benzyl bromide was added to the mixture after 24 h of reaction. The system was then allowed to react for an additional 24 h under dark conditions. This process yielded 4aa and 4aa′ with a combined 71% yield, and notably, a small amount of the 4at was also isolated. The generation of 4at confirms the accumulation of a sulfinate salt intermediate 6d in the system, indicating that the nucleophilic substitution between the sulfinate and the polyfluoroarene constitutes the rate-determining step of the reaction. The comparable outcomes observed for the mixed E/Z (Scheme 3E) and pure trans conjugated alkenes —both in terms of yield and stereochemistry—corroborate the delocalized nature of the allylic radical intermediate. This delocalization enables rapid isomerization, efectively interconverting the cis and trans configurations. Fluorescence quenching experiments revealed that the excited-state photocatalyst is more efectively quenched by sodium difluoromethanesulfinate than by polyfluoroarenes or conjugated dienes (Fig. S1). This observation, combined with the redox potentials of the \\mathrm { C F } _ { 2 } \\mathrm { H S O } _ { 2 } \\mathrm { N a } \\left( E _ { \\mathrm { o x } } \\ : = \\ : 0 . 5 9 \\ : \\mathrm { ~ V ~ } \\right. vs. \\mathbf { S C E } ) ^ { 1 3 i } and the photocatalyst \\left( E _ { 1 / 2 } ^ { \\mathrm { P C * / P C - } } ~ = ~ \\mathrm { \\stackrel { . } { 1 . 3 8 } ~ V } \\right. vs. SCE),<sup>18h</sup> supports a reductive quenching mechanism. To clarify the role of \\mathbf { Z n C l } _ { 2 } , several control experiments were performed. First, mixing \\mathrm { Z n C l } _ { 2 } with sodium difluoromethanesulfinate produced new signals in both ^ 1 \\mathrm { H } and { } ^ { 1 9 } \\mathrm { F } NMR spectra, indicating the formation of a new fluoroalkyl sulfinate species. When \\mathrm { Z n } ( \\mathbf { S O } _ { 2 } \\mathbf { C F } _ { 2 } \\mathbf { H } ) _ { 2 } was used directly, the target product was obtained in 43% yield. In contrast, only 36% yield was achieved in the absence of ZnCl . These results suggest that ion exchange occurs between sodium fluoroalkylsulfinate and ZnCl to generate a reactive fluoroalkyl–metal intermediate, which facilitates the transformation."
+        },
+        {
+          "evidence_id": "ev_doc_e2120ae96275_000064_ed83a363574b",
+          "quote": "However, certain issues regarding site selectivity and Z/E selectivity in this reaction require further clarification. To address these questions, we employed DFT calculations to gain deeper mechanistic insights (Scheme 3G). Computational results reveal that the difluoromethyl radical, generated from the desulfonation of the difluoromethanesulfinate radical, undergoes transformation via transition state TS1 \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 7.6 kcal mol<sup>−1</sup>) to form intermediate Int2-a. This intermediate can isomerize to yield Int2-b. The subsequent addition of \\mathrm { { S O } } _ { 2 } to Int2-a exhibits notable site-selectivity: the Gibbs free energy barrier for the ^ { 1 , 4 } -addition transition state TS2-a \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 3.2 kcal \\mathbf { m o l } ^ { - 1 } ) is 4.4 kcal \\mathrm { m o l ^ { - 1 } } lower than that of the ^ { 1 , 2 \\mathrm { - } } addition transition state TS2-c \\left( \\Delta G ^ { \\ddagger } \\ = \\ 7 . 6 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) . This thermodynamically favored pathway is consistent with the experimental observation that no 1,2-addition byproduct was detected. The spin density distribution of intermediate Int2-a was computed. As shown in Fig. S3 ( \\mathrm { S I } ) , the spin population is _ { 0 . 7 5 } at the 4-position, which is slightly higher than the value of 0.71 at the 2-position. Further evaluation of steric efects indicated that the barrier for the 1,4-addition transition state TS2b \\left( \\Delta G ^ { \\ddagger } = 4 . 5 \\right. kcal mol<sup>−1</sup>), derived from the cis-configured intermediate Int2b, is 1.3 kcal \\mathrm { m o l ^ { - 1 } } (corresponding to 90 : 10 E/Z at 25 °C), which is higher than that of the preferred transconfigured TS2a, aligning with the experimentally observed stereoselectivity. The reduction of the sulfonyl radical by the photocatalyst to form the sulfonyl anion is highly exothermic, thereby facilitating rapid conversion of the unstable allylic sulfonyl radical and promoting the eficient coupling between the delocalized allylic radical and { \\bf S } { \\bf O } _ { 2 } { - \\bf a } previously unreported transformation. The resulting sulfonyl anion subsequently undergoes defluorination via a five-membered cyclic transition state TS3 \\left( \\Delta G ^ { \\ddagger } = 2 1 . 7 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) in the presence of a metal cation such as { { \\bf { N } } { \\bf { a } } ^ { + } } , leading to the final product 4aa. Furthermore, since reactions involving 1-phenyl-1,3-diene exclusively yield 1,2-addition products, we conducted additional theoretical calculations (Scheme 3H). Our analysis reveals a 3.1 kcal \\mathrm { m o l } ^ { - 1 } lower energy barrier for the 1,2- addition transition state (TS2d) compared to its 1,4-addition counterpart (TS2e). This kinetic preference is rationalized by distortion/interaction analysis, which examines the distortion energies of the alkyl radical and \\mathbf { S O } _ { 2 } and their interaction energies. The key finding, from Scheme ^ { 3 \\mathrm { I } , } is the substantially larger distortion energy required for the alkyl radical in the 1,4-addition process (8.5 vs. 5.8 kcal \\mathrm { m o l } ^ { - 1 } ) . This increased distortion energy accounts for the higher activation barrier, thereby confirming the thermodynamic favorability of the ^ { 1 , 2 \\mathrm { - } } addition."
+        }
+      ]
+    },
+    "scientific_question": "For the visible-light photoredox reaction of 1,3-butadiene with sodium difluoromethanesulfinate and methyl pentafluorobenzoate in DMSO, what controls the observed preference for 1,4-addition over 1,2-addition and the E/Z stereochemical outcome of the allylic sulfone product? Extend the comparison to explain why a phenyl-substituted 1,3-diene under related conditions gives preferential 1,2-addition instead.",
+    "computation_relevance": "The authors performed DFT calculations on the difluoromethylation/SO2 reintegration/polyfluoroarylation cascade and reported relative Gibbs free energy barriers for 1,4- and 1,2-addition transition states, spin-density distributions for allylic radical intermediates, and a comparison between butadiene-derived and phenyl-substituted diene-derived selectivity. These results are directly relevant to predicting and explaining the regioselectivity and stereochemical outcome of the reaction.",
+    "author_computation": {
+      "performed_by_authors": true,
+      "results_reported": true,
+      "non_routine": true,
+      "evidence_ids": [
+        "ev_doc_dae8dc0cd8db_000171_960e172688be",
+        "ev_doc_dae8dc0cd8db_000173_0a16295284c9",
+        "ev_doc_e2120ae96275_000064_ed83a363574b",
+        "asset-caption-ae8203e61a375f69",
+        "asset-caption-059b1576863b257c",
+        "asset-caption-f18bef7fb5e2d266",
+        "asset-caption-77b67af482b4a3bf"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_dae8dc0cd8db_000171_960e172688be",
+          "quote": "All of the calculations were performed using Gaussian 16 program.<sup>[8]</sup> Geometry optimization were performed in the gas phase using PBE1PBE functional<sup>[9]</sup> including Grimme empirical dispersion correction (GD3BJ)<sup>[10,</sup> <sup>11]</sup> with a basis set of 6-31G(d)<sup>[12,</sup> <sup>13]</sup> in gas phase. Frequency calculations have been performed to verify the optimized structures as local minima or transition state and to obtain Gibbs free energy at 298.15 K.<sup>[14]</sup> Intrinsic reaction coordinate (IRC) calculations were carried out to make sure that every transition state links relevant intermediates.<sup>[15,</sup> <sup>16]</sup> The \\mathrm { P B E 1 P B E } / 6 { - } 3 1 1 { + } \\mathrm { G } ( \\mathrm { d } , \\mathrm { p } ) was used for the solution phase single-point energy calculations.<sup>[17]</sup> The SMD solvation model with DMSO or DMF as the solvent was employed to account for solvation effect.<sup>[18,</sup> <sup>19]</sup> All the geometries were displayed using CYLview software. <sup>[20]</sup>"
+        },
+        {
+          "evidence_id": "ev_doc_dae8dc0cd8db_000173_0a16295284c9",
+          "quote": "We have calculated and plotted the spin density distributions for the two key allylic radical intermediates, Int2-a and Int2-b, derived from 1,3-butadiene. As shown in Figure S3, the spin density in Int2-a is primarily localized on the terminal carbon atom (C4), with a calculated population of 0.75, compared to a value of 0.71 at the C2 position. This indicates tendency for sulfur dioxide addition at the 4-position, favoring the 1,4-addition pathway over the sterically more hindered or electronically less favorable 1,2-addition. A similar spin density distribution pattern is observed for intermediate Int2-b, where the terminal carbon also shows a higher spin population (0.74) than the internal C2 position (0.72). Spin density populations were evaluated with Multiwfn<sup>[21]</sup>, and the pictures of spin density populations were prepared with VMD<sup>[22]</sup>."
+        },
+        {
+          "evidence_id": "ev_doc_e2120ae96275_000064_ed83a363574b",
+          "quote": "However, certain issues regarding site selectivity and Z/E selectivity in this reaction require further clarification. To address these questions, we employed DFT calculations to gain deeper mechanistic insights (Scheme 3G). Computational results reveal that the difluoromethyl radical, generated from the desulfonation of the difluoromethanesulfinate radical, undergoes transformation via transition state TS1 \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 7.6 kcal mol<sup>−1</sup>) to form intermediate Int2-a. This intermediate can isomerize to yield Int2-b. The subsequent addition of \\mathrm { { S O } } _ { 2 } to Int2-a exhibits notable site-selectivity: the Gibbs free energy barrier for the ^ { 1 , 4 } -addition transition state TS2-a \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 3.2 kcal \\mathbf { m o l } ^ { - 1 } ) is 4.4 kcal \\mathrm { m o l ^ { - 1 } } lower than that of the ^ { 1 , 2 \\mathrm { - } } addition transition state TS2-c \\left( \\Delta G ^ { \\ddagger } \\ = \\ 7 . 6 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) . This thermodynamically favored pathway is consistent with the experimental observation that no 1,2-addition byproduct was detected. The spin density distribution of intermediate Int2-a was computed. As shown in Fig. S3 ( \\mathrm { S I } ) , the spin population is _ { 0 . 7 5 } at the 4-position, which is slightly higher than the value of 0.71 at the 2-position. Further evaluation of steric efects indicated that the barrier for the 1,4-addition transition state TS2b \\left( \\Delta G ^ { \\ddagger } = 4 . 5 \\right. kcal mol<sup>−1</sup>), derived from the cis-configured intermediate Int2b, is 1.3 kcal \\mathrm { m o l ^ { - 1 } } (corresponding to 90 : 10 E/Z at 25 °C), which is higher than that of the preferred transconfigured TS2a, aligning with the experimentally observed stereoselectivity. The reduction of the sulfonyl radical by the photocatalyst to form the sulfonyl anion is highly exothermic, thereby facilitating rapid conversion of the unstable allylic sulfonyl radical and promoting the eficient coupling between the delocalized allylic radical and { \\bf S } { \\bf O } _ { 2 } { - \\bf a } previously unreported transformation. The resulting sulfonyl anion subsequently undergoes defluorination via a five-membered cyclic transition state TS3 \\left( \\Delta G ^ { \\ddagger } = 2 1 . 7 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) in the presence of a metal cation such as { { \\bf { N } } { \\bf { a } } ^ { + } } , leading to the final product 4aa. Furthermore, since reactions involving 1-phenyl-1,3-diene exclusively yield 1,2-addition products, we conducted additional theoretical calculations (Scheme 3H). Our analysis reveals a 3.1 kcal \\mathrm { m o l } ^ { - 1 } lower energy barrier for the 1,2- addition transition state (TS2d) compared to its 1,4-addition counterpart (TS2e). This kinetic preference is rationalized by distortion/interaction analysis, which examines the distortion energies of the alkyl radical and \\mathbf { S O } _ { 2 } and their interaction energies. The key finding, from Scheme ^ { 3 \\mathrm { I } , } is the substantially larger distortion energy required for the alkyl radical in the 1,4-addition process (8.5 vs. 5.8 kcal \\mathrm { m o l } ^ { - 1 } ) . This increased distortion energy accounts for the higher activation barrier, thereby confirming the thermodynamic favorability of the ^ { 1 , 2 \\mathrm { - } } addition."
+        },
+        {
+          "evidence_id": "asset-caption-ae8203e61a375f69",
+          "quote": "Int2-a PBE1PBE /6-31G(d) thermal correction Energy: 0.076901 a.u."
+        },
+        {
+          "evidence_id": "asset-caption-059b1576863b257c",
+          "quote": "Int2-b PBE1PBE /6-31G(d) thermal correction Energy: 0.07773 a.u."
+        },
+        {
+          "evidence_id": "asset-caption-f18bef7fb5e2d266",
+          "quote": "TS2-b PBE1PBE /6-31G(d) thermal correction Energy: 0.080328 a.u."
+        },
+        {
+          "evidence_id": "asset-caption-77b67af482b4a3bf",
+          "quote": "PBE1PBE \\lvert 6 { - } 3 1 1 { + } \\mathrm { G } ( \\mathrm { d } , \\mathfrak { p } ) Gibbs energy in DMSO: -2479.159632 a.u."
+        }
+      ]
+    },
+    "computational_references": [
+      {
+        "reference_id": "CR1",
+        "result": "Computed spin population in the butadiene-derived allylic radical intermediate Int2-a is higher at the terminal 4-position than at the internal 2-position, supporting preferential SO2 addition at the terminal position.",
+        "observable": "spin population",
+        "value": 0.75,
+        "unit": "dimensionless",
+        "method": "PBE1PBE-D3(BJ)/6-31G(d) optimized structures; spin populations evaluated with Multiwfn",
+        "model_system": "butadiene-derived allylic radical intermediate Int2-a",
+        "conditions": "DFT model; solution-phase energetics reported with SMD DMSO",
+        "comparison_scope": "relative spin density at the two allylic radical termini",
+        "uncertainty": "No uncertainty reported",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_dae8dc0cd8db_000173_0a16295284c9",
+          "ev_doc_e2120ae96275_000064_ed83a363574b"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_dae8dc0cd8db_000173_0a16295284c9",
+            "quote": "We have calculated and plotted the spin density distributions for the two key allylic radical intermediates, Int2-a and Int2-b, derived from 1,3-butadiene. As shown in Figure S3, the spin density in Int2-a is primarily localized on the terminal carbon atom (C4), with a calculated population of 0.75, compared to a value of 0.71 at the C2 position. This indicates tendency for sulfur dioxide addition at the 4-position, favoring the 1,4-addition pathway over the sterically more hindered or electronically less favorable 1,2-addition. A similar spin density distribution pattern is observed for intermediate Int2-b, where the terminal carbon also shows a higher spin population (0.74) than the internal C2 position (0.72). Spin density populations were evaluated with Multiwfn<sup>[21]</sup>, and the pictures of spin density populations were prepared with VMD<sup>[22]</sup>."
+          },
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000064_ed83a363574b",
+            "quote": "However, certain issues regarding site selectivity and Z/E selectivity in this reaction require further clarification. To address these questions, we employed DFT calculations to gain deeper mechanistic insights (Scheme 3G). Computational results reveal that the difluoromethyl radical, generated from the desulfonation of the difluoromethanesulfinate radical, undergoes transformation via transition state TS1 \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 7.6 kcal mol<sup>−1</sup>) to form intermediate Int2-a. This intermediate can isomerize to yield Int2-b. The subsequent addition of \\mathrm { { S O } } _ { 2 } to Int2-a exhibits notable site-selectivity: the Gibbs free energy barrier for the ^ { 1 , 4 } -addition transition state TS2-a \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 3.2 kcal \\mathbf { m o l } ^ { - 1 } ) is 4.4 kcal \\mathrm { m o l ^ { - 1 } } lower than that of the ^ { 1 , 2 \\mathrm { - } } addition transition state TS2-c \\left( \\Delta G ^ { \\ddagger } \\ = \\ 7 . 6 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) . This thermodynamically favored pathway is consistent with the experimental observation that no 1,2-addition byproduct was detected. The spin density distribution of intermediate Int2-a was computed. As shown in Fig. S3 ( \\mathrm { S I } ) , the spin population is _ { 0 . 7 5 } at the 4-position, which is slightly higher than the value of 0.71 at the 2-position. Further evaluation of steric efects indicated that the barrier for the 1,4-addition transition state TS2b \\left( \\Delta G ^ { \\ddagger } = 4 . 5 \\right. kcal mol<sup>−1</sup>), derived from the cis-configured intermediate Int2b, is 1.3 kcal \\mathrm { m o l ^ { - 1 } } (corresponding to 90 : 10 E/Z at 25 °C), which is higher than that of the preferred transconfigured TS2a, aligning with the experimentally observed stereoselectivity. The reduction of the sulfonyl radical by the photocatalyst to form the sulfonyl anion is highly exothermic, thereby facilitating rapid conversion of the unstable allylic sulfonyl radical and promoting the eficient coupling between the delocalized allylic radical and { \\bf S } { \\bf O } _ { 2 } { - \\bf a } previously unreported transformation. The resulting sulfonyl anion subsequently undergoes defluorination via a five-membered cyclic transition state TS3 \\left( \\Delta G ^ { \\ddagger } = 2 1 . 7 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) in the presence of a metal cation such as { { \\bf { N } } { \\bf { a } } ^ { + } } , leading to the final product 4aa. Furthermore, since reactions involving 1-phenyl-1,3-diene exclusively yield 1,2-addition products, we conducted additional theoretical calculations (Scheme 3H). Our analysis reveals a 3.1 kcal \\mathrm { m o l } ^ { - 1 } lower energy barrier for the 1,2- addition transition state (TS2d) compared to its 1,4-addition counterpart (TS2e). This kinetic preference is rationalized by distortion/interaction analysis, which examines the distortion energies of the alkyl radical and \\mathbf { S O } _ { 2 } and their interaction energies. The key finding, from Scheme ^ { 3 \\mathrm { I } , } is the substantially larger distortion energy required for the alkyl radical in the 1,4-addition process (8.5 vs. 5.8 kcal \\mathrm { m o l } ^ { - 1 } ) . This increased distortion energy accounts for the higher activation barrier, thereby confirming the thermodynamic favorability of the ^ { 1 , 2 \\mathrm { - } } addition."
+          }
+        ]
+      },
+      {
+        "reference_id": "CR2",
+        "result": "Computed Gibbs free energy barrier for 1,4-addition of SO2 to Int2-a is lower than that for 1,2-addition.",
+        "observable": "activation free energy",
+        "value": 3.2,
+        "unit": "kcal mol^-1",
+        "method": "DFT Gibbs free energy profile",
+        "model_system": "butadiene-derived allylic radical intermediate Int2-a plus SO2",
+        "conditions": "DMSO solvation model; 298.15 K Gibbs free energies",
+        "comparison_scope": "1,4-addition transition state TS2-a vs 1,2-addition transition state TS2-c",
+        "uncertainty": "No uncertainty reported",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000064_ed83a363574b"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000064_ed83a363574b",
+            "quote": "However, certain issues regarding site selectivity and Z/E selectivity in this reaction require further clarification. To address these questions, we employed DFT calculations to gain deeper mechanistic insights (Scheme 3G). Computational results reveal that the difluoromethyl radical, generated from the desulfonation of the difluoromethanesulfinate radical, undergoes transformation via transition state TS1 \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 7.6 kcal mol<sup>−1</sup>) to form intermediate Int2-a. This intermediate can isomerize to yield Int2-b. The subsequent addition of \\mathrm { { S O } } _ { 2 } to Int2-a exhibits notable site-selectivity: the Gibbs free energy barrier for the ^ { 1 , 4 } -addition transition state TS2-a \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 3.2 kcal \\mathbf { m o l } ^ { - 1 } ) is 4.4 kcal \\mathrm { m o l ^ { - 1 } } lower than that of the ^ { 1 , 2 \\mathrm { - } } addition transition state TS2-c \\left( \\Delta G ^ { \\ddagger } \\ = \\ 7 . 6 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) . This thermodynamically favored pathway is consistent with the experimental observation that no 1,2-addition byproduct was detected. The spin density distribution of intermediate Int2-a was computed. As shown in Fig. S3 ( \\mathrm { S I } ) , the spin population is _ { 0 . 7 5 } at the 4-position, which is slightly higher than the value of 0.71 at the 2-position. Further evaluation of steric efects indicated that the barrier for the 1,4-addition transition state TS2b \\left( \\Delta G ^ { \\ddagger } = 4 . 5 \\right. kcal mol<sup>−1</sup>), derived from the cis-configured intermediate Int2b, is 1.3 kcal \\mathrm { m o l ^ { - 1 } } (corresponding to 90 : 10 E/Z at 25 °C), which is higher than that of the preferred transconfigured TS2a, aligning with the experimentally observed stereoselectivity. The reduction of the sulfonyl radical by the photocatalyst to form the sulfonyl anion is highly exothermic, thereby facilitating rapid conversion of the unstable allylic sulfonyl radical and promoting the eficient coupling between the delocalized allylic radical and { \\bf S } { \\bf O } _ { 2 } { - \\bf a } previously unreported transformation. The resulting sulfonyl anion subsequently undergoes defluorination via a five-membered cyclic transition state TS3 \\left( \\Delta G ^ { \\ddagger } = 2 1 . 7 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) in the presence of a metal cation such as { { \\bf { N } } { \\bf { a } } ^ { + } } , leading to the final product 4aa. Furthermore, since reactions involving 1-phenyl-1,3-diene exclusively yield 1,2-addition products, we conducted additional theoretical calculations (Scheme 3H). Our analysis reveals a 3.1 kcal \\mathrm { m o l } ^ { - 1 } lower energy barrier for the 1,2- addition transition state (TS2d) compared to its 1,4-addition counterpart (TS2e). This kinetic preference is rationalized by distortion/interaction analysis, which examines the distortion energies of the alkyl radical and \\mathbf { S O } _ { 2 } and their interaction energies. The key finding, from Scheme ^ { 3 \\mathrm { I } , } is the substantially larger distortion energy required for the alkyl radical in the 1,4-addition process (8.5 vs. 5.8 kcal \\mathrm { m o l } ^ { - 1 } ) . This increased distortion energy accounts for the higher activation barrier, thereby confirming the thermodynamic favorability of the ^ { 1 , 2 \\mathrm { - } } addition."
+          }
+        ]
+      },
+      {
+        "reference_id": "CR3",
+        "result": "Computed Gibbs free energy barrier for 1,2-addition of SO2 to Int2-a is higher than that for 1,4-addition.",
+        "observable": "activation free energy",
+        "value": 7.6,
+        "unit": "kcal mol^-1",
+        "method": "DFT Gibbs free energy profile",
+        "model_system": "butadiene-derived allylic radical intermediate Int2-a plus SO2",
+        "conditions": "DMSO solvation model; 298.15 K Gibbs free energies",
+        "comparison_scope": "1,2-addition transition state TS2-c vs 1,4-addition transition state TS2-a",
+        "uncertainty": "No uncertainty reported",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000064_ed83a363574b"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000064_ed83a363574b",
+            "quote": "However, certain issues regarding site selectivity and Z/E selectivity in this reaction require further clarification. To address these questions, we employed DFT calculations to gain deeper mechanistic insights (Scheme 3G). Computational results reveal that the difluoromethyl radical, generated from the desulfonation of the difluoromethanesulfinate radical, undergoes transformation via transition state TS1 \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 7.6 kcal mol<sup>−1</sup>) to form intermediate Int2-a. This intermediate can isomerize to yield Int2-b. The subsequent addition of \\mathrm { { S O } } _ { 2 } to Int2-a exhibits notable site-selectivity: the Gibbs free energy barrier for the ^ { 1 , 4 } -addition transition state TS2-a \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 3.2 kcal \\mathbf { m o l } ^ { - 1 } ) is 4.4 kcal \\mathrm { m o l ^ { - 1 } } lower than that of the ^ { 1 , 2 \\mathrm { - } } addition transition state TS2-c \\left( \\Delta G ^ { \\ddagger } \\ = \\ 7 . 6 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) . This thermodynamically favored pathway is consistent with the experimental observation that no 1,2-addition byproduct was detected. The spin density distribution of intermediate Int2-a was computed. As shown in Fig. S3 ( \\mathrm { S I } ) , the spin population is _ { 0 . 7 5 } at the 4-position, which is slightly higher than the value of 0.71 at the 2-position. Further evaluation of steric efects indicated that the barrier for the 1,4-addition transition state TS2b \\left( \\Delta G ^ { \\ddagger } = 4 . 5 \\right. kcal mol<sup>−1</sup>), derived from the cis-configured intermediate Int2b, is 1.3 kcal \\mathrm { m o l ^ { - 1 } } (corresponding to 90 : 10 E/Z at 25 °C), which is higher than that of the preferred transconfigured TS2a, aligning with the experimentally observed stereoselectivity. The reduction of the sulfonyl radical by the photocatalyst to form the sulfonyl anion is highly exothermic, thereby facilitating rapid conversion of the unstable allylic sulfonyl radical and promoting the eficient coupling between the delocalized allylic radical and { \\bf S } { \\bf O } _ { 2 } { - \\bf a } previously unreported transformation. The resulting sulfonyl anion subsequently undergoes defluorination via a five-membered cyclic transition state TS3 \\left( \\Delta G ^ { \\ddagger } = 2 1 . 7 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) in the presence of a metal cation such as { { \\bf { N } } { \\bf { a } } ^ { + } } , leading to the final product 4aa. Furthermore, since reactions involving 1-phenyl-1,3-diene exclusively yield 1,2-addition products, we conducted additional theoretical calculations (Scheme 3H). Our analysis reveals a 3.1 kcal \\mathrm { m o l } ^ { - 1 } lower energy barrier for the 1,2- addition transition state (TS2d) compared to its 1,4-addition counterpart (TS2e). This kinetic preference is rationalized by distortion/interaction analysis, which examines the distortion energies of the alkyl radical and \\mathbf { S O } _ { 2 } and their interaction energies. The key finding, from Scheme ^ { 3 \\mathrm { I } , } is the substantially larger distortion energy required for the alkyl radical in the 1,4-addition process (8.5 vs. 5.8 kcal \\mathrm { m o l } ^ { - 1 } ) . This increased distortion energy accounts for the higher activation barrier, thereby confirming the thermodynamic favorability of the ^ { 1 , 2 \\mathrm { - } } addition."
+          }
+        ]
+      },
+      {
+        "reference_id": "CR4",
+        "result": "Computed barrier for SO2 addition from the cis-configured allylic radical intermediate is higher than that from the trans-configured intermediate, consistent with the observed E/Z preference.",
+        "observable": "activation free energy",
+        "value": 4.5,
+        "unit": "kcal mol^-1",
+        "method": "DFT Gibbs free energy profile",
+        "model_system": "cis-configured butadiene-derived allylic radical intermediate Int2-b plus SO2",
+        "conditions": "DMSO solvation model; 298.15 K Gibbs free energies",
+        "comparison_scope": "cis-derived TS2-b vs trans-derived TS2-a",
+        "uncertainty": "No uncertainty reported",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000064_ed83a363574b"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000064_ed83a363574b",
+            "quote": "However, certain issues regarding site selectivity and Z/E selectivity in this reaction require further clarification. To address these questions, we employed DFT calculations to gain deeper mechanistic insights (Scheme 3G). Computational results reveal that the difluoromethyl radical, generated from the desulfonation of the difluoromethanesulfinate radical, undergoes transformation via transition state TS1 \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 7.6 kcal mol<sup>−1</sup>) to form intermediate Int2-a. This intermediate can isomerize to yield Int2-b. The subsequent addition of \\mathrm { { S O } } _ { 2 } to Int2-a exhibits notable site-selectivity: the Gibbs free energy barrier for the ^ { 1 , 4 } -addition transition state TS2-a \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 3.2 kcal \\mathbf { m o l } ^ { - 1 } ) is 4.4 kcal \\mathrm { m o l ^ { - 1 } } lower than that of the ^ { 1 , 2 \\mathrm { - } } addition transition state TS2-c \\left( \\Delta G ^ { \\ddagger } \\ = \\ 7 . 6 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) . This thermodynamically favored pathway is consistent with the experimental observation that no 1,2-addition byproduct was detected. The spin density distribution of intermediate Int2-a was computed. As shown in Fig. S3 ( \\mathrm { S I } ) , the spin population is _ { 0 . 7 5 } at the 4-position, which is slightly higher than the value of 0.71 at the 2-position. Further evaluation of steric efects indicated that the barrier for the 1,4-addition transition state TS2b \\left( \\Delta G ^ { \\ddagger } = 4 . 5 \\right. kcal mol<sup>−1</sup>), derived from the cis-configured intermediate Int2b, is 1.3 kcal \\mathrm { m o l ^ { - 1 } } (corresponding to 90 : 10 E/Z at 25 °C), which is higher than that of the preferred transconfigured TS2a, aligning with the experimentally observed stereoselectivity. The reduction of the sulfonyl radical by the photocatalyst to form the sulfonyl anion is highly exothermic, thereby facilitating rapid conversion of the unstable allylic sulfonyl radical and promoting the eficient coupling between the delocalized allylic radical and { \\bf S } { \\bf O } _ { 2 } { - \\bf a } previously unreported transformation. The resulting sulfonyl anion subsequently undergoes defluorination via a five-membered cyclic transition state TS3 \\left( \\Delta G ^ { \\ddagger } = 2 1 . 7 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) in the presence of a metal cation such as { { \\bf { N } } { \\bf { a } } ^ { + } } , leading to the final product 4aa. Furthermore, since reactions involving 1-phenyl-1,3-diene exclusively yield 1,2-addition products, we conducted additional theoretical calculations (Scheme 3H). Our analysis reveals a 3.1 kcal \\mathrm { m o l } ^ { - 1 } lower energy barrier for the 1,2- addition transition state (TS2d) compared to its 1,4-addition counterpart (TS2e). This kinetic preference is rationalized by distortion/interaction analysis, which examines the distortion energies of the alkyl radical and \\mathbf { S O } _ { 2 } and their interaction energies. The key finding, from Scheme ^ { 3 \\mathrm { I } , } is the substantially larger distortion energy required for the alkyl radical in the 1,4-addition process (8.5 vs. 5.8 kcal \\mathrm { m o l } ^ { - 1 } ) . This increased distortion energy accounts for the higher activation barrier, thereby confirming the thermodynamic favorability of the ^ { 1 , 2 \\mathrm { - } } addition."
+          }
+        ]
+      },
+      {
+        "reference_id": "CR5",
+        "result": "For the phenyl-substituted diene system, the computed 1,2-addition transition state is lower in energy than the 1,4-addition transition state.",
+        "observable": "relative activation free energy",
+        "value": 3.1,
+        "unit": "kcal mol^-1",
+        "method": "DFT Gibbs free energy comparison",
+        "model_system": "phenyl-substituted 1,3-diene-derived allylic radical plus SO2",
+        "conditions": "DFT model; solution-phase comparison",
+        "comparison_scope": "1,2-addition TS2-d vs 1,4-addition TS2-e",
+        "uncertainty": "No uncertainty reported",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000064_ed83a363574b"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000064_ed83a363574b",
+            "quote": "However, certain issues regarding site selectivity and Z/E selectivity in this reaction require further clarification. To address these questions, we employed DFT calculations to gain deeper mechanistic insights (Scheme 3G). Computational results reveal that the difluoromethyl radical, generated from the desulfonation of the difluoromethanesulfinate radical, undergoes transformation via transition state TS1 \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 7.6 kcal mol<sup>−1</sup>) to form intermediate Int2-a. This intermediate can isomerize to yield Int2-b. The subsequent addition of \\mathrm { { S O } } _ { 2 } to Int2-a exhibits notable site-selectivity: the Gibbs free energy barrier for the ^ { 1 , 4 } -addition transition state TS2-a \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 3.2 kcal \\mathbf { m o l } ^ { - 1 } ) is 4.4 kcal \\mathrm { m o l ^ { - 1 } } lower than that of the ^ { 1 , 2 \\mathrm { - } } addition transition state TS2-c \\left( \\Delta G ^ { \\ddagger } \\ = \\ 7 . 6 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) . This thermodynamically favored pathway is consistent with the experimental observation that no 1,2-addition byproduct was detected. The spin density distribution of intermediate Int2-a was computed. As shown in Fig. S3 ( \\mathrm { S I } ) , the spin population is _ { 0 . 7 5 } at the 4-position, which is slightly higher than the value of 0.71 at the 2-position. Further evaluation of steric efects indicated that the barrier for the 1,4-addition transition state TS2b \\left( \\Delta G ^ { \\ddagger } = 4 . 5 \\right. kcal mol<sup>−1</sup>), derived from the cis-configured intermediate Int2b, is 1.3 kcal \\mathrm { m o l ^ { - 1 } } (corresponding to 90 : 10 E/Z at 25 °C), which is higher than that of the preferred transconfigured TS2a, aligning with the experimentally observed stereoselectivity. The reduction of the sulfonyl radical by the photocatalyst to form the sulfonyl anion is highly exothermic, thereby facilitating rapid conversion of the unstable allylic sulfonyl radical and promoting the eficient coupling between the delocalized allylic radical and { \\bf S } { \\bf O } _ { 2 } { - \\bf a } previously unreported transformation. The resulting sulfonyl anion subsequently undergoes defluorination via a five-membered cyclic transition state TS3 \\left( \\Delta G ^ { \\ddagger } = 2 1 . 7 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) in the presence of a metal cation such as { { \\bf { N } } { \\bf { a } } ^ { + } } , leading to the final product 4aa. Furthermore, since reactions involving 1-phenyl-1,3-diene exclusively yield 1,2-addition products, we conducted additional theoretical calculations (Scheme 3H). Our analysis reveals a 3.1 kcal \\mathrm { m o l } ^ { - 1 } lower energy barrier for the 1,2- addition transition state (TS2d) compared to its 1,4-addition counterpart (TS2e). This kinetic preference is rationalized by distortion/interaction analysis, which examines the distortion energies of the alkyl radical and \\mathbf { S O } _ { 2 } and their interaction energies. The key finding, from Scheme ^ { 3 \\mathrm { I } , } is the substantially larger distortion energy required for the alkyl radical in the 1,4-addition process (8.5 vs. 5.8 kcal \\mathrm { m o l } ^ { - 1 } ) . This increased distortion energy accounts for the higher activation barrier, thereby confirming the thermodynamic favorability of the ^ { 1 , 2 \\mathrm { - } } addition."
+          }
+        ]
+      }
+    ],
+    "public_inputs": [
+      {
+        "input_id": "PI1",
+        "kind": "identity",
+        "content": "1,3-butadiene",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000027_0f0de8852e58",
+          "ev_doc_e2120ae96275_000036_253b0fa9216f"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000027_0f0de8852e58",
+            "quote": "In our investigation of the radical difluoromethylation/SO reincorporation/polyfluoroarylation cascade reaction, model substrates ^ { 1 , 3 \\cdot } -butadiene (1a), \\mathrm { C F } _ { 2 } \\mathrm { H S O } _ { 2 } \\mathrm { N a } (2a), and methyl pentafluorobenzoate (3a) were employed. The reaction was carried out using 4-CzIPN as the photocatalyst (PC), \\mathbf { Z } \\mathbf { n } \\mathbf { C l } _ { 2 } as an additive, and DMSO as the solvent under irradiation with 5 W blue LEDs for 48 h. Pleasingly, the desired ^ { 1 , 4 \\cdot } -difluoromethylation/sulfonylation product 4aa was obtained in an excellent yield of 86% with an E / Z selectivity of 6 . 2 : 1 . The addition of inorganic bases such as { \\bf K } _ { 3 } { \\bf P } { \\bf O } _ { 4 } and \\mathbf { K } _ { 2 } \\mathbf { C O } _ { 3 } improved the E/Z selectivity, albeit with a slight reduction in yield. Notably, when \\mathrm { N a } _ { 2 } \\mathrm { C O } _ { 3 } was used as the base, the target product 4aa (CCDC 2350968)<sup>21</sup> was obtained in 74% yield along with 4aa′ (7%). In contrast, the use of \\mathrm { C s } _ { 2 } \\mathrm { C O } _ { 3 } resulted in decreased selectivity and eficiency. Organic bases such as DABCO proved inefective for this transformation. Screening of photocatalysts showed that an organic photocatalyst (PC-2) efectively promoted the reaction, delivering 4aa (79%) and 4aa′ (13%) with slightly lower E / Z selectivity. Conversely, Ru- or Ir-based complexes (PC-3 to PC-5) proved suboptimal, leading to diminished yields. Solvents such as DMF and DMAc aforded the product with moderately reduced yields and selectivity, whereas \\mathrm { C H } _ { 3 } \\mathrm { C N } , THF, and DCM did not yield the desired product. Based on these results, the conditions in the equation shown in Table 1 were selected as optimal and identified as the standard conditions for further substrate scope investigations."
+          },
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000036_253b0fa9216f",
+            "quote": "Table 1 Optimization of the reaction conditions<sup>a</sup> <sup>a</sup> Unless otherwise specified, all reactions were conducted under a nitrogen atmosphere with 1a (1.0 mmol, 5.0 equiv.), 2 (0.6 mmol, 3.0 equiv.), 3a (0.2 mmol), photocatalyst (PC, 1.5 mol%), ZnCl (1.0 equiv.), base (2.0 equiv.), and anhydrous solvent (1.5 mL) at 30 °C under irradiation from 5 W blue LEDs for 48 h. Yields refer to isolated products and are based on 3a. n.d. = not detected."
+          }
+        ]
+      },
+      {
+        "input_id": "PI2",
+        "kind": "identity",
+        "content": "sodium difluoromethanesulfinate",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000006_12208ceaadc6",
+          "ev_doc_e2120ae96275_000027_0f0de8852e58",
+          "ev_doc_e2120ae96275_000036_253b0fa9216f"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000006_12208ceaadc6",
+            "quote": "Polyfluoroarylsulfones represent an important class of compounds with broad applications in pharmaceutical chemistry and materials science, yet their eficient and selective synthesis remains challenging. Herein, we report a visible-light-driven, photoredox-catalyzed cascade reaction that enables simultaneous difluoromethylation, sulfur dioxide reintegration, and polyfluoroarylation of conjugated dienes using sodium difluoromethanesulfinate ( \\mathsf { C F } _ { 2 } \\mathsf { H S O } _ { 2 } \\mathsf { N a } ) as a bifunctional reagent. This strategy leverages the dual role of \\mathsf { C F } _ { 2 } \\mathsf { H S O } _ { 2 } \\mathsf { N a } . which acts as both a source of { \\mathsf { C F } } _ { 2 } { \\mathsf { H } } radicals and an in situ { \\mathsf { S O } } _ { 2 } surrogate, facilitating the atom-economical construction of polyfluoroaryl-substituted allylic sulfones under exceptionally mild conditions. The reaction proceeds with high regio- and stereoselectivity, afording either 1,4- or 1,2-addition products depending on the diene substrate. Notably, the method is applicable to commodity chemicals such as 1,3-butadiene and enables late-stage functionalization of complex polyfluoroarenes. Mechanistic studies and DFT calculations provide insight into the reaction pathway, including the unprecedented trapping of a delocalized allylic radical by { \\mathsf { S O } } _ { 2 } and the origin of selectivity. This work ofers a practical, modular, and sustainable approach to accessing structurally diverse polyfluoroarylsulfones, with potential utility in synthetic and medicinal chemistry."
+          },
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000027_0f0de8852e58",
+            "quote": "In our investigation of the radical difluoromethylation/SO reincorporation/polyfluoroarylation cascade reaction, model substrates ^ { 1 , 3 \\cdot } -butadiene (1a), \\mathrm { C F } _ { 2 } \\mathrm { H S O } _ { 2 } \\mathrm { N a } (2a), and methyl pentafluorobenzoate (3a) were employed. The reaction was carried out using 4-CzIPN as the photocatalyst (PC), \\mathbf { Z } \\mathbf { n } \\mathbf { C l } _ { 2 } as an additive, and DMSO as the solvent under irradiation with 5 W blue LEDs for 48 h. Pleasingly, the desired ^ { 1 , 4 \\cdot } -difluoromethylation/sulfonylation product 4aa was obtained in an excellent yield of 86% with an E / Z selectivity of 6 . 2 : 1 . The addition of inorganic bases such as { \\bf K } _ { 3 } { \\bf P } { \\bf O } _ { 4 } and \\mathbf { K } _ { 2 } \\mathbf { C O } _ { 3 } improved the E/Z selectivity, albeit with a slight reduction in yield. Notably, when \\mathrm { N a } _ { 2 } \\mathrm { C O } _ { 3 } was used as the base, the target product 4aa (CCDC 2350968)<sup>21</sup> was obtained in 74% yield along with 4aa′ (7%). In contrast, the use of \\mathrm { C s } _ { 2 } \\mathrm { C O } _ { 3 } resulted in decreased selectivity and eficiency. Organic bases such as DABCO proved inefective for this transformation. Screening of photocatalysts showed that an organic photocatalyst (PC-2) efectively promoted the reaction, delivering 4aa (79%) and 4aa′ (13%) with slightly lower E / Z selectivity. Conversely, Ru- or Ir-based complexes (PC-3 to PC-5) proved suboptimal, leading to diminished yields. Solvents such as DMF and DMAc aforded the product with moderately reduced yields and selectivity, whereas \\mathrm { C H } _ { 3 } \\mathrm { C N } , THF, and DCM did not yield the desired product. Based on these results, the conditions in the equation shown in Table 1 were selected as optimal and identified as the standard conditions for further substrate scope investigations."
+          },
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000036_253b0fa9216f",
+            "quote": "Table 1 Optimization of the reaction conditions<sup>a</sup> <sup>a</sup> Unless otherwise specified, all reactions were conducted under a nitrogen atmosphere with 1a (1.0 mmol, 5.0 equiv.), 2 (0.6 mmol, 3.0 equiv.), 3a (0.2 mmol), photocatalyst (PC, 1.5 mol%), ZnCl (1.0 equiv.), base (2.0 equiv.), and anhydrous solvent (1.5 mL) at 30 °C under irradiation from 5 W blue LEDs for 48 h. Yields refer to isolated products and are based on 3a. n.d. = not detected."
+          }
+        ]
+      },
+      {
+        "input_id": "PI3",
+        "kind": "identity",
+        "content": "methyl pentafluorobenzoate",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000027_0f0de8852e58",
+          "ev_doc_e2120ae96275_000036_253b0fa9216f"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000027_0f0de8852e58",
+            "quote": "In our investigation of the radical difluoromethylation/SO reincorporation/polyfluoroarylation cascade reaction, model substrates ^ { 1 , 3 \\cdot } -butadiene (1a), \\mathrm { C F } _ { 2 } \\mathrm { H S O } _ { 2 } \\mathrm { N a } (2a), and methyl pentafluorobenzoate (3a) were employed. The reaction was carried out using 4-CzIPN as the photocatalyst (PC), \\mathbf { Z } \\mathbf { n } \\mathbf { C l } _ { 2 } as an additive, and DMSO as the solvent under irradiation with 5 W blue LEDs for 48 h. Pleasingly, the desired ^ { 1 , 4 \\cdot } -difluoromethylation/sulfonylation product 4aa was obtained in an excellent yield of 86% with an E / Z selectivity of 6 . 2 : 1 . The addition of inorganic bases such as { \\bf K } _ { 3 } { \\bf P } { \\bf O } _ { 4 } and \\mathbf { K } _ { 2 } \\mathbf { C O } _ { 3 } improved the E/Z selectivity, albeit with a slight reduction in yield. Notably, when \\mathrm { N a } _ { 2 } \\mathrm { C O } _ { 3 } was used as the base, the target product 4aa (CCDC 2350968)<sup>21</sup> was obtained in 74% yield along with 4aa′ (7%). In contrast, the use of \\mathrm { C s } _ { 2 } \\mathrm { C O } _ { 3 } resulted in decreased selectivity and eficiency. Organic bases such as DABCO proved inefective for this transformation. Screening of photocatalysts showed that an organic photocatalyst (PC-2) efectively promoted the reaction, delivering 4aa (79%) and 4aa′ (13%) with slightly lower E / Z selectivity. Conversely, Ru- or Ir-based complexes (PC-3 to PC-5) proved suboptimal, leading to diminished yields. Solvents such as DMF and DMAc aforded the product with moderately reduced yields and selectivity, whereas \\mathrm { C H } _ { 3 } \\mathrm { C N } , THF, and DCM did not yield the desired product. Based on these results, the conditions in the equation shown in Table 1 were selected as optimal and identified as the standard conditions for further substrate scope investigations."
+          },
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000036_253b0fa9216f",
+            "quote": "Table 1 Optimization of the reaction conditions<sup>a</sup> <sup>a</sup> Unless otherwise specified, all reactions were conducted under a nitrogen atmosphere with 1a (1.0 mmol, 5.0 equiv.), 2 (0.6 mmol, 3.0 equiv.), 3a (0.2 mmol), photocatalyst (PC, 1.5 mol%), ZnCl (1.0 equiv.), base (2.0 equiv.), and anhydrous solvent (1.5 mL) at 30 °C under irradiation from 5 W blue LEDs for 48 h. Yields refer to isolated products and are based on 3a. n.d. = not detected."
+          }
+        ]
+      },
+      {
+        "input_id": "PI4",
+        "kind": "condition",
+        "content": "DMSO, 30 °C, 5 W blue LEDs, 48 h, nitrogen atmosphere, 4CzIPN photocatalyst, ZnCl2 additive, Na2CO3 base",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000027_0f0de8852e58",
+          "ev_doc_e2120ae96275_000036_253b0fa9216f"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000027_0f0de8852e58",
+            "quote": "In our investigation of the radical difluoromethylation/SO reincorporation/polyfluoroarylation cascade reaction, model substrates ^ { 1 , 3 \\cdot } -butadiene (1a), \\mathrm { C F } _ { 2 } \\mathrm { H S O } _ { 2 } \\mathrm { N a } (2a), and methyl pentafluorobenzoate (3a) were employed. The reaction was carried out using 4-CzIPN as the photocatalyst (PC), \\mathbf { Z } \\mathbf { n } \\mathbf { C l } _ { 2 } as an additive, and DMSO as the solvent under irradiation with 5 W blue LEDs for 48 h. Pleasingly, the desired ^ { 1 , 4 \\cdot } -difluoromethylation/sulfonylation product 4aa was obtained in an excellent yield of 86% with an E / Z selectivity of 6 . 2 : 1 . The addition of inorganic bases such as { \\bf K } _ { 3 } { \\bf P } { \\bf O } _ { 4 } and \\mathbf { K } _ { 2 } \\mathbf { C O } _ { 3 } improved the E/Z selectivity, albeit with a slight reduction in yield. Notably, when \\mathrm { N a } _ { 2 } \\mathrm { C O } _ { 3 } was used as the base, the target product 4aa (CCDC 2350968)<sup>21</sup> was obtained in 74% yield along with 4aa′ (7%). In contrast, the use of \\mathrm { C s } _ { 2 } \\mathrm { C O } _ { 3 } resulted in decreased selectivity and eficiency. Organic bases such as DABCO proved inefective for this transformation. Screening of photocatalysts showed that an organic photocatalyst (PC-2) efectively promoted the reaction, delivering 4aa (79%) and 4aa′ (13%) with slightly lower E / Z selectivity. Conversely, Ru- or Ir-based complexes (PC-3 to PC-5) proved suboptimal, leading to diminished yields. Solvents such as DMF and DMAc aforded the product with moderately reduced yields and selectivity, whereas \\mathrm { C H } _ { 3 } \\mathrm { C N } , THF, and DCM did not yield the desired product. Based on these results, the conditions in the equation shown in Table 1 were selected as optimal and identified as the standard conditions for further substrate scope investigations."
+          },
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000036_253b0fa9216f",
+            "quote": "Table 1 Optimization of the reaction conditions<sup>a</sup> <sup>a</sup> Unless otherwise specified, all reactions were conducted under a nitrogen atmosphere with 1a (1.0 mmol, 5.0 equiv.), 2 (0.6 mmol, 3.0 equiv.), 3a (0.2 mmol), photocatalyst (PC, 1.5 mol%), ZnCl (1.0 equiv.), base (2.0 equiv.), and anhydrous solvent (1.5 mL) at 30 °C under irradiation from 5 W blue LEDs for 48 h. Yields refer to isolated products and are based on 3a. n.d. = not detected."
+          }
+        ]
+      },
+      {
+        "input_id": "PI5",
+        "kind": "observation",
+        "content": "The butadiene reaction gives the 1,4-addition product 4aa as the major product with 4aa' as a minor product; the reported isolated yields are 74% and 7%, respectively.",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000027_0f0de8852e58",
+          "ev_doc_e2120ae96275_000036_253b0fa9216f"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000027_0f0de8852e58",
+            "quote": "In our investigation of the radical difluoromethylation/SO reincorporation/polyfluoroarylation cascade reaction, model substrates ^ { 1 , 3 \\cdot } -butadiene (1a), \\mathrm { C F } _ { 2 } \\mathrm { H S O } _ { 2 } \\mathrm { N a } (2a), and methyl pentafluorobenzoate (3a) were employed. The reaction was carried out using 4-CzIPN as the photocatalyst (PC), \\mathbf { Z } \\mathbf { n } \\mathbf { C l } _ { 2 } as an additive, and DMSO as the solvent under irradiation with 5 W blue LEDs for 48 h. Pleasingly, the desired ^ { 1 , 4 \\cdot } -difluoromethylation/sulfonylation product 4aa was obtained in an excellent yield of 86% with an E / Z selectivity of 6 . 2 : 1 . The addition of inorganic bases such as { \\bf K } _ { 3 } { \\bf P } { \\bf O } _ { 4 } and \\mathbf { K } _ { 2 } \\mathbf { C O } _ { 3 } improved the E/Z selectivity, albeit with a slight reduction in yield. Notably, when \\mathrm { N a } _ { 2 } \\mathrm { C O } _ { 3 } was used as the base, the target product 4aa (CCDC 2350968)<sup>21</sup> was obtained in 74% yield along with 4aa′ (7%). In contrast, the use of \\mathrm { C s } _ { 2 } \\mathrm { C O } _ { 3 } resulted in decreased selectivity and eficiency. Organic bases such as DABCO proved inefective for this transformation. Screening of photocatalysts showed that an organic photocatalyst (PC-2) efectively promoted the reaction, delivering 4aa (79%) and 4aa′ (13%) with slightly lower E / Z selectivity. Conversely, Ru- or Ir-based complexes (PC-3 to PC-5) proved suboptimal, leading to diminished yields. Solvents such as DMF and DMAc aforded the product with moderately reduced yields and selectivity, whereas \\mathrm { C H } _ { 3 } \\mathrm { C N } , THF, and DCM did not yield the desired product. Based on these results, the conditions in the equation shown in Table 1 were selected as optimal and identified as the standard conditions for further substrate scope investigations."
+          },
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000036_253b0fa9216f",
+            "quote": "Table 1 Optimization of the reaction conditions<sup>a</sup> <sup>a</sup> Unless otherwise specified, all reactions were conducted under a nitrogen atmosphere with 1a (1.0 mmol, 5.0 equiv.), 2 (0.6 mmol, 3.0 equiv.), 3a (0.2 mmol), photocatalyst (PC, 1.5 mol%), ZnCl (1.0 equiv.), base (2.0 equiv.), and anhydrous solvent (1.5 mL) at 30 °C under irradiation from 5 W blue LEDs for 48 h. Yields refer to isolated products and are based on 3a. n.d. = not detected."
+          }
+        ]
+      },
+      {
+        "input_id": "PI6",
+        "kind": "identity",
+        "content": "phenyl-substituted 1,3-diene",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000037_18d62657f8d8",
+          "ev_doc_e2120ae96275_000064_ed83a363574b"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000037_18d62657f8d8",
+            "quote": "Furthermore, phenyl-substituted 1,3-dienes were found to undergo the radical difluoromethylation / { \\bf S } { \\bf O } _ { 2 } reintegration/ polyfluoroarylation cascade under slightly modified conditions, yielding 1,2-addition products with specific stereoselectivity. We subsequently explored the substrate scope of this 1,2-addition system. As shown in Scheme 2D, 1,3-dienes featuring electron-donating groups (methyl, tert-butyl, phenyl, methoxy) or halogen (fluorine) groups at the para-position of the aryl ring readily underwent the cascade reaction, providing the desired products 5ca–5ga in moderate to good yields (40–77%). The scope extended to substituted ^ { 1 , 3 \\cdot } -dienes featuring a range of aryl substituents, from the strong electron-withdrawing \\mathrm { C F } _ { 3 } group (5ha, 51%) to electron-donating methoxy (5ia, 52%), methyl (5ja, 42%), and ethyl (5ka, 74%; CCDC 2350968)<sup>21</sup> groups at either meta or ortho positions, all of which proceeded smoothly. Substrates bearing 3,5-dimethyl substituents (5la, 85%) as well as heterocyclic systems such as benzofuran (5ma, 57%) also proved suitable for the transformation."
+          },
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000064_ed83a363574b",
+            "quote": "However, certain issues regarding site selectivity and Z/E selectivity in this reaction require further clarification. To address these questions, we employed DFT calculations to gain deeper mechanistic insights (Scheme 3G). Computational results reveal that the difluoromethyl radical, generated from the desulfonation of the difluoromethanesulfinate radical, undergoes transformation via transition state TS1 \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 7.6 kcal mol<sup>−1</sup>) to form intermediate Int2-a. This intermediate can isomerize to yield Int2-b. The subsequent addition of \\mathrm { { S O } } _ { 2 } to Int2-a exhibits notable site-selectivity: the Gibbs free energy barrier for the ^ { 1 , 4 } -addition transition state TS2-a \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 3.2 kcal \\mathbf { m o l } ^ { - 1 } ) is 4.4 kcal \\mathrm { m o l ^ { - 1 } } lower than that of the ^ { 1 , 2 \\mathrm { - } } addition transition state TS2-c \\left( \\Delta G ^ { \\ddagger } \\ = \\ 7 . 6 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) . This thermodynamically favored pathway is consistent with the experimental observation that no 1,2-addition byproduct was detected. The spin density distribution of intermediate Int2-a was computed. As shown in Fig. S3 ( \\mathrm { S I } ) , the spin population is _ { 0 . 7 5 } at the 4-position, which is slightly higher than the value of 0.71 at the 2-position. Further evaluation of steric efects indicated that the barrier for the 1,4-addition transition state TS2b \\left( \\Delta G ^ { \\ddagger } = 4 . 5 \\right. kcal mol<sup>−1</sup>), derived from the cis-configured intermediate Int2b, is 1.3 kcal \\mathrm { m o l ^ { - 1 } } (corresponding to 90 : 10 E/Z at 25 °C), which is higher than that of the preferred transconfigured TS2a, aligning with the experimentally observed stereoselectivity. The reduction of the sulfonyl radical by the photocatalyst to form the sulfonyl anion is highly exothermic, thereby facilitating rapid conversion of the unstable allylic sulfonyl radical and promoting the eficient coupling between the delocalized allylic radical and { \\bf S } { \\bf O } _ { 2 } { - \\bf a } previously unreported transformation. The resulting sulfonyl anion subsequently undergoes defluorination via a five-membered cyclic transition state TS3 \\left( \\Delta G ^ { \\ddagger } = 2 1 . 7 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) in the presence of a metal cation such as { { \\bf { N } } { \\bf { a } } ^ { + } } , leading to the final product 4aa. Furthermore, since reactions involving 1-phenyl-1,3-diene exclusively yield 1,2-addition products, we conducted additional theoretical calculations (Scheme 3H). Our analysis reveals a 3.1 kcal \\mathrm { m o l } ^ { - 1 } lower energy barrier for the 1,2- addition transition state (TS2d) compared to its 1,4-addition counterpart (TS2e). This kinetic preference is rationalized by distortion/interaction analysis, which examines the distortion energies of the alkyl radical and \\mathbf { S O } _ { 2 } and their interaction energies. The key finding, from Scheme ^ { 3 \\mathrm { I } , } is the substantially larger distortion energy required for the alkyl radical in the 1,4-addition process (8.5 vs. 5.8 kcal \\mathrm { m o l } ^ { - 1 } ) . This increased distortion energy accounts for the higher activation barrier, thereby confirming the thermodynamic favorability of the ^ { 1 , 2 \\mathrm { - } } addition."
+          }
+        ]
+      },
+      {
+        "input_id": "PI7",
+        "kind": "observation",
+        "content": "Phenyl-substituted 1,3-dienes undergo the cascade to give 1,2-addition products with specific stereoselectivity.",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000037_18d62657f8d8",
+          "ev_doc_e2120ae96275_000064_ed83a363574b"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000037_18d62657f8d8",
+            "quote": "Furthermore, phenyl-substituted 1,3-dienes were found to undergo the radical difluoromethylation / { \\bf S } { \\bf O } _ { 2 } reintegration/ polyfluoroarylation cascade under slightly modified conditions, yielding 1,2-addition products with specific stereoselectivity. We subsequently explored the substrate scope of this 1,2-addition system. As shown in Scheme 2D, 1,3-dienes featuring electron-donating groups (methyl, tert-butyl, phenyl, methoxy) or halogen (fluorine) groups at the para-position of the aryl ring readily underwent the cascade reaction, providing the desired products 5ca–5ga in moderate to good yields (40–77%). The scope extended to substituted ^ { 1 , 3 \\cdot } -dienes featuring a range of aryl substituents, from the strong electron-withdrawing \\mathrm { C F } _ { 3 } group (5ha, 51%) to electron-donating methoxy (5ia, 52%), methyl (5ja, 42%), and ethyl (5ka, 74%; CCDC 2350968)<sup>21</sup> groups at either meta or ortho positions, all of which proceeded smoothly. Substrates bearing 3,5-dimethyl substituents (5la, 85%) as well as heterocyclic systems such as benzofuran (5ma, 57%) also proved suitable for the transformation."
+          },
+          {
+            "evidence_id": "ev_doc_e2120ae96275_000064_ed83a363574b",
+            "quote": "However, certain issues regarding site selectivity and Z/E selectivity in this reaction require further clarification. To address these questions, we employed DFT calculations to gain deeper mechanistic insights (Scheme 3G). Computational results reveal that the difluoromethyl radical, generated from the desulfonation of the difluoromethanesulfinate radical, undergoes transformation via transition state TS1 \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 7.6 kcal mol<sup>−1</sup>) to form intermediate Int2-a. This intermediate can isomerize to yield Int2-b. The subsequent addition of \\mathrm { { S O } } _ { 2 } to Int2-a exhibits notable site-selectivity: the Gibbs free energy barrier for the ^ { 1 , 4 } -addition transition state TS2-a \\begin{array} { l } { { \\left( \\Delta G ^ { \\ddagger } \\ \\right. \\ = } } \\end{array} 3.2 kcal \\mathbf { m o l } ^ { - 1 } ) is 4.4 kcal \\mathrm { m o l ^ { - 1 } } lower than that of the ^ { 1 , 2 \\mathrm { - } } addition transition state TS2-c \\left( \\Delta G ^ { \\ddagger } \\ = \\ 7 . 6 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) . This thermodynamically favored pathway is consistent with the experimental observation that no 1,2-addition byproduct was detected. The spin density distribution of intermediate Int2-a was computed. As shown in Fig. S3 ( \\mathrm { S I } ) , the spin population is _ { 0 . 7 5 } at the 4-position, which is slightly higher than the value of 0.71 at the 2-position. Further evaluation of steric efects indicated that the barrier for the 1,4-addition transition state TS2b \\left( \\Delta G ^ { \\ddagger } = 4 . 5 \\right. kcal mol<sup>−1</sup>), derived from the cis-configured intermediate Int2b, is 1.3 kcal \\mathrm { m o l ^ { - 1 } } (corresponding to 90 : 10 E/Z at 25 °C), which is higher than that of the preferred transconfigured TS2a, aligning with the experimentally observed stereoselectivity. The reduction of the sulfonyl radical by the photocatalyst to form the sulfonyl anion is highly exothermic, thereby facilitating rapid conversion of the unstable allylic sulfonyl radical and promoting the eficient coupling between the delocalized allylic radical and { \\bf S } { \\bf O } _ { 2 } { - \\bf a } previously unreported transformation. The resulting sulfonyl anion subsequently undergoes defluorination via a five-membered cyclic transition state TS3 \\left( \\Delta G ^ { \\ddagger } = 2 1 . 7 \\right. kcal \\mathbf { m o l } ^ { - 1 } ) in the presence of a metal cation such as { { \\bf { N } } { \\bf { a } } ^ { + } } , leading to the final product 4aa. Furthermore, since reactions involving 1-phenyl-1,3-diene exclusively yield 1,2-addition products, we conducted additional theoretical calculations (Scheme 3H). Our analysis reveals a 3.1 kcal \\mathrm { m o l } ^ { - 1 } lower energy barrier for the 1,2- addition transition state (TS2d) compared to its 1,4-addition counterpart (TS2e). This kinetic preference is rationalized by distortion/interaction analysis, which examines the distortion energies of the alkyl radical and \\mathbf { S O } _ { 2 } and their interaction energies. The key finding, from Scheme ^ { 3 \\mathrm { I } , } is the substantially larger distortion energy required for the alkyl radical in the 1,4-addition process (8.5 vs. 5.8 kcal \\mathrm { m o l } ^ { - 1 } ) . This increased distortion energy accounts for the higher activation barrier, thereby confirming the thermodynamic favorability of the ^ { 1 , 2 \\mathrm { - } } addition."
+          }
+        ]
+      }
+    ],
+    "missing_critical_inputs": [],
+    "reference_limitations": [
+      "The authors report DFT results but do not provide uncertainty estimates or error bars for the computed barriers.",
+      "The computational model uses simplified molecular representations and solution-phase single-point corrections; exact comparability to the full experimental mixture is limited.",
+      "The reported values are relative Gibbs free energies from the authors' chosen model and should be treated as conditional references rather than absolute experimental observables."
+    ],
+    "evidence_requests": [],
+    "schema_version": "author-computation-research/v5-20261014",
+    "task_archetype": "author_computation_grounded_research",
+    "record_role": "Private historical source/reference material; source-route statements do not create additional public tasks or scored intermediate requirements.",
+    "active_evaluation": "Only scoring_rules.json defines the V3 final outcomes and weights. Historical contract decisions are source-qualification records, not current scientific acceptance.",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "scoring_requirements": "Only independent final conclusions in scoring_rules.json receive binary weights totaling 100. Actual claim-specific evidence is necessary, with no separate process or intermediate points."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "public_inputs": [
+    "data/inputs/system.json",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "required_results": "s\n\n1. Give a connected molecular and energetic explanation for the target sulfone formation from the specified inputs, explaining the bond changes, chemical driving factors and limits of the model.\n2. Explain butadiene's 1,4 preference using competing formation evidence, reporting a comparable free-energy difference and its physical origin.\n3. Explain its E preference with computed energetics and explicit assumptions about precursor states and any interconversion; distinguish local activation differences from energies on a common reference.\n4. Explain and quantify the competing 1,2/1,4 preference of the terminal-phenyl system and its reversal relative to butadiene under the different conditions.\n\nChoose hypotheses and methods independently; no particular intermediate, descriptor, calculation count or exhaustive search is prescribed. Support claimed minima, transition states and connections with suitable actual evidence. Balance molecular and electronic inventories and state units, references and model conditions. Distinguish a local reaction free energy from a whole photoredox reaction, and molecular connectivity from verified experimental kinetics. The observed preferences cannot substitute for calculated explanations.\n\n#"
+}

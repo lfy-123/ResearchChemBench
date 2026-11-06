@@ -1,0 +1,134 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "evidence": [
+    {
+      "evidence_id": "source_main",
+      "source": {
+        "path": "papers/paper_5ea491c741fbd8d4/documents/main.pdf",
+        "sha256": "7621bdebf4659fb6c1e67f15c6ceda8dccbb4442eec850819fd613db4bc8ba6a",
+        "pdf_pages_1based": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          9
+        ]
+      },
+      "scope": "Main PDF2–6,9: CCDC2445596 identity/conditions, intra/intermolecular motifs, source ring geometry, HSA fractions, shape-index/curvedness and packing conclusion."
+    },
+    {
+      "evidence_id": "source_si",
+      "source": {
+        "path": "papers/paper_5ea491c741fbd8d4/documents/supplementary_001.pdf",
+        "sha256": "4d381cbbbbade30dc691faf5ca339844b62b609a221568ee0f9a7983b29299a5",
+        "pdf_pages_1based": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "scope": "All4 checkCIF PDF pages: cell/formula/temperature/refinement support only. It contains no coordinate loop or surface percentages; recovered sourceCIF supplies coordinates."
+    },
+    {
+      "evidence_id": "verification_reference",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_5ea491c741fbd8d4/evaluation/verified_computation_reference.md",
+        "sha256": "bc51e8c0fc6a5fff48e4264005c4233de17f08f1d80740d7120aa44ea28b7aee"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed."
+    },
+    {
+      "evidence_id": "verification_records",
+      "source": {
+        "path": "docs/v2_verification/papers/paper_5ea491c741fbd8d4/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json",
+        "sha256": "073f1a5c55fc143b36f2a0579c8dbdeb5ed659e30cfd34e068e528b991c2a7b2"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed."
+    },
+    {
+      "evidence_id": "source_cif",
+      "source": {
+        "path": "papers/paper_5ea491c741fbd8d4/source_data/2445596.cif",
+        "sha256": "3d0d3db9b4232bd19d56e55705a5a4240af868d5a80151046de71951ec1d8d89"
+      },
+      "scope": "Recovered deposited CCDC2445596 crystal coordinates and symmetry; source geometry used for packing, centroid/projection and Hirshfeld comparisons."
+    },
+    {
+      "evidence_id": "native_surface",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/surface_pilot_results.json",
+        "sha256": "58e86de48cfdfbbd8048cb9cb6bc7483edf028081abd49190f01ad66fdee7761"
+      },
+      "evidence_type": "existing_native_computation_or_analysis",
+      "description": "Actual stockholder surfaces, raw-H/neutron-like H, mesh and environment tests, area quadratures and native logs."
+    }
+  ],
+  "scoring_applicability_20261029": "Only current semantic pass/fail final conclusions are scored. Source/native scalars, old windows and method nodes are unscored evidence; historical scientific classifications are unchanged.",
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "必需结果：分子间定向接触网络与分子内接触",
+      "rule_id": "r_contact_network",
+      "conclusion_id": "contact_network",
+      "weight": 30,
+      "independence": "网络连接命题，不由面积占比或环堆积自动推出。",
+      "source_location": "正文§3.2–3.3、晶体接触/堆积图和Hirshfeld分解；沉积CCDC2445596 CIF；evidence_map中的source_main/source_cif/native_surface。",
+      "source_evidence_ids": [
+        "source_main",
+        "source_cif",
+        "verification_records"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_ASCII_precision_topology_audit/attempt_01/precision_audit_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/CH1083_010_R8/native.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/surface_pilot_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/papers/paper_5ea491c741fbd8d4/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json"
+      ],
+      "existing_support_or_gap": "已存五面积38.702667/29.111050/13.375977/9.659514/6.171497%；R2²(9)/S(7)映射；环心3.7482107 Å、投影3.3883652 Å、错移及夹角分别可复核。原38.7等±0.5百分点仅历史窗口。",
+      "scientific_limitations": "来源把3.3883(6) Å投影称环心距，须记录参考缺陷；正确范数约3.74821 Å。CE版本、stockholder及氢归一化会影响面积；无相互作用能或晶格自由能排序证据。旧五独立硬窗/解释题的设计争议已按用户本轮原则解决，不再等待裁定。"
+    },
+    {
+      "scientific_requirement": "必需结果：芳环相对几何与堆积",
+      "rule_id": "r_aromatic_packing",
+      "conclusion_id": "aromatic_packing",
+      "weight": 30,
+      "independence": "芳环取向/位移命题，独立于氢键网络和面积解释。",
+      "source_location": "正文§3.2–3.3、晶体接触/堆积图和Hirshfeld分解；沉积CCDC2445596 CIF；evidence_map中的source_main/source_cif/native_surface。",
+      "source_evidence_ids": [
+        "source_main",
+        "source_cif",
+        "verification_records"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_ASCII_precision_topology_audit/attempt_01/precision_audit_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/CH1083_010_R8/native.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/surface_pilot_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/papers/paper_5ea491c741fbd8d4/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json"
+      ],
+      "existing_support_or_gap": "已存五面积38.702667/29.111050/13.375977/9.659514/6.171497%；R2²(9)/S(7)映射；环心3.7482107 Å、投影3.3883652 Å、错移及夹角分别可复核。原38.7等±0.5百分点仅历史窗口。",
+      "scientific_limitations": "来源把3.3883(6) Å投影称环心距，须记录参考缺陷；正确范数约3.74821 Å。CE版本、stockholder及氢归一化会影响面积；无相互作用能或晶格自由能排序证据。旧五独立硬窗/解释题的设计争议已按用户本轮原则解决，不再等待裁定。"
+    },
+    {
+      "scientific_requirement": "必需结果：五面积及其对堆积贡献的解释",
+      "rule_id": "r_surface_contribution_interpretation",
+      "conclusion_id": "surface_contribution_interpretation",
+      "weight": 40,
+      "independence": "整体几何普遍性及贡献解释，不重复奖励五个标量或网络/芳环几何。",
+      "source_location": "正文§3.2–3.3、晶体接触/堆积图和Hirshfeld分解；沉积CCDC2445596 CIF；evidence_map中的source_main/source_cif/native_surface。",
+      "source_evidence_ids": [
+        "source_main",
+        "source_cif",
+        "native_surface"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_ASCII_precision_topology_audit/attempt_01/precision_audit_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/CH1083_010_R8/native.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/surface_pilot_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/papers/paper_5ea491c741fbd8d4/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json"
+      ],
+      "existing_support_or_gap": "已存五面积38.702667/29.111050/13.375977/9.659514/6.171497%；R2²(9)/S(7)映射；环心3.7482107 Å、投影3.3883652 Å、错移及夹角分别可复核。原38.7等±0.5百分点仅历史窗口。",
+      "scientific_limitations": "来源把3.3883(6) Å投影称环心距，须记录参考缺陷；正确范数约3.74821 Å。CE版本、stockholder及氢归一化会影响面积；无相互作用能或晶格自由能排序证据。旧五独立硬窗/解释题的设计争议已按用户本轮原则解决，不再等待裁定。"
+    }
+  ]
+}

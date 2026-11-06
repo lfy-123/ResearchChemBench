@@ -1,0 +1,82 @@
+{
+  "paper_id": "paper_3c3d73b8715d5fcd",
+  "items": [
+    {
+      "statement": "endo oxidative-cyclometalation intermediate node",
+      "expected": "Recover substrate coordination and endo oxidative cyclometalation to the eta3 organorhodium intermediate using connected, composition- and CO-balanced structures and valid stationary-state evidence. Names INT1/INT2 are source labels, not mandatory output IDs.",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p39_41"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "endo_ocm",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Overall activation free energy of cycloisomerization",
+      "expected": "Recover the overall cycloisomerization activation free energy relative to the physical resting-state reference identified as INT11 in the main discussion. Do not substitute the local 12.9 kcal/mol barrier relative to INT1 or unbalanced CO references.",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41_42"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "overall_barrier",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "CO-dissociation connection node",
+      "expected": "Establish a valid CO-dissociation connection from the oxidative-cyclometalation intermediate to the next catalyst state. Include the exchanged CO in composition and energy references. A demonstrated equivalent connection is acceptable; do not require the historical failed-IRC/QRC trajectory.",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "co_loss",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "β-H elimination node",
+      "expected": "Establish the connected beta-H elimination within the paper cycloisomerization channel, with appropriate saddle/mode or equivalent connection evidence and consistent species inventory. The source local 6.0 kcal/mol is context with no new numerical gate.",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "beta_h",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Reductive-elimination and product-release node",
+      "expected": "Recover reductive elimination leading to the cycloisomerization product and chemically consistent catalyst regeneration/ligand exchange. The source local 8.9 kcal/mol is contextual; do not impose an uncalibrated magnitude target.",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "product_release",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Competing [2+2] product channel",
+      "expected": "Recover direct reductive elimination from the OCM intermediate to the distinct [2+2] product with connected molecular evidence and a common energy reference. Product existence alone is insufficient. The local 17.1 kcal/mol is not the overall cycloisomerization barrier.",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "competing_22",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Energy ordering with the initial endo transition state below exo",
+      "expected": "Compare the correctly assigned endo and exo oxidative-cyclometalation transition structures of the same substrate/catalyst and establish that the endo saddle is lower in Gibbs free energy. Require valid saddle/connectivity evidence and comparable composition, charge/spin, conditions, thermochemical definition and energy reference. This item scores the supported ordering, not agreement with a particular numerical gap; the source 7.5 and SI 7.2 kcal/mol discussions are context only. Comparing unrelated minima or unbalanced states does not establish this ordering.",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p35_41"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "endo_exo_gap",
+      "key_point_type": "result"
+    }
+  ]
+}

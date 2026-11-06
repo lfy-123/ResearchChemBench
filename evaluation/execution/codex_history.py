@@ -1,7 +1,10 @@
-"""A single, audited fallback for rejected Codex reasoning history.
+"""Audited recovery copies for rejected Codex reasoning history.
 
 The original CODEX_HOME is retained. Only a complete, validated copy becomes
 active; tool outputs and opaque compaction state are never silently discarded.
+Automatic recovery makes one copy by default; explicit repair permits further
+generations within the existing retry budget. Once active, the request transport
+also filters newly accumulated encrypted reasoning on every subsequent request.
 """
 from __future__ import annotations
 
@@ -23,12 +26,17 @@ def history_metadata(store):
     record = store.get_record("history_recovery", "active")
     return {"recovery_mode": "plaintext_history" if record else "native",
             "history_recovery": record,
+            "history_transport": store.get_record("history_transport", "active"),
             "history_recovery_error": store.get_record("history_recovery", "error")}
 
 
 def session_home(store):
     record = store.get_record("history_recovery", "active")
-    home = store.directory / ("codex_plaintext" if record is not None else "codex")
+    generation = record.get("generation", 1) if isinstance(record, dict) else 1
+    if type(generation) is not int or generation < 1:
+        raise RunRecoveryError("history_recovery_store_invalid")
+    name = "codex_plaintext" if generation == 1 else f"codex_plaintext_{generation:04d}"
+    home = store.directory / (name if record is not None else "codex")
     if record is not None and (not isinstance(record, dict) or record.get("mode") != "plaintext_history" or
                               record.get("session_store_path") != str(home.resolve()) or not home.is_dir()):
         raise RunRecoveryError("history_recovery_store_invalid")
@@ -63,6 +71,28 @@ def _contains_cipher(value):
     if isinstance(value, dict):
         return bool(value.get("encrypted_content")) or any(_contains_cipher(v) for v in value.values())
     return isinstance(value, list) and any(_contains_cipher(v) for v in value)
+
+
+def is_encrypted_reasoning_item(item):
+    """The only provider history record supported by plaintext recovery."""
+    return isinstance(item, dict) and item.get("type") == "reasoning" and bool(item.get("encrypted_content"))
+
+
+def plaintext_history_items(items):
+    """Copy expanded Responses history without altering ordinary messages/tools."""
+    if not isinstance(items, list):
+        raise RunRecoveryError("history_recovery_requires_expanded_input")
+    retained, removed = [], 0
+    for item in items:
+        if not isinstance(item, dict) or item.get("type") == "item_reference":
+            raise RunRecoveryError("history_recovery_requires_expanded_input")
+        if is_encrypted_reasoning_item(item):
+            removed += 1
+        elif _contains_cipher(item):
+            raise RunRecoveryError("history_recovery_unsupported_encrypted_record")
+        else:
+            retained.append(item)
+    return retained, removed
 
 
 def copy_plaintext_history(source_home, destination, session_id, workspace):
@@ -107,7 +137,7 @@ def copy_plaintext_history(source_home, destination, session_id, workspace):
                         not isinstance(payload, dict) or payload.get("id") != session_id
                         or payload.get("cwd") != str(Path(workspace).resolve())):
                     raise RunRecoveryError(f"history_recovery_session_identity_mismatch: line {number}")
-                if event.get("type") == "response_item" and isinstance(payload, dict) and payload.get("type") == "reasoning" and payload.get("encrypted_content"):
+                if event.get("type") == "response_item" and is_encrypted_reasoning_item(payload):
                     removed.append({"line": number, "id": payload.get("id")})
                     continue
                 if _contains_cipher(event):
@@ -156,6 +186,35 @@ def copy_plaintext_history(source_home, destination, session_id, workspace):
             shutil.rmtree(staging)
 
 
+def prepare_history_repair(runner, store, error, policy, state):
+    """Prepare a new generation; keep all previous copies and ledger pointers."""
+    from .provider_errors import is_encrypted_history_error
+    if runner.agent.get("kind") != "codex" or not is_encrypted_history_error(error):
+        raise RunRecoveryError("history_repair_requires_encrypted_history_error")
+    if state.get("automatic_attempts", 0) >= policy["limits"]["max_attempts"]:
+        raise RunRecoveryError("automatic_attempt_limit")
+    previous = store.get_record("history_recovery", "active")
+    source = session_home(store)
+    generation = previous.get("generation", 1) + 1 if previous else 1
+    name = "codex_plaintext" if generation == 1 else f"codex_plaintext_{generation:04d}"
+    record = copy_plaintext_history(source, store.directory / name, runner._resume_session_id, runner.workspace)
+    return {**record, "generation": generation, "source_attempt_id": runner.attempt_id,
+            "failure": error, "source": "operator_repair" if getattr(runner, "_repair_history", False) else "automatic_fallback"}
+
+
+def commit_history_repair(store, record, state):
+    previous = store.get_record("history_recovery", "active")
+    next_state = {**state, "automatic_attempts": state.get("automatic_attempts", 0) + 1,
+                  "next_retry_at": None, "stop_reason": None, "stage": "agent"}
+    records = [("history_recovery", "active", record), ("history_recovery", "error", None),
+               ("history_recovery_generation", str(record["generation"]), record),
+               ("resume", "state", next_state)]
+    if previous:
+        records.append(("history_recovery_generation", str(previous.get("generation", 1)), previous))
+    store.put_records(records)
+    state.update(next_state)
+
+
 def activate_plaintext_fallback(runner, error, policy, state):
     """Called only after a failed attempt while holding the controller lock."""
     from .provider_errors import is_encrypted_history_error
@@ -163,7 +222,7 @@ def activate_plaintext_fallback(runner, error, policy, state):
     if not policy["enabled"] or not is_encrypted_history_error(error) or runner.agent.get("kind") != "codex":
         raise RunRecoveryError("history_recovery_not_applicable")
     store = runner_store(runner)
-    if store.get_record("history_recovery", "active"):
+    if store.get_record("history_recovery", "active") and not getattr(runner, "_repair_history", False):
         raise RunRecoveryError("plaintext_history_fallback_already_used")
     if state.get("automatic_attempts", 0) >= policy["limits"]["max_attempts"]:
         raise RunRecoveryError("automatic_attempt_limit")
@@ -179,11 +238,6 @@ def activate_plaintext_fallback(runner, error, policy, state):
     totals = store.usage()
     if totals["turns"] >= runner.max_turns or (runner.max_tokens and totals["input_tokens"] + totals["output_tokens"] >= runner.max_tokens):
         raise RunRecoveryError("run_usage_budget_exhausted")
-    record = copy_plaintext_history(session_home(store), store.directory / "codex_plaintext", runner._resume_session_id, runner.workspace)
-    record = {**record, "source_attempt_id": runner.attempt_id, "failure": error}
-    next_state = {**state, "automatic_attempts": state.get("automatic_attempts", 0) + 1,
-                  "next_retry_at": None, "stop_reason": None, "stage": "agent"}
-    store.put_records([("history_recovery", "active", record), ("history_recovery", "error", None),
-                       ("resume", "state", next_state)])
-    state.update(next_state)
+    record = prepare_history_repair(runner, store, error, policy, state)
+    commit_history_repair(store, record, state)
     return record

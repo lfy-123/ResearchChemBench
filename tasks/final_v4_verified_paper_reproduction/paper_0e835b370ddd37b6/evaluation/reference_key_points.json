@@ -1,0 +1,107 @@
+{
+  "paper_id": "paper_0e835b370ddd37b6",
+  "scoring_status": "All items are non-scoring evidence. Only scoring_rules.json defines independently scored final conclusions.",
+  "items": [
+    {
+      "key_point_id": "evidence_activation_competition",
+      "key_point_type": "result",
+      "statement": "Evidence for Activation competition",
+      "expected": "Actual balanced H2-addition activation free energies and evidence connecting the characterized transition region to the corresponding reactant/product channel establish the relative kinetic accessibility of models 1, Vprime and 4. The supported comparison is that Vprime has the largest barrier and 4 is more accessible than 1 in the stated model. Report all three activation energies and distinguish local channel support from a complete reaction-path proof. Neither endpoint stability, a transition-state label, one imaginary frequency without chemical connection, nor source-number proximity alone establishes this competition. No author barrier window, mandatory full IRC or experimental rate prediction is required.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "main_energy",
+        "main_method"
+      ]
+    },
+    {
+      "key_point_id": "evidence_reaction_driving_force",
+      "key_point_type": "result",
+      "statement": "Evidence for Reaction driving force",
+      "expected": "Use the three balanced product-minus-separated-reactant Gibbs energies to establish that H2 addition is thermodynamically favorable for 1, Vprime and 4, with a stronger driving force for 4 than 1 and weaker driving force for Vprime under matched conditions. Report each reaction energy, temperature, standard state and physical reference; preserve any defensible model-dependent limitation in the relative comparison. A single stable product, an electronic energy substituted for Gibbs energy or unequal hydrogen/composition bookkeeping does not establish this conclusion. Author reaction-energy magnitudes are not score targets.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "main_energy",
+        "main_method"
+      ]
+    },
+    {
+      "key_point_id": "evidence_kinetic_thermodynamic_distinction",
+      "key_point_type": "result",
+      "statement": "Evidence for Thermodynamic favorability does not establish facile H2 activation",
+      "expected": "Use the calculated activation and reaction Gibbs energies to distinguish thermodynamic driving force from kinetic accessibility: all three hydrogen-addition products are exergonic relative to separated reactants, yet formation still requires a substantial activation barrier. Favorable product stability therefore does not imply rapid H2 uptake or a measured rate at 298 K. Explain the different free-energy comparisons and why a rate or experimental reactivity claim needs activation evidence, rather than merely restating the ordering 4 < 1 < Vprime. No additional numerical difference or rate window is imposed.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "main_energy",
+        "main_method"
+      ]
+    },
+    {
+      "key_point_id": "evidence_one_vprime_explanation",
+      "key_point_type": "result",
+      "statement": "Evidence for Final1/Vprime H2-reactivity explanation",
+      "expected": "Explain why model 1 activates H2 more readily than Vprime using calculated electronic/structural evidence: Si-centered donation into H-H antibonding character weakens and polarizes H2, and 1 has the stronger donor interaction. This is an explanation beyond repeating the barrier order or exergonicity. Equivalent orbital, density or interaction analyses can pass without specific orbital indices, exact NBO populations or a prescribed path. The inference is confined to the supplied models.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "main_energy",
+        "main_mechanism",
+        "si_ts"
+      ]
+    },
+    {
+      "key_point_id": "evidence_four_design_explanation",
+      "key_point_type": "result",
+      "statement": "Evidence for Final carbonyl-modification reactivity explanation",
+      "expected": "Explain how the carbonyl modification in model 4 changes its activation behavior relative to 1. The supported electronic account is competition of the adjacent amino lone pair with carbonyl delocalization, increasing Si accepting character despite weaker sigma donation; donor energy alone therefore does not explain reactivity. Support the association with actual comparable electronic and H2-activation evidence. An equivalent established explanation passes without fixed decomposition, author orbital indices or matched-HH scans. Do not claim a uniquely quantified causal contribution or transfer to the complete experimental catalyst.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "main_energy",
+        "main_orbitals",
+        "main_mechanism",
+        "si_ts"
+      ]
+    }
+  ],
+  "historical_numeric_references": [
+    {
+      "former_rule_id": "r_barrier_one",
+      "source_reference_value": 32.9,
+      "unit": "kcal/mol",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_reaction_one",
+      "source_reference_value": -29.4,
+      "unit": "kcal/mol",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_barrier_vprime",
+      "source_reference_value": 47.4,
+      "unit": "kcal/mol",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_reaction_vprime",
+      "source_reference_value": -21.3,
+      "unit": "kcal/mol",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_barrier_four",
+      "source_reference_value": 29.0,
+      "unit": "kcal/mol",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_reaction_four",
+      "source_reference_value": -33.9,
+      "unit": "kcal/mol",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    }
+  ]
+}

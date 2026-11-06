@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "限定有限水合解释",
+  "changes_zh": "明确两分子额外水用于净热力学及离子态差异稳定化；不要求水介导质子接力或水催化路径；保留生成水额外计数。",
+  "source_locator": "正文 Fig. 2；SI S38–S41",
+  "scientific_scope_changed": false,
+  "active_rule_ids": [
+    "r_cumulative_f_dry",
+    "r_cumulative_f_water",
+    "r_reductant_molecular_role",
+    "r_local_hydration_effect"
+  ],
+  "active_outcome_ids": [
+    "cumulative_f_dry",
+    "cumulative_f_water",
+    "reductant_molecular_role",
+    "local_hydration_effect"
+  ],
+  "removed_outcome_ids": [],
+  "public_file_sha256": {
+    "data/inputs/experimental_observations.json": "f3578b80f5d232d640690297eb918cb82736ca8b52d6d5cdc6ee10739c5df8e7",
+    "data/inputs/system.json": "df532d5e4f1c0a555f52f8fc23e3e2f92f155e58171449ae419eae9c7d9df823",
+    "submission_guide.md": "963afebca6a55ff009e4c0ec51b8b9d7960936cb5860adb83702cedef22bc3d1",
+    "submission_schema.json": "e2295294a6b9622270455a708dc965c8a097d8295f3f309329baabb9b9e37363",
+    "task.md": "3f4ad2391c16397d063d46f05f863e4a0a4262d1c9708dfd43f87fd0d083c877"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_cumulative_f_dry",
+      "r_cumulative_f_water",
+      "r_reductant_molecular_role",
+      "r_local_hydration_effect"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Explicit waters define finite hydration energy comparisons, not a required water-catalyzed path. Local ionic stabilization and net reaction thermodynamics are distinct conclusions.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

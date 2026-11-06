@@ -1,0 +1,471 @@
+{
+  "paper_id": "paper_9455a82229de2427",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_9455a82229de2427",
+      "scoring_policy": "paper_science_v3",
+      "evaluation_mode": "final_results_100",
+      "scientific_requirements": "Score independently established final scientific propositions only, totaling 100 points (paper_science_v3 / final_results_100). Each item receives all its points on pass and zero on fail or need_review. No independent process, workflow, structure-delivery, calculation-count or chronology points. Native evidence qualifies the affected proposition, not an additional score. Match identity, electronic state, physical quantity, units, reference and environment. Supplied facts and copied source targets are not newly computed findings. Hard numeric windows are unchanged and binary; missing calculation, wrong identity/reference/unit, unsupported guesses and out-of-window numbers fail. A scientifically established equivalent explanation passes directly. Only the concrete unresolved scientific conflicts named in an item can receive need_review; review is not success. All listed outcomes are required for whole-case success. Judge evidence claim by claim, without a mandatory author intermediate sequence or universal validation matrix.",
+      "rules": [
+        {
+          "rule_id": "r_p1_structure",
+          "reference_id": "p1_structure",
+          "type": "semantic",
+          "expected": "Actual product calculations establish a valid neutral singlet six-membered Si/N heterocycle with adjacent Si/N and the 4-methyl substitution/connectivity corresponding to P1. A name or empirical composition alone is insufficient; source labels are optional. Physical definition: Isolated gas-phase neutral SiN(doublet)+C5H8(singlet), 15 atoms/59 electrons in total and a neutral doublet PES. H-loss gives SiNC5H7 (14-atom singlet products) plus H(doublet). Compare 0 K E0=electronic+ZPVE relative to separated SiN+isoprene, at single-collision 25±1 kJ/mol conditions; the −162±27 kJ/mol observed channel energy is not a 298 K solution Gibbs energy. Preserve atoms and states.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.conclusion"
+            ],
+            "comparison": "Assess this final scientific proposition from actual linked calculation/analysis artifacts with matched identity, state, environment, observable and reference. Supplied observations or source targets alone earn no credit."
+          }
+        },
+        {
+          "rule_id": "r_p2_structure",
+          "reference_id": "p2_structure",
+          "type": "semantic",
+          "expected": "Actual product calculations establish the distinct valid neutral singlet six-membered adjacent Si/N heterocycle with 5-methyl substitution/connectivity corresponding to P2. Do not reuse the P1 geometry under a new label. Physical definition: Isolated gas-phase neutral SiN(doublet)+C5H8(singlet), 15 atoms/59 electrons in total and a neutral doublet PES. H-loss gives SiNC5H7 (14-atom singlet products) plus H(doublet). Compare 0 K E0=electronic+ZPVE relative to separated SiN+isoprene, at single-collision 25±1 kJ/mol conditions; the −162±27 kJ/mol observed channel energy is not a 298 K solution Gibbs energy. Preserve atoms and states.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.conclusion"
+            ],
+            "comparison": "Assess this final scientific proposition from actual linked calculation/analysis artifacts with matched identity, state, environment, observable and reference. Supplied observations or source targets alone earn no credit."
+          }
+        },
+        {
+          "rule_id": "r_p1_exoergicity",
+          "reference_id": "p1_exoergicity",
+          "type": "numeric",
+          "expected": "The actual computed P1+H−SiN−isoprene channel E0 matches the supplied measured center−162 kJ/mol within its inclusive absolute experimental uncertainty27 kJ/mol (allowed interval[−189,−135]). Match the correct full singlet P1 structure, doublet H, doublet SiN and singlet isoprene with one consistent electronic+ZPVE reference. Do not compare a298K Gibbs energy, local barrier, different product or copied source value. The experimental window is fixed by public observation and never applies to a local barrier. This energy match alone does not establish a connected route or branching fraction. Physical definition: Isolated gas-phase neutral SiN(doublet)+C5H8(singlet), 15 atoms/59 electrons in total and a neutral doublet PES. H-loss gives SiNC5H7 (14-atom singlet products) plus H(doublet). Compare 0 K E0=electronic+ZPVE relative to separated SiN+isoprene, at single-collision 25±1 kJ/mol conditions; the −162±27 kJ/mol observed channel energy is not a 298 K solution Gibbs energy. Preserve atoms and states.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.conclusion"
+            ],
+            "comparison": "Assess this final scientific proposition from actual linked calculation/analysis artifacts with matched identity, state, environment, observable and reference. Supplied observations or source targets alone earn no credit."
+          },
+          "target": -162.0,
+          "tolerance": 27.0,
+          "unit": "kJ/mol"
+        },
+        {
+          "rule_id": "r_p2_exoergicity",
+          "reference_id": "p2_exoergicity",
+          "type": "numeric",
+          "expected": "The actual computed P2+H−SiN−isoprene channel E0 matches the supplied measured center−162 kJ/mol within its inclusive absolute experimental uncertainty27 kJ/mol (allowed interval[−189,−135]). Match the correct full singlet P2 structure, doublet H, doublet SiN and singlet isoprene with one consistent electronic+ZPVE reference. Do not compare a298K Gibbs energy, local barrier, different product or copied source value. The experimental window is fixed by public observation and never applies to a local barrier. This energy match alone does not establish a connected route or branching fraction. Physical definition: Isolated gas-phase neutral SiN(doublet)+C5H8(singlet), 15 atoms/59 electrons in total and a neutral doublet PES. H-loss gives SiNC5H7 (14-atom singlet products) plus H(doublet). Compare 0 K E0=electronic+ZPVE relative to separated SiN+isoprene, at single-collision 25±1 kJ/mol conditions; the −162±27 kJ/mol observed channel energy is not a 298 K solution Gibbs energy. Preserve atoms and states.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.conclusion"
+            ],
+            "comparison": "Assess this final scientific proposition from actual linked calculation/analysis artifacts with matched identity, state, environment, observable and reference. Supplied observations or source targets alone earn no credit."
+          },
+          "target": -162.0,
+          "tolerance": 27.0,
+          "unit": "kJ/mol"
+        },
+        {
+          "rule_id": "r_formation_account",
+          "reference_id": "formation_account",
+          "type": "semantic",
+          "expected": "Explain how the separated SiN/isoprene reactants can form a supported methyl-substituted adjacent-Si/N cyclic product and eliminate H under the stated single-collision conditions. The reference connected P1 route supports terminal N-addition, cyclization and hydrogen rearrangement followed by Si–H loss, but these labels, individual author intermediates, order of shifts, number of saddles and particular IRC algorithm are not scoring requirements. An independently demonstrated chemically equivalent route passes. Actual graph/state-consistent connections from intact reactants to product+H and energies relative to the same reactants must substantiate the claimed formation account; an energy-compatible endpoint or copied reaction sketch alone fails. Assess reachability against the collision energy, distinguishing local barriers from total energy heights. No complete P2 network is required.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.conclusion"
+            ],
+            "comparison": "Assess this final scientific proposition from actual linked calculation/analysis artifacts with matched identity, state, environment, observable and reference. Supplied observations or source targets alone earn no credit."
+          }
+        },
+        {
+          "rule_id": "r_product_identifiability",
+          "reference_id": "product_identifiability",
+          "type": "semantic",
+          "expected": "Conclude that the two computed product asymptotes are consistent with the observed H-loss channel, while the energy interval alone cannot distinguish their branching or exclude every unsearched isomer. Distinguish the product family supported by structural/energy calculations from the product for which a connected formation route is actually demonstrated. Use the actual overlap and finite route coverage to explain the unresolved alternatives; do not infer equilibrium fractions, exclusive products, universal infinite-distance barrierlessness or interstellar rates.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.conclusion"
+            ],
+            "comparison": "Assess this final scientific proposition from actual linked calculation/analysis artifacts with matched identity, state, environment, observable and reference. Supplied observations or source targets alone earn no credit."
+          }
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "p1_structure",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "Actual product calculations establish a valid neutral singlet six-membered Si/N heterocycle with adjacent Si/N and the 4-methyl substitution/connectivity corresponding to P1",
+          "rule_ids": [
+            "r_p1_structure"
+          ],
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "p2_structure",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "Actual product calculations establish the distinct valid neutral singlet six-membered adjacent Si/N heterocycle with 5-methyl substitution/connectivity corresponding to P2",
+          "rule_ids": [
+            "r_p2_structure"
+          ],
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "p1_exoergicity",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "Computed P1 + H channel E0 versus observed energy",
+          "rule_ids": [
+            "r_p1_exoergicity"
+          ],
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "p2_exoergicity",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "Computed P2 + H channel E0 versus observed energy",
+          "rule_ids": [
+            "r_p2_exoergicity"
+          ],
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "formation_account",
+          "kind": "conclusion",
+          "max_score": 25,
+          "description": "A physically connected formation explanation for the H-loss product family",
+          "rule_ids": [
+            "r_formation_account"
+          ],
+          "evidence_ids": [
+            "source_products",
+            "native_products",
+            "native_route"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Genuine connected-path evidence supports a materially different entry center, ring-forming mechanism or H-loss origin at compatible collision energy, but its relationship to the reference product-family mechanism remains unresolved. A validated equivalent route passes directly; disconnected structures, missing calculations and incompatible spin/reference fail."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "product_identifiability",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "What the observed energy and finite formation evidence identify",
+          "rule_ids": [
+            "r_product_identifiability"
+          ],
+          "evidence_ids": [
+            "source_products",
+            "native_products",
+            "native_route"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        }
+      ],
+      "reference_stage": "V3_EVIDENCE_REUSE_REVIEW_NO_NEW_COMPUTATION",
+      "scoring_notes": "Same isolated-gas SiN/isoprene H-loss question: two source-supported products and their E0, a bounded connected formation explanation and product identifiability; no new network or control matrix."
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_9455a82229de2427",
+      "items": [
+        {
+          "key_point_id": "p1_structure",
+          "statement": "Four-methyl adjacent Si/N six-membered product",
+          "expected": "Actual product calculations establish a valid neutral singlet six-membered Si/N heterocycle with adjacent Si/N and the 4-methyl substitution/connectivity corresponding to P1. A name or empirical composition alone is insufficient; source labels are optional.",
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "scored": false,
+          "role": "non_scoring_source_and_native_context"
+        },
+        {
+          "key_point_id": "p2_structure",
+          "statement": "Five-methyl adjacent Si/N six-membered product",
+          "expected": "Actual product calculations establish the distinct valid neutral singlet six-membered adjacent Si/N heterocycle with 5-methyl substitution/connectivity corresponding to P2. Do not reuse the P1 geometry under a new label.",
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "scored": false,
+          "role": "non_scoring_source_and_native_context"
+        },
+        {
+          "key_point_id": "p1_exoergicity",
+          "statement": "P1 plus H is energetically compatible with the observed channel",
+          "expected": "The actual computed P1+H−SiN−isoprene channel E0 matches the supplied measured center−162 kJ/mol within its inclusive absolute experimental uncertainty27 kJ/mol (allowed interval[−189,−135]). Match the correct full singlet P1 structure, doublet H, doublet SiN and singlet isoprene with one consistent electronic+ZPVE reference. Do not compare a298K Gibbs energy, local barrier, different product or copied source value. The experimental window is fixed by public observation and never applies to a local barrier. This energy match alone does not establish a connected route or branching fraction.",
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "scored": false,
+          "role": "non_scoring_source_and_native_context"
+        },
+        {
+          "key_point_id": "p2_exoergicity",
+          "statement": "P2 plus H is energetically compatible with the observed channel",
+          "expected": "The actual computed P2+H−SiN−isoprene channel E0 matches the supplied measured center−162 kJ/mol within its inclusive absolute experimental uncertainty27 kJ/mol (allowed interval[−189,−135]). Match the correct full singlet P2 structure, doublet H, doublet SiN and singlet isoprene with one consistent electronic+ZPVE reference. Do not compare a298K Gibbs energy, local barrier, different product or copied source value. The experimental window is fixed by public observation and never applies to a local barrier. This energy match alone does not establish a connected route or branching fraction.",
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "scored": false,
+          "role": "non_scoring_source_and_native_context"
+        },
+        {
+          "key_point_id": "nitrogen_addition",
+          "statement": "Terminal nitrogen addition creates the entrance complex",
+          "expected": "Actual finite approach/connection evidence supports the SiN nitrogen center adding to a terminal carbon of intact isoprene and reaching the open-chain addition intermediate on a neutral doublet surface. An optimized adduct alone does not establish this addition connection; a finite supported entry is sufficient without a global infinite-separation barrierlessness proof.",
+          "evidence_ids": [
+            "source_products",
+            "native_route"
+          ],
+          "scored": false,
+          "role": "non_scoring_source_and_native_context"
+        },
+        {
+          "key_point_id": "cyclization",
+          "statement": "Ring closure connects the addition adduct to a six-membered intermediate",
+          "expected": "A physically validated connection from an appropriately oriented open-chain N-addition adduct closes a C–Si bond into the six-membered ring corresponding to the i1-cis→i2 transformation. Endpoint identity and reaction motion/connection must agree; labels, a reaction sketch or energy proximity alone are insufficient.",
+          "evidence_ids": [
+            "source_products",
+            "native_route"
+          ],
+          "scored": false,
+          "role": "non_scoring_source_and_native_context"
+        },
+        {
+          "key_point_id": "hydrogen_to_nitrogen",
+          "statement": "Hydrogen migration to nitrogen preserves the viable cyclic route",
+          "expected": "Computed connection evidence supports migration of the relevant cyclic intermediate hydrogen to nitrogen, corresponding to i2→i4, on the same doublet surface. Its transition structure is below separated reactants in consistent E0 even though the local barrier is positive. A source-prose number alone does not establish the step.",
+          "evidence_ids": [
+            "source_products",
+            "native_route"
+          ],
+          "scored": false,
+          "role": "non_scoring_source_and_native_context"
+        },
+        {
+          "key_point_id": "hydrogen_to_silicon",
+          "statement": "Hydrogen migration to silicon reaches the H-loss precursor",
+          "expected": "Computed connection evidence supports the subsequent carbon-to-silicon hydrogen migration corresponding to i4→i5 while retaining the methyl spectator and cyclic skeleton. This is a separate chemical connection from migration to nitrogen.",
+          "evidence_ids": [
+            "source_products",
+            "native_route"
+          ],
+          "scored": false,
+          "role": "non_scoring_source_and_native_context"
+        },
+        {
+          "key_point_id": "hydrogen_loss",
+          "statement": "Silicon hydrogen loss reaches the P1 product basin",
+          "expected": "Actual dissociation/connection evidence supports loss of the silicon-bound H from the connected cyclic precursor to the P1 skeleton plus H. The retained heavy-atom framework must approach the validated product; a finite sampled release may establish the bounded result without claiming a globally barrierless asymptote.",
+          "evidence_ids": [
+            "source_products",
+            "native_route"
+          ],
+          "scored": false,
+          "role": "non_scoring_source_and_native_context"
+        }
+      ],
+      "scoring_note": "Historical source observables and intermediate support are retained as context only. Active final propositions are exclusively reference_conclusions.json and scoring_rules.json; numeric targets retained as final outcomes are repeated there without changing windows."
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_9455a82229de2427",
+      "items": [
+        {
+          "failure_id": "fabrication_or_answer_leakage",
+          "condition": "Demonstrated fabricated computational evidence or unauthorized access to hidden evaluator answers invalidates the submission. Mere failure, missing files, an incorrect state, numerical disagreement, or an unsupported claim does not by itself establish fabrication.",
+          "severity": "critical",
+          "action": "invalidate_submission"
+        },
+        {
+          "failure_id": "local_scientific_mismatch",
+          "condition": "Wrong composition, charge/spin, energy definition, connectivity, unsupported or contradictory evidence fails only the affected scientific leaf; no global zero for an ordinary local failure.",
+          "severity": "item_failure",
+          "action": "score_affected_items_zero"
+        }
+      ],
+      "scoring_policy": "paper_science_v3",
+      "status_policy": "Ordinary missing or incorrect evidence fails only affected final outcomes; need_review is reserved for authored scientific conflicts and is not a pass."
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_9455a82229de2427",
+      "items": [
+        {
+          "conclusion_id": "p1_structure",
+          "statement": "Actual product calculations establish a valid neutral singlet six-membered Si/N heterocycle with adjacent Si/N and the 4-methyl substitution/connectivity corresponding to P1",
+          "expected": "Actual product calculations establish a valid neutral singlet six-membered Si/N heterocycle with adjacent Si/N and the 4-methyl substitution/connectivity corresponding to P1. A name or empirical composition alone is insufficient; source labels are optional. Physical definition: Isolated gas-phase neutral SiN(doublet)+C5H8(singlet), 15 atoms/59 electrons in total and a neutral doublet PES. H-loss gives SiNC5H7 (14-atom singlet products) plus H(doublet). Compare 0 K E0=electronic+ZPVE relative to separated SiN+isoprene, at single-collision 25±1 kJ/mol conditions; the −162±27 kJ/mol observed channel energy is not a 298 K solution Gibbs energy. Preserve atoms and states.",
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "p1_structure"
+          ]
+        },
+        {
+          "conclusion_id": "p2_structure",
+          "statement": "Actual product calculations establish the distinct valid neutral singlet six-membered adjacent Si/N heterocycle with 5-methyl substitution/connectivity corresponding to P2",
+          "expected": "Actual product calculations establish the distinct valid neutral singlet six-membered adjacent Si/N heterocycle with 5-methyl substitution/connectivity corresponding to P2. Do not reuse the P1 geometry under a new label. Physical definition: Isolated gas-phase neutral SiN(doublet)+C5H8(singlet), 15 atoms/59 electrons in total and a neutral doublet PES. H-loss gives SiNC5H7 (14-atom singlet products) plus H(doublet). Compare 0 K E0=electronic+ZPVE relative to separated SiN+isoprene, at single-collision 25±1 kJ/mol conditions; the −162±27 kJ/mol observed channel energy is not a 298 K solution Gibbs energy. Preserve atoms and states.",
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "p2_structure"
+          ]
+        },
+        {
+          "conclusion_id": "p1_exoergicity",
+          "statement": "Computed P1 + H channel E0 versus observed energy",
+          "expected": "The actual computed P1+H−SiN−isoprene channel E0 matches the supplied measured center−162 kJ/mol within its inclusive absolute experimental uncertainty27 kJ/mol (allowed interval[−189,−135]). Match the correct full singlet P1 structure, doublet H, doublet SiN and singlet isoprene with one consistent electronic+ZPVE reference. Do not compare a298K Gibbs energy, local barrier, different product or copied source value. The experimental window is fixed by public observation and never applies to a local barrier. This energy match alone does not establish a connected route or branching fraction. Physical definition: Isolated gas-phase neutral SiN(doublet)+C5H8(singlet), 15 atoms/59 electrons in total and a neutral doublet PES. H-loss gives SiNC5H7 (14-atom singlet products) plus H(doublet). Compare 0 K E0=electronic+ZPVE relative to separated SiN+isoprene, at single-collision 25±1 kJ/mol conditions; the −162±27 kJ/mol observed channel energy is not a 298 K solution Gibbs energy. Preserve atoms and states.",
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "p1_exoergicity"
+          ]
+        },
+        {
+          "conclusion_id": "p2_exoergicity",
+          "statement": "Computed P2 + H channel E0 versus observed energy",
+          "expected": "The actual computed P2+H−SiN−isoprene channel E0 matches the supplied measured center−162 kJ/mol within its inclusive absolute experimental uncertainty27 kJ/mol (allowed interval[−189,−135]). Match the correct full singlet P2 structure, doublet H, doublet SiN and singlet isoprene with one consistent electronic+ZPVE reference. Do not compare a298K Gibbs energy, local barrier, different product or copied source value. The experimental window is fixed by public observation and never applies to a local barrier. This energy match alone does not establish a connected route or branching fraction. Physical definition: Isolated gas-phase neutral SiN(doublet)+C5H8(singlet), 15 atoms/59 electrons in total and a neutral doublet PES. H-loss gives SiNC5H7 (14-atom singlet products) plus H(doublet). Compare 0 K E0=electronic+ZPVE relative to separated SiN+isoprene, at single-collision 25±1 kJ/mol conditions; the −162±27 kJ/mol observed channel energy is not a 298 K solution Gibbs energy. Preserve atoms and states.",
+          "evidence_ids": [
+            "source_products",
+            "native_products"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "p2_exoergicity"
+          ]
+        },
+        {
+          "conclusion_id": "formation_account",
+          "statement": "A physically connected formation explanation for the H-loss product family",
+          "expected": "Explain how the separated SiN/isoprene reactants can form a supported methyl-substituted adjacent-Si/N cyclic product and eliminate H under the stated single-collision conditions. The reference connected P1 route supports terminal N-addition, cyclization and hydrogen rearrangement followed by Si–H loss, but these labels, individual author intermediates, order of shifts, number of saddles and particular IRC algorithm are not scoring requirements. An independently demonstrated chemically equivalent route passes. Actual graph/state-consistent connections from intact reactants to product+H and energies relative to the same reactants must substantiate the claimed formation account; an energy-compatible endpoint or copied reaction sketch alone fails. Assess reachability against the collision energy, distinguishing local barriers from total energy heights. No complete P2 network is required.",
+          "evidence_ids": [
+            "source_products",
+            "native_products",
+            "native_route"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "nitrogen_addition",
+            "cyclization",
+            "hydrogen_to_nitrogen",
+            "hydrogen_to_silicon",
+            "hydrogen_loss"
+          ]
+        },
+        {
+          "conclusion_id": "product_identifiability",
+          "statement": "What the observed energy and finite formation evidence identify",
+          "expected": "Conclude that the two computed product asymptotes are consistent with the observed H-loss channel, while the energy interval alone cannot distinguish their branching or exclude every unsearched isomer. Distinguish the product family supported by structural/energy calculations from the product for which a connected formation route is actually demonstrated. Use the actual overlap and finite route coverage to explain the unresolved alternatives; do not infer equilibrium fractions, exclusive products, universal infinite-distance barrierlessness or interstellar rates.",
+          "evidence_ids": [
+            "source_products",
+            "native_products",
+            "native_route"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "p1_structure",
+            "p2_structure",
+            "p1_exoergicity",
+            "p2_exoergicity"
+          ]
+        }
+      ],
+      "supporting_context_policy": "Key-point links identify relevant unscored evidence context only; they do not add points or require every source intermediate as a mandatory workflow."
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_9455a82229de2427",
+      "status": "V3_EVIDENCE_REUSE_REVIEW_NO_NEW_COMPUTATION",
+      "formal_scoring_permitted": true,
+      "criterion_date": "2026-10-28",
+      "acceptance_basis": "Historical computations reused proposition by proposition as documented in the 2026-10-28 prefix and modification report. Previous PASS or qualified acceptance is not a new V3 whole-case validation.",
+      "original_numerical_gate_passed": false,
+      "original_numerical_tolerance_relabelled_as_met": false,
+      "scientific_scope": "Same isolated-gas SiN/isoprene H-loss question: two source-supported products and their E0, a bounded connected formation explanation and product identifiability; no new network or control matrix.",
+      "publication_or_expert_review_limits": [
+        "The source itself gives i2→i4 barrier140 in prose versus142 from Fig5, while actual is148.7503075743 kJ/mol; the gap remains a disclosed mismatch with no fitted window or invented causal explanation.",
+        "Finite source-oriented entry and exit connections are supported. Infinite-separation barrierlessness, all38 isomers, a complete P2 network, absolute rates and branching fractions are outside the accepted result.",
+        "The experimental energy interval tests channel compatibility, not thermodynamic 298 K equilibrium or local barrier accuracy. Composite spin contamination and unavailable source TS definition remain visible."
+      ],
+      "source": {
+        "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NEWLY_ACCEPTED_V2.json",
+        "sha256": "bfbf11a44b3958f8a55b7d144f38970348307aae520a1880788ee1e115cb8581"
+      },
+      "historical_status_policy": "Prior pending/strict numerical failure records are preserved history, not current runtime gating.",
+      "historical_acceptance_status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+      "scoring_policy": "paper_science_v3",
+      "evaluation_mode": "final_results_100",
+      "current_scope_verified": false,
+      "evidence_reuse_note": "r_p1_structure/p2_structure and r_p1_exoergicity/p2_exoergicity reuse P1/P2_CBS_verification and P1_P2_H_asymptote_comparison_20260930.json: E0=-156.4325195194/-150.5408983284 kJ/mol within unchanged [-189,-135]. r_formation_account reuses P1_ROUTE_EDGE_AUDIT.json and connected-edge native CBS/IRC/LQA/exit evidence, without making its author node sequence mandatory. r_product_identifiability follows from the overlap and bounded route coverage. The i2→i4 local barrier is 148.7503076 kJ/mol versus source prose140/Fig5-derived142; it is still -40.6059774 relative to reactants. This mismatch, finite exit/entry sampling and composite spin contamination remain unresolved limits. The full P2 network, all38 isomers and rates are not claimed.",
+      "second_audit_candidate_coverage": "Second audit: the public comparison now explicitly addresses two inequivalent diene/SiN orientations, without supplying product graphs, ring size, entry atom or a winning mechanism. Existing evidence covers two specific P1/P2 endpoints and a finite P1 route, not the whole product space. Source-specific required endpoints versus independent AR alternatives remain an expert issue. Do not silently apply P1/P2 windows to another product or claim whole-space exclusion."
+    }
+  }
+}

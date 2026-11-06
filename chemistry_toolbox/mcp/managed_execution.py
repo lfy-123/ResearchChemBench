@@ -125,27 +125,62 @@ def submit_job(*, job_type, runtime, command, stdin_target, staged_inputs, resou
 
 
 def freeze_action_inputs(store: ExecutionStore, inputs: dict):
-    from chemistry_toolbox.src.artifacts import canonicalize_artifact_refs, collect_artifact_refs
+    from chemistry_toolbox.src.artifacts import ArtifactStore, canonicalize_artifact_refs, collect_artifact_refs
+    from .workspace import resolve_workspace_path
     # Expand compact references first, then snapshot all referenced files and
     # workspace file-valued inputs. The worker verifies these copies again.
     inputs = canonicalize_artifact_refs(inputs)
-    paths = {ref.path for ref in collect_artifact_refs(inputs)}
+    artifacts = ArtifactStore(store.root)
+    references = artifacts.dependency_closure(collect_artifact_refs(inputs))
+    paths = {ref.path for ref in references}
+    for reference in references:
+        metadata = artifacts.save_dependencies(reference)
+        if metadata is not None:
+            paths.add(str(metadata.relative_to(store.root)))
+    directories: set[str] = set()
+    directory_roots: set[str] = set()
+    def include(candidate):
+        path = resolve_workspace_path(str(candidate), must_exist=True)
+        relative = str(path.relative_to(store.root))
+        if path.is_dir():
+            directories.add(relative)
+        elif path.is_file():
+            paths.add(relative)
+        else:
+            raise ValueError(f"Unsupported Action input file type: {relative}")
     def visit(value):
         if isinstance(value, dict):
-            for child in value.values(): visit(child)
+            if value.get("artifact_id"):
+                return value  # Verified immutable references retain their exact public identity.
+            return {key: visit(child) for key, child in value.items()}
         elif isinstance(value, list):
-            for child in value: visit(child)
+            return [visit(child) for child in value]
         elif isinstance(value, str) and len(value) < 4096:
             try:
-                candidate = (store.root / value).resolve()
-                if candidate.is_relative_to(store.root) and candidate.is_file(): paths.add(str(candidate.relative_to(store.root)))
-            except (OSError, ValueError): pass
-    visit(inputs)
+                candidate = store.root / value
+                exists = candidate.exists() or candidate.is_symlink()
+            except OSError:
+                return value
+            if exists:
+                include(candidate)
+                if candidate.is_dir():
+                    directory_roots.add(str(candidate.relative_to(store.root)))
+                    for child in sorted(candidate.rglob("*")):
+                        include(child)
+                return str(candidate.relative_to(store.root))
+        return value
+    inputs = visit(inputs)
     frozen, manifest = freeze_files(store, [{"source_path": p, "target_path": p} for p in sorted(paths)])
     digests = {item["target_path"]: item["sha256"] for item in manifest}
-    for reference in collect_artifact_refs(inputs):
+    for reference in references:
         if digests.get(reference.path) != reference.sha256:
             raise ValueError(f"Artifact hash mismatch: {reference.artifact_id}")
+    for directory in directory_roots:
+        before = {p for p in paths | directories if Path(p).is_relative_to(directory)}
+        after = {directory, *(str(p.relative_to(store.root)) for p in (store.root / directory).rglob("*"))}
+        if before != after:
+            raise ValueError("Action input directory changed during snapshot")
+    manifest.extend({"kind": "directory", "target_path": path} for path in sorted(directories))
     return inputs, frozen, manifest
 
 
@@ -160,6 +195,7 @@ def action_spec(action_id: str, request: dict) -> tuple[dict, list, list]:
             "electronic_state_policy": os.environ.get("RESEARCHCHEMBENCH_ELECTRONIC_STATE_POLICY", "legacy"),
             "action_request": {**request, "inputs": inputs}, "resource_limits": resources,
             "input_artifacts": [ref.model_dump(mode="json") for ref in collect_artifact_refs(inputs)],
+            "input_directories": [item["target_path"] for item in manifest if item.get("kind") == "directory"],
             "metadata": {}, "command": [], "stdin_target": None}, frozen, manifest
 
 

@@ -1,0 +1,66 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_axial_activity_contrast",
+      "r_linker_accessibility_contrast",
+      "r_framework_electronic_explanation",
+      "r_background_contrast"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required molecular explanation concerns catalyst-level structure–activity relationships at initial activation; hypotheses and quantitative molecular comparisons are selected independently. A complete cycle, yield-time model or resolved C/E crossing mechanism is not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How do catalysts A–E promote the initial activation of the isoquinoline Mukaiyama–Mannich reaction, and which molecular differences explain their principal activity contrasts? This is an explanation task: the measured yields are given; the molecular explanation must come from your calculations.",
+  "active_rule_ids": [
+    "r_axial_activity_contrast",
+    "r_linker_accessibility_contrast",
+    "r_framework_electronic_explanation",
+    "r_background_contrast"
+  ],
+  "current_outcome_ids": [
+    "axial_activity_contrast",
+    "linker_accessibility_contrast",
+    "framework_electronic_explanation",
+    "background_contrast"
+  ],
+  "historical_record": {
+    "mapping": {
+      "A": "1a-syn",
+      "B": "1a-anti",
+      "C": "1b",
+      "D": "1c",
+      "E": "1d"
+    },
+    "sources": [
+      "main Fig.2, PDF3: catalyst structures",
+      "main Fig.5/discussion PDF4–5: catalytic endpoints",
+      "SI S27: reagent structures and mixing order"
+    ],
+    "removed_public_input": "1a_syn.xyz and imposed F27–C10–C13–I28 scan are archived in evaluation/history; no catalyst–chloride complexes or preferred conformer geometries are public.",
+    "experimental_observations_basis": "Main PDF5 Fig5a printed numerical cells, including no-catalyst background. Source prose conflicts on D endpoint: prose86%/8h versus table78%/8h and86%/12h. Use table consistently for the public data; no assay error bound supplied.",
+    "scope_version": "core_question_upgrade_20261012T190159Z",
+    "product": {
+      "id": "P",
+      "source": "SI PDF27/S27: structure5a and [M+H]+ characterization.",
+      "neutral_formula": "C17H18Cl3NO4",
+      "smiles_origin": "Manual graph transcription of experimental product, not author computed intermediate.",
+      "mass_spectrum_boundary": "C17H19Cl3NO4 is [M+H]+, not the neutral formula."
+    },
+    "public_observations_unchanged": true,
+    "removed_public_instructions": [
+      "association/activation, electronic and conformational analysis checklist",
+      "unknowns descriptor categories",
+      "route-specific required submission blocks"
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

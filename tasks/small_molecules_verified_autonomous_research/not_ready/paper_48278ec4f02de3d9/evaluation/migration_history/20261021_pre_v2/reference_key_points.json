@@ -1,0 +1,51 @@
+{
+  "paper_id": "paper_48278ec4f02de3d9",
+  "items": [
+    {
+      "key_point_id": "rh_insertion",
+      "key_point_type": "result",
+      "statement": "Classical ketone insertion has a large local barrier.",
+      "expected": 40.8,
+      "evidence_ids": [
+        "rh_direct",
+        "rh_method"
+      ],
+      "unit": "kcal/mol",
+      "definition": "G(TS2)-G(INT3); same composition; local barrier, not55.3 profile height."
+    },
+    {
+      "key_point_id": "rh_direct_alternative",
+      "key_point_type": "result",
+      "statement": "The direct ring-closure alternative has a large overall profile height.",
+      "expected": 36.4,
+      "evidence_ids": [
+        "rh_direct",
+        "rh_method"
+      ],
+      "unit": "kcal/mol",
+      "definition": "G(TS2-prime)+G(freeCO)-G(1t)-0.5G(dimer), using balanced CO bookkeeping at6.2mM. Local TS2-prime minusINT3-prime is13.7, not36.4."
+    },
+    {
+      "key_point_id": "rh_oxidative",
+      "key_point_type": "result",
+      "statement": "Initial oxidative cyclization is also high on the separated-reactant profile.",
+      "expected": 44.6,
+      "evidence_ids": [
+        "rh_direct",
+        "rh_method"
+      ],
+      "unit": "kcal/mol",
+      "definition": "G(TS-OC)-G(1t)-0.5G(dimer); retains two carbonyl ligands, hence no released-CO correction for this state."
+    },
+    {
+      "key_point_id": "rh_carbonylative_route",
+      "key_point_type": "result",
+      "statement": "The competing carbonylative channel gives the observed fused lactone with a lower controlling profile.",
+      "expected": "Compute a connected route for substrate+CO to theC10H14O3 fused lactone. Source reference is CO insertion preceding ketone participation; TS3 height31.2/local24.9 is controlling and later metallo-ene/RE steps are lower. Source-only31.2/24.9 are not newly authenticated gold; plausible words or unrelated lower energies do not suffice.",
+      "evidence_ids": [
+        "rh_carbonylation",
+        "rh_CO_competition"
+      ]
+    }
+  ]
+}

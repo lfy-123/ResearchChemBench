@@ -1,0 +1,158 @@
+{
+  "paper_id": "paper_c28b0a1c549f4575",
+  "current_scoring_authority": "Only scoring_rules.json awards points. Supporting items and historical records carry no numerical or independent points gates.",
+  "items": [
+    {
+      "key_point_id": "support_association_tea",
+      "key_point_type": "scientific_evidence",
+      "statement": "TEA+–PC electronic binding relative to relaxed separated molecules",
+      "expected": "An actual complete isolated gas-phase 1:1 TEA+–PC complex has negative electronic binding energy Eb = E(complex) − E(relaxed ion) − E(relaxed PC), with matched electronic method, charge, singlet state and energy convention. Report the computed value and units and establish the attractive sign at the claimed geometry. The numerical magnitude is supporting evidence for this sign, with no fixed target window. A frozen-fragment interaction energy or Gibbs energy is not this observable; a documented conversion to the relaxed-fragment electronic definition is admissible. Geometry, curvature and monomer identity validate the result without separate points. Copying a source value or comparing unmatched total energies fails.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_association_ded",
+      "key_point_type": "scientific_evidence",
+      "statement": "DED2+–PC electronic binding relative to relaxed separated molecules",
+      "expected": "An actual complete isolated gas-phase 1:1 DED2+–PC complex has negative electronic binding energy Eb = E(complex) − E(relaxed ion) − E(relaxed PC), with matched electronic method, charge, singlet state and energy convention. Report the computed value and units and establish the attractive sign at the claimed geometry. The numerical magnitude is supporting evidence for this sign, with no fixed target window. A frozen-fragment interaction energy or Gibbs energy is not this observable; a documented conversion to the relaxed-fragment electronic definition is admissible. Geometry, curvature and monomer identity validate the result without separate points. Copying a source value or comparing unmatched total energies fails.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_association_bf4",
+      "key_point_type": "scientific_evidence",
+      "statement": "BF4−–PC electronic binding relative to relaxed separated molecules",
+      "expected": "An actual complete isolated gas-phase 1:1 BF4−–PC complex has negative electronic binding energy Eb = E(complex) − E(relaxed ion) − E(relaxed PC), with matched electronic method, charge, singlet state and energy convention. Report the computed value and units and establish the attractive sign at the claimed geometry. The numerical magnitude is supporting evidence for this sign, with no fixed target window. A frozen-fragment interaction energy or Gibbs energy is not this observable; a documented conversion to the relaxed-fragment electronic definition is admissible. Geometry, curvature and monomer identity validate the result without separate points. Copying a source value or comparing unmatched total energies fails.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_ded_vs_bf4",
+      "key_point_type": "scientific_evidence",
+      "statement": "Relative local PC binding of DED2+ and BF4−",
+      "expected": "Consistently defined relaxed-fragment electronic binding energies establish greater binding magnitude (more negative Eb) for DED2+–PC than BF4−–PC. Resolve this pairwise comparison using each complete ion and its own matched monomer reference at a common method and environment. Absolute total energies of differently charged complexes do not establish the result. This relative order is independent of whether all three association signs are established; source magnitudes are not fixed acceptance windows.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_bf4_vs_tea",
+      "key_point_type": "scientific_evidence",
+      "statement": "Relative local PC binding of BF4− and TEA+",
+      "expected": "Consistently defined relaxed-fragment electronic binding energies establish greater binding magnitude (more negative Eb) for BF4−–PC than TEA+–PC. Resolve this independent pairwise comparison using complete ions, matched monomer references and a common method and environment. Do not award another result for reciting the full order; source magnitudes are not fixed acceptance windows.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_local_competition_account",
+      "key_point_type": "scientific_evidence",
+      "statement": "Conditional molecular explanation of the changed local PC environment",
+      "expected": "Use actual association evidence and a composition/charge-balanced PC-transfer comparison, TEA·PC + DED → TEA + DED·PC or an equivalent energy cycle, to explain why adding DED can favor PC association near DED relative to TEA within the sampled local gas-phase baseline. The final scientific content is the conditional physical connection between a change in cation composition and competition for a finite local PC supply, not another point award for a pair ranking or the arithmetically derived transfer sign. Account for two BF4 per added DED salt unit and explain why independent 1:1 electronic energies do not fix solvent activities, many-body ion association, coordination populations or a concentration-dependent spectral trajectory. Tie that limit specifically to the supplied nonmonotonic observations; no bulk optimum or device inference follows. An equivalent well-supported conditional interpretation passes directly.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si",
+        "native_pc_decomposition",
+        "native_validation",
+        "validation_summary_3"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "statement": "Independent attraction sign for this ion; genuine geometry/state/energy validity is a prerequisite, not separate process credit.",
+      "expected": "For the complete TEA+ and one PC, actual valid local complex and matched separated fragments yield attractive electronic binding, Eb=E(complex)−E(relaxed ion)−E(relaxed PC)<0. The atoms/charge/singlet states must balance and complex structure must represent the stated ion–PC association. Equivalent definitions require transparent mapping; frozen-fragment interaction, Gibbs energy or unequal charged totals cannot silently replace this quantity.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "association_tea",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "Independent attraction sign for this ion; genuine geometry/state/energy validity is a prerequisite, not separate process credit.",
+      "expected": "For the complete DED2+ and one PC, actual valid local complex and matched separated fragments yield attractive electronic binding, Eb=E(complex)−E(relaxed ion)−E(relaxed PC)<0. The atoms/charge/singlet states must balance and complex structure must represent the stated ion–PC association. Equivalent definitions require transparent mapping; frozen-fragment interaction, Gibbs energy or unequal charged totals cannot silently replace this quantity.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "association_ded",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "Independent attraction sign for this ion; genuine geometry/state/energy validity is a prerequisite, not separate process credit.",
+      "expected": "For the complete BF4− and one PC, actual valid local complex and matched separated fragments yield attractive electronic binding, Eb=E(complex)−E(relaxed ion)−E(relaxed PC)<0. The atoms/charge/singlet states must balance and complex structure must represent the stated ion–PC association. Equivalent definitions require transparent mapping; frozen-fragment interaction, Gibbs energy or unequal charged totals cannot silently replace this quantity.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "association_bf4",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "Independent top pair of the local strength order.",
+      "expected": "Actual consistently defined single-PC binding energies support greater binding magnitude for DED2+–PC than BF4−–PC. Compare binding energies with each ion’s matched monomer reference, not absolute cluster energies of unequal charge.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "ded_vs_bf4",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "Independent lower pair of the local strength order.",
+      "expected": "Actual consistently defined single-PC binding energies support greater binding magnitude for BF4−–PC than TEA+–PC. Correct reference subtraction and complete species are required.",
+      "evidence_ids": [
+        "pc_main",
+        "pc_si"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "bf4_vs_tea",
+      "key_point_type": "result",
+      "scored": false
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "paper_id": "paper_8cd7be72ae518048",
+  "evidence": [
+    {
+      "evidence_id": "V2_MAIN",
+      "source": {
+        "path": "papers/paper_8cd7be72ae518048/documents/main.pdf",
+        "sha256": "017a05141b0f79b297841e2e6f6587cb87070e83649007a7161ef0301aa7d31d",
+        "pdf_pages_1based": [
+          8,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "description": "Scientific targets, models, methods, relative energies and structures checked against the original PDFs in this round; page numbers are 1-based PDF pages."
+    },
+    {
+      "evidence_id": "V2_SI",
+      "source": {
+        "path": "papers/paper_8cd7be72ae518048/documents/supplementary_001.pdf",
+        "sha256": "2feb61ec5398caafd46b368f54900a83d0f6fc031dbe20cfa4094eabb6b1b364",
+        "pdf_pages_1based": [
+          2,
+          7,
+          9,
+          10,
+          14,
+          15,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89
+        ]
+      },
+      "description": "Scientific targets, models, methods, relative energies and structures checked against the original PDFs in this round; page numbers are 1-based PDF pages."
+    },
+    {
+      "evidence_id": "existing_native_verification",
+      "source": {
+        "path": "tasks/small_molecules_verified_autonomous_research/paper_8cd7be72ae518048/evaluation/verified_computation_reference.md",
+        "sha256": "95e89fad0f4c2cd47cbf620e7b8ea76f311bfa8cb8116a8bd527a1324a4726f4"
+      },
+      "evidence_type": "existing_computation_with_qualifications",
+      "description": "正文 Figs.13/14/16、SI S4/S6/S7；历史验证有两种条件下的 α/β 比较、配位接近自由能及匹配苯乙烯对照。",
+      "role": "Historical calculations only; historical scoring/acceptance prose is not active criteria."
+    }
+  ],
+  "public_assets": [
+    {
+      "path": "agent_input/facts_and_conditions.json",
+      "sha256": "e201d303bec61e2c1541ec3b5a84208316ace31cdf06a5211d8fe993955068b7",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "answer_free": true,
+      "visually_checked": false,
+      "derivation": "Current text-only identities, conditions and supplied experimental observations; replaces the stale data/inputs/system.json pointer from an earlier package layout. This provenance entry introduces no public data or computed answer."
+    }
+  ]
+}

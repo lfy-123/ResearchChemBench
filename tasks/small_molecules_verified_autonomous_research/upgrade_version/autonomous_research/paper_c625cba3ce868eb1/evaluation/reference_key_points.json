@@ -1,0 +1,73 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_regioselectivity_explanation",
+      "r_comparison_causal_attribution"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "items": [
+    {
+      "key_point_id": "support_local_regioselectivity_explanation",
+      "key_point_type": "scientific_evidence",
+      "statement": "Molecular explanation of local six- versus seven-membered ring selectivity for (R,E)-4",
+      "expected": "Explain the local six-membered haloether preference with actual site-resolved electronic/structural calculations on correctly assigned (R,E)-4 and an atom-mapped account of competing ring outcomes. The reference reactant has stronger negative polarization at the alkene carbon nearer OOH; a bounded electrophilic-Br interaction there and alcohol closure at the other carbon explains the six-membered topology, contrasted with the seven-membered alternative. Require a quantitative physical site distinction and a supported connection to the observed regioselectivity under NBS/DCM. A physically equivalent independently supported explanation passes. Neither a bare charge table, ring graph alone nor repetition of supplied product observations establishes this final causal conclusion. Source water-phase MK charges-0.507/-0.066e are definition-specific context without a calibrated numeric window; different population methods are not numerically interchangeable. Reactant MEP does not by itself prove a unique microscopic mechanism, kinetic barrier or product ratio. No mandatory transition-state route or separate calculation on7 is required.",
+      "evidence_ids": [
+        "main_p3_4_5_7",
+        "main_p3_4",
+        "supplementary_001_p30_31_32"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_comparison_causal_attribution",
+      "key_point_type": "scientific_evidence",
+      "statement": "What the structural and experimental comparisons establish about the origin of selectivity",
+      "expected": "Make a specific evidence-based causal assessment of the supplied comparisons: explain how the observed matching hydroperoxide-product profiles under enzyme and nonenzyme conditions support local substrate contributions and show that the same product pattern can occur without the enzyme; relate the mixed six/seven-membered outcome for7 to the calculated local-site account for4 and the actual molecular differences. Establish that7 is a different constitutional/branching context measured under enzyme conditions, so this comparison does not isolate a unique OOH effect or quantify enzyme control. This is a scientific attribution result, not credit for generic caveats: ground it in the actual molecular graphs, the participant's computed evidence for4 and the specific supplied outcomes/conditions. Separate computations on7 are optional; if absent, do not claim its electronic distribution was computed. The18% yield is for the3/4 mixture, not a prediction for pure(R,E)-4. A blanket uncertainty paragraph, copying yields, or claiming a unique OOH/Thorpe-Ingold/enzyme cause without discriminating evidence fails.",
+      "evidence_ids": [
+        "main_p3_4_5_7",
+        "main_p3_4",
+        "supplementary_001_p30"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "statement": "alkene_polarization — non-scoring source evidence",
+      "expected": "Actual electronic-structure evidence establishes the more negative alkene carbon near the hydroperoxide group of (R)-4 and unequal alkene reactivity. Source aqueous MEP-fitted charges -0.507/-0.066 e are definition-specific context, not universal targets for Mulliken/NBO/other methods. Validate the modeled reactant identity/state; no invented charge tolerance.",
+      "evidence_ids": [
+        "main_p3_4_5_7",
+        "supplementary_001_p30_31_32"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "alkene_polarization",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "competing_closure — non-scoring source evidence",
+      "expected": "Computed site-resolved or competing-ring evidence establishes a physical distinction favoring the six-membered closure interpretation for (R)-4. Map the relevant atoms and ring alternatives. Valid electronic/structural discrimination is allowed; no author TS barrier or mandatory separate calculation on 7 exists. Repeating the supplied product observation alone is insufficient.",
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p30"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "competing_closure",
+      "key_point_type": "result",
+      "scored": false
+    }
+  ]
+}

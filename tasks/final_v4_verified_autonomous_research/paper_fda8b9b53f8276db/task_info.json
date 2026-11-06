@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "task_type": "autonomous_research",
+  "title": "Molecular structure and crystallographic geometry of a quinoxaline ligand",
+  "category": "molecular and crystallographic structure",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Compare a free-ligand local molecular structure with the supplied crystal geometry while distinguishing local bonding, conformation and phase effects.",
+    "Choose structural models and which geometric features inform the molecular description."
+  ],
+  "paper": {
+    "title": "",
+    "doi": "",
+    "journal": "",
+    "publication_date": ""
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Chemical identities, authorized observations and physical scope; research design is chosen by the agent. Document mapping to the refined CIF atom table and the consistent C15H13N3 formula fields. The stale oxdiff formula is a disclosed metadata conflict; do not modify the source CIF or turn it into a new molecular identity."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured model, execution, quantitative evidence and claim records with raw artifact links."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Scientific answer, evidence, revisions, uncertainty and scope."
+    }
+  ]
+}

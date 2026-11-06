@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "strict_numerical_whole_task_pass": false,
+  "reason": "2026-10-21按用户授权迁移科学结果V2；明确来源且物理可比的规则可运行。2026-10-20父级暂定定性验收不等于数值全过；出版专家复审独立待定。",
+  "unresolved_boundaries": [
+    "首步复合G反号仍未恢复；r_first_barrier按1.9±1.0严格失败，不能以低层PES替代。",
+    "三重态正文73.9/SI74.1/印刷SCF组装有来源冲突；精确三重态值排除出数值评分，稳健排序可评分。",
+    "TS1有限位移端点连接非完整IRC/MEP；不据此推断精确速率。"
+  ],
+  "unblock_conditions": [],
+  "source_ambiguity_policy": "真正不能确定物理身份/参照的提交项需needs_review；不通过扩大容差处理。已明确排除的来源冲突背景量不冻结其他独立规则。",
+  "tolerance_policy": {
+    "version": "20261021_provisional",
+    "numeric_rules": [
+      {
+        "rule_id": "r_first_barrier",
+        "target": 1.9,
+        "tolerance": 1.0,
+        "unit": "kcal/mol"
+      },
+      {
+        "rule_id": "r_second_barrier",
+        "target": 4.6,
+        "tolerance": 1.5,
+        "unit": "kcal/mol"
+      }
+    ],
+    "rationale": "仅首步局部G值设定±1.0 kcal/mol，依据同定义TS1—相连[2a]•+盆地的可辨识小势垒及既有复现政策；第二步既有AR±1.5保留。Eox/Ered与三重态只评价稳健排序，不造精确窗；未用当前−3.119偏差拟合。"
+  }
+}

@@ -4,6 +4,11 @@
 #   bash scripts/test_codex_gpt56.sh paper_2f2aa11ea61a32bb --dry-run
 #   bash scripts/test_codex_gpt56.sh --mode autonomous_research paper_2f2aa11ea61a32bb paper_60f4c45810428116 --resume
 # Test settings and credentials: config.local.env (gitignored), RCB_CODEX_*.
+# --tasks-root PATH selects another library containing final_verified_<mode>.
+# RCB_CODEX_REASONING_EFFORT=default omits the Codex effort override.
+# JUDGE_REASONING_EFFORT sets scoring effort independently (default: agent effort, or high).
+# RCB_JUDGE_API_KEY / RCB_JUDGE_BASE_URL optionally select an independent judge provider.
+# When omitted, scoring uses the evaluated model's API key / base URL as before.
 # Codex configuration: https://developers.openai.com/codex/config-reference/
 set -euo pipefail
 

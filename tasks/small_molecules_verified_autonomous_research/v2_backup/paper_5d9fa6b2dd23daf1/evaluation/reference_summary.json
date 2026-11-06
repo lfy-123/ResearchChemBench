@@ -1,0 +1,37 @@
+{
+  "case_id": "case_09",
+  "source_locator": "Main text p8–9 Scheme 7/8; SI p79–81",
+  "numeric_rules": [
+    {
+      "rule_id": "r_acid_local_barrier",
+      "target": 13.0,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "definition": "G(TS1–3a)−G(Ad+)−G(1a)=13.0 kcal/mol, with absolute tolerance 2.0 and inclusive boundaries. Check HFIP, 293.15 K, 1 atm, +1 singlet reacting components and retention of the acidic proton. The TS must have saddle-point/connectivity evidence corresponding to the bond formation. This quantity is not the 15.7 height on the full profile starting from AdOH; do not splice the authors' ionic energy of 2.7 into independently computed local quantities. Reconstruction of solvent thermal corrections must be explicit. Physically equivalent standard-state/unit conversions are permitted; fitted offsets are not accepted."
+    },
+    {
+      "rule_id": "r_sulfonamide_local_barrier",
+      "target": 10.2,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "definition": "G(TS1–3s)−G(Ad+)−G(1s)=10.2 kcal/mol, with absolute tolerance 2.0 and inclusive boundaries. Check HFIP, 293.15 K, 1 atm, the complete E-sulfonamide and a +1 singlet TS retaining the N–H proton, with actual saddle-point/connectivity evidence. This quantity is not the 12.9 height on the full profile starting from AdOH. All energies must come from a consistent independently computed ledger; do not mix the authors' ion-formation energy with independently computed local energies. Transparent, physically equivalent conversions are permitted."
+    },
+    {
+      "rule_id": "r_acid_product_energy",
+      "target": -12.3,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "definition": "G(trans lactone 3a)+G(H2O)−G(AdOH)−G(E-alkenyl acid 1a)=−12.3 kcal/mol, with absolute tolerance 2.0 and inclusive boundaries. Use valid neutral singlet minima and consistent thermal corrections for HFIP, 293.15 K and 1 atm; TfOH/HFIP cancel as conserved spectator components in the complete ledger. A protonated product, ion-pair energy or arbitrary lower conformer cannot replace this net reaction quantity without an explicit identity account."
+    },
+    {
+      "rule_id": "r_sulfonamide_product_energy",
+      "target": -12.1,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "definition": "G(trans N-p-toluenesulfonylpyrrolidine 3s)+G(H2O)−G(AdOH)−G(E-alkenyl sulfonamide 1s)=−12.1 kcal/mol, with absolute tolerance 2.0 and inclusive boundaries. Use valid neutral singlet minima for HFIP, 293.15 K and 1 atm; retain the complete substrate, atom and proton ledger. A cationic endpoint retaining an extra N–H cannot directly replace the neutral net product."
+    }
+  ],
+  "notes": [],
+  "whole_case_success": "all required scientific items pass after evidence qualification",
+  "is_new_quantum_validation": false
+}

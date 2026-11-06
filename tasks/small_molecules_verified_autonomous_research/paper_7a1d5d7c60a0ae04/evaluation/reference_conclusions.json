@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "items": [
+    {
+      "conclusion_id": "catalyst_function",
+      "claim_role": "final",
+      "statement": "Catalyst acidity and reaction performance have distinct molecular origins",
+      "expected": "Explain the catalyst-function comparison with actual molecular evidence for all three specified boranes: the source fluoride- and hydride-uptake enthalpies both rank A > B > C, but this acidity ordering alone cannot establish cis selectivity or endpoint yield. Report comparable computed quantities, their definitions and the connection and limits relative to the supplied K4 performance screen. Independent FIA and HIA are valid evidence, not a mandatory workflow; another quantitatively supported physical account of the same catalyst function may pass. Do not conflate anion affinity, H2 activation barriers and turnover. K4 NMR endpoints at 50 C in diisopropyl ether remain separate from D4 isolated yields/selectivity at 80 C in CPME. No furan-pathway or numerical yield prediction is required.",
+      "supporting_key_point_ids": [
+        "fluoride_affinity",
+        "hydride_affinity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "d4_kinetic_control",
+      "claim_role": "final",
+      "statement": "D4 cis preference is a formation effect rather than a product-stability preference",
+      "expected": "Explain D4 cis enrichment under both A and B from actual competing formation calculations, contrasting it with independently computed nearly degenerate cis/trans product stability. The source products weakly favor trans while both formation comparisons favor cis; the supported scientific conclusion is that product equilibrium alone does not explain the formation enrichment, not that a tiny product energy sign must survive every justified method. A physically supported near-degenerate endpoint result with the same formation-control conclusion passes. Use consistent free-energy definitions and retain the two catalyst comparisons. An equivalent supported formation account passes without a mandated oxocarbenium/hydride-transfer sequence. Observed ratios alone, endpoint calculations without formation competition, or a substantial contrary product-stability claim without resolving its physical implications are insufficient; no exact ratio reproduction is required.",
+      "supporting_key_point_ids": [
+        "d4_a_formation",
+        "d4_b_formation",
+        "d4_product_stability"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "catalyst_selectivity_contrast",
+      "claim_role": "final",
+      "statement": "The A/B change affects D4 stereochemical discrimination with model-dependent strength",
+      "expected": "Determine how replacing A by B affects D4 cis/trans formation discrimination using actual matched competing-formation calculations and a physically justified assessment of the strength and robustness of the difference. Compare within-catalyst free-energy gaps, not different-composition total energies. The reference nominally favors stronger cis discrimination for B, but existing evidence permits near-degeneracy and model sensitivity; a nominal B advantage with appropriately limited confidence passes, as does a calculation-supported finding that the catalyst ordering is not robust under informative conformational or thermochemical sensitivity analysis. The latter is a final finding about what the comparison can establish, not missing work or generic uncertainty. Preserve and interpret the actual results rather than choosing a convention to match the source. An unexplained reversal, supplied experimental ratios alone, or claiming a robust large enhancement or acidity as its unique cause without supporting evidence fails. This item concerns the catalyst substitution effect, not a second award for cis formation under each catalyst.",
+      "supporting_key_point_ids": [
+        "d4_a_formation",
+        "d4_b_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "ring_size_relationship",
+      "claim_role": "final",
+      "statement": "Increasing ring size aligns cis formation preference with cis product stability",
+      "expected": "With catalyst A fixed, determine and explain how D4 versus D5 changes the relation between formation selectivity and product stability. Actual paired formation and product calculations must support stronger cis formation preference for D5, with cis also thermodynamically favored for D5, whereas D4 has near-degenerate products and mainly formation-driven cis enrichment. Report the numerical formation and product free-energy differences and a supported structural/energetic explanation; source chair/boat geometry is context, not a required descriptor. Retain the declared low-frequency treatment consistently: a softer product mode can strongly affect magnitude, and changing RRHO/QRRHO or a cutoff merely to approach a source value is invalid. The source 4.1/2.6 kcal/mol values are not hard targets, and observed >20:1 is a lower bound, not an exact modeled ratio.",
+      "supporting_key_point_ids": [
+        "d4_a_formation",
+        "d4_product_stability",
+        "d5_formation",
+        "d5_product_stability"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_catalyst_function",
+      "r_d4_kinetic_control",
+      "r_catalyst_selectivity_contrast",
+      "r_ring_size_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required selectivity pathways start from the supplied cyclic oxocarbenium and borohydride species. Diketone-to-cation formation, H2 activation and regeneration are not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

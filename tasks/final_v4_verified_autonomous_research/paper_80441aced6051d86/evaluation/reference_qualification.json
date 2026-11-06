@@ -1,0 +1,156 @@
+{
+  "paper_id": "paper_80441aced6051d86",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "accepted_limitations": "papers/documents只有正文；已沿既有证据读取官方SI DOCX。正文Fig.4几何标量与SI同定义坐标不一致；不新增硬数值门槛。D3阻尼原文未详，原生采用统一BJ有控制支持。未有完整激发态动力学/CT分解，光学解释限结构与已有观察。",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "free_association_change：完整单体/自由对64/128原子，电子能−1421.87853983/−2843.80706546 Eh，正频186/378；这些是结构结论证据，不是能量评分。cb7_inclusion/cb8_inclusion：190/272原子，+2/+4单重态，E=−5634.71517866/−7658.52043030 Eh，正频564/810，支持一/二客体萘环包结。packing_contrast：同原子定义CB8质心距3.77472709 Å，匹配SI坐标3.77413775而非正文Fig.4 4.10 Å。association_optical_synthesis：结构与给定445/526 nm支持有限主客体环境解释；浓度注释冲突不消除，未证明H/J耦合符号或CT主导。",
+  "historical_qualification": {
+    "paper_id": "paper_80441aced6051d86",
+    "scoring_policy": "paper_science_v2",
+    "status": "CURRENT_FROZEN_V2_STRICT_VERIFICATION_PRESERVED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "current_scope_verified": true,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "reason": "Authorized scoring-only migration on 2026-10-19; existing independently strict acceptance within frozen V2 scope is preserved. Expert publication calibration remains separate from permitted runtime scoring. No new chemistry validation or blind Agent run is claimed.",
+    "physical_definition": "Full G1 C34H28N2 charge+2 and neutral CB7/CB8 hosts in water. Free G1 pair and CB8G1_2 are +4; CB7G1 is +2; all reference states singlets. Exact inventories 64/128/190/272 atoms. Reference PCM water omits explicit chloride; alternative treatments must preserve declared chemistry. Match atom-defined geometry across states. NMR observations are in D2O at 298 K and G1 0.50 mM. For host optical observations, main PDF pp5-6/Fig6 specifies G1 0.02 mM, while official SI Table S1 labels the same 445/526 nm host rows 0.50 mM. Neither concentration is independently resolved here. Accept either explicitly labelled source branch for a within-branch comparison; do not silently mix branches or infer a concentration response from their repeated peaks. Molecular topology and pair geometry findings do not require selecting a bulk optical concentration.",
+    "tolerance_policy": {
+      "status": "provisional_benchmark_policy",
+      "basis": "Semantic-only: the task asks association topology and explanatory reach. Atomic mapping for published Fig4 scalar quantities is insufficient for a defensible numeric target, so no invented tolerance is used. ExactSI/native electronic agreement supports structural comparability but is not rewarded as a raw absolute-energy target. Independent topology and relative packing are falsifiable using actual coordinates.",
+      "not_author_error_bars": true
+    },
+    "retained_scientific_limitations": "Fig4 CB8 numbers4.10/3.72Angstrom,70.54degrees are not reproduced by consistently mapped SI coordinates; nine geometry definitions were tested. Source SI same-definition centroid is3.77413775Angstrom, calculation3.77472709. D3 damping was unspecified; uniform source-supported BJ reconstruction is retained. Native Hessian restart completedCB8 after an interrupted parent, not a nonexistent successful originalFreq. No emission wavelengths, uniqueH/J sign, CT dominance or full kinetics are certified. Host optical concentration is unresolved across source locations: main article pp5-6 and Figure 6 describe G1 0.02 mM, whereas official SI Table S1 labels the 445 nm CB7:G1 and 526 nm CB8:G1(2) rows G1 0.50 mM. These are conflicting labels for the reported host spectra, not two independently measured concentration series. A source-labelled within-branch comparison is allowed; do not treat a mixed-source comparison as concentration matched.",
+    "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_80441aced6051d86",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "status": "targeted_repairs_pending_coordinator_review",
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_03/REPORT.md",
+      "changes": [
+        "Confirmed main/Fig6 versus official SI TableS1 optical concentration conflict; public facts now disclose both0.02/0.50mM branches and private rules accept coherent branch comparisons. Packing direction already existed; made expected explicit without changing target.",
+        "Self-audit confirmed detailed proton-shift/NOESY patterns were not public: removed mandatory matching to such absent inputs while preserving computed inclusion-topology targets and actual structural evidence."
+      ],
+      "historical_acceptance_unchanged": true,
+      "new_chemical_validation": false,
+      "tolerances_unchanged": true
+    }
+  },
+  "evidence_gaps": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。",
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "mode_scope_exception": "两模式的最终科学命题相同；AR自主选择方法，PR评估披露基线或有依据的可比替代。作者数值均为证据。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "必需结果：自由G1与自由对结构变化",
+      "rule_id": "r_free_association_change",
+      "conclusion_id": "free_association_change",
+      "weight": 20,
+      "independence": "自由缔合的构象/堆积比较，不由主客体计量推出。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    },
+    {
+      "scientific_requirement": "必需结果：CB7包结拓扑",
+      "rule_id": "r_cb7_inclusion",
+      "conclusion_id": "cb7_inclusion",
+      "weight": 20,
+      "independence": "一客体萘位于腔内的结构命题。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    },
+    {
+      "scientific_requirement": "必需结果：CB8包结拓扑",
+      "rule_id": "r_cb8_inclusion",
+      "conclusion_id": "cb8_inclusion",
+      "weight": 20,
+      "independence": "双客体萘位于腔内的结构命题，不能用CB7替代。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    },
+    {
+      "scientific_requirement": "必需结果：自由对/CB8客体对比较",
+      "rule_id": "r_packing_contrast",
+      "conclusion_id": "packing_contrast",
+      "weight": 20,
+      "independence": "同原子定义下的相对紧密/错位，不重复腔内拓扑。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    },
+    {
+      "scientific_requirement": "必需结果：分子环境与光学联系",
+      "rule_id": "r_association_optical_synthesis",
+      "conclusion_id": "association_optical_synthesis",
+      "weight": 20,
+      "independence": "结构和同分支光谱共同约束纯稀释解释，不重复几何方向。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

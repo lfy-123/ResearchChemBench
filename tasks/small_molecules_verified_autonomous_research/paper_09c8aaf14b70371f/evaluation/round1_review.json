@@ -1,0 +1,52 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "措辞澄清",
+  "changes_zh": "明确五分子计算排序与实验比较；去掉题面预设的羟基分组提示；强调分子结构差异，允许描述符失效或排序未分辨。",
+  "source_locator": "Table 4、Fig. 13–14；SI 结构与坐标",
+  "scientific_scope_changed": false,
+  "active_rule_ids": [
+    "r_series_3_5",
+    "r_hydroxy_departure",
+    "r_acn_dmso",
+    "r_dcm_comparison",
+    "r_bounded_relationship"
+  ],
+  "active_outcome_ids": [
+    "series_3_5",
+    "hydroxy_departure",
+    "acn_dmso",
+    "dcm_comparison",
+    "bounded_relationship"
+  ],
+  "removed_outcome_ids": [],
+  "public_file_sha256": {
+    "data/inputs/chalcone_series.json": "ccf1f88c69ea5f968841ac852ad81803a42607840fea1338874b5bb766796eb9",
+    "submission_guide.md": "8845cb8de2d22049977d3594e7696c3c9ca9eb75b9522111e07881711e660f7a",
+    "submission_schema.json": "c7b562903cf7b34296dad2e540ab508867fdeb56ab9293eb5a84ed1e428604ce",
+    "task.md": "4c28d91dbe97964a7dcbf49040ff84f5c34d8757739c0d995badf3b9457a01f5"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "source_checked_evidence_scope_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_series_3_5",
+      "r_hydroxy_departure",
+      "r_acn_dmso",
+      "r_dcm_comparison",
+      "r_bounded_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The series_3_5 outcome requires evidence for compounds 3–5 only. The complete task and the other outcomes still cover compounds 1/2 and all five compounds as authored.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

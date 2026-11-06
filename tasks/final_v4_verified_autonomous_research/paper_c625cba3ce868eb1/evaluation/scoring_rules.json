@@ -1,0 +1,141 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_site_polarization",
+      "reference_id": "site_polarization",
+      "type": "semantic",
+      "expected": "Establish the signed electronic inequivalence of the two mapped alkene sites of full neutral-singlet (R)-4 under a stated medium and density/MEP/population definition: the site nearer the allylic hydroperoxide is more electron rich than its partner in the source-supported reactant description. Quantify the contrast and demonstrate the spatial/electronic basis, including the role of the hydroperoxide-local field where used. This is a final reactant-electronic comparison, not a claim of an elementary activation barrier. A scientifically comparable electronic definition is eligible without an exact private MK target or compulsory compound 7 branch. Atom inventory, a supplied product label, or unsupported/reversed site assignment fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.models",
+          "$.methods",
+          "$.records",
+          "$.results",
+          "$.claims",
+          "$.scientific_response",
+          "$.artifact_manifest"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_regioselectivity_account",
+      "reference_id": "regioselectivity_account",
+      "type": "semantic",
+      "expected": "Explain how the computed molecular electronic predisposition can be related to the supplied six-member halocyclization outcome of (R)-4, distinguishing closure at the two non-equivalent alkene sites. Map the alcohol oxygen and candidate carbon connectivities so that a physical explanation connects local electronic structure with the alternative ring outcomes. The source-compatible account is plausible reactant-level polarization correlated with the six-member outcome, not a verified unique bromiranium/transition-state sequence. An equally well-supported physical account passes without the author MEP plotting route or separate node completion. Repeating the given product, merely counting a ring or listing charge signs without the site-to-connectivity inference fails. A quantitative rate/product-ratio or unique-path claim requires corresponding additional evidence, not charge data alone.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.models",
+          "$.methods",
+          "$.records",
+          "$.results",
+          "$.claims",
+          "$.scientific_response",
+          "$.artifact_manifest"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_experimental_applicability",
+      "reference_id": "experimental_applicability",
+      "type": "semantic",
+      "expected": "Determine the inferential reach of the actual molecular model for the supplied nonenzymatic NBS/Et3N experiment. Use the specific modeled composition, environment and observables to explain which electronic/selectivity interpretation is supported and which kinetic or causal inference is not established. Aqueous monomer results are not DCM/NBS/Et3N reaction-path evidence; a local charge/MEP comparison does not identify an elementary rate, unique mechanism or product ratio. The experimental 3/4 mixture is not isolated (R)-4 kinetics, and NBS amount/volume gives 47.3 mM versus the inconsistent printed 473 mM. Relate relevant limitations to the actual calculation; a generic disclaimer without a supported molecular result fails. Compound 7 is optional; if used, acknowledge its scaffold/branching differences and different experimental environment.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.models",
+          "$.methods",
+          "$.records",
+          "$.results",
+          "$.claims",
+          "$.scientific_response",
+          "$.artifact_manifest"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "site_polarization",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Electronic inequivalence of the two (R)-4 alkene sites",
+      "rule_ids": [
+        "r_site_polarization"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "regioselectivity_account",
+      "kind": "conclusion",
+      "max_score": 45,
+      "description": "Physical relation between electronic predisposition and ring outcome",
+      "rule_ids": [
+        "r_regioselectivity_account"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "experimental_applicability",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Reach of the molecular and comparator evidence for the NBS experiment",
+      "rule_ids": [
+        "r_experimental_applicability"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

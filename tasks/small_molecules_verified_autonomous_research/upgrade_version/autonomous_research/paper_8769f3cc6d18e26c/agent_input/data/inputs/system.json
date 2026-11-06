@@ -1,0 +1,25 @@
+{
+  "scientific_question": "What structural features of the specified prochiral rotaxane can differentiate its two enantiotopic para sites in the first electrophilic amination, and what can substrate-level calculations establish about local site susceptibility and the limits of an enantioselectivity inference? This is an explanation task; the reaction observations are known context.",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Substrate S is a neutral, singly threaded [2]rotaxane (C48H60F6N2O7), not an unthreaded mixture. Its macrocycle contains two benzene rings, labelled alpha and beta only for bookkeeping. Each ring has cyclic carbon order 1-2-3-4-5-6-1. A secondary diarylamine NH is bonded to carbon 1 of both rings. Their carbon-3 positions are joined by the covalent bridge alpha-C3-CH2-O-(CH2-CH2-O)5-CH2-beta-C3; the rings are otherwise unsubstituted. This defines the 25-atom shortest macrocyclic circuit through the NH and polyether bridge. Alpha-C4 and beta-C4 are the initially equivalent, enantiotopic para C-H positions of interest. The axle is N-(3,5-bis(trifluoromethyl)benzyl)-3,5-di-tert-butylbenzamide: 3,5-di-tert-butyl-C6H3-C(=O)-NH-CH2-C6H3-3,5-(CF3)2, with each aromatic attachment to the amide/benzyl segment at carbon 1. The axle passes once through the macrocycle aperture, with its stoppers outside opposite sides and no covalent bond between the two components. No particular three-dimensional pose is supplied."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Electrophilic amination reagent R is dibenzyl azodicarboxylate, Bn-O-C(=O)-N=N-C(=O)-O-Bn, where Bn denotes CH2-C6H5."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "condition",
+      "content": "The reported chiral phosphoric acid-catalyzed reaction is performed in CHCl3 at 25 °C. The model reaction uses 0.05 mmol substrate S in 2 mL CHCl3 (0.025 M) for 24 h. These are experimental conditions, not a prescribed computational model."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "The reaction gives the monoaminated, mechanically planar chiral rotaxane P with high enantioselectivity under optimized conditions. P retains the axle and mechanical threading of S; one of the two diarylamine para C-H positions is replaced by -N(C(=O)-O-Bn)-NH-C(=O)-O-Bn, while the other remains C-H. The diarylamine NH remains present. An absolute mechanical stereochemical assignment is not a prediction target here."
+    }
+  ]
+}

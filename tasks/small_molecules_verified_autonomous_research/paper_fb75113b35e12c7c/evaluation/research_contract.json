@@ -1,0 +1,714 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_r5_site_answer",
+      "r_r5_product_class",
+      "r_r5_second_competition",
+      "r_r6_thermodynamic_fate",
+      "r_r6_accessible_fate",
+      "r_comparative_robustness"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only PI1/PI2 and their stated reaction comparisons are scored. PI3 is outside scope. Supplied unranked candidate sites and structures do not determine a preferred outcome.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "For the specified five- and six-membered cyclic-enone electron-deficient [3]dendralenes reacting with methanethiolate in chloroform, determine the favored addition sites and protonated-product connectivities. Explain the competition between simple addition and cyclization for the five- and six-membered cyclic-enone pair, assess whether second thiol addition to the five-membered substrate is competitive, and establish how reliable the predictions are. This is a computational prediction and explanation task; no measured product distribution is supplied.",
+  "active_rule_ids": [
+    "r_r5_site_answer",
+    "r_r5_product_class",
+    "r_r5_second_competition",
+    "r_r6_thermodynamic_fate",
+    "r_r6_accessible_fate",
+    "r_comparative_robustness"
+  ],
+  "current_outcome_ids": [
+    "r5_site_answer",
+    "r5_product_class",
+    "r5_second_competition",
+    "r6_thermodynamic_fate",
+    "r6_accessible_fate",
+    "comparative_robustness"
+  ],
+  "historical_record": {
+    "decision": "pass",
+    "rationale": "The paper is an in-scope small-molecule homogeneous organic reaction study. The authors performed non-routine DFT calculations directly on methanethiolate addition to three electron-deficient [3]dendralene substrates and reported relative Gibbs free energies and selected barriers for anionic intermediates, protonated products, and cyclization pathways. The public question is bounded to the authors' computed reaction phenomenon and does not require reproducing a named author mechanism. Public inputs identify only the substrates, computational model, and conditions; the author-computed selectivity outcomes remain private references.",
+    "domain": {
+      "small_molecule": true,
+      "homogeneous": true,
+      "organic_reaction": true,
+      "evidence_ids": [
+        "ev_doc_c273e45e3ac0_000002_bd0d18968827",
+        "ev_doc_c273e45e3ac0_000008_66081089f791",
+        "ev_doc_c273e45e3ac0_000011_202f02ebcf38",
+        "ev_doc_c273e45e3ac0_000025_8c8d0b4979ef",
+        "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+        "ev_doc_c273e45e3ac0_000054_8ccf439b347c",
+        "ev_doc_c273e45e3ac0_000055_7e98151e8b3d",
+        "ev_doc_c273e45e3ac0_000057_772b4e124f82",
+        "ev_doc_c273e45e3ac0_000058_457eddef003d",
+        "ev_doc_c273e45e3ac0_000065_33a345d72273",
+        "ev_doc_c273e45e3ac0_000067_b96fd73185fa",
+        "ev_doc_c273e45e3ac0_000069_c0e91a281fc0",
+        "ev_doc_c273e45e3ac0_000070_b8f02daea014",
+        "ev_doc_c273e45e3ac0_000095_9b737c352eaf",
+        "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+        "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+        "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+        "ev_doc_c273e45e3ac0_000117_206638db73d5",
+        "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+        "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+        "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+        "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+        "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+        "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+        "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000002_bd0d18968827",
+          "quote": "Generating Molecular Diversity via Addition of Nucleophiles to Electron-Deficient [3]Dendralenes: An Exploratory Study"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000008_66081089f791",
+          "quote": "ABSTRACT: Electron-deficient dendralenes, bearing enone substructures and possessing an unfavorable disposition of like charges at the neighboring carbons, undergo nucleophilic 1,4-addition (Michael) or 1,6-addition (anti-Michael). Diverse products are obtained, including those of simple addition as well as cyclic and ortho-fused systems arising via multistep sequences, depending on the structure of the substrate and the nature of the nucleophile. Attack of a hydride at an enone fragment triggers the formation of multisubstituted pyranones and furans; furan formation was also initiated by thiolates. A notable exception is the derivative with a five-membered cyclic enone, which prefers simple additions followed by the reshufling of the double bonds for both H<sup>−</sup> and RS<sup>−</sup> nucleophiles. By contrast, the latter enone is the only one that"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000011_202f02ebcf38",
+          "quote": "can react with stabilized C-nucleophiles, yielding bicyclic compounds. Domino cyclizations can also be induced by the enolization of the enone with DBU, giving mostly polysubstituted furans. However, the dendralene with a five-membered cyclic enone and its analogue with a six-membered ring behave diferently: The former gives a mixture, while the latter prefers the formation of an isocoumarin derivative, which is driven by aromatization. DFT calculations have shown that the additions of thiolates are mostly governed by the thermodynamic stability of possible products arising from complex equilibrium processes."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000025_8c8d0b4979ef",
+          "quote": "For our investigation, we have selected a set of model compounds, most of which were recently prepared by \\mathrm { { u } } s ^ { 9 } (Figure 2), namely, enones 1a−1d, connected to the dienoate"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+          "quote": "moiety via the α-carbon; conjugated lactone { \\bf l e } , also connected by the α-carbon; isomeric enones 1f and 1g, connected by the β-carbon; triester 1h; and sulfone 1i."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000054_8ccf439b347c",
+          "quote": "Thiolate Nucleophiles"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000055_7e98151e8b3d",
+          "quote": "Thiolates, recognized as strong nucleophiles, were the next reagent types to be explored. In contrast to hydride addition, treatment of cyclopentenone derivative 1a with ethanethiolate (generated by deprotonation of ethanethiol with DBU) initially aforded an unstable major product, which was assigned structure 14 based on NMR spectroscopy (Scheme 6). The latter compound apparently arises via a 1,6-addition"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000057_772b4e124f82",
+          "quote": "On the other hand, as outlined in Scheme 7 and Table ^ { 1 , } enones 1b and 1c followed the same pathway as that for hydride addition (Scheme 2), with a preferential attack at the enone ring. Interestingly, while the combination of EtSH and DBU produced an inseparable mixture of furan 17b and its not fully aromatized counterparts (Table 1, entry 1), addition of \\mathrm { I } _ { 2 } (10 mol %) as a catalyst<sup>14,15</sup> steered the reaction to completion, giving furan 17b as the only isolable product in 60% yield (entry 2). Replacing EtSH with 2-mercaptoethanol resulted in an increased yield of final product 18b to 66% (entry 3). Similarly, homologous cycloheptenone derivative 1c gave ortho-fused furans 17c and 18c in 45% and 53% yields, respectively (entries 4 and 5)."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000058_457eddef003d",
+          "quote": "Since thiolate additions unveiled a further dramatic diference between five-membered enone 1a and the rest of the cyclic dendralenes, it was of interest to explore the reactivity of acyclic dendralenes, namely, 1d and 1i. While 1d was found to aford an inseparable mixture of products, sulfone 1i reacted in an anti-Michael fashion ^ { ( 1 , 6 } -addition) at the more hindered α-site of the dienoate fragment to give adduct"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000065_33a345d72273",
+          "quote": "Table 1. Addition of Thiolates to Cyclic Dendralenes 1b and 1c\nentry | starting material | time (h) | Nu (equiv) | product | yield (%)\n$1 ^ { a }$ | 1b | 1 | EtSH (1.2) | $\\mathbf { 1 7 6 } ^ { b }$ | 45\n2 | 1b | 1 | EtSH (1.5) | 17b | 60\n3 | 1b | 5 | HO(CH2)₂SH (1.5) | 18b | 66\n4 | 1c | 5 | EtSH (1.5) | 17c | 45\n5 | 1c | 8 | HO(CH2)₂SH (1.5) | 18c | 53"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000067_b96fd73185fa",
+          "quote": "20 (Scheme 8), which is in stark contrast to the reaction of 1a, where the addition of the same nucleophile occurs at the"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000069_c0e91a281fc0",
+          "quote": "opposite terminus (δ-position) of the dienoate moiety (Scheme 6). Whether this diference can be attributed to the stronger electron-withdrawing power of the phenylsulfonyl moiety is questionable since the vinyl sulfone group is bent away from planarity (as demonstrated by X-ray crystallography in Figure 3), which would prevent the involvement of its π- system. The reaction outcome can be rationalized by assuming a nucleophilic attack at the planar dienoate segment to generate enolate 19, which would then aford 20 upon protonation. However, this mechanism would not explain the"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000070_b8f02daea014",
+          "quote": "diference in the sites of the attack in 1i and 1a. An alternative scenario can thus be proposed, which would require planarization of the \\alpha , \\beta , \\beta ^ { \\prime } , \\alpha ^ { \\prime } { \\mathrm { - } } s \\mathrm { e g m e n t } by rotation of the vinyl sulfone moiety together with an out-of-plane rotation of both the ester and phenyl group and also rotation of the acrylate moiety, as in \\mathbf { 1 } \\mathbf { i } ^ { * } , thereby minimizing conformational strain. Nucleophilic 1,6-attack at the now planarized segment (highlighted by color), followed by protonation, would then readily produce adduct 20. A detailed description of this scenario is given in the computational section (vide infra)."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000095_9b737c352eaf",
+          "quote": "For the computational investigation of the nucleophilic reactivity of dendralenes, we chose to focus on the thiol addition reaction as it showed the most variable experimental behavior, with attacks at diferent positions of individual substrates. The hydride addition occurred invariably at the \\beta ^ { \\prime } . position (Figure 4), which renders this reaction mechanistically less revealing."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+          "quote": "Our model dendralenes possess nine \\mathsf { s p } ^ { 2 } carbons, as shown for cyclo-enones 1a and 1b (Figure 4), all of which can, a priori, undergo a nucleophilic attack, except perhaps β- and α′- positions that are sterically hindered. Thus, one can anticipate three types of attacks: 1,2-additions (black arrows), 1,4- additions (red arrows), and 1,6-additions (blue arrows). To investigate the diferences in reactivity among the seven likely attack sites, we chose to computationally model the reactions of 1a, 1b, and 1i with thiolate, as this reaction exhibited the most variability. While the addition of thiolate to 1a proceeds at the δ-position (Scheme 6), the product observed in the reaction of 1b requires thiolate addition at the \\beta ^ { \\prime } . -position (Scheme 7). We did not expect such variation of reactivity to occur upon the extension of the ring by one methylene group. Yet another variation was observed for 1i, which was found to prefer an α-position attack, possibly reflecting the strong electron-withdrawing efect of the sulfone group."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+          "quote": "Based on the inherent molecular properties of 1a and 1b (see the discussion of the Fukui function in the Supporting Information), we would not have expected any preferential site for the thiol addition. Therefore, to explain the experimental products, we performed extensive DFT calculations of the complete reaction pathways. Herein, we discuss only the relevant stable species, calculated at the ωB97M-V<sup>25</sup>/def2- TZVPD<sup>26</sup>//B3LYP<sup>27</sup>-D3/def2-TZVP level of theory. We chose the high-level ωB97M-V functional by comparing the predicted reaction energies to the DLPNO-CCSD(T) calculation on selected systems. Despite the inability of the"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "quote": "Our DFT study was carried out for the reaction with MeSH instead of EtSH, as it reduced the computational cost. Calculations suggest that thiolate attacks at all relevant positions ( \\alpha , \\delta , and \\beta ^ { \\prime } ) have no significant barriers. The only barriers are entropic, which are compensated by favorable interaction enthalpies, resulting in an efective barrier (see Figure S8) of ∼7−8 kcal \\mathrm { m o l } ^ { - 1 } , which is not afecting the reaction outcomes in any meaningful way. Therefore, the preference for the product is dictated by the overall free reaction energies ( \\mathrm { i . e . , } thermodynamically controlled). The exclusive isolation of product 15 from the addition of EtSH to 1a (Scheme 6) is noteworthy, given the many electrophilic sites of 1a. By comparing the free energies of anionic thiolate addition intermediates <sup>1a</sup>INT1, <sup>1a</sup>INT2, and \\mathbf { \\Pi } ^ { 1 \\mathbf { a } } \\mathbf { I N T } 3 (Scheme 12), we observed an energetic preference for \\mathrm { \\bf i a } _ { \\mathbf { I N T } 2 } , corresponding to attack at the \\beta ^ { \\prime } -site. However, despite the relative stability of the latter intermediate, the reaction takes a diferent turn, namely, the formation of less stable <sup>6</sup>INT1 (arising by δ-attack), whose protonation yields <sup>1a</sup>P1 as the most stable product (corresponding to 15 in the experiment). However, the calculated free energy diferences among products \\mathrm { ^ { 1 a } P 1 - ^ { 1 a } P 3 } are very small, falling within the typical error range of DFT calculations (2−3 kcal mol<sup>−1</sup>), and the reactions are close to being thermoneutral (ca. −4 kcal mol<sup>−1</sup>). Furthermore, the most stable product varied across diferent DFT methods, making the results uncertain. In conflict with the experimental findings, our calculations suggest that double addition product <sup>1a</sup>P5 should be even more stable than single addition product \\mathbf { \\sigma } ^ { 1 \\mathrm { a } } \\mathbf { P } \\mathbf { 1 } _ { \\mathrm { - } } , but the energy diference between them (2 kcal mol<sup>−1</sup>) is also rather small."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000117_206638db73d5",
+          "quote": "Since \\mathbf { 1 6 } , a homologue of 1a, undergoes preferential \\beta ^ { \\prime } . attack, followed by cyclization (Scheme 7), we attempted to find a rationale for the \\delta \\mathrm { - } attack in the case of 1a. Here, the \\beta ^ { \\prime } \\mathfrak { z } attack would generate enolate <sup>1a</sup>INT2, whose 5(O)-endo-trig cyclization toward the α-carbon is precluded by a high energy barrier (>35 kcal mol<sup>−1</sup>), in consonance with the Baldwin rules. Furthermore, the alternative 5(O)-exo-trig cyclization toward the γ-carbon would yield unstable products, which cannot be optimized by DFT. The fact that the structure reverts back to reactants is presumably due to the strain in the [3.3.0] system that the latter ring formation would generate. Hence, cyclization is not preferred in either of the instances. Interestingly, after a potential aromatization by formation of the furan ring, product \\bf ^ { 1 a } P 4 would be of practically the same energy as the product of the simple addition, <sup>1a</sup>P1 (Scheme 12). This finding indicates that it is mainly the strain in the [3.3.0] potential intermediate that disfavors this pathway. Thus, due to the lack of stabilization by subsequent cyclization, and with a view of the principal reversibility of each step in all possible conjugate additions, it is understandable that the reaction of 1a takes a path diferent from that of 1b. This scenario thus results in a simple δ-attack, followed by protonation, which afords 15 ( \\mathbf { \\hat { 1 a } _ { P 1 } } ) as a major isolable product."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+          "quote": "By contrast, addition of thiolate to the cyclohexenone (1b) and cycloheptenone homologues (1c) occurs at the enone moiety. Subsequent Michael-type cyclization, analogous to pathway i in Scheme ^ { 2 , } then gives nonchiral furan derivatives 17b and { \\bf 1 7 c , } respectively. In analogy to dendralene 1a, a computational investigation of the addition of thiolate to dendralene 1b ( ^ { \\mathbf { 1 6 } } \\mathbf { R 1 } ;Scheme 13) indicates a thermodynamically controlled thiolate attack at the selected electrophilic sites. Furthermore, the reaction free energies for the formation of protonated products ^ { 1 \\mathrm { b } } \\mathrm { \\bf T 1 } , \\ ^ { 1 \\mathrm { b } } \\mathrm { \\bf T } 2 , , and ^ { 1 8 } \\mathrm { \\mathbf { P } } 5 were found to be"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+          "quote": "Scheme 14. Relevant Occupied Intrinsic Bond Orbitals (IBOs, exponent 2) Depicting Orbital Changes during the Enolate Attack at the Less Favorable α-Position (A) and the More Favorable γ-Position (B) of the Dienoate Unit consistent with those calculated for dendralene 1a (ca. −4 kcal \\mathrm { m o l ^ { - 1 } } ) . However, in contrast to the inability of 1a (specifically <sup>1a</sup>INT2) to cyclize (Scheme 12), the nucleophilic { \\mathfrak { s } } ( 0 ) { \\mathfrak { s } } e x o - trig cyclization of enolate { \\bf \\Pi } ^ { \\mathbf { 1 b } } { \\bf W T } 2 toward the γ-carbon becomes plausible. This process was found to proceed through intermediate <sup>1b</sup>INT4, which is 4 kcal \\mathrm { m o l ^ { - 1 } } uphill in energy (Figure S8), to ultimately reach cyclization product { \\bf 1 6 _ { \\vec { P 4 } , } } which is consistent with the experiment (17b in Scheme 7). While the energy of alternative cyclization product { \\bf 1 b } _ { { \\bf P } 3 } is predicted to be similar to that of { \\bf 1 \\dot { b } _ { P 4 } } , the reaction barrier of the required 5(O)-endo-trig enolate cyclization toward the α- carbon is prohibitively high (28 kcal mol<sup>−1</sup>), which is consistent with the Baldwin rules. Notably, the reaction free energy of the cyclization product from dendralene 1b (−18 kcal mol<sup>−1</sup>) is significantly lower than that of any addition product ( ^ { \\mathbf { 1 6 } } \\mathbf { P 1 0 \\mathrm { r } } ^ { \\mathbf { 1 6 } } \\mathbf { P 2 } ; Scheme 13) by −14 kcal mol<sup>−1</sup>, making product \\bf { \\dot { \\Pi } } ^ { \\mathbf { 1 } \\mathbf { b } } \\mathbf { P } 4 (and its experimental counterpart 17b) a thermodynamic sink."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+          "quote": "Finally, we turned to sulfone 1i and investigated its reaction with thiolate (Scheme 15) in a manner similar to what we used for enones 1a and 1b. The most energetically favorable anionic intermediates were predicted to correspond to an attack at the dienoate α-carbon. Depicted intermediate <sup>1i</sup>INT1 (Figure 5B) represents the nucleophilic attack at the most stable conformer"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+          "quote": "of 1i (Figure 5A), whereas <sup>1i</sup>INT4 (in fact lower in energy and more closely resembling product <sup>1i</sup>P1) would represent nucleophilic attack at hypothetical conformer \\mathbf { 1 } \\mathbf { i } ^ { * } , , which was predicted to be unstable (at the B3LYP/TZVP level of theory). These intermediates are lower in energy than <sup>1i</sup>INT2 and <sup>1i</sup>INT3, which stands in sharp contrast with dendralenes 1a and 1b, where the most stable anionic intermediate corresponds to thiolate attack at the \\beta ^ { \\prime } \\mathfrak { z } and δ-sites, respectively (Schemes 12 and 13). This α-preference could be attributed to the electron-withdrawing efect of the phenyl sulfone group being stronger than that of the enone and acrylate moieties.<sup>29</sup> Subsequent protonation of anionic intermediate <sup>1i</sup>INT1 or <sup>1i</sup>INT4 yields product ^ { 1 \\mathrm { i } } \\mathbf { P 1 } , an energetically most stable species among the possible products (Scheme 15), which is consistent with the experimental finding (20 in Scheme 8)."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+          "quote": "To conclude, reactions of thiolates with dendralenes were found to ofer several pathways with negligible barriers, where the overall reactivity is governed by the thermodynamic stability of all possible products, with the exception of some cyclization reactions that are kinetically prohibited. In the case of 1a, the DFT methods are not suficiently accurate to provide useful selectivity predictions of these vast reaction networks (Figure S8). In other instances, such as in the cyclization product originating from 1b or the addition of thiolate to 1i, we were able to rationalize the observed outcomes based on the DFT results."
+        },
+        {
+          "evidence_id": "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "quote": "Our computational study employed Orca 6 . 0 . 1 , ^ { 1 1 } Turbomole7.8,<sup>12</sup> Crest 2 . 1 2 , ^ { 1 3 } and \\mathbf { x T B } ^ { 1 4 } 6.6.1 software. The geometry optimizations of described stationary points were performed at { \\bf B } 3 \\mathrm { L Y P ^ { 1 5 } } . D3BJ/def2-TZVP level of theory using implicit description of chloroform solvent using conductor-like PCM (CPCM)<sup>16</sup> model, as implemented in Orca 6.0.1 (referred as method1). The stationary points were characterized by vibrational frequency calculations (having 0 imaginary frequencies for minima, 1 imaginary frequency for transition-states). The method1-optimized geometry was used for subsequent single point calculations with different computational methods in two kinds of implicit solvent models (CPCM or SMD): B3LYP-D3BJ/def2-TZVPD (with CPCM = method2, with SMD = method 3), M06- 2 \\mathrm { X } ^ { 1 7 } / \\mathrm { d e f } 2 \\mathrm { - T Z V P D } (with CPCM = method4, with SMD = method5), \\mathrm { \\odot B 9 7 M - V ^ { 1 8 } / d e f 2 - T Z V P D } (with \\mathrm { C P C M } = \\mathrm { m e t h o d } 6 . , with SMD = method 7) and DLPNO-CCSD(T)<sup>19</sup>/cc-pVTZ with “NormalPNO” settings and SMD solvent model (method8). For the meta-GGA functionals (M06-2X, wB97M-V) we used a dense integration grid by specifying the “DEFGRID3” keyword. For all functionals, we utilized RI and COSX<sup>20</sup> approximations. In addition to CPCM and SMD solvation model, we also report ωB97M-V<sup>18</sup>/def2-TZVPD energies calculated with the COSMO-RS solvation model method. In that case, we used the same geometries from method1 to perform both gas phase and \\mathrm { C O S M O } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f i n i t y } ; \\right. FINE cavity) calculation with the BP86 functional and FINE cavity. The gas-phase energy and the out.cosmo file from the COSMO calculation) were then used to calculate COSMO-RS Gibbs free energy of solvation using the COSMOTherm 2023 program (Dassault Systemes BIOVIA) with the BP_TZVPD_FINE_22.ctd parameter file. This energy of solvation was then added to gas-phase energy at ωB97M-V<sup>18</sup>/def2-TZVPD level (still at the same geometry from method1) to obtain the “single point” energy, which we refer to as method9."
+        },
+        {
+          "evidence_id": "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+          "quote": "For each compound, including the transition states (TSs), we performed conformer sampling using the modified Crest/xTB procedure: geometries were optimized at the GFN-2 in chloroform solvent modeled by the \\mathrm { A L P B } ^ { 2 1 } implicit solvation model (for TSs, we fixed the key bond lengths for each reaction, as determined by initial TS optimization of a random conformer). Then the DFT single point calculations were performed on these geometries with the \\tt B P 8 6 ^ { 2 2 } density functional with dgauss-dzvp basis<sup>23</sup> (as implemented in Turbomole, with RI approximation of the Coulomb integrals and D3-BJ dispersion correction parametrized for accurate conformational energies, parameters: ( \\mathrm { s } 6 = 1 . 0 , \\mathrm { a } 1 = 0 . 7 1 8 2 , \\mathrm { s } 8 = 3 . 2 1 7 6 . , and \\mathrm { a } 2 = 3 . 8 5 7 2 ) ^ { 2 4 } with \\mathrm { C O S M O ^ { 2 5 } } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f } \\right) and FINE cavity<sup>26</sup>. The chloroform solvent was modeled by COSMO-RS implicit solvent model (using external program BIOVIA COSMOtherm 2023 and BP_TZVPD_FINE_22.ctd parameter file). Typically, the 10 most stable conformers from this sampling were then reoptimized by method1 and the lowest energy conformer was taken for the single point calculations with other methods. For all reaction paths, except for protonations and deprotonations, which we assume should have very low barriers, we either found a transition state or we performed a relaxed reaction coordinate scan to verify that the reaction proceeds without barrier on the electronic energy potential surface (which was the case for most nucleophilic attacks). All calculations were conducted assuming the molecules were in a closed shell singlet spin state, except the Fukui functions, where the anions were calculated as doublets. The IBO analysis<sup>27</sup> was performed using IboView software (version= v20211019-RevA), using method1 wavefunctions as input. The IBOs were generated with exponent = 2 and were visualized with threshold value = 50. The anionic Fukui functions ( f ^ { + } ) ^ { 2 8 } were calculated by subtracting the SCF-density (using Chemcraft software) of the method1-CPCM obtained wavefunction of anion and neutral of corresponding dendralenes (1a, 1b, and 1i):"
+        }
+      ]
+    },
+    "scientific_question": "For the three electron-deficient [3]dendralene substrates bearing (i) a cyclopentenone appendage, (ii) a cyclohexenone appendage, and (iii) a phenylsulfonyl appendage, how does methanethiolate addition distribute among the accessible conjugated electrophilic sites under standard solution conditions, and which simple-addition or cyclized products are thermodynamically favored after protonation? Compare the relevant anionic addition intermediates and protonated products for these three substrates without assuming a common site-selectivity rule.",
+    "computation_relevance": "The authors explicitly selected thiolate addition because it showed variable experimental behavior and modeled reactions of the cyclopentenone, cyclohexenone, and phenylsulfonyl dendralenes with methanethiolate. They reported DFT Gibbs free energies for anionic intermediates, protonated products, and selected cyclization barriers, and used these results to rationalize why the cyclopentenone substrate gives a simple addition product, the cyclohexenone substrate gives a cyclized furan product, and the phenylsulfonyl substrate gives an alpha-site addition product.",
+    "author_computation": {
+      "performed_by_authors": true,
+      "results_reported": true,
+      "non_routine": true,
+      "evidence_ids": [
+        "ev_doc_c273e45e3ac0_000095_9b737c352eaf",
+        "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+        "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+        "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+        "ev_doc_c273e45e3ac0_000117_206638db73d5",
+        "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+        "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+        "ev_doc_c273e45e3ac0_000125_bada47a425ee",
+        "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+        "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+        "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+        "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+        "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+        "ev_doc_e968c0ba81c1_000244_909307f3c299"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000095_9b737c352eaf",
+          "quote": "For the computational investigation of the nucleophilic reactivity of dendralenes, we chose to focus on the thiol addition reaction as it showed the most variable experimental behavior, with attacks at diferent positions of individual substrates. The hydride addition occurred invariably at the \\beta ^ { \\prime } . position (Figure 4), which renders this reaction mechanistically less revealing."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+          "quote": "Our model dendralenes possess nine \\mathsf { s p } ^ { 2 } carbons, as shown for cyclo-enones 1a and 1b (Figure 4), all of which can, a priori, undergo a nucleophilic attack, except perhaps β- and α′- positions that are sterically hindered. Thus, one can anticipate three types of attacks: 1,2-additions (black arrows), 1,4- additions (red arrows), and 1,6-additions (blue arrows). To investigate the diferences in reactivity among the seven likely attack sites, we chose to computationally model the reactions of 1a, 1b, and 1i with thiolate, as this reaction exhibited the most variability. While the addition of thiolate to 1a proceeds at the δ-position (Scheme 6), the product observed in the reaction of 1b requires thiolate addition at the \\beta ^ { \\prime } . -position (Scheme 7). We did not expect such variation of reactivity to occur upon the extension of the ring by one methylene group. Yet another variation was observed for 1i, which was found to prefer an α-position attack, possibly reflecting the strong electron-withdrawing efect of the sulfone group."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+          "quote": "Based on the inherent molecular properties of 1a and 1b (see the discussion of the Fukui function in the Supporting Information), we would not have expected any preferential site for the thiol addition. Therefore, to explain the experimental products, we performed extensive DFT calculations of the complete reaction pathways. Herein, we discuss only the relevant stable species, calculated at the ωB97M-V<sup>25</sup>/def2- TZVPD<sup>26</sup>//B3LYP<sup>27</sup>-D3/def2-TZVP level of theory. We chose the high-level ωB97M-V functional by comparing the predicted reaction energies to the DLPNO-CCSD(T) calculation on selected systems. Despite the inability of the"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "quote": "Our DFT study was carried out for the reaction with MeSH instead of EtSH, as it reduced the computational cost. Calculations suggest that thiolate attacks at all relevant positions ( \\alpha , \\delta , and \\beta ^ { \\prime } ) have no significant barriers. The only barriers are entropic, which are compensated by favorable interaction enthalpies, resulting in an efective barrier (see Figure S8) of ∼7−8 kcal \\mathrm { m o l } ^ { - 1 } , which is not afecting the reaction outcomes in any meaningful way. Therefore, the preference for the product is dictated by the overall free reaction energies ( \\mathrm { i . e . , } thermodynamically controlled). The exclusive isolation of product 15 from the addition of EtSH to 1a (Scheme 6) is noteworthy, given the many electrophilic sites of 1a. By comparing the free energies of anionic thiolate addition intermediates <sup>1a</sup>INT1, <sup>1a</sup>INT2, and \\mathbf { \\Pi } ^ { 1 \\mathbf { a } } \\mathbf { I N T } 3 (Scheme 12), we observed an energetic preference for \\mathrm { \\bf i a } _ { \\mathbf { I N T } 2 } , corresponding to attack at the \\beta ^ { \\prime } -site. However, despite the relative stability of the latter intermediate, the reaction takes a diferent turn, namely, the formation of less stable <sup>6</sup>INT1 (arising by δ-attack), whose protonation yields <sup>1a</sup>P1 as the most stable product (corresponding to 15 in the experiment). However, the calculated free energy diferences among products \\mathrm { ^ { 1 a } P 1 - ^ { 1 a } P 3 } are very small, falling within the typical error range of DFT calculations (2−3 kcal mol<sup>−1</sup>), and the reactions are close to being thermoneutral (ca. −4 kcal mol<sup>−1</sup>). Furthermore, the most stable product varied across diferent DFT methods, making the results uncertain. In conflict with the experimental findings, our calculations suggest that double addition product <sup>1a</sup>P5 should be even more stable than single addition product \\mathbf { \\sigma } ^ { 1 \\mathrm { a } } \\mathbf { P } \\mathbf { 1 } _ { \\mathrm { - } } , but the energy diference between them (2 kcal mol<sup>−1</sup>) is also rather small."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000117_206638db73d5",
+          "quote": "Since \\mathbf { 1 6 } , a homologue of 1a, undergoes preferential \\beta ^ { \\prime } . attack, followed by cyclization (Scheme 7), we attempted to find a rationale for the \\delta \\mathrm { - } attack in the case of 1a. Here, the \\beta ^ { \\prime } \\mathfrak { z } attack would generate enolate <sup>1a</sup>INT2, whose 5(O)-endo-trig cyclization toward the α-carbon is precluded by a high energy barrier (>35 kcal mol<sup>−1</sup>), in consonance with the Baldwin rules. Furthermore, the alternative 5(O)-exo-trig cyclization toward the γ-carbon would yield unstable products, which cannot be optimized by DFT. The fact that the structure reverts back to reactants is presumably due to the strain in the [3.3.0] system that the latter ring formation would generate. Hence, cyclization is not preferred in either of the instances. Interestingly, after a potential aromatization by formation of the furan ring, product \\bf ^ { 1 a } P 4 would be of practically the same energy as the product of the simple addition, <sup>1a</sup>P1 (Scheme 12). This finding indicates that it is mainly the strain in the [3.3.0] potential intermediate that disfavors this pathway. Thus, due to the lack of stabilization by subsequent cyclization, and with a view of the principal reversibility of each step in all possible conjugate additions, it is understandable that the reaction of 1a takes a path diferent from that of 1b. This scenario thus results in a simple δ-attack, followed by protonation, which afords 15 ( \\mathbf { \\hat { 1 a } _ { P 1 } } ) as a major isolable product."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+          "quote": "By contrast, addition of thiolate to the cyclohexenone (1b) and cycloheptenone homologues (1c) occurs at the enone moiety. Subsequent Michael-type cyclization, analogous to pathway i in Scheme ^ { 2 , } then gives nonchiral furan derivatives 17b and { \\bf 1 7 c , } respectively. In analogy to dendralene 1a, a computational investigation of the addition of thiolate to dendralene 1b ( ^ { \\mathbf { 1 6 } } \\mathbf { R 1 } ;Scheme 13) indicates a thermodynamically controlled thiolate attack at the selected electrophilic sites. Furthermore, the reaction free energies for the formation of protonated products ^ { 1 \\mathrm { b } } \\mathrm { \\bf T 1 } , \\ ^ { 1 \\mathrm { b } } \\mathrm { \\bf T } 2 , , and ^ { 1 8 } \\mathrm { \\mathbf { P } } 5 were found to be"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+          "quote": "Scheme 14. Relevant Occupied Intrinsic Bond Orbitals (IBOs, exponent 2) Depicting Orbital Changes during the Enolate Attack at the Less Favorable α-Position (A) and the More Favorable γ-Position (B) of the Dienoate Unit consistent with those calculated for dendralene 1a (ca. −4 kcal \\mathrm { m o l ^ { - 1 } } ) . However, in contrast to the inability of 1a (specifically <sup>1a</sup>INT2) to cyclize (Scheme 12), the nucleophilic { \\mathfrak { s } } ( 0 ) { \\mathfrak { s } } e x o - trig cyclization of enolate { \\bf \\Pi } ^ { \\mathbf { 1 b } } { \\bf W T } 2 toward the γ-carbon becomes plausible. This process was found to proceed through intermediate <sup>1b</sup>INT4, which is 4 kcal \\mathrm { m o l ^ { - 1 } } uphill in energy (Figure S8), to ultimately reach cyclization product { \\bf 1 6 _ { \\vec { P 4 } , } } which is consistent with the experiment (17b in Scheme 7). While the energy of alternative cyclization product { \\bf 1 b } _ { { \\bf P } 3 } is predicted to be similar to that of { \\bf 1 \\dot { b } _ { P 4 } } , the reaction barrier of the required 5(O)-endo-trig enolate cyclization toward the α- carbon is prohibitively high (28 kcal mol<sup>−1</sup>), which is consistent with the Baldwin rules. Notably, the reaction free energy of the cyclization product from dendralene 1b (−18 kcal mol<sup>−1</sup>) is significantly lower than that of any addition product ( ^ { \\mathbf { 1 6 } } \\mathbf { P 1 0 \\mathrm { r } } ^ { \\mathbf { 1 6 } } \\mathbf { P 2 } ; Scheme 13) by −14 kcal mol<sup>−1</sup>, making product \\bf { \\dot { \\Pi } } ^ { \\mathbf { 1 } \\mathbf { b } } \\mathbf { P } 4 (and its experimental counterpart 17b) a thermodynamic sink."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000125_bada47a425ee",
+          "quote": "To qualitatively explain the energy diference between the α- and preferred γ-cyclization pathways (Scheme 13), we employed the intrinsic bond orbital (IBO) approach. The IBO approach transforms the DFT wave function into a set of orthogonal orbitals localized at a minimal number of atoms,<sup>28</sup> which has been shown to provide intuitive interpretation of chemical bonding. In our analysis, we examined the three IBO orbitals, which undergo the most changes during the enolate cyclization (Scheme 14). Consistent with the Baldwin rules, the γ-attack was found to exhibit a favorable orbital overlap, due to the nearly perpendicular orientation of the interacting orbitals, which is more favorable than that for the α-attack, which would require partial breaking of the \\mathrm { C } _ { \\alpha } { = } \\mathrm { C } _ { \\beta } bond."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+          "quote": "Finally, we turned to sulfone 1i and investigated its reaction with thiolate (Scheme 15) in a manner similar to what we used for enones 1a and 1b. The most energetically favorable anionic intermediates were predicted to correspond to an attack at the dienoate α-carbon. Depicted intermediate <sup>1i</sup>INT1 (Figure 5B) represents the nucleophilic attack at the most stable conformer"
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+          "quote": "of 1i (Figure 5A), whereas <sup>1i</sup>INT4 (in fact lower in energy and more closely resembling product <sup>1i</sup>P1) would represent nucleophilic attack at hypothetical conformer \\mathbf { 1 } \\mathbf { i } ^ { * } , , which was predicted to be unstable (at the B3LYP/TZVP level of theory). These intermediates are lower in energy than <sup>1i</sup>INT2 and <sup>1i</sup>INT3, which stands in sharp contrast with dendralenes 1a and 1b, where the most stable anionic intermediate corresponds to thiolate attack at the \\beta ^ { \\prime } \\mathfrak { z } and δ-sites, respectively (Schemes 12 and 13). This α-preference could be attributed to the electron-withdrawing efect of the phenyl sulfone group being stronger than that of the enone and acrylate moieties.<sup>29</sup> Subsequent protonation of anionic intermediate <sup>1i</sup>INT1 or <sup>1i</sup>INT4 yields product ^ { 1 \\mathrm { i } } \\mathbf { P 1 } , an energetically most stable species among the possible products (Scheme 15), which is consistent with the experimental finding (20 in Scheme 8)."
+        },
+        {
+          "evidence_id": "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+          "quote": "To conclude, reactions of thiolates with dendralenes were found to ofer several pathways with negligible barriers, where the overall reactivity is governed by the thermodynamic stability of all possible products, with the exception of some cyclization reactions that are kinetically prohibited. In the case of 1a, the DFT methods are not suficiently accurate to provide useful selectivity predictions of these vast reaction networks (Figure S8). In other instances, such as in the cyclization product originating from 1b or the addition of thiolate to 1i, we were able to rationalize the observed outcomes based on the DFT results."
+        },
+        {
+          "evidence_id": "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "quote": "Our computational study employed Orca 6 . 0 . 1 , ^ { 1 1 } Turbomole7.8,<sup>12</sup> Crest 2 . 1 2 , ^ { 1 3 } and \\mathbf { x T B } ^ { 1 4 } 6.6.1 software. The geometry optimizations of described stationary points were performed at { \\bf B } 3 \\mathrm { L Y P ^ { 1 5 } } . D3BJ/def2-TZVP level of theory using implicit description of chloroform solvent using conductor-like PCM (CPCM)<sup>16</sup> model, as implemented in Orca 6.0.1 (referred as method1). The stationary points were characterized by vibrational frequency calculations (having 0 imaginary frequencies for minima, 1 imaginary frequency for transition-states). The method1-optimized geometry was used for subsequent single point calculations with different computational methods in two kinds of implicit solvent models (CPCM or SMD): B3LYP-D3BJ/def2-TZVPD (with CPCM = method2, with SMD = method 3), M06- 2 \\mathrm { X } ^ { 1 7 } / \\mathrm { d e f } 2 \\mathrm { - T Z V P D } (with CPCM = method4, with SMD = method5), \\mathrm { \\odot B 9 7 M - V ^ { 1 8 } / d e f 2 - T Z V P D } (with \\mathrm { C P C M } = \\mathrm { m e t h o d } 6 . , with SMD = method 7) and DLPNO-CCSD(T)<sup>19</sup>/cc-pVTZ with “NormalPNO” settings and SMD solvent model (method8). For the meta-GGA functionals (M06-2X, wB97M-V) we used a dense integration grid by specifying the “DEFGRID3” keyword. For all functionals, we utilized RI and COSX<sup>20</sup> approximations. In addition to CPCM and SMD solvation model, we also report ωB97M-V<sup>18</sup>/def2-TZVPD energies calculated with the COSMO-RS solvation model method. In that case, we used the same geometries from method1 to perform both gas phase and \\mathrm { C O S M O } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f i n i t y } ; \\right. FINE cavity) calculation with the BP86 functional and FINE cavity. The gas-phase energy and the out.cosmo file from the COSMO calculation) were then used to calculate COSMO-RS Gibbs free energy of solvation using the COSMOTherm 2023 program (Dassault Systemes BIOVIA) with the BP_TZVPD_FINE_22.ctd parameter file. This energy of solvation was then added to gas-phase energy at ωB97M-V<sup>18</sup>/def2-TZVPD level (still at the same geometry from method1) to obtain the “single point” energy, which we refer to as method9."
+        },
+        {
+          "evidence_id": "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+          "quote": "For each compound, including the transition states (TSs), we performed conformer sampling using the modified Crest/xTB procedure: geometries were optimized at the GFN-2 in chloroform solvent modeled by the \\mathrm { A L P B } ^ { 2 1 } implicit solvation model (for TSs, we fixed the key bond lengths for each reaction, as determined by initial TS optimization of a random conformer). Then the DFT single point calculations were performed on these geometries with the \\tt B P 8 6 ^ { 2 2 } density functional with dgauss-dzvp basis<sup>23</sup> (as implemented in Turbomole, with RI approximation of the Coulomb integrals and D3-BJ dispersion correction parametrized for accurate conformational energies, parameters: ( \\mathrm { s } 6 = 1 . 0 , \\mathrm { a } 1 = 0 . 7 1 8 2 , \\mathrm { s } 8 = 3 . 2 1 7 6 . , and \\mathrm { a } 2 = 3 . 8 5 7 2 ) ^ { 2 4 } with \\mathrm { C O S M O ^ { 2 5 } } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f } \\right) and FINE cavity<sup>26</sup>. The chloroform solvent was modeled by COSMO-RS implicit solvent model (using external program BIOVIA COSMOtherm 2023 and BP_TZVPD_FINE_22.ctd parameter file). Typically, the 10 most stable conformers from this sampling were then reoptimized by method1 and the lowest energy conformer was taken for the single point calculations with other methods. For all reaction paths, except for protonations and deprotonations, which we assume should have very low barriers, we either found a transition state or we performed a relaxed reaction coordinate scan to verify that the reaction proceeds without barrier on the electronic energy potential surface (which was the case for most nucleophilic attacks). All calculations were conducted assuming the molecules were in a closed shell singlet spin state, except the Fukui functions, where the anions were calculated as doublets. The IBO analysis<sup>27</sup> was performed using IboView software (version= v20211019-RevA), using method1 wavefunctions as input. The IBOs were generated with exponent = 2 and were visualized with threshold value = 50. The anionic Fukui functions ( f ^ { + } ) ^ { 2 8 } were calculated by subtracting the SCF-density (using Chemcraft software) of the method1-CPCM obtained wavefunction of anion and neutral of corresponding dendralenes (1a, 1b, and 1i):"
+        },
+        {
+          "evidence_id": "ev_doc_e968c0ba81c1_000244_909307f3c299",
+          "quote": "Figure S8. Relative Gibbs free energies of the complete reaction networks of 1a (= R5), 1b (= R6) and 1i (= Sulf). The numbers below the name of each structure are Gibbs free energies at 298 K and 1 M, relative to reactants, separated by forward slashes and calculated with method7 method6, method9, method3, method5, and method8, respectively. The naming in this Figure can be cross-referenced to the main text names using Table S4."
+        }
+      ]
+    },
+    "computational_references": [
+      {
+        "reference_id": "CR1",
+        "result": "For the cyclopentenone substrate, methanethiolate addition intermediates from alpha, delta, and beta-prime attack were compared. The beta-prime anionic intermediate was calculated to be the most stable of the three, but protonation of the delta-attack intermediate gave the most stable protonated product, corresponding to the experimentally observed simple addition product. The authors noted that product free-energy differences were small and within typical DFT error, and that the double-addition product was calculated to be slightly more stable than the single-addition product.",
+        "observable": "relative Gibbs free energy",
+        "value": null,
+        "unit": "kcal mol^-1",
+        "method": "omegaB97M-V/def2-TZVPD//B3LYP-D3BJ/def2-TZVP, 298.15 K, 1 M, implicit chloroform",
+        "model_system": "cyclopentenone [3]dendralene with methanethiolate",
+        "conditions": "standard solution conditions; chloroform implicit solvent; methanethiolate model for thiolate",
+        "comparison_scope": "anionic intermediates and protonated products from alpha, delta, and beta-prime attack; simple addition versus double addition",
+        "uncertainty": "authors state product free-energy differences are very small, within typical DFT error of 2-3 kcal mol^-1, and that the most stable product varied across DFT methods",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+          "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "ev_doc_c273e45e3ac0_000117_206638db73d5",
+          "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+            "quote": "Based on the inherent molecular properties of 1a and 1b (see the discussion of the Fukui function in the Supporting Information), we would not have expected any preferential site for the thiol addition. Therefore, to explain the experimental products, we performed extensive DFT calculations of the complete reaction pathways. Herein, we discuss only the relevant stable species, calculated at the ωB97M-V<sup>25</sup>/def2- TZVPD<sup>26</sup>//B3LYP<sup>27</sup>-D3/def2-TZVP level of theory. We chose the high-level ωB97M-V functional by comparing the predicted reaction energies to the DLPNO-CCSD(T) calculation on selected systems. Despite the inability of the"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+            "quote": "Our DFT study was carried out for the reaction with MeSH instead of EtSH, as it reduced the computational cost. Calculations suggest that thiolate attacks at all relevant positions ( \\alpha , \\delta , and \\beta ^ { \\prime } ) have no significant barriers. The only barriers are entropic, which are compensated by favorable interaction enthalpies, resulting in an efective barrier (see Figure S8) of ∼7−8 kcal \\mathrm { m o l } ^ { - 1 } , which is not afecting the reaction outcomes in any meaningful way. Therefore, the preference for the product is dictated by the overall free reaction energies ( \\mathrm { i . e . , } thermodynamically controlled). The exclusive isolation of product 15 from the addition of EtSH to 1a (Scheme 6) is noteworthy, given the many electrophilic sites of 1a. By comparing the free energies of anionic thiolate addition intermediates <sup>1a</sup>INT1, <sup>1a</sup>INT2, and \\mathbf { \\Pi } ^ { 1 \\mathbf { a } } \\mathbf { I N T } 3 (Scheme 12), we observed an energetic preference for \\mathrm { \\bf i a } _ { \\mathbf { I N T } 2 } , corresponding to attack at the \\beta ^ { \\prime } -site. However, despite the relative stability of the latter intermediate, the reaction takes a diferent turn, namely, the formation of less stable <sup>6</sup>INT1 (arising by δ-attack), whose protonation yields <sup>1a</sup>P1 as the most stable product (corresponding to 15 in the experiment). However, the calculated free energy diferences among products \\mathrm { ^ { 1 a } P 1 - ^ { 1 a } P 3 } are very small, falling within the typical error range of DFT calculations (2−3 kcal mol<sup>−1</sup>), and the reactions are close to being thermoneutral (ca. −4 kcal mol<sup>−1</sup>). Furthermore, the most stable product varied across diferent DFT methods, making the results uncertain. In conflict with the experimental findings, our calculations suggest that double addition product <sup>1a</sup>P5 should be even more stable than single addition product \\mathbf { \\sigma } ^ { 1 \\mathrm { a } } \\mathbf { P } \\mathbf { 1 } _ { \\mathrm { - } } , but the energy diference between them (2 kcal mol<sup>−1</sup>) is also rather small."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000117_206638db73d5",
+            "quote": "Since \\mathbf { 1 6 } , a homologue of 1a, undergoes preferential \\beta ^ { \\prime } . attack, followed by cyclization (Scheme 7), we attempted to find a rationale for the \\delta \\mathrm { - } attack in the case of 1a. Here, the \\beta ^ { \\prime } \\mathfrak { z } attack would generate enolate <sup>1a</sup>INT2, whose 5(O)-endo-trig cyclization toward the α-carbon is precluded by a high energy barrier (>35 kcal mol<sup>−1</sup>), in consonance with the Baldwin rules. Furthermore, the alternative 5(O)-exo-trig cyclization toward the γ-carbon would yield unstable products, which cannot be optimized by DFT. The fact that the structure reverts back to reactants is presumably due to the strain in the [3.3.0] system that the latter ring formation would generate. Hence, cyclization is not preferred in either of the instances. Interestingly, after a potential aromatization by formation of the furan ring, product \\bf ^ { 1 a } P 4 would be of practically the same energy as the product of the simple addition, <sup>1a</sup>P1 (Scheme 12). This finding indicates that it is mainly the strain in the [3.3.0] potential intermediate that disfavors this pathway. Thus, due to the lack of stabilization by subsequent cyclization, and with a view of the principal reversibility of each step in all possible conjugate additions, it is understandable that the reaction of 1a takes a path diferent from that of 1b. This scenario thus results in a simple δ-attack, followed by protonation, which afords 15 ( \\mathbf { \\hat { 1 a } _ { P 1 } } ) as a major isolable product."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+            "quote": "To conclude, reactions of thiolates with dendralenes were found to ofer several pathways with negligible barriers, where the overall reactivity is governed by the thermodynamic stability of all possible products, with the exception of some cyclization reactions that are kinetically prohibited. In the case of 1a, the DFT methods are not suficiently accurate to provide useful selectivity predictions of these vast reaction networks (Figure S8). In other instances, such as in the cyclization product originating from 1b or the addition of thiolate to 1i, we were able to rationalize the observed outcomes based on the DFT results."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+            "quote": "Our computational study employed Orca 6 . 0 . 1 , ^ { 1 1 } Turbomole7.8,<sup>12</sup> Crest 2 . 1 2 , ^ { 1 3 } and \\mathbf { x T B } ^ { 1 4 } 6.6.1 software. The geometry optimizations of described stationary points were performed at { \\bf B } 3 \\mathrm { L Y P ^ { 1 5 } } . D3BJ/def2-TZVP level of theory using implicit description of chloroform solvent using conductor-like PCM (CPCM)<sup>16</sup> model, as implemented in Orca 6.0.1 (referred as method1). The stationary points were characterized by vibrational frequency calculations (having 0 imaginary frequencies for minima, 1 imaginary frequency for transition-states). The method1-optimized geometry was used for subsequent single point calculations with different computational methods in two kinds of implicit solvent models (CPCM or SMD): B3LYP-D3BJ/def2-TZVPD (with CPCM = method2, with SMD = method 3), M06- 2 \\mathrm { X } ^ { 1 7 } / \\mathrm { d e f } 2 \\mathrm { - T Z V P D } (with CPCM = method4, with SMD = method5), \\mathrm { \\odot B 9 7 M - V ^ { 1 8 } / d e f 2 - T Z V P D } (with \\mathrm { C P C M } = \\mathrm { m e t h o d } 6 . , with SMD = method 7) and DLPNO-CCSD(T)<sup>19</sup>/cc-pVTZ with “NormalPNO” settings and SMD solvent model (method8). For the meta-GGA functionals (M06-2X, wB97M-V) we used a dense integration grid by specifying the “DEFGRID3” keyword. For all functionals, we utilized RI and COSX<sup>20</sup> approximations. In addition to CPCM and SMD solvation model, we also report ωB97M-V<sup>18</sup>/def2-TZVPD energies calculated with the COSMO-RS solvation model method. In that case, we used the same geometries from method1 to perform both gas phase and \\mathrm { C O S M O } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f i n i t y } ; \\right. FINE cavity) calculation with the BP86 functional and FINE cavity. The gas-phase energy and the out.cosmo file from the COSMO calculation) were then used to calculate COSMO-RS Gibbs free energy of solvation using the COSMOTherm 2023 program (Dassault Systemes BIOVIA) with the BP_TZVPD_FINE_22.ctd parameter file. This energy of solvation was then added to gas-phase energy at ωB97M-V<sup>18</sup>/def2-TZVPD level (still at the same geometry from method1) to obtain the “single point” energy, which we refer to as method9."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+            "quote": "For each compound, including the transition states (TSs), we performed conformer sampling using the modified Crest/xTB procedure: geometries were optimized at the GFN-2 in chloroform solvent modeled by the \\mathrm { A L P B } ^ { 2 1 } implicit solvation model (for TSs, we fixed the key bond lengths for each reaction, as determined by initial TS optimization of a random conformer). Then the DFT single point calculations were performed on these geometries with the \\tt B P 8 6 ^ { 2 2 } density functional with dgauss-dzvp basis<sup>23</sup> (as implemented in Turbomole, with RI approximation of the Coulomb integrals and D3-BJ dispersion correction parametrized for accurate conformational energies, parameters: ( \\mathrm { s } 6 = 1 . 0 , \\mathrm { a } 1 = 0 . 7 1 8 2 , \\mathrm { s } 8 = 3 . 2 1 7 6 . , and \\mathrm { a } 2 = 3 . 8 5 7 2 ) ^ { 2 4 } with \\mathrm { C O S M O ^ { 2 5 } } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f } \\right) and FINE cavity<sup>26</sup>. The chloroform solvent was modeled by COSMO-RS implicit solvent model (using external program BIOVIA COSMOtherm 2023 and BP_TZVPD_FINE_22.ctd parameter file). Typically, the 10 most stable conformers from this sampling were then reoptimized by method1 and the lowest energy conformer was taken for the single point calculations with other methods. For all reaction paths, except for protonations and deprotonations, which we assume should have very low barriers, we either found a transition state or we performed a relaxed reaction coordinate scan to verify that the reaction proceeds without barrier on the electronic energy potential surface (which was the case for most nucleophilic attacks). All calculations were conducted assuming the molecules were in a closed shell singlet spin state, except the Fukui functions, where the anions were calculated as doublets. The IBO analysis<sup>27</sup> was performed using IboView software (version= v20211019-RevA), using method1 wavefunctions as input. The IBOs were generated with exponent = 2 and were visualized with threshold value = 50. The anionic Fukui functions ( f ^ { + } ) ^ { 2 8 } were calculated by subtracting the SCF-density (using Chemcraft software) of the method1-CPCM obtained wavefunction of anion and neutral of corresponding dendralenes (1a, 1b, and 1i):"
+          }
+        ]
+      },
+      {
+        "reference_id": "CR2",
+        "result": "For the cyclohexenone substrate, methanethiolate addition was calculated to be thermodynamically controlled, and beta-prime attack followed by 5(O)-exo-trig cyclization led to a cyclized product consistent with the experimental furan product. The cyclization product was calculated to be a thermodynamic sink, substantially lower in free energy than simple addition products.",
+        "observable": "relative Gibbs free energy",
+        "value": -18,
+        "unit": "kcal mol^-1",
+        "method": "omegaB97M-V/def2-TZVPD//B3LYP-D3BJ/def2-TZVP, 298.15 K, 1 M, implicit chloroform",
+        "model_system": "cyclohexenone [3]dendralene with methanethiolate",
+        "conditions": "standard solution conditions; chloroform implicit solvent; methanethiolate model for thiolate",
+        "comparison_scope": "beta-prime attack, gamma cyclization, alpha cyclization, and simple addition products",
+        "uncertainty": "authors report qualitative thermodynamic control and note alternative cyclization product has similar energy, but alpha cyclization has a high barrier",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+          "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+          "ev_doc_c273e45e3ac0_000125_bada47a425ee",
+          "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+            "quote": "By contrast, addition of thiolate to the cyclohexenone (1b) and cycloheptenone homologues (1c) occurs at the enone moiety. Subsequent Michael-type cyclization, analogous to pathway i in Scheme ^ { 2 , } then gives nonchiral furan derivatives 17b and { \\bf 1 7 c , } respectively. In analogy to dendralene 1a, a computational investigation of the addition of thiolate to dendralene 1b ( ^ { \\mathbf { 1 6 } } \\mathbf { R 1 } ;Scheme 13) indicates a thermodynamically controlled thiolate attack at the selected electrophilic sites. Furthermore, the reaction free energies for the formation of protonated products ^ { 1 \\mathrm { b } } \\mathrm { \\bf T 1 } , \\ ^ { 1 \\mathrm { b } } \\mathrm { \\bf T } 2 , , and ^ { 1 8 } \\mathrm { \\mathbf { P } } 5 were found to be"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+            "quote": "Scheme 14. Relevant Occupied Intrinsic Bond Orbitals (IBOs, exponent 2) Depicting Orbital Changes during the Enolate Attack at the Less Favorable α-Position (A) and the More Favorable γ-Position (B) of the Dienoate Unit consistent with those calculated for dendralene 1a (ca. −4 kcal \\mathrm { m o l ^ { - 1 } } ) . However, in contrast to the inability of 1a (specifically <sup>1a</sup>INT2) to cyclize (Scheme 12), the nucleophilic { \\mathfrak { s } } ( 0 ) { \\mathfrak { s } } e x o - trig cyclization of enolate { \\bf \\Pi } ^ { \\mathbf { 1 b } } { \\bf W T } 2 toward the γ-carbon becomes plausible. This process was found to proceed through intermediate <sup>1b</sup>INT4, which is 4 kcal \\mathrm { m o l ^ { - 1 } } uphill in energy (Figure S8), to ultimately reach cyclization product { \\bf 1 6 _ { \\vec { P 4 } , } } which is consistent with the experiment (17b in Scheme 7). While the energy of alternative cyclization product { \\bf 1 b } _ { { \\bf P } 3 } is predicted to be similar to that of { \\bf 1 \\dot { b } _ { P 4 } } , the reaction barrier of the required 5(O)-endo-trig enolate cyclization toward the α- carbon is prohibitively high (28 kcal mol<sup>−1</sup>), which is consistent with the Baldwin rules. Notably, the reaction free energy of the cyclization product from dendralene 1b (−18 kcal mol<sup>−1</sup>) is significantly lower than that of any addition product ( ^ { \\mathbf { 1 6 } } \\mathbf { P 1 0 \\mathrm { r } } ^ { \\mathbf { 1 6 } } \\mathbf { P 2 } ; Scheme 13) by −14 kcal mol<sup>−1</sup>, making product \\bf { \\dot { \\Pi } } ^ { \\mathbf { 1 } \\mathbf { b } } \\mathbf { P } 4 (and its experimental counterpart 17b) a thermodynamic sink."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000125_bada47a425ee",
+            "quote": "To qualitatively explain the energy diference between the α- and preferred γ-cyclization pathways (Scheme 13), we employed the intrinsic bond orbital (IBO) approach. The IBO approach transforms the DFT wave function into a set of orthogonal orbitals localized at a minimal number of atoms,<sup>28</sup> which has been shown to provide intuitive interpretation of chemical bonding. In our analysis, we examined the three IBO orbitals, which undergo the most changes during the enolate cyclization (Scheme 14). Consistent with the Baldwin rules, the γ-attack was found to exhibit a favorable orbital overlap, due to the nearly perpendicular orientation of the interacting orbitals, which is more favorable than that for the α-attack, which would require partial breaking of the \\mathrm { C } _ { \\alpha } { = } \\mathrm { C } _ { \\beta } bond."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+            "quote": "To conclude, reactions of thiolates with dendralenes were found to ofer several pathways with negligible barriers, where the overall reactivity is governed by the thermodynamic stability of all possible products, with the exception of some cyclization reactions that are kinetically prohibited. In the case of 1a, the DFT methods are not suficiently accurate to provide useful selectivity predictions of these vast reaction networks (Figure S8). In other instances, such as in the cyclization product originating from 1b or the addition of thiolate to 1i, we were able to rationalize the observed outcomes based on the DFT results."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+            "quote": "Our computational study employed Orca 6 . 0 . 1 , ^ { 1 1 } Turbomole7.8,<sup>12</sup> Crest 2 . 1 2 , ^ { 1 3 } and \\mathbf { x T B } ^ { 1 4 } 6.6.1 software. The geometry optimizations of described stationary points were performed at { \\bf B } 3 \\mathrm { L Y P ^ { 1 5 } } . D3BJ/def2-TZVP level of theory using implicit description of chloroform solvent using conductor-like PCM (CPCM)<sup>16</sup> model, as implemented in Orca 6.0.1 (referred as method1). The stationary points were characterized by vibrational frequency calculations (having 0 imaginary frequencies for minima, 1 imaginary frequency for transition-states). The method1-optimized geometry was used for subsequent single point calculations with different computational methods in two kinds of implicit solvent models (CPCM or SMD): B3LYP-D3BJ/def2-TZVPD (with CPCM = method2, with SMD = method 3), M06- 2 \\mathrm { X } ^ { 1 7 } / \\mathrm { d e f } 2 \\mathrm { - T Z V P D } (with CPCM = method4, with SMD = method5), \\mathrm { \\odot B 9 7 M - V ^ { 1 8 } / d e f 2 - T Z V P D } (with \\mathrm { C P C M } = \\mathrm { m e t h o d } 6 . , with SMD = method 7) and DLPNO-CCSD(T)<sup>19</sup>/cc-pVTZ with “NormalPNO” settings and SMD solvent model (method8). For the meta-GGA functionals (M06-2X, wB97M-V) we used a dense integration grid by specifying the “DEFGRID3” keyword. For all functionals, we utilized RI and COSX<sup>20</sup> approximations. In addition to CPCM and SMD solvation model, we also report ωB97M-V<sup>18</sup>/def2-TZVPD energies calculated with the COSMO-RS solvation model method. In that case, we used the same geometries from method1 to perform both gas phase and \\mathrm { C O S M O } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f i n i t y } ; \\right. FINE cavity) calculation with the BP86 functional and FINE cavity. The gas-phase energy and the out.cosmo file from the COSMO calculation) were then used to calculate COSMO-RS Gibbs free energy of solvation using the COSMOTherm 2023 program (Dassault Systemes BIOVIA) with the BP_TZVPD_FINE_22.ctd parameter file. This energy of solvation was then added to gas-phase energy at ωB97M-V<sup>18</sup>/def2-TZVPD level (still at the same geometry from method1) to obtain the “single point” energy, which we refer to as method9."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+            "quote": "For each compound, including the transition states (TSs), we performed conformer sampling using the modified Crest/xTB procedure: geometries were optimized at the GFN-2 in chloroform solvent modeled by the \\mathrm { A L P B } ^ { 2 1 } implicit solvation model (for TSs, we fixed the key bond lengths for each reaction, as determined by initial TS optimization of a random conformer). Then the DFT single point calculations were performed on these geometries with the \\tt B P 8 6 ^ { 2 2 } density functional with dgauss-dzvp basis<sup>23</sup> (as implemented in Turbomole, with RI approximation of the Coulomb integrals and D3-BJ dispersion correction parametrized for accurate conformational energies, parameters: ( \\mathrm { s } 6 = 1 . 0 , \\mathrm { a } 1 = 0 . 7 1 8 2 , \\mathrm { s } 8 = 3 . 2 1 7 6 . , and \\mathrm { a } 2 = 3 . 8 5 7 2 ) ^ { 2 4 } with \\mathrm { C O S M O ^ { 2 5 } } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f } \\right) and FINE cavity<sup>26</sup>. The chloroform solvent was modeled by COSMO-RS implicit solvent model (using external program BIOVIA COSMOtherm 2023 and BP_TZVPD_FINE_22.ctd parameter file). Typically, the 10 most stable conformers from this sampling were then reoptimized by method1 and the lowest energy conformer was taken for the single point calculations with other methods. For all reaction paths, except for protonations and deprotonations, which we assume should have very low barriers, we either found a transition state or we performed a relaxed reaction coordinate scan to verify that the reaction proceeds without barrier on the electronic energy potential surface (which was the case for most nucleophilic attacks). All calculations were conducted assuming the molecules were in a closed shell singlet spin state, except the Fukui functions, where the anions were calculated as doublets. The IBO analysis<sup>27</sup> was performed using IboView software (version= v20211019-RevA), using method1 wavefunctions as input. The IBOs were generated with exponent = 2 and were visualized with threshold value = 50. The anionic Fukui functions ( f ^ { + } ) ^ { 2 8 } were calculated by subtracting the SCF-density (using Chemcraft software) of the method1-CPCM obtained wavefunction of anion and neutral of corresponding dendralenes (1a, 1b, and 1i):"
+          }
+        ]
+      },
+      {
+        "reference_id": "CR3",
+        "result": "For the cyclohexenone substrate, the alternative 5(O)-endo-trig enolate cyclization toward the alpha carbon was calculated to have a prohibitively high barrier, consistent with Baldwin rules.",
+        "observable": "activation barrier",
+        "value": 28,
+        "unit": "kcal mol^-1",
+        "method": "omegaB97M-V/def2-TZVPD//B3LYP-D3BJ/def2-TZVP, 298.15 K, 1 M, implicit chloroform",
+        "model_system": "cyclohexenone [3]dendralene with methanethiolate",
+        "conditions": "standard solution conditions; chloroform implicit solvent; methanethiolate model for thiolate",
+        "comparison_scope": "alpha cyclization versus gamma cyclization",
+        "uncertainty": "barrier reported qualitatively as prohibitively high; exact methodological uncertainty not quantified",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+          "ev_doc_c273e45e3ac0_000125_bada47a425ee",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+            "quote": "Scheme 14. Relevant Occupied Intrinsic Bond Orbitals (IBOs, exponent 2) Depicting Orbital Changes during the Enolate Attack at the Less Favorable α-Position (A) and the More Favorable γ-Position (B) of the Dienoate Unit consistent with those calculated for dendralene 1a (ca. −4 kcal \\mathrm { m o l ^ { - 1 } } ) . However, in contrast to the inability of 1a (specifically <sup>1a</sup>INT2) to cyclize (Scheme 12), the nucleophilic { \\mathfrak { s } } ( 0 ) { \\mathfrak { s } } e x o - trig cyclization of enolate { \\bf \\Pi } ^ { \\mathbf { 1 b } } { \\bf W T } 2 toward the γ-carbon becomes plausible. This process was found to proceed through intermediate <sup>1b</sup>INT4, which is 4 kcal \\mathrm { m o l ^ { - 1 } } uphill in energy (Figure S8), to ultimately reach cyclization product { \\bf 1 6 _ { \\vec { P 4 } , } } which is consistent with the experiment (17b in Scheme 7). While the energy of alternative cyclization product { \\bf 1 b } _ { { \\bf P } 3 } is predicted to be similar to that of { \\bf 1 \\dot { b } _ { P 4 } } , the reaction barrier of the required 5(O)-endo-trig enolate cyclization toward the α- carbon is prohibitively high (28 kcal mol<sup>−1</sup>), which is consistent with the Baldwin rules. Notably, the reaction free energy of the cyclization product from dendralene 1b (−18 kcal mol<sup>−1</sup>) is significantly lower than that of any addition product ( ^ { \\mathbf { 1 6 } } \\mathbf { P 1 0 \\mathrm { r } } ^ { \\mathbf { 1 6 } } \\mathbf { P 2 } ; Scheme 13) by −14 kcal mol<sup>−1</sup>, making product \\bf { \\dot { \\Pi } } ^ { \\mathbf { 1 } \\mathbf { b } } \\mathbf { P } 4 (and its experimental counterpart 17b) a thermodynamic sink."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000125_bada47a425ee",
+            "quote": "To qualitatively explain the energy diference between the α- and preferred γ-cyclization pathways (Scheme 13), we employed the intrinsic bond orbital (IBO) approach. The IBO approach transforms the DFT wave function into a set of orthogonal orbitals localized at a minimal number of atoms,<sup>28</sup> which has been shown to provide intuitive interpretation of chemical bonding. In our analysis, we examined the three IBO orbitals, which undergo the most changes during the enolate cyclization (Scheme 14). Consistent with the Baldwin rules, the γ-attack was found to exhibit a favorable orbital overlap, due to the nearly perpendicular orientation of the interacting orbitals, which is more favorable than that for the α-attack, which would require partial breaking of the \\mathrm { C } _ { \\alpha } { = } \\mathrm { C } _ { \\beta } bond."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+            "quote": "Our computational study employed Orca 6 . 0 . 1 , ^ { 1 1 } Turbomole7.8,<sup>12</sup> Crest 2 . 1 2 , ^ { 1 3 } and \\mathbf { x T B } ^ { 1 4 } 6.6.1 software. The geometry optimizations of described stationary points were performed at { \\bf B } 3 \\mathrm { L Y P ^ { 1 5 } } . D3BJ/def2-TZVP level of theory using implicit description of chloroform solvent using conductor-like PCM (CPCM)<sup>16</sup> model, as implemented in Orca 6.0.1 (referred as method1). The stationary points were characterized by vibrational frequency calculations (having 0 imaginary frequencies for minima, 1 imaginary frequency for transition-states). The method1-optimized geometry was used for subsequent single point calculations with different computational methods in two kinds of implicit solvent models (CPCM or SMD): B3LYP-D3BJ/def2-TZVPD (with CPCM = method2, with SMD = method 3), M06- 2 \\mathrm { X } ^ { 1 7 } / \\mathrm { d e f } 2 \\mathrm { - T Z V P D } (with CPCM = method4, with SMD = method5), \\mathrm { \\odot B 9 7 M - V ^ { 1 8 } / d e f 2 - T Z V P D } (with \\mathrm { C P C M } = \\mathrm { m e t h o d } 6 . , with SMD = method 7) and DLPNO-CCSD(T)<sup>19</sup>/cc-pVTZ with “NormalPNO” settings and SMD solvent model (method8). For the meta-GGA functionals (M06-2X, wB97M-V) we used a dense integration grid by specifying the “DEFGRID3” keyword. For all functionals, we utilized RI and COSX<sup>20</sup> approximations. In addition to CPCM and SMD solvation model, we also report ωB97M-V<sup>18</sup>/def2-TZVPD energies calculated with the COSMO-RS solvation model method. In that case, we used the same geometries from method1 to perform both gas phase and \\mathrm { C O S M O } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f i n i t y } ; \\right. FINE cavity) calculation with the BP86 functional and FINE cavity. The gas-phase energy and the out.cosmo file from the COSMO calculation) were then used to calculate COSMO-RS Gibbs free energy of solvation using the COSMOTherm 2023 program (Dassault Systemes BIOVIA) with the BP_TZVPD_FINE_22.ctd parameter file. This energy of solvation was then added to gas-phase energy at ωB97M-V<sup>18</sup>/def2-TZVPD level (still at the same geometry from method1) to obtain the “single point” energy, which we refer to as method9."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+            "quote": "For each compound, including the transition states (TSs), we performed conformer sampling using the modified Crest/xTB procedure: geometries were optimized at the GFN-2 in chloroform solvent modeled by the \\mathrm { A L P B } ^ { 2 1 } implicit solvation model (for TSs, we fixed the key bond lengths for each reaction, as determined by initial TS optimization of a random conformer). Then the DFT single point calculations were performed on these geometries with the \\tt B P 8 6 ^ { 2 2 } density functional with dgauss-dzvp basis<sup>23</sup> (as implemented in Turbomole, with RI approximation of the Coulomb integrals and D3-BJ dispersion correction parametrized for accurate conformational energies, parameters: ( \\mathrm { s } 6 = 1 . 0 , \\mathrm { a } 1 = 0 . 7 1 8 2 , \\mathrm { s } 8 = 3 . 2 1 7 6 . , and \\mathrm { a } 2 = 3 . 8 5 7 2 ) ^ { 2 4 } with \\mathrm { C O S M O ^ { 2 5 } } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f } \\right) and FINE cavity<sup>26</sup>. The chloroform solvent was modeled by COSMO-RS implicit solvent model (using external program BIOVIA COSMOtherm 2023 and BP_TZVPD_FINE_22.ctd parameter file). Typically, the 10 most stable conformers from this sampling were then reoptimized by method1 and the lowest energy conformer was taken for the single point calculations with other methods. For all reaction paths, except for protonations and deprotonations, which we assume should have very low barriers, we either found a transition state or we performed a relaxed reaction coordinate scan to verify that the reaction proceeds without barrier on the electronic energy potential surface (which was the case for most nucleophilic attacks). All calculations were conducted assuming the molecules were in a closed shell singlet spin state, except the Fukui functions, where the anions were calculated as doublets. The IBO analysis<sup>27</sup> was performed using IboView software (version= v20211019-RevA), using method1 wavefunctions as input. The IBOs were generated with exponent = 2 and were visualized with threshold value = 50. The anionic Fukui functions ( f ^ { + } ) ^ { 2 8 } were calculated by subtracting the SCF-density (using Chemcraft software) of the method1-CPCM obtained wavefunction of anion and neutral of corresponding dendralenes (1a, 1b, and 1i):"
+          }
+        ]
+      },
+      {
+        "reference_id": "CR4",
+        "result": "For the phenylsulfonyl substrate, the most energetically favorable anionic intermediates were predicted to correspond to attack at the dienoate alpha carbon. Protonation of the alpha-attack intermediate gave the most stable product among possible products, consistent with the experimental adduct.",
+        "observable": "relative Gibbs free energy",
+        "value": null,
+        "unit": "kcal mol^-1",
+        "method": "omegaB97M-V/def2-TZVPD//B3LYP-D3BJ/def2-TZVP, 298.15 K, 1 M, implicit chloroform",
+        "model_system": "phenylsulfonyl [3]dendralene with methanethiolate",
+        "conditions": "standard solution conditions; chloroform implicit solvent; methanethiolate model for thiolate",
+        "comparison_scope": "alpha, delta, and beta-prime attack intermediates and protonated products",
+        "uncertainty": "authors attribute alpha preference to phenyl sulfone electron-withdrawing effect; exact uncertainty not quantified",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+          "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+          "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+            "quote": "Finally, we turned to sulfone 1i and investigated its reaction with thiolate (Scheme 15) in a manner similar to what we used for enones 1a and 1b. The most energetically favorable anionic intermediates were predicted to correspond to an attack at the dienoate α-carbon. Depicted intermediate <sup>1i</sup>INT1 (Figure 5B) represents the nucleophilic attack at the most stable conformer"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+            "quote": "of 1i (Figure 5A), whereas <sup>1i</sup>INT4 (in fact lower in energy and more closely resembling product <sup>1i</sup>P1) would represent nucleophilic attack at hypothetical conformer \\mathbf { 1 } \\mathbf { i } ^ { * } , , which was predicted to be unstable (at the B3LYP/TZVP level of theory). These intermediates are lower in energy than <sup>1i</sup>INT2 and <sup>1i</sup>INT3, which stands in sharp contrast with dendralenes 1a and 1b, where the most stable anionic intermediate corresponds to thiolate attack at the \\beta ^ { \\prime } \\mathfrak { z } and δ-sites, respectively (Schemes 12 and 13). This α-preference could be attributed to the electron-withdrawing efect of the phenyl sulfone group being stronger than that of the enone and acrylate moieties.<sup>29</sup> Subsequent protonation of anionic intermediate <sup>1i</sup>INT1 or <sup>1i</sup>INT4 yields product ^ { 1 \\mathrm { i } } \\mathbf { P 1 } , an energetically most stable species among the possible products (Scheme 15), which is consistent with the experimental finding (20 in Scheme 8)."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+            "quote": "To conclude, reactions of thiolates with dendralenes were found to ofer several pathways with negligible barriers, where the overall reactivity is governed by the thermodynamic stability of all possible products, with the exception of some cyclization reactions that are kinetically prohibited. In the case of 1a, the DFT methods are not suficiently accurate to provide useful selectivity predictions of these vast reaction networks (Figure S8). In other instances, such as in the cyclization product originating from 1b or the addition of thiolate to 1i, we were able to rationalize the observed outcomes based on the DFT results."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+            "quote": "Our computational study employed Orca 6 . 0 . 1 , ^ { 1 1 } Turbomole7.8,<sup>12</sup> Crest 2 . 1 2 , ^ { 1 3 } and \\mathbf { x T B } ^ { 1 4 } 6.6.1 software. The geometry optimizations of described stationary points were performed at { \\bf B } 3 \\mathrm { L Y P ^ { 1 5 } } . D3BJ/def2-TZVP level of theory using implicit description of chloroform solvent using conductor-like PCM (CPCM)<sup>16</sup> model, as implemented in Orca 6.0.1 (referred as method1). The stationary points were characterized by vibrational frequency calculations (having 0 imaginary frequencies for minima, 1 imaginary frequency for transition-states). The method1-optimized geometry was used for subsequent single point calculations with different computational methods in two kinds of implicit solvent models (CPCM or SMD): B3LYP-D3BJ/def2-TZVPD (with CPCM = method2, with SMD = method 3), M06- 2 \\mathrm { X } ^ { 1 7 } / \\mathrm { d e f } 2 \\mathrm { - T Z V P D } (with CPCM = method4, with SMD = method5), \\mathrm { \\odot B 9 7 M - V ^ { 1 8 } / d e f 2 - T Z V P D } (with \\mathrm { C P C M } = \\mathrm { m e t h o d } 6 . , with SMD = method 7) and DLPNO-CCSD(T)<sup>19</sup>/cc-pVTZ with “NormalPNO” settings and SMD solvent model (method8). For the meta-GGA functionals (M06-2X, wB97M-V) we used a dense integration grid by specifying the “DEFGRID3” keyword. For all functionals, we utilized RI and COSX<sup>20</sup> approximations. In addition to CPCM and SMD solvation model, we also report ωB97M-V<sup>18</sup>/def2-TZVPD energies calculated with the COSMO-RS solvation model method. In that case, we used the same geometries from method1 to perform both gas phase and \\mathrm { C O S M O } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f i n i t y } ; \\right. FINE cavity) calculation with the BP86 functional and FINE cavity. The gas-phase energy and the out.cosmo file from the COSMO calculation) were then used to calculate COSMO-RS Gibbs free energy of solvation using the COSMOTherm 2023 program (Dassault Systemes BIOVIA) with the BP_TZVPD_FINE_22.ctd parameter file. This energy of solvation was then added to gas-phase energy at ωB97M-V<sup>18</sup>/def2-TZVPD level (still at the same geometry from method1) to obtain the “single point” energy, which we refer to as method9."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+            "quote": "For each compound, including the transition states (TSs), we performed conformer sampling using the modified Crest/xTB procedure: geometries were optimized at the GFN-2 in chloroform solvent modeled by the \\mathrm { A L P B } ^ { 2 1 } implicit solvation model (for TSs, we fixed the key bond lengths for each reaction, as determined by initial TS optimization of a random conformer). Then the DFT single point calculations were performed on these geometries with the \\tt B P 8 6 ^ { 2 2 } density functional with dgauss-dzvp basis<sup>23</sup> (as implemented in Turbomole, with RI approximation of the Coulomb integrals and D3-BJ dispersion correction parametrized for accurate conformational energies, parameters: ( \\mathrm { s } 6 = 1 . 0 , \\mathrm { a } 1 = 0 . 7 1 8 2 , \\mathrm { s } 8 = 3 . 2 1 7 6 . , and \\mathrm { a } 2 = 3 . 8 5 7 2 ) ^ { 2 4 } with \\mathrm { C O S M O ^ { 2 5 } } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f } \\right) and FINE cavity<sup>26</sup>. The chloroform solvent was modeled by COSMO-RS implicit solvent model (using external program BIOVIA COSMOtherm 2023 and BP_TZVPD_FINE_22.ctd parameter file). Typically, the 10 most stable conformers from this sampling were then reoptimized by method1 and the lowest energy conformer was taken for the single point calculations with other methods. For all reaction paths, except for protonations and deprotonations, which we assume should have very low barriers, we either found a transition state or we performed a relaxed reaction coordinate scan to verify that the reaction proceeds without barrier on the electronic energy potential surface (which was the case for most nucleophilic attacks). All calculations were conducted assuming the molecules were in a closed shell singlet spin state, except the Fukui functions, where the anions were calculated as doublets. The IBO analysis<sup>27</sup> was performed using IboView software (version= v20211019-RevA), using method1 wavefunctions as input. The IBOs were generated with exponent = 2 and were visualized with threshold value = 50. The anionic Fukui functions ( f ^ { + } ) ^ { 2 8 } were calculated by subtracting the SCF-density (using Chemcraft software) of the method1-CPCM obtained wavefunction of anion and neutral of corresponding dendralenes (1a, 1b, and 1i):"
+          }
+        ]
+      },
+      {
+        "reference_id": "CR5",
+        "result": "For the cyclopentenone substrate, beta-prime attack followed by 5(O)-endo-trig cyclization toward the alpha carbon was calculated to have a high barrier, and the alternative 5(O)-exo-trig cyclization toward the gamma carbon would yield unstable products that could not be optimized by DFT.",
+        "observable": "activation barrier and product stability",
+        "value": 35,
+        "unit": "kcal mol^-1",
+        "method": "omegaB97M-V/def2-TZVPD//B3LYP-D3BJ/def2-TZVP, 298.15 K, 1 M, implicit chloroform",
+        "model_system": "cyclopentenone [3]dendralene with methanethiolate",
+        "conditions": "standard solution conditions; chloroform implicit solvent; methanethiolate model for thiolate",
+        "comparison_scope": "beta-prime attack followed by possible cyclizations versus simple addition",
+        "uncertainty": "authors report a barrier greater than 35 kcal mol^-1 and qualitative instability of alternative cyclization products",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000117_206638db73d5",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000117_206638db73d5",
+            "quote": "Since \\mathbf { 1 6 } , a homologue of 1a, undergoes preferential \\beta ^ { \\prime } . attack, followed by cyclization (Scheme 7), we attempted to find a rationale for the \\delta \\mathrm { - } attack in the case of 1a. Here, the \\beta ^ { \\prime } \\mathfrak { z } attack would generate enolate <sup>1a</sup>INT2, whose 5(O)-endo-trig cyclization toward the α-carbon is precluded by a high energy barrier (>35 kcal mol<sup>−1</sup>), in consonance with the Baldwin rules. Furthermore, the alternative 5(O)-exo-trig cyclization toward the γ-carbon would yield unstable products, which cannot be optimized by DFT. The fact that the structure reverts back to reactants is presumably due to the strain in the [3.3.0] system that the latter ring formation would generate. Hence, cyclization is not preferred in either of the instances. Interestingly, after a potential aromatization by formation of the furan ring, product \\bf ^ { 1 a } P 4 would be of practically the same energy as the product of the simple addition, <sup>1a</sup>P1 (Scheme 12). This finding indicates that it is mainly the strain in the [3.3.0] potential intermediate that disfavors this pathway. Thus, due to the lack of stabilization by subsequent cyclization, and with a view of the principal reversibility of each step in all possible conjugate additions, it is understandable that the reaction of 1a takes a path diferent from that of 1b. This scenario thus results in a simple δ-attack, followed by protonation, which afords 15 ( \\mathbf { \\hat { 1 a } _ { P 1 } } ) as a major isolable product."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+            "quote": "Our computational study employed Orca 6 . 0 . 1 , ^ { 1 1 } Turbomole7.8,<sup>12</sup> Crest 2 . 1 2 , ^ { 1 3 } and \\mathbf { x T B } ^ { 1 4 } 6.6.1 software. The geometry optimizations of described stationary points were performed at { \\bf B } 3 \\mathrm { L Y P ^ { 1 5 } } . D3BJ/def2-TZVP level of theory using implicit description of chloroform solvent using conductor-like PCM (CPCM)<sup>16</sup> model, as implemented in Orca 6.0.1 (referred as method1). The stationary points were characterized by vibrational frequency calculations (having 0 imaginary frequencies for minima, 1 imaginary frequency for transition-states). The method1-optimized geometry was used for subsequent single point calculations with different computational methods in two kinds of implicit solvent models (CPCM or SMD): B3LYP-D3BJ/def2-TZVPD (with CPCM = method2, with SMD = method 3), M06- 2 \\mathrm { X } ^ { 1 7 } / \\mathrm { d e f } 2 \\mathrm { - T Z V P D } (with CPCM = method4, with SMD = method5), \\mathrm { \\odot B 9 7 M - V ^ { 1 8 } / d e f 2 - T Z V P D } (with \\mathrm { C P C M } = \\mathrm { m e t h o d } 6 . , with SMD = method 7) and DLPNO-CCSD(T)<sup>19</sup>/cc-pVTZ with “NormalPNO” settings and SMD solvent model (method8). For the meta-GGA functionals (M06-2X, wB97M-V) we used a dense integration grid by specifying the “DEFGRID3” keyword. For all functionals, we utilized RI and COSX<sup>20</sup> approximations. In addition to CPCM and SMD solvation model, we also report ωB97M-V<sup>18</sup>/def2-TZVPD energies calculated with the COSMO-RS solvation model method. In that case, we used the same geometries from method1 to perform both gas phase and \\mathrm { C O S M O } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f i n i t y } ; \\right. FINE cavity) calculation with the BP86 functional and FINE cavity. The gas-phase energy and the out.cosmo file from the COSMO calculation) were then used to calculate COSMO-RS Gibbs free energy of solvation using the COSMOTherm 2023 program (Dassault Systemes BIOVIA) with the BP_TZVPD_FINE_22.ctd parameter file. This energy of solvation was then added to gas-phase energy at ωB97M-V<sup>18</sup>/def2-TZVPD level (still at the same geometry from method1) to obtain the “single point” energy, which we refer to as method9."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+            "quote": "For each compound, including the transition states (TSs), we performed conformer sampling using the modified Crest/xTB procedure: geometries were optimized at the GFN-2 in chloroform solvent modeled by the \\mathrm { A L P B } ^ { 2 1 } implicit solvation model (for TSs, we fixed the key bond lengths for each reaction, as determined by initial TS optimization of a random conformer). Then the DFT single point calculations were performed on these geometries with the \\tt B P 8 6 ^ { 2 2 } density functional with dgauss-dzvp basis<sup>23</sup> (as implemented in Turbomole, with RI approximation of the Coulomb integrals and D3-BJ dispersion correction parametrized for accurate conformational energies, parameters: ( \\mathrm { s } 6 = 1 . 0 , \\mathrm { a } 1 = 0 . 7 1 8 2 , \\mathrm { s } 8 = 3 . 2 1 7 6 . , and \\mathrm { a } 2 = 3 . 8 5 7 2 ) ^ { 2 4 } with \\mathrm { C O S M O ^ { 2 5 } } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f } \\right) and FINE cavity<sup>26</sup>. The chloroform solvent was modeled by COSMO-RS implicit solvent model (using external program BIOVIA COSMOtherm 2023 and BP_TZVPD_FINE_22.ctd parameter file). Typically, the 10 most stable conformers from this sampling were then reoptimized by method1 and the lowest energy conformer was taken for the single point calculations with other methods. For all reaction paths, except for protonations and deprotonations, which we assume should have very low barriers, we either found a transition state or we performed a relaxed reaction coordinate scan to verify that the reaction proceeds without barrier on the electronic energy potential surface (which was the case for most nucleophilic attacks). All calculations were conducted assuming the molecules were in a closed shell singlet spin state, except the Fukui functions, where the anions were calculated as doublets. The IBO analysis<sup>27</sup> was performed using IboView software (version= v20211019-RevA), using method1 wavefunctions as input. The IBOs were generated with exponent = 2 and were visualized with threshold value = 50. The anionic Fukui functions ( f ^ { + } ) ^ { 2 8 } were calculated by subtracting the SCF-density (using Chemcraft software) of the method1-CPCM obtained wavefunction of anion and neutral of corresponding dendralenes (1a, 1b, and 1i):"
+          }
+        ]
+      }
+    ],
+    "public_inputs": [
+      {
+        "input_id": "PI1",
+        "kind": "identity",
+        "content": "Cyclopentenone-bearing electron-deficient [3]dendralene substrate with a dienoate terminus and a five-membered cyclic enone appendage.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000025_8c8d0b4979ef",
+          "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+          "ev_doc_c273e45e3ac0_000055_7e98151e8b3d",
+          "ev_doc_c273e45e3ac0_000056_095093ad0b4a",
+          "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+          "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "ev_doc_c273e45e3ac0_000117_206638db73d5"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000025_8c8d0b4979ef",
+            "quote": "For our investigation, we have selected a set of model compounds, most of which were recently prepared by \\mathrm { { u } } s ^ { 9 } (Figure 2), namely, enones 1a−1d, connected to the dienoate"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+            "quote": "moiety via the α-carbon; conjugated lactone { \\bf l e } , also connected by the α-carbon; isomeric enones 1f and 1g, connected by the β-carbon; triester 1h; and sulfone 1i."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000055_7e98151e8b3d",
+            "quote": "Thiolates, recognized as strong nucleophiles, were the next reagent types to be explored. In contrast to hydride addition, treatment of cyclopentenone derivative 1a with ethanethiolate (generated by deprotonation of ethanethiol with DBU) initially aforded an unstable major product, which was assigned structure 14 based on NMR spectroscopy (Scheme 6). The latter compound apparently arises via a 1,6-addition"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000056_095093ad0b4a",
+            "quote": "(anti-Michael), starting with an attack at the sterically less hindered terminus of the dienoate moiety followed by protonation of intermediate enolate 13. Adduct 14 then underwent isomerization to thermodynamically more stable isomer 15 upon purification by chromatography. Interestingly, the enone moiety turned out to be inert, even in the presence of an excess (3 equiv) of the thiol."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+            "quote": "Our model dendralenes possess nine \\mathsf { s p } ^ { 2 } carbons, as shown for cyclo-enones 1a and 1b (Figure 4), all of which can, a priori, undergo a nucleophilic attack, except perhaps β- and α′- positions that are sterically hindered. Thus, one can anticipate three types of attacks: 1,2-additions (black arrows), 1,4- additions (red arrows), and 1,6-additions (blue arrows). To investigate the diferences in reactivity among the seven likely attack sites, we chose to computationally model the reactions of 1a, 1b, and 1i with thiolate, as this reaction exhibited the most variability. While the addition of thiolate to 1a proceeds at the δ-position (Scheme 6), the product observed in the reaction of 1b requires thiolate addition at the \\beta ^ { \\prime } . -position (Scheme 7). We did not expect such variation of reactivity to occur upon the extension of the ring by one methylene group. Yet another variation was observed for 1i, which was found to prefer an α-position attack, possibly reflecting the strong electron-withdrawing efect of the sulfone group."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+            "quote": "Our DFT study was carried out for the reaction with MeSH instead of EtSH, as it reduced the computational cost. Calculations suggest that thiolate attacks at all relevant positions ( \\alpha , \\delta , and \\beta ^ { \\prime } ) have no significant barriers. The only barriers are entropic, which are compensated by favorable interaction enthalpies, resulting in an efective barrier (see Figure S8) of ∼7−8 kcal \\mathrm { m o l } ^ { - 1 } , which is not afecting the reaction outcomes in any meaningful way. Therefore, the preference for the product is dictated by the overall free reaction energies ( \\mathrm { i . e . , } thermodynamically controlled). The exclusive isolation of product 15 from the addition of EtSH to 1a (Scheme 6) is noteworthy, given the many electrophilic sites of 1a. By comparing the free energies of anionic thiolate addition intermediates <sup>1a</sup>INT1, <sup>1a</sup>INT2, and \\mathbf { \\Pi } ^ { 1 \\mathbf { a } } \\mathbf { I N T } 3 (Scheme 12), we observed an energetic preference for \\mathrm { \\bf i a } _ { \\mathbf { I N T } 2 } , corresponding to attack at the \\beta ^ { \\prime } -site. However, despite the relative stability of the latter intermediate, the reaction takes a diferent turn, namely, the formation of less stable <sup>6</sup>INT1 (arising by δ-attack), whose protonation yields <sup>1a</sup>P1 as the most stable product (corresponding to 15 in the experiment). However, the calculated free energy diferences among products \\mathrm { ^ { 1 a } P 1 - ^ { 1 a } P 3 } are very small, falling within the typical error range of DFT calculations (2−3 kcal mol<sup>−1</sup>), and the reactions are close to being thermoneutral (ca. −4 kcal mol<sup>−1</sup>). Furthermore, the most stable product varied across diferent DFT methods, making the results uncertain. In conflict with the experimental findings, our calculations suggest that double addition product <sup>1a</sup>P5 should be even more stable than single addition product \\mathbf { \\sigma } ^ { 1 \\mathrm { a } } \\mathbf { P } \\mathbf { 1 } _ { \\mathrm { - } } , but the energy diference between them (2 kcal mol<sup>−1</sup>) is also rather small."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000117_206638db73d5",
+            "quote": "Since \\mathbf { 1 6 } , a homologue of 1a, undergoes preferential \\beta ^ { \\prime } . attack, followed by cyclization (Scheme 7), we attempted to find a rationale for the \\delta \\mathrm { - } attack in the case of 1a. Here, the \\beta ^ { \\prime } \\mathfrak { z } attack would generate enolate <sup>1a</sup>INT2, whose 5(O)-endo-trig cyclization toward the α-carbon is precluded by a high energy barrier (>35 kcal mol<sup>−1</sup>), in consonance with the Baldwin rules. Furthermore, the alternative 5(O)-exo-trig cyclization toward the γ-carbon would yield unstable products, which cannot be optimized by DFT. The fact that the structure reverts back to reactants is presumably due to the strain in the [3.3.0] system that the latter ring formation would generate. Hence, cyclization is not preferred in either of the instances. Interestingly, after a potential aromatization by formation of the furan ring, product \\bf ^ { 1 a } P 4 would be of practically the same energy as the product of the simple addition, <sup>1a</sup>P1 (Scheme 12). This finding indicates that it is mainly the strain in the [3.3.0] potential intermediate that disfavors this pathway. Thus, due to the lack of stabilization by subsequent cyclization, and with a view of the principal reversibility of each step in all possible conjugate additions, it is understandable that the reaction of 1a takes a path diferent from that of 1b. This scenario thus results in a simple δ-attack, followed by protonation, which afords 15 ( \\mathbf { \\hat { 1 a } _ { P 1 } } ) as a major isolable product."
+          }
+        ]
+      },
+      {
+        "input_id": "PI2",
+        "kind": "identity",
+        "content": "Cyclohexenone-bearing electron-deficient [3]dendralene substrate with a dienoate terminus and a six-membered cyclic enone appendage.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000025_8c8d0b4979ef",
+          "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+          "ev_doc_c273e45e3ac0_000057_772b4e124f82",
+          "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+          "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+          "ev_doc_c273e45e3ac0_000124_794c2c3673df"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000025_8c8d0b4979ef",
+            "quote": "For our investigation, we have selected a set of model compounds, most of which were recently prepared by \\mathrm { { u } } s ^ { 9 } (Figure 2), namely, enones 1a−1d, connected to the dienoate"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+            "quote": "moiety via the α-carbon; conjugated lactone { \\bf l e } , also connected by the α-carbon; isomeric enones 1f and 1g, connected by the β-carbon; triester 1h; and sulfone 1i."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000057_772b4e124f82",
+            "quote": "On the other hand, as outlined in Scheme 7 and Table ^ { 1 , } enones 1b and 1c followed the same pathway as that for hydride addition (Scheme 2), with a preferential attack at the enone ring. Interestingly, while the combination of EtSH and DBU produced an inseparable mixture of furan 17b and its not fully aromatized counterparts (Table 1, entry 1), addition of \\mathrm { I } _ { 2 } (10 mol %) as a catalyst<sup>14,15</sup> steered the reaction to completion, giving furan 17b as the only isolable product in 60% yield (entry 2). Replacing EtSH with 2-mercaptoethanol resulted in an increased yield of final product 18b to 66% (entry 3). Similarly, homologous cycloheptenone derivative 1c gave ortho-fused furans 17c and 18c in 45% and 53% yields, respectively (entries 4 and 5)."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+            "quote": "Our model dendralenes possess nine \\mathsf { s p } ^ { 2 } carbons, as shown for cyclo-enones 1a and 1b (Figure 4), all of which can, a priori, undergo a nucleophilic attack, except perhaps β- and α′- positions that are sterically hindered. Thus, one can anticipate three types of attacks: 1,2-additions (black arrows), 1,4- additions (red arrows), and 1,6-additions (blue arrows). To investigate the diferences in reactivity among the seven likely attack sites, we chose to computationally model the reactions of 1a, 1b, and 1i with thiolate, as this reaction exhibited the most variability. While the addition of thiolate to 1a proceeds at the δ-position (Scheme 6), the product observed in the reaction of 1b requires thiolate addition at the \\beta ^ { \\prime } . -position (Scheme 7). We did not expect such variation of reactivity to occur upon the extension of the ring by one methylene group. Yet another variation was observed for 1i, which was found to prefer an α-position attack, possibly reflecting the strong electron-withdrawing efect of the sulfone group."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+            "quote": "By contrast, addition of thiolate to the cyclohexenone (1b) and cycloheptenone homologues (1c) occurs at the enone moiety. Subsequent Michael-type cyclization, analogous to pathway i in Scheme ^ { 2 , } then gives nonchiral furan derivatives 17b and { \\bf 1 7 c , } respectively. In analogy to dendralene 1a, a computational investigation of the addition of thiolate to dendralene 1b ( ^ { \\mathbf { 1 6 } } \\mathbf { R 1 } ;Scheme 13) indicates a thermodynamically controlled thiolate attack at the selected electrophilic sites. Furthermore, the reaction free energies for the formation of protonated products ^ { 1 \\mathrm { b } } \\mathrm { \\bf T 1 } , \\ ^ { 1 \\mathrm { b } } \\mathrm { \\bf T } 2 , , and ^ { 1 8 } \\mathrm { \\mathbf { P } } 5 were found to be"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+            "quote": "Scheme 14. Relevant Occupied Intrinsic Bond Orbitals (IBOs, exponent 2) Depicting Orbital Changes during the Enolate Attack at the Less Favorable α-Position (A) and the More Favorable γ-Position (B) of the Dienoate Unit consistent with those calculated for dendralene 1a (ca. −4 kcal \\mathrm { m o l ^ { - 1 } } ) . However, in contrast to the inability of 1a (specifically <sup>1a</sup>INT2) to cyclize (Scheme 12), the nucleophilic { \\mathfrak { s } } ( 0 ) { \\mathfrak { s } } e x o - trig cyclization of enolate { \\bf \\Pi } ^ { \\mathbf { 1 b } } { \\bf W T } 2 toward the γ-carbon becomes plausible. This process was found to proceed through intermediate <sup>1b</sup>INT4, which is 4 kcal \\mathrm { m o l ^ { - 1 } } uphill in energy (Figure S8), to ultimately reach cyclization product { \\bf 1 6 _ { \\vec { P 4 } , } } which is consistent with the experiment (17b in Scheme 7). While the energy of alternative cyclization product { \\bf 1 b } _ { { \\bf P } 3 } is predicted to be similar to that of { \\bf 1 \\dot { b } _ { P 4 } } , the reaction barrier of the required 5(O)-endo-trig enolate cyclization toward the α- carbon is prohibitively high (28 kcal mol<sup>−1</sup>), which is consistent with the Baldwin rules. Notably, the reaction free energy of the cyclization product from dendralene 1b (−18 kcal mol<sup>−1</sup>) is significantly lower than that of any addition product ( ^ { \\mathbf { 1 6 } } \\mathbf { P 1 0 \\mathrm { r } } ^ { \\mathbf { 1 6 } } \\mathbf { P 2 } ; Scheme 13) by −14 kcal mol<sup>−1</sup>, making product \\bf { \\dot { \\Pi } } ^ { \\mathbf { 1 } \\mathbf { b } } \\mathbf { P } 4 (and its experimental counterpart 17b) a thermodynamic sink."
+          }
+        ]
+      },
+      {
+        "input_id": "PI3",
+        "kind": "identity",
+        "content": "Phenylsulfonyl-bearing electron-deficient [3]dendralene substrate with a dienoate terminus and a phenylsulfonyl appendage.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+          "ev_doc_c273e45e3ac0_000058_457eddef003d",
+          "ev_doc_c273e45e3ac0_000067_b96fd73185fa",
+          "ev_doc_c273e45e3ac0_000069_c0e91a281fc0",
+          "ev_doc_c273e45e3ac0_000070_b8f02daea014",
+          "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+          "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+          "ev_doc_c273e45e3ac0_000135_d9174d0d5992"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+            "quote": "moiety via the α-carbon; conjugated lactone { \\bf l e } , also connected by the α-carbon; isomeric enones 1f and 1g, connected by the β-carbon; triester 1h; and sulfone 1i."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000058_457eddef003d",
+            "quote": "Since thiolate additions unveiled a further dramatic diference between five-membered enone 1a and the rest of the cyclic dendralenes, it was of interest to explore the reactivity of acyclic dendralenes, namely, 1d and 1i. While 1d was found to aford an inseparable mixture of products, sulfone 1i reacted in an anti-Michael fashion ^ { ( 1 , 6 } -addition) at the more hindered α-site of the dienoate fragment to give adduct"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000067_b96fd73185fa",
+            "quote": "20 (Scheme 8), which is in stark contrast to the reaction of 1a, where the addition of the same nucleophile occurs at the"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000069_c0e91a281fc0",
+            "quote": "opposite terminus (δ-position) of the dienoate moiety (Scheme 6). Whether this diference can be attributed to the stronger electron-withdrawing power of the phenylsulfonyl moiety is questionable since the vinyl sulfone group is bent away from planarity (as demonstrated by X-ray crystallography in Figure 3), which would prevent the involvement of its π- system. The reaction outcome can be rationalized by assuming a nucleophilic attack at the planar dienoate segment to generate enolate 19, which would then aford 20 upon protonation. However, this mechanism would not explain the"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000070_b8f02daea014",
+            "quote": "diference in the sites of the attack in 1i and 1a. An alternative scenario can thus be proposed, which would require planarization of the \\alpha , \\beta , \\beta ^ { \\prime } , \\alpha ^ { \\prime } { \\mathrm { - } } s \\mathrm { e g m e n t } by rotation of the vinyl sulfone moiety together with an out-of-plane rotation of both the ester and phenyl group and also rotation of the acrylate moiety, as in \\mathbf { 1 } \\mathbf { i } ^ { * } , thereby minimizing conformational strain. Nucleophilic 1,6-attack at the now planarized segment (highlighted by color), followed by protonation, would then readily produce adduct 20. A detailed description of this scenario is given in the computational section (vide infra)."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+            "quote": "Our model dendralenes possess nine \\mathsf { s p } ^ { 2 } carbons, as shown for cyclo-enones 1a and 1b (Figure 4), all of which can, a priori, undergo a nucleophilic attack, except perhaps β- and α′- positions that are sterically hindered. Thus, one can anticipate three types of attacks: 1,2-additions (black arrows), 1,4- additions (red arrows), and 1,6-additions (blue arrows). To investigate the diferences in reactivity among the seven likely attack sites, we chose to computationally model the reactions of 1a, 1b, and 1i with thiolate, as this reaction exhibited the most variability. While the addition of thiolate to 1a proceeds at the δ-position (Scheme 6), the product observed in the reaction of 1b requires thiolate addition at the \\beta ^ { \\prime } . -position (Scheme 7). We did not expect such variation of reactivity to occur upon the extension of the ring by one methylene group. Yet another variation was observed for 1i, which was found to prefer an α-position attack, possibly reflecting the strong electron-withdrawing efect of the sulfone group."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+            "quote": "Finally, we turned to sulfone 1i and investigated its reaction with thiolate (Scheme 15) in a manner similar to what we used for enones 1a and 1b. The most energetically favorable anionic intermediates were predicted to correspond to an attack at the dienoate α-carbon. Depicted intermediate <sup>1i</sup>INT1 (Figure 5B) represents the nucleophilic attack at the most stable conformer"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+            "quote": "of 1i (Figure 5A), whereas <sup>1i</sup>INT4 (in fact lower in energy and more closely resembling product <sup>1i</sup>P1) would represent nucleophilic attack at hypothetical conformer \\mathbf { 1 } \\mathbf { i } ^ { * } , , which was predicted to be unstable (at the B3LYP/TZVP level of theory). These intermediates are lower in energy than <sup>1i</sup>INT2 and <sup>1i</sup>INT3, which stands in sharp contrast with dendralenes 1a and 1b, where the most stable anionic intermediate corresponds to thiolate attack at the \\beta ^ { \\prime } \\mathfrak { z } and δ-sites, respectively (Schemes 12 and 13). This α-preference could be attributed to the electron-withdrawing efect of the phenyl sulfone group being stronger than that of the enone and acrylate moieties.<sup>29</sup> Subsequent protonation of anionic intermediate <sup>1i</sup>INT1 or <sup>1i</sup>INT4 yields product ^ { 1 \\mathrm { i } } \\mathbf { P 1 } , an energetically most stable species among the possible products (Scheme 15), which is consistent with the experimental finding (20 in Scheme 8)."
+          }
+        ]
+      },
+      {
+        "input_id": "PI4",
+        "kind": "condition",
+        "content": "Methanethiolate is used as the computational model for thiolate addition; the authors state this was chosen to reduce computational cost relative to ethanethiolate.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+            "quote": "Our DFT study was carried out for the reaction with MeSH instead of EtSH, as it reduced the computational cost. Calculations suggest that thiolate attacks at all relevant positions ( \\alpha , \\delta , and \\beta ^ { \\prime } ) have no significant barriers. The only barriers are entropic, which are compensated by favorable interaction enthalpies, resulting in an efective barrier (see Figure S8) of ∼7−8 kcal \\mathrm { m o l } ^ { - 1 } , which is not afecting the reaction outcomes in any meaningful way. Therefore, the preference for the product is dictated by the overall free reaction energies ( \\mathrm { i . e . , } thermodynamically controlled). The exclusive isolation of product 15 from the addition of EtSH to 1a (Scheme 6) is noteworthy, given the many electrophilic sites of 1a. By comparing the free energies of anionic thiolate addition intermediates <sup>1a</sup>INT1, <sup>1a</sup>INT2, and \\mathbf { \\Pi } ^ { 1 \\mathbf { a } } \\mathbf { I N T } 3 (Scheme 12), we observed an energetic preference for \\mathrm { \\bf i a } _ { \\mathbf { I N T } 2 } , corresponding to attack at the \\beta ^ { \\prime } -site. However, despite the relative stability of the latter intermediate, the reaction takes a diferent turn, namely, the formation of less stable <sup>6</sup>INT1 (arising by δ-attack), whose protonation yields <sup>1a</sup>P1 as the most stable product (corresponding to 15 in the experiment). However, the calculated free energy diferences among products \\mathrm { ^ { 1 a } P 1 - ^ { 1 a } P 3 } are very small, falling within the typical error range of DFT calculations (2−3 kcal mol<sup>−1</sup>), and the reactions are close to being thermoneutral (ca. −4 kcal mol<sup>−1</sup>). Furthermore, the most stable product varied across diferent DFT methods, making the results uncertain. In conflict with the experimental findings, our calculations suggest that double addition product <sup>1a</sup>P5 should be even more stable than single addition product \\mathbf { \\sigma } ^ { 1 \\mathrm { a } } \\mathbf { P } \\mathbf { 1 } _ { \\mathrm { - } } , but the energy diference between them (2 kcal mol<sup>−1</sup>) is also rather small."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+            "quote": "Our computational study employed Orca 6 . 0 . 1 , ^ { 1 1 } Turbomole7.8,<sup>12</sup> Crest 2 . 1 2 , ^ { 1 3 } and \\mathbf { x T B } ^ { 1 4 } 6.6.1 software. The geometry optimizations of described stationary points were performed at { \\bf B } 3 \\mathrm { L Y P ^ { 1 5 } } . D3BJ/def2-TZVP level of theory using implicit description of chloroform solvent using conductor-like PCM (CPCM)<sup>16</sup> model, as implemented in Orca 6.0.1 (referred as method1). The stationary points were characterized by vibrational frequency calculations (having 0 imaginary frequencies for minima, 1 imaginary frequency for transition-states). The method1-optimized geometry was used for subsequent single point calculations with different computational methods in two kinds of implicit solvent models (CPCM or SMD): B3LYP-D3BJ/def2-TZVPD (with CPCM = method2, with SMD = method 3), M06- 2 \\mathrm { X } ^ { 1 7 } / \\mathrm { d e f } 2 \\mathrm { - T Z V P D } (with CPCM = method4, with SMD = method5), \\mathrm { \\odot B 9 7 M - V ^ { 1 8 } / d e f 2 - T Z V P D } (with \\mathrm { C P C M } = \\mathrm { m e t h o d } 6 . , with SMD = method 7) and DLPNO-CCSD(T)<sup>19</sup>/cc-pVTZ with “NormalPNO” settings and SMD solvent model (method8). For the meta-GGA functionals (M06-2X, wB97M-V) we used a dense integration grid by specifying the “DEFGRID3” keyword. For all functionals, we utilized RI and COSX<sup>20</sup> approximations. In addition to CPCM and SMD solvation model, we also report ωB97M-V<sup>18</sup>/def2-TZVPD energies calculated with the COSMO-RS solvation model method. In that case, we used the same geometries from method1 to perform both gas phase and \\mathrm { C O S M O } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f i n i t y } ; \\right. FINE cavity) calculation with the BP86 functional and FINE cavity. The gas-phase energy and the out.cosmo file from the COSMO calculation) were then used to calculate COSMO-RS Gibbs free energy of solvation using the COSMOTherm 2023 program (Dassault Systemes BIOVIA) with the BP_TZVPD_FINE_22.ctd parameter file. This energy of solvation was then added to gas-phase energy at ωB97M-V<sup>18</sup>/def2-TZVPD level (still at the same geometry from method1) to obtain the “single point” energy, which we refer to as method9."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+            "quote": "For each compound, including the transition states (TSs), we performed conformer sampling using the modified Crest/xTB procedure: geometries were optimized at the GFN-2 in chloroform solvent modeled by the \\mathrm { A L P B } ^ { 2 1 } implicit solvation model (for TSs, we fixed the key bond lengths for each reaction, as determined by initial TS optimization of a random conformer). Then the DFT single point calculations were performed on these geometries with the \\tt B P 8 6 ^ { 2 2 } density functional with dgauss-dzvp basis<sup>23</sup> (as implemented in Turbomole, with RI approximation of the Coulomb integrals and D3-BJ dispersion correction parametrized for accurate conformational energies, parameters: ( \\mathrm { s } 6 = 1 . 0 , \\mathrm { a } 1 = 0 . 7 1 8 2 , \\mathrm { s } 8 = 3 . 2 1 7 6 . , and \\mathrm { a } 2 = 3 . 8 5 7 2 ) ^ { 2 4 } with \\mathrm { C O S M O ^ { 2 5 } } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f } \\right) and FINE cavity<sup>26</sup>. The chloroform solvent was modeled by COSMO-RS implicit solvent model (using external program BIOVIA COSMOtherm 2023 and BP_TZVPD_FINE_22.ctd parameter file). Typically, the 10 most stable conformers from this sampling were then reoptimized by method1 and the lowest energy conformer was taken for the single point calculations with other methods. For all reaction paths, except for protonations and deprotonations, which we assume should have very low barriers, we either found a transition state or we performed a relaxed reaction coordinate scan to verify that the reaction proceeds without barrier on the electronic energy potential surface (which was the case for most nucleophilic attacks). All calculations were conducted assuming the molecules were in a closed shell singlet spin state, except the Fukui functions, where the anions were calculated as doublets. The IBO analysis<sup>27</sup> was performed using IboView software (version= v20211019-RevA), using method1 wavefunctions as input. The IBOs were generated with exponent = 2 and were visualized with threshold value = 50. The anionic Fukui functions ( f ^ { + } ) ^ { 2 8 } were calculated by subtracting the SCF-density (using Chemcraft software) of the method1-CPCM obtained wavefunction of anion and neutral of corresponding dendralenes (1a, 1b, and 1i):"
+          }
+        ]
+      },
+      {
+        "input_id": "PI5",
+        "kind": "condition",
+        "content": "DFT Gibbs free energies are reported under standard solution conditions of 298.15 K and 1 M with implicit chloroform solvation.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+          "ev_doc_c273e45e3ac0_000107_413912750bb4",
+          "ev_doc_c273e45e3ac0_000114_f1fabad867e9",
+          "ev_doc_c273e45e3ac0_000133_f1fabad867e9",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000231_3559624a64f3"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+            "quote": "Based on the inherent molecular properties of 1a and 1b (see the discussion of the Fukui function in the Supporting Information), we would not have expected any preferential site for the thiol addition. Therefore, to explain the experimental products, we performed extensive DFT calculations of the complete reaction pathways. Herein, we discuss only the relevant stable species, calculated at the ωB97M-V<sup>25</sup>/def2- TZVPD<sup>26</sup>//B3LYP<sup>27</sup>-D3/def2-TZVP level of theory. We chose the high-level ωB97M-V functional by comparing the predicted reaction energies to the DLPNO-CCSD(T) calculation on selected systems. Despite the inability of the"
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000107_413912750bb4",
+            "quote": "Scheme 12. Illustration of Plausible Pathways for the Reaction of Dendralene 1a \\scriptstyle ( ^ { 1 \\mathrm { a } } \\mathbf { R } 1 in this scheme) with Methanethiolate<sup>a</sup> <sup>a</sup>The Gibbs free energies under the standard conditions (298.15 K and 1 M) were calculated at the ωB97M-V/def2-TZVPD//B3LYP-D3BJ/def2- TZVP level of theory. The experimentally observed pathway is highlighted by a bold arrow."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000114_f1fabad867e9",
+            "quote": "<sup>a</sup>The Gibbs free energies under the standard conditions (298.15 K and 1 M) were calculated at the ωB97M-V/def2-TZVPD//B3LYP-D3BJ/def2- TZVP level of theory. The experimentally observed pathway is highlighted by a bold arrow."
+          },
+          {
+            "evidence_id": "ev_doc_c273e45e3ac0_000133_f1fabad867e9",
+            "quote": "<sup>a</sup>The Gibbs free energies under the standard conditions (298.15 K and 1 M) were calculated at the ωB97M-V/def2-TZVPD//B3LYP-D3BJ/def2- TZVP level of theory. The experimentally observed pathway is highlighted by a bold arrow."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+            "quote": "Our computational study employed Orca 6 . 0 . 1 , ^ { 1 1 } Turbomole7.8,<sup>12</sup> Crest 2 . 1 2 , ^ { 1 3 } and \\mathbf { x T B } ^ { 1 4 } 6.6.1 software. The geometry optimizations of described stationary points were performed at { \\bf B } 3 \\mathrm { L Y P ^ { 1 5 } } . D3BJ/def2-TZVP level of theory using implicit description of chloroform solvent using conductor-like PCM (CPCM)<sup>16</sup> model, as implemented in Orca 6.0.1 (referred as method1). The stationary points were characterized by vibrational frequency calculations (having 0 imaginary frequencies for minima, 1 imaginary frequency for transition-states). The method1-optimized geometry was used for subsequent single point calculations with different computational methods in two kinds of implicit solvent models (CPCM or SMD): B3LYP-D3BJ/def2-TZVPD (with CPCM = method2, with SMD = method 3), M06- 2 \\mathrm { X } ^ { 1 7 } / \\mathrm { d e f } 2 \\mathrm { - T Z V P D } (with CPCM = method4, with SMD = method5), \\mathrm { \\odot B 9 7 M - V ^ { 1 8 } / d e f 2 - T Z V P D } (with \\mathrm { C P C M } = \\mathrm { m e t h o d } 6 . , with SMD = method 7) and DLPNO-CCSD(T)<sup>19</sup>/cc-pVTZ with “NormalPNO” settings and SMD solvent model (method8). For the meta-GGA functionals (M06-2X, wB97M-V) we used a dense integration grid by specifying the “DEFGRID3” keyword. For all functionals, we utilized RI and COSX<sup>20</sup> approximations. In addition to CPCM and SMD solvation model, we also report ωB97M-V<sup>18</sup>/def2-TZVPD energies calculated with the COSMO-RS solvation model method. In that case, we used the same geometries from method1 to perform both gas phase and \\mathrm { C O S M O } \\left( \\varepsilon _ { \\mathrm { r e l } } = \\mathrm { i n f i n i t y } ; \\right. FINE cavity) calculation with the BP86 functional and FINE cavity. The gas-phase energy and the out.cosmo file from the COSMO calculation) were then used to calculate COSMO-RS Gibbs free energy of solvation using the COSMOTherm 2023 program (Dassault Systemes BIOVIA) with the BP_TZVPD_FINE_22.ctd parameter file. This energy of solvation was then added to gas-phase energy at ωB97M-V<sup>18</sup>/def2-TZVPD level (still at the same geometry from method1) to obtain the “single point” energy, which we refer to as method9."
+          },
+          {
+            "evidence_id": "ev_doc_e968c0ba81c1_000231_3559624a64f3",
+            "quote": "Since the ORCA software reports the Gibbs free energies with the 1 atm, 298.15 K standard state, we applied the addition of R(298.15 K) ln((R(298.15 K)/(0.001 m³))/(101325 Pa)) ~ 1.89 kcal mol<sup>-1</sup> to convert the energies to the 1 M, 298.15 K standard state."
+          }
+        ]
+      }
+    ],
+    "missing_critical_inputs": [],
+    "reference_limitations": [
+      "The authors used methanethiolate as a model for ethanethiolate/2-mercaptoethanol experiments, so quantitative comparison to experimental thiolate reactions is approximate.",
+      "The authors report that some product free-energy differences for the cyclopentenone substrate are within typical DFT error and that the most stable product varied across DFT methods.",
+      "The reported calculations use implicit chloroform solvation and standard-state corrections; they do not include explicit solvent, counterions, or full experimental workup effects.",
+      "The authors state that thiolate attacks generally have negligible barriers and that product thermodynamics mostly govern outcomes, but exact uncertainty ranges for all barriers and energies are not reported.",
+      "The computational references are conditional on the authors' selected stationary points and model systems; they should not be treated as exhaustive proof of all possible pathways."
+    ],
+    "evidence_requests": [],
+    "schema_version": "author-computation-research/v5-20261014",
+    "task_archetype": "author_computation_grounded_research",
+    "scoring_policy": "paper_science_v3",
+    "scoring_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+    "record_role": "Private historical source/reference material; source-route statements do not create additional public tasks or scored intermediate requirements.",
+    "active_evaluation": "scoring_rules.json and reference_conclusions.json define the sole active final conclusions; original source records do not impose numerical, node or process gates.",
+    "scoring_mode": "final_results_100",
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_r5_site_answer",
+        "r_r5_product_class",
+        "r_r5_second_competition",
+        "r_r6_thermodynamic_fate",
+        "r_r6_accessible_fate",
+        "r_sulf_site_answer",
+        "r_comparative_robustness"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "public_inputs": [
+    "data/PI1.sdf",
+    "data/PI2.sdf",
+    "data/methanethiol.sdf",
+    "data/methanethiolate.sdf",
+    "data/molecular_structures.json",
+    "data/system.json",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "required_results": "s\n\n1. Give PI1's preferred or unresolved monoaddition site/product assignment and its computed relative energies.\n2. Explain PI1's simple-addition versus cyclization outcome using evidence for accessibility and structure, distinguishing a stable endpoint from an accessible route.\n3. Give the incremental free energy and thermodynamic competitiveness of a second MeSH addition to a PI1 monoaddition product; distinguish this from its rate or observed fraction.\n4. Give PI2's relative stability of simple and cyclic product classes, including competing cyclic connectivities.\n5. Determine which PI2 simple-addition or cyclic-product connectivities are supported as accessible, and explain the contrast with PI1 using evidence that bears on competing formation routes.\n6. Compare the robustness of these outcomes using quantitative sensitivity evidence from informative comparisons. Explain how the quantified changes support or limit the conclusions; relevant comparisons within the results you generate may provide this evidence, with no prescribed additional method or rerun.\n\nChoose your hypotheses, computational models and investigations. Report actual computed quantities, units, references and conditions. Validate stationary points and connectivity as needed for the claims; no fixed number of structures, hypotheses, transition states or searches is required. Do not infer formation selectivity solely from endpoint stability without a supported thermodynamic-control argument. A finite electronic-energy scan is not an exact Gibbs barrier.\n\n#"
+}

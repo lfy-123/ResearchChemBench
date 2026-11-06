@@ -1,0 +1,97 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "items": [
+    {
+      "statement": "三催化剂的氟离子亲和力顺序",
+      "expected": "相同气相298.15 K焓定义和配平组成的实际FIA比较支持B1>B3>B2。作者467/423/409 kJ/mol为参考；不把自由能或反应势垒当作FIA，单原子热项约定须一致。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "fluoride_affinity",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "三催化剂的氢负离子亲和力顺序",
+      "expected": "同一配平焓定义下实际HIA比较支持B1>B3>B2。作者519/477/464 kJ/mol为参考；不得用FIA结果代替未计算的HIA或将该亲和力当作H2裂解势垒。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "hydride_affinity",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "D4与催化剂A的cis/trans形成竞争",
+      "expected": "正确D4五环产物立体映射、反应相关驻点和相同前体参照的实际比较支持催化剂A/B1下cis形成较有利。作者G(TStrans)−G(TScis)=0.7 kcal/mol为参考，不是硬数值窗；不能以实验10:1代替计算。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "d4_a_formation",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "D4与催化剂B的cis/trans形成竞争",
+      "expected": "对应D4五环、催化剂B/B3的实际反应连接及自由能支持cis形成较有利。作者G(TStrans)−G(TScis)=2.1 kcal/mol为参考；保持催化剂和电子态，不将另一催化剂的结果复用为本项。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "d4_b_formation",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "D4产物的弱热力学偏向",
+      "expected": "同一条件的独立cis/trans五环产物计算支持两者近简并，作者模型为trans稍低，G(trans)−G(cis)=−0.3 kcal/mol。必须区分微弱稳定性偏向与cis形成优势；不可将产物稳定性等同生成势垒。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "d4_product_stability",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "D5与催化剂A的形成竞争",
+      "expected": "正确六环cis/trans产物映射和反应相关结构的实际自由能比较支持D5/B1下cis形成较有利。作者G(TStrans)−G(TScis)=4.1 kcal/mol为参考；不以D4或其他催化剂替代。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "d5_formation",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "D5产物的cis稳定性偏好",
+      "expected": "独立六环产物计算在声明且一致的热化学定义下支持cis更稳定。作者G(trans)−G(cis)=2.6 kcal/mol为参考；低频处理须与所报告G一致，不能混用QRRHO、RRHO或为接近目标挑选截止。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "key_point_id": "d5_product_stability",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    }
+  ],
+  "scoring_applicability_20261029": "Supporting evidence only. No independent points or numeric gates; any retained author values and former tolerances are historical non-scoring context."
+}

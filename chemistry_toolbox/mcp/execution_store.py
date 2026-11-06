@@ -487,6 +487,22 @@ class ExecutionStore:
             ).fetchall()
         return [dict(row) for row in rows]
 
+    def list_job_results_snapshot(self) -> tuple[list[dict], dict[str, dict]]:
+        """Read identities, states and result receipts in one SQLite snapshot."""
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT j.*, r.payload AS result_payload FROM jobs j LEFT JOIN records r "
+                "ON r.namespace='result' AND r.key=j.entity_id WHERE j.run_id=? "
+                "ORDER BY j.updated_at, j.entity_id", (self.run_id,),
+            ).fetchall()
+        jobs, results = [], {}
+        for row in rows:
+            value = dict(row)
+            payload = value.pop("result_payload")
+            results[value["entity_id"]] = json.loads(payload) if payload else {}
+            jobs.append(value)
+        return jobs, results
+
     def get_job(self, entity_id: str) -> dict[str, Any] | None:
         with self._connect() as connection:
             row = connection.execute("SELECT * FROM jobs WHERE run_id=? AND entity_id=?", (self.run_id, entity_id)).fetchone()

@@ -1,0 +1,27 @@
+{
+  "paper_id": "paper_cf8ce1fc0fbcd300",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "PROVISIONAL_PASS_QUALITATIVE",
+  "strict_numeric_whole_pass": false,
+  "reason": "用户授权将已验收当前AR科学问题迁移为仅科学结果评分；独立验收支持当前必要定性结论，数值误差和发布判断保留给专家。该资格不等同于严格数值复现或盲测满分。",
+  "unblock_conditions": [],
+  "physical_definition": "M06-2X/6-311+G(d,p)/SMD-DCM优化/频率与作者明确层级一致。实际Gaussian16 C.01，SI引用A.03；原坐标未提供，依据分子图/图S9重建。实际298.15 K、1 atm RRHO，来源温压、网格及热化学约定未完整报告。",
+  "tolerance_policy": {
+    "numeric_rules": 0,
+    "rationale": "当前题面是解释/比较型问题，原规则没有必达数值目标。本次以明确科学命题、真实结构/电子结果和最终解释计分，不为偏差拟合宽窗。作者数值及与验证的残差保留为上下文。"
+  },
+  "publication_review_pending": [
+    "软件修订版、结构重建及未报告热化学细节限制精确数值复现，不表示存在既定数值门槛失败。",
+    "反应模式和分子图提供局部连接证据，未完成松弛IRC或完整酸交换网络。",
+    "OH···F近接不等于氢键因果能量分解；五分钟端点不证明完全平衡，未检出不等于严格零浓度。",
+    "原文上游照光时长和SI部分重分配实验文字存在不一致，不能混为同一条件的定量动力学。"
+  ],
+  "verification_scope": "current_autonomous_research_scientific_question",
+  "independent_acceptance_review": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T2343Z/acceptance_audit_cf8/acceptance_audit.json"
+}

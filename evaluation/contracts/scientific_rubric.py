@@ -4,6 +4,9 @@ import math
 
 def scientific_rubric(document):
     """Validate optional flat weights, never rule applicability or dependencies."""
+    if document.get("scoring_policy") == "paper_science_v3":
+        from .final_results import validate_rubric
+        return validate_rubric(document)
     rubric = document.get("scientific_rubric")
     if rubric is None:
         return None
@@ -11,9 +14,14 @@ def scientific_rubric(document):
         raise ValueError("scientific_rubric must be a nonempty list")
     known = {r["rule_id"] for r in document["rules"]}
     ids, total = set(), 0
+    v2 = document.get("scoring_policy") == "paper_science_v2"
+    allowed = {"id", "max_score", "description", "rule_ids"} | ({"kind", "evidence_ids"} if v2 else set())
     for item in rubric:
-        if not isinstance(item, dict) or set(item) - {"id", "max_score", "description", "rule_ids"}:
-            raise ValueError("scientific_rubric supports only id/max_score/description/rule_ids")
+        if not isinstance(item, dict) or set(item) - allowed:
+            raise ValueError("scientific_rubric supports only " + "/".join(sorted(allowed)))
+        if v2 and (item.get("kind") not in {"intermediate", "conclusion"} or
+                   not isinstance(item.get("evidence_ids"), list) or not item["evidence_ids"]):
+            raise ValueError("V2 rubric requires kind and paper evidence_ids")
         identifier, maximum = item.get("id"), item.get("max_score")
         if not isinstance(identifier, str) or not identifier.strip() or identifier in ids:
             raise ValueError("scientific_rubric ids must be nonempty and unique")
@@ -28,4 +36,6 @@ def scientific_rubric(document):
         total += maximum
     if abs(total - 100) > 1e-9:
         raise ValueError("scientific_rubric max_score must sum to 100")
+    if v2 and {i["kind"] for i in rubric} != {"intermediate", "conclusion"}:
+        raise ValueError("V2 rubric requires intermediate results and final conclusions")
     return rubric

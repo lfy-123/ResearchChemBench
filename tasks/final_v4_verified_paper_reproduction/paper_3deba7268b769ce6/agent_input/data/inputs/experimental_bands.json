@@ -1,0 +1,26 @@
+{
+  "source": "SI PDF p5 TableS2 lower-energy absorption band",
+  "unit": "kcal/mol photon energy",
+  "values": {
+    "toluene": {
+      "dye3": 57.76,
+      "dye4": 61.75
+    },
+    "ethyl_acetate": {
+      "dye3": 52.94,
+      "dye4": 59.44
+    },
+    "methanol": {
+      "dye3": 63.39,
+      "dye4": 69.23
+    }
+  },
+  "availability": "All six values are public at task start, with no calibration/holdout split.",
+  "instrument_context": {
+    "temperature_C": 23,
+    "reported_temperature_range_C": 1,
+    "nominal_dye_concentration_M": 3e-05,
+    "source_max_full_spectrum_recording_speed_ms": 12
+  },
+  "limitations": "Rounded source band energies; no replicate errors or time-resolved raw spectra are supplied. Photodegradation affects interpretation of short-lived samples."
+}

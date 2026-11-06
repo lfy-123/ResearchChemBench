@@ -38,6 +38,7 @@ _DENSE_ARRAY_KEYS = {
     "eigenvectors",
     "density_grid",
     "potential_grid",
+    "orbital_transitions",
 }
 
 

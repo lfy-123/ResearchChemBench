@@ -1,0 +1,243 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_active_catalyst",
+      "r_coupling_chemistry",
+      "r_balanced_profile",
+      "r_path_activation",
+      "r_temperature_effect"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required model is a finite product-forming pathway through diyne release. No catalyst regeneration, full-cycle closure, steady-state turnover or complete catalytic energy span is required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "items": [
+    {
+      "key_point_id": "support_active_catalyst",
+      "key_point_type": "scientific_evidence",
+      "statement": "Chemically accessible active zinc species from the supplied precatalyst",
+      "expected": "Select and justify a neutral Zn(II) bis-prolinate active species with intact L stereochemistry and N/O coordination, using actual molecular results and a balanced thermodynamically favorable formation from ZnEt2+2L-proline to catalyst+2ethane. Source formation−98.5kcal/mol is context, not a hard target. Treat formal oxidation state by ligand/electron counting, not atomic charge; failure to optimize a Zn0 candidate is not proof that all Zn0 chemistry is impossible. An established physically equivalent speciation explanation passes.",
+      "evidence_ids": [
+        "zn_species",
+        "zn_components"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_coupling_chemistry",
+      "key_point_type": "scientific_evidence",
+      "statement": "Bond-forming chemistry and zinc oxidation-state behavior",
+      "expected": "Explain the computed formation of the mapped unsymmetrical1,3-diyne as substitution-type Csp–Csp formation with Csp–Br cleavage and release of the Zn–C bond, with Zn remaining formally+2 along the supported route. Actual state/saddle/reactive-mode and sufficient connection evidence are required; a matching scalar or a product drawing alone fails. Equivalent physical reaction descriptions pass without author labels; do not mislabel this as a Pd-like Zn0/ZnII oxidative-addition/reductive-elimination cycle or exclude every uninvestigated radical mechanism.",
+      "evidence_ids": [
+        "zn_species",
+        "zn_network",
+        "zn_ts"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_balanced_profile",
+      "key_point_type": "scientific_evidence",
+      "statement": "Thermodynamics of the balanced finite pathway through diyne release",
+      "expected": "Report a numerical atom- and charge-balanced finite free-energy profile from the supported catalyst/reactant inventory through terminal-alkyne activation, coupling and diyne release. The reference supports mildly uphill alkyne activation and favorable coupled product formation; assess these relationships with actual species energies and explicit ligand, carbonate, proton and leaving-ion reservoirs. Identify the remaining zinc species at the end. Equivalent balanced ion-pair conventions pass after explicit conversion. Catalyst regeneration, catalyst return and complete cycle closure are not scored or required. The source Int2 main-text 9.6 versus SI-derived 4.078812 kcal/mol conflict precludes an exact Int2 target; author values are context only.",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_turnover_span",
+      "key_point_type": "scientific_evidence",
+      "statement": "Principal activation demand in the tested finite product-forming pathway",
+      "expected": "Identify the principal activation demand within the tested finite product-forming pathway using actual connected molecular calculations and a consistently balanced reference. In the reference, coupling with Csp-Br cleavage supplies the major tested demand. Report both its local activation free energy from the immediately preceding reactants and its height from the common catalyst/reactant reservoirs, with explicit stoichiometric expressions. The reference overall-height expression is G(TS)+G(Cs-prolinate)+G(CsHCO3)-[G(neutral bis-prolinate catalyst)+G(R1)+G(R2)+G(Cs2CO3)]; equivalent balanced references pass. This finite-path height is not by itself the energy span or rate-limiting step of an uncomputed catalytic cycle. A naked TS energy, mismatched reservoirs or unsupported bottleneck declaration fails. Source 29.2 kcal/mol is context without a matching gate. Temperature consequences are evaluated separately.",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_temperature_effect",
+      "key_point_type": "scientific_evidence",
+      "statement": "Conditional temperature effect on the tested product-forming activation",
+      "expected": "Use independently calculated activation energetics from the tested finite pathway and an explicit justified kinetic approximation to quantify the conditional effect of changing 298.15 K to 398.15 K. Report a numerical rate or timescale comparison with reactant-activity, standard-state and molecularity assumptions. A fixed-DeltaG Eyring illustration is sufficient if labeled as a conditional approximation rather than recalculated high-temperature free energy, experimental kinetics or steady-state catalytic TOF. Explain how heating improves accessibility in the tested model and what cannot be concluded without regeneration and a full kinetic network. Copying source 29.2 to obtain rates without actual calculated activation evidence fails. No exact rate target or full-cycle energy-span calculation is required.",
+      "evidence_ids": [
+        "zn_network",
+        "zn_eyring"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "key_point_id": "active_species_identity",
+      "rule_ids": [
+        "r_active_species_identity"
+      ],
+      "scientific_max_score": 12,
+      "statement": "中性ZnII双prolinate身份",
+      "expected": "真实计算支持中性Zn(II)双prolinate活性物种，配体去质子化、N/O配位且L构型保留。须以实际分子图和电荷/组成支持Zn形式+2，不以任意原子电荷替代氧化态。",
+      "evidence_ids": [
+        "zn_species"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "key_point_id": "catalyst_formation",
+      "rule_ids": [
+        "r_catalyst_formation"
+      ],
+      "scientific_max_score": 8,
+      "statement": "平衡质子解离形成有利",
+      "expected": "实际平衡形成反应ZnEt2+2 L-proline→中性ZnII双prolinate+2乙烷的G为下坡，支持从所给前体形成活性物种。作者−98.5仅作背景；不能把不同组成的形成能当TS势垒，或用Zn0优化失败证明其普适不可能。",
+      "evidence_ids": [
+        "zn_species",
+        "zn_components"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "key_point_id": "alkynyl_intermediate",
+      "rule_ids": [
+        "r_alkynyl_intermediate"
+      ],
+      "scientific_max_score": 10,
+      "statement": "碳酸盐辅助末端炔活化",
+      "expected": "实际物种及配平反应支持末端炔在ZnII/prolinate与碳酸盐作用下形成alkynylZn中间体Int2，并明确Cs-prolinate/CsHCO3储库。该步骤小幅上坡；只评分结构、配平与正号，不对来源冲突的Int2高度设置精确窗口。",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "key_point_id": "coupling_connection",
+      "rule_ids": [
+        "r_coupling_connection"
+      ],
+      "scientific_max_score": 14,
+      "statement": "取代型偶联连接",
+      "expected": "真实相关鞍点/反应模及实际连接证据支持alkynylZn与alkynyl bromide形成Csp–Csp、断Csp–Br并释放Zn–C，得到正确不对称1,3-二炔。只评分键变/相连身份，不用29.2数值命中替代连接。",
+      "evidence_ids": [
+        "zn_network",
+        "zn_ts"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "key_point_id": "regeneration",
+      "rule_ids": [
+        "r_regeneration"
+      ],
+      "scientific_max_score": 10,
+      "statement": "配体储库与催化剂再生",
+      "expected": "实际产物后物种及匹配储库支持Int3经Cs-prolinate再生中性Int1，同时形成CsBr，并将CsHCO3计入完整配平网络。需真实物种/热力学支持，不仅书写循环；不强制作者未提供的独立再生鞍点。",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "key_point_id": "turnover_span",
+      "rule_ids": [
+        "r_turnover_span"
+      ],
+      "scientific_max_score": 20,
+      "statement": "平衡控制能跨",
+      "expected": "G(TS)+G(Cs-prolinate)+G(CsHCO3)−[G(Int1)+G(R1)+G(R2)+G(Cs2CO3)]，目标29.2 kcal/mol、绝对容差1.0 kcal/mol。采用匹配组成、同温度/溶剂/标准态及自身TS热项；不能用TS−Int2−R2局部势垒或未配平高度代替。",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "claim_role": "supporting_context",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "key_point_id": "support_active_catalyst",
+      "key_point_type": "scientific_evidence",
+      "statement": "Chemically accessible active zinc species from the supplied precatalyst",
+      "expected": "Select and justify a neutral Zn(II) bis-prolinate active species with intact L stereochemistry and N/O coordination, using actual molecular results and a balanced thermodynamically favorable formation from ZnEt2+2L-proline to catalyst+2ethane. Source formation−98.5kcal/mol is context, not a hard target. Treat formal oxidation state by ligand/electron counting, not atomic charge; failure to optimize a Zn0 candidate is not proof that all Zn0 chemistry is impossible. An established physically equivalent speciation explanation passes.",
+      "evidence_ids": [
+        "zn_species",
+        "zn_components"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_coupling_chemistry",
+      "key_point_type": "scientific_evidence",
+      "statement": "Bond-forming chemistry and zinc oxidation-state behavior",
+      "expected": "Explain the computed formation of the mapped unsymmetrical1,3-diyne as substitution-type Csp–Csp formation with Csp–Br cleavage and release of the Zn–C bond, with Zn remaining formally+2 along the supported route. Actual state/saddle/reactive-mode and sufficient connection evidence are required; a matching scalar or a product drawing alone fails. Equivalent physical reaction descriptions pass without author labels; do not mislabel this as a Pd-like Zn0/ZnII oxidative-addition/reductive-elimination cycle or exclude every uninvestigated radical mechanism.",
+      "evidence_ids": [
+        "zn_species",
+        "zn_network",
+        "zn_ts"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_balanced_profile",
+      "key_point_type": "scientific_evidence",
+      "statement": "Thermodynamic feasibility and closure of the balanced catalytic free-energy network",
+      "expected": "Provide a numerical balanced free-energy profile demonstrating that terminal-alkyne activation is mildly uphill while product formation and ligand-mediated catalyst regeneration are downhill, and that the catalyst and stoichiometric reservoirs close consistently. The source uses carbonate activation with Cs-prolinate/CsHCO3 bookkeeping and regeneration with CsBr formation; equivalent balanced ion-pair/reservoir conventions pass after explicit conversion. Actual species energies are required for these final thermodynamic relationships; writing a cycle alone fails. Source Int2 main-text9.6 versus SI-derived4.078812kcal/mol conflicts, so no exact Int2 target is imposed. Source regeneration and overall heights are context without new hard windows.",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_turnover_span",
+      "key_point_type": "scientific_evidence",
+      "statement": "Controlling balanced catalytic energy span",
+      "expected": "Obtain the controlling free-energy span29.2±1.0kcal/mol inclusive at298.15K in ethanol with the declared1atm convention (or explicit equivalent conversion). For the reference chemistry it is G(TS)+G(Cs-prolinate)+G(CsHCO3)−[G(neutral bis-prolinate catalyst)+G(R1)+G(R2)+G(Cs2CO3)]. Use the genuine supported transition state and its own thermochemistry with a balanced common reference. Local TS−Int2−R2 or an unbalanced height is not this quantity. Missing evidence, wrong reference or an out-of-window result fails; no review can bypass the hard window.",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_temperature_effect",
+      "key_point_type": "scientific_evidence",
+      "statement": "Kinetic explanation for operation at125°C",
+      "expected": "Use the independently calculated controlling span and an explicit justified kinetic approximation to quantify the change from298.15K to398.15K and conclude that heating greatly increases accessibility on laboratory timescales. The source fixed-ΔG Eyring treatment is sufficient when stated as an approximation, not a recalculated high-temperature free energy or measured rate. Provide numerical rates or a rate/time-scale comparison. Copying source29.2 to generate rates without a computed span fails. This qualitative-kinetic conclusion is independent of exact hard-window success and has no new rate tolerance.",
+      "evidence_ids": [
+        "zn_network",
+        "zn_eyring"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ]
+}

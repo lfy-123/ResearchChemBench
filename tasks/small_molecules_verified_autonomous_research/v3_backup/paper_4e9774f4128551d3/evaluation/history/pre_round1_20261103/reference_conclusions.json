@@ -1,0 +1,44 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "items": [
+    {
+      "conclusion_id": "endpoint_gap",
+      "statement": "Endpoint thermodynamic preference of the mapped cis/trans epimers and its physical scope",
+      "expected": "Establish the thermodynamic preference of the correctly mapped ketoester epimers from actual comparable Gibbs free energies at 298.15 K in the specified methanol-continuum endpoint model. The supported reference has trans more stable than cis; interpret what the calculated separation implies for equilibrium enrichment, while preserving the polycyclic skeleton and all remote stereocentres. This item evaluates an endpoint thermodynamic conclusion and its physical scope, not the sign of an unexplained subtraction or agreement with an author number. Raw electronic energies alone, different stereoisomers or an energy reference incompatible with the stated Gibbs comparison are insufficient. The endpoint result is not a protonation barrier, a single-pass product ratio or a calculation of the experimental mixed-solvent kinetics; the explanation of the two operations is scored separately.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_001_p71"
+      ],
+      "supporting_key_point_ids": [
+        "endpoint_gap"
+      ]
+    },
+    {
+      "conclusion_id": "condition_interpretation",
+      "statement": "Why equilibrium and separate-pot stereochemical outcomes differ",
+      "expected": "Explain why reversible keto-enol conditions and soft enolization followed by separate-pot CSA protonolysis can produce different stereochemical outcomes. Use the actual endpoint calculations as context and a quantitative consistency argument that distinguishes thermodynamic equilibration from formation and trapping in the separate operations; a supported equivalent molecular explanation passes. Show why the endpoint equilibrium tendency does not uniquely determine the observed nearly equal single-pass products. Merely repeating that trans is more stable earns no credit for this distinct operational explanation. A kinetic consistency analysis is permitted without a prescribed transition-state search; it must not be misrepresented as validated CSA kinetics or an independent prediction of the supplied single-pass ratio.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p20_21_71"
+      ],
+      "supporting_key_point_ids": [
+        "condition_interpretation"
+      ]
+    },
+    {
+      "conclusion_id": "recycle_balance",
+      "statement": "Three-cycle cis recovery and its relation to the observed isolated yield",
+      "expected": "Provide a reproducible quantitative three-cycle mass balance using an explicitly identified single-pass cis/trans product fraction and its provenance; track isolated cis, recycled trans and any stated loss/conversion assumptions to assess whether the reported 70% cumulative isolated cis yield is compatible with the model. The supplied trans:cis ratio about 1.1:1 may be used for mathematical consistency analysis, but must not be presented as independently predicted selectivity. A calculated ratio must describe the actual single-pass process: the endpoint Boltzmann equilibrium ratio is not automatically the protonolysis product ratio. For lossless identical cycles with complete cis separation and trans recycling, Y3=1-(1-p_cis)^3; other physically justified, mass-balanced models are acceptable. Merely repeating 70%, fitting hidden losses and claiming independent prediction, or equating single-pass and cumulative yields does not pass. No new protonation-TS study or exact isolated-yield prediction is required.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p21"
+      ],
+      "supporting_key_point_ids": [
+        "recycle_balance"
+      ]
+    }
+  ]
+}

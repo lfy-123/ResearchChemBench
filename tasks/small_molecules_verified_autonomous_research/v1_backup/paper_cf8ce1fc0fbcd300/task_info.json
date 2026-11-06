@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_cf8ce1fc0fbcd300",
+  "task_type": "autonomous_research",
+  "title": "Regioselectivity and redistribution in methanol functionalization of a difluoromethyl cyclopropene",
+  "category": "small_molecule_homogeneous_organic_reaction_chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "An open explanation must connect formation competition, three-regioisomer stability and a redistribution observation without an assigned mechanistic route.",
+    "Actual molecular computations and claim-dependent chemical validation are needed; a single energy or copied interpretation does not resolve the question.",
+    "Different experimental contexts, model dependence and incomplete observation/thermochemical detail require calibrated scientific uncertainty."
+  ],
+  "paper": {
+    "title": "Modular synthesis of fluoroalkyl-substituted cyclopropenes with fluoroalkylacylsilanes as carbynyl cation equivalents",
+    "doi": "10.1016/j.chempr.2025.102721",
+    "journal": "Chem",
+    "publication_date": "2026-01-15"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "Neutral graph-explicit starting and product identities, preparation/functionalization conditions, endpoint observations and the shared scientific question."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured research statuses, hypotheses, investigations, evidence, linked conclusions, limitations and reproducibility index following the shared schema."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific report of the question, executed investigations, decisions, results, uncertainty and actual resource use; conditional protocol-fidelity assessment when guidance is disclosed."
+    },
+    {
+      "path": "research/",
+      "description": "Actual computational inputs, outputs, logs and analysis code, with every cited artifact indexed and linked to the submitted evidence."
+    }
+  ]
+}

@@ -1,0 +1,833 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_746e066c163800d8",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "scientific_requirements": "Each independent final scientific proposition earns its fixed weight or zero. Weights sum to 100. No separate credit for structures, author-route nodes, process, tool use or report completeness. The final answer must state the proposition and bind it to genuine native calculations or reproducible scientific analyses with correct identity, state, observable, units, reference and conditions. Supplied observations and copied author targets are not new results. Claim-specific validation is evidence, not another scored item. Hard numeric windows remain binary and unchanged. Equivalent well-supported physical explanations pass directly. Only the listed substantive unresolved scientific conflicts permit need_review; missing evidence, wrong identity/reference/units, unsupported guesses and hard-window failures fail. Review is not success. Required final outcomes must all pass for whole-task success. PR disclosed baseline applicability is assessed within the affected result; AR chooses its method independently. Historical verification status is not a new V3 certification.",
+      "rules": [
+        {
+          "rule_id": "r_hrs_1",
+          "reference_id": "hrs_1",
+          "type": "numeric",
+          "expected": "For complete compound 1, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.04 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 1.04,
+          "tolerance": 0.2,
+          "unit": "10^-30 esu"
+        },
+        {
+          "rule_id": "r_hrs_3",
+          "reference_id": "hrs_3",
+          "type": "numeric",
+          "expected": "For complete compound 3, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.3 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 1.3,
+          "tolerance": 0.2,
+          "unit": "10^-30 esu"
+        },
+        {
+          "rule_id": "r_hrs_5",
+          "reference_id": "hrs_5",
+          "type": "numeric",
+          "expected": "For complete compound 5, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.92 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 1.92,
+          "tolerance": 0.2,
+          "unit": "10^-30 esu"
+        },
+        {
+          "rule_id": "r_hrs_7",
+          "reference_id": "hrs_7",
+          "type": "numeric",
+          "expected": "For complete compound 7, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.27 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          },
+          "target": 1.27,
+          "tolerance": 0.2,
+          "unit": "10^-30 esu"
+        },
+        {
+          "rule_id": "r_tensor_character_1",
+          "reference_id": "tensor_character_1",
+          "type": "semantic",
+          "expected": "The final answer characterizes the actual static molecular response of compound 1 as dipolar-dominated, using calculated rotational invariants, polarization response or a demonstrably equivalent physical decomposition. State the derivative and orientation convention. Shape labels alone do not determine nonlinear response. DR, J1/J3 and rho are supporting observables; no exact rounded-ratio target is added. Physically equivalent decompositions that establish the same response character pass directly.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        },
+        {
+          "rule_id": "r_tensor_character_3",
+          "reference_id": "tensor_character_3",
+          "type": "semantic",
+          "expected": "The final answer characterizes the actual static molecular response of compound 3 as strongly octupolar-dominated, using calculated rotational invariants, polarization response or a demonstrably equivalent physical decomposition. State the derivative and orientation convention. Shape labels alone do not determine nonlinear response. DR, J1/J3 and rho are supporting observables; no exact rounded-ratio target is added. Physically equivalent decompositions that establish the same response character pass directly.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        },
+        {
+          "rule_id": "r_tensor_character_5",
+          "reference_id": "tensor_character_5",
+          "type": "semantic",
+          "expected": "The final answer characterizes the actual static molecular response of compound 5 as dipolar-dominated with a substantial octupolar contribution, using calculated rotational invariants, polarization response or a demonstrably equivalent physical decomposition. State the derivative and orientation convention. Shape labels alone do not determine nonlinear response. DR, J1/J3 and rho are supporting observables; no exact rounded-ratio target is added. Physically equivalent decompositions that establish the same response character pass directly.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        },
+        {
+          "rule_id": "r_tensor_character_7",
+          "reference_id": "tensor_character_7",
+          "type": "semantic",
+          "expected": "The final answer characterizes the actual static molecular response of compound 7 as strongly octupolar-dominated, using calculated rotational invariants, polarization response or a demonstrably equivalent physical decomposition. State the derivative and orientation convention. Shape labels alone do not determine nonlinear response. DR, J1/J3 and rho are supporting observables; no exact rounded-ratio target is added. Physically equivalent decompositions that establish the same response character pass directly.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        },
+        {
+          "rule_id": "r_nonmonotonic_response",
+          "reference_id": "nonmonotonic_response",
+          "type": "semantic",
+          "expected": "From physically comparable static responses, conclude that the 1-to-5 structural extension increases beta_HRS whereas the 5-to-7 extension decreases it. Report signed differences and show that their signs are resolved. This single final nonmonotonicity result replaces the two former extension leaves; it is independent of absolute magnitude-window passage. Do not infer signs from overlapping reference windows or finite-frequency results. Wrong or unresolved directions fail.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        },
+        {
+          "rule_id": "r_three_seven_similarity",
+          "reference_id": "three_seven_similarity",
+          "type": "semantic",
+          "expected": "A quantitative comparison derives from actual comparable response values that the absolute3-versus7 HRS difference is smaller than both the1-to5 increase and the5-to7 decrease, and therefore identifies3/7 as similar-magnitude responses despite different full structures. It must show these relative contrasts and account for numerical resolution before asserting a fine3/7 ordering; merely listing limits earns zero. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        },
+        {
+          "rule_id": "r_structure_response_interpretation",
+          "reference_id": "structure_response_interpretation",
+          "type": "semantic",
+          "expected": "Give an evidence-based physical interpretation of why response magnitude is not determined by carbon count alone: connect the actual molecular structural differences to changes in response anisotropy and the balance of irreducible dipolar/octupolar response. State what the computed tensor and structural evidence distinguishes and whether it isolates a unique causal geometry or charge-transfer descriptor. The added conclusion is the physically justified attribution and its limitations; repeating the scalar ordering or tensor class already scored elsewhere does not pass. No prescribed torsion intervention, density metric, minimum count or exclusive charge-transfer mechanism is required. Well-supported equivalent explanations pass; the four-molecule gas/static comparison cannot by itself establish bulk performance or universal behavior of all pi extensions.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Read the stated final result and trace its support to native inputs/outputs or original data with reproducible analysis. Confirm physical identity and definitions. Do not score a structure, a workflow step, copied target or repeated supplied observation independently."
+          }
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "hrs_1",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "Static isotropic HRS magnitude of compound 1",
+          "rule_ids": [
+            "r_hrs_1"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "hrs_3",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "Static isotropic HRS magnitude of compound 3",
+          "rule_ids": [
+            "r_hrs_3"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "hrs_5",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "Static isotropic HRS magnitude of compound 5",
+          "rule_ids": [
+            "r_hrs_5"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "hrs_7",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "Static isotropic HRS magnitude of compound 7",
+          "rule_ids": [
+            "r_hrs_7"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "tensor_character_1",
+          "kind": "conclusion",
+          "max_score": 8,
+          "description": "Physical tensor character of compound 1",
+          "rule_ids": [
+            "r_tensor_character_1"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "tensor_character_3",
+          "kind": "conclusion",
+          "max_score": 8,
+          "description": "Physical tensor character of compound 3",
+          "rule_ids": [
+            "r_tensor_character_3"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "tensor_character_5",
+          "kind": "conclusion",
+          "max_score": 8,
+          "description": "Physical tensor character of compound 5",
+          "rule_ids": [
+            "r_tensor_character_5"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "tensor_character_7",
+          "kind": "conclusion",
+          "max_score": 8,
+          "description": "Physical tensor character of compound 7",
+          "rule_ids": [
+            "r_tensor_character_7"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "nonmonotonic_response",
+          "kind": "conclusion",
+          "max_score": 13,
+          "description": "Response change under the two structural extensions",
+          "rule_ids": [
+            "r_nonmonotonic_response"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "three_seven_similarity",
+          "kind": "conclusion",
+          "max_score": 5,
+          "description": "Relative similarity of compounds 3 and 7",
+          "rule_ids": [
+            "r_three_seven_similarity"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "structure_response_interpretation",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "What the molecular comparison establishes about structure and response",
+          "rule_ids": [
+            "r_structure_response_interpretation"
+          ],
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Actual comparable molecular response and structural evidence support a materially different causal explanation of the contrasts, and the attribution conflict remains unresolved. A reordered list, absent response evidence or generic caveats fail."
+          ],
+          "required_for_success": true
+        }
+      ]
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_746e066c163800d8",
+      "items": [
+        {
+          "statement": "Compound 1 static molecular HRS magnitude",
+          "expected": "For complete compound 1, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.04 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "hrs_1",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Compound 3 static molecular HRS magnitude",
+          "expected": "For complete compound 3, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.3 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "hrs_3",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Compound 5 static molecular HRS magnitude",
+          "expected": "For complete compound 5, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.92 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "hrs_5",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Compound 7 static molecular HRS magnitude",
+          "expected": "For complete compound 7, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.27 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "hrs_7",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Compound 1 tensor-response character",
+          "expected": "Actual rotational invariants, polarization response or equivalent physically defined decomposition establishes compound 1 as dipolar-dominated. Source DR/J1/J3 values are contextual; no exact rounded-ratio gate applies. Molecular shape alone without response evidence is insufficient. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "tensor_character_1",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Compound 3 tensor-response character",
+          "expected": "Actual rotational invariants, polarization response or equivalent physically defined decomposition establishes compound 3 as strongly octupolar-dominated. Source DR/J1/J3 values are contextual; no exact rounded-ratio gate applies. Molecular shape alone without response evidence is insufficient. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "tensor_character_3",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Compound 5 tensor-response character",
+          "expected": "Actual rotational invariants, polarization response or equivalent physically defined decomposition establishes compound 5 as dipolar-dominated with substantial octupolar contribution. Source DR/J1/J3 values are contextual; no exact rounded-ratio gate applies. Molecular shape alone without response evidence is insufficient. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "tensor_character_5",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Compound 7 tensor-response character",
+          "expected": "Actual rotational invariants, polarization response or equivalent physically defined decomposition establishes compound 7 as strongly octupolar-dominated. Source DR/J1/J3 values are contextual; no exact rounded-ratio gate applies. Molecular shape alone without response evidence is insufficient. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "tensor_character_7",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Homogeneous extension from 1 to 5 raises HRS",
+          "expected": "Comparable actual response establishes beta_HRS(5)>beta_HRS(1), independently of individual magnitude windows. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "extension_1_to_5",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Further extension from 5 to 7 lowers HRS",
+          "expected": "Comparable actual response establishes beta_HRS(7)<beta_HRS(5); this contrast prevents a monotonic size-only explanation and is independent of magnitude windows. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "extension_5_to_7",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        },
+        {
+          "statement": "Comparable responses resolve the similar HRS scale of 3 and 7",
+          "expected": "A quantitative comparison derives from actual comparable response values that the absolute3-versus7 HRS difference is smaller than both the1-to5 increase and the5-to7 decrease, and therefore identifies3/7 as similar-magnitude responses despite different full structures. It must show these relative contrasts and account for numerical resolution before asserting a fine3/7 ordering; merely listing limits earns zero. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "three_seven_similarity",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "scoring_note": "Non-scoring source/reference evidence. No author node or historical structure is mandatory for AR when physically equivalent evidence establishes a final conclusion."
+        }
+      ]
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_746e066c163800d8",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabricated scientific evidence or copied reference answers falsely presented as independently computed invalidate the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Ordinary wrong, failed or missing results lose only their dependent scientific leaves."
+        }
+      ]
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_746e066c163800d8",
+      "items": [
+        {
+          "conclusion_id": "hrs_1",
+          "statement": "Static isotropic HRS magnitude of compound 1",
+          "expected": "For complete compound 1, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.04 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "hrs_1"
+          ]
+        },
+        {
+          "conclusion_id": "hrs_3",
+          "statement": "Static isotropic HRS magnitude of compound 3",
+          "expected": "For complete compound 3, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.3 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "hrs_3"
+          ]
+        },
+        {
+          "conclusion_id": "hrs_5",
+          "statement": "Static isotropic HRS magnitude of compound 5",
+          "expected": "For complete compound 5, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.92 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "hrs_5"
+          ]
+        },
+        {
+          "conclusion_id": "hrs_7",
+          "statement": "Static isotropic HRS magnitude of compound 7",
+          "expected": "For complete compound 7, derive the isotropically averaged static beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) from genuine comparable response data. Author target 1.27 in 10^-30 esu, inclusive absolute tolerance 0.20. Cartesian beta_total, a single tensor component or finite-frequency response is not this quantity. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "hrs_7"
+          ]
+        },
+        {
+          "conclusion_id": "tensor_character_1",
+          "statement": "Physical tensor character of compound 1",
+          "expected": "The final answer characterizes the actual static molecular response of compound 1 as dipolar-dominated, using calculated rotational invariants, polarization response or a demonstrably equivalent physical decomposition. State the derivative and orientation convention. Shape labels alone do not determine nonlinear response. DR, J1/J3 and rho are supporting observables; no exact rounded-ratio target is added. Physically equivalent decompositions that establish the same response character pass directly.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "tensor_character_1"
+          ]
+        },
+        {
+          "conclusion_id": "tensor_character_3",
+          "statement": "Physical tensor character of compound 3",
+          "expected": "The final answer characterizes the actual static molecular response of compound 3 as strongly octupolar-dominated, using calculated rotational invariants, polarization response or a demonstrably equivalent physical decomposition. State the derivative and orientation convention. Shape labels alone do not determine nonlinear response. DR, J1/J3 and rho are supporting observables; no exact rounded-ratio target is added. Physically equivalent decompositions that establish the same response character pass directly.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "tensor_character_3"
+          ]
+        },
+        {
+          "conclusion_id": "tensor_character_5",
+          "statement": "Physical tensor character of compound 5",
+          "expected": "The final answer characterizes the actual static molecular response of compound 5 as dipolar-dominated with a substantial octupolar contribution, using calculated rotational invariants, polarization response or a demonstrably equivalent physical decomposition. State the derivative and orientation convention. Shape labels alone do not determine nonlinear response. DR, J1/J3 and rho are supporting observables; no exact rounded-ratio target is added. Physically equivalent decompositions that establish the same response character pass directly.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "tensor_character_5"
+          ]
+        },
+        {
+          "conclusion_id": "tensor_character_7",
+          "statement": "Physical tensor character of compound 7",
+          "expected": "The final answer characterizes the actual static molecular response of compound 7 as strongly octupolar-dominated, using calculated rotational invariants, polarization response or a demonstrably equivalent physical decomposition. State the derivative and orientation convention. Shape labels alone do not determine nonlinear response. DR, J1/J3 and rho are supporting observables; no exact rounded-ratio target is added. Physically equivalent decompositions that establish the same response character pass directly.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "tensor_character_7"
+          ]
+        },
+        {
+          "conclusion_id": "nonmonotonic_response",
+          "statement": "Response change under the two structural extensions",
+          "expected": "From physically comparable static responses, conclude that the 1-to-5 structural extension increases beta_HRS whereas the 5-to-7 extension decreases it. Report signed differences and show that their signs are resolved. This single final nonmonotonicity result replaces the two former extension leaves; it is independent of absolute magnitude-window passage. Do not infer signs from overlapping reference windows or finite-frequency results. Wrong or unresolved directions fail.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "extension_1_to_5",
+            "extension_5_to_7"
+          ]
+        },
+        {
+          "conclusion_id": "three_seven_similarity",
+          "statement": "Relative similarity of compounds 3 and 7",
+          "expected": "A quantitative comparison derives from actual comparable response values that the absolute3-versus7 HRS difference is smaller than both the1-to5 increase and the5-to7 decrease, and therefore identifies3/7 as similar-magnitude responses despite different full structures. It must show these relative contrasts and account for numerical resolution before asserting a fine3/7 ordering; merely listing limits earns zero. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "three_seven_similarity"
+          ]
+        },
+        {
+          "conclusion_id": "structure_response_interpretation",
+          "statement": "What the molecular comparison establishes about structure and response",
+          "expected": "Give an evidence-based physical interpretation of why response magnitude is not determined by carbon count alone: connect the actual molecular structural differences to changes in response anisotropy and the balance of irreducible dipolar/octupolar response. State what the computed tensor and structural evidence distinguishes and whether it isolates a unique causal geometry or charge-transfer descriptor. The added conclusion is the physically justified attribution and its limitations; repeating the scalar ordering or tensor class already scored elsewhere does not pass. No prescribed torsion intervention, density metric, minimum count or exclusive charge-transfer mechanism is required. Well-supported equivalent explanations pass; the four-molecule gas/static comparison cannot by itself establish bulk performance or universal behavior of all pi extensions.",
+          "evidence_ids": [
+            "paper_main_main",
+            "paper_si_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "tensor_character_1",
+            "tensor_character_3",
+            "tensor_character_5",
+            "tensor_character_7",
+            "extension_1_to_5",
+            "extension_5_to_7"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_746e066c163800d8",
+      "scoring_policy": "paper_science_v3",
+      "status": "V3_ADAPTED_EXISTING_EVIDENCE_NOT_REVALIDATED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "current_scope_verified": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "reason": "四种完整中性单重态螺烯1/3/5/7的气相静态HRS比较保持不变。HRS直接回答原始科学问题；逐对象tensor_character曾为intermediate，上轮改为独立最终评分，其必要性不能由新版必答反证，留作专家设计选项。本轮保留11条100分和全部数值窗，不把设计未决表述为已解决。",
+      "physical_definition": "Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+      "tolerance_policy": {
+        "status": "provisional_benchmark_policy",
+        "basis": "All four HRS leaves use a common provisional ±0.20 ×10^-30 esu absolute tolerance. It is a benchmark resolution choice: broader than source two-decimal printing and source cross-functional variations shown for 1/5 (1.03–1.10 and1.92–2.10), yet much smaller than the 1→5 and5→7 effects (~0.88 and0.65). It is not fitted to present residuals (~0.004 or less). Overlapping3/7 windows do not establish ordering. DR/tensor class uses semantic evidence, avoiding unstable ratios of tiny rounded J1 values.",
+        "not_author_error_bars": true
+      },
+      "retained_scientific_limitations": "Current scope is the four specified static molecular responses; dynamic wavelengths, other derivatives and a prescribed functional sweep are not required. Compound3 rho=35.17 is reconstructed from rounded source J3/J1, not reproduced as an exact unrounded value (real branches about36.50–40.59). Source-geometry/grid effects alter DR1/5; exact rho agreement is not certified. Structure/geometry/numerical defaults confound a unique causal decomposition.",
+      "historical_acceptance_before_v3": {
+        "paper_id": "paper_746e066c163800d8",
+        "scoring_policy": "paper_science_v2",
+        "status": "CURRENT_FROZEN_V2_STRICT_VERIFICATION_PRESERVED",
+        "formal_scoring_permitted": true,
+        "release_ready": false,
+        "current_scope_verified": true,
+        "blocked_rule_ids": [],
+        "reserved_points": 0,
+        "reason": "Authorized scoring-only migration on 2026-10-19; existing independently strict acceptance within frozen V2 scope is preserved. Expert publication calibration remains separate from permitted runtime scoring. No new chemistry validation or blind Agent run is claimed.",
+        "physical_definition": "Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+        "tolerance_policy": {
+          "status": "provisional_benchmark_policy",
+          "basis": "All four HRS leaves use a common provisional ±0.20 ×10^-30 esu absolute tolerance. It is a benchmark resolution choice: broader than source two-decimal printing and source cross-functional variations shown for 1/5 (1.03–1.10 and1.92–2.10), yet much smaller than the 1→5 and5→7 effects (~0.88 and0.65). It is not fitted to present residuals (~0.004 or less). Overlapping3/7 windows do not establish ordering. DR/tensor class uses semantic evidence, avoiding unstable ratios of tiny rounded J1 values.",
+          "not_author_error_bars": true
+        },
+        "retained_scientific_limitations": "V2 only: no paused V3 branch, dynamic wavelength, other derivatives or functional sweep required. Compound3 rho=35.17 is reconstructed from rounded source J3/J1, not reproduced as an exact unrounded value (real branches about36.50–40.59). Source-geometry/grid effects alter DR1/5; exact rho agreement is not certified. Structure/geometry/numerical defaults confound a unique causal decomposition.",
+        "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "coordinator_review": {
+          "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+          "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+          "review_key": "v2_paper_746e066c163800d8",
+          "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+          "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+          "publication_readiness_unchanged": true
+        },
+        "repair_round3": {
+          "date": "2026-10-19",
+          "status": "targeted_repairs_pending_coordinator_review",
+          "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_03/REPORT.md",
+          "changes": [
+            "Reclassified three_seven_similarity8 as an intermediate relation; retained the distinct cross-structure/tensor synthesis20. All numeric targets/tolerances unchanged. New split80/20."
+          ],
+          "historical_acceptance_unchanged": true,
+          "new_chemical_validation": false,
+          "tolerances_unchanged": true
+        }
+      },
+      "scoring_mode": "final_results_100",
+      "evidence_gaps": [
+        "已算HRS四个硬窗有支持；但跨方法误差并未由±0.20窗口标定",
+        "compound3源rho由舍入数得到35.17，而实际分支约36.50–40.59，不要求精确rho",
+        "结构变化、几何与计算默认项混杂，已有证据不唯一确定结构因果；不外推动态响应或其他衍生物"
+      ],
+      "final_result_evidence_reuse": {
+        "hrs_1": "正文Table3/SI TableS10；四个静态张量逐值重放：compound1=1.0390134 ×10^-30 esu，原target 1.04±0.2窗口获支持。",
+        "hrs_3": "正文Table3/SI TableS10；四个静态张量逐值重放：compound3=1.3036503 ×10^-30 esu，原target 1.3±0.2窗口获支持。",
+        "hrs_5": "正文Table3/SI TableS10；四个静态张量逐值重放：compound5=1.9179009 ×10^-30 esu，原target 1.92±0.2窗口获支持。",
+        "hrs_7": "正文Table3/SI TableS10；四个静态张量逐值重放：compound7=1.2695606 ×10^-30 esu，原target 1.27±0.2窗口获支持。",
+        "tensor_character_1": "hrs_source_geometry_definition_join.json：compound1的J1/J3与旋转平均支持dipolar-dominated；源几何/网格敏感性不改变类别。",
+        "tensor_character_3": "hrs_source_geometry_definition_join.json：compound3的J1/J3与旋转平均支持strongly octupolar-dominated；源几何/网格敏感性不改变类别。",
+        "tensor_character_5": "hrs_source_geometry_definition_join.json：compound5的J1/J3与旋转平均支持dipolar-dominated with a substantial octupolar contribution；源几何/网格敏感性不改变类别。",
+        "tensor_character_7": "hrs_source_geometry_definition_join.json：compound7的J1/J3与旋转平均支持strongly octupolar-dominated；源几何/网格敏感性不改变类别。",
+        "nonmonotonic_response": "静态1.0390134→1.9179009→1.2695606；增长约0.87889、下降约0.64834 ×10^-30 esu，支持非单调。",
+        "three_seven_similarity": "1.3036503与1.2695606相差约0.03409，明显小于1→5和5→7差，精细3/7顺序不能只由绝对容差判断。",
+        "structure_response_interpretation": "四对象张量/planarity join：全原子与碳骨架MPP不同；1/5源几何DR控制恢复7.03/5.29；支持结构相关性及非唯一归因，不能把源密度CT差异声称全部复现。"
+      },
+      "new_quantum_calculations": 0,
+      "v3_scientific_revalidation_performed": false,
+      "secondary_audit_20261028": {
+        "scope_changed": false,
+        "new_calculations": 0,
+        "verification_status": "四HRS硬窗、张量类别和非单调比较有原生支持；唯一结构因果及四张量项独立计分必要性未定，不认定整体严格通过",
+        "confirmed_fixes": [
+          {
+            "file": "两模式submission_schema.json/guide",
+            "before": "complete研究日志minItems=1",
+            "after": "minItems=0并明确可为空",
+            "reason": "去除流程叙述强制，原生证据和结果不变。"
+          },
+          {
+            "file": "两模式reference_qualification.json reason",
+            "before": "张量物理性质本身是题意最终量，保留其独立判断",
+            "after": "区分直接HRS终量与四张量类别独立计分设计未决",
+            "reason": "原始题面和旧intermediate不能支持上轮无保留断言。"
+          }
+        ],
+        "expert_issues": [
+          {
+            "issue": "逐对象张量性质的独立评分必要性",
+            "evidence": "原始题面问静态HRS差异、结构解释及可靠性；旧四tensor_character标intermediate。上轮新版明确必答且给32分，解释另10分。张量有物理意义，不等于必然应成为四个强制最终量。",
+            "impact": "可能将一种解释表征路线固化为必答，影响等价自主路线和计分独立性。",
+            "suggestion": "选项A保留为独立响应性质，但由专家明确确认原问题涵盖该终量且与解释分无重复；选项B把类别作为解释的可选证据，保留HRS、比较、归因三个科学目标并重新设计权重。不得只因新版Required results已经写入而宣称解决；本轮不机械删项。",
+            "new_computation_needed": "设计选择不需新量化计算；改变规则后需等价答案校准。"
+          },
+          {
+            "issue": "结构归因和数值尺度校准",
+            "evidence": "全原子与碳骨架MPP不同；源几何改变DR；rho舍入敏感，CT源定义未完全对应。",
+            "impact": "不能把四个HRS窗内等同于唯一因果或跨方法全面通过。",
+            "suggestion": "保留有限结构关联与非唯一归因；硬窗不变，进一步跨方法公平性校准由专家决定。",
+            "new_computation_needed": "本轮无；如要求唯一因果，需另行设计干预，不能暗加为当前必答。"
+          }
+        ]
+      }
+    }
+  }
+}

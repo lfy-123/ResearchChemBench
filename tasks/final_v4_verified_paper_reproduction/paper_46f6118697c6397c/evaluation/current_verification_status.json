@@ -1,0 +1,391 @@
+{
+  "paper_id": "paper_46f6118697c6397c",
+  "status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+  "formal_scoring_permitted": true,
+  "current_scope_verified": true,
+  "strict_numerical_reproduction_claimed": false,
+  "source_native_comparisons": [
+    {
+      "quantity": "C1 nominated bright E",
+      "source": 3.0119,
+      "native": 3.1216,
+      "signed_native_minus_source": "0.1097",
+      "absolute_deviation": "0.1097",
+      "unit": "eV",
+      "definition": "C1/C4:S1;C3/C2:S5 physical transition"
+    },
+    {
+      "quantity": "C1 nominated bright f",
+      "source": 0.3456,
+      "native": 0.3326,
+      "signed_native_minus_source": "-0.0130",
+      "absolute_deviation": "0.0130",
+      "unit": "dimensionless",
+      "definition": "Same physical transition"
+    },
+    {
+      "quantity": "C4 nominated bright E",
+      "source": 3.122,
+      "native": 3.1242,
+      "signed_native_minus_source": "0.0022",
+      "absolute_deviation": "0.0022",
+      "unit": "eV",
+      "definition": "C1/C4:S1;C3/C2:S5 physical transition"
+    },
+    {
+      "quantity": "C4 nominated bright f",
+      "source": 0.5223,
+      "native": 0.5044,
+      "signed_native_minus_source": "-0.0179",
+      "absolute_deviation": "0.0179",
+      "unit": "dimensionless",
+      "definition": "Same physical transition"
+    },
+    {
+      "quantity": "C3 nominated bright E",
+      "source": 3.444,
+      "native": 3.4533,
+      "signed_native_minus_source": "0.0093",
+      "absolute_deviation": "0.0093",
+      "unit": "eV",
+      "definition": "C1/C4:S1;C3/C2:S5 physical transition"
+    },
+    {
+      "quantity": "C3 nominated bright f",
+      "source": 0.387,
+      "native": 0.3831,
+      "signed_native_minus_source": "-0.0039",
+      "absolute_deviation": "0.0039",
+      "unit": "dimensionless",
+      "definition": "Same physical transition"
+    },
+    {
+      "quantity": "C2 nominated bright E",
+      "source": 3.8436,
+      "native": 3.8445,
+      "signed_native_minus_source": "0.0009",
+      "absolute_deviation": "0.0009",
+      "unit": "eV",
+      "definition": "C1/C4:S1;C3/C2:S5 physical transition"
+    },
+    {
+      "quantity": "C2 nominated bright f",
+      "source": 0.4243,
+      "native": 0.4733,
+      "signed_native_minus_source": "0.0490",
+      "absolute_deviation": "0.0490",
+      "unit": "dimensionless",
+      "definition": "Same physical transition"
+    },
+    {
+      "quantity": "C4−C1 bright energy gap",
+      "source": 0.1101,
+      "native": 0.0026,
+      "signed_native_minus_source": "-0.1075",
+      "absolute_deviation": "0.1075",
+      "unit": "eV",
+      "definition": "Direction retained; no minimum required separation"
+    }
+  ],
+  "qualitative_checks": [
+    {
+      "claim": "Full identity and chemical state",
+      "result": "SUPPORTED: four neutral singlets; compound2 is not modeled as an incomplete bare ion.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "Absorption ordering and substitution response",
+      "result": "SUPPORTED on disclosed baseline: E1<E4<E3<E2; all three compound2 basins remain above compound3.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "Compound1→4 blue shift",
+      "result": "SUPPORTED in sign: source0.1101eV versus native0.0026eV. Magnitude mismatch retained; no robustness claim beyond baseline.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "Transition mechanism and spatial orbital assignment",
+      "result": "SUPPORTED:1/4 H→L and2/3 H−4→L; configuration/spatial N6 evidence aligns with source explanation.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "Calculation validity and correspondence",
+      "result": "SUPPORTED: baseline endpoints complete with actual native route readback; source nominated physical states retained, not selected by numeric proximity.",
+      "evidence_role": "task-critical"
+    },
+    {
+      "claim": "Source inconsistency and diagnostic sensitivity",
+      "result": "BOUNDED: SI/prose discrepancy, basin dependence and broadened1/4 near-overlap are disclosed; optional diagnostic reversals do not change the nominated baseline result.",
+      "evidence_role": "task-critical"
+    }
+  ],
+  "source_native_conflicts": [
+    "Main prose3.52/3.97/4.33eV differs from SI tabulated3.0119/3.4440/3.8436eV. The SI includes explicit states and f/configuration definitions, so those define the table comparison.",
+    "Source1→4 gap .1101eV becomes .0026eV but does not reverse on the disclosed baseline.",
+    "Added broadenedC1/C4 maxima overlap or interchange; no-D3 gap−.0032eV is a separate diagnostic, not the author baseline."
+  ],
+  "native_artifacts": [
+    {
+      "path": "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W02/papers/paper_46f6118697c6397c/cases/reopen20261011_B2_remaining_budget_repair03/compound4/noD3_TD12.com",
+      "sha256": "f775cf5862a95d253e4b413d983565efcb3042b88a497a447cfc0124afb9c822",
+      "bytes": 206,
+      "expected_sha256": "f775cf5862a95d253e4b413d983565efcb3042b88a497a447cfc0124afb9c822",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W02/papers/paper_46f6118697c6397c/cases/reopen20261011_B2_remaining_budget_repair03/compound4/noD3_TD12.log",
+      "sha256": "61bfd7404998ef854d15ec1df1d24a76e5b3d2dade6f3321ffe5acae7ebd952e",
+      "bytes": 93187,
+      "expected_sha256": "61bfd7404998ef854d15ec1df1d24a76e5b3d2dade6f3321ffe5acae7ebd952e",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_46f6118697c6397c/outputs/v2_compound1_source_basin1_TD30/attempt_001/input.com",
+      "sha256": "23ee82e4a87565a8b48eec24a8394183a68465c2b6ea837a0c1ac442fbf6895f",
+      "bytes": 3927,
+      "expected_sha256": "23ee82e4a87565a8b48eec24a8394183a68465c2b6ea837a0c1ac442fbf6895f",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_46f6118697c6397c/outputs/v2_compound1_source_basin1_TD30/attempt_001/stdout.log",
+      "sha256": "87db0085223b7da058fe6e6b8b34e9646f116f8a3c17beef4be05945377a48e7",
+      "bytes": 30984223,
+      "expected_sha256": "87db0085223b7da058fe6e6b8b34e9646f116f8a3c17beef4be05945377a48e7",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_46f6118697c6397c/outputs/v2_compound3_source_basin1_TD30/attempt_001/input.com",
+      "sha256": "a3bcff83a4ecf4624e2551522adeefab71897bee46a328729b06f2adabad24b3",
+      "bytes": 1868,
+      "expected_sha256": "a3bcff83a4ecf4624e2551522adeefab71897bee46a328729b06f2adabad24b3",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_46f6118697c6397c/outputs/v2_compound3_source_basin1_TD30/attempt_001/stdout.log",
+      "sha256": "82b8b45dd06b2abf0f6becb045cc831451b7c08b6d3d32d810164b39eb93bf98",
+      "bytes": 8587899,
+      "expected_sha256": "82b8b45dd06b2abf0f6becb045cc831451b7c08b6d3d32d810164b39eb93bf98",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_46f6118697c6397c/outputs/v2_compound4_source_basin1_TD30/attempt_001/input.com",
+      "sha256": "87c02f012d7f3f557b148867b17da4cc74bbea44081aa5dc36192fb0f7fa6a86",
+      "bytes": 2345,
+      "expected_sha256": "87c02f012d7f3f557b148867b17da4cc74bbea44081aa5dc36192fb0f7fa6a86",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_46f6118697c6397c/outputs/v2_compound4_source_basin1_TD30/attempt_001/stdout.log",
+      "sha256": "b5db0db21c29565c2f206b8cfda70ee5d8890bb64b5954cd3801fce17a74339b",
+      "bytes": 8816073,
+      "expected_sha256": "b5db0db21c29565c2f206b8cfda70ee5d8890bb64b5954cd3801fce17a74339b",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/verification/group_2/paper_46f6118697c6397c/provenance/qzcli_hpc/author_compound2_B1_op2_td50_20260912T064210Z/input.com",
+      "sha256": "b26ba7c7a408209578c02b1d1ee0b164070de394ba7cd38a9b25dea6a2953b42",
+      "bytes": 2792,
+      "expected_sha256": "b26ba7c7a408209578c02b1d1ee0b164070de394ba7cd38a9b25dea6a2953b42",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/verification/group_2/paper_46f6118697c6397c/provenance/qzcli_hpc/author_compound2_B1_op2_td50_20260912T064210Z/stdout.log",
+      "sha256": "48465beb01f3aa0b36fd2364cca277f2f35936850d928382cb4293bf4300125f",
+      "bytes": 166810,
+      "expected_sha256": "48465beb01f3aa0b36fd2364cca277f2f35936850d928382cb4293bf4300125f",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/verification/group_2/paper_46f6118697c6397c/provenance/qzcli_hpc/author_compound2_B2_A_op5_td50_hpc20_20260910T022113Z/input.com",
+      "sha256": "66bef65d89881941ed5af6264b773e4387cd1edce20e51a4c5049c88a4239a97",
+      "bytes": 3189,
+      "expected_sha256": "66bef65d89881941ed5af6264b773e4387cd1edce20e51a4c5049c88a4239a97",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/verification/group_2/paper_46f6118697c6397c/provenance/qzcli_hpc/author_compound2_B2_A_op5_td50_hpc20_20260910T022113Z/stdout.log",
+      "sha256": "8f0d1b32a6b6ad6e219281b1a6a5e75fcc44b20f251a84338a8fa4552151343d",
+      "bytes": 168585,
+      "expected_sha256": "8f0d1b32a6b6ad6e219281b1a6a5e75fcc44b20f251a84338a8fa4552151343d",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/verification/group_2/paper_46f6118697c6397c/provenance/qzcli_hpc/author_compound2_B2_B_op5_td50_hpc20_20260910T022118Z/input.com",
+      "sha256": "064f1af69b36c3a4d9c60c156c3f745ea19542ab20e1fd987efc74d3ff9001a5",
+      "bytes": 3188,
+      "expected_sha256": "064f1af69b36c3a4d9c60c156c3f745ea19542ab20e1fd987efc74d3ff9001a5",
+      "hash_matches_expected": true,
+      "artifact_type": "input",
+      "normal_termination_marker": null
+    },
+    {
+      "path": "docs/verification/group_2/paper_46f6118697c6397c/provenance/qzcli_hpc/author_compound2_B2_B_op5_td50_hpc20_20260910T022118Z/stdout.log",
+      "sha256": "78411c72bd5af31ba9702a019fb69aa2ac3423de6e970731a0cf0432270acde7",
+      "bytes": 166271,
+      "expected_sha256": "78411c72bd5af31ba9702a019fb69aa2ac3423de6e970731a0cf0432270acde7",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    }
+  ],
+  "new_scientific_calculations": 0,
+  "rule_verification_map": [
+    {
+      "rule_id": "r_bright_character_c1",
+      "reference_id": "bright_character_c1",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "C1: E=3.1216eV,f=0.3326, H→L; printed configuration joined to spatial N6 occupied/virtual partitions.",
+      "locator_within_full_paths_in_evidence_manifest": "b2_all12_configuration_spatial_join.json/rows",
+      "source_evidence_ids": [
+        "source_orbitals",
+        "source_c1"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_bright_character_c2",
+      "reference_id": "bright_character_c2",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "C2: E=3.8445eV,f=0.4733, H−4→L; printed configuration joined to spatial N6 occupied/virtual partitions.",
+      "locator_within_full_paths_in_evidence_manifest": "b2_all12_configuration_spatial_join.json/rows",
+      "source_evidence_ids": [
+        "source_orbitals",
+        "source_c2"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_bright_character_c3",
+      "reference_id": "bright_character_c3",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "C3: E=3.4533eV,f=0.3831, H−4→L; printed configuration joined to spatial N6 occupied/virtual partitions.",
+      "locator_within_full_paths_in_evidence_manifest": "b2_all12_configuration_spatial_join.json/rows",
+      "source_evidence_ids": [
+        "source_orbitals",
+        "source_c3"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_bright_character_c4",
+      "reference_id": "bright_character_c4",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "C4: E=3.1242eV,f=0.5044, H→L; printed configuration joined to spatial N6 occupied/virtual partitions.",
+      "locator_within_full_paths_in_evidence_manifest": "b2_all12_configuration_spatial_join.json/rows",
+      "source_evidence_ids": [
+        "source_orbitals",
+        "source_c4"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_energy_c1_below_c4",
+      "reference_id": "energy_c1_below_c4",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "3.1216<3.1242eV for physical nominated bright transitions.",
+      "locator_within_full_paths_in_evidence_manifest": "SOURCE_NATIVE_JUDGMENT.json; b2_all12_configuration_spatial_join.json",
+      "source_evidence_ids": [
+        "source_c1",
+        "source_c4",
+        "source_orbitals"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_energy_c4_below_c3",
+      "reference_id": "energy_c4_below_c3",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "3.1242<3.4533eV for physical nominated bright transitions.",
+      "locator_within_full_paths_in_evidence_manifest": "SOURCE_NATIVE_JUDGMENT.json; b2_all12_configuration_spatial_join.json",
+      "source_evidence_ids": [
+        "source_c4",
+        "source_c3",
+        "source_orbitals"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_energy_c3_below_c2",
+      "reference_id": "energy_c3_below_c2",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "3.4533<3.8445eV for physical nominated bright transitions.",
+      "locator_within_full_paths_in_evidence_manifest": "SOURCE_NATIVE_JUDGMENT.json; b2_all12_configuration_spatial_join.json",
+      "source_evidence_ids": [
+        "source_c3",
+        "source_c2",
+        "source_orbitals"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_methyl_toly_substitution",
+      "reference_id": "methyl_toly_substitution",
+      "role": "conclusion",
+      "points": 15,
+      "actual_verification_support": "N6-localized physical orbitals/configurations plus C4−C1=.0026eV support baseline direction; optional noD3−.0032 and overlapping broadened maxima bound robustness.",
+      "locator_within_full_paths_in_evidence_manifest": "SOURCE_NATIVE_JUDGMENT.json; b2_all12_configuration_spatial_join.json",
+      "source_evidence_ids": [
+        "source_orbitals",
+        "source_c1",
+        "source_c4"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_withdrawing_substitution",
+      "reference_id": "withdrawing_substitution",
+      "role": "conclusion",
+      "points": 15,
+      "actual_verification_support": "C3/C2 N6 bright channels are H−4→L with benzyl-localizedHOMO alternative; spatial/configuration evidence and E3<E2 support substituent-dependent reordering.",
+      "locator_within_full_paths_in_evidence_manifest": "b2_all12_configuration_spatial_join.json; SOURCE_NATIVE_JUDGMENT.json",
+      "source_evidence_ids": [
+        "source_orbitals",
+        "source_c2",
+        "source_c3"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    }
+  ],
+  "supplemental_verification_artifacts": [],
+  "recorded_resource_entries": []
+}

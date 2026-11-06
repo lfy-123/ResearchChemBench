@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_1db677efcdd782ac",
+  "items": [
+    {
+      "statement": "氧化比较：吡咯基对照比苯基对照更易氧化",
+      "expected": "对公开T_Pyr和T_Ph作物种及参照相容的实际分子比较，支持T_Pyr比T_Ph更易氧化。比较必须由实际电子结构或等价氧化可达性证据支持；不能把比较物结果当成S_H等N-cyclopropyl底物的实测绝对溶液电位。作者两种T_Pyr取向及约500 mV差仅作来源背景，不要求指定描述符、构象数量或精确数值。",
+      "evidence_ids": [
+        "V2_MAIN_OXIDATION",
+        "V2_SI_REDOX"
+      ],
+      "key_point_id": "pyrrolyl_oxidation",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "氧化比较：苯基对照与无取代对照接近",
+      "expected": "对公开T_Ph和T_H作物种及参照相容的实际分子比较，支持苯基取代对氧化可达性的改变较小，未产生类似吡咯基的显著易氧化效应。须有实际相对氧化或等价电子结构证据，不能以分子名称或实验未给电位替代比较。作者小于100 mV为来源背景，不设精确数值窗；不得将比较物结果当成其它底物的绝对溶液电位。",
+      "evidence_ids": [
+        "V2_MAIN_OXIDATION",
+        "V2_SI_REDOX"
+      ],
+      "key_point_id": "phenyl_oxidation_shift",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "H取代体系的开环在所比较模型内不利",
+      "expected": "在正确S_H分子骨架、电子态及闭环/开环参照下，实际计算支持其开环相对闭环能量上坡。作者自由基阳离子为参考模型，接受有实际证据支持同一环命运命题的等价模型；仅有闭环结构或观察到保环产物不足。该项不要求H的B1/B2全部构象、5.8或3.2 kcal/mol精确命中。",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING"
+      ],
+      "key_point_id": "h_ring_opening",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "cis-Me开环在相容参考模型内有利",
+      "expected": "保留S_Mcis的正确相对立体化学，实际闭环/开环比较支持其开环能量有利。作者主M06-2X模型为参考，物种、参照和能量口径必须对应；不能把其他泛函或热修正下的近零值冒称同一目标。cis-Me B2主文−2.5与SI−0.8 kcal/mol并列保留，二者不是唯一精确靶值；B1/B2细排序不属于本项。",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING"
+      ],
+      "key_point_id": "cis_me_ring_opening",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "trans-Me开环在相容参考模型内不利",
+      "expected": "保留S_Mtrans的正确相对立体化学，实际闭环/开环比较支持其开环相对闭环能量上坡。作者主M06-2X模型为参考；来源其它泛函可改变符号，应按相容物理定义评估，不能通过混用方法构造上坡结果。此项不推断独立trans起始实验产物分布，也不设1.8或2.1 kcal/mol精确窗口。",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING"
+      ],
+      "key_point_id": "trans_me_ring_opening",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "甲基体系trans闭环态低于cis闭环态及相关开环态",
+      "expected": "在同组成、同电荷/自旋和共同能量零点下，实际计算支持甲基体系trans闭环态比cis闭环态及所比较的相关开环态更稳定；cis/trans必须由分子相对立体化学识别，不能仅凭文件名。局部开环能之差不能代替跨异构体的共同参照比较；不把作者B1/B2标签或全部构象枚举作为额外配额。",
+      "evidence_ids": [
+        "V2_MAIN_STEREO",
+        "V2_SI_RING"
+      ],
+      "key_point_id": "methyl_closed_trans_stability",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Ph取代体系在已检验分支偏好开环",
+      "expected": "保留S_Ptrans骨架及相对立体化学，实际结构/能量证据支持所检验分支的开环偏好，且闭环方向未形成受支持的稳定陷阱。作者缩短断裂C–C键时升能的剖面和闭环优化转为开环是参考；允许等价的物理检验。单个开环极小值不足以证明本项；有限剖面不等于全势能面无闭环极小值，也不是已计算完整双分子解离电子转移轨迹。",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_PHENYL"
+      ],
+      "key_point_id": "phenyl_open_preference",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "环碳骨架与醛生成的原子连接相容",
+      "expected": "以实际开环分子证据及可核查的原子后处理，建立原环碳到醛羰基、相邻碳和末端碳的连接；所提水解或等价产物形成步骤须保持元素和电荷收支，氧来源须与含微量水的输入相容。作者亚胺鎓水解是参考，不强制特定标签或新水解势垒。只画产物或复述出现醛不足。",
+      "evidence_ids": [
+        "V2_MAIN_PRODUCTS"
+      ],
+      "key_point_id": "aldehyde_connectivity",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "底物N邻位D可映射到醛末端碳",
+      "expected": "从公开S_HD4的N邻位C2/C6标记出发，通过实际原子/同位素映射检验，把底物D纳入CH2DCH2CHO的末端碳并保持同位素收支；不能错误地把D初始放在环丙基或醛羰基上。该项检验标签位置及映射相容性，不声称已经得到H/D转移势垒、唯一转移路径或精确同位素比例。",
+      "evidence_ids": [
+        "V2_MAIN_ISOTOPE",
+        "V2_SI_ISOTOPE"
+      ],
+      "key_point_id": "deuterium_mapping",
+      "key_point_type": "result"
+    }
+  ]
+}

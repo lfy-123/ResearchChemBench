@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "scope_version": "author_deoxygenation_half_reaction_20261012",
+  "updated_at_utc": "2026-10-12T19:30:10.302714+00:00",
+  "status": "CURRENT_SCOPE_VERIFIED_PROVISIONAL_V2_SCORING_APPROVED",
+  "design_implemented": true,
+  "scientifically_verified": true,
+  "release_ready": false,
+  "release": false,
+  "previous_verification_scope": "Only the four first-event comparisons and their dependent validity evidence.",
+  "new_reference_status": "All twelve endpoint contrasts accepted on2026-10-14. Current user-approved V2 adds explicit numerical windows and independently weighted qualitative findings.",
+  "blockers": [
+    "Expert publication review of provisional tolerances and weights remains pending; current runtime scoring is permitted.",
+    "Original YAML, quantified thermal residual and excluded aggregate definitions retain their source/provenance limitations."
+  ],
+  "excluded_source_blocked_items": [
+    {
+      "id": "aggregate_orbital_gap_and_S22",
+      "reason": "The 66 XYZ records do not specify the required aggregate geometries/root tracking. S22 is optimization step history in S1/S2, not a TS/IRC or full barrier scan.",
+      "can_start_author_reproduction": false,
+      "next_action": "Only use original author records if recovered; otherwise keep excluded. Do not construct a substitute aggregate reference."
+    }
+  ],
+  "validation_plan": "evaluation/validation_plan.json",
+  "target_map": "evaluation/target_map.json",
+  "runtime_note": "This qualification is a publication-status record, not an enabled flag or runtime gate. Active rules contain only the source-defined targets; unavailable aggregate assertions are absent.",
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Current bounded scientific coverage and provisional V2 scoring are accepted; this does not certify publication readiness or every result in the paper."
+}

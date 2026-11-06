@@ -8,6 +8,8 @@ from pydantic import BaseModel
 
 from .execution_models import (
     AnalysisInputInspectionRequest,
+    ExecutionJobListRequest,
+    ResponsePageRequest,
     AnalysisJobRequest,
     AnalysisRuntimeListRequest,
     ArtifactDeclarationRequest,
@@ -65,6 +67,7 @@ OPEN_EXECUTION_TOOL_NAMES = (
     "search_software_documentation",
     "write_workspace_text",
     "read_workspace_text",
+    "read_tool_response",
     "validate_native_job",
     "validate_output_contract",
     "submit_native_job",
@@ -91,7 +94,7 @@ ARTIFACT_CAPTURING_TOOLS = {
 TOOL_DESCRIPTIONS = {
     "validate_output_contract": "Read-only preflight of required outputs and JSON Schema using only public submission_schema.json. Returns file/JSON paths, structured errors and the contract hash. No scientific scoring or output changes.",
     "acknowledge_execution_result": "Confirm observation of one exact collected result receipt without rerunning or re-parsing it.",
-    "list_execution_jobs": "List durable job identities and states restricted to the current run.",
+    "list_execution_jobs": "List run-scoped job identities and states; compact mode returns a fixed paginated snapshot. Follow next_tool_calls until page_complete. include_result_facts adds public result provenance for recovery.",
     "list_software": (
         "List and filter a paginated compact index of the complete local software/library inventory. "
         "Use query to narrow it, then inspect_software for one exact id; detailed versions, paths, "
@@ -117,8 +120,12 @@ TOOL_DESCRIPTIONS = {
         "outputs/. Existing files are protected unless overwrite=true is explicit."
     ),
     "read_workspace_text": (
-        "Read an exact UTF-8 workspace file with a bounded character count and content hash."
+        "Read UTF-8 text by zero-based character offset, one-based inclusive lines, or JSON Pointer. "
+        "These selectors are mutually exclusive. Follow next_tool_calls for complete pages; "
+        "expected_sha256 prevents mixing file versions. JSON arrays preserve original typed values."
     ),
+    "read_tool_response": "Read the next immutable public result page using a returned cursor. "
+        "This does not wait, execute, or acknowledge computations. Continue until page_complete.",
     "validate_native_job": (
         "Validate one exact Agent-authored native invocation without executing it. Checks the "
         "software/executable allowlist, installed path, argv/path safety, staging/stdin contract, "
@@ -265,6 +272,11 @@ def read_workspace_text(request: WorkspaceTextReadRequest) -> dict[str, Any]:
     return _invoke("read_workspace_text", request, _read_workspace_text)
 
 
+def read_tool_response(request: ResponsePageRequest) -> dict[str, Any]:
+    from .response_pages import read_page
+    return _invoke("read_tool_response", request, lambda value: read_page(value.cursor))
+
+
 def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
     return _invoke("validate_native_job", request, _validate_native_job)
 
@@ -318,7 +330,7 @@ def acknowledge_execution_result(request: ExecutionResultObservationRequest) -> 
     return _invoke("acknowledge_execution_result", request, acknowledge)
 
 
-def list_execution_jobs(request: ExecutionResourceRequest) -> dict[str, Any]:
+def list_execution_jobs(request: ExecutionJobListRequest) -> dict[str, Any]:
     return _invoke("list_execution_jobs", request, _list_execution_jobs)
 
 

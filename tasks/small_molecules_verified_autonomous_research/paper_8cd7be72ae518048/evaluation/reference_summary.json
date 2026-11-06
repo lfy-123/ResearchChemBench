@@ -1,0 +1,87 @@
+{
+  "paper_id": "paper_8cd7be72ae518048",
+  "case_id": "case_07",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "Pd Heck 反应条件引起的区域选择性变化、生产性状态可达性，以及苯乙烯对照的底物效应。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "beta_condition",
+      "description": "第一组条件下 α/β 形成的 Gibbs 活化量与差值，明确催化状态。",
+      "public_requirement": "Computed α/β formation Gibbs activation energies and their difference under the first supplied conditions, with the catalyst state defined."
+    },
+    {
+      "id": "alpha_condition",
+      "description": "第二组条件下 α/β 形成的 Gibbs 活化量与差值，明确催化状态。",
+      "public_requirement": "Computed α/β formation Gibbs activation energies and their difference under the second supplied conditions, with the catalyst state defined."
+    },
+    {
+      "id": "ligand_access",
+      "description": "两相关配位环境形成生产性烯烃结合/接近状态的自由能及比较。",
+      "public_requirement": "Computed free energies for reaching productive olefin-bound/access states in the relevant coordination environments and their comparison."
+    },
+    {
+      "id": "styrene_access",
+      "description": "苯乙烯与原环状烯烃在匹配环境下的结合/接近自由能及差值。",
+      "public_requirement": "Computed binding/access free energies and their difference for styrene versus the original cyclic olefin in matched environments."
+    },
+    {
+      "id": "styrene_regio",
+      "description": "苯乙烯 α/β 成键的实际 Gibbs 活化量及差值。",
+      "public_requirement": "Computed Gibbs activation energies and their difference for styrene α/β bond formation."
+    },
+    {
+      "id": "styrene_activation",
+      "description": "原环状底物与苯乙烯在匹配催化模型/参照下的插入活化量及差值。",
+      "public_requirement": "Computed insertion activation energies and their difference for the original cyclic substrate and styrene using matched catalyst models and references."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "beta_condition_explanation",
+      "points": 20,
+      "description": "β 条件下区域偏好的解释",
+      "allow_need_review": false
+    },
+    {
+      "id": "alpha_condition_explanation",
+      "points": 20,
+      "description": "α 条件下区域偏好反转的解释",
+      "allow_need_review": false
+    },
+    {
+      "id": "ligand_access_effect",
+      "points": 20,
+      "description": "配位环境对生产性状态接近的影响",
+      "allow_need_review": false
+    },
+    {
+      "id": "styrene_access_effect",
+      "points": 15,
+      "description": "苯乙烯较易接近的底物效应",
+      "allow_need_review": false
+    },
+    {
+      "id": "styrene_regiopreference",
+      "points": 10,
+      "description": "苯乙烯的 α 区域偏好",
+      "allow_need_review": false
+    },
+    {
+      "id": "styrene_activation_effect",
+      "points": 15,
+      "description": "苯乙烯形成活化需求较低",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Figs.13/14/16、SI S4/S6/S7；历史验证有两种条件下的 α/β 比较、配位接近自由能及匹配苯乙烯对照。",
+  "boundaries": [
+    "原底物两组实验选择性是已给事实，计其分子解释而非复述预测。",
+    "Ph 替换对位 tBuPh 的模型简化须说明；中性结合模型与带电插入模型不可直接拼接成完整循环。",
+    "正文 17.1 与图/SI 17.5 不一致，均不作评分目标；不要求氧化速率、完整物种分布或产率。"
+  ],
+  "source_locator": "Main PDF pp.10–15 (journal pp.3592–3597), Figs.13/14/16 and associated insertion/access discussion; computational supplementary_001 PDF/SI pp.2,7,9,10 (methods and Figs.S4/S6/S7).",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

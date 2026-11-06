@@ -1,0 +1,160 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价当前任务范围内的科学发现与最终结论，总分100。各叶子项满足全部条件得满分，否则0，不临时给部分分。真实、可定位且物理身份/参照/单位相容的计算证据是结果成立前提，不是单独过程奖励。普通失败只影响有关项；不按假设数、工具序列、计算次数、资源投入、失败诊断或写作完整度给分。作者结果是参照，不以验证值替换目标；未设numeric规则的上下文数字不形成隐藏硬阈值，必须有对应科学方向/关系的实际证据。允许物理可比的替代方法和等价解释，不强制复刻搜索流程。未解决或与该项科学结果矛盾的内容不得仅因合理讨论获得该项分。最终结论必须在最终交付中明确采用；定量与独立定性分别计分，数值落窗不替代正确方向。公开材料及历史协议中的旧研究质量分或60/40分配不参与本轮评分，现行唯一计分清单为scientific_rubric。",
+  "rules": [
+    {
+      "rule_id": "r_kp_cycloaddition_barrier",
+      "reference_id": "kp_cycloaddition_barrier",
+      "type": "numeric",
+      "expected": "完整指定烯胺、298.15 K、1 M甲苯边界下，以同一起始烯胺为零点的已连接跨式环加成路线最高必要自由能高度为31.0 kcal/mol，允许绝对差≤2.0 kcal/mol。对象、电子态和成键身份须有实际证据；不能拿闭环局部势垒或另一底物代替。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      },
+      "target": 31.0,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_kp_imine_barrier",
+      "reference_id": "kp_imine_barrier",
+      "type": "numeric",
+      "expected": "完整指定烯胺、同一起始零点和298.15 K、1 M甲苯定义下，最低已验证亚胺形成通道的总体高度为37.1 kcal/mol，允许绝对差≤2.0 kcal/mol。作者参考为闭壳层trans-imine连接的aza-Claisen通道；不得沿用环加成OSS态或以其中间体为零点。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      },
+      "target": 37.1,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_electronic_state",
+      "reference_id": "electronic_state",
+      "type": "semantic",
+      "expected": "实际电子态和可比计算证据支持较低跨式环加成首步为开壳层单重态双自由基路线，相关受限闭壳层和三重态初始比较更高；最低亚胺通道为闭壳层。须区分破缺对称态与自旋纯态；受限CSS具有R→U不稳定时不能宣称其为已稳定的可行路线。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_connected_path",
+      "reference_id": "connected_path",
+      "type": "semantic",
+      "expected": "实际成键、驻点及连接证据将起始烯胺、双自由基、可到达闭环构象和正确双环产物相连；必要构象转动与闭环不引入高于首步控制高度的新瓶颈。不能只排列孤立节点。接受与主张相称的作者几何核验、IRC/端点或连续分支证据，不强制全局穷尽。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_c_competition",
+      "reference_id": "c_competition",
+      "type": "semantic",
+      "expected": "最终明确采用在当前同底物、同参照和同条件下跨式环加成更有利的结论，并用实际电子态、完整连接及两路线竞争能量解释该选择。数值超窗但方向与科学解释有独立有效证据时，本项独立判断；反向排序不能靠数值落窗通过。约6.1 kcal/mol的差由两高度派生，不另计第三个数值分，不据此声称已精确复现实验产率或所有候选。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "kp_cycloaddition_barrier",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "环加成整体自由能势垒",
+      "rule_ids": [
+        "r_kp_cycloaddition_barrier"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "kp_imine_barrier",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "最低竞争亚胺通道自由能势垒",
+      "rule_ids": [
+        "r_kp_imine_barrier"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "electronic_state",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "两类竞争的电子态区别",
+      "rule_ids": [
+        "r_electronic_state"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "connected_path",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "首步—转动—闭环的连续可达性",
+      "rule_ids": [
+        "r_connected_path"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "c_competition",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "最终：环加成胜过亚胺形成的解释",
+      "rule_ids": [
+        "r_c_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

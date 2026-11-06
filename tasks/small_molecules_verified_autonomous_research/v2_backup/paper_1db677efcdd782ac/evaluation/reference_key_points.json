@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_1db677efcdd782ac",
+  "items": [
+    {
+      "statement": "Ring opening of the H-substituted system is unfavorable within the compared model",
+      "expected": "With the correct S_H molecular framework, electronic state and ring-closed/ring-opened references, actual calculations support ring opening being energetically uphill relative to the ring-closed state. The authors' radical cation serves as the reference model; equivalent models supported by actual evidence for the same ring-fate proposition are accepted. A ring-closed structure alone or observation of a ring-retained product is insufficient. This item does not require all H B1/B2 conformers or exact agreement with 5.8 or 3.2 kcal/mol.",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "h_ring_opening",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "cis-Me ring opening is favorable within a compatible reference model",
+      "expected": "Preserve the correct relative stereochemistry of S_Mcis, and support energetically favorable ring opening through actual ring-closed/ring-opened comparisons. The authors' main M06-2X model serves as the reference; species, references and energy conventions must correspond. Near-zero values obtained with other functionals or thermal corrections must not be presented as the same target. Both the main-text −2.5 and SI −0.8 kcal/mol values for cis-Me B2 are retained; neither is a uniquely specified exact target. The fine ordering of B1/B2 is outside this item.",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "cis_me_ring_opening",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "trans-Me ring opening is unfavorable within a compatible reference model",
+      "expected": "Preserve the correct relative stereochemistry of S_Mtrans, and support ring opening being energetically uphill relative to the ring-closed state through actual ring-closed/ring-opened comparisons. The authors' main M06-2X model serves as the reference; other functionals in the source can change the sign, so assessment must use compatible physical definitions. Do not construct an uphill result by mixing methods. This item does not infer an independent experimental product distribution starting from trans, and sets no exact window around 1.8 or 2.1 kcal/mol.",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "trans_me_ring_opening",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "The trans ring-closed state of the methyl system is lower in energy than the cis ring-closed state and the relevant ring-opened states",
+      "expected": "With the same composition, the same charge/spin and a common energy zero, actual calculations support the trans ring-closed state of the methyl system being more stable than the cis ring-closed state and the relevant ring-opened states compared. cis/trans must be identified by molecular relative stereochemistry, not filenames alone. A difference between local ring-opening energies cannot replace a comparison across isomers using a common reference; the authors' B1/B2 labels or enumeration of all conformers are not additional quotas.",
+      "evidence_ids": [
+        "V2_MAIN_STEREO",
+        "V2_SI_RING"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "methyl_closed_trans_stability",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "The Ph-substituted system favors ring opening in the tested branch",
+      "expected": "Preserve the S_Ptrans framework and relative stereochemistry. Actual structural/energy evidence must support a preference for ring opening in the tested branch, with no supported stable trap established in the ring-closing direction. The authors' profile showing increasing energy as the cleaved C–C bond is shortened, and optimization from a ring-closed structure to a ring-opened structure, serve as references; equivalent physical tests are allowed. A single ring-opened minimum is insufficient to establish this item. A finite profile does not establish the absence of ring-closed minima over the entire potential-energy surface, nor does it amount to a computed complete bimolecular dissociative electron-transfer trajectory.",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_PHENYL"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "phenyl_open_preference",
+      "key_point_type": "result"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "current_scoring_authority": "Only scoring_rules.json awards points. Supporting items and historical records carry no numerical or independent points gates.",
+  "items": [
+    {
+      "key_point_id": "support_site_polarization",
+      "key_point_type": "scientific_evidence",
+      "statement": "Electronic inequivalence of the two (R)-4 alkene sites",
+      "expected": "Establish the signed electronic inequivalence of the two mapped alkene sites of full neutral-singlet (R)-4 under a stated medium and density/MEP/population definition: the site nearer the allylic hydroperoxide is more electron rich than its partner in the source-supported reactant description. Quantify the contrast and demonstrate the spatial/electronic basis, including the role of the hydroperoxide-local field where used. This is a final reactant-electronic comparison, not a claim of an elementary activation barrier. A scientifically comparable electronic definition is eligible without an exact private MK target or compulsory compound 7 branch. Atom inventory, a supplied product label, or unsupported/reversed site assignment fails.",
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_regioselectivity_account",
+      "key_point_type": "scientific_evidence",
+      "statement": "Physical relation between electronic predisposition and ring outcome",
+      "expected": "Explain how the computed molecular electronic predisposition can be related to the supplied six-member halocyclization outcome of (R)-4, distinguishing closure at the two non-equivalent alkene sites. Map the alcohol oxygen and candidate carbon connectivities so that a physical explanation connects local electronic structure with the alternative ring outcomes. The source-compatible account is plausible reactant-level polarization correlated with the six-member outcome, not a verified unique bromiranium/transition-state sequence. An equally well-supported physical account passes without the author MEP plotting route or separate node completion. Repeating the given product, merely counting a ring or listing charge signs without the site-to-connectivity inference fails. A quantitative rate/product-ratio or unique-path claim requires corresponding additional evidence, not charge data alone.",
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_experimental_applicability",
+      "key_point_type": "scientific_evidence",
+      "statement": "Reach of the molecular and comparator evidence for the NBS experiment",
+      "expected": "Determine the inferential reach of the actual molecular model for the supplied nonenzymatic NBS/Et3N experiment. Use the specific modeled composition, environment and observables to explain which electronic/selectivity interpretation is supported and which kinetic or causal inference is not established. Aqueous monomer results are not DCM/NBS/Et3N reaction-path evidence; a local charge/MEP comparison does not identify an elementary rate, unique mechanism or product ratio. The experimental 3/4 mixture is not isolated (R)-4 kinetics, and NBS amount/volume gives 47.3 mM versus the inconsistent printed 473 mM. Relate relevant limitations to the actual calculation; a generic disclaimer without a supported molecular result fails. Compound 7 is optional; if used, acknowledge its scaffold/branching differences and different experimental environment.",
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "statement": "R4 preferential alkene electron density",
+      "expected": "Actual atom-mapped electronic evidence for full neutral (R)-4 establishes that the alkene carbon closer to the allylic hydroperoxide is more electron-rich than its partner. Resolve the direction with a stated density/MEP/population definition under a declared molecular environment; a mere atom label, unresolved or reversed result fails. A charge partition may be used when its relation to the same local electron-richness is demonstrated, but no exact Merz-Kollman number, undisclosed fitting grid or water model is required. This is intramolecular alkene polarization; it does not require compound 7 or another comparison molecule.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "R4_polarization_direction",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+    },
+    {
+      "statement": "Hydroperoxide-local electron-rich region",
+      "expected": "Actual signed MEP surface or equivalent spatially resolved electronic-density evidence identifies an electron-rich region localized at the hydroperoxide of full (R)-4. The hydroperoxide-local spatial feature must be demonstrated separately from the alkene-site asymmetry; oxygen inventory alone is insufficient. Define the field/density sign and medium. Compound 7 or a hydroperoxide-free comparator is optional and cannot be required for this result.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "hydroperoxide_MEP_region",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+    },
+    {
+      "statement": "Six-member oxygen closure topology",
+      "expected": "Atom-mapped molecular graph/geometry analysis identifies the intramolecular alcohol-O closure to the correct alkene carbon that generates the observed six-member tetrahydropyran connectivity, retaining the(R)-4 hydroperoxide and source stereochemical inventory. No TS is implied by this structural result.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "six_member_closure_topology",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+    },
+    {
+      "statement": "Competing seven-member closure topology",
+      "expected": "Atom-mapped graph/geometry analysis identifies the alternative alcohol-O closure to the other alkene carbon that would generate a seven-member oxepane connectivity from the same substrate inventory. It must be distinguished from the six-member route; no uncomputed kinetic preference may be inferred.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "seven_member_closure_topology",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+    }
+  ]
+}

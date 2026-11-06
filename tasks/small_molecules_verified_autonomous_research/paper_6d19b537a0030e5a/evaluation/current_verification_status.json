@@ -1,0 +1,74 @@
+{
+  "paper_id": "paper_6d19b537a0030e5a",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_bifunctional_hydrogenation",
+      "r_turnover_control",
+      "r_primary_enantiomer",
+      "r_organization_origin"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only the acylsilane substrate is scored. Starting neutral tricarbonyl C_A has supplied multiplicity 1; subsequent spin states require justification. SiMe3/tBu substitution is outside the active task.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "For the specified chiral cyclopentadienone–iron catalyst C_A, explain how H2 hydrogenates phenyl(trimethylsilyl)methanone to its chiral silyl alcohol, what controls turnover, and how catalyst organization influences formation of the two enantiomers. Predict the favored absolute configuration for this acylsilane.",
+  "active_rule_ids": [
+    "r_bifunctional_hydrogenation",
+    "r_turnover_control",
+    "r_primary_enantiomer",
+    "r_organization_origin"
+  ],
+  "current_outcome_ids": [
+    "bifunctional_hydrogenation",
+    "turnover_control",
+    "primary_enantiomer",
+    "organization_origin"
+  ],
+  "historical_record": {
+    "paper_id": "paper_6d19b537a0030e5a",
+    "updated_on": "2026-10-27",
+    "scoring_policy": "paper_science_v3",
+    "scientific_status": "ITEMWISE_EVIDENCE_REUSE_REVIEW",
+    "current_scope_verified": false,
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blind_agent_run_performed": false,
+    "new_quantum_jobs": 0,
+    "active_rule_ids": [
+      "r_bifunctional_hydrogenation",
+      "r_turnover_control",
+      "r_primary_enantiomer",
+      "r_organization_origin",
+      "r_substitution_effect"
+    ],
+    "current_reference": "evaluation/final_result_coverage.json",
+    "remaining_qualification_or_interpretation_limits": [
+      "No independent MECP, SOC or crossing-rate validation; spin access remains conditional.",
+      "Native connections use source graphs and actual imaginary-mode projections, not independently repeated complete IRC.",
+      "No exact experimental er, global solution conformer population or unique interaction causality.",
+      "Native Gaussian16C.01 differs from source A.03; source numeric grid details are unavailable; relative energy deviations up to1.413683 kcal/mol persist.",
+      "No new QM/HPC or blind run."
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "bifunctional_hydrogenation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "turnover_control": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "primary_enantiomer": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "organization_origin": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

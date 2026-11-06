@@ -1,0 +1,25 @@
+{
+  "scientific_question": "How does the molecular reactivity of the specified N-cyclopropyl tetrahydropyridines account jointly for their light-dependent oxidation, substituent- and stereochemistry-dependent cyclopropane cleavage versus retention, cis/trans interconversion, and substrate-deuterium incorporation into an aldehyde, while remaining consistent with the listed related tetrahydropyridine oxidation comparators?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Starting organic substrates are neutral free amines: S_H, 1-cyclopropyl-4-phenyl-1,2,3,6-tetrahydropyridine; S_Mcis and S_Mtrans, respectively the cis and trans forms of 1-(2-methylcyclopropyl)-4-phenyl-1,2,3,6-tetrahydropyridine; and S_Ptrans, the trans form of 1-(2-phenylcyclopropyl)-4-phenyl-1,2,3,6-tetrahydropyridine. In each tetrahydropyridine, nitrogen is position 1, the ring double bond is C4=C5, the phenyl group is bonded to C4, and the cyclopropane is attached through a direct bond from nitrogen to cyclopropane C1'. The methyl or phenyl substituent is on adjacent cyclopropane C2'. Cis means the N attachment and the C2' substituent are on the same cyclopropane face; trans means opposite faces. Only relative stereochemistry is specified. S_HD4 is S_H with both hydrogens on tetrahydropyridine C2 and both on C6 replaced by deuterium. Related oxidation comparators are T_H, 1-methyl-1,2,3,6-tetrahydropyridine; T_Ph, 1-methyl-4-phenyl-1,2,3,6-tetrahydropyridine; and T_Pyr, 1-methyl-4-(1-methyl-1H-pyrrol-2-yl)-1,2,3,6-tetrahydropyridine. These have the same tetrahydropyridine ring numbering and C4=C5 bond, but an N-methyl group instead of an N-cyclopropyl group; their C4 substituents are H, phenyl, and 1-methylpyrrol-2-yl, respectively. They are comparison structures, not additional requested reactions."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "condition",
+      "content": "The homogeneous oxidation mixtures contained 3-methyllumiflavin and an organic substrate in CD3CN containing a small, unquantified amount of H2O. Typical concentrations were on a 2-5 mM scale, with a flavin-to-substrate ratio as close to 1:1 as feasible. Mixtures were illuminated using visible light from a 50 W tungsten lamp. 1H NMR spectra were recorded initially and after 20-24 h. Anaerobic mixtures were degassed and sealed, then examined before and after exposure to air. Separate aerobic mixtures were also examined. Substrates were used as free amines after liberation from their storage salts; the storage salts are not the starting molecular states for this task."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "observation",
+      "content": "The reactions starting from S_H, S_Mcis, and S_Ptrans required visible light; no significant reaction was detected in the dark within 24 h. A thermal reaction of the related comparator T_Pyr with the same flavin has been reported as comparison context. After anaerobic illumination, mixtures contained substantial unreacted substrate, 4-phenylpyridine, an N-cyclopropyl-4-phenylpyridinium product retaining the starting cyclopropane substituent, and aldehydes. The aldehyde connectivities were R-CH2-CH2-CHO and R-CH=CH-CHO, with R=H, CH3, or phenyl for S_H, S_Mcis, or S_Ptrans, respectively; no aldehyde alkene stereochemistry is specified here. Thus, even S_Ptrans produced some cyclopropane-retaining pyridinium product. Exposure of anaerobic mixtures to air changed product proportions and restored detectable 3-methyllumiflavin. Under aerobic illumination, 3-methyllumiflavin was regenerated; acetaldehyde was observed for S_Mcis and benzaldehyde for S_Ptrans in place of the respective saturated aldehydes. In the anaerobic S_HD4 experiment, the isolated propanal included both undeuterated CH3-CH2-CHO and propanal bearing deuterium at the terminal methyl carbon, CH2D-CH2-CHO. This input supplies the qualitative isotope observation, not a fitted isotopomer fraction or a proposed explanation."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "For a reaction starting from S_Mcis, comparison of the cyclopropyl-region 1H NMR spectra at t=0 and t=20 h showed substantial formation of the trans substrate stereoisomer. Assignments were checked against spectra of the pure cis and trans compounds. S_Mtrans is consequently included as the stereochemical comparison structure; a separate photochemical product distribution starting from S_Mtrans is not supplied."
+    }
+  ]
+}

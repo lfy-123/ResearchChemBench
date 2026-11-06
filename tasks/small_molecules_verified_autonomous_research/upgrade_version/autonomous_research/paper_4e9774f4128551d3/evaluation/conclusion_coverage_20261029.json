@@ -1,0 +1,57 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "scoring_revision": "conclusion_only_20261029",
+  "scientific_scope_changed": false,
+  "scope_note": "The same public scientific questions, inputs, identities and conditions are retained. Final propositions and their evidential boundaries are clarified without extending scope.",
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1：298.15K甲醇端点G比较",
+      "rule_id": "r_endpoint_gap",
+      "conclusion_id": "endpoint_gap",
+      "weight": 20,
+      "independence": "只评端点热力学偏好/范围，不重复两种操作差异。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "main_p6",
+        "supplementary_001_p71"
+      ],
+      "native_reference": "docs/verification/group_2/paper_4e9774f4128551d3/autonomy_repair_20261011_verification_new_group_06/coverage.json",
+      "existing_support_or_gap": "Actual four raw Gaussian frequency/SP logs give cis-minus-trans2.641225026896 kcal/mol versus2.3171919±1.0; both endpoints53atoms,153positive modes.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果2：可逆与分瓶结果差异",
+      "rule_id": "r_condition_interpretation",
+      "conclusion_id": "condition_interpretation",
+      "weight": 40,
+      "independence": "形成、捕获与平衡的区分，只有trans更稳定不足。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p20_21_71"
+      ],
+      "native_reference": "docs/verification/group_2/paper_4e9774f4128551d3/autonomy_repair_20261011_verification_new_group_06/coverage.json",
+      "existing_support_or_gap": "Native gap gives equilibrium trans/cis86.30409 at298.15K; detailed-balance models preserving this gap give1800s ratios0.1,1.1,10, demonstrating endpoint insufficiency. These are counterexamples, not actual CSA kinetic predictions.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果3：三轮回收物料衡算",
+      "rule_id": "r_recycle_balance",
+      "conclusion_id": "recycle_balance",
+      "weight": 40,
+      "independence": "独立数学物料与损失守恒；可使用明确来源的观测单次比例。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p21"
+      ],
+      "native_reference": "docs/verification/group_2/paper_4e9774f4128551d3/autonomy_repair_20261011_verification_new_group_06/coverage.json",
+      "existing_support_or_gap": "Using observed p_cis=1/2.1, ideal three-cycle cis0.8562790195, trans0.1437209805. Native analysis recovery scenarios1/0.9/0.8 give0.856279/0.725860/0.607485;0.143g/0.203g=0.7044335 is source mass consistency, not a new chemical prediction.",
+      "historical_status_promoted": false
+    }
+  ],
+  "task_input_changes": [],
+  "new_computation": false,
+  "record_role": "Historical dated record; superseded for current scope and scoring by expert_round1_20261103. See round1_review.json and scoring_rules.json.",
+  "superseded_by": "expert_round1_20261103"
+}

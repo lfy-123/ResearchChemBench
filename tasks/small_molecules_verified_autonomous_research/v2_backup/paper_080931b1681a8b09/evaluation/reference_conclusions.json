@@ -1,0 +1,62 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "items": [
+    {
+      "statement": "Final: a connected catalytic formation explanation accounts for the supplied cycloaddition product",
+      "expected": "In the final conclusion, explicitly adopt a connected chemical explanation from the starting materials to the supplied product supported by actual calculations, and explain how the specified Ni–chiral-ligand system participates in substrate binding and bond formation. Connect the required C–N formation/BCB ring opening and dearomative C–C closure to product connectivity. The authors' stepwise nucleophilic route is a reference; equivalent routes supporting the same net transformation are acceptable. Isolated stationary points, one energy or repetition of product observations are insufficient. A complete catalytic cycle, chiral ring-opening barrier, yield or global rate prediction is not required.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "final",
+      "conclusion_id": "ni_formation_answer",
+      "supporting_key_point_ids": [
+        "ni_substrate_binding",
+        "ni_ring_opening",
+        "ni_r_closure",
+        "ni_s_closure"
+      ]
+    },
+    {
+      "statement": "Final: explicitly predict R as the major enantiomer at the supplied saturated CH",
+      "expected": "In the final conclusion, explicitly select R as the major enantiomer at the saturated CH derived from benzothiazole C2 in PI4, and connect the actually more favorable formation branch to this product absolute configuration through atom correspondence. Do not substitute the ligand's S configuration, arbitrary atom numbering, a statement only that the R channel is lower or a list of two candidates for a product configurational assignment. Source atom numbering differs between IM6 and TS/IM7 and need not be replicated. This item adds final selection and mapping of the reaction branch to the experimental product.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "final",
+      "conclusion_id": "ni_mapped_r_answer",
+      "supporting_key_point_ids": [
+        "ni_r_closure",
+        "ni_s_closure",
+        "ni_r_competition"
+      ]
+    },
+    {
+      "statement": "Final: a bounded physical explanation connects environmental differences to R preference",
+      "expected": "In the final conclusion, use actual R/S environmental differences and competition evidence to explain the physical origin of R preference. A local weak-contact explanation compatible with the authors' account or an equivalent explanation supported by actual evidence is acceptable. Explain why the physical difference used is consistent with the energetic preference; local density descriptors cannot directly establish additive stabilization energies, enhanced total attraction or a unique/quantitatively dominant cause. If using the current source analysis, preserve the limitations that the attractive subdomain favors S and that contact trends are mixed. The evaluated Agent need not reproduce the validator's integrations, decompositions or analysis workflow.",
+      "evidence_ids": [
+        "V2_MAIN"
+      ],
+      "claim_role": "final",
+      "conclusion_id": "ni_origin_answer",
+      "supporting_key_point_ids": [
+        "ni_r_competition",
+        "ni_selectivity_features"
+      ]
+    },
+    {
+      "statement": "Final: a bounded comparison of computationally supported selectivity strength with the experimental 92.5:7.5 ratio",
+      "expected": "In the final conclusion, relate the R preference and its strength supported by actual competition evidence to the supplied experimental ratio of 92.5:7.5, explaining the computed direction/degree of enrichment and the model's limits on inferring its magnitude. A consistently defined ratio estimate or an evidence-supported qualitative comparison of strength is acceptable; exact er, a specified energy gap or an additional kinetic network is not required. If quantitatively converting a single TS pair, use a compatible temperature, energy/rate relationship and prefactor assumptions, and do not misrepresent a conditional prediction as an experimental measurement or exact reproduction. Repeating the supplied ratio or making a generic uncertainty statement alone is insufficient.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "final",
+      "conclusion_id": "ni_strength_answer",
+      "supporting_key_point_ids": [
+        "ni_r_competition"
+      ]
+    }
+  ]
+}

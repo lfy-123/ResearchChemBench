@@ -54,6 +54,7 @@ class RunLifecycleMixin:
             "tool_discovery_mode": self.tool_discovery_mode,
             "model_wait_strategy": self.model_wait_strategy,
             "feedback_schema_version": self.feedback_schema_version,
+            "tool_response_profile": self.tool_response_profile,
             "native_input_validation_policy": self.native_input_validation_policy,
             "archive_policy": self.archive_policy,
             "query": self.task_text,
@@ -93,6 +94,9 @@ class RunLifecycleMixin:
             },
             "live_progress_path": "_live_progress.log",
         }
+        if self.agent.get("kind") == "gemini":
+            meta["agent_kind"] = "gemini"
+            meta["gemini_mcp_tool_names"] = [name for spec in self._mcp_server_specs() for name in spec.get("tools", [])]
         if self.agent.get("kind") == "external":
             meta.update(agent_kind="external", agent_protocol="rcb-agent-request-v1",
                         execution_backend=self.agent["execution_backend"],
@@ -152,6 +156,10 @@ class RunLifecycleMixin:
         self._terminate_process_tree()
 
     def _terminate_process_tree(self, *, force: bool = False) -> None:
+        sandbox = getattr(self, '_agent_sandbox', None)
+        if sandbox:
+            sandbox.stop(force=force)
+            return
         if self.process is None:
             return
         if self.recovery_enabled:
@@ -464,6 +472,12 @@ class RunLifecycleMixin:
                     "one or more execution jobs require reconciliation before Agent resume"
                 )
         run_timeout_seconds = self.remaining_run_timeout_seconds()
+        from .sandbox import prepare as prepare_sandbox, launch as launch_sandbox
+        prepare_sandbox(self)
+        if self.agent.get('kind') == 'claude':
+            self._write_claude_mcp_config()
+        elif self.agent.get('kind') == 'opencode':
+            self._write_opencode_config()
         argv = self.build_agent_argv()
         self._controller_lock = ControllerLock(self.workspace / "recovery" / "controller.lock")
         self._controller_lock.acquire()
@@ -529,16 +543,14 @@ class RunLifecycleMixin:
         trace_thread.start()
 
         try:
-            self.process = subprocess.Popen(
-                argv,
+            self.process = launch_sandbox(
+                self, argv, env,
                 stdin=subprocess.DEVNULL,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                cwd=str(self.workspace),
                 text=True,
                 encoding="utf-8",
                 errors="replace",
-                env=env,
                 shell=False,
                 bufsize=1,
                 start_new_session=(os.name == "posix"),
@@ -645,6 +657,8 @@ class RunLifecycleMixin:
             reporter.close()
             raise
         finally:
+            from .sandbox import close as close_sandbox
+            close_sandbox(self)
             duration = round(time.monotonic() - started, 3)
             self.capture_provider_session_id()
             self._persist_run_manifest(

@@ -1,0 +1,413 @@
+{
+  "paper_id": "paper_628af8d0bf0a1bfe",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_628af8d0bf0a1bfe",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "scientific_requirements": "Only independent final scientific propositions receive points, with one rule per proposition and a total of 100. Each item is full credit on pass and zero on fail; need_review is unresolved and does not count as success. All required final propositions must pass for whole-case success. Genuine linked calculations or reproducible scientific analysis must support the stated conclusion; copied supplied observations or author targets are not newly established results. Check composition, state, mapping, observable, units, environment and reference before comparison. Structures, frequencies, native outputs and model-validity checks qualify the dependent conclusion and receive no independent points. No process, workflow, job-count, software-use, chronology, resource-use or report-completeness score applies. Scientifically established equivalent explanations pass directly. Use need_review only for the item-specific supported but unresolved scientific conflicts below; missing work, guessing, incorrect identity/reference/units and hard-window failures are fail. Numerical windows are fixed inclusive absolute criteria, not fitted to local results. Contextual source values in semantic items do not create hidden numeric gates. AR chooses its methods independently; PR must establish applicability to its disclosed author baseline, or justify a scientifically comparable substitution. This is a comparability condition, not process credit.",
+      "rules": [
+        {
+          "rule_id": "r_response_4a",
+          "reference_id": "response_4a",
+          "type": "semantic",
+          "expected": "State a final magnetic-criterion assignment for the central pentalene of full isolated neutral-singlet 4a (64 atoms, C36H14F12S2): genuine response calculations establish paratropic response, supporting magnetic antiaromatic character within this molecule. Report the computed measure and its physical sign/frame. Positive molecular-normal NICS or a physically interpreted current route can establish this result. This is a final property assignment, not credit for completing shielding calculations; a bare scalar without interpretation or an arbitrary laboratory zz component fails. It does not prove all energetic or reactivity definitions of antiaromaticity.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.systems",
+              "$.records"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        },
+        {
+          "rule_id": "r_response_4c",
+          "reference_id": "response_4c",
+          "type": "semantic",
+          "expected": "State a final magnetic-criterion assignment for the central pentalene of full isolated neutral-singlet 4c (60 atoms, C34H22O2S2): genuine response calculations establish paratropic response, supporting magnetic antiaromatic character within this molecule. Report the computed measure and its physical sign/frame. A comparable NICS or current route is eligible. This is a final property assignment, not a calculation-completion point; copied values or unsupported universal antiaromaticity assertions fail.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.systems",
+              "$.records"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        },
+        {
+          "rule_id": "r_pair_contrast",
+          "reference_id": "pair_contrast",
+          "type": "semantic",
+          "expected": "Comparable full-pair calculations establish stronger central paratropic response for 4a than 4c. Report a signed quantitative contrast under the chosen response definition and assess it against relevant geometry/frame/method sensitivity. The native source-route contrast is about +4 ppm for NICS(1.7)zz, but no scalar tolerance or compulsory NICS diagnostic is imposed. A reversed or unresolved ordering does not meet this deterministic contrast; it fails this item rather than obtaining automatic review. Do not count the two absolute magnetic assignments again as an integrated family-answer item.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.systems",
+              "$.records"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        },
+        {
+          "rule_id": "r_central_attribution",
+          "reference_id": "central_attribution",
+          "type": "semantic",
+          "expected": "Conclude from spatially or electronically resolved response evidence how the paratropic assignment is attributable to the central pentalene rather than merely to the whole molecule or its peripheral rings. Identify what peripheral contribution remains inseparable at the actual resolution. A justified local assignment with bounded contamination passes without a universal current-topology proof. A molecular scalar alone or a generic caution fails. This item evaluates physical localization, not the repeated response sign or relative ordering.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.systems",
+              "$.records"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        },
+        {
+          "rule_id": "r_substituent_interpretation",
+          "reference_id": "substituent_interpretation",
+          "type": "semantic",
+          "expected": "An actual electronic or structural comparison supports an electronic-substitution contribution to the difference: electron withdrawal at the substituted sites can strengthen central paratropic response relative to electron donation. Explain the central electronic response and separate an evidence-supported association from a unique causal decomposition; a genuine geometry-controlled comparison can support a bounded account even when residual peripheral/relaxation effects remain. Equivalent supported explanations pass. Merely naming CF3/OMe or the topological charge rule, repeating the ordering, or requiring the author 4f NBO route fails to establish this explanation.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.systems",
+              "$.records"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "response_4a",
+          "kind": "conclusion",
+          "max_score": 20,
+          "description": "Magnetic antiaromatic character of full 4a",
+          "rule_ids": [
+            "r_response_4a"
+          ],
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "response_4c",
+          "kind": "conclusion",
+          "max_score": 20,
+          "description": "Magnetic antiaromatic character of full 4c",
+          "rule_ids": [
+            "r_response_4c"
+          ],
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "pair_contrast",
+          "kind": "conclusion",
+          "max_score": 25,
+          "description": "Direction and resolved strength of the central magnetic-response contrast",
+          "rule_ids": [
+            "r_pair_contrast"
+          ],
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "central_attribution",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "Localization of the magnetic conclusion to central pentalene",
+          "rule_ids": [
+            "r_central_attribution"
+          ],
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Valid spatially resolved current and shielding analyses support incompatible central-versus-peripheral assignments, and their physical definitions have been reconciled but the attribution conflict remains unresolved."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "substituent_interpretation",
+          "kind": "conclusion",
+          "max_score": 20,
+          "description": "Bounded electronic explanation of the substituent dependence",
+          "rule_ids": [
+            "r_substituent_interpretation"
+          ],
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "A valid electronic/structural comparison supports a substantive competing origin of the response contrast and the available evidence cannot distinguish electronic substitution from geometry or peripheral-current contributions."
+          ],
+          "required_for_success": true
+        }
+      ]
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_628af8d0bf0a1bfe",
+      "items": [
+        {
+          "statement": "Central pentalene in full 4a has paratropic magnetic response",
+          "expected": "Genuine response calculations on full neutral-singlet 4a establish a central-pentalene paratropic response under a stated field/frame/sign convention. Positive NICS is an eligible diagnostic; an appropriately interpreted current-density route is also eligible. An arbitrary laboratory zz component or copied source value is insufficient. Physical comparison: Full isolated neutral-singlet 4a (64 atoms, CF3 groups retained) and 4c (60 atoms, OMe groups retained). NICS at a declared ring-centroid probe is -n^T sigma n for the stated normal and 1.7 Angstrom displacement. The local verification reports an explicit two-ring mean; the source does not fully specify its scalar ring/face aggregation. Normal, frame, atom set and aggregation must be explicit. Other public-task-compatible response measures remain eligible with their own physical definition.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "response_4a",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "non_scoring_context"
+        },
+        {
+          "statement": "Central pentalene in full 4c has paratropic magnetic response",
+          "expected": "Genuine response calculations on full neutral-singlet 4c establish a central-pentalene paratropic response under a stated field/frame/sign convention. Positive NICS is an eligible diagnostic; a comparable current-density route is also eligible. Physical comparison: Full isolated neutral-singlet 4a (64 atoms, CF3 groups retained) and 4c (60 atoms, OMe groups retained). NICS at a declared ring-centroid probe is -n^T sigma n for the stated normal and 1.7 Angstrom displacement. The local verification reports an explicit two-ring mean; the source does not fully specify its scalar ring/face aggregation. Normal, frame, atom set and aggregation must be explicit. Other public-task-compatible response measures remain eligible with their own physical definition.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "response_4c",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "non_scoring_context"
+        },
+        {
+          "statement": "4a has stronger central magnetic response than 4c",
+          "expected": "Comparable paired calculations support stronger paratropic response for electron-withdrawing 4a than electron-donating 4c at the declared resolution, with the difference assessed against claim-relevant geometry/frame/method uncertainty. An unresolved or reversed contrast does not meet this target and receives zero on this leaf; other independent findings remain separately eligible. Physical comparison: Full isolated neutral-singlet 4a (64 atoms, CF3 groups retained) and 4c (60 atoms, OMe groups retained). NICS at a declared ring-centroid probe is -n^T sigma n for the stated normal and 1.7 Angstrom displacement. The local verification reports an explicit two-ring mean; the source does not fully specify its scalar ring/face aggregation. Normal, frame, atom set and aggregation must be explicit. Other public-task-compatible response measures remain eligible with their own physical definition.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "pair_contrast",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "non_scoring_context"
+        },
+        {
+          "statement": "Central response is distinguished from peripheral ring contributions",
+          "expected": "Spatially or electronically resolved response evidence supports attribution at the central-pentalene level while identifying peripheral-ring contributions or their unresolved contamination. A scalar molecular response without a justified link to the central unit cannot establish this attribution. Physical comparison: Full isolated neutral-singlet 4a (64 atoms, CF3 groups retained) and 4c (60 atoms, OMe groups retained). NICS at a declared ring-centroid probe is -n^T sigma n for the stated normal and 1.7 Angstrom displacement. The local verification reports an explicit two-ring mean; the source does not fully specify its scalar ring/face aggregation. Normal, frame, atom set and aggregation must be explicit. Other public-task-compatible response measures remain eligible with their own physical definition.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "central_attribution",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "non_scoring_context"
+        },
+        {
+          "statement": "Electronic substitution has a supported explanatory role",
+          "expected": "An actual electronic/structural comparison supports the directional association: electron withdrawal at the substituted sites strengthens the paratropic response. It establishes how the central electronic distribution can account for that contrast, while distinguishing support for this explanation from a unique causal decomposition. Merely naming CF3/OMe or the topological charge rule does not pass; no compulsory common-core restraint or atom-charge scheme applies. Physical comparison: Full isolated neutral-singlet 4a (64 atoms, CF3 groups retained) and 4c (60 atoms, OMe groups retained). NICS at a declared ring-centroid probe is -n^T sigma n for the stated normal and 1.7 Angstrom displacement. The local verification reports an explicit two-ring mean; the source does not fully specify its scalar ring/face aggregation. Normal, frame, atom set and aggregation must be explicit. Other public-task-compatible response measures remain eligible with their own physical definition.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "substituent_interpretation",
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "non_scoring_context"
+        }
+      ]
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_628af8d0bf0a1bfe",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabricated scientific evidence or copied reference answers falsely presented as independently computed invalidate the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Ordinary wrong, failed or missing results lose only their dependent scientific leaves."
+        }
+      ],
+      "scoring_policy": "paper_science_v3",
+      "local_failure_policy": "An unsupported result fails its dependent final proposition; need_review is restricted to the concrete rubric triggers and is never a pass."
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_628af8d0bf0a1bfe",
+      "items": [
+        {
+          "conclusion_id": "response_4a",
+          "statement": "Magnetic antiaromatic character of full 4a",
+          "expected": "State a final magnetic-criterion assignment for the central pentalene of full isolated neutral-singlet 4a (64 atoms, C36H14F12S2): genuine response calculations establish paratropic response, supporting magnetic antiaromatic character within this molecule. Report the computed measure and its physical sign/frame. Positive molecular-normal NICS or a physically interpreted current route can establish this result. This is a final property assignment, not credit for completing shielding calculations; a bare scalar without interpretation or an arbitrary laboratory zz component fails. It does not prove all energetic or reactivity definitions of antiaromaticity.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "response_4a"
+          ]
+        },
+        {
+          "conclusion_id": "response_4c",
+          "statement": "Magnetic antiaromatic character of full 4c",
+          "expected": "State a final magnetic-criterion assignment for the central pentalene of full isolated neutral-singlet 4c (60 atoms, C34H22O2S2): genuine response calculations establish paratropic response, supporting magnetic antiaromatic character within this molecule. Report the computed measure and its physical sign/frame. A comparable NICS or current route is eligible. This is a final property assignment, not a calculation-completion point; copied values or unsupported universal antiaromaticity assertions fail.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "response_4c"
+          ]
+        },
+        {
+          "conclusion_id": "pair_contrast",
+          "statement": "Direction and resolved strength of the central magnetic-response contrast",
+          "expected": "Comparable full-pair calculations establish stronger central paratropic response for 4a than 4c. Report a signed quantitative contrast under the chosen response definition and assess it against relevant geometry/frame/method sensitivity. The native source-route contrast is about +4 ppm for NICS(1.7)zz, but no scalar tolerance or compulsory NICS diagnostic is imposed. A reversed or unresolved ordering does not meet this deterministic contrast; it fails this item rather than obtaining automatic review. Do not count the two absolute magnetic assignments again as an integrated family-answer item.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "pair_contrast"
+          ]
+        },
+        {
+          "conclusion_id": "central_attribution",
+          "statement": "Localization of the magnetic conclusion to central pentalene",
+          "expected": "Conclude from spatially or electronically resolved response evidence how the paratropic assignment is attributable to the central pentalene rather than merely to the whole molecule or its peripheral rings. Identify what peripheral contribution remains inseparable at the actual resolution. A justified local assignment with bounded contamination passes without a universal current-topology proof. A molecular scalar alone or a generic caution fails. This item evaluates physical localization, not the repeated response sign or relative ordering.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "central_attribution"
+          ]
+        },
+        {
+          "conclusion_id": "substituent_interpretation",
+          "statement": "Bounded electronic explanation of the substituent dependence",
+          "expected": "An actual electronic or structural comparison supports an electronic-substitution contribution to the difference: electron withdrawal at the substituted sites can strengthen central paratropic response relative to electron donation. Explain the central electronic response and separate an evidence-supported association from a unique causal decomposition; a genuine geometry-controlled comparison can support a bounded account even when residual peripheral/relaxation effects remain. Equivalent supported explanations pass. Merely naming CF3/OMe or the topological charge rule, repeating the ordering, or requiring the author 4f NBO route fails to establish this explanation.",
+          "evidence_ids": [
+            "source_0_main",
+            "source_1_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "substituent_interpretation"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_628af8d0bf0a1bfe",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "status": "FINAL_RESULTS_MIGRATED_WITH_REUSED_EVIDENCE",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "current_scope_verified": false,
+      "reason": "Final-answer design and static contracts migrated on 2026-10-28. Existing evidence is reused per proposition; historical acceptance is not a new V3 full scientific validation or blind-agent result.",
+      "scope": "The full isolated neutral-singlet 4a/4c central-pentalene magnetic comparison is unchanged. Five independent final propositions cover individual magnetic assignments, paired contrast, localization and the bounded substituent explanation; the former integrated synthesis duplicates these results and has no separate score. AR selects the response route; PR retains the disclosed source baseline and its method/plane ambiguities.",
+      "evidence_reuse": "r_response_4a/r_response_4c and r_pair_contrast reuse the atom-mapped native tensor records E0047/E0048/E0049: source-frame ring means 23.19515/19.20415 ppm, contrast +3.991 ppm; matched relaxed SI/main-basis contrasts +4.00737/+3.96152 ppm and face/plane variants about 3.9405–4.0981 ppm. r_central_attribution reuses the 4a-only E0050 final physical current export (48 directional queries; all 8 central bonds paratropic) with its declared mixed 18-MO limitation, together with mapped shielding for both molecules. No paired 4c current validation or unique peripheral decomposition is claimed. r_substituent_interpretation reuses actual paired structural/response comparisons including the constrained common-core contrast +5.87040 ppm; that extension is not a free minimum or a unique causal decomposition. Existing active V2 rules have no numeric gates; historical ±2 ppm is retained only in historical prose, not newly reinstated or changed.",
+      "evidence_gaps": [
+        "Main caption and SI disagree on NICS basis; exact author plane fitting atoms/subversion are not fully specified",
+        "Current export uses a transparent mixed nominal 18-MO approximation; it is not proof of the unpublished author pi-only selection or a full current-topology equivalence",
+        "The common-core comparison does not uniquely separate substituent electronics from all peripheral/relaxation contributions; explanation is bounded association"
+      ],
+      "historical_qualification": {
+        "paper_id": "paper_628af8d0bf0a1bfe",
+        "scoring_policy": "paper_science_v2",
+        "status": "CURRENT_FROZEN_V2_STRICT_VERIFICATION_PRESERVED",
+        "formal_scoring_permitted": true,
+        "release_ready": false,
+        "current_scope_verified": true,
+        "blocked_rule_ids": [],
+        "reserved_points": 0,
+        "reason": "Authorized scoring-only migration on 2026-10-19; existing independently strict acceptance within frozen V2 scope is preserved. Expert publication calibration remains separate from permitted runtime scoring. No new chemistry validation or blind Agent run is claimed.",
+        "physical_definition": "Full isolated neutral-singlet 4a (64 atoms, CF3 groups retained) and 4c (60 atoms, OMe groups retained). Source NICS(1.7)zz is -n^T sigma n at each five-carbon-ring centroid plus 1.7 Angstrom normal displacement, averaged over two rings; normal/frame/atom set must be explicit. Other public-task-compatible response measures remain eligible with their own physical definition.",
+        "tolerance_policy": {
+          "status": "provisional_benchmark_policy",
+          "basis": "Semantic-only because the unchanged question explicitly permits NICS or other meaningful magnetic response definitions. The reference 23.6/19.2 ppm values are contextual benchmarks for matching NICS, not mandatory cross-observable numeric gates. Supported sign, pair contrast, spatial attribution and interpretation are separate claims. Current NICS uncertainty/coordinate controls are evidence for the contrast, not process awards.",
+          "not_author_error_bars": true
+        },
+        "retained_scientific_limitations": "Main p5 gives NICS basis 6-31++G(2d,p), SI p14 gives 6-311+G(2d,p). Plane wording differs and exact author fit atoms are undisclosed. A ±2 ppm historical same-observable gate does not by itself establish the difference. Fixed 18-MO current reconstruction is an approximation, not the author unpublished pi selection. No unique substituent causal decomposition is certified.",
+        "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "coordinator_review": {
+          "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+          "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+          "review_key": "v2_paper_628af8d0bf0a1bfe",
+          "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+          "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+          "publication_readiness_unchanged": true
+        },
+        "repair_round3": {
+          "date": "2026-10-19",
+          "status": "targeted_repairs_pending_coordinator_review",
+          "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_03/REPORT.md",
+          "changes": [
+            "Retained source-supported sign/contrast and bounded magnetic interpretation; corrected public unconditional opposite/unresolved credit and process-axis wording without revealing the AR response ordering."
+          ],
+          "historical_acceptance_unchanged": true,
+          "new_chemical_validation": false,
+          "tolerances_unchanged": true
+        }
+      },
+      "new_computations": false
+    }
+  }
+}

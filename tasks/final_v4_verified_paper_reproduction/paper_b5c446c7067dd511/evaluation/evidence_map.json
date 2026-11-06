@@ -1,0 +1,744 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "evidence": [
+    {
+      "evidence_id": "main",
+      "source": {
+        "path": "papers/paper_b5c446c7067dd511/documents/main.pdf",
+        "sha256": "e14eba4b6b741eec2e479177d88173fd688caa63c7a5f9bce461d441b7f5e09d",
+        "pdf_pages_1based": [
+          3,
+          4,
+          6,
+          11
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "si",
+      "source": {
+        "path": "papers/paper_b5c446c7067dd511/documents/supplementary_001.pdf",
+        "sha256": "d8ea0572e3bcb3543cfcba2de0e31c9a4001e9f72925f9adf5caf7d0454238f0",
+        "pdf_pages_1based": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "native_electronic_readback",
+      "source": {
+        "path": "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "sha256": "11b23e288f7901a7725fce64d26ce3448b4ea36033c74c23a10a91e7ca4d0661",
+        "locator": "Four matched Opt/Freq/TD baselines and eight state-resolved native IFCT/unscreened response analyses"
+      },
+      "evidence_type": "native_computational_readback"
+    }
+  ],
+  "final_outcome_bindings": {
+    "Ph_S1_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Ph_T1_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Ph_T4_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Ph_S1_strength": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Ph_S1_mixed": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Ph_T4_character": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Ph_high_triplet_electronic_route": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Na_S1_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Na_T1_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Na_T4_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Na_S1_strength": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Na_S1_mixed": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Na_T4_character": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Na_high_triplet_electronic_route": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "An_S1_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "An_T1_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "An_T3_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "An_S1_strength": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "An_S1_mixed": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "An_T3_character": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "An_high_triplet_electronic_route": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Py_S1_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Py_T1_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Py_T3_energy": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Py_S1_strength": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Py_S1_mixed": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Py_T3_character": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "Py_high_triplet_electronic_route": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ],
+    "substituent_spatial_explanation": [
+      "main",
+      "si",
+      "native_electronic_readback"
+    ]
+  },
+  "current_acceptance": "V3_SCOPE_MAPPED_TO_EXISTING_EVIDENCE_NOT_NEW_SCIENTIFIC_PASS",
+  "second_audit_native_segment_correction": "Second audit, direct native log check: An-mP main optimization completed with all four YES (maximum/RMS forces 0.000003/0.000001; maximum/RMS displacements 0.001223/0.000248). The later frequency-related segment prints negligible-force completion and displacement NO (0.100183/0.008294); it is not evidence that the main optimization failed. The linked parent has 210 positive modes, minimum 7.4015 cm^-1. Na main optimization instead genuinely uses negligible-force completion (maximum displacement 0.001832 versus 0.001800). T_edge equals Ph/Na T4 and An/Py T3 in both source Table S1 and existing native responses; universal cross-method state correspondence and numeric-window fairness remain unresolved.",
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_Ph_electronic_character",
+      "r_Ph_relaxation_candidate",
+      "r_Na_electronic_character",
+      "r_Na_relaxation_candidate",
+      "r_An_electronic_character",
+      "r_An_relaxation_candidate",
+      "r_Py_electronic_character",
+      "r_Py_relaxation_candidate",
+      "r_substituent_spatial_explanation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_state_correspondence_limit": "Expert attention: the neutral T_edge definition selects the original Ph/Na T4 and An/Py T3 at the source baseline (SI Table S1), but a different model can change that ordering or mix/cross states. Existing evidence does not provide a universal cross-method state correspondence. Never apply a reference window or character target to an unrelated proposed route state, nor silently rematch by root number or nearest target energy. Numeric leaves remain binary with unchanged windows; an unestablished match has no numeric pass, and a demonstrated change of T_edge identity is a reference-applicability issue to record for expert review, not proof that the alternative physical result is wrong. Semantic pathway findings are assessed independently. No claim that AR cross-method fairness or this state-selection ambiguity is fully resolved.",
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "Ph的S1/T1/T_edge/f、边界态及空间局域/CT解释",
+      "rule_id": "r_Ph_electronic_character",
+      "conclusion_id": "Ph_electronic_character",
+      "independence": "该分子的实际态图景可成立而弛豫候选解释不足；标量和百分比仅支撑此结论。",
+      "source_locator": "正文p3–4 Fig3；SIpp2–6 TableS1与NTO/IFCT；四S0父结构、八TD及空间响应日志",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/optfreq/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/singlet/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/triplet/stdout.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_T3/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_T3/evidence.json",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_T3/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_T4/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_T3/multiwfn.log"
+      ],
+      "existing_support": "实际T_edge为Ph/Na T4、An/Py T3且相邻上界已读；四S1/Tedge空间分析支持不同混合/局域性。NaT4 CT9.522%对源22.25%仍实质偏离；不存在实际RISC率认证。",
+      "limits": [
+        "历史接受类别保持；16谱学标量窗取消，S1/T1/T_edge/f仍作为物理态图景与候选推断证据。边界定义不锁定根号，允许有据根交叉/混合或无边界态。",
+        "NaT4 CT来源22.25对原生9.522（完整响应9.727269）偏差未解；PyS1/AnT3正文比例不闭合，SI版本分列。不能强制AnT3 CT略占多数或Ph/Py细排序。",
+        "An主优化四YES与后续频率位移NO分开；Na主优化最大位移.001832>.0018以negligible forces结束。未复现整80根，NaS10偏差仍留历史但不恢复题外矩阵。",
+        "有限电子态结果只支持弛豫候选，不认证SOC/RISC率、主导路径或器件效率；各物种与跨取代关系分别评分。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "previous_rule_ids": [
+        "r_Ph_S1_energy",
+        "r_Ph_T1_energy",
+        "r_Ph_T4_energy",
+        "r_Ph_S1_strength",
+        "r_Ph_S1_mixed",
+        "r_Ph_T4_character"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "Ph可支持/否定的分子电子弛豫候选",
+      "rule_id": "r_Ph_relaxation_candidate",
+      "conclusion_id": "Ph_relaxation_candidate",
+      "independence": "从态性质到路线可行性的推断不同于性质本身，并且四分子分别判定。",
+      "source_locator": "正文p3–4 Fig3；SIpp2–6 TableS1与NTO/IFCT；四S0父结构、八TD及空间响应日志",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/optfreq/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/singlet/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/triplet/stdout.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_T3/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_T3/evidence.json",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_T3/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_T4/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_T3/multiwfn.log"
+      ],
+      "existing_support": "实际T_edge为Ph/Na T4、An/Py T3且相邻上界已读；四S1/Tedge空间分析支持不同混合/局域性。NaT4 CT9.522%对源22.25%仍实质偏离；不存在实际RISC率认证。",
+      "limits": [
+        "历史接受类别保持；16谱学标量窗取消，S1/T1/T_edge/f仍作为物理态图景与候选推断证据。边界定义不锁定根号，允许有据根交叉/混合或无边界态。",
+        "NaT4 CT来源22.25对原生9.522（完整响应9.727269）偏差未解；PyS1/AnT3正文比例不闭合，SI版本分列。不能强制AnT3 CT略占多数或Ph/Py细排序。",
+        "An主优化四YES与后续频率位移NO分开；Na主优化最大位移.001832>.0018以negligible forces结束。未复现整80根，NaS10偏差仍留历史但不恢复题外矩阵。",
+        "有限电子态结果只支持弛豫候选，不认证SOC/RISC率、主导路径或器件效率；各物种与跨取代关系分别评分。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "previous_rule_ids": [
+        "r_Ph_high_triplet_electronic_route"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "Na的S1/T1/T_edge/f、边界态及空间局域/CT解释",
+      "rule_id": "r_Na_electronic_character",
+      "conclusion_id": "Na_electronic_character",
+      "independence": "该分子的实际态图景可成立而弛豫候选解释不足；标量和百分比仅支撑此结论。",
+      "source_locator": "正文p3–4 Fig3；SIpp2–6 TableS1与NTO/IFCT；四S0父结构、八TD及空间响应日志",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/optfreq/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/singlet/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/triplet/stdout.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_T3/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_T3/evidence.json",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_T3/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_T4/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_T3/multiwfn.log"
+      ],
+      "existing_support": "实际T_edge为Ph/Na T4、An/Py T3且相邻上界已读；四S1/Tedge空间分析支持不同混合/局域性。NaT4 CT9.522%对源22.25%仍实质偏离；不存在实际RISC率认证。",
+      "limits": [
+        "历史接受类别保持；16谱学标量窗取消，S1/T1/T_edge/f仍作为物理态图景与候选推断证据。边界定义不锁定根号，允许有据根交叉/混合或无边界态。",
+        "NaT4 CT来源22.25对原生9.522（完整响应9.727269）偏差未解；PyS1/AnT3正文比例不闭合，SI版本分列。不能强制AnT3 CT略占多数或Ph/Py细排序。",
+        "An主优化四YES与后续频率位移NO分开；Na主优化最大位移.001832>.0018以negligible forces结束。未复现整80根，NaS10偏差仍留历史但不恢复题外矩阵。",
+        "有限电子态结果只支持弛豫候选，不认证SOC/RISC率、主导路径或器件效率；各物种与跨取代关系分别评分。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "previous_rule_ids": [
+        "r_Na_S1_energy",
+        "r_Na_T1_energy",
+        "r_Na_T4_energy",
+        "r_Na_S1_strength",
+        "r_Na_S1_mixed",
+        "r_Na_T4_character"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "Na可支持/否定的分子电子弛豫候选",
+      "rule_id": "r_Na_relaxation_candidate",
+      "conclusion_id": "Na_relaxation_candidate",
+      "independence": "从态性质到路线可行性的推断不同于性质本身，并且四分子分别判定。",
+      "source_locator": "正文p3–4 Fig3；SIpp2–6 TableS1与NTO/IFCT；四S0父结构、八TD及空间响应日志",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/optfreq/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/singlet/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/triplet/stdout.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_T3/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_T3/evidence.json",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_T3/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_T4/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_T3/multiwfn.log"
+      ],
+      "existing_support": "实际T_edge为Ph/Na T4、An/Py T3且相邻上界已读；四S1/Tedge空间分析支持不同混合/局域性。NaT4 CT9.522%对源22.25%仍实质偏离；不存在实际RISC率认证。",
+      "limits": [
+        "历史接受类别保持；16谱学标量窗取消，S1/T1/T_edge/f仍作为物理态图景与候选推断证据。边界定义不锁定根号，允许有据根交叉/混合或无边界态。",
+        "NaT4 CT来源22.25对原生9.522（完整响应9.727269）偏差未解；PyS1/AnT3正文比例不闭合，SI版本分列。不能强制AnT3 CT略占多数或Ph/Py细排序。",
+        "An主优化四YES与后续频率位移NO分开；Na主优化最大位移.001832>.0018以negligible forces结束。未复现整80根，NaS10偏差仍留历史但不恢复题外矩阵。",
+        "有限电子态结果只支持弛豫候选，不认证SOC/RISC率、主导路径或器件效率；各物种与跨取代关系分别评分。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "previous_rule_ids": [
+        "r_Na_high_triplet_electronic_route"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "An的S1/T1/T_edge/f、边界态及空间局域/CT解释",
+      "rule_id": "r_An_electronic_character",
+      "conclusion_id": "An_electronic_character",
+      "independence": "该分子的实际态图景可成立而弛豫候选解释不足；标量和百分比仅支撑此结论。",
+      "source_locator": "正文p3–4 Fig3；SIpp2–6 TableS1与NTO/IFCT；四S0父结构、八TD及空间响应日志",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/optfreq/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/singlet/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/triplet/stdout.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_T3/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_T3/evidence.json",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_T3/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_T4/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_T3/multiwfn.log"
+      ],
+      "existing_support": "实际T_edge为Ph/Na T4、An/Py T3且相邻上界已读；四S1/Tedge空间分析支持不同混合/局域性。NaT4 CT9.522%对源22.25%仍实质偏离；不存在实际RISC率认证。",
+      "limits": [
+        "历史接受类别保持；16谱学标量窗取消，S1/T1/T_edge/f仍作为物理态图景与候选推断证据。边界定义不锁定根号，允许有据根交叉/混合或无边界态。",
+        "NaT4 CT来源22.25对原生9.522（完整响应9.727269）偏差未解；PyS1/AnT3正文比例不闭合，SI版本分列。不能强制AnT3 CT略占多数或Ph/Py细排序。",
+        "An主优化四YES与后续频率位移NO分开；Na主优化最大位移.001832>.0018以negligible forces结束。未复现整80根，NaS10偏差仍留历史但不恢复题外矩阵。",
+        "有限电子态结果只支持弛豫候选，不认证SOC/RISC率、主导路径或器件效率；各物种与跨取代关系分别评分。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "previous_rule_ids": [
+        "r_An_S1_energy",
+        "r_An_T1_energy",
+        "r_An_T3_energy",
+        "r_An_S1_strength",
+        "r_An_S1_mixed",
+        "r_An_T3_character"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "An可支持/否定的分子电子弛豫候选",
+      "rule_id": "r_An_relaxation_candidate",
+      "conclusion_id": "An_relaxation_candidate",
+      "independence": "从态性质到路线可行性的推断不同于性质本身，并且四分子分别判定。",
+      "source_locator": "正文p3–4 Fig3；SIpp2–6 TableS1与NTO/IFCT；四S0父结构、八TD及空间响应日志",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/optfreq/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/singlet/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/triplet/stdout.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_T3/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_T3/evidence.json",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_T3/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_T4/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_T3/multiwfn.log"
+      ],
+      "existing_support": "实际T_edge为Ph/Na T4、An/Py T3且相邻上界已读；四S1/Tedge空间分析支持不同混合/局域性。NaT4 CT9.522%对源22.25%仍实质偏离；不存在实际RISC率认证。",
+      "limits": [
+        "历史接受类别保持；16谱学标量窗取消，S1/T1/T_edge/f仍作为物理态图景与候选推断证据。边界定义不锁定根号，允许有据根交叉/混合或无边界态。",
+        "NaT4 CT来源22.25对原生9.522（完整响应9.727269）偏差未解；PyS1/AnT3正文比例不闭合，SI版本分列。不能强制AnT3 CT略占多数或Ph/Py细排序。",
+        "An主优化四YES与后续频率位移NO分开；Na主优化最大位移.001832>.0018以negligible forces结束。未复现整80根，NaS10偏差仍留历史但不恢复题外矩阵。",
+        "有限电子态结果只支持弛豫候选，不认证SOC/RISC率、主导路径或器件效率；各物种与跨取代关系分别评分。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "previous_rule_ids": [
+        "r_An_high_triplet_electronic_route"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "Py的S1/T1/T_edge/f、边界态及空间局域/CT解释",
+      "rule_id": "r_Py_electronic_character",
+      "conclusion_id": "Py_electronic_character",
+      "independence": "该分子的实际态图景可成立而弛豫候选解释不足；标量和百分比仅支撑此结论。",
+      "source_locator": "正文p3–4 Fig3；SIpp2–6 TableS1与NTO/IFCT；四S0父结构、八TD及空间响应日志",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/optfreq/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/singlet/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/triplet/stdout.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_T3/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_T3/evidence.json",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_T3/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_T4/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_T3/multiwfn.log"
+      ],
+      "existing_support": "实际T_edge为Ph/Na T4、An/Py T3且相邻上界已读；四S1/Tedge空间分析支持不同混合/局域性。NaT4 CT9.522%对源22.25%仍实质偏离；不存在实际RISC率认证。",
+      "limits": [
+        "历史接受类别保持；16谱学标量窗取消，S1/T1/T_edge/f仍作为物理态图景与候选推断证据。边界定义不锁定根号，允许有据根交叉/混合或无边界态。",
+        "NaT4 CT来源22.25对原生9.522（完整响应9.727269）偏差未解；PyS1/AnT3正文比例不闭合，SI版本分列。不能强制AnT3 CT略占多数或Ph/Py细排序。",
+        "An主优化四YES与后续频率位移NO分开；Na主优化最大位移.001832>.0018以negligible forces结束。未复现整80根，NaS10偏差仍留历史但不恢复题外矩阵。",
+        "有限电子态结果只支持弛豫候选，不认证SOC/RISC率、主导路径或器件效率；各物种与跨取代关系分别评分。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "previous_rule_ids": [
+        "r_Py_S1_energy",
+        "r_Py_T1_energy",
+        "r_Py_T3_energy",
+        "r_Py_S1_strength",
+        "r_Py_S1_mixed",
+        "r_Py_T3_character"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "Py可支持/否定的分子电子弛豫候选",
+      "rule_id": "r_Py_relaxation_candidate",
+      "conclusion_id": "Py_relaxation_candidate",
+      "independence": "从态性质到路线可行性的推断不同于性质本身，并且四分子分别判定。",
+      "source_locator": "正文p3–4 Fig3；SIpp2–6 TableS1与NTO/IFCT；四S0父结构、八TD及空间响应日志",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/optfreq/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/singlet/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/triplet/stdout.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_T3/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_T3/evidence.json",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_T3/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_T4/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_T3/multiwfn.log"
+      ],
+      "existing_support": "实际T_edge为Ph/Na T4、An/Py T3且相邻上界已读；四S1/Tedge空间分析支持不同混合/局域性。NaT4 CT9.522%对源22.25%仍实质偏离；不存在实际RISC率认证。",
+      "limits": [
+        "历史接受类别保持；16谱学标量窗取消，S1/T1/T_edge/f仍作为物理态图景与候选推断证据。边界定义不锁定根号，允许有据根交叉/混合或无边界态。",
+        "NaT4 CT来源22.25对原生9.522（完整响应9.727269）偏差未解；PyS1/AnT3正文比例不闭合，SI版本分列。不能强制AnT3 CT略占多数或Ph/Py细排序。",
+        "An主优化四YES与后续频率位移NO分开；Na主优化最大位移.001832>.0018以negligible forces结束。未复现整80根，NaS10偏差仍留历史但不恢复题外矩阵。",
+        "有限电子态结果只支持弛豫候选，不认证SOC/RISC率、主导路径或器件效率；各物种与跨取代关系分别评分。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "previous_rule_ids": [
+        "r_Py_high_triplet_electronic_route"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "四种芳香取代如何改变电子性质及总体趋势",
+      "rule_id": "r_substituent_spatial_explanation",
+      "conclusion_id": "substituent_spatial_explanation",
+      "independence": "检验跨分子非单调物理关系，不因重复四路线结论得分。",
+      "source_locator": "正文p3–4 Fig3；SIpp2–6 TableS1与NTO/IFCT；四S0父结构、八TD及空间响应日志",
+      "native_artifacts": [
+        "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/COORDINATOR_REVIEW/paper_b5c446c7067dd511_20261015T2030Z/NATIVE_READBACK.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Hirshfeld_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/IFCT_Mulliken_GENERAL/multiwfn.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/analysis/Na_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/optfreq/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/singlet/stdout.log",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_b5c446c7067dd511/cases/na_g09defaults_remaining_defaults_20261012_a01/output/triplet/stdout.log",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/An_T3/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Ph_T4/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_S1/evidence.json",
+        "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W10/papers/paper_b5c446c7067dd511/cases/hlct_native_log_series_control_20261009_a01/output/Py_T3/evidence.json",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/An_T3/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Ph_T4/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_S1/multiwfn.log",
+        "docs/verification/group_3/paper_b5c446c7067dd511/provenance/priority_repair_20260918/official_multiwfn/Py_T3/multiwfn.log"
+      ],
+      "existing_support": "实际T_edge为Ph/Na T4、An/Py T3且相邻上界已读；四S1/Tedge空间分析支持不同混合/局域性。NaT4 CT9.522%对源22.25%仍实质偏离；不存在实际RISC率认证。",
+      "limits": [
+        "历史接受类别保持；16谱学标量窗取消，S1/T1/T_edge/f仍作为物理态图景与候选推断证据。边界定义不锁定根号，允许有据根交叉/混合或无边界态。",
+        "NaT4 CT来源22.25对原生9.522（完整响应9.727269）偏差未解；PyS1/AnT3正文比例不闭合，SI版本分列。不能强制AnT3 CT略占多数或Ph/Py细排序。",
+        "An主优化四YES与后续频率位移NO分开；Na主优化最大位移.001832>.0018以negligible forces结束。未复现整80根，NaS10偏差仍留历史但不恢复题外矩阵。",
+        "有限电子态结果只支持弛豫候选，不认证SOC/RISC率、主导路径或器件效率；各物种与跨取代关系分别评分。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "previous_rule_ids": [
+        "r_substituent_spatial_explanation"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "paper_id": "paper_48278ec4f02de3d9",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rh_s1",
+      "reference_id": "rh_insertion",
+      "type": "numeric",
+      "expected": "G(TS2)-G(INT3); same composition; local barrier, not55.3 profile height. Retain the original2.0 kcal/mol tolerance; use matching identities, temperature and complete raw evidence. A passing scalar does not certify network connections. Award scientific-result credit only for newly generated, chemically valid evidence establishing the specified result. Accept different effective methods or paths that establish the same result; never require author state names or a fixed TS count. Merely reporting a number, repeating a supplied experiment, offering a plausible narrative, or documenting failed work does not establish the result. Partial work earns only its supported fraction, with no redistribution of missing-target weights. Source-only quantities marked unqualified are not hard numerical gold standards and do not acquire a tolerance by implication. A documented source/reference defect is an objective scoring limitation, not an agent critical failure; do not award automatic full credit for diagnosing it. Record the affected comparison as not_scorable_objective when the defect prevents a valid decision, retaining the remaining scientific evidence. This candidate is not release-ready until the separate verification plan is completed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]",
+          "$.observables[*]",
+          "$.comparisons[*]",
+          "$.conclusion",
+          "$.methods",
+          "$.limitations"
+        ],
+        "comparison": "absolute difference after chemical-identity, common-state and stationary-point qualification; Award scientific-result credit only for newly generated, chemically valid evidence establishing the specified result. Accept different effective methods or paths that establish the same result; never require author state names or a fixed TS count. Merely reporting a number, repeating a supplied experiment, offering a plausible narrative, or documenting failed work does not establish the result. Partial work earns only its supported fraction, with no redistribution of missing-target weights. Source-only quantities marked unqualified are not hard numerical gold standards and do not acquire a tolerance by implication. A documented source/reference defect is an objective scoring limitation, not an agent critical failure; do not award automatic full credit for diagnosing it. Record the affected comparison as not_scorable_objective when the defect prevents a valid decision, retaining the remaining scientific evidence. This candidate is not release-ready until the separate verification plan is completed.",
+        "object_identity": "G(TS2)-G(INT3); same composition; local barrier, not55.3 profile height.",
+        "required_context_fields": [
+          "object_ids",
+          "definition",
+          "reference_state",
+          "temperature_K",
+          "evidence"
+        ]
+      },
+      "source_numeric_qualification": "numerical_source_model_recomputed; connected-route qualification pending",
+      "target": 40.8,
+      "unit": "kcal/mol",
+      "tolerance": 2.0
+    },
+    {
+      "rule_id": "rh_s2",
+      "reference_id": "rh_direct_alternative",
+      "type": "numeric",
+      "expected": "G(TS2-prime)+G(freeCO)-G(1t)-0.5G(dimer), using balanced CO bookkeeping at6.2mM. Local TS2-prime minusINT3-prime is13.7, not36.4. Retain the original2.0 kcal/mol tolerance; use matching identities, temperature and complete raw evidence. A passing scalar does not certify network connections. Award scientific-result credit only for newly generated, chemically valid evidence establishing the specified result. Accept different effective methods or paths that establish the same result; never require author state names or a fixed TS count. Merely reporting a number, repeating a supplied experiment, offering a plausible narrative, or documenting failed work does not establish the result. Partial work earns only its supported fraction, with no redistribution of missing-target weights. Source-only quantities marked unqualified are not hard numerical gold standards and do not acquire a tolerance by implication. A documented source/reference defect is an objective scoring limitation, not an agent critical failure; do not award automatic full credit for diagnosing it. Record the affected comparison as not_scorable_objective when the defect prevents a valid decision, retaining the remaining scientific evidence. This candidate is not release-ready until the separate verification plan is completed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]",
+          "$.observables[*]",
+          "$.comparisons[*]",
+          "$.conclusion",
+          "$.methods",
+          "$.limitations"
+        ],
+        "comparison": "absolute difference after chemical-identity, common-state and stationary-point qualification; Award scientific-result credit only for newly generated, chemically valid evidence establishing the specified result. Accept different effective methods or paths that establish the same result; never require author state names or a fixed TS count. Merely reporting a number, repeating a supplied experiment, offering a plausible narrative, or documenting failed work does not establish the result. Partial work earns only its supported fraction, with no redistribution of missing-target weights. Source-only quantities marked unqualified are not hard numerical gold standards and do not acquire a tolerance by implication. A documented source/reference defect is an objective scoring limitation, not an agent critical failure; do not award automatic full credit for diagnosing it. Record the affected comparison as not_scorable_objective when the defect prevents a valid decision, retaining the remaining scientific evidence. This candidate is not release-ready until the separate verification plan is completed.",
+        "object_identity": "G(TS2-prime)+G(freeCO)-G(1t)-0.5G(dimer), using balanced CO bookkeeping at6.2mM. Local TS2-prime minusINT3-prime is13.7, not36.4.",
+        "required_context_fields": [
+          "object_ids",
+          "definition",
+          "reference_state",
+          "temperature_K",
+          "evidence"
+        ]
+      },
+      "source_numeric_qualification": "numerical_source_model_recomputed; connected-route qualification pending",
+      "target": 36.4,
+      "unit": "kcal/mol",
+      "tolerance": 2.0
+    },
+    {
+      "rule_id": "rh_s3",
+      "reference_id": "rh_oxidative",
+      "type": "numeric",
+      "expected": "G(TS-OC)-G(1t)-0.5G(dimer); retains two carbonyl ligands, hence no released-CO correction for this state. Retain the original2.0 kcal/mol tolerance; use matching identities, temperature and complete raw evidence. A passing scalar does not certify network connections. Award scientific-result credit only for newly generated, chemically valid evidence establishing the specified result. Accept different effective methods or paths that establish the same result; never require author state names or a fixed TS count. Merely reporting a number, repeating a supplied experiment, offering a plausible narrative, or documenting failed work does not establish the result. Partial work earns only its supported fraction, with no redistribution of missing-target weights. Source-only quantities marked unqualified are not hard numerical gold standards and do not acquire a tolerance by implication. A documented source/reference defect is an objective scoring limitation, not an agent critical failure; do not award automatic full credit for diagnosing it. Record the affected comparison as not_scorable_objective when the defect prevents a valid decision, retaining the remaining scientific evidence. This candidate is not release-ready until the separate verification plan is completed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]",
+          "$.observables[*]",
+          "$.comparisons[*]",
+          "$.conclusion",
+          "$.methods",
+          "$.limitations"
+        ],
+        "comparison": "absolute difference after chemical-identity, common-state and stationary-point qualification; Award scientific-result credit only for newly generated, chemically valid evidence establishing the specified result. Accept different effective methods or paths that establish the same result; never require author state names or a fixed TS count. Merely reporting a number, repeating a supplied experiment, offering a plausible narrative, or documenting failed work does not establish the result. Partial work earns only its supported fraction, with no redistribution of missing-target weights. Source-only quantities marked unqualified are not hard numerical gold standards and do not acquire a tolerance by implication. A documented source/reference defect is an objective scoring limitation, not an agent critical failure; do not award automatic full credit for diagnosing it. Record the affected comparison as not_scorable_objective when the defect prevents a valid decision, retaining the remaining scientific evidence. This candidate is not release-ready until the separate verification plan is completed.",
+        "object_identity": "G(TS-OC)-G(1t)-0.5G(dimer); retains two carbonyl ligands, hence no released-CO correction for this state.",
+        "required_context_fields": [
+          "object_ids",
+          "definition",
+          "reference_state",
+          "temperature_K",
+          "evidence"
+        ]
+      },
+      "source_numeric_qualification": "numerical_source_model_recomputed; connected-route qualification pending",
+      "target": 44.6,
+      "unit": "kcal/mol",
+      "tolerance": 2.0
+    },
+    {
+      "rule_id": "rh_s4",
+      "reference_id": "rh_carbonylative_route",
+      "type": "semantic",
+      "expected": "Compute a connected route for substrate+CO to theC10H14O3 fused lactone. Source reference is CO insertion preceding ketone participation; TS3 height31.2/local24.9 is controlling and later metallo-ene/RE steps are lower. Source-only31.2/24.9 are not newly authenticated gold; plausible words or unrelated lower energies do not suffice. Award scientific-result credit only for newly generated, chemically valid evidence establishing the specified result. Accept different effective methods or paths that establish the same result; never require author state names or a fixed TS count. Merely reporting a number, repeating a supplied experiment, offering a plausible narrative, or documenting failed work does not establish the result. Partial work earns only its supported fraction, with no redistribution of missing-target weights. Source-only quantities marked unqualified are not hard numerical gold standards and do not acquire a tolerance by implication. A documented source/reference defect is an objective scoring limitation, not an agent critical failure; do not award automatic full credit for diagnosing it. Record the affected comparison as not_scorable_objective when the defect prevents a valid decision, retaining the remaining scientific evidence. This candidate is not release-ready until the separate verification plan is completed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]",
+          "$.observables[*]",
+          "$.comparisons[*]",
+          "$.conclusion",
+          "$.methods",
+          "$.limitations"
+        ],
+        "comparison": "Evidence-bound chemical identity and quantitative/scientific comparison; not label matching.",
+        "object_identity": "Complete1t+CO and correct C4Cl2O4Rh2 precursor; no mandatory author labels; mechanism connections required for claimed channel.",
+        "required_context_fields": [
+          "object_ids",
+          "definition",
+          "reference_state",
+          "temperature_K",
+          "evidence"
+        ]
+      }
+    },
+    {
+      "rule_id": "rh_s5",
+      "reference_id": "rh_branching",
+      "type": "semantic",
+      "expected": "Use the established channels to explain lactone versus diene and why CO availability changes the competition, including inhibition at excessive CO as a qualified speciation explanation. This block scores CO-dependent product branching supported by an additional competing-channel/speciation comparison; repeating the three high direct-route energies or the carbonylative profile earns no additional credit. As a consistency condition, attribute direct-route failure to energetics/coordination and strained intermediate formation, not simply a universally higher metallo-ene local barrier. Do not infer a numerical yield or rate from unbalanced profile heights; no calculations on other substrates are hidden requirements. Award scientific-result credit only for newly generated, chemically valid evidence establishing the specified result. Accept different effective methods or paths that establish the same result; never require author state names or a fixed TS count. Merely reporting a number, repeating a supplied experiment, offering a plausible narrative, or documenting failed work does not establish the result. Partial work earns only its supported fraction, with no redistribution of missing-target weights. Source-only quantities marked unqualified are not hard numerical gold standards and do not acquire a tolerance by implication. A documented source/reference defect is an objective scoring limitation, not an agent critical failure; do not award automatic full credit for diagnosing it. Record the affected comparison as not_scorable_objective when the defect prevents a valid decision, retaining the remaining scientific evidence. This candidate is not release-ready until the separate verification plan is completed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]",
+          "$.observables[*]",
+          "$.comparisons[*]",
+          "$.conclusion",
+          "$.methods",
+          "$.limitations"
+        ],
+        "comparison": "Evidence-bound chemical identity and quantitative/scientific comparison; not label matching.",
+        "object_identity": "Only1t branch comparison; separate family pressure observations from the model.",
+        "required_context_fields": [
+          "object_ids",
+          "definition",
+          "reference_state",
+          "temperature_K",
+          "evidence"
+        ]
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "science_1",
+      "max_score": 15,
+      "description": "Classical local insertion barrier",
+      "rule_ids": [
+        "rh_s1"
+      ]
+    },
+    {
+      "id": "science_2",
+      "max_score": 15,
+      "description": "Direct alternative overall profile",
+      "rule_ids": [
+        "rh_s2"
+      ]
+    },
+    {
+      "id": "science_3",
+      "max_score": 15,
+      "description": "Oxidative-cyclization profile",
+      "rule_ids": [
+        "rh_s3"
+      ]
+    },
+    {
+      "id": "science_4",
+      "max_score": 30,
+      "description": "Carbonylative reaction result",
+      "rule_ids": [
+        "rh_s4"
+      ]
+    },
+    {
+      "id": "science_5",
+      "max_score": 25,
+      "description": "CO-dependent product-branch explanation",
+      "rule_ids": [
+        "rh_s5"
+      ]
+    }
+  ],
+  "score_accounting": "Each rule belongs to exactly one scientific result block. Process and reporting quality use the separate runtime process rubric. Derived ratios/fractions are not additional independent result points.",
+  "reference_qualification": {
+    "historical_evidence": "14 complete-source nodes recompute40.739702860/36.300441382/44.498198111. Eight endpoint minima do not yet close the full source network. Wrong8/23-atom public inputs qualify no complete molecule.",
+    "pending": [
+      "Connect existing TS/endpoint evidence to actual source network.",
+      "Qualify carbonylative and competing diene channels.",
+      "Preserve native dimer RRHO and balance freeCO; never replace it with the printed solvent shift."
+    ],
+    "numeric_tolerances_preserved": {
+      "40.8": 2.0,
+      "36.4": 2.0,
+      "44.6": 2.0
+    },
+    "withheld_numeric_gold": [
+      31.2,
+      24.9
+    ]
+  },
+  "result_credit_policy": "Award scientific-result credit only for newly generated, chemically valid evidence establishing the specified result. Accept different effective methods or paths that establish the same result; never require author state names or a fixed TS count. Merely reporting a number, repeating a supplied experiment, offering a plausible narrative, or documenting failed work does not establish the result. Partial work earns only its supported fraction, with no redistribution of missing-target weights. Source-only quantities marked unqualified are not hard numerical gold standards and do not acquire a tolerance by implication. A documented source/reference defect is an objective scoring limitation, not an agent critical failure; do not award automatic full credit for diagnosing it. Record the affected comparison as not_scorable_objective when the defect prevents a valid decision, retaining the remaining scientific evidence. This candidate is not release-ready until the separate verification plan is completed."
+}

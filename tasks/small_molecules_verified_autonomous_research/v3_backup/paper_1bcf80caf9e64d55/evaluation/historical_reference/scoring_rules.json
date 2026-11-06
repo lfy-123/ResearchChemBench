@@ -1,0 +1,416 @@
+{
+  "paper_id": "paper_1bcf80caf9e64d55",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价任务范围内有论文来源的科学结果，不评价研究过程、工具次数、成本、格式或失败说明。每个叶子项均为二元：全部条件成立得该项满分，否则得0分；没有临时比例分。先核对分子身份、连接关系、原子库存、电荷/自旋、物理量、单位、能量参照、温度、溶剂和标准态，再比较结果。结果须由提交者真实执行且可链接的计算及原生文件支持；公开观察、抄录论文值、正常退出或正确标签本身不充分。最低点与鞍点须有与其声明相适合的频率/态证据；所声称反应连接须有实际结果支持的IRC或科学等价的端点/连接检验，不指定软件、历史验证轨迹、固定假说数量或任务外计算。数值项由宿主按固定target/tolerance作包含边界的绝对差判定，Judge不得修改；允许明确单位及标准态转换，不允许拟合偏移。没有容差的来源背景值不是隐含数值门槛。实质物理身份或来源参照无法厘清时该项needs_review，不用放宽容差掩盖。各项独立，数值超窗不抹去有真实证据的定性项。最终结论项要求提交者明确选择并以计算证据作综合解释，仅计算出或列出一个候选不算最终选择。伪造和隐藏答案泄漏属于有效性问题，普通失败只影响对应项。本文初步容差是维护者按授权提出的benchmark政策，不是作者误差条或统计置信区间；出版专家复审待定不冻结已定义的现行评分。",
+  "rules": [
+    {
+      "rule_id": "r_phosphine_addition",
+      "reference_id": "phosphine_addition",
+      "type": "semantic",
+      "expected": "真实相连计算支持PEt3亲核加成到炔β-C，形成含P–C键的两性离子中间体2；核对PEt3为C6H15P，C7H17P不等价。该项判定键与电荷重排，不依赖TS1数值命中。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_initiation_energy",
+      "reference_id": "initiation_energy",
+      "type": "numeric",
+      "expected": "以Fig.S1初始复合物1为零点，TS1相对G目标18.9 kcal/mol、绝对容差1.0 kcal/mol；同时计入所有旁观物料并保持383.15 K。不得将分离反应物零点、异构膦或不同化学组成结果直接比较。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      },
+      "target": 18.9,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_cyclization",
+      "reference_id": "cyclization",
+      "type": "semantic",
+      "expected": "中间体2的真实连接与反应模支持向酯羰基分子内进攻、构筑五元环中间体3；须保持完整侧链和原子映射。来源TS2共同高度8.2、3为1.9 kcal/mol仅作背景，不把8.2当局部活化能。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_alkoxide_proton_transfer",
+      "reference_id": "alkoxide_proton_transfer",
+      "type": "semantic",
+      "expected": "真实相连计算支持环化后醇盐离去及与4-氟苯酚相关的质子转移，形成可参与后续加成的亲核体，并守恒乙醇当量及全部原子/电荷。不同片段缔合须明确，不能以断开的标量节点代替化学连接。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_nucleophile_incorporation",
+      "reference_id": "nucleophile_incorporation",
+      "type": "semantic",
+      "expected": "计算的TS4及相连端点支持4-氟苯氧基亲核体形成产物所需C–O连接，保持五元环与E-cinnamyl侧链。来源TS4 2.8与7 −8.3是共同高度背景，不另设数值阈值。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_phosphine_regeneration",
+      "reference_id": "phosphine_regeneration",
+      "type": "semantic",
+      "expected": "实际后续连接支持C–P断裂、释放正确中性PEt3并形成可循环的催化剂；不得只在反应式两侧写PEt3。保持配平乙醇等旁观物料，来源TS5−0.9共同高度仅作背景。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_product_structure",
+      "reference_id": "product_structure",
+      "type": "semantic",
+      "expected": "实际终点分子图为所观察的芳氧基环戊烯酮且保留E-cinnamyl侧链，原子来源能与底物/4-氟苯酚及乙醇副产物对应。不得用删除侧链或改变膦的简化产物替代；仅复述所给产物图不通过。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_reaction_free_energy",
+      "reference_id": "reaction_free_energy",
+      "type": "numeric",
+      "expected": "以Fig.S1复合物1和匹配旁观物料为初始参照，配平产物9、PEt3和乙醇终点相对G目标−24.7 kcal/mol、绝对容差2.0 kcal/mol。保持383.15 K、相容溶剂与标准态，不能用分离反应物值或作者能量填补本地缺失。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      },
+      "target": -24.7,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_initial_step_order",
+      "reference_id": "initial_step_order",
+      "type": "semantic",
+      "expected": "在同一完整物料及复合物1零点上，实际A路线各相关鞍点比较支持初始膦加成最高，后续关键鞍点较低。不能以单独一个TS1数字证明全图排序；不声称已建立浓度依赖微观动力学。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_migration_competition",
+      "reference_id": "migration_competition",
+      "type": "semantic",
+      "expected": "从共同两性离子分叉及统一物料参照比较，实际竞争路径证据支持B的醇辅助连续1,3迁移瓶颈高于A分支后环化路线。无需穷举B全部节点；不可把未经计算的后续B状态称独立证实。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_route_conclusion",
+      "reference_id": "route_conclusion",
+      "type": "semantic",
+      "expected": "最终明确选择PEt3引发两性离子后直接环化、亲核体并入和膦再生的A路线，综合实际连接、完整观察产物与迁移竞争证据说明为何该路线优先。仅列出A候选不足以得分；结论限于所考察模型，不证明全局唯一机理。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    },
+    {
+      "rule_id": "r_accessibility_conclusion",
+      "reference_id": "accessibility_conclusion",
+      "type": "semantic",
+      "expected": "最终以实际完整自由能图及配平终点解释反应可达性：初始加成构成主要能量代价，后续通向总体下坡产物；联系110°C条件但不把12 h或收率当基本速率常数。不要求精确产物G通过，也不能以负复合局部差宣称负物理势垒。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.operations",
+          "$.artifacts",
+          "$.results",
+          "$.claims",
+          "$.validations",
+          "$.conclusion"
+        ],
+        "comparison": "先按统一科学要求核对真实证据、物理身份和定义，再独立判定本项；数值比较包含容差边界。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "phosphine_addition",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "PEt3加成与两性离子",
+      "rule_ids": [
+        "r_phosphine_addition"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ]
+    },
+    {
+      "id": "initiation_energy",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "初始加成的自由能高度",
+      "rule_ids": [
+        "r_initiation_energy"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ]
+    },
+    {
+      "id": "cyclization",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "分子内环化",
+      "rule_ids": [
+        "r_cyclization"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ]
+    },
+    {
+      "id": "alkoxide_proton_transfer",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "醇盐离去与亲核体生成",
+      "rule_ids": [
+        "r_alkoxide_proton_transfer"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ]
+    },
+    {
+      "id": "nucleophile_incorporation",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "亲核体并入产物骨架",
+      "rule_ids": [
+        "r_nucleophile_incorporation"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ]
+    },
+    {
+      "id": "phosphine_regeneration",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "PEt3再生",
+      "rule_ids": [
+        "r_phosphine_regeneration"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ]
+    },
+    {
+      "id": "product_structure",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "完整环戊烯酮产物",
+      "rule_ids": [
+        "r_product_structure"
+      ],
+      "evidence_ids": [
+        "pe_main",
+        "pe_a"
+      ]
+    },
+    {
+      "id": "reaction_free_energy",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "配平产物总自由能",
+      "rule_ids": [
+        "r_reaction_free_energy"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ]
+    },
+    {
+      "id": "initial_step_order",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "初始步骤为所考察图最高鞍点",
+      "rule_ids": [
+        "r_initial_step_order"
+      ],
+      "evidence_ids": [
+        "pe_a"
+      ]
+    },
+    {
+      "id": "migration_competition",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "直接环化与迁移分支的比较",
+      "rule_ids": [
+        "r_migration_competition"
+      ],
+      "evidence_ids": [
+        "pe_a",
+        "pe_b"
+      ]
+    },
+    {
+      "id": "route_conclusion",
+      "kind": "conclusion",
+      "max_score": 12,
+      "description": "最终：选择直接环化催化路线",
+      "rule_ids": [
+        "r_route_conclusion"
+      ],
+      "evidence_ids": [
+        "pe_a",
+        "pe_b",
+        "pe_main"
+      ]
+    },
+    {
+      "id": "accessibility_conclusion",
+      "kind": "conclusion",
+      "max_score": 12,
+      "description": "最终：动力学和热力学可达性",
+      "rule_ids": [
+        "r_accessibility_conclusion"
+      ],
+      "evidence_ids": [
+        "pe_a",
+        "pe_main"
+      ]
+    }
+  ]
+}

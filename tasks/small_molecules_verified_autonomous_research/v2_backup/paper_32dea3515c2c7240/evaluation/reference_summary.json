@@ -1,0 +1,32 @@
+{
+  "case_id": "case_06",
+  "source_locator": "Main text p7–9 Fig.7–10",
+  "numeric_rules": [
+    {
+      "rule_id": "r_ts_gap",
+      "target": 8.6,
+      "tolerance": 1.5,
+      "unit": "kcal/mol",
+      "definition": "Compare G(TS20-b)−G(TS20-a) for the complete Pd/L-pGlu/S system with the same composition and particle/proton inventory, and map the authors' a/b structures. This is a difference on a common-reference profile, not a difference between two separately defined local barriers. Use MeCN/SMD, thermal corrections at 363.15 K and the same charge/spin. The source does not specify the input charge/multiplicity; a neutral closed-shell Pd(II)/doubly deprotonated L-pGlu + neutral S system is a graph reconstruction that must be declared and supported. Once genuine relevant saddle points and reaction connectivity qualify, compare against 8.6±1.5 kcal/mol."
+    },
+    {
+      "rule_id": "r_inversion_s",
+      "target": 31.82,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "definition": "Compare G(S inversion saddle point)−G(its connected isolated S/1b minimum) for the complete neutral molecule without Pd/ligand and with the same particle count; use MeCN/SMD and 353.15 K. A singlet is a graph-reconstruction assumption that must be supported. Use its own minimum and thermal corrections, genuinely relevant modes and connectivity; compare against 31.82±2.0 kcal/mol. Do not substitute the catalytic temperature of 363.15 K."
+    },
+    {
+      "rule_id": "r_inversion_p",
+      "target": 33.99,
+      "tolerance": 3.0,
+      "unit": "kcal/mol",
+      "definition": "Compare G(P inversion saddle point)−G(its connected isolated P/3ba minimum) for the complete neutral E-alkenylated molecule without Pd/ligand and with the same particle count; use n-octane/SMD and 398.15 K. A singlet is a graph-reconstruction assumption that must be supported. Use its own minimum/thermal corrections, genuinely relevant modes and connectivity; compare against 33.99±3.0 kcal/mol. Do not switch RRHO/qRRHO, the minimum or the temperature after the fact to approach the target."
+    }
+  ],
+  "notes": [
+    "On 2026-10-26, the user explicitly authorized changing only the P-inversion rule r_inversion_p from ±2.0 to ±3.0 kcal/mol around the unchanged target of 33.99 kcal/mol. The existing primary RRHO result of 36.59879981 kcal/mol differs by +2.60879981 kcal/mol and is inside the revised numerical window. This is a documented scoring amendment, not a new calculation or a change of thermochemical convention. Physical comparability and all structural, connectivity and evidence requirements still apply; no whole-case adjudication is inferred from this numerical comparison alone."
+  ],
+  "whole_case_success": "all required scientific items pass after evidence qualification",
+  "is_new_quantum_validation": false
+}

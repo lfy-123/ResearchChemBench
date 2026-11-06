@@ -1,0 +1,191 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "status": "FINAL_RESULTS_MIGRATED_WITH_REUSED_EVIDENCE",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false,
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "scope": "The same dye-2a acid/base optical–NMR explanation and species-identifiability question is retained. Five final propositions replace seven V2 nodes: one optical electronic explanation, two local NMR responses, the neutral-tautomer alternative and the responsive-species inference. Bright-state amplitudes and root correspondence support the optical conclusion rather than receiving separate intermediate credit. AR retains independent model choice; PR retains the disclosed CAM-B3LYP/cLR/GIAO author baseline.",
+  "evidence_reuse": "r_aqueous_optical_explanation reuses EXISTING_RESULTS_UNIFIED_COMPARISON.json water_optics: corrected-LR acid/base 3.3011/2.6072 eV; associated LR oscillator strengths 2.5532/2.9118; H137→L138 amplitudes 0.64058/0.57630. r_nmr_acid_vs_neutral/r_nmr_base_vs_neutral reuse all four mapped H45/46/55/56 with common TMS shielding 32.0802666667 ppm: acid/neutral/base means 8.11884167/7.12474167/6.35666667 ppm. r_hydrazone_competitor reuses hydrazone cLR 2.898 eV, NMR mean 6.52629167 ppm and same-charge single-basin RRHO hydrazone-minus-azo +9.97614562/+9.04052899 kcal/mol in water/DMSO. r_joint_proton_response reuses these jointly and full H20/q0, H22/q+2, H18/q−2 identities (274-electron singlets). The historical acceptance is qualitative with numerical deviations, not strict numerical or new V3 validation.",
+  "evidence_gaps": "酸NMR实算对实验差+1.16884 ppm、源理论本已+1.03；不得改TMS或挑H贴源。源单值平均方式不全公开；同电荷局部腙比较不穷尽溶液全部位点/布居。光学水与NMR DMSO保持区分。",
+  "historical_qualification": {
+    "paper_id": "paper_988bc12ae3768679",
+    "scoring_policy": "paper_science_v2",
+    "status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "acceptance_type": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "accepted_at_utc": "2026-10-20",
+    "formal_scoring_permitted": true,
+    "current_scope_verified": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "unblock_conditions": [],
+    "reason": "Coordinator confirmed all task-critical qualitative findings, disclosed important method/model settings and valid necessary calculations under the2026-10-20 numerical-deviation authorization. No exact numerical reproduction or original-tolerance pass is claimed.",
+    "coordinator_decision_artifact": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAPER_DECISIONS.json",
+    "publication_expert_review_status": "Publication/expert review remains separate from runtime scientific scoring; not a Judge blocker.",
+    "numerical_policy": "No numerical leaves or invented tolerance; original values, residuals and historical policy are retained.",
+    "limitations": [
+      "Formal SI is a DOCX, not a missing PDF. NMR method paragraph uses TableS1 wording but the actual chemical-shift caption is TableS2; paragraph locations are explicit.",
+      "Source water values are compared to nonequilibrium cLR corrected energies; native LR intermediates happen to be closer and are not substituted.",
+      "Gas base sourceS4(3.05eV,f.1374) resembles nativeS5 while nativeS4 is2.8994eV/f0. Weak-state ordinal correspondence is unresolved and excluded from dominant-band scoring.",
+      "Source calculated acid7.98ppm already differs from experiment6.95ppm; native8.11884167ppm retains rather than conceals the disagreement. Source scalar aggregation is incompletely disclosed.",
+      "Acid NMR absolute disagreement is not hidden or repaired through selective proton averaging. Source scalar aggregation and exact reference origins remain incompletely disclosed.",
+      "No acid/base equilibrium fractions, free ion activities, unique acid site or experimentally certified hydrazone fraction are inferred.",
+      "Source weak-state index mismatch does not reverse task-critical strongest-band or NMR direction; no claim of complete line-by-line table equality."
+    ],
+    "verification_reference": "evaluation/verified_computation_reference.md",
+    "private_archive_index": "docs/final_verified_science_v2_additions_20261020/astra_science_02/ARCHIVE_INDEX.json"
+  },
+  "new_computations": false,
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "mode_scope_exception": "两模式的最终科学命题相同；AR自主选择方法，PR评估披露基线或有依据的可比替代。作者数值均为证据。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "必需结果：水相酸碱吸收与态性质",
+      "rule_id": "r_aqueous_optical_explanation",
+      "conclusion_id": "aqueous_optical_explanation",
+      "weight": 30,
+      "independence": "吸收物理解释，独立于NMR局部屏蔽及物种唯一性。",
+      "source_location": "正文酸碱转换/光学/NMR部分（含Table3、Fig3）；SI计算方法、质子映射和坐标；source_optical/source_switch/source_nmr。",
+      "source_evidence_ids": [
+        "source_optical",
+        "source_switch"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/finish56_20261008T0810Z/papers/paper_988bc12ae3768679/EXISTING_RESULTS_UNIFIED_COMPARISON.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_giao_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_clr_td6_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_neutral_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_acid_water_clr_root4_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_base_water_clr_td6_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_neutral_dmso_optfreq_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_tms_dmso_giao_v2_a01/stdout.log"
+      ],
+      "existing_support_or_gap": "水相酸/碱cLR3.3011/2.6072 eV；DMSO四H均值中性7.124742、酸8.118842、碱6.356667 ppm，均已映射。中性腙局部极小点G较偶氮高水9.976146/DMSO9.040529 kcal/mol；腙另有光/NMR证据。",
+      "scientific_limitations": "酸NMR实算对实验差+1.16884 ppm、源理论本已+1.03；不得改TMS或挑H贴源。源单值平均方式不全公开；同电荷局部腙比较不穷尽溶液全部位点/布居。光学水与NMR DMSO保持区分。"
+    },
+    {
+      "scientific_requirement": "必需结果：酸相对中性的NMR响应",
+      "rule_id": "r_nmr_acid_vs_neutral",
+      "conclusion_id": "nmr_acid_vs_neutral",
+      "weight": 12,
+      "independence": "酸相屏蔽比较，不由碱或光学结果推出。",
+      "source_location": "正文酸碱转换/光学/NMR部分（含Table3、Fig3）；SI计算方法、质子映射和坐标；source_optical/source_switch/source_nmr。",
+      "source_evidence_ids": [
+        "source_nmr",
+        "source_switch"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/finish56_20261008T0810Z/papers/paper_988bc12ae3768679/EXISTING_RESULTS_UNIFIED_COMPARISON.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_giao_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_clr_td6_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_neutral_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_acid_water_clr_root4_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_base_water_clr_td6_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_neutral_dmso_optfreq_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_tms_dmso_giao_v2_a01/stdout.log"
+      ],
+      "existing_support_or_gap": "水相酸/碱cLR3.3011/2.6072 eV；DMSO四H均值中性7.124742、酸8.118842、碱6.356667 ppm，均已映射。中性腙局部极小点G较偶氮高水9.976146/DMSO9.040529 kcal/mol；腙另有光/NMR证据。",
+      "scientific_limitations": "酸NMR实算对实验差+1.16884 ppm、源理论本已+1.03；不得改TMS或挑H贴源。源单值平均方式不全公开；同电荷局部腙比较不穷尽溶液全部位点/布居。光学水与NMR DMSO保持区分。"
+    },
+    {
+      "scientific_requirement": "必需结果：碱相对中性的NMR响应",
+      "rule_id": "r_nmr_base_vs_neutral",
+      "conclusion_id": "nmr_base_vs_neutral",
+      "weight": 12,
+      "independence": "碱相屏蔽比较，需完整相关质子实际值。",
+      "source_location": "正文酸碱转换/光学/NMR部分（含Table3、Fig3）；SI计算方法、质子映射和坐标；source_optical/source_switch/source_nmr。",
+      "source_evidence_ids": [
+        "source_nmr",
+        "source_switch"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/finish56_20261008T0810Z/papers/paper_988bc12ae3768679/EXISTING_RESULTS_UNIFIED_COMPARISON.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_giao_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_clr_td6_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_neutral_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_acid_water_clr_root4_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_base_water_clr_td6_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_neutral_dmso_optfreq_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_tms_dmso_giao_v2_a01/stdout.log"
+      ],
+      "existing_support_or_gap": "水相酸/碱cLR3.3011/2.6072 eV；DMSO四H均值中性7.124742、酸8.118842、碱6.356667 ppm，均已映射。中性腙局部极小点G较偶氮高水9.976146/DMSO9.040529 kcal/mol；腙另有光/NMR证据。",
+      "scientific_limitations": "酸NMR实算对实验差+1.16884 ppm、源理论本已+1.03；不得改TMS或挑H贴源。源单值平均方式不全公开；同电荷局部腙比较不穷尽溶液全部位点/布居。光学水与NMR DMSO保持区分。"
+    },
+    {
+      "scientific_requirement": "必需结果：腙备选解释",
+      "rule_id": "r_hydrazone_competitor",
+      "conclusion_id": "hydrazone_competitor",
+      "weight": 20,
+      "independence": "特定中性竞争机制的区分，不能由酸碱符号排除。",
+      "source_location": "正文酸碱转换/光学/NMR部分（含Table3、Fig3）；SI计算方法、质子映射和坐标；source_optical/source_switch/source_nmr。",
+      "source_evidence_ids": [
+        "source_switch",
+        "source_optical"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/finish56_20261008T0810Z/papers/paper_988bc12ae3768679/EXISTING_RESULTS_UNIFIED_COMPARISON.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_giao_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_clr_td6_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_neutral_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_acid_water_clr_root4_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_base_water_clr_td6_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_neutral_dmso_optfreq_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_tms_dmso_giao_v2_a01/stdout.log"
+      ],
+      "existing_support_or_gap": "水相酸/碱cLR3.3011/2.6072 eV；DMSO四H均值中性7.124742、酸8.118842、碱6.356667 ppm，均已映射。中性腙局部极小点G较偶氮高水9.976146/DMSO9.040529 kcal/mol；腙另有光/NMR证据。",
+      "scientific_limitations": "酸NMR实算对实验差+1.16884 ppm、源理论本已+1.03；不得改TMS或挑H贴源。源单值平均方式不全公开；同电荷局部腙比较不穷尽溶液全部位点/布居。光学水与NMR DMSO保持区分。"
+    },
+    {
+      "scientific_requirement": "必需结果：联合约束的响应物种及范围",
+      "rule_id": "r_joint_proton_response",
+      "conclusion_id": "joint_proton_response",
+      "weight": 26,
+      "independence": "物种级推断与不能唯一识别的位点/布居，不重复三类谱学方向。",
+      "source_location": "正文酸碱转换/光学/NMR部分（含Table3、Fig3）；SI计算方法、质子映射和坐标；source_optical/source_switch/source_nmr。",
+      "source_evidence_ids": [
+        "source_optical",
+        "source_switch",
+        "source_nmr"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/finish56_20261008T0810Z/papers/paper_988bc12ae3768679/EXISTING_RESULTS_UNIFIED_COMPARISON.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_acid_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_base_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_giao_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_dmso_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_clr_td6_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_fig3_doublehydrazone_water_optfreq_20261002_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_neutral_literalSI_dmso_GIAO_20261006_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_acid_water_clr_root4_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_base_water_clr_td6_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_source_neutral_dmso_optfreq_v2_a01/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_988bc12ae3768679/v2_execution_20260929/outputs/isodpp_tms_dmso_giao_v2_a01/stdout.log"
+      ],
+      "existing_support_or_gap": "水相酸/碱cLR3.3011/2.6072 eV；DMSO四H均值中性7.124742、酸8.118842、碱6.356667 ppm，均已映射。中性腙局部极小点G较偶氮高水9.976146/DMSO9.040529 kcal/mol；腙另有光/NMR证据。",
+      "scientific_limitations": "酸NMR实算对实验差+1.16884 ppm、源理论本已+1.03；不得改TMS或挑H贴源。源单值平均方式不全公开；同电荷局部腙比较不穷尽溶液全部位点/布居。光学水与NMR DMSO保持区分。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

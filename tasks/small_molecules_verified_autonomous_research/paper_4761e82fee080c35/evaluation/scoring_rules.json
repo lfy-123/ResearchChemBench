@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+  "rules": [
+    {
+      "rule_id": "r_local_activation_model",
+      "reference_id": "local_activation_model",
+      "type": "semantic",
+      "expected": "Establish a molecularly calculated, condition-compatible local donor-activation model involving the actual PC2, with explicit donor identities, electronic states and electron/hydrogen bookkeeping. The reference supports donor-to-photoexcited-PC2 electron transfer producing the full-donor radical cation as a plausible local hypothesis; independently supported equivalent accounts pass. Use genuine electronic-state calculations plus the supplied component controls to explain model plausibility. BDE weakening alone, a mechanism sketch or copied control yields cannot establish this item. Distinguish PC2 from PC1 comparison data. Clearly bound any initial ET energetics that were not computed: the task does not demand a new absolute redox target or full cycle, and a plausible model is not proof of initial PC2 ET thermodynamics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_reactivity_change",
+      "reference_id": "reactivity_change",
+      "type": "semantic",
+      "expected": "Establish quantitatively how activation changes the donor properties relevant to transferring its phosphoryl group to an alcohol. Connect actual comparable electronic-state/property calculations to a chemically balanced donor-activation account and its functional consequence. In the reference, oxidation substantially weakens ring-C4 C-H homolysis, making hydrogen removal and conversion toward a phosphoryl-transfer-capable pyridinium species thermodynamically more plausible. An equivalent scientifically supported molecular account passes. Neither two uninterpreted energies nor simply naming the transfer product suffices. BDE changes do not establish HAT rates, a unique Co/TPI role or the alcohol-substitution barrier. A complete phosphorylation path is not required. Source BDEs 76.1/32.9 kcal/mol are evidence context without matching windows.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "local_activation_model",
+      "kind": "conclusion",
+      "max_score": 45,
+      "description": "A local activation model compatible with the specified PC2 and component conditions",
+      "rule_ids": [
+        "r_local_activation_model"
+      ],
+      "evidence_ids": [
+        "main_p3_5_6",
+        "main_p3_6",
+        "supplementary_002_p9"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "reactivity_change",
+      "kind": "conclusion",
+      "max_score": 55,
+      "description": "Activation changes the donor properties enabling phosphoryl transfer to alcohols",
+      "rule_ids": [
+        "r_reactivity_change"
+      ],
+      "evidence_ids": [
+        "main_p3_5_6",
+        "main_p3_6",
+        "supplementary_002_p9"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "package_version": "expert_round1_20261103",
+  "scoring_revision": "expert_round1_20261103",
+  "total_points": 100,
+  "semantic_review_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+  "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "required_for_whole_case_success_item_ids": [
+    "local_activation_model",
+    "reactivity_change"
+  ]
+}

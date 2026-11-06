@@ -1,0 +1,151 @@
+{
+  "scientific_question": "How does the molecular reactivity of the specified N-cyclopropyl tetrahydropyridines account jointly for their light-dependent oxidation, substituent- and stereochemistry-dependent cyclopropane cleavage versus retention, cis/trans interconversion, and substrate-deuterium incorporation into an aldehyde, while remaining consistent with the listed related tetrahydropyridine oxidation comparators?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Starting organic substrates are neutral free amines: S_H, 1-cyclopropyl-4-phenyl-1,2,3,6-tetrahydropyridine; S_Mcis and S_Mtrans, respectively the cis and trans forms of 1-(2-methylcyclopropyl)-4-phenyl-1,2,3,6-tetrahydropyridine; and S_Ptrans, the trans form of 1-(2-phenylcyclopropyl)-4-phenyl-1,2,3,6-tetrahydropyridine. In each tetrahydropyridine, nitrogen is position 1, the ring double bond is C4=C5, the phenyl group is bonded to C4, and the cyclopropane is attached through a direct bond from nitrogen to cyclopropane C1'. The methyl or phenyl substituent is on adjacent cyclopropane C2'. Cis means the N attachment and the C2' substituent are on the same cyclopropane face; trans means opposite faces. Only relative stereochemistry is specified. S_HD4 is S_H with both hydrogens on tetrahydropyridine C2 and both on C6 replaced by deuterium. Related oxidation comparators are T_H, 1-methyl-1,2,3,6-tetrahydropyridine; T_Ph, 1-methyl-4-phenyl-1,2,3,6-tetrahydropyridine; and T_Pyr, 1-methyl-4-(1-methyl-1H-pyrrol-2-yl)-1,2,3,6-tetrahydropyridine. These have the same tetrahydropyridine ring numbering and C4=C5 bond, but an N-methyl group instead of an N-cyclopropyl group; their C4 substituents are H, phenyl, and 1-methylpyrrol-2-yl, respectively. They are comparison structures, not additional requested reactions."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "condition",
+      "content": "The homogeneous oxidation mixtures contained 3-methyllumiflavin and an organic substrate in CD3CN containing a small, unquantified amount of H2O. Typical concentrations were on a 2-5 mM scale, with a flavin-to-substrate ratio as close to 1:1 as feasible. Mixtures were illuminated using visible light from a 50 W tungsten lamp. 1H NMR spectra were recorded initially and after 20-24 h. Anaerobic mixtures were degassed and sealed, then examined before and after exposure to air. Separate aerobic mixtures were also examined. Substrates were used as free amines after liberation from their storage salts; the storage salts are not the starting molecular states for this task."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "observation",
+      "content": "The reactions starting from S_H, S_Mcis, and S_Ptrans required visible light; no significant reaction was detected in the dark within 24 h. A thermal reaction of the related comparator T_Pyr with the same flavin has been reported as comparison context. After anaerobic illumination, mixtures contained substantial unreacted substrate, 4-phenylpyridine, an N-cyclopropyl-4-phenylpyridinium product retaining the starting cyclopropane substituent, and aldehydes. The aldehyde connectivities were R-CH2-CH2-CHO and R-CH=CH-CHO, with R=H, CH3, or phenyl for S_H, S_Mcis, or S_Ptrans, respectively; no aldehyde alkene stereochemistry is specified here. Thus, even S_Ptrans produced some cyclopropane-retaining pyridinium product. Exposure of anaerobic mixtures to air changed product proportions and restored detectable 3-methyllumiflavin. Under aerobic illumination, 3-methyllumiflavin was regenerated; acetaldehyde was observed for S_Mcis and benzaldehyde for S_Ptrans in place of the respective saturated aldehydes. In the anaerobic S_HD4 experiment, the isolated propanal included both undeuterated CH3-CH2-CHO and propanal bearing deuterium at the terminal methyl carbon, CH2D-CH2-CHO. This input supplies the qualitative isotope observation, not a fitted isotopomer fraction or a proposed explanation."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "For a reaction starting from S_Mcis, comparison of the cyclopropyl-region 1H NMR spectra at t=0 and t=20 h showed substantial formation of the trans substrate stereoisomer. Assignments were checked against spectra of the pure cis and trans compounds. S_Mtrans is consequently included as the stereochemical comparison structure; a separate photochemical product distribution starting from S_Mtrans is not supplied."
+    }
+  ],
+  "changes": [
+    {
+      "subject_id": "scientific_question",
+      "change_type": "source_correction",
+      "reason": "The Stage05 question isolated the radical-cation ring-opening substep and supplied the author's reactive-state hypothesis. The original article also actually computed relative oxidation/density comparisons (Table 1/S43), the phenyl distance profiles (Figure 9), cross-isomer energetic ordering, and the isotope spectral simulation (Figure 8/S36), with Figure 7 thermochemical context connecting isotope transfer to retained-ring products. Organize these same-family calculations and reported observations into one molecular-reactivity question. Retain H/cis-Me/trans-Me/trans-Ph, CR1-CR7 and their comparison limits; include only the actual related N-methyl oxidation controls, not new reactions or an enzyme/oxygen kinetic network. All outcomes remain required, while author intermediates, descriptors, pathways, methods and computed answers are withheld. The main/SI cis-Me B2 reaction-energy discrepancy is preserved, not repaired or used to justify this scope correction; no exact numeric outcome was requested by the original explanatory question.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000051_9e9d8d28b250",
+        "ev_doc_fe816bcc199b_000052_95d2f2bbdf95",
+        "ev_doc_fe816bcc199b_000058_04b19546a68b",
+        "ev_doc_fe816bcc199b_000060_23b6c88219fb",
+        "ev_doc_fe816bcc199b_000061_6b49820e89dd",
+        "ev_doc_b6070afbb1cd_000104_5654521d608b",
+        "pdf-page-doc_fe816bcc199b-p3",
+        "pdf-page-doc_b6070afbb1cd-p43",
+        "ev_doc_fe816bcc199b_000077_b7c5366d66c0",
+        "ev_doc_fe816bcc199b_000094_6b0cd8f99fb0",
+        "ev_doc_fe816bcc199b_000095_3745cc63b23a",
+        "ev_doc_fe816bcc199b_000096_cb236b3db403",
+        "ev_doc_fe816bcc199b_000097_662e0b59d2e0",
+        "ev_doc_fe816bcc199b_000098_bfb85312a178",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_fe816bcc199b_000138_8372ede9176c",
+        "ev_doc_b6070afbb1cd_000115_250bafb7ef34",
+        "ev_doc_b6070afbb1cd_000116_40f05db05140",
+        "ev_doc_b6070afbb1cd_000117_f26a0e1d8c8b",
+        "ev_doc_b6070afbb1cd_000121_52f0cd9fe8ff",
+        "ev_doc_b6070afbb1cd_000122_70cfc466e553",
+        "ev_doc_b6070afbb1cd_000123_d745e2c6c19c",
+        "ev_doc_b6070afbb1cd_000166_1c30b4caf949",
+        "pdf-page-doc_fe816bcc199b-p7",
+        "pdf-page-doc_b6070afbb1cd-p49",
+        "pdf-page-doc_b6070afbb1cd-p50",
+        "pdf-page-doc_b6070afbb1cd-p51",
+        "ev_doc_fe816bcc199b_000065_04097e2712de",
+        "ev_doc_fe816bcc199b_000066_787281a52be2",
+        "ev_doc_fe816bcc199b_000074_f513b5ec2532",
+        "ev_doc_fe816bcc199b_000075_d3f2b9009599",
+        "ev_doc_fe816bcc199b_000086_d4cdd11d9243",
+        "ev_doc_fe816bcc199b_000087_4577fecf9de8",
+        "ev_doc_fe816bcc199b_000093_14cd0141629e",
+        "ev_doc_fe816bcc199b_000105_a0319ab0de76",
+        "ev_doc_fe816bcc199b_000111_c1881cb95d0e",
+        "layout-doc_b6070afbb1cd-p42-b16",
+        "pdf-page-doc_fe816bcc199b-p6",
+        "pdf-page-doc_fe816bcc199b-p8",
+        "pdf-page-doc_b6070afbb1cd-p42",
+        "ev_doc_fe816bcc199b_000047_7044c043bb7d"
+      ]
+    },
+    {
+      "subject_id": "PI1",
+      "change_type": "identity_clarification",
+      "reason": "Replace source labels and vague R notation with graph-explicit neutral identities, C4=C5/C4-phenyl and N-to-cyclopropane connectivity, adjacent cyclopropane substituent positions, cis/trans face definitions and explicitly trans phenyl identity. The actual original coordinate graphs and structure drawings agree. Preserve both methyl stereoisomers and distinguish the experimentally used cis form from its comparison stereoisomer. Add the explicitly depicted deuterium sites and the actual Table 1 N-methyl comparator identities needed to expose the connected computation's neutral starting system. These are source-supported identity clarifications for the same oxidation family, not new reactions, optimized input geometries or source correction history.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000044_45fe135e9351",
+        "ev_doc_fe816bcc199b_000052_95d2f2bbdf95",
+        "ev_doc_fe816bcc199b_000094_6b0cd8f99fb0",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_fe816bcc199b_000105_a0319ab0de76",
+        "ev_doc_fe816bcc199b_000135_fcb63b61f94a",
+        "pdf-page-doc_fe816bcc199b-p3",
+        "pdf-page-doc_b6070afbb1cd-p44",
+        "pdf-page-doc_b6070afbb1cd-p45",
+        "pdf-page-doc_b6070afbb1cd-p48",
+        "pdf-page-doc_b6070afbb1cd-p52",
+        "pdf-page-doc_b6070afbb1cd-p57",
+        "pdf-page-doc_b6070afbb1cd-p62",
+        "pdf-page-doc_b6070afbb1cd-p67",
+        "layout-doc_b6070afbb1cd-p44-b5",
+        "layout-doc_b6070afbb1cd-p45-b3",
+        "layout-doc_b6070afbb1cd-p46-b0",
+        "layout-doc_b6070afbb1cd-p48-b3",
+        "layout-doc_b6070afbb1cd-p52-b5",
+        "layout-doc_b6070afbb1cd-p57-b5",
+        "layout-doc_b6070afbb1cd-p62-b5",
+        "layout-doc_b6070afbb1cd-p67-b6",
+        "ev_doc_fe816bcc199b_000066_787281a52be2",
+        "ev_doc_fe816bcc199b_000074_f513b5ec2532",
+        "ev_doc_b6070afbb1cd_000104_5654521d608b"
+      ]
+    },
+    {
+      "subject_id": "PI2",
+      "change_type": "source_correction",
+      "reason": "Preserve CD3CN, 3-methyllumiflavin, 2-5 mM scale, near-1:1 ratio, visible 50 W tungsten illumination and 20-24 h observation times. Restore explicitly reported trace water, anaerobic/air-exposure versus separately aerobic context and the free-amine preparation omitted from the short upstream wording. Do not invent a water concentration, reaction temperature, counterion in the computation or initial molecular geometry.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000049_27a02b12b745",
+        "ev_doc_fe816bcc199b_000050_5193fba440a9",
+        "ev_doc_fe816bcc199b_000058_04b19546a68b",
+        "ev_doc_fe816bcc199b_000135_fcb63b61f94a",
+        "ev_doc_fe816bcc199b_000137_4c75f46f3484"
+      ]
+    },
+    {
+      "subject_id": "PI3",
+      "change_type": "source_correction",
+      "reason": "Keep the original unreacted-substrate, retained-cyclopropane pyridinium, 4-phenylpyridine, aldehyde and oxygen/flavin-regeneration observations. Specify ordinary observed product connectivities and distinguish anaerobic air exposure from separately aerobic reactions. Add the light/dark and reported related-comparator contrast and qualitative deuterium incorporation used by the connected Table 1/Figure 8 investigation. Do not publish the simulated 50:50 fraction, the spectral recipe, radical intermediates, the authors' exclusive-channel inference or computed energies. The isotope labels are observed context for an explanation, not a hidden exact-fraction prediction target.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000058_04b19546a68b",
+        "ev_doc_fe816bcc199b_000060_23b6c88219fb",
+        "ev_doc_fe816bcc199b_000062_55e353bcdfdf",
+        "ev_doc_fe816bcc199b_000064_a1e2c20eb9dd",
+        "ev_doc_fe816bcc199b_000066_787281a52be2",
+        "ev_doc_fe816bcc199b_000074_f513b5ec2532",
+        "ev_doc_fe816bcc199b_000083_ce8be0974d5b",
+        "ev_doc_fe816bcc199b_000084_a6c16c844ddc",
+        "ev_doc_fe816bcc199b_000112_50ab35ae435d",
+        "ev_doc_fe816bcc199b_000115_8f4e89da5e05",
+        "ev_doc_fe816bcc199b_000117_eb0eb1d75797",
+        "pdf-page-doc_fe816bcc199b-p6",
+        "layout-doc_b6070afbb1cd-p42-b16"
+      ]
+    },
+    {
+      "subject_id": "PI4",
+      "change_type": "neutral_rewording",
+      "reason": "Replace the source's cis-4b label with the verified public identity and retain the observed t=0/t=20 h cis-to-trans substrate interconversion and authentic-spectrum assignment context. Explicitly distinguish the trans comparison structure from an independently measured trans-started product distribution, without exposing the authors' energetic ordering or proposed isomerization mechanism.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000094_6b0cd8f99fb0",
+        "ev_doc_fe816bcc199b_000097_662e0b59d2e0",
+        "ev_doc_fe816bcc199b_000105_a0319ab0de76",
+        "ev_doc_fe816bcc199b_000084_a6c16c844ddc",
+        "pdf-page-doc_fe816bcc199b-p8"
+      ]
+    }
+  ]
+}

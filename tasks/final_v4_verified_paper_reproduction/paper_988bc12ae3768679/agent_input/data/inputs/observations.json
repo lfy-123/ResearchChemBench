@@ -1,0 +1,38 @@
+{
+  "uv_vis": {
+    "medium": "water",
+    "source": "main Table1",
+    "rows": [
+      {
+        "condition": "pH2",
+        "maximum_nm": 350
+      },
+      {
+        "condition": "pH14",
+        "maximum_nm": 440
+      }
+    ],
+    "neutral_maximum": null
+  },
+  "nmr": {
+    "signal": "aromatic H adjacent to phenolic groups",
+    "source": "main Fig3B and true SI TableS2",
+    "reported_medium": "DMSO for the source NMR comparison; pH labels are nominal acid/neutral/base sample conditions, not aqueous pH activity in DMSO",
+    "reference": "TMS",
+    "rows": [
+      {
+        "condition": "acid",
+        "shift_ppm": 6.95
+      },
+      {
+        "condition": "neutral",
+        "shift_ppm": 6.8
+      },
+      {
+        "condition": "base",
+        "shift_ppm": 6.1
+      }
+    ]
+  },
+  "uncertainty": "No source measurement-error bars supplied; do not invent a universal tolerance."
+}

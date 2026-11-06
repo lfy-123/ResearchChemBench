@@ -1,0 +1,124 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Numerical targets and existing tolerances are not adjustable. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate.",
+  "rules": [
+    {
+      "rule_id": "r_endpoint_gap",
+      "reference_id": "endpoint_gap",
+      "type": "numeric",
+      "expected": "Recover G(cis)-G(trans) for the correctly mapped local epimers with the remaining polycyclic skeleton and stereocentres preserved. Validate the endpoints; this is equilibrium thermodynamics, not a protonation activation barrier.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      },
+      "target": 2.3171919,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_condition_interpretation",
+      "reference_id": "condition_interpretation",
+      "type": "semantic",
+      "expected": "Use actual endpoint thermodynamics and a quantitative consistency analysis to show why reversible keto-enol conditions favor trans, while soft enolization followed by separate-pot CSA protonolysis can give nearly equal products. Do not equate the 1.1:1 single-pass ratio to the calculated equilibrium ratio. No source protonation TS or mandatory new TS search exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_recycle_balance",
+      "reference_id": "recycle_balance",
+      "type": "semantic",
+      "expected": "Provide a reproducible quantitative three-cycle mass balance using an explicitly identified single-pass cis/trans product fraction and its provenance; track isolated cis, recycled trans and any stated loss/conversion assumptions to assess whether the reported 70% cumulative isolated cis yield is compatible with the model. The paper trans:cis ratio about 1.1:1 may be used for mathematical consistency analysis, but must not be presented as independently predicted selectivity. A calculated ratio must describe the actual single-pass process: the endpoint Boltzmann equilibrium ratio is not automatically the protonolysis product ratio. For lossless identical cycles with complete cis separation and trans recycling, Y3=1-(1-p_cis)^3; other physically justified, mass-balanced models are acceptable. Merely repeating 70%, fitting hidden losses and claiming independent prediction, or equating single-pass and cumulative yields does not pass. No new protonation-TS study or exact isolated-yield prediction is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_stereochemical_conclusion",
+      "reference_id": "stereochemical_conclusion",
+      "type": "semantic",
+      "expected": "The final explanation reconciles trans-favored endpoint thermodynamics, near-equal single-pass stereochemical outcome and accumulating cis through separation/recycling. Interpret the reported 70% after three rounds as cumulative isolated yield, not a changed equilibrium or exact yield predicted by the ideal model. Do not select one of the conflicting published solvent ratios as uniquely certain.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "endpoint_gap",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "cis/trans 端点自由能差",
+      "rule_ids": [
+        "r_endpoint_gap"
+      ],
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_001_p71"
+      ]
+    },
+    {
+      "id": "condition_interpretation",
+      "kind": "intermediate",
+      "max_score": 30,
+      "description": "可逆平衡与两步单次反应的区别",
+      "rule_ids": [
+        "r_condition_interpretation"
+      ],
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p20_21_71"
+      ]
+    },
+    {
+      "id": "recycle_balance",
+      "kind": "intermediate",
+      "max_score": 30,
+      "description": "三轮分离—循环的物料衡算与 70% 收率合理性",
+      "rule_ids": [
+        "r_recycle_balance"
+      ],
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p21"
+      ]
+    },
+    {
+      "id": "stereochemical_conclusion",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "最终：动力学操作与循环累积 cis 的解释",
+      "rule_ids": [
+        "r_stereochemical_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p20_21"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How can the supplied phosphoryl-substituted 1,4-dihydropyridine donor be activated under blue light with PC2, and how does activation change its ability to transfer a phosphoryl group to an alcohol?",
+  "active_rule_ids": [
+    "r_local_activation_model",
+    "r_reactivity_change"
+  ],
+  "current_outcome_ids": [
+    "local_activation_model",
+    "reactivity_change"
+  ],
+  "historical_record": {
+    "paper_id": "paper_4761e82fee080c35",
+    "scope_version": "core_question_upgrade_20261012T190159Z.donor_activation.v1",
+    "archived_rules": [
+      "r_E1",
+      "r_E3"
+    ],
+    "archived_reference_record": "evaluation/reference_qualification.json",
+    "original_electrode_tolerance_V": 0.15,
+    "not_relaxed": true,
+    "source_conflicts": [
+      "SI002p9 BDE2=32.9 versus mainp5/Fig6bp6=32.7; retain SI32.9 and original ±2 kcal/mol.",
+      "SI002p9/mainp3 Eox3=-0.54 versus Fig6ap6=-0.60; preserve both, with original target -0.54 archived.",
+      "Native evidence identifies SI potential-energy column as H, not electronic E; no double thermal correction.",
+      "Author hydrogen/electrode conventions incompletely specified; the documented H-atom convention is not claimed to be uniquely the author convention.",
+      "Mainp3 +2.06 V refers explicitly to PC1, not an exact PC2 calibration."
+    ],
+    "new_numeric_targets": [],
+    "release_ready": false,
+    "scoring_policy": "paper_science_v3",
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "current_coverage": "evaluation/final_result_coverage.json",
+    "historical_fields_below_are_non_scoring_context": true,
+    "v3_numeric_policy": "No independently scored numeric targets; source BDEs and former windows are supporting context for the model.",
+    "supporting_numeric_windows": [
+      {
+        "rule_id": "r_BDE1",
+        "target": 76.1,
+        "unit": "kcal/mol",
+        "tolerance": 2.0,
+        "scored": false
+      },
+      {
+        "rule_id": "r_BDE2",
+        "target": 32.9,
+        "unit": "kcal/mol",
+        "tolerance": 2.0,
+        "scored": false
+      }
+    ],
+    "active_numeric_rules": [],
+    "scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

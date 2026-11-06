@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_87f5566528287b60",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "增加底物活化提示",
+  "changes_zh": "显式提示光催化剂使硫亚胺进入活性电子态；保留自主机理比较，不用单一能量阈值机械判定近匹配催化剂。",
+  "source_locator": "正文机制讨论；SI Tables S6–S7",
+  "scientific_scope_changed": false,
+  "active_rule_ids": [
+    "r_tx_compatibility",
+    "r_ir_dfppy_compatibility",
+    "r_standard_ir_boundary",
+    "r_fac_ir_mismatch",
+    "r_mes_acr_mismatch",
+    "r_yield_nonmonotonicity"
+  ],
+  "active_outcome_ids": [
+    "tx_compatibility",
+    "ir_dfppy_compatibility",
+    "standard_ir_boundary",
+    "fac_ir_mismatch",
+    "mes_acr_mismatch",
+    "yield_nonmonotonicity"
+  ],
+  "removed_outcome_ids": [],
+  "public_file_sha256": {
+    "data/inputs/system.json": "74caf5adf3c720e08bac0fab709b800c0046637a750b1d264faf962049225bee",
+    "submission_guide.md": "ebd049f11f9b43db8edb133d5c7ca5198c6a3b1321f0fff1699dd0a18ca4f689",
+    "submission_schema.json": "f7a312792700221c5dadabf9ab2ac85719893a59654fbdaada4541aadc83fb99",
+    "task.md": "bd0f3a97f98fd0fea1516a96a6df86491ee5dd29f6dc44d043177dd9c2def76f"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_tx_compatibility",
+      "r_ir_dfppy_compatibility",
+      "r_standard_ir_boundary",
+      "r_fac_ir_mismatch",
+      "r_mes_acr_mismatch",
+      "r_yield_nonmonotonicity"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

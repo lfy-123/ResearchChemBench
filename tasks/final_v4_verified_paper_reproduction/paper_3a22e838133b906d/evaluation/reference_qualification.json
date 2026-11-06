@@ -1,0 +1,74 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "五距离1.695595912/1.516778733/1.579131666/1.558034117/1.485185525 Å。模型B–O变化−0.11646、P–O+0.04126 Å，与晶体−0.042/+0.012同向但幅度不同。",
+  "accepted_limitations": "Mulliken只是分区关联，不能唯一分配Li配位/取代/晶体环境因果。PR仍保留公开甲基缩模与映射，不能移成任意全分子结果。",
+  "objective_issue_flags": [
+    "Mulliken只是分区关联，不能唯一分配Li配位/取代/晶体环境因果。PR仍保留公开甲基缩模与映射，不能移成任意全分子结果。"
+  ],
+  "current_rules": [
+    "r_bo_contraction",
+    "r_bound_po_elongation",
+    "r_dealkylated_po_localization",
+    "r_intrinsic_local_reorganization",
+    "r_crystal_environment_distinction"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_3a22e838133b906d",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "status": "FINAL_RESULTS_MIGRATED_WITH_REUSED_EVIDENCE",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "current_scope_verified": false,
+    "reason": "Final-answer design and static contracts migrated on 2026-10-28. Existing evidence is reused per proposition; historical acceptance is not a new V3 full scientific validation or blind-agent result.",
+    "scope": "Retain the local structural explanation of neutral Cy/OEt 2a and its deethylated anion/salt. AR has three structural-response conclusions plus electronic-origin and crystal-applicability conclusions (5 rules). PR preserves five existing methyl-model length windows plus the same two explanations (7 rules). This documented pre-existing numeric-baseline difference is not silently imposed on AR. No dealkylation kinetics or mandatory dimer study is added.",
+    "evidence_reuse": "r_bo_contraction/r_bound_po_elongation/r_dealkylated_po_localization and the five PR length rules reuse native-linked E0035 values: neutral B–O/P–O 1.695595912/1.516778733 Å; anion B–O/bound P–O/dealkylated P–O 1.579131666/1.558034117/1.485185525 Å. r_intrinsic_local_reorganization reuses E0037 mapped Mulliken values (newly dealkylated O -0.388194 to -0.667027 e; B 0.459462 to 0.421207 e; P 1.098982 to 1.266521 e), paired geometries and E0001 reviewed full/Li controls. r_crystal_environment_distinction uses model differences -0.116464246/+0.041255384 Å versus measured -0.042/+0.012 Å; its finite-model attribution remains bounded. Every PR ±0.010 Å hard window is unchanged.",
+    "evidence_gaps": [
+      "No native crystal dimer or solution aggregation validation; outside this task scope",
+      "Relaxed anion P charge 1.266521 e differs from printed 1.266 e by 0.000521 e; source-geometry control gives 1.265960 e. These charges are explanatory evidence, not numeric score targets",
+      "AR and PR retain their pre-existing applicability difference: PR has five source-methyl hard windows; unifying these would change scope and requires parent review"
+    ],
+    "historical_qualification": {
+      "paper_id": "paper_3a22e838133b906d",
+      "scoring_policy": "paper_science_v2",
+      "status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "current_scope_verified": true,
+      "acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+      "reason": "Authorized 2026-10-19 scientific-scoring migration preserves existing independent strict acceptance. This is not new chemistry validation, a blind agent experiment or publication approval.",
+      "accepted_limitations": "Independent strict acceptance applies to the local-structure question only. Li-pair finite geometry is not the observed dimer; full or Li comparisons do not establish solution aggregation, reaction mechanism, battery behavior or thermal stability. Source P-charge reproduction depends on source versus relaxed geometry. Crystal uncertainties are not computational error bars. No full association ladder or dimer calculation is newly mandated.",
+      "tolerance_basis": "Five source-model bond lengths use a common inclusive±0.010 Å window. Source prints0.001 Å and same-model verification agrees much better than0.001 Å;0.010 Å is a provisional geometry-comparability window, comfortably smaller than the central0.117 Å B–O and0.041 Å P–O response. It is not chosen from the largest residual, not the crystal ESD, and not transferable to a different full/Li model. Trend leaves remain separate because endpoint windows do not establish the coupled response. Atomic population and model-environment conclusions are semantic: partition/model dependence precludes a universal charge or crystal-distance tolerance.",
+      "authority": [
+        "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "tasks/v2_paper_reproduction/paper_3a22e838133b906d/evaluation/verified_computation_reference.md"
+      ],
+      "coordinator_review": {
+        "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+        "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+        "review_key": "v2_paper_3a22e838133b906d",
+        "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+        "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+        "publication_readiness_unchanged": true
+      },
+      "repair_round3": {
+        "date": "2026-10-19",
+        "mode_scope": "AR remains open-method for public identities; PR author-baseline provenance retained.",
+        "historical_chemical_acceptance_changed": false,
+        "new_computations": false,
+        "review_report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_02/paper_3a22e838133b906d.md"
+      }
+    },
+    "new_computations": false
+  }
+}

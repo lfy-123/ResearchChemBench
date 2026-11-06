@@ -566,6 +566,27 @@ def _pysisyphus_freezing_string(
     )
 
 
+def _resolve_scan_primitive(xyz: Path, primitive: str, indices: list[int]) -> list[int]:
+    """Use one native primitive for both scan lookup and exact constraint lookup."""
+    from pysisyphus.helpers import geom_loader
+    from pysisyphus.intcoords.PrimTypes import normalize_prim_inputs
+    from pysisyphus.intcoords.exceptions import PrimitiveNotDefinedException
+
+    requested = normalize_prim_inputs([[primitive, *indices]])[0]
+    geom = geom_loader(xyz, coord_type="redund")
+    try:
+        index = geom.internal.get_index_of_typed_prim(requested)
+    except PrimitiveNotDefinedException:
+        # Forming bonds and other new coordinates still need explicit registration.
+        geom = geom_loader(xyz, coord_type="redund", coord_kwargs={"define_prims": [requested]})
+        index = geom.internal.get_index_of_typed_prim(requested)
+    resolved = geom.internal.typed_prims[index]
+    constrained = geom.copy(coord_type="redund", coord_kwargs={"constrain_prims": [resolved], "recalc_B": True})
+    if constrained.internal.constrained_indices != [constrained.internal.get_index_of_typed_prim(resolved)]:
+        raise ValueError("Native scan coordinate and constraint refer to different primitives")
+    return list(resolved[1:])
+
+
 def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     inputs, method, settings = request_parts(request)
     directory = output_directory(action_id, "pysisyphus")
@@ -677,11 +698,10 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         atom_count = len(input_structure.get("atoms") or [])
         if any(index < 0 or index >= atom_count for index in indices):
             raise ValueError("atom_indices contains an index outside the supplied structure")
-        # A reaction-coordinate bond scan commonly starts from two atoms that
-        # are not bonded yet. pysisyphus only auto-defines geometrically
-        # perceived primitives; when start_value is explicit its scan driver
-        # does not add a missing primitive itself. Register the requested
-        # primitive up front so forming-bond scans are valid too.
+        # Resolve before registering: an equivalent reversed primitive must not
+        # coexist with the perceived one (native lookup accepts both orders,
+        # while constrained_indices uses exact tuple equality).
+        indices = _resolve_scan_primitive(xyz, primitive, indices)
         configuration["geom"]["coord_kwargs"] = {
             "define_prims": [[primitive, *indices]]
         }
@@ -719,6 +739,11 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "symmetric": False,
             "opt": opt,
         }
+        if end == 0.0 and start != end:
+            # Native pysisyphus tests bool(end), so a valid zero endpoint must
+            # use its equivalent step-size form. Preserve all other scans.
+            configuration["scan"].pop("end")
+            configuration["scan"]["step_size"] = (end - start) / steps
     input_path = directory / "pysis.yaml"
     input_path.write_text(yaml.safe_dump(configuration, sort_keys=False), encoding="utf-8")
     if (
@@ -939,6 +964,10 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             ),
         },
     }
+    if action_id == "scan_reaction_coordinates":
+        provenance["scan_coordinate"] = {"index_base": 0, "requested_indices": list(settings["atom_indices"]),
+                                       "resolved_indices": configuration["scan"]["indices"],
+                                       "primitive": configuration["scan"]["type"]}
     if action_id in {"locate_transition_state", "search_reaction_path", "scan_reaction_coordinates"}:
         provenance["native_optimizer_convergence"] = {
             "converged": native_converged,

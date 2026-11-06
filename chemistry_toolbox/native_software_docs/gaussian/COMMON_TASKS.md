@@ -23,6 +23,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - `calculate_hessian`: validated structured route through backend `gaussian`.
 - `optimize_geometry`: validated structured route through backend `gaussian`.
 - `calculate_dipole_moment`: validated structured route through backend `gaussian`.
+- `calculate_excited_states`: validated structured route through backend `gaussian`.
 
 ## Minimum input responsibilities
 - `input.gjf or input.com`

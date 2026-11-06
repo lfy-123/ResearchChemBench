@@ -1,0 +1,130 @@
+{
+  "scientific_question": "For the specified cyclopentenone-, cyclohexenone-, and phenylsulfonyl-bearing electron-deficient [3]dendralenes reacting with methanethiolate in chloroform, which addition sites and protonated product connectivities are favored, what controls the accessibility of simple-addition versus cyclized outcomes for the cyclic-enone pair, and how robust are those selectivity conclusions? Include whether a second thiol addition is competitive for the cyclopentenone-bearing substrate.",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Cyclopentenone-bearing substrate: dimethyl (2Z,4E)-3-(5-oxocyclopent-1-en-1-yl)hexa-2,4-dienedioate, molecular formula C13H14O5. Its connectivity is MeO-C(=O)-CH=C(R)-CH=CH-C(=O)-OMe, with R = 5-oxocyclopent-1-en-1-yl (ring connectivity C1=CH-CH2-CH2-C(=O)-1, attached to the dienoate through the first ring carbon). The parent dienoate double bonds are 2Z and 4E. No absolute axial configuration is specified."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Cyclohexenone-bearing substrate: dimethyl (2Z,4E)-3-(6-oxocyclohex-1-en-1-yl)hexa-2,4-dienedioate, molecular formula C14H16O5. Its connectivity is MeO-C(=O)-CH=C(R)-CH=CH-C(=O)-OMe, with R = 6-oxocyclohex-1-en-1-yl (ring connectivity C1=CH-CH2-CH2-CH2-C(=O)-1, attached to the dienoate through the first ring carbon). The parent dienoate double bonds are 2Z and 4E. No absolute axial configuration is specified."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "identity",
+      "content": "Phenylsulfonyl-bearing substrate: dimethyl (2Z,4E)-3-((E)-1-phenyl-2-(phenylsulfonyl)vinyl)hexa-2,4-dienedioate, molecular formula C22H20O6S. Its connectivity is MeO-C(=O)-CH=C(R)-CH=CH-C(=O)-OMe, with R = C(Ph)=CH-S(=O)2-Ph, attached through C(Ph); Ph denotes phenyl and Me denotes methyl. The parent dienoate double bonds are 2Z and 4E. On the appendage double bond the dienoate substituent and S(=O)2-Ph are on opposite sides; Ph and S(=O)2-Ph are on the same side. Use this specified appendage isomer, not an unspecified E/Z mixture. No absolute axial configuration is specified."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "The nucleophilic reaction partner is methanethiolate, CH3S-, with formal charge -1 (SMILES C[S-]). Methanethiol, CH3SH (SMILES CS), is the corresponding neutral thiol. Comparisons involving protonation or different addition stoichiometries must use balanced reactions and explicitly declared proton/thiol reference reservoirs; no particular proton-transfer mechanism or counterion identity is supplied."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "condition",
+      "content": "The comparison boundary is chloroform solution at 298.15 K using a 1 M solution standard-state convention. The standard-state convention is not a specified experimental reactant concentration. State the solvent representation and other model assumptions used in your work."
+    }
+  ],
+  "changes": [
+    {
+      "subject_id": "scientific_question",
+      "change_type": "source_correction",
+      "reason": "Organize the same three-system author investigation beyond the frozen thermodynamic/intermediate-comparison framing: retain site and protonated-product comparisons, explicitly restore pathway accessibility and simple-versus-cyclic competition (CR2, CR3, CR5), PI1 further-addition competition (CR1 and Figure S8), and model-dependent uncertainty (CR1 and main conclusion). The review inventory maps reactant geometries/Fukui tests, trial additions/protonation products, scans/TSs/cyclizations, PI1 second additions, IBO interpretation, and multiple-method/DLPNO comparisons to one scientific question. Neutralize the mandatory intermediate-comparison instruction into a scientific outcome; do not require a descriptor or author route. No chemical system, original reference record, result, experimental input, or uncomputed reaction is substituted. PI2/PI3 second additions and experimental hydride/base/iodine processes remain out of scope.",
+      "evidence_ids": [
+        "ev_doc_c273e45e3ac0_000095_9b737c352eaf",
+        "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+        "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+        "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+        "ev_doc_c273e45e3ac0_000117_206638db73d5",
+        "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+        "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+        "ev_doc_c273e45e3ac0_000125_bada47a425ee",
+        "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+        "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+        "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+        "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+        "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+        "ev_doc_e968c0ba81c1_000238_dc5065aabbb2",
+        "ev_doc_e968c0ba81c1_000240_4d10103531f4",
+        "ev_doc_e968c0ba81c1_000244_909307f3c299",
+        "pdf-page-doc_e968c0ba81c1-p34",
+        "pdf-page-doc_c273e45e3ac0-p8",
+        "pdf-page-doc_c273e45e3ac0-p9",
+        "pdf-page-doc_c273e45e3ac0-p10",
+        "pdf-page-doc_c273e45e3ac0-p11"
+      ]
+    },
+    {
+      "subject_id": "PI1",
+      "change_type": "identity_clarification",
+      "reason": "Clarify the actual five-membered-enone molecular graph, both methyl ester termini, attachment-adjacent 5-oxo position and parent 2Z,4E stereochemistry from SI structure/precursor and R5_0_1 coordinates. The frozen generic identity is not replaced with another substrate; no optimized geometry or absolute axial configuration is disclosed.",
+      "evidence_ids": [
+        "layout-doc_e968c0ba81c1-p4-b2",
+        "layout-doc_e968c0ba81c1-p4-b3",
+        "layout-doc_e968c0ba81c1-p39-b2",
+        "pdf-page-doc_e968c0ba81c1-p4",
+        "pdf-page-doc_e968c0ba81c1-p39",
+        "ev_doc_c273e45e3ac0_000025_8c8d0b4979ef",
+        "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+        "ev_doc_c273e45e3ac0_000105_c5fac22b8120"
+      ]
+    },
+    {
+      "subject_id": "PI2",
+      "change_type": "identity_clarification",
+      "reason": "Clarify the actual six-membered-enone molecular graph, both methyl ester termini, attachment-adjacent 6-oxo position and parent 2Z,4E stereochemistry from SI structure/precursor and R6_0_1 coordinates. The frozen generic identity is not replaced with another substrate; no optimized geometry or absolute axial configuration is disclosed.",
+      "evidence_ids": [
+        "layout-doc_e968c0ba81c1-p4-b3",
+        "layout-doc_e968c0ba81c1-p47-b1",
+        "pdf-page-doc_e968c0ba81c1-p4",
+        "pdf-page-doc_e968c0ba81c1-p47",
+        "ev_doc_c273e45e3ac0_000025_8c8d0b4979ef",
+        "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+        "ev_doc_c273e45e3ac0_000105_c5fac22b8120"
+      ]
+    },
+    {
+      "subject_id": "PI3",
+      "change_type": "identity_clarification",
+      "reason": "Clarify the full vinylsulfone graph, including the phenyl group attached to the vinyl carbon as well as the separate phenylsulfonyl group, methyl ester termini, parent 2Z,4E stereochemistry and specified E appendage. Original SI structure/precursor and Sulf_0_1 coordinates agree. The source preparation included an E/Z mixture, but the computed reference parent graph is the explicitly verified E isomer; the graph-explicit input does not silently substitute a different substrate or optimized conformer.",
+      "evidence_ids": [
+        "ev_doc_e968c0ba81c1_000069_291ea7779cf0",
+        "layout-doc_e968c0ba81c1-p51-b2",
+        "pdf-page-doc_e968c0ba81c1-p6",
+        "pdf-page-doc_e968c0ba81c1-p51",
+        "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+        "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+        "ev_doc_c273e45e3ac0_000135_d9174d0d5992"
+      ]
+    },
+    {
+      "subject_id": "PI4",
+      "change_type": "neutral_rewording",
+      "reason": "Retain the specified methanethiolate partner while withholding the author cost-saving/model-selection history. Identify its corresponding neutral thiol solely to make balanced comparisons of protonated mono-/second-addition products startable. The Figure S8 reference definitions use MeS- for anions and MeSH for neutral products; no proton-transfer mechanism or unreported counterion is prescribed.",
+      "evidence_ids": [
+        "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+        "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+        "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+        "ev_doc_e968c0ba81c1_000244_909307f3c299",
+        "pdf-page-doc_e968c0ba81c1-p34"
+      ]
+    },
+    {
+      "subject_id": "PI5",
+      "change_type": "neutral_rewording",
+      "reason": "Keep chloroform, 298.15 K, and the 1 M solution standard state exactly. Withhold the DFT/implicit-solvation recipe and reported-energy framing so the solver chooses models. Clarify that standard-state normalization is not an experimental concentration; no conditions are changed.",
+      "evidence_ids": [
+        "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+        "ev_doc_c273e45e3ac0_000107_413912750bb4",
+        "ev_doc_c273e45e3ac0_000114_f1fabad867e9",
+        "ev_doc_c273e45e3ac0_000133_f1fabad867e9",
+        "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+        "ev_doc_e968c0ba81c1_000231_3559624a64f3"
+      ]
+    }
+  ],
+  "scoring_policy": "paper_science_v2",
+  "scoring_requirements": "现行计分完全由scoring_rules.json的13项二元科学结果决定，共100分。研究过程、假设/检验数、工具软件序列、资源投入、报告文风、一般失败诊断、通用局限性均无独立分；真实产物、身份、参照和主张对应验证是科学结果成立的前提。公开任务及非评分作者资料原样保留。"
+}

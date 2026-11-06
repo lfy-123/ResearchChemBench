@@ -1,0 +1,474 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "date_utc": "2026-10-21",
+  "scoring_policy": "paper_science_v2",
+  "rules": [
+    {
+      "rule_id": "r_redox_discrimination",
+      "reference_id": "redox_discrimination",
+      "kind": "intermediate",
+      "max_score": 10,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。 电位采用MeCN/SCE，Eref=4.422 V、F=23.061 kcal mol−1 V−1；氧化和还原的自由能对分别定义。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_screen",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              3
+            ]
+          },
+          "locator": "Scheme4，印刷3822；实验控制与PC性质",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_redox",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              67,
+              68,
+              69,
+              70,
+              71,
+              72,
+              76
+            ]
+          },
+          "locator": "S67–72 §9.1与S76 SchemeS5",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者Eox=+1.10、Ered=−2.69 V；实际+1.096788954、−2.690704599，差−0.003211046、−0.000704599 V。无独立精确电位得分。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "对完整中性2a及其+1/−1双重态的实际计算支持氧化活化而非底物还原；将底物电位与PC A/B在相容电极/溶剂标尺比较，支持B而非A具备所需氧化能力。不得只复述公开筛选或把MeCN电位称为DCM测量。本项判定能量排序，不要求精确命中背景电位。",
+      "weight_and_tolerance_rationale": "氧化/还原与催化剂可行性是同一活化比较，独立于三重态排除。"
+    },
+    {
+      "rule_id": "r_triplet_discrimination",
+      "reference_id": "triplet_discrimination",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。 中性单/三重态各自优化的绝热电子能差；作者M06-2X/def2-SVP几何、wB97XD/aug-cc-pVTZ CPCM DCM单点。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_screen",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              3
+            ]
+          },
+          "locator": "Scheme4，印刷3822；实验控制与PC性质",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_triplet",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              76,
+              77,
+              78,
+              79,
+              80
+            ]
+          },
+          "locator": "S76–80 §9.2；与正文PDF4的73.9冲突并列",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_main_triplet",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              4
+            ]
+          },
+          "locator": "正文三重态73.9，印刷3823",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "正文73.9、SI74.1，实际电子隙79.631071485 kcal/mol，分别偏+5.731071485/+5.531071485；均高于催化剂。精确来源组装待审。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "实际中性2a单/三重态计算支持其三重态需求高于所给PC A/B的59.8/61.8 kcal/mol，因而不支持这两个催化剂的三重态能量转移。须声明电子/热能定义；不对正文73.9与SI74.1的冲突值设置精确窗口，也不能混加热项追数。",
+      "weight_and_tolerance_rationale": "排除能量转移有独立科学信息，来源冲突只限制精确值。"
+    },
+    {
+      "rule_id": "r_first_connection",
+      "reference_id": "first_connection",
+      "kind": "intermediate",
+      "max_score": 12,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_path",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              80,
+              81,
+              82
+            ]
+          },
+          "locator": "S80 §9.3、S81 SchemeS6/S7、S82自旋；正文PDF7 Scheme8",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_main_mechanism",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              7
+            ]
+          },
+          "locator": "Scheme8与结论，印刷3826",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者Scheme8/S6为[2a]•+→TS1→Int1；实际TS1唯一−128.7148 cm−1反应模，±0.15 Å后优化/频率形成合格端点。plus种子初始比鞍点高3.353731 kcal/mol，故是有限盆地连接而非完整单调IRC/MEP；父级2026-10-20接受限定定性连接。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "实际+1双重态路径经相关鞍点把BN-benzvalene的C5–C6连接重排成预富烯样Int1；要求真实反应模及相邻盆地/端点支持。该项只评价化学连接，不以首步复合自由能命中为条件；负的孤立节点差本身不构成连接或负速率势垒。",
+      "weight_and_tolerance_rationale": "将化学连接与确有偏差的定量自由能拆开，避免数值失败抹去实际结构发现。"
+    },
+    {
+      "rule_id": "r_first_barrier",
+      "reference_id": "first_barrier",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_path",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              80,
+              81,
+              82
+            ]
+          },
+          "locator": "S80 §9.3、S81 SchemeS6/S7、S82自旋；正文PDF7 Scheme8",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_main_mechanism",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              7
+            ]
+          },
+          "locator": "Scheme8与结论，印刷3826",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者+1.9；实际自身盆地−1.219118236，差−3.119118236，明确超±1.0；原始模型radical2a零点−0.878372753亦超窗。低层PES+1.215793331不是同量替代。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "比较G(TS1)−G(与TS1相连的初始[2a]•+盆地)，目标+1.9 kcal/mol、绝对容差1.0 kcal/mol。保持同一构象/状态和自身匹配热项；不得取绝对值、用低层电子势垒替代复合G或采用任意更有利零点。",
+      "weight_and_tolerance_rationale": "小局部势垒采用±1.0初步绝对窗口以保留正势垒和小能差辨别，亦与既有PR该量窗口一致；不是按当前偏差拟合。"
+    },
+    {
+      "rule_id": "r_second_connection",
+      "reference_id": "second_connection",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_path",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              80,
+              81,
+              82
+            ]
+          },
+          "locator": "S80 §9.3、S81 SchemeS6/S7、S82自旋；正文PDF7 Scheme8",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_main_mechanism",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              7
+            ]
+          },
+          "locator": "Scheme8与结论，印刷3826",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者Int1→TS2→Int2；实际双向IRC及端点、有限Int1扭转接续和自由释放支持连接；未测得完整扭转势垒。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "实际Int1经C3–C4断裂相关鞍点通向具有C4产物连接的Int2，保持+1双重态和原子库存；以反应模及实际连接证据确立该化学变化。本项不要求局部势垒数值命中。",
+      "weight_and_tolerance_rationale": "第二个化学变化是可独立实现的发现，与首步及其数值分开。"
+    },
+    {
+      "rule_id": "r_second_barrier",
+      "reference_id": "second_barrier",
+      "kind": "intermediate",
+      "max_score": 12,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_path",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              80,
+              81,
+              82
+            ]
+          },
+          "locator": "S80 §9.3、S81 SchemeS6/S7、S82自旋；正文PDF7 Scheme8",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_main_mechanism",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              7
+            ]
+          },
+          "locator": "Scheme8与结论，印刷3826",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者4.6；实际4.574283671，差−0.025716329；原有±1.5窗口命中。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "比较G(TS2)−G(Int1)，目标4.6 kcal/mol、绝对容差1.5 kcal/mol；两者为同一+1双重态路径、匹配构象与自身热项。不能用TS2相对初始自由基的−3.4高度、全局峰值或中性产物能量替代。",
+      "weight_and_tolerance_rationale": "保留原AR窗口，不因其他项失败修改它；该量支撑低能后续重排。"
+    },
+    {
+      "rule_id": "r_c4_c5_order",
+      "reference_id": "c4_c5_order",
+      "kind": "intermediate",
+      "max_score": 12,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_path",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              80,
+              81,
+              82
+            ]
+          },
+          "locator": "S80 §9.3、S81 SchemeS6/S7、S82自旋；正文PDF7 Scheme8",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_main_mechanism",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              7
+            ]
+          },
+          "locator": "Scheme8与结论，印刷3826",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者C4 TS1+1.9、TS2−3.4；C5 TS-A+6.3、TS-B+5.3。实际TS1_plus共同零点：C4−1.219118236/−6.547999451，C5 TS-A5.923755764；C4优先。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "实际C4/C5竞争路径在同一初始自由基盆地参照下表明C4所需鞍点低于C5竞争鞍点，支持C4优先；应有相连化学路径及芳基自由基稳定化或等价物理证据，不能比较不同零点的标量。此项只评分排序与局部物理解释，不从收率推导C4:C5比或精确速率。",
+      "weight_and_tolerance_rationale": "排序是独立于两个势垒绝对窗口的科学发现。"
+    },
+    {
+      "rule_id": "r_endpoint_identity",
+      "reference_id": "endpoint_identity",
+      "kind": "intermediate",
+      "max_score": 10,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_path",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              80,
+              81,
+              82
+            ]
+          },
+          "locator": "S80 §9.3、S81 SchemeS6/S7、S82自旋；正文PDF7 Scheme8",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_main_mechanism",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              7
+            ]
+          },
+          "locator": "Scheme8与结论，印刷3826",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者Int2−37.4；来源Int2实际共同原始零点−38.836512734，差−1.436512734。中性3a实际图与公开结构同构；不把此值同另一自由端点混用。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "实际计算支持重排Int2为C4连接的+1双重态，并对应所给中性3a的完整分子图；2a与3a保留相同65原子及C26H36BNSi库存。不能以只画出产物或复述输入代替计算端点。背景Int2−37.4不是额外数值门槛。",
+      "weight_and_tolerance_rationale": "端点身份独立于最终电子解释，避免把原子账本本身当计算。"
+    },
+    {
+      "rule_id": "r_activation_conclusion",
+      "reference_id": "activation_conclusion",
+      "kind": "conclusion",
+      "max_score": 10,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_screen",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              3
+            ]
+          },
+          "locator": "Scheme4，印刷3822；实验控制与PC性质",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_redox",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              67,
+              68,
+              69,
+              70,
+              71,
+              72,
+              76
+            ]
+          },
+          "locator": "S67–72 §9.1与S76 SchemeS5",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_triplet",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              76,
+              77,
+              78,
+              79,
+              80
+            ]
+          },
+          "locator": "S76–80 §9.2；与正文PDF4的73.9冲突并列",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_main_triplet",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              4
+            ]
+          },
+          "locator": "正文三重态73.9，印刷3823",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者催化剂氧化能力趋势与能量转移排除；实际电位/态隙支持该有界选择，精确三重态数值未复现。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "最终明确选择氧化自由基阳离子活化，并综合真实底物氧化还原计算、三重态比较与所给催化剂A/B及无催化剂观察解释结果差异。该结论不能仅列出候选；不要求显式SET过渡态、速率、对离子能量或完整光催化循环。",
+      "weight_and_tolerance_rationale": "从两类独立性质作最终活化选择，不重复奖励某一个数字。"
+    },
+    {
+      "rule_id": "r_mechanism_conclusion",
+      "reference_id": "mechanism_conclusion",
+      "kind": "conclusion",
+      "max_score": 10,
+      "physical_definition": "完整C26H36BNSi、65原子；中性2a/3a为0/单重态，自由基阳离子路径为+1/双重态。重排采用相容的DCM溶剂G、298 K/1 atm；必须区分电子PES与复合G。",
+      "source_evidence": [
+        {
+          "evidence_id": "bn_screen",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              3
+            ]
+          },
+          "locator": "Scheme4，印刷3822；实验控制与PC性质",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_path",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+            "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+            "pdf_pages_1based": [
+              80,
+              81,
+              82
+            ]
+          },
+          "locator": "S80 §9.3、S81 SchemeS6/S7、S82自旋；正文PDF7 Scheme8",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "bn_main_mechanism",
+          "source": {
+            "path": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+            "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+            "pdf_pages_1based": [
+              7
+            ]
+          },
+          "locator": "Scheme8与结论，印刷3826",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者Scheme8/S6支持选择；实际两步连接、C4/C5排序、Int2/中性3a身份支持有界结论，首步数值仍失败。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/qualitative_followup_20261019T1200Z",
+      "scoring_condition": "最终选择相连C5–C6再C3–C4重排的C4路线，并结合竞争证据和实际端点解释中性2a到中性3a。Int2接受一个电子即可还原，无必要质子转移或原子损失；对所给盐PC(+1)*+2a→PC(0)+[2a](+1)，再PC(0)+[3a](+1)→PC(+1)+3a，PF6−不变。电子账本是限定机理解释，不是完整循环计算；不得把−170.8的跨电荷图示当平衡反应能。此结论不以首步精确G通过为前提，也不能把负复合节点差称负物理势垒。",
+      "weight_and_tolerance_rationale": "最终连接活化、骨架和电子守恒，增量为明确的路线选择与中性物质解释。"
+    }
+  ],
+  "publication_review_pending": [
+    "首步复合G反号仍未恢复；r_first_barrier按1.9±1.0严格失败，不能以低层PES替代。",
+    "三重态正文73.9/SI74.1/印刷SCF组装有来源冲突；精确三重态值排除出数值评分，稳健排序可评分。",
+    "TS1有限位移端点连接非完整IRC/MEP；不据此推断精确速率。"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "paper_id": "paper_f2a9e1bc87fc9b54",
+  "items": [
+    {
+      "statement": "碱诱导N–H转移并形成H2",
+      "expected": "实际结构和反应连接证据支持3-硝基吡咯N–H被碱作用去除并形成H2，保持β-硝基吡咯身份及原子/电荷配平。作者氢负离子接触模型TS1为参考；允许化学等价表示，不强制源坐标或固定搜索方法。仅写去质子化标签或给出未验证TS不计分。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "base_hydrogen_transfer",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "去质子化含氮中间态与后续反应相连",
+      "expected": "有效计算支持去质子化吡咯含氮态及相应稳定化，并与后续炔丙基化前体保持同一阴离子骨架映射。作者S2/H2接触态相对初态约−25.5 kcal/mol为上下文；不强制同一接触伙伴/构象。需得到实际中间态及连接关系，不能把两个互不配平的模型拼接。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "activated_n_intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "N–C形成与C–Br断裂的取代事件",
+      "expected": "实际反应结构、振型及适当连接证据支持吡咯N与炔丙基碳成键、C–Br断裂，并保留末端炔和β-硝基位置。作者TS2的SN2通道为参考；不规定必须采用作者标签或完整IRC，但只算一个非反应虚频或错位产物不得分。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "n_c_bond_formation",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "配平的净产物形成具有放能趋势",
+      "expected": "由相容能量定义和完整物料/电荷账本计算得到净N-炔丙基产物形成的显著放能趋势。作者G约−45.5 kcal/mol为参考上下文，不设隐藏精确窗口；不得遗漏H2/试剂/Br或从产率直接推导ΔG。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "net_exergonicity",
+      "key_point_type": "result"
+    }
+  ]
+}

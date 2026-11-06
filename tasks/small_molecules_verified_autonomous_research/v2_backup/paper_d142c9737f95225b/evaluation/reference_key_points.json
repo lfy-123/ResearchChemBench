@@ -1,0 +1,197 @@
+{
+  "paper_id": "paper_d142c9737f95225b",
+  "items": [
+    {
+      "statement": "Actual coordination structure of the NN tricarbonyl candidate",
+      "expected": "Actual calculated structures support a complete neutral amido-type NN-Mn(I)(CO)3 candidate with an unbound sulfur arm, retaining the given ligand connectivity and CO inventory; state and support the electronic state used. Drawings or proposed hypotheses alone do not earn credit. Proof of actual solution populations or precursor-activation barriers is not required. Equivalent candidate mappings supported by evidence are acceptable.",
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "active_nn",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Actual coordination structure of the NNS dicarbonyl candidate",
+      "expected": "Actual calculated structures support a complete neutral amido-type NNS-Mn(I)(CO)2 candidate with sulfur coordinated. Preserve the complete ligand identity shared with the NN tricarbonyl and explicitly account for CO loss and the electronic state. Candidate labels alone do not earn credit. Actual populations or additional precursor-activation calculations are not required.",
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "active_nns",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Hydrogen-transfer connectivity for isopropanol oxidation",
+      "expected": "Actual stationary points and relevant vibrations/reaction connectivity support transfer of the isopropanol O–H and C–H hydrogens to form acetone and the corresponding amine-hydride; balance protons, hydrides, atoms and charges. Actual connections between reaction states are required and cannot be replaced by successful task execution or an arbitrary negative frequency. Replication of the verifier's IRC steps is not required, and no absolute-barrier window is imposed where sources conflict.",
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "oxidation_connection",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Hydrogen-transfer connectivity for acetophenone reduction",
+      "expected": "Actual stationary points and relevant vibrations/reaction connectivity support transfer from the matching amine-hydride to acetophenone of the Mn–H hydride to carbon and the N–H proton to oxygen, forming the correct 1-phenylethanol. Structures/atom mappings support the claimed product face. Distinguish this from the oxidation half-reaction; the oxidation barrier cannot substitute for it. No absolute-barrier window is imposed where sources conflict.",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "reduction_connection",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Resting-state stabilization of Mn1-Me",
+      "expected": "For Mn1-Me (Mn1 is the NN tricarbonyl and Mn2 is the NNS dicarbonyl), actual free energies support the N-protonated Mn isopropoxide resting state lying below the matching amido+iPrOH. Consequently, the effective barrier of the same oxidation TS relative to this resting state is higher than its ordinate relative to the separated reactants. Use the same TS, balanced particles/charges and consistent thermal terms. Evaluate the sign of stabilization and the change in reference zero independently; matching numerical values that conflict between sources is not required.",
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "rest_Mn1_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Resting-state stabilization of Mn1-tBu",
+      "expected": "For Mn1-tBu (Mn1 is the NN tricarbonyl and Mn2 is the NNS dicarbonyl), actual free energies support the N-protonated Mn isopropoxide resting state lying below the matching amido+iPrOH. Consequently, the effective barrier of the same oxidation TS relative to this resting state is higher than its ordinate relative to the separated reactants. Use the same TS, balanced particles/charges and consistent thermal terms. Evaluate the sign of stabilization and the change in reference zero independently; matching numerical values that conflict between sources is not required.",
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "rest_Mn1_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Resting-state stabilization of Mn2-Me",
+      "expected": "For Mn2-Me (Mn1 is the NN tricarbonyl and Mn2 is the NNS dicarbonyl), actual free energies support the N-protonated Mn isopropoxide resting state lying below the matching amido+iPrOH. Consequently, the effective barrier of the same oxidation TS relative to this resting state is higher than its ordinate relative to the separated reactants. Use the same TS, balanced particles/charges and consistent thermal terms. Evaluate the sign of stabilization and the change in reference zero independently; matching numerical values that conflict between sources is not required.",
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "rest_Mn2_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Resting-state stabilization of Mn2-tBu",
+      "expected": "For Mn2-tBu (Mn1 is the NN tricarbonyl and Mn2 is the NNS dicarbonyl), actual free energies support the N-protonated Mn isopropoxide resting state lying below the matching amido+iPrOH. Consequently, the effective barrier of the same oxidation TS relative to this resting state is higher than its ordinate relative to the separated reactants. Use the same TS, balanced particles/charges and consistent thermal terms. Evaluate the sign of stabilization and the change in reference zero independently; matching numerical values that conflict between sources is not required.",
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "rest_Mn2_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "NN/NNS oxidation comparison with Me substitution",
+      "expected": "With the same Me substituent, isopropanol medium, 298.15 K and consistent 1 atm conditions or transparent conversions, actual calculations using matching amido+iPrOH references support a lower oxidation barrier for the NN tricarbonyl than for the NNS dicarbonyl. Assess the family ordering; the internal Me/tBu ordering or matching absolute barriers is not required. Incompatible reference zeros must not be compared.",
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "oxidation_order_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "NN/NNS oxidation comparison with tBu substitution",
+      "expected": "With the same tBu substituent, isopropanol medium, 298.15 K and consistent 1 atm conditions or transparent conversions, actual calculations using matching amido+iPrOH references support a lower oxidation barrier for the NN tricarbonyl than for the NNS dicarbonyl. Assess the family ordering; the internal Me/tBu ordering or matching absolute barriers is not required. Incompatible reference zeros must not be compared.",
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "oxidation_order_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "S-channel NN/NNS reduction comparison with Me substitution",
+      "expected": "With matching Me substituents, the same substrate face and mapped catalyst configurations, actual calculations support a lower S-channel reduction barrier for the NNS dicarbonyl than for the NN tricarbonyl. Use the corresponding amine-hydride+acetophenone reference for each and maintain the same thermodynamic conditions. The cross-family R-channel ordering or numerical windows are not required where sources conflict.",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "reduction_order_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "S-channel NN/NNS reduction comparison with tBu substitution",
+      "expected": "With matching tBu substituents, the same substrate face and mapped catalyst configurations, actual calculations support a lower S-channel reduction barrier for the NNS dicarbonyl than for the NN tricarbonyl. Use the corresponding amine-hydride+acetophenone reference for each and maintain the same thermodynamic conditions. The cross-family R-channel ordering or numerical windows are not required where sources conflict.",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "reduction_order_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "S/R preference for a fixed configuration of Mn1-Me",
+      "expected": "For the same chiral catalyst configuration, composition and thermodynamic conditions of Mn1-Me, paired actual calculations support the S-face reduction TS lying below the R-face TS when mapped to the authors' configuration. A mirror-image catalyst must reverse the product-face mapping accordingly; an unmapped configuration or reversed direction does not pass. This qualitative difference does not require matching conflicting ΔΔG values in the main text or SI and does not represent macroscopic ee.",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "stereo_Mn1_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "S/R preference for a fixed configuration of Mn1-tBu",
+      "expected": "For the same chiral catalyst configuration, composition and thermodynamic conditions of Mn1-tBu, paired actual calculations support the S-face reduction TS lying below the R-face TS when mapped to the authors' configuration. A mirror-image catalyst must reverse the product-face mapping accordingly; an unmapped configuration or reversed direction does not pass. This qualitative difference does not require matching conflicting ΔΔG values in the main text or SI and does not represent macroscopic ee.",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "stereo_Mn1_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "S/R preference for a fixed configuration of Mn2-Me",
+      "expected": "For the same chiral catalyst configuration, composition and thermodynamic conditions of Mn2-Me, paired actual calculations support the S-face reduction TS lying below the R-face TS when mapped to the authors' configuration. A mirror-image catalyst must reverse the product-face mapping accordingly; an unmapped configuration or reversed direction does not pass. This qualitative difference does not require matching conflicting ΔΔG values in the main text or SI and does not represent macroscopic ee.",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "stereo_Mn2_Me",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "S/R preference for a fixed configuration of Mn2-tBu",
+      "expected": "For the same chiral catalyst configuration, composition and thermodynamic conditions of Mn2-tBu, paired actual calculations support the S-face reduction TS lying below the R-face TS when mapped to the authors' configuration. A mirror-image catalyst must reverse the product-face mapping accordingly; an unmapped configuration or reversed direction does not pass. This qualitative difference does not require matching conflicting ΔΔG values in the main text or SI and does not represent macroscopic ee.",
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "stereo_Mn2_tBu",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Organic transformation closed by the two half-reactions",
+      "expected": "Actual oxidation and reduction states jointly support the net reaction acetophenone+iPrOH→1-phenylethanol+acetone and close hydrogen, atom and charge accounting through compatible amido/amine-hydride states. The additional scientific information assessed here is that the two local processes can form the same transfer-hydrogenation cycle. Merely listing two unrelated routes or diagrams does not pass; a complete equilibrium of actual solution species is not required.",
+      "evidence_ids": [
+        "E_CYCLE",
+        "E_OX",
+        "E_RED"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "cycle_hydrogen_ledger",
+      "key_point_type": "result"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "scoring_policy": "paper_science_v3",
+  "items": [
+    {
+      "conclusion_id": "cycloaddition_mechanism",
+      "statement": "催化开环与去芳构化闭环的解释",
+      "expected": "实际分子结果支持催化剂与底物结合、亲核开环及去芳构化 C–C 闭合形成给定产物的化学解释，或证据充分的等效机制。说明电荷/自旋/配位假设，不能把作者未公开的状态当题给事实。仅提供终产物图、无连接的若干态或用另一镍盐的路线不足。不要求完整配位布居、唯一电子态、作者各中间体标签或精确能量。",
+      "required_numerical_evidence": [
+        {
+          "id": "formation_profile",
+          "description": "实际结合、开环/闭合或等效形成机制的关键态能量与活化量。",
+          "public_requirement": "Computed key-state energies and activation requirements supporting binding and the proposed ring-opening/closure or equivalent product-formation mechanism."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 实际结合、开环/闭合或等效形成机制的关键态能量与活化量。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "absolute_configuration_preference",
+      "statement": "目标饱和 CH 的 R 偏好",
+      "expected": "同一催化剂和物理参照的实际竞争证据支持指定苯并噻唑 C2 来源饱和 CH 的 R 优势，并用完整产物原子映射/CIP 确认。不能从 (S,S) 配体直接猜产物 R，不能混淆其他手性中心或不同对映催化剂。这里评价构型方向，不评价 er 或作者 ΔΔG 的数值吻合。",
+      "required_numerical_evidence": [
+        {
+          "id": "rs_competition",
+          "description": "正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+          "public_requirement": "Computed R/S Gibbs activation energies and ΔΔG‡ for the correctly mapped competing configurations."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "selectivity_physical_origin",
+      "statement": "选择性的有证据分子起源",
+      "expected": "从实际 R/S 竞争结构的可比较几何、相互作用、形变或电子证据解释差异来源，并使其与总竞争结果自洽。参考局部 C–H···π 接触与 R 偏好相容；不要求全部 R 接触更强或 CH–π 是唯一/定量主因。允许实际支持的形变-相互作用权衡解释。只有两条势垒、泛称位阻/π 相互作用或未经计算的因果故事不足；不强制 IGMH、NCI 或分解算法。",
+      "required_numerical_evidence": [
+        {
+          "id": "rs_competition",
+          "description": "正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+          "public_requirement": "Computed R/S Gibbs activation energies and ΔΔG‡ for the correctly mapped competing configurations."
+        },
+        {
+          "id": "physical_origin",
+          "description": "支撑所选物理解释的实际 R/S 结构/电子分析数据，例如距离、角度、形变或相互作用量；按论断选择，不指定唯一分解算法。",
+          "public_requirement": "Computed R/S structural or electronic data supporting the chosen physical explanation, such as contact distances, angles, deformation or interaction quantities; choose data appropriate to the claim, with no mandatory decomposition algorithm."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。\n- 支撑所选物理解释的实际 R/S 结构/电子分析数据，例如距离、角度、形变或相互作用量；按论断选择，不指定唯一分解算法。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "selectivity_scope_vs_experiment",
+      "statement": "模型富集与实验 er 的关系",
+      "expected": "把本次实际竞争用于有假设的产物富集解释，说明与已给实验的同向非消旋/明显偏好是否相容，并区分代表通道的条件预测与全构象/配位群体实验结果。可用有假设的比值估计或对实际能量尺度的定性论证，无需输出或命中精确 er。不能只重复 R 标签、照抄实验比、或把一对 TS 的数值直接称为精确实验复现。此项评价模型对实验强度的解释及外推边界，物理起源另计。",
+      "required_numerical_evidence": [
+        {
+          "id": "rs_competition",
+          "description": "正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+          "public_requirement": "Computed R/S Gibbs activation energies and ΔΔG‡ for the correctly mapped competing configurations."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    }
+  ]
+}

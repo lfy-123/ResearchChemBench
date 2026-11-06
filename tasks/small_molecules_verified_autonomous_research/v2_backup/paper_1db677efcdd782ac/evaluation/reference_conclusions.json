@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_1db677efcdd782ac",
+  "items": [
+    {
+      "statement": "Final conclusion: substituent and stereochemical effects rule out a universal assumption of fast irreversible ring opening",
+      "expected": "The final answer integrates actual ring-reaction evidence for H, the methyl stereoisomers and Ph to show that ring-opening accessibility and ring-closed stability depend on substituents/stereochemistry; these N-cyclopropyl probes cannot universally be assumed to undergo fast irreversible ring opening upon oxidation. Within the compared models, cis-Me ring opening is more accessible than that of H and trans-Me, while the tested Ph branch favors ring opening more strongly. Actual comparisons supporting relative accessibility are required; reaction energies alone cannot serve as barriers. This conclusion does not require exact rates, fine B1/B2 ordering, or promotion of method-dependent source trends to a universal law.",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_MAIN_STEREO",
+        "V2_SI_RING"
+      ],
+      "claim_role": "final",
+      "conclusion_id": "nonuniversal_ring_fate",
+      "supporting_key_point_ids": [
+        "h_ring_opening",
+        "cis_me_ring_opening",
+        "trans_me_ring_opening",
+        "phenyl_open_preference"
+      ]
+    },
+    {
+      "statement": "Final conclusion: ring opening and the more stable trans ring-closed state explain cis→trans conversion",
+      "expected": "The final answer connects actual evidence for methyl ring opening, the greater stability of the trans ring-closed state under a common reference, and the public observation that trans appears after starting from cis. Together, these support a compatible explanation in which ring opening can lead to the more stable trans ring-closed state; evidence-supported alternative routes establishing the same conversion relationship are allowed. The additional conclusion explains the observed isomerization; merely listing an energy ordering is insufficient. Do not describe this explanation as having established a separate isomerization barrier, rate or equilibrium ratio, and do not introduce a new target for the product distribution starting from trans.",
+      "evidence_ids": [
+        "V2_MAIN_STEREO",
+        "V2_SI_RING"
+      ],
+      "claim_role": "final",
+      "conclusion_id": "cis_trans_interconversion",
+      "supporting_key_point_ids": [
+        "cis_me_ring_opening",
+        "methyl_closed_trans_stability"
+      ]
+    }
+  ]
+}

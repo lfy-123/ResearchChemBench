@@ -1,0 +1,73 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "scoring_revision": "conclusion_only_20261029",
+  "scientific_scope_changed": false,
+  "scope_note": "The same public scientific questions, inputs, identities and conditions are retained. Final propositions and their evidential boundaries are clarified without extending scope.",
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1：A/B活性解释",
+      "rule_id": "r_axial_activity_contrast",
+      "conclusion_id": "axial_activity_contrast",
+      "weight": 30,
+      "independence": "预制轴向异构体的实际结合结构/能量，不能复述A>B。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "main_p3_4_8_9",
+        "supplementary_001_p63_64_65"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/core7_upgrade_20261012T190159Z/attempt_20261014T143300Z/minimum_parent_evidence_table.json",
+      "existing_support_or_gap": "A/B raw association G = -8.209078940/-2.558356126 kcal/mol; native full-complex contacts A 3.2038/3.2035 Angstrom versus B 3.1442/9.9829; 15 binding-component log hashes and thermochemistry reread on 2026-10-27.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果2：C/D活性解释",
+      "rule_id": "r_linker_accessibility_contrast",
+      "conclusion_id": "linker_accessibility_contrast",
+      "weight": 25,
+      "independence": "不同骨架可达性或等效物理解释，不由A/B关系推出。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "main_p7",
+        "supplementary_001_p60_66"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/core7_upgrade_20261012T190159Z/attempt_20261014T143300Z/minimum_parent_evidence_table.json",
+      "existing_support_or_gap": "C/D connected anti-to-TS barriers 17.612935918/1.589481498 kcal/mol; finite analytic-mode displacement and relaxed endpoints, not long IRC. D endpoint splitting 0.233433524 differs from source <0.1.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果3：C/E及时间交叉边界",
+      "rule_id": "r_framework_electronic_explanation",
+      "conclusion_id": "framework_electronic_explanation",
+      "weight": 25,
+      "independence": "特定C/E分子比较和静态解释范围；不强制交叉动力学。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "main_p7",
+        "supplementary_001_p61_62",
+        "main_p8_9_12"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/core7_upgrade_20261012T190159Z/attempt_20261014T143300Z/minimum_parent_evidence_table.json",
+      "existing_support_or_gap": "Five existing finite-grid ESP results A/B/C/D/E =129.309510/116.007992/109.738371/126.603178/118.753132 kJ/mol at density 0.0004 au; raw wavefunction-derived surface indices in halogen_new_results.json. Electronic direction and C exception can be compared; continuous maxima unqualified.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果4：相对无催化背景的增强",
+      "rule_id": "r_background_contrast",
+      "conclusion_id": "background_contrast",
+      "weight": 20,
+      "independence": "以分子作用比较解释高/低增强及非零背景，不重复任一二元排序。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "main_p3_4_8_9",
+        "main_p8_9_12"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/core7_upgrade_20261012T190159Z/attempt_20261014T143300Z/minimum_parent_evidence_table.json",
+      "existing_support_or_gap": "Seven donor–chloride association results and E effective one-point geometry support bounded enhancement interpretation together with supplied matched-time yields. No independent uncatalyzed elementary barrier or full reaction kinetic network exists; these are not required by the original bounded question.",
+      "historical_status_promoted": false
+    }
+  ],
+  "task_input_changes": [],
+  "new_computation": false,
+  "record_role": "Historical dated record; superseded for current scope and scoring by expert_round1_20261103. See round1_review.json and scoring_rules.json.",
+  "superseded_by": "expert_round1_20261103"
+}

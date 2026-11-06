@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "case_id": "case_06",
+  "design_source": "tasks/ARCHE_评测包_20261026/01_仅供ARCHE的输入/case_06/task.md",
+  "existing_verification_reference_reused": true,
+  "new_quantum_validation_performed": false,
+  "new_arche_run_performed": false,
+  "reference_issues": [
+    "On 2026-10-26, the user explicitly authorized changing only the P-inversion rule r_inversion_p from ±2.0 to ±3.0 kcal/mol around the unchanged target of 33.99 kcal/mol. The existing primary RRHO result of 36.59879981 kcal/mol differs by +2.60879981 kcal/mol and is inside the revised numerical window. This is a documented scoring amendment, not a new calculation or a change of thermochemical convention. Physical comparability and all structural, connectivity and evidence requirements still apply; no whole-case adjudication is inferred from this numerical comparison alone."
+  ],
+  "scope_changes": [],
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence eligibility must pass; no arbitrary threshold such as 60 points is used. The original rules concern recovery of bounded literature conclusions and cannot establish a unique true mechanism.",
+  "scientific_acceptance_reassessed_this_migration": false,
+  "note": "The English task follows the expert design with the explicitly authorized P-inversion tolerance amendment recorded here. The historical verification record remains available unchanged under historical_reference; the current verified_computation_reference.md adds a dated amendment above that record. This change does not run new calculations or adjudicate the complete submission.",
+  "user_authorized_amendment": {
+    "date": "2026-10-26",
+    "rule_id": "r_inversion_p",
+    "target": 33.99,
+    "previous_tolerance": 2.0,
+    "current_tolerance": 3.0,
+    "unit": "kcal/mol",
+    "computed_RRHO_value": 36.59879981,
+    "signed_difference": 2.60879981,
+    "numerical_window_satisfied": true,
+    "new_computation": false,
+    "whole_case_reassessed": false
+  }
+}

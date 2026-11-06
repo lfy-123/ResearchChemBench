@@ -1,0 +1,23 @@
+{
+  "paper_id": "paper_221aafe4bd916a11",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "PROVISIONAL_PASS_QUALITATIVE",
+  "reason": "2026-10-21授权科学分V2迁移；当前有限科学问题经真实计算支持，可按本版规则评分。出版专家待审与运行评分资格分开，非盲测Agent成绩。",
+  "unblock_conditions": [],
+  "physical_definition": "2a+CO2 → 双膦二阳离子+甲酸根；PCM乙腈，298.15K任务/298K作者，1atm分离参照。",
+  "tolerance_policy": {
+    "activation_kcal_mol": 3.0,
+    "target_kcal_mol": 21.8,
+    "rationale": "保留原势垒±3窗口，不按本次残差反推；捕获与产物没有新增数值窗口。"
+  },
+  "publication_review_pending": [
+    "捕获构象对应不完全：来源CREST/GFN2-xTB全构象未重做；只承认有限有效完整捕获模型。",
+    "298K捕获10.762416对15.0，差−4.237584；产物−5.268970对−3.0，差−2.268970；不是整题严格数值通过。"
+  ]
+}

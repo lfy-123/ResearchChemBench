@@ -4,7 +4,7 @@ import random
 import uuid
 from datetime import datetime, timezone
 
-DEFAULT_POLICY = {"max_attempts": 8, "max_wait_seconds": 3600,
+DEFAULT_POLICY = {"max_attempts": 12, "max_wait_seconds": 7200,
                   "initial_delay_seconds": 60, "max_delay_seconds": 600}
 
 
@@ -14,6 +14,23 @@ def add_resume_arguments(parser):
                        help="Enable bounded recovery of the original session, including one plaintext-history fallback if Codex rejects encrypted reasoning.")
     group.add_argument("--no-resume", dest="resume_enabled", action="store_false",
                        help="Save checkpoints but stop after an infrastructure failure.")
+    parser.add_argument("--resume-max-attempts", type=int, default=None,
+                        help="Override the saved automatic recovery limit without resetting used attempts.")
+    parser.add_argument("--resume-max-wait-seconds", type=int, default=None,
+                        help="Override the saved cumulative recovery cooldown budget.")
+
+
+def policy_overrides(args):
+    return {key: getattr(args, attr) for key, attr in (
+        ("max_attempts", "resume_max_attempts"), ("max_wait_seconds", "resume_max_wait_seconds"))
+        if getattr(args, attr, None) is not None}
+
+
+def add_repair_arguments(parser):
+    parser.add_argument("--repair-history", action="store_true",
+                        help="With --resume, repair a rejected encrypted history into an audited copy; permit further copies within the saved retry budget.")
+    parser.add_argument("--resume-cancelled", action="store_true",
+                        help="With --resume, explicitly reopen a cancelled run after verifying the original Agent and all computation jobs have stopped.")
 
 
 def validate_policy(value=None):
@@ -29,9 +46,11 @@ def validate_policy(value=None):
 
 
 def configure(store, enabled=None, policy=None):
+    if policy is not None and not isinstance(policy, dict):
+        raise ValueError("invalid resume_policy keys")
     old = store.get_record("resume", "policy", {})
     value = {"enabled": old.get("enabled", False) if enabled is None else enabled,
-             "limits": validate_policy(policy if policy is not None else old.get("limits"))}
+             "limits": validate_policy({**old.get("limits", {}), **(policy or {})})}
     if not isinstance(value["enabled"], bool):
         raise ValueError("resume must be a boolean")
     if old != value:

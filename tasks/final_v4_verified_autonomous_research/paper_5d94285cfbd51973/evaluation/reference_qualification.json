@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "十gap约4.42 eV、跨度0.0114。literal dipole AZ4/AZ6/AZ10偏差+0.9999/−0.6000/+2.0300 D；实际Spearman偶极+0.394771、HOMO+0.427669、gap−0.427669；p为0.261111/0.219048。",
+  "accepted_limitations": "偶极最大从AZ8变AZ10但不是MIC最佳者。小gap秩可方法敏感，必须实证限定，不能以换方法自动豁免反证。描述关联不是显著预测或因果；旧十gap独立20分争议已解决。",
+  "objective_issue_flags": [
+    "偶极最大从AZ8变AZ10但不是MIC最佳者。小gap秩可方法敏感，必须实证限定，不能以换方法自动豁免反证。描述关联不是显著预测或因果；旧十gap独立20分争议已解决。"
+  ],
+  "current_rules": [
+    "r_dipole_activity_association",
+    "r_frontier_activity_association",
+    "r_gap_activity_association",
+    "r_bounded_activity_information"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_5d94285cfbd51973",
+    "scoring_policy": "paper_science_v3",
+    "status": "V3_EVIDENCE_REUSE_REVIEW_NO_NEW_COMPUTATION",
+    "acceptance_type": "V3_EVIDENCE_REUSE_REVIEW_NO_NEW_COMPUTATION",
+    "criterion_date": "2026-10-28",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "publication_expert_review_status": "pending separately; not a runtime scoring gate",
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "original_strict_numerical_gate_passed": false,
+    "reason": "2026-10-28 final-proposition rewrite with existing native evidence mapped to its actual scope. Contract checks do not establish a new scientific PASS; historical acceptance and unresolved differences remain recorded separately.",
+    "acceptance_basis": "Historical computations reused proposition by proposition as documented in the 2026-10-28 prefix and modification report. Previous PASS or qualified acceptance is not a new V3 whole-case validation.",
+    "limits": [
+      "偶极冠军由源AZ8变实际AZ10；披露排序变化，任务不要求最大偶极对象成为活性机制必胜者。",
+      "源mu=−eta、omega=eta/2及gap符号问题与物理定义分开；不能以修正定义解释偶极偏差。",
+      "主文低LUMO文字与S12并非全相符，不交换行号掩盖。",
+      "接受仅描述性关联及边界，不复现或背书源通透性、溶解度、对接的因果外推；不新增p值阈值。"
+    ],
+    "evidence": {
+      "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NEWLY_ACCEPTED_V2.json",
+      "sha256": "bfbf11a44b3958f8a55b7d144f38970348307aae520a1880788ee1e115cb8581",
+      "bytes": 168670
+    },
+    "scientific_design": {
+      "path": "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_5d94285cfbd51973/SCIENTIFIC_DESIGN.md",
+      "sha256": "d4735384b170b9758401bc748e971aff3acf698d9fec92c868a20dfb6c64d89e",
+      "bytes": 55271
+    },
+    "historical_acceptance_status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "evaluation_mode": "final_results_100",
+    "current_scope_verified": false,
+    "scientific_scope": "The same ten complete AZ molecules and C. albicans MIC column; explicit final orbital gaps and three descriptor/activity comparisons, with a bounded explanatory/predictive conclusion.",
+    "evidence_reuse_note": "r_frontier_gap_az1–az10 reuse the ten literal-SI-coordinate B3LYP/6-31G(d) native single-point values and prior optimized comparisons: 4.417496443–4.428925225 eV, all inside unchanged individual source targets ±0.10 eV. Those single points are not relabelled optimizations. The three association rules and bounded_activity_information reuse AZ_literal_statistics_results.json: activity=-log2(MIC), dipole rho=0.394771 (prior optimized 0.315817), HOMO rho=0.427669, gap rho=-0.427669 (prior optimized -0.357467). Dipole discrepancies AZ4 +0.9999 D, AZ6 -0.6000 D and AZ10 +2.0300 D remain; source maximum AZ8 becomes literal-coordinate AZ10. Existing evidence supports descriptive information and concrete discordance, not external prediction or a biological mechanism.",
+    "historical_acceptance_type": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "historical_reason": "描述符与MIC的描述性关联方向保留但强度减弱，十个真实对象的气相DFT及源坐标核查完成。当前任务不要求证明膜通透性、溶解度或抑菌因果机制；不把这些论文外推当成此次复现成果。"
+  }
+}

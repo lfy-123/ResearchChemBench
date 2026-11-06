@@ -1,0 +1,1384 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "scope_version": "author_deoxygenation_half_reaction_20261012",
+  "generated_at_utc": "2026-10-12T19:30:10.302714+00:00",
+  "previous_evidence_reusable": {
+    "scope": "First-event four quantities and supporting identity/ensemble evidence only.",
+    "native_indexes": [
+      "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_state_audit.json",
+      "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_thermochemistry_replay.json",
+      "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/native_readback.json",
+      "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/new_native_results.json"
+    ],
+    "historical_verification": "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/verification_report.md",
+    "source_snapshot_utc": "2026-10-11T06:17:42.688533+00:00",
+    "prohibit_redundant_qm": true
+  },
+  "removed_requirements": [
+    "Prespecified public S1 starting state.",
+    "First-event-only completion boundary.",
+    "No full-cycle or aggregate-barrier scoring is introduced; these proposed extensions are explicitly excluded."
+  ],
+  "excluded_scientific_scope": [
+    "PQ/醇生成H2PQ、催化再生及全循环。",
+    "未报告N–O断裂TS、PCET/HAT竞争势垒、反应速率/量子产率/最佳水活度与取代基新描述符。",
+    "聚集体−6.2轨道差及S22“无垒”强评分：对应聚集体/态跟踪资料不足，不自行补一个模型。"
+  ],
+  "methods": [
+    {
+      "id": "author_thermochemistry",
+      "source": "SI physical pp.38-39",
+      "optimization_and_frequency": "Gaussian M06-2X/6-31+G(d,p); TD lowest singlet only for the source S1 species.",
+      "single_point": "M06-2X/def2-TZVPP on the corresponding optimized geometry; use TD total energy for S1 species.",
+      "solvation": "SMD acetonitrile throughout",
+      "temperature_K": 298.15,
+      "standard_state_M": 1,
+      "postprocessing": "Author GoodVibes 3.0.2, Grimme entropy interpolation at 100 cm^-1, scale factor 1.0, symmetry and conformer correction; preserve the validated first-event 4.3 replay conventions and explain version differences without rerunning valid QM.",
+      "ensemble": "Document manual source conformer pool, duplicates, symmetry once, and consistent relative free-energy assembly. 37 records do not imply 37 mandatory fresh jobs."
+    }
+  ],
+  "model_registry": {
+    "S1-H2PQ": {
+      "charge": 0,
+      "multiplicity": 1,
+      "state": "S1",
+      "formula": "C14H10O2",
+      "author_xyz_labels": [
+        "S1-H2PQ-H2O_conf1",
+        "S1-H2PQ-H2O_conf2",
+        "S1-H2PQ-H2O_conf3",
+        "S1-H2PQ-H2O_conf4",
+        "S1-H2PQ-H2O_conf6",
+        "S1-H2PQ-H2O_conf7",
+        "S1-H2PQ"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "PyO": {
+      "charge": 0,
+      "multiplicity": 1,
+      "state": "S0",
+      "formula": "C5H5NO",
+      "author_xyz_labels": [
+        "PyO-H2O_conf1",
+        "PyO"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "S1-HPQ-anion": {
+      "charge": -1,
+      "multiplicity": 1,
+      "state": "S1",
+      "formula": "C14H9O2",
+      "author_xyz_labels": [
+        "S1-HPQ-anion-H2O_conf1",
+        "S1-HPQ-anion-H2O_conf2",
+        "S1-HPQ-anion-H2O_conf4",
+        "S1-HPQ-anion-H2O_conf5",
+        "S1-HPQ-anion"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "PyOH-cation": {
+      "charge": 1,
+      "multiplicity": 1,
+      "state": "S0",
+      "formula": "C5H6NO",
+      "author_xyz_labels": [
+        "PyOH-cation-H2O_conf1",
+        "PyOH-cation-H2O_conf2",
+        "PyOH-cation-H2O_conf3",
+        "PyOH-cation"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "S0-H2PQ-cationrad": {
+      "charge": 1,
+      "multiplicity": 2,
+      "state": "ground doublet",
+      "formula": "C14H10O2",
+      "author_xyz_labels": [
+        "S0-H2PQ-cationrad-H2O_conf1",
+        "S0-H2PQ-cationrad-H2O_conf2",
+        "S0-H2PQ-cationrad-H2O_conf3",
+        "S0-H2PQ-cationrad-H2O_conf4",
+        "S0-H2PQ-cationrad-H2O_conf5",
+        "S0-H2PQ-cationrad-H2O_conf6",
+        "S0-H2PQ-cationrad"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "PyO-anionrad": {
+      "charge": -1,
+      "multiplicity": 2,
+      "state": "ground doublet",
+      "formula": "C5H5NO",
+      "author_xyz_labels": [
+        "PyO-anionrad-H2O_conf1",
+        "PyO-anionrad-H2O_conf2",
+        "PyO-anionrad-H2O_conf3",
+        "PyO-anionrad"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "S0-HPQ-rad": {
+      "charge": 0,
+      "multiplicity": 2,
+      "state": "ground doublet",
+      "formula": "C14H9O2",
+      "author_xyz_labels": [
+        "S0-HPQ-rad-H2O_conf1",
+        "S0-HPQ-rad-H2O_conf2",
+        "S0-HPQ-rad-H2O_conf3",
+        "S0-HPQ-rad-H2O_conf4",
+        "S0-HPQ-rad-H2O_conf5",
+        "S0-HPQ-rad-H2O_conf6",
+        "S0-HPQ-rad"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "PyOH-rad": {
+      "charge": 0,
+      "multiplicity": 2,
+      "state": "ground doublet",
+      "formula": "C5H6NO",
+      "author_xyz_labels": [
+        "PyOH-rad-H2O_conf1",
+        "PyOH-rad-H2O_conf4",
+        "PyOH-rad"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "S0-PQ-anionrad": {
+      "charge": -1,
+      "multiplicity": 2,
+      "state": "ground doublet",
+      "formula": "C14H8O2",
+      "author_xyz_labels": [
+        "S0-PQ-anionrad-H2O_conf1",
+        "S0-PQ-anionrad-H2O_conf2",
+        "S0-PQ-anionrad-H2O_conf3",
+        "S0-PQ-anionrad-H2O_conf4",
+        "S0-PQ-anionrad"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "PyOH2-cationrad": {
+      "charge": 1,
+      "multiplicity": 2,
+      "state": "ground doublet",
+      "formula": "C5H7NO",
+      "author_xyz_labels": [
+        "PyOH2-cationrad-H2O_conf1",
+        "PyOH2-cationrad-H2O_conf2",
+        "PyOH2-cationrad-H2O_conf3",
+        "PyOH2-cationrad-H2O_conf4",
+        "PyOH2-cationrad"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "S0-HPQ-cation": {
+      "charge": 1,
+      "multiplicity": 1,
+      "state": "S0",
+      "formula": "C14H9O2",
+      "author_xyz_labels": [
+        "S0-HPQ-cation-H2O_conf1",
+        "S0-HPQ-cation-H2O_conf2",
+        "S0-HPQ-cation-H2O_conf3",
+        "S0-HPQ-cation-H2O_conf4",
+        "S0-HPQ-cation-H2O_conf5",
+        "S0-HPQ-cation"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "PyOH-anion": {
+      "charge": -1,
+      "multiplicity": 1,
+      "state": "S0",
+      "formula": "C5H6NO",
+      "author_xyz_labels": [
+        "PyOH-anion-H2O_conf1",
+        "PyOH-anion-H2O_conf2",
+        "PyOH-anion"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity.",
+      "identity_note": "Author optimized structure has dissociated N-O geometry; preserve the recorded cluster identity rather than imposing a covalent N-O bond."
+    },
+    "S0-PQ": {
+      "charge": 0,
+      "multiplicity": 1,
+      "state": "S0",
+      "formula": "C14H8O2",
+      "author_xyz_labels": [
+        "S0-PQ-H2O_conf2",
+        "S0-PQ-H2O_conf4",
+        "S0-PQ"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity."
+    },
+    "PyOH2": {
+      "charge": 0,
+      "multiplicity": 1,
+      "state": "S0",
+      "formula": "C5H7NO",
+      "author_xyz_labels": [
+        "PyOH2-H2O_conf1",
+        "PyOH2-H2O_conf2",
+        "PyOH2-H2O_conf3",
+        "PyOH2-H2O_conf4",
+        "PyOH2"
+      ],
+      "hydration_definition": "Suffix -H2O adds one neutral solvent water without changing charge or multiplicity.",
+      "identity_note": "Py-water product aggregate; generated water is internal to this label, not an added solvent water. Do not replace by free-fragment sum."
+    }
+  },
+  "reference_groups": {
+    "R": [
+      "S1-H2PQ",
+      "PyO"
+    ],
+    "P1": [
+      "S1-HPQ-anion",
+      "PyOH-cation"
+    ],
+    "E1": [
+      "S0-H2PQ-cationrad",
+      "PyO-anionrad"
+    ],
+    "I": [
+      "S0-HPQ-rad",
+      "PyOH-rad"
+    ],
+    "P2": [
+      "S0-PQ-anionrad",
+      "PyOH2-cationrad"
+    ],
+    "E2": [
+      "S0-HPQ-cation",
+      "PyOH-anion"
+    ],
+    "F": [
+      "S0-PQ",
+      "PyOH2"
+    ]
+  },
+  "source_structure_inventory": {
+    "path": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz",
+    "sha256": "08d7fbd82522bf7b82a35aa07de6c3e2637e9347758fbcc66d631e98f892e232",
+    "total_records": 66,
+    "reusable_first_event_records": 29,
+    "remaining_author_records": [
+      "S0-HPQ-rad-H2O_conf1",
+      "S0-HPQ-rad-H2O_conf2",
+      "S0-HPQ-rad-H2O_conf3",
+      "S0-HPQ-rad-H2O_conf4",
+      "S0-HPQ-rad-H2O_conf5",
+      "S0-HPQ-rad-H2O_conf6",
+      "S0-HPQ-rad",
+      "PyOH-rad-H2O_conf1",
+      "PyOH-rad-H2O_conf4",
+      "PyOH-rad",
+      "S0-PQ-anionrad-H2O_conf1",
+      "S0-PQ-anionrad-H2O_conf2",
+      "S0-PQ-anionrad-H2O_conf3",
+      "S0-PQ-anionrad-H2O_conf4",
+      "S0-PQ-anionrad",
+      "PyOH2-cationrad-H2O_conf1",
+      "PyOH2-cationrad-H2O_conf2",
+      "PyOH2-cationrad-H2O_conf3",
+      "PyOH2-cationrad-H2O_conf4",
+      "PyOH2-cationrad",
+      "S0-HPQ-cation-H2O_conf1",
+      "S0-HPQ-cation-H2O_conf2",
+      "S0-HPQ-cation-H2O_conf3",
+      "S0-HPQ-cation-H2O_conf4",
+      "S0-HPQ-cation-H2O_conf5",
+      "S0-HPQ-cation",
+      "PyOH-anion-H2O_conf1",
+      "PyOH-anion-H2O_conf2",
+      "PyOH-anion",
+      "S0-PQ-H2O_conf2",
+      "S0-PQ-H2O_conf4",
+      "S0-PQ",
+      "PyOH2-H2O_conf1",
+      "PyOH2-H2O_conf2",
+      "PyOH2-H2O_conf3",
+      "PyOH2-H2O_conf4",
+      "PyOH2"
+    ],
+    "note": "Shared family plan, not one job per target or a fixed agent search quota."
+  },
+  "water_ledger": {
+    "dry_elemental_inventory": "C19H15NO3",
+    "hydrated_elemental_inventory": "C19H19NO5",
+    "initial_added_waters": [
+      0,
+      2
+    ],
+    "final_generated_waters": 1,
+    "final_total_water_molecules": [
+      1,
+      3
+    ],
+    "total_charge": 0
+  },
+  "derived_checks_unscored": {
+    "second_stage_increment_dry_kcal_mol": -71.2,
+    "second_stage_increment_hydrated_kcal_mol": -70.4,
+    "source_cumulative_P2_E2_dry": [
+      -41.6,
+      -36.5
+    ],
+    "source_cumulative_P2_E2_hydrated": [
+      -43.0,
+      -51.3
+    ],
+    "note": "Rounded-source arithmetic only, not new computed results or extra allocations."
+  },
+  "targets": [
+    {
+      "id": "dry_PT",
+      "key_point_id": "dry_transfer",
+      "scoring_rule_ids": [
+        "rule_dry_transfer",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2B; SI p.40",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -0.9,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S1-HPQ-anion",
+        "PyOH-cation"
+      ],
+      "reference_state_ids": [
+        "S1-H2PQ",
+        "PyO"
+      ],
+      "charge_and_state_definitions": {
+        "S1-HPQ-anion": {
+          "charge": -1,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H9O2"
+        },
+        "PyOH-cation": {
+          "charge": 1,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H6NO"
+        },
+        "S1-H2PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H10O2"
+        },
+        "PyO": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H5NO"
+        }
+      },
+      "reference_definition": "G(P1) - G(R); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 0,
+      "hydration": "No added solvent water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": -0.9227387150233828,
+        "native_indexes": [
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_state_audit.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_thermochemistry_replay.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/native_readback.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/new_native_results.json"
+        ],
+        "reuse_note": "Validated earlier result; do not recalculate."
+      },
+      "missing_evidence": [],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": false,
+      "can_start_author_reproduction": false,
+      "start_note": "Reuse only; no new QM required.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": 1.0,
+        "mode": "existing_absolute_difference"
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "dry_ET",
+      "key_point_id": "dry_transfer",
+      "scoring_rule_ids": [
+        "rule_dry_transfer",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2B; SI p.40",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -1.6,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-H2PQ-cationrad",
+        "PyO-anionrad"
+      ],
+      "reference_state_ids": [
+        "S1-H2PQ",
+        "PyO"
+      ],
+      "charge_and_state_definitions": {
+        "S0-H2PQ-cationrad": {
+          "charge": 1,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H10O2"
+        },
+        "PyO-anionrad": {
+          "charge": -1,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H5NO"
+        },
+        "S1-H2PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H10O2"
+        },
+        "PyO": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H5NO"
+        }
+      },
+      "reference_definition": "G(E1) - G(R); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 0,
+      "hydration": "No added solvent water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": -1.8445585452387985,
+        "native_indexes": [
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_state_audit.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_thermochemistry_replay.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/native_readback.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/new_native_results.json"
+        ],
+        "reuse_note": "Validated earlier result; do not recalculate."
+      },
+      "missing_evidence": [],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": false,
+      "can_start_author_reproduction": false,
+      "start_note": "Reuse only; no new QM required.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": 1.0,
+        "mode": "existing_absolute_difference"
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "two_water_PT",
+      "key_point_id": "water_effect",
+      "scoring_rule_ids": [
+        "rule_water_effect",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2B; SI p.40",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -2.2,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S1-HPQ-anion",
+        "PyOH-cation"
+      ],
+      "reference_state_ids": [
+        "S1-H2PQ",
+        "PyO"
+      ],
+      "charge_and_state_definitions": {
+        "S1-HPQ-anion": {
+          "charge": -1,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H9O2"
+        },
+        "PyOH-cation": {
+          "charge": 1,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H6NO"
+        },
+        "S1-H2PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H10O2"
+        },
+        "PyO": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H5NO"
+        }
+      },
+      "reference_definition": "G(P1) - G(R); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 2,
+      "hydration": "Each of the two author fragments carries one added water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": -2.1977281169307545,
+        "native_indexes": [
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_state_audit.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_thermochemistry_replay.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/native_readback.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/new_native_results.json"
+        ],
+        "reuse_note": "Validated earlier result; do not recalculate."
+      },
+      "missing_evidence": [],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": false,
+      "can_start_author_reproduction": false,
+      "start_note": "Reuse only; no new QM required.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": null,
+        "mode": "existing_source_protocol_rounding_or_expert_review",
+        "details": "Matched source protocol: decimal half-away-from-zero rounding to one decimal gives -2.2. Cross-method comparability remains expert-reviewed; no universal tolerance."
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "two_water_ET",
+      "key_point_id": "water_effect",
+      "scoring_rule_ids": [
+        "rule_water_effect",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2B; SI p.40",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -8.2,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-H2PQ-cationrad",
+        "PyO-anionrad"
+      ],
+      "reference_state_ids": [
+        "S1-H2PQ",
+        "PyO"
+      ],
+      "charge_and_state_definitions": {
+        "S0-H2PQ-cationrad": {
+          "charge": 1,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H10O2"
+        },
+        "PyO-anionrad": {
+          "charge": -1,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H5NO"
+        },
+        "S1-H2PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H10O2"
+        },
+        "PyO": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H5NO"
+        }
+      },
+      "reference_definition": "G(E1) - G(R); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 2,
+      "hydration": "Each of the two author fragments carries one added water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": -8.029374164863087,
+        "native_indexes": [
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_state_audit.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/independent_thermochemistry_replay.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/native_readback.json",
+          "docs/verification/group_2/paper_c49993ae88ffa0e3/small_molecules_20261010T231612Z_g05/outputs/new_native_results.json"
+        ],
+        "reuse_note": "Validated earlier result; do not recalculate."
+      },
+      "missing_evidence": [],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": false,
+      "can_start_author_reproduction": false,
+      "start_note": "Reuse only; no new QM required.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": 1.5,
+        "mode": "existing_absolute_difference"
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "second_dry_PT",
+      "key_point_id": "second_transfer_competition",
+      "scoring_rule_ids": [
+        "rule_second_transfer_competition",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2C; SI p.40",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": 2.3,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-PQ-anionrad",
+        "PyOH2-cationrad"
+      ],
+      "reference_state_ids": [
+        "S0-HPQ-rad",
+        "PyOH-rad"
+      ],
+      "charge_and_state_definitions": {
+        "S0-PQ-anionrad": {
+          "charge": -1,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H8O2"
+        },
+        "PyOH2-cationrad": {
+          "charge": 1,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H7NO"
+        },
+        "S0-HPQ-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H9O2"
+        },
+        "PyOH-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H6NO"
+        }
+      },
+      "reference_definition": "G(P2) - G(I); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 0,
+      "hydration": "No added solvent water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": null,
+        "native_indexes": [],
+        "reuse_note": "Author table and coordinates only; reuse valid R-state calculations where applicable."
+      },
+      "missing_evidence": [
+        "Matched optimized minima/frequencies and SP evidence for the needed later families.",
+        "Audited ensemble thermochemistry and expert numerical comparison."
+      ],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": true,
+      "can_start_author_reproduction": true,
+      "start_note": "Definitions and source coordinates available. Schedule only the missing shared families; no jobs were submitted in this implementation.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": null,
+        "mode": "expert_numeric_comparability_review_pending_calibration",
+        "details": "No universal numerical acceptance window has been calibrated for these newly added quantities. Expert review must compare each actual value and discrepancy with the stated author value after checking states, species, association, units, standard state and ensembles. Do not accept signs or ordering alone as numerical recovery, borrow first-event tolerances, invent rounding windows, shift the author value, or mark unresolved comparability PASS. Record the per-quantity review and any unresolved discrepancy. "
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "second_dry_ET",
+      "key_point_id": "second_transfer_competition",
+      "scoring_rule_ids": [
+        "rule_second_transfer_competition",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2C; SI p.40",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": 7.4,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-HPQ-cation",
+        "PyOH-anion"
+      ],
+      "reference_state_ids": [
+        "S0-HPQ-rad",
+        "PyOH-rad"
+      ],
+      "charge_and_state_definitions": {
+        "S0-HPQ-cation": {
+          "charge": 1,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C14H9O2"
+        },
+        "PyOH-anion": {
+          "charge": -1,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H6NO"
+        },
+        "S0-HPQ-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H9O2"
+        },
+        "PyOH-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H6NO"
+        }
+      },
+      "reference_definition": "G(E2) - G(I); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 0,
+      "hydration": "No added solvent water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": null,
+        "native_indexes": [],
+        "reuse_note": "Author table and coordinates only; reuse valid R-state calculations where applicable."
+      },
+      "missing_evidence": [
+        "Matched optimized minima/frequencies and SP evidence for the needed later families.",
+        "Audited ensemble thermochemistry and expert numerical comparison."
+      ],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": true,
+      "can_start_author_reproduction": true,
+      "start_note": "Definitions and source coordinates available. Schedule only the missing shared families; no jobs were submitted in this implementation.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": null,
+        "mode": "expert_numeric_comparability_review_pending_calibration",
+        "details": "No universal numerical acceptance window has been calibrated for these newly added quantities. Expert review must compare each actual value and discrepancy with the stated author value after checking states, species, association, units, standard state and ensembles. Do not accept signs or ordering alone as numerical recovery, borrow first-event tolerances, invent rounding windows, shift the author value, or mark unresolved comparability PASS. Record the per-quantity review and any unresolved discrepancy. "
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "second_two_water_PT",
+      "key_point_id": "second_transfer_competition",
+      "scoring_rule_ids": [
+        "rule_second_transfer_competition",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2C; SI pp.40-41",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -1.3,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-PQ-anionrad",
+        "PyOH2-cationrad"
+      ],
+      "reference_state_ids": [
+        "S0-HPQ-rad",
+        "PyOH-rad"
+      ],
+      "charge_and_state_definitions": {
+        "S0-PQ-anionrad": {
+          "charge": -1,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H8O2"
+        },
+        "PyOH2-cationrad": {
+          "charge": 1,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H7NO"
+        },
+        "S0-HPQ-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H9O2"
+        },
+        "PyOH-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H6NO"
+        }
+      },
+      "reference_definition": "G(P2) - G(I); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 2,
+      "hydration": "Each of the two author fragments carries one added water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": null,
+        "native_indexes": [],
+        "reuse_note": "Author table and coordinates only; reuse valid R-state calculations where applicable."
+      },
+      "missing_evidence": [
+        "Matched optimized minima/frequencies and SP evidence for the needed later families.",
+        "Audited ensemble thermochemistry and expert numerical comparison."
+      ],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": true,
+      "can_start_author_reproduction": true,
+      "start_note": "Definitions and source coordinates available. Schedule only the missing shared families; no jobs were submitted in this implementation.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": null,
+        "mode": "expert_numeric_comparability_review_pending_calibration",
+        "details": "No universal numerical acceptance window has been calibrated for these newly added quantities. Expert review must compare each actual value and discrepancy with the stated author value after checking states, species, association, units, standard state and ensembles. Do not accept signs or ordering alone as numerical recovery, borrow first-event tolerances, invent rounding windows, shift the author value, or mark unresolved comparability PASS. Record the per-quantity review and any unresolved discrepancy. "
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "second_two_water_ET",
+      "key_point_id": "second_transfer_competition",
+      "scoring_rule_ids": [
+        "rule_second_transfer_competition",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2C; SI pp.40-41",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -9.6,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-HPQ-cation",
+        "PyOH-anion"
+      ],
+      "reference_state_ids": [
+        "S0-HPQ-rad",
+        "PyOH-rad"
+      ],
+      "charge_and_state_definitions": {
+        "S0-HPQ-cation": {
+          "charge": 1,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C14H9O2"
+        },
+        "PyOH-anion": {
+          "charge": -1,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H6NO"
+        },
+        "S0-HPQ-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H9O2"
+        },
+        "PyOH-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H6NO"
+        }
+      },
+      "reference_definition": "G(E2) - G(I); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 2,
+      "hydration": "Each of the two author fragments carries one added water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": null,
+        "native_indexes": [],
+        "reuse_note": "Author table and coordinates only; reuse valid R-state calculations where applicable."
+      },
+      "missing_evidence": [
+        "Matched optimized minima/frequencies and SP evidence for the needed later families.",
+        "Audited ensemble thermochemistry and expert numerical comparison."
+      ],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": true,
+      "can_start_author_reproduction": true,
+      "start_note": "Definitions and source coordinates available. Schedule only the missing shared families; no jobs were submitted in this implementation.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": null,
+        "mode": "expert_numeric_comparability_review_pending_calibration",
+        "details": "No universal numerical acceptance window has been calibrated for these newly added quantities. Expert review must compare each actual value and discrepancy with the stated author value after checking states, species, association, units, standard state and ensembles. Do not accept signs or ordering alone as numerical recovery, borrow first-event tolerances, invent rounding windows, shift the author value, or mark unresolved comparability PASS. Record the per-quantity review and any unresolved discrepancy. "
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "first_complete_dry",
+      "key_point_id": "deoxygenation_endpoints",
+      "scoring_rule_ids": [
+        "rule_deoxygenation_endpoints",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2A; SI p.40",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -43.9,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-HPQ-rad",
+        "PyOH-rad"
+      ],
+      "reference_state_ids": [
+        "S1-H2PQ",
+        "PyO"
+      ],
+      "charge_and_state_definitions": {
+        "S0-HPQ-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H9O2"
+        },
+        "PyOH-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H6NO"
+        },
+        "S1-H2PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H10O2"
+        },
+        "PyO": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H5NO"
+        }
+      },
+      "reference_definition": "G(I) - G(R); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 0,
+      "hydration": "No added solvent water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": null,
+        "native_indexes": [],
+        "reuse_note": "Author table and coordinates only; reuse valid R-state calculations where applicable."
+      },
+      "missing_evidence": [
+        "Matched optimized minima/frequencies and SP evidence for the needed later families.",
+        "Audited ensemble thermochemistry and expert numerical comparison."
+      ],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": true,
+      "can_start_author_reproduction": true,
+      "start_note": "Definitions and source coordinates available. Schedule only the missing shared families; no jobs were submitted in this implementation.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": null,
+        "mode": "expert_numeric_comparability_review_pending_calibration",
+        "details": "No universal numerical acceptance window has been calibrated for these newly added quantities. Expert review must compare each actual value and discrepancy with the stated author value after checking states, species, association, units, standard state and ensembles. Do not accept signs or ordering alone as numerical recovery, borrow first-event tolerances, invent rounding windows, shift the author value, or mark unresolved comparability PASS. Record the per-quantity review and any unresolved discrepancy. "
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "first_complete_two_water",
+      "key_point_id": "deoxygenation_endpoints",
+      "scoring_rule_ids": [
+        "rule_deoxygenation_endpoints",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2A; SI p.40",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -41.7,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-HPQ-rad",
+        "PyOH-rad"
+      ],
+      "reference_state_ids": [
+        "S1-H2PQ",
+        "PyO"
+      ],
+      "charge_and_state_definitions": {
+        "S0-HPQ-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C14H9O2"
+        },
+        "PyOH-rad": {
+          "charge": 0,
+          "multiplicity": 2,
+          "state": "ground doublet",
+          "formula": "C5H6NO"
+        },
+        "S1-H2PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H10O2"
+        },
+        "PyO": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H5NO"
+        }
+      },
+      "reference_definition": "G(I) - G(R); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 2,
+      "hydration": "Each of the two author fragments carries one added water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": null,
+        "native_indexes": [],
+        "reuse_note": "Author table and coordinates only; reuse valid R-state calculations where applicable."
+      },
+      "missing_evidence": [
+        "Matched optimized minima/frequencies and SP evidence for the needed later families.",
+        "Audited ensemble thermochemistry and expert numerical comparison."
+      ],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": true,
+      "can_start_author_reproduction": true,
+      "start_note": "Definitions and source coordinates available. Schedule only the missing shared families; no jobs were submitted in this implementation.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": null,
+        "mode": "expert_numeric_comparability_review_pending_calibration",
+        "details": "No universal numerical acceptance window has been calibrated for these newly added quantities. Expert review must compare each actual value and discrepancy with the stated author value after checking states, species, association, units, standard state and ensembles. Do not accept signs or ordering alone as numerical recovery, borrow first-event tolerances, invent rounding windows, shift the author value, or mark unresolved comparability PASS. Record the per-quantity review and any unresolved discrepancy. "
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "final_dry",
+      "key_point_id": "deoxygenation_endpoints",
+      "scoring_rule_ids": [
+        "rule_deoxygenation_endpoints",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2A; SI p.40",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -115.1,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-PQ",
+        "PyOH2"
+      ],
+      "reference_state_ids": [
+        "S1-H2PQ",
+        "PyO"
+      ],
+      "charge_and_state_definitions": {
+        "S0-PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C14H8O2"
+        },
+        "PyOH2": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H7NO"
+        },
+        "S1-H2PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H10O2"
+        },
+        "PyO": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H5NO"
+        }
+      },
+      "reference_definition": "G(F) - G(R); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 0,
+      "hydration": "No added solvent water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": null,
+        "native_indexes": [],
+        "reuse_note": "Author table and coordinates only; reuse valid R-state calculations where applicable."
+      },
+      "missing_evidence": [
+        "Matched optimized minima/frequencies and SP evidence for the needed later families.",
+        "Audited ensemble thermochemistry and expert numerical comparison."
+      ],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": true,
+      "can_start_author_reproduction": true,
+      "start_note": "Definitions and source coordinates available. Schedule only the missing shared families; no jobs were submitted in this implementation.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": null,
+        "mode": "expert_numeric_comparability_review_pending_calibration",
+        "details": "No universal numerical acceptance window has been calibrated for these newly added quantities. Expert review must compare each actual value and discrepancy with the stated author value after checking states, species, association, units, standard state and ensembles. Do not accept signs or ordering alone as numerical recovery, borrow first-event tolerances, invent rounding windows, shift the author value, or mark unresolved comparability PASS. Record the per-quantity review and any unresolved discrepancy. "
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "final_two_water",
+      "key_point_id": "deoxygenation_endpoints",
+      "scoring_rule_ids": [
+        "rule_deoxygenation_endpoints",
+        "rule_states_references"
+      ],
+      "author_source": {
+        "main_pdf_physical_page": 4,
+        "locator": "p.4 Fig.2A; SI p.41",
+        "xyz_source": "docs/verification/group_2/paper_c49993ae88ffa0e3/source_data/publisher_20260923/ol5c04963_si_001.xyz"
+      },
+      "quantity": "solution ensemble Gibbs free-energy difference",
+      "unit": "kcal/mol",
+      "author_value": -112.1,
+      "method_id": "author_thermochemistry",
+      "model": "Parent H2PQ/PyO; acetonitrile; neutral total inventory.",
+      "product_state_ids": [
+        "S0-PQ",
+        "PyOH2"
+      ],
+      "reference_state_ids": [
+        "S1-H2PQ",
+        "PyO"
+      ],
+      "charge_and_state_definitions": {
+        "S0-PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C14H8O2"
+        },
+        "PyOH2": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H7NO"
+        },
+        "S1-H2PQ": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S1",
+          "formula": "C14H10O2"
+        },
+        "PyO": {
+          "charge": 0,
+          "multiplicity": 1,
+          "state": "S0",
+          "formula": "C5H5NO"
+        }
+      },
+      "reference_definition": "G(F) - G(R); sum compatible fragment ensemble free energies, not unrelated geometries or free-product sums.",
+      "added_water_molecules": 2,
+      "hydration": "Each of the two author fragments carries one added water.",
+      "existing_evidence": {
+        "author_table_and_xyz": true,
+        "reproduced_value": null,
+        "native_indexes": [],
+        "reuse_note": "Author table and coordinates only; reuse valid R-state calculations where applicable."
+      },
+      "missing_evidence": [
+        "Matched optimized minima/frequencies and SP evidence for the needed later families.",
+        "Audited ensemble thermochemistry and expert numerical comparison."
+      ],
+      "prerequisites": [
+        "Resolve source labels, charge/multiplicity and aggregate identity before running; stop on unresolved identity."
+      ],
+      "requires_new_quantum_calculation": true,
+      "can_start_author_reproduction": true,
+      "start_note": "Definitions and source coordinates available. Schedule only the missing shared families; no jobs were submitted in this implementation.",
+      "required_native_success_markers": [
+        "Actual Gaussian optimization and frequency completion with correct charge/state and no imaginary modes for claimed minima.",
+        "Matched parent geometry and method/state for each single point; correct SCF or TD total energy, not just a terminated driver.",
+        "Open-shell/state diagnostics and atom identities support the assigned species; no silent covalent reconstruction of a dissociated cluster.",
+        "Recoverable native inputs/outputs, hashes, extraction locators, frequency/thermal data and ensemble membership.",
+        "Consistent standard state, entropy, symmetry, deduplication and atom/water ledger; numerical discrepancies explicitly reviewed against fixed author values."
+      ],
+      "comparison": {
+        "existing_tolerance_kcal_mol": null,
+        "mode": "expert_numeric_comparability_review_pending_calibration",
+        "details": "No universal numerical acceptance window has been calibrated for these newly added quantities. Expert review must compare each actual value and discrepancy with the stated author value after checking states, species, association, units, standard state and ensembles. Do not accept signs or ordering alone as numerical recovery, borrow first-event tolerances, invent rounding windows, shift the author value, or mark unresolved comparability PASS. Record the per-quantity review and any unresolved discrepancy. "
+      },
+      "status": "VERIFIED_PARENT_REVIEW_20261014",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    }
+  ],
+  "blocked_author_items_not_scored": [
+    {
+      "id": "aggregate_orbital_gap_and_S22",
+      "reason": "The 66 XYZ records do not specify the required aggregate geometries/root tracking. S22 is optimization step history in S1/S2, not a TS/IRC or full barrier scan.",
+      "can_start_author_reproduction": false,
+      "next_action": "Only use original author records if recovered; otherwise keep excluded. Do not construct a substitute aggregate reference."
+    }
+  ],
+  "quantum_jobs_submitted": false,
+  "scientifically_verified": true,
+  "release_ready": false,
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Current bounded scientific coverage is accepted. Exact-source, scoring and release qualifications remain separate; this does not certify every result in the paper.",
+  "historical_assigned_verification_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_c49993ae88ffa0e3",
+  "current_verification_evidence": "evaluation/current_verification_status.json"
+}

@@ -1,0 +1,212 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "evidence": [
+    {
+      "evidence_id": "main",
+      "source": {
+        "path": "papers/paper_c625cba3ce868eb1/documents/main.pdf",
+        "sha256": "44b374957665d941b519f781fe9341f1632c84a6c7b975c4cd231874281e0ef8",
+        "pdf_pages_1based": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "si",
+      "source": {
+        "path": "papers/paper_c625cba3ce868eb1/documents/supplementary_001.pdf",
+        "sha256": "19d3e128aae61e6d8f4904d7f5f3cc8cd31230ccb210eb81ba15402de096e4db",
+        "pdf_pages_1based": [
+          30,
+          31,
+          32
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "native_R4",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/R4_native.json",
+        "sha256": "89772963a703168fda600c976567a053c988e10961d169192043216a65fe38aa",
+        "locator": "full identity/stereochemistry, B3LYP/CBSB7 CPCM-water minimum and native MK table"
+      },
+      "evidence_type": "existing_native_computation_or_analysis"
+    },
+    {
+      "evidence_id": "native_7",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/7_native.json",
+        "sha256": "0f9ff7cf1abed87a549ae1df5be18a57ba5a6f8f741913ee69b8510e7b72cb3b",
+        "locator": "full identity, 69 positive modes and native MK table"
+      },
+      "evidence_type": "existing_native_computation_or_analysis"
+    },
+    {
+      "evidence_id": "native_MK_control",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/outputs/Br_saved_curvature_and_MK_density_control_20261007/a01/results/MK_fixed_density_fit_controls.json",
+        "sha256": "a8b16a400b2eda3a05c5d6a3e278509a7f918242b0a6be885b7a298e5c191b35",
+        "locator": "default and fixed-density refined fits; unchanged density and individual charges"
+      },
+      "evidence_type": "existing_native_computation_or_analysis"
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_site_polarization",
+      "r_comparator_polarization",
+      "r_regioselectivity_account",
+      "r_experimental_applicability"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "(R)-4两个位点的量化电子差别",
+      "rule_id": "r_site_polarization",
+      "conclusion_id": "site_polarization",
+      "independence": "反应物物性独立于闭环解释；AR不要求7。",
+      "source_locator": "正文pp3–5电子/环化讨论、p7NBS与计算方法；SIpp30–32 FigS50及坐标",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/R4_native.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/7_native.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/outputs/Br_saved_curvature_and_MK_density_control_20261007/a01/results/MK_fixed_density_fit_controls.json",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_2b9b02fae1144ff59c02afcb72793dbc/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_473a36ad38d341958b02aed35c740048/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_75bc460f20924dbcb98c93557fa6edfe/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_c20aa070178144a7b9da10ec8f730eba/stdout.log"
+      ],
+      "existing_support": "R4/7全结构与R,E身份正模验证；默认Δq−0.484265/−0.055066e，幅比8.794265；同密度加密−0.427513/−0.049492，幅比8.638022。O21到C4为六元、到C2为七元。",
+      "limits": [
+        "与organic19同ID但不同公开版本：AR仅(R)-4必需，7可选；PR完整7及两MK差/幅比仍必需。原数值保留为比较证据，不静默删除PR问题。",
+        "源MK网格未全披露；同密度采样改变R4差0.056752e，不能选更近源结果代替完整记录。水相单体不是DCM/NBS/Et3N动力学。",
+        "4/7骨架与支化同时不同，7六/七元产物来自酶环境；NBS实验用3/4混合物，印刷473mM与量/体积47.3mM冲突保留，未验证唯一机制或比例。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control"
+      ],
+      "previous_rule_ids": [
+        "r_R4_signed_MK_contrast"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "PR必需7的带符号MK差及与4幅比/比较",
+      "rule_id": "r_comparator_polarization",
+      "conclusion_id": "comparator_polarization",
+      "independence": "跨分子极化强度关系独立于4绝对差及环化映射。",
+      "source_locator": "正文pp3–5电子/环化讨论、p7NBS与计算方法；SIpp30–32 FigS50及坐标",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/R4_native.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/7_native.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/outputs/Br_saved_curvature_and_MK_density_control_20261007/a01/results/MK_fixed_density_fit_controls.json",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_2b9b02fae1144ff59c02afcb72793dbc/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_473a36ad38d341958b02aed35c740048/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_75bc460f20924dbcb98c93557fa6edfe/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_c20aa070178144a7b9da10ec8f730eba/stdout.log"
+      ],
+      "existing_support": "R4/7全结构与R,E身份正模验证；默认Δq−0.484265/−0.055066e，幅比8.794265；同密度加密−0.427513/−0.049492，幅比8.638022。O21到C4为六元、到C2为七元。",
+      "limits": [
+        "与organic19同ID但不同公开版本：AR仅(R)-4必需，7可选；PR完整7及两MK差/幅比仍必需。原数值保留为比较证据，不静默删除PR问题。",
+        "源MK网格未全披露；同密度采样改变R4差0.056752e，不能选更近源结果代替完整记录。水相单体不是DCM/NBS/Et3N动力学。",
+        "4/7骨架与支化同时不同，7六/七元产物来自酶环境；NBS实验用3/4混合物，印刷473mM与量/体积47.3mM冲突保留，未验证唯一机制或比例。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control",
+        "native_7"
+      ],
+      "previous_rule_ids": [
+        "r_compound7_signed_MK_contrast",
+        "r_polarization_ratio",
+        "r_R4_signed_MK_contrast"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "位点电子特征与六/七元闭环联系",
+      "rule_id": "r_regioselectivity_account",
+      "conclusion_id": "regioselectivity_account",
+      "independence": "从电子倾向到映射连接的解释，不重复电荷符号。",
+      "source_locator": "正文pp3–5电子/环化讨论、p7NBS与计算方法；SIpp30–32 FigS50及坐标",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/R4_native.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/7_native.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/outputs/Br_saved_curvature_and_MK_density_control_20261007/a01/results/MK_fixed_density_fit_controls.json",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_2b9b02fae1144ff59c02afcb72793dbc/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_473a36ad38d341958b02aed35c740048/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_75bc460f20924dbcb98c93557fa6edfe/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_c20aa070178144a7b9da10ec8f730eba/stdout.log"
+      ],
+      "existing_support": "R4/7全结构与R,E身份正模验证；默认Δq−0.484265/−0.055066e，幅比8.794265；同密度加密−0.427513/−0.049492，幅比8.638022。O21到C4为六元、到C2为七元。",
+      "limits": [
+        "与organic19同ID但不同公开版本：AR仅(R)-4必需，7可选；PR完整7及两MK差/幅比仍必需。原数值保留为比较证据，不静默删除PR问题。",
+        "源MK网格未全披露；同密度采样改变R4差0.056752e，不能选更近源结果代替完整记录。水相单体不是DCM/NBS/Et3N动力学。",
+        "4/7骨架与支化同时不同，7六/七元产物来自酶环境；NBS实验用3/4混合物，印刷473mM与量/体积47.3mM冲突保留，未验证唯一机制或比例。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control"
+      ],
+      "previous_rule_ids": [
+        "r_regioselectivity_account"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "实际模型对NBS反应的推断范围",
+      "rule_id": "r_experimental_applicability",
+      "conclusion_id": "experimental_applicability",
+      "independence": "实验成分/介质/比较混杂的因果边界不重复位点或环型。",
+      "source_locator": "正文pp3–5电子/环化讨论、p7NBS与计算方法；SIpp30–32 FigS50及坐标",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/R4_native.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/reuse_audit/7_native.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/outputs/Br_saved_curvature_and_MK_density_control_20261007/a01/results/MK_fixed_density_fit_controls.json",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_2b9b02fae1144ff59c02afcb72793dbc/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_473a36ad38d341958b02aed35c740048/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_75bc460f20924dbcb98c93557fa6edfe/stdout.log",
+        "docs/verification/group_4/paper_c625cba3ce868eb1/native_workspace_batch/outputs/execution_jobs/job_c20aa070178144a7b9da10ec8f730eba/stdout.log"
+      ],
+      "existing_support": "R4/7全结构与R,E身份正模验证；默认Δq−0.484265/−0.055066e，幅比8.794265；同密度加密−0.427513/−0.049492，幅比8.638022。O21到C4为六元、到C2为七元。",
+      "limits": [
+        "与organic19同ID但不同公开版本：AR仅(R)-4必需，7可选；PR完整7及两MK差/幅比仍必需。原数值保留为比较证据，不静默删除PR问题。",
+        "源MK网格未全披露；同密度采样改变R4差0.056752e，不能选更近源结果代替完整记录。水相单体不是DCM/NBS/Et3N动力学。",
+        "4/7骨架与支化同时不同，7六/七元产物来自酶环境；NBS实验用3/4混合物，印刷473mM与量/体积47.3mM冲突保留，未验证唯一机制或比例。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_R4",
+        "native_MK_control",
+        "native_7"
+      ],
+      "previous_rule_ids": [
+        "r_experimental_applicability"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "substrate": {
+    "id": "substrate",
+    "smiles": "FC(F)=C(c1ccccc1)N(c2ccccc2)C/C=C/c3ccccc3",
+    "mapped_smiles": "[F:1][C:2]([F:3])=[C:4]([c:5]1[cH:6][cH:7][cH:8][cH:9][cH:10]1)[N:11]([c:12]1[cH:13][cH:14][cH:15][cH:16][cH:17]1)[CH2:18]/[CH:19]=[CH:20]/[c:21]1[cH:22][cH:23][cH:24][cH:25][cH:26]1",
+    "formula": "C23H19F2N",
+    "charge": 0,
+    "multiplicity": 1,
+    "atom_count_with_H": 45,
+    "stereocentres": {},
+    "map_namespace": "substrate",
+    "identity": "N-phenyl-N-cinnamyl gem-difluoroenamine; the supplied E allyl geometry defines the starting isomer."
+  },
+  "net_product_families": [
+    {
+      "id": "bicyclic_product_family",
+      "smiles": "FC1(F)C2CN(c3ccccc3)C1(c1ccccc1)C2c1ccccc1",
+      "mapped_smiles": "[F:1][C:2]1([F:3])[CH:4]2[CH2:5][N:6]([c:7]3[cH:8][cH:9][cH:10][cH:11][cH:12]3)[C:13]1([c:14]1[cH:15][cH:16][cH:17][cH:18][cH:19]1)[CH:20]2[c:21]1[cH:22][cH:23][cH:24][cH:25][cH:26]1",
+      "formula": "C23H19F2N",
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_count_with_H": 45,
+      "stereocentres": {},
+      "map_namespace": "bicyclic_product_family",
+      "role": "Net azabicyclo[2.1.1]hexane product connectivity; stereoisomers are not encoded as a prescribed mechanism."
+    },
+    {
+      "id": "imine_product_family",
+      "smiles": "C=CC(c1ccccc1)C(F)(F)C(=Nc1ccccc1)c1ccccc1",
+      "mapped_smiles": "[CH2:1]=[CH:2][CH:3]([c:4]1[cH:5][cH:6][cH:7][cH:8][cH:9]1)[C:10]([F:11])([F:12])[C:13](=[N:14][c:15]1[cH:16][cH:17][cH:18][cH:19][cH:20]1)[c:21]1[cH:22][cH:23][cH:24][cH:25][cH:26]1",
+      "formula": "C23H19F2N",
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_count_with_H": 45,
+      "stereocentres": {},
+      "map_namespace": "imine_product_family",
+      "role": "Competing imine product connectivity; stereoisomers may be investigated. This is a product boundary, not an elementary-step description."
+    }
+  ],
+  "experimental_context": {
+    "temperature_C": 80,
+    "solvent": "toluene",
+    "atmosphere": "N2",
+    "observation": "Thermal reaction-class context: toluene, 80 °C, N2. Both net product families are supplied as candidates; experimental product preference, yields and identity-unmatched analogue-control outcomes are withheld for this prediction task.",
+    "boundary": "Start from the supplied enamine. Its upstream preparation is outside scope. No fluorination variants or oxygen-containing homoallyl systems are added."
+  },
+  "comparison_conditions": {
+    "temperature_K": 298.15,
+    "standard_state": "1 mol/L solution",
+    "solvent": "toluene",
+    "note": "This is the established thermochemical comparison boundary, distinct from the 80 °C preparation. Choose the molecular method and investigate states as needed."
+  },
+  "scope": "Explain competition between the supplied net product connectivities. No intermediate, bond-formation order, electronic mechanism or fixed count of transition states is supplied."
+}

@@ -1,0 +1,254 @@
+{
+  "guidance_markdown": "## Author-provided scientific guidance\n\n- The author baseline investigates one-electron oxidation and subsequent chemistry of the N-cyclopropyl tetrahydropyridines. Its proposed first reactive states are the substrate radical cations; the calculations are small-molecule models, not a computed monoamine-oxidase active site or complete flavin photochemical cycle.\n\n- For oxidation accessibility, the authors compared a hypothetical electron transfer from the neutral N-methyl tetrahydropyridine comparators to the radical cation of T_H. T_H, T_Ph and T_Pyr correspond to the unsubstituted, phenyl and N-methylpyrrolyl variants. Two planar T_Pyr conformations, s-cis and s-trans, were examined; these labels concern the pyrrolyl orientation and are not the cyclopropane cis/trans stereoisomers.\n\n- The Table 1 baseline optimized geometries with M06-2X/6-31G(d), followed by single-point calculations with CAM-B3LYP/def2-TZVP or M06-2X/cc-pVTZ. The paper attributes Table 1 calculations to Gaussian 09. Neutral and radical-cation energies were used for the relative electron-transfer comparison.\n\n- Relative electron-transfer values reported for T_Pyr s-cis, T_Pyr s-trans, T_Ph and T_H are respectively -570, -622, -94 and 0 mV with CAM-B3LYP/def2-TZVP, and -551, -612, -79 and 0 mV with M06-2X/cc-pVTZ. The authors interpret the pyrrolyl comparator as about 500 mV easier to oxidize than the phenyl comparator, and the phenyl substituent effect relative to T_H as less than 100 mV. These are calculated relative comparator values, not measured solution oxidation potentials for S_H, S_Mcis, S_Mtrans or S_Ptrans.\n\n- The authors analyzed regional charge and spin density: in T_Pyr radical cations, about 0.96-0.97 of the spin is on the pyrrolyl region, whereas in the phenyl and H comparators most spin, about 0.93-0.94, is on the tetrahydropyridine region. They interpret this as pyrrolyl oxidation in T_Pyr versus oxidation associated with the tetrahydropyridine nitrogen lone pair in T_Ph, and use the relative oxidation results to explain why a stronger, photoexcited flavin oxidant is needed for the N-cyclopropyl substrates.\n\n- For ring reactivity, the baseline considered S_H, S_Mcis and S_Mtrans radical cations in two ring-closed conformations denoted B1 and B2, their ring-opened distonic radical-cation products, and ring-opening transition states. The trans methyl stereoisomer was calculated although the experimental methyl-started reaction used the cis substrate. The phenyl radical cation was also investigated.\n\n- The main ring-opening energy baseline uses M06-2X/cc-pVDZ optimized geometries and M06-2X/def2-TZVP single-point energies. The SI also reports M06-2X/cc-pVDZ and a method printed as CAM3-B3LYP/cc-pVDZ. Table 3 and Figure 7 are attributed to Spartan'24. B1/B2 identify author conformational comparisons, not extra chemical substrates.\n\n- The authors checked optimized stationary points by frequency calculations: minima have zero imaginary frequencies, and a transition state has one imaginary frequency corresponding to the reaction coordinate. Ring-opening activation differences are defined as E(transition state)-E(reactant), and reaction differences as E(ring-opened product)-E(reactant). The tabulated molecular energy differences are not experimental rate constants or solution free-energy barriers.\n\n- At the main ring-opening baseline, S_H radical-cation B1 has a reported barrier of 5.8 kcal/mol and reaction energy of +3.2 kcal/mol; B2 has a barrier of 6.6 kcal/mol and reaction energy of +3.3 kcal/mol. The authors interpret these models as comparatively less accessible and unfavorable ring opening.\n\n- For S_Mcis, B1 has a reported 2.5 kcal/mol barrier and -0.4 kcal/mol reaction energy; B2 has a 1.5 kcal/mol barrier. An unresolved source discrepancy affects B2 reaction energy: the article's Table 3 reports -2.5 kcal/mol at the main baseline, but SI S50 reports -0.8 kcal/mol for the same named method/model. Preserve and assess both reports; neither is an agreed exact-value target.\n\n- For S_Mtrans radical cation, the main-baseline B1 barrier and reaction energy are 3.2 and +1.8 kcal/mol, respectively; B2 values are 3.7 and +2.1 kcal/mol. These are the trans methyl models, not a separately observed trans-started photochemical product distribution.\n\n- The authors state that numbers vary with method and basis set. The SI also reveals real sign sensitivity: trans methyl reaction energies are negative with the printed CAM3-B3LYP model but positive with the M06-2X models, and cis methyl B2 is +0.04 kcal/mol at M06-2X/cc-pVDZ. Do not treat the main-method signs or magnitudes as method-independent truths, or compare unlike calculations by an arbitrary numerical tolerance.\n\n- For S_Ptrans radical cation, the authors did not obtain a ring-closed B1 or B2 potential-energy minimum: optimization attempts led to ring-opened structures. No numerical ring-opening barrier or reaction energy is reported for a ring-closed phenyl minimum in Table 3.\n\n- The authors probed the phenyl case with energy-versus-C1'-C2' distance profiles from both ring-opened conformations, varying that distance from 2.3 to 1.5 angstrom at M06-2X/cc-pVDZ. The plotted energy rises as the bond is shortened. They interpret this, together with unsuccessful ring-closed optimizations, as consistent with concerted dissociative electron transfer and ring opening, not as a directly computed complete donor-acceptor electron-transfer trajectory.\n\n- The authors compare methyl stereoisomers and report that the ring-closed trans radical cation is lower in energy than the cis ring-closed state or the ring-opened structures. They connect favorable cis ring opening followed by access to the more stable trans ring-closed state with the observed cis-to-trans substrate isomerization. They do not report a separate cis-to-trans transition-state barrier in this investigation.\n\n- For product formation, the authors propose that ring-opened distonic radical cations can disproportionate to iminium precursors, or receive hydrogen from the substrate; hydrolysis then gives aldehydes. They cite an unusually weak substrate C-H bond, about 75 kcal/mol, and a bond-strength-based hydrogen-transfer driving-force estimate of -23 kcal/mol. The bond strength is cited to prior work; it is not a newly reported hydrogen-transfer activation barrier.\n\n- The deuterated-substrate distillate was compared with a simulated 1H NMR terminal-methyl region for a 50:50 mixture of CH3CH2CHO and CH2DCH2CHO using MestReNova 14.1.2-25024. The CH3 signal uses delta=1.03 ppm and J(H,CH2)=9.7 Hz; CH2D uses delta=1.01 ppm, J(H,CH2)=9.2 Hz and J(H,D)=2.5 Hz. This is a supporting spectral comparison, not a computed molecular reaction-energy result or a mandated exact isotopomer fraction.\n\n- The authors infer substrate hydrogen donation together with disproportionation from the isotope comparison. They explicitly state that their experiments and available substrates do not unambiguously distinguish intermolecular from intramolecular hydrogen transfer, although they favor an intermolecular account. A previously proposed six-membered intramolecular transition state is mentioned, not newly located and assigned a barrier here.\n\n- Because an intact-cyclopropane pyridinium product is observed even for the phenyl substrate, the authors argue that its formation need not be a simple competition between ring opening and direct deprotonation of the initial radical cation. They propose hydrogen abstraction from neutral substrate, further oxidation of the resulting tetrahydropyridine radical and formation of the intact-ring pyridinium product. The similar experimental ring-retaining product amounts therefore are not interpreted as a quantitative ranking of the calculated radical-cation opening barriers.\n\n- The authors interpret aerobic acetaldehyde and benzaldehyde formation using oxygen trapping of ring-opened species and peroxide decomposition; oxygen also regenerates the flavin. This is product-context interpretation, not a reported complete oxygen/peroxide kinetic or activation-energy calculation. The reactive site of the remaining amino-containing radical fragment is stated to be unknown in the oxygen scheme.\n\n- The baseline's molecular calculations do not include an explicit solvent/counterion/flavin/oxygen/enzyme environment or light absorption model. No uncertainty estimates or complete reaction rate/yield calibration are reported. The stated stationary-point validation and comparative molecular trends must be assessed within their modeled scope, and the hydrogen-transfer and phenyl-mechanism interpretations remain conditional rather than uniquely demonstrated reaction histories.\n\n- There is a reported functional-name ambiguity: the oxidation table names CAM-B3LYP, while the computational paragraph and ring-opening tables print CAM3-B3LYP. Do not silently claim that an unreported implementation, geometry-search recipe or source correction was reproduced; document how the named baseline was implemented and justify any substitution or unresolved mapping.",
+  "statements": [
+    {
+      "protocol_id": "AP01",
+      "statement": "The author baseline investigates one-electron oxidation and subsequent chemistry of the N-cyclopropyl tetrahydropyridines. Its proposed first reactive states are the substrate radical cations; the calculations are small-molecule models, not a computed monoamine-oxidase active site or complete flavin photochemical cycle.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000047_7044c043bb7d",
+        "ev_doc_fe816bcc199b_000060_23b6c88219fb",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_fe816bcc199b_000138_8372ede9176c"
+      ]
+    },
+    {
+      "protocol_id": "AP02",
+      "statement": "For oxidation accessibility, the authors compared a hypothetical electron transfer from the neutral N-methyl tetrahydropyridine comparators to the radical cation of T_H. T_H, T_Ph and T_Pyr correspond to the unsubstituted, phenyl and N-methylpyrrolyl variants. Two planar T_Pyr conformations, s-cis and s-trans, were examined; these labels concern the pyrrolyl orientation and are not the cyclopropane cis/trans stereoisomers.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000051_9e9d8d28b250",
+        "ev_doc_fe816bcc199b_000052_95d2f2bbdf95",
+        "ev_doc_fe816bcc199b_000060_23b6c88219fb",
+        "ev_doc_b6070afbb1cd_000104_5654521d608b",
+        "pdf-page-doc_fe816bcc199b-p3",
+        "pdf-page-doc_b6070afbb1cd-p44",
+        "pdf-page-doc_b6070afbb1cd-p45"
+      ]
+    },
+    {
+      "protocol_id": "AP03",
+      "statement": "The Table 1 baseline optimized geometries with M06-2X/6-31G(d), followed by single-point calculations with CAM-B3LYP/def2-TZVP or M06-2X/cc-pVTZ. The paper attributes Table 1 calculations to Gaussian 09. Neutral and radical-cation energies were used for the relative electron-transfer comparison.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000052_95d2f2bbdf95",
+        "ev_doc_fe816bcc199b_000138_8372ede9176c",
+        "ev_doc_b6070afbb1cd_000104_5654521d608b",
+        "pdf-page-doc_b6070afbb1cd-p43"
+      ]
+    },
+    {
+      "protocol_id": "AP04",
+      "statement": "Relative electron-transfer values reported for T_Pyr s-cis, T_Pyr s-trans, T_Ph and T_H are respectively -570, -622, -94 and 0 mV with CAM-B3LYP/def2-TZVP, and -551, -612, -79 and 0 mV with M06-2X/cc-pVTZ. The authors interpret the pyrrolyl comparator as about 500 mV easier to oxidize than the phenyl comparator, and the phenyl substituent effect relative to T_H as less than 100 mV. These are calculated relative comparator values, not measured solution oxidation potentials for S_H, S_Mcis, S_Mtrans or S_Ptrans.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000052_95d2f2bbdf95",
+        "ev_doc_fe816bcc199b_000060_23b6c88219fb",
+        "ev_doc_b6070afbb1cd_000104_5654521d608b",
+        "pdf-page-doc_fe816bcc199b-p3"
+      ]
+    },
+    {
+      "protocol_id": "AP05",
+      "statement": "The authors analyzed regional charge and spin density: in T_Pyr radical cations, about 0.96-0.97 of the spin is on the pyrrolyl region, whereas in the phenyl and H comparators most spin, about 0.93-0.94, is on the tetrahydropyridine region. They interpret this as pyrrolyl oxidation in T_Pyr versus oxidation associated with the tetrahydropyridine nitrogen lone pair in T_Ph, and use the relative oxidation results to explain why a stronger, photoexcited flavin oxidant is needed for the N-cyclopropyl substrates.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000052_95d2f2bbdf95",
+        "ev_doc_fe816bcc199b_000058_04b19546a68b",
+        "ev_doc_fe816bcc199b_000060_23b6c88219fb",
+        "ev_doc_fe816bcc199b_000061_6b49820e89dd",
+        "pdf-page-doc_fe816bcc199b-p3"
+      ]
+    },
+    {
+      "protocol_id": "AP06",
+      "statement": "For ring reactivity, the baseline considered S_H, S_Mcis and S_Mtrans radical cations in two ring-closed conformations denoted B1 and B2, their ring-opened distonic radical-cation products, and ring-opening transition states. The trans methyl stereoisomer was calculated although the experimental methyl-started reaction used the cis substrate. The phenyl radical cation was also investigated.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000094_6b0cd8f99fb0",
+        "ev_doc_fe816bcc199b_000098_bfb85312a178",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_b6070afbb1cd_000115_250bafb7ef34",
+        "pdf-page-doc_fe816bcc199b-p7",
+        "pdf-page-doc_b6070afbb1cd-p49",
+        "pdf-page-doc_b6070afbb1cd-p50",
+        "pdf-page-doc_b6070afbb1cd-p51"
+      ]
+    },
+    {
+      "protocol_id": "AP07",
+      "statement": "The main ring-opening energy baseline uses M06-2X/cc-pVDZ optimized geometries and M06-2X/def2-TZVP single-point energies. The SI also reports M06-2X/cc-pVDZ and a method printed as CAM3-B3LYP/cc-pVDZ. Table 3 and Figure 7 are attributed to Spartan'24. B1/B2 identify author conformational comparisons, not extra chemical substrates.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000077_b7c5366d66c0",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_fe816bcc199b_000138_8372ede9176c",
+        "ev_doc_b6070afbb1cd_000116_40f05db05140",
+        "ev_doc_b6070afbb1cd_000117_f26a0e1d8c8b",
+        "ev_doc_b6070afbb1cd_000121_52f0cd9fe8ff",
+        "ev_doc_b6070afbb1cd_000122_70cfc466e553",
+        "ev_doc_b6070afbb1cd_000123_d745e2c6c19c"
+      ]
+    },
+    {
+      "protocol_id": "AP08",
+      "statement": "The authors checked optimized stationary points by frequency calculations: minima have zero imaginary frequencies, and a transition state has one imaginary frequency corresponding to the reaction coordinate. Ring-opening activation differences are defined as E(transition state)-E(reactant), and reaction differences as E(ring-opened product)-E(reactant). The tabulated molecular energy differences are not experimental rate constants or solution free-energy barriers.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_fe816bcc199b_000138_8372ede9176c",
+        "ev_doc_b6070afbb1cd_000118_18e6adba095c",
+        "ev_doc_b6070afbb1cd_000119_cea8b09c6df6",
+        "pdf-page-doc_fe816bcc199b-p7",
+        "pdf-page-doc_b6070afbb1cd-p49"
+      ]
+    },
+    {
+      "protocol_id": "AP09",
+      "statement": "At the main ring-opening baseline, S_H radical-cation B1 has a reported barrier of 5.8 kcal/mol and reaction energy of +3.2 kcal/mol; B2 has a barrier of 6.6 kcal/mol and reaction energy of +3.3 kcal/mol. The authors interpret these models as comparatively less accessible and unfavorable ring opening.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000097_662e0b59d2e0",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_b6070afbb1cd_000116_40f05db05140",
+        "ev_doc_b6070afbb1cd_000117_f26a0e1d8c8b"
+      ]
+    },
+    {
+      "protocol_id": "AP10",
+      "statement": "For S_Mcis, B1 has a reported 2.5 kcal/mol barrier and -0.4 kcal/mol reaction energy; B2 has a 1.5 kcal/mol barrier. An unresolved source discrepancy affects B2 reaction energy: the article's Table 3 reports -2.5 kcal/mol at the main baseline, but SI S50 reports -0.8 kcal/mol for the same named method/model. Preserve and assess both reports; neither is an agreed exact-value target.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_b6070afbb1cd_000121_52f0cd9fe8ff",
+        "ev_doc_b6070afbb1cd_000122_70cfc466e553",
+        "pdf-page-doc_fe816bcc199b-p7",
+        "pdf-page-doc_b6070afbb1cd-p50"
+      ]
+    },
+    {
+      "protocol_id": "AP11",
+      "statement": "For S_Mtrans radical cation, the main-baseline B1 barrier and reaction energy are 3.2 and +1.8 kcal/mol, respectively; B2 values are 3.7 and +2.1 kcal/mol. These are the trans methyl models, not a separately observed trans-started photochemical product distribution.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000094_6b0cd8f99fb0",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_b6070afbb1cd_000123_d745e2c6c19c",
+        "pdf-page-doc_b6070afbb1cd-p50",
+        "pdf-page-doc_b6070afbb1cd-p51"
+      ]
+    },
+    {
+      "protocol_id": "AP12",
+      "statement": "The authors state that numbers vary with method and basis set. The SI also reveals real sign sensitivity: trans methyl reaction energies are negative with the printed CAM3-B3LYP model but positive with the M06-2X models, and cis methyl B2 is +0.04 kcal/mol at M06-2X/cc-pVDZ. Do not treat the main-method signs or magnitudes as method-independent truths, or compare unlike calculations by an arbitrary numerical tolerance.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000077_b7c5366d66c0",
+        "ev_doc_b6070afbb1cd_000122_70cfc466e553",
+        "ev_doc_b6070afbb1cd_000123_d745e2c6c19c",
+        "pdf-page-doc_b6070afbb1cd-p50",
+        "pdf-page-doc_b6070afbb1cd-p51"
+      ]
+    },
+    {
+      "protocol_id": "AP13",
+      "statement": "For S_Ptrans radical cation, the authors did not obtain a ring-closed B1 or B2 potential-energy minimum: optimization attempts led to ring-opened structures. No numerical ring-opening barrier or reaction energy is reported for a ring-closed phenyl minimum in Table 3.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000095_3745cc63b23a",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_b6070afbb1cd_000166_1c30b4caf949",
+        "pdf-page-doc_b6070afbb1cd-p67"
+      ]
+    },
+    {
+      "protocol_id": "AP14",
+      "statement": "The authors probed the phenyl case with energy-versus-C1'-C2' distance profiles from both ring-opened conformations, varying that distance from 2.3 to 1.5 angstrom at M06-2X/cc-pVDZ. The plotted energy rises as the bond is shortened. They interpret this, together with unsuccessful ring-closed optimizations, as consistent with concerted dissociative electron transfer and ring opening, not as a directly computed complete donor-acceptor electron-transfer trajectory.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000095_3745cc63b23a",
+        "ev_doc_fe816bcc199b_000096_cb236b3db403",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "pdf-page-doc_fe816bcc199b-p7"
+      ]
+    },
+    {
+      "protocol_id": "AP15",
+      "statement": "The authors compare methyl stereoisomers and report that the ring-closed trans radical cation is lower in energy than the cis ring-closed state or the ring-opened structures. They connect favorable cis ring opening followed by access to the more stable trans ring-closed state with the observed cis-to-trans substrate isomerization. They do not report a separate cis-to-trans transition-state barrier in this investigation.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000097_662e0b59d2e0",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_fe816bcc199b_000105_a0319ab0de76",
+        "ev_doc_b6070afbb1cd_000121_52f0cd9fe8ff",
+        "ev_doc_b6070afbb1cd_000122_70cfc466e553",
+        "ev_doc_b6070afbb1cd_000123_d745e2c6c19c",
+        "pdf-page-doc_fe816bcc199b-p8"
+      ]
+    },
+    {
+      "protocol_id": "AP16",
+      "statement": "For product formation, the authors propose that ring-opened distonic radical cations can disproportionate to iminium precursors, or receive hydrogen from the substrate; hydrolysis then gives aldehydes. They cite an unusually weak substrate C-H bond, about 75 kcal/mol, and a bond-strength-based hydrogen-transfer driving-force estimate of -23 kcal/mol. The bond strength is cited to prior work; it is not a newly reported hydrogen-transfer activation barrier.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000065_04097e2712de",
+        "ev_doc_fe816bcc199b_000075_d3f2b9009599",
+        "ev_doc_fe816bcc199b_000086_d4cdd11d9243",
+        "ev_doc_fe816bcc199b_000087_4577fecf9de8",
+        "ev_doc_fe816bcc199b_000138_8372ede9176c",
+        "pdf-page-doc_fe816bcc199b-p6"
+      ]
+    },
+    {
+      "protocol_id": "AP17",
+      "statement": "The deuterated-substrate distillate was compared with a simulated 1H NMR terminal-methyl region for a 50:50 mixture of CH3CH2CHO and CH2DCH2CHO using MestReNova 14.1.2-25024. The CH3 signal uses delta=1.03 ppm and J(H,CH2)=9.7 Hz; CH2D uses delta=1.01 ppm, J(H,CH2)=9.2 Hz and J(H,D)=2.5 Hz. This is a supporting spectral comparison, not a computed molecular reaction-energy result or a mandated exact isotopomer fraction.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000066_787281a52be2",
+        "ev_doc_fe816bcc199b_000074_f513b5ec2532",
+        "ev_doc_fe816bcc199b_000093_14cd0141629e",
+        "layout-doc_b6070afbb1cd-p42-b16",
+        "pdf-page-doc_fe816bcc199b-p7",
+        "pdf-page-doc_b6070afbb1cd-p42"
+      ]
+    },
+    {
+      "protocol_id": "AP18",
+      "statement": "The authors infer substrate hydrogen donation together with disproportionation from the isotope comparison. They explicitly state that their experiments and available substrates do not unambiguously distinguish intermolecular from intramolecular hydrogen transfer, although they favor an intermolecular account. A previously proposed six-membered intramolecular transition state is mentioned, not newly located and assigned a barrier here.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000074_f513b5ec2532",
+        "ev_doc_fe816bcc199b_000075_d3f2b9009599",
+        "pdf-page-doc_fe816bcc199b-p6",
+        "pdf-page-doc_fe816bcc199b-p8"
+      ]
+    },
+    {
+      "protocol_id": "AP19",
+      "statement": "Because an intact-cyclopropane pyridinium product is observed even for the phenyl substrate, the authors argue that its formation need not be a simple competition between ring opening and direct deprotonation of the initial radical cation. They propose hydrogen abstraction from neutral substrate, further oxidation of the resulting tetrahydropyridine radical and formation of the intact-ring pyridinium product. The similar experimental ring-retaining product amounts therefore are not interpreted as a quantitative ranking of the calculated radical-cation opening barriers.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000064_a1e2c20eb9dd",
+        "ev_doc_fe816bcc199b_000083_ce8be0974d5b",
+        "ev_doc_fe816bcc199b_000105_a0319ab0de76",
+        "ev_doc_fe816bcc199b_000111_c1881cb95d0e",
+        "pdf-page-doc_fe816bcc199b-p6",
+        "pdf-page-doc_fe816bcc199b-p8",
+        "pdf-page-doc_fe816bcc199b-p9"
+      ]
+    },
+    {
+      "protocol_id": "AP20",
+      "statement": "The authors interpret aerobic acetaldehyde and benzaldehyde formation using oxygen trapping of ring-opened species and peroxide decomposition; oxygen also regenerates the flavin. This is product-context interpretation, not a reported complete oxygen/peroxide kinetic or activation-energy calculation. The reactive site of the remaining amino-containing radical fragment is stated to be unknown in the oxygen scheme.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000115_8f4e89da5e05",
+        "ev_doc_fe816bcc199b_000117_eb0eb1d75797",
+        "pdf-page-doc_fe816bcc199b-p9"
+      ]
+    },
+    {
+      "protocol_id": "AP21",
+      "statement": "The baseline's molecular calculations do not include an explicit solvent/counterion/flavin/oxygen/enzyme environment or light absorption model. No uncertainty estimates or complete reaction rate/yield calibration are reported. The stated stationary-point validation and comparative molecular trends must be assessed within their modeled scope, and the hydrogen-transfer and phenyl-mechanism interpretations remain conditional rather than uniquely demonstrated reaction histories.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000052_95d2f2bbdf95",
+        "ev_doc_fe816bcc199b_000075_d3f2b9009599",
+        "ev_doc_fe816bcc199b_000095_3745cc63b23a",
+        "ev_doc_fe816bcc199b_000099_c9632b8f4506",
+        "ev_doc_fe816bcc199b_000111_c1881cb95d0e",
+        "ev_doc_fe816bcc199b_000138_8372ede9176c",
+        "ev_doc_b6070afbb1cd_000104_5654521d608b"
+      ]
+    },
+    {
+      "protocol_id": "AP22",
+      "statement": "There is a reported functional-name ambiguity: the oxidation table names CAM-B3LYP, while the computational paragraph and ring-opening tables print CAM3-B3LYP. Do not silently claim that an unreported implementation, geometry-search recipe or source correction was reproduced; document how the named baseline was implemented and justify any substitution or unresolved mapping.",
+      "evidence_ids": [
+        "ev_doc_fe816bcc199b_000052_95d2f2bbdf95",
+        "ev_doc_fe816bcc199b_000138_8372ede9176c",
+        "ev_doc_b6070afbb1cd_000104_5654521d608b",
+        "ev_doc_b6070afbb1cd_000116_40f05db05140"
+      ]
+    }
+  ]
+}

@@ -14,6 +14,7 @@ import json
 import logging
 import os
 import shutil
+import stat
 import threading
 import time
 from datetime import datetime, timezone
@@ -21,6 +22,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .workspace import relative_workspace_path, workspace_root
+from .call_provenance import CALL_PROVENANCE
 from chemistry_toolbox.src.execution_states import TERMINAL_STATES
 
 
@@ -127,14 +129,18 @@ def workspace_snapshot() -> dict[str, tuple[int, int]]:
     snapshot: dict[str, tuple[int, int]] = {}
     root = workspace_root()
     for path in root.rglob("*"):
-        if path.is_symlink() or not path.is_file() or _excluded(path):
+        if _excluded(path):
             continue
         try:
+            info = path.lstat()
+            if not stat.S_ISREG(info.st_mode):
+                continue
             path.resolve().relative_to(root)
-        except ValueError:
+        except (FileNotFoundError, ValueError):
+            # Discovery is best-effort: an atomic writer may rename a file
+            # after directory enumeration. Declared outputs are checked elsewhere.
             continue
-        stat = path.stat()
-        snapshot[str(path.relative_to(root))] = (stat.st_size, stat.st_mtime_ns)
+        snapshot[str(path.relative_to(root))] = (info.st_size, info.st_mtime_ns)
     return snapshot
 
 
@@ -160,31 +166,37 @@ def _capture_changed_artifacts(
     records: list[dict[str, Any]] = []
     for rel in changed[:max_files]:
         source = root / rel
-        if source.is_symlink() or not source.is_file():
-            continue
-        size = source.stat().st_size
-        if size > max_bytes:
+        destination = artifact_dir / rel
+        try:
+            info = source.lstat()
+            if not stat.S_ISREG(info.st_mode):
+                continue
+            size = info.st_size
+            if size > max_bytes:
+                records.append(
+                    {
+                        "path": rel,
+                        "snapshot_path": None,
+                        "size_bytes": size,
+                        "sha256": _sha256(source),
+                        "snapshot_skipped": f"larger than {max_bytes} bytes",
+                    }
+                )
+                continue
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
             records.append(
                 {
                     "path": rel,
-                    "snapshot_path": None,
-                    "size_bytes": size,
-                    "sha256": _sha256(source),
-                    "snapshot_skipped": f"larger than {max_bytes} bytes",
+                    "snapshot_path": relative_workspace_path(destination),
+                    "size_bytes": destination.stat().st_size,
+                    "sha256": _sha256(destination),
                 }
             )
-            continue
-        destination = artifact_dir / rel
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, destination)
-        records.append(
-            {
-                "path": rel,
-                "snapshot_path": relative_workspace_path(destination),
-                "size_bytes": size,
-                "sha256": _sha256(source),
-            }
-        )
+        except FileNotFoundError:
+            # An incidental file can disappear between snapshot and capture.
+            # Never turn that race into a failure of the unrelated tool call.
+            destination.unlink(missing_ok=True)
     return records
 
 
@@ -210,8 +222,10 @@ def _trace_operation(
     error = None
     operation_exception: BaseException | None = None
     outcome = {"result": None}
+    provenance = dict(CALL_PROVENANCE.get() or {"origin": "unknown"})
     _append_call_event(root, {"sequence": sequence, "tool": tool_name, "phase": "started", "at": started_wall,
-                             "arguments": _jsonable(arguments), "mcp_request_id": MCP_REQUEST_ID.get(), "host_call_id": None})
+                             "arguments": _jsonable(arguments), "mcp_request_id": MCP_REQUEST_ID.get(),
+                             "host_call_id": provenance.get("host_call_id"), "call_provenance": provenance})
     try:
         yield outcome
     except BaseException as exc:
@@ -270,7 +284,8 @@ def _trace_operation(
                 ),
                 "tool": tool_name,
                 "mcp_request_id": MCP_REQUEST_ID.get(),
-                "host_call_id": None,
+                "host_call_id": provenance.get("host_call_id"),
+                "call_provenance": provenance,
                 "arguments": _jsonable(arguments),
                 "status": recorded_status,
                 "transport_status": transport_status,
@@ -315,7 +330,7 @@ def execute_traced(tool_name, arguments, function, *, capture_artifacts=True):
             outcome["result"] = exception_feedback(exc, tool=tool_name)
             import traceback
             outcome["original_exception"] = {"type": type(exc).__name__, "message": str(exc), "traceback": traceback.format_exc()}
-        return _project_traced(outcome, tool_name)
+        return _project_traced(outcome, tool_name, arguments)
 
 
 async def execute_traced_async(tool_name, arguments, function, *, capture_artifacts=False):
@@ -329,12 +344,15 @@ async def execute_traced_async(tool_name, arguments, function, *, capture_artifa
             outcome["result"] = exception_feedback(exc, tool=tool_name)
             import traceback
             outcome["original_exception"] = {"type": type(exc).__name__, "message": str(exc), "traceback": traceback.format_exc()}
-        return _project_traced(outcome, tool_name)
+        return _project_traced(outcome, tool_name, arguments)
 
 
-def _project_traced(outcome, tool_name):
+def _project_traced(outcome, tool_name, arguments=None):
     from chemistry_toolbox.src.execution_feedback import normalize_tool_feedback, feedback_schema_version
     view = normalize_tool_feedback(outcome["result"], tool=tool_name)
-    outcome["display_projection"] = {"function": "normalize_tool_feedback", "schema_version": feedback_schema_version(),
-        "tool": tool_name, "sha256": hashlib.sha256(json.dumps(_jsonable(view), sort_keys=True, ensure_ascii=False).encode()).hexdigest()}
+    from .response_projection import project_response
+    from .response_policy import response_profile, response_bytes
+    view = project_response(view, tool_name, arguments)
+    outcome["display_projection"] = {"function": "normalize_tool_feedback" if response_profile() == "legacy" else "normalize_tool_feedback+project_response", "schema_version": feedback_schema_version(),
+        "tool": tool_name, "response_profile": response_profile(), "response_bytes": response_bytes(view), "sha256": hashlib.sha256(json.dumps(_jsonable(view), sort_keys=True, ensure_ascii=False).encode()).hexdigest()}
     return view

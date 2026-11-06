@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_5d9fa6b2dd23daf1",
+  "items": [
+    {
+      "statement": "Final: explain the two classes of trans products by electrophilic cyclization",
+      "expected": "In the final conclusion, use actual connectivity and structural evidence to connect adamantyl electrophilic bond formation and ring closure through carboxyl oxygen or sulfonamide nitrogen to the two supplied trans products in a chemically balanced pathway explanation. The authors' concerted electrophilic cyclization is the reference answer; scientifically equivalent physical explanations supported by actual evidence are acceptable. Merely repeating products or listing candidates is insufficient. Explain the relative trans configuration; a trans route alone cannot establish quantified trans/cis selectivity. A unique mechanism or complete catalytic cycle need not be demonstrated.",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD"
+      ],
+      "claim_role": "final",
+      "conclusion_id": "trans_pathway_answer",
+      "supporting_key_point_ids": [
+        "acid_trans_connection",
+        "sulfonamide_trans_connection"
+      ]
+    },
+    {
+      "statement": "Final: easier sulfonamide cyclization and two exergonic net transformations",
+      "expected": "In the final conclusion, use actual barriers and net reaction thermodynamics with consistent physical references to judge that local sulfonamide cyclization is easier than that of the acid substrate and that both net product formations are exergonic, applying this comparison to the accessibility question for the supplied system. Passing independent numerical windows does not replace the ordering and signs; values outside the windows do not automatically invalidate evidence-supported qualitative conclusions. Do not treat full-profile heights as local barriers, ion-formation energies as activation barriers or the small 0.2 kcal/mol product difference as a robust ordering. Do not infer exact experimental rates/yields from this comparison.",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_ENERGY"
+      ],
+      "claim_role": "final",
+      "conclusion_id": "energetic_comparison_answer",
+      "supporting_key_point_ids": [
+        "acid_local_barrier",
+        "sulfonamide_local_barrier",
+        "acid_product_energy",
+        "sulfonamide_product_energy"
+      ]
+    }
+  ]
+}

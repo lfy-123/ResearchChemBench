@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "items": [
+    {
+      "key_point_id": "active_species_identity",
+      "rule_ids": [
+        "r_active_species_identity"
+      ],
+      "scientific_max_score": 12,
+      "statement": "中性ZnII双prolinate身份",
+      "expected": "真实计算支持中性Zn(II)双prolinate活性物种，配体去质子化、N/O配位且L构型保留。须以实际分子图和电荷/组成支持Zn形式+2，不以任意原子电荷替代氧化态。",
+      "evidence_ids": [
+        "zn_species"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "catalyst_formation",
+      "rule_ids": [
+        "r_catalyst_formation"
+      ],
+      "scientific_max_score": 8,
+      "statement": "平衡质子解离形成有利",
+      "expected": "实际平衡形成反应ZnEt2+2 L-proline→中性ZnII双prolinate+2乙烷的G为下坡，支持从所给前体形成活性物种。作者−98.5仅作背景；不能把不同组成的形成能当TS势垒，或用Zn0优化失败证明其普适不可能。",
+      "evidence_ids": [
+        "zn_species",
+        "zn_components"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "alkynyl_intermediate",
+      "rule_ids": [
+        "r_alkynyl_intermediate"
+      ],
+      "scientific_max_score": 10,
+      "statement": "碳酸盐辅助末端炔活化",
+      "expected": "实际物种及配平反应支持末端炔在ZnII/prolinate与碳酸盐作用下形成alkynylZn中间体Int2，并明确Cs-prolinate/CsHCO3储库。该步骤小幅上坡；只评分结构、配平与正号，不对来源冲突的Int2高度设置精确窗口。",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "coupling_connection",
+      "rule_ids": [
+        "r_coupling_connection"
+      ],
+      "scientific_max_score": 14,
+      "statement": "取代型偶联连接",
+      "expected": "真实相关鞍点/反应模及实际连接证据支持alkynylZn与alkynyl bromide形成Csp–Csp、断Csp–Br并释放Zn–C，得到正确不对称1,3-二炔。只评分键变/相连身份，不用29.2数值命中替代连接。",
+      "evidence_ids": [
+        "zn_network",
+        "zn_ts"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "regeneration",
+      "rule_ids": [
+        "r_regeneration"
+      ],
+      "scientific_max_score": 10,
+      "statement": "配体储库与催化剂再生",
+      "expected": "实际产物后物种及匹配储库支持Int3经Cs-prolinate再生中性Int1，同时形成CsBr，并将CsHCO3计入完整配平网络。需真实物种/热力学支持，不仅书写循环；不强制作者未提供的独立再生鞍点。",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "turnover_span",
+      "rule_ids": [
+        "r_turnover_span"
+      ],
+      "scientific_max_score": 20,
+      "statement": "平衡控制能跨",
+      "expected": "G(TS)+G(Cs-prolinate)+G(CsHCO3)−[G(Int1)+G(R1)+G(R2)+G(Cs2CO3)]，目标29.2 kcal/mol、绝对容差1.0 kcal/mol。采用匹配组成、同温度/溶剂/标准态及自身TS热项；不能用TS−Int2−R2局部势垒或未配平高度代替。",
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    }
+  ]
+}

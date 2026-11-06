@@ -1,0 +1,77 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "case_id": "case_01",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "同一中性 S 到两个未排序异构体的重排机制及动力学竞争。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "p2_activation",
+      "description": "S→P2 通道中所研究关键化学事件的实际 Gibbs 活化量及匹配前体/反应态能量、参照；局部 TS 子项不以完整多步路线为前提，竞争项另核查两通道是否足够可比。",
+      "public_requirement": "Computed Gibbs activation energy and matched precursor/reactive-state energies for the investigated key event in the S-to-P2 channel. Local transition-state validation does not require a complete multistep route; a channel preference requires sufficient comparable kinetic evidence."
+    },
+    {
+      "id": "p1_activation",
+      "description": "S→P1 通道中所研究关键化学事件的实际 Gibbs 活化量及匹配前体/反应态能量、参照；局部 TS 子项不以完整多步路线为前提，竞争项另核查两通道是否足够可比。",
+      "public_requirement": "Computed Gibbs activation energy and matched precursor/reactive-state energies for the investigated key event in the S-to-P1 channel. Local transition-state validation does not require a complete multistep route; a channel preference requires sufficient comparable kinetic evidence."
+    },
+    {
+      "id": "activation_difference",
+      "description": "共同参照下两通道的 Gibbs 势垒差，说明差值方向；单位 kcal/mol。",
+      "public_requirement": "The Gibbs activation-energy difference between the two channels on a common reference, in kcal/mol, with the subtraction order defined."
+    },
+    {
+      "id": "p2_route_profile",
+      "description": "指定 S→P2 路线中相连反应剖面的实际能量及相应活化估计，注明原子/构型映射；不以已收敛 TS 作为此项唯一证据。",
+      "public_requirement": "Computed connected reaction-profile energies and applicable activation estimates for the proposed S-to-P2 route, with atom and stereochemical mapping; a fully validated saddle is assessed separately."
+    },
+    {
+      "id": "p1_route_profile",
+      "description": "指定 S→P1 路线中相连反应剖面的实际能量及相应活化估计，注明原子/构型映射；不以已收敛 TS 作为此项唯一证据。",
+      "public_requirement": "Computed connected reaction-profile energies and applicable activation estimates for the proposed S-to-P1 route, with atom and stereochemical mapping; a fully validated saddle is assessed separately."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "p2_rearrangement_mechanism",
+      "points": 15,
+      "description": "S→P2 的有据重排路线",
+      "allow_need_review": false
+    },
+    {
+      "id": "p2_transition_state_chemistry",
+      "points": 15,
+      "description": "S→P2 的关键过渡态化学与连接",
+      "allow_need_review": false
+    },
+    {
+      "id": "p1_rearrangement_mechanism",
+      "points": 15,
+      "description": "S→P1 的有据重排路线",
+      "allow_need_review": false
+    },
+    {
+      "id": "p1_transition_state_chemistry",
+      "points": 15,
+      "description": "S→P1 的关键过渡态化学与连接",
+      "allow_need_review": false
+    },
+    {
+      "id": "rearrangement_preference",
+      "points": 40,
+      "description": "P2 通道在动力学上更有利",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Fig.5、结论及 SI 能量/频率表；历史验证有两条重排通道、相关振动和四方向连接/端点支持。",
+  "boundaries": [
+    "只覆盖给定 3a/S，不加入论文其他底物的双自由基、负活化能或轨迹结论。",
+    "P1/P2 结构已给定，单独重画产物、找到一个 TS 或复述反应名称均不计分。",
+    "机制结论与通道排序是不同科学问题；不要求作者的双船构象或固定搜索方法。",
+    "路线解释与关键 TS 化学确认分别计分；可靠替代机制可接受，真实分子图/立体映射优先于单独 CIP 标签，算法标签差异不单独导致失分。"
+  ],
+  "source_locator": "Main text p4 Fig.5, p14; SI p6",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

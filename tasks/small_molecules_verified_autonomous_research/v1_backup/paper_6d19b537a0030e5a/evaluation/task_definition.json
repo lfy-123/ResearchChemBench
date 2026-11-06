@@ -1,0 +1,99 @@
+{
+  "scientific_question": "For the specified chiral cyclopentadienone–iron catalyst C_A, how does hydrogenation of phenyl(trimethylsilyl)methanone under H2 proceed to the chiral silyl alcohol, what controls turnover and the competition between alcohol enantiomers, how does the catalyst's molecular organization relate to these outcomes, and how does replacing trimethylsilyl with tert-butyl change enantiomer discrimination within the same catalyst system?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Primary substrate: phenyl(trimethylsilyl)methanone, Ph–C(=O)–Si(CH3)3; SMILES O=C(c1ccccc1)[Si](C)(C)C. The carbonyl carbon is bonded directly to silicon, not to a methylene spacer. Matched substrate for the structural comparison: 2,2-dimethyl-1-phenylpropan-1-one, Ph–C(=O)–C(CH3)3; SMILES O=C(c1ccccc1)C(C)(C)C. Only the Si(CH3)3-to-C(CH3)3 substitution defines this substrate comparison."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Primary product: phenyl(trimethylsilyl)methanol, Ph–CH(OH)–Si(CH3)3; constitutional SMILES OC(c1ccccc1)[Si](C)(C)C. The carbinol carbon bears phenyl, hydroxyl, hydrogen and trimethylsilyl. Comparison product: 2,2-dimethyl-1-phenylpropan-1-ol, Ph–CH(OH)–C(CH3)3; constitutional SMILES OC(c1ccccc1)C(C)(C)C. Both alcohol enantiomers are in scope. No major-product absolute configuration is supplied; assign any claimed stereochemical outcome from an explicit molecular structure."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "condition",
+      "content": "Reacting catalyst C_A is a neutral cyclopentadienone–iron tricarbonyl complex. Define the ligand graph by the ring C1(=O)–C2=C3–C4=C5–C1, with an additional C3–CH2–CH2–CH2–CH2–C4 bridge. Thus the fused ring has six members. C2 and C5 each attach directly to the stereogenic C2 of a pyrrolidine ring; both pyrrolidine C2 stereocenters are S. Each pyrrolidine nitrogen is bonded to S(=O)2–Ar, where Ar is 4-phenylphenyl, with sulfur attached at aryl C1 and phenyl at C4. The iron is coordinated to the four diene carbons of the cyclopentadienone and bears three terminal carbon-bound CO ligands. This specifies the starting molecular identity, not an optimized conformation or electronic state. Direct experimental comparison for C_A uses substrate 0.2 mmol, catalyst 2 mol %, trimethylamine N-oxide 4 mol %, toluene 0.3 mL, H2 30 atm, 80 °C, 12 h. A distinct comparison catalyst C_B has the same ligand backbone and S,S stereochemistry, but Ar is 3,5-di-tert-butyl-4-methoxyphenyl, with sulfur attached at aryl C1. The optimized aryl-acylsilane comparison conditions for C_B are substrate 0.5 mmol, catalyst 2 mol %, trimethylamine N-oxide 4 mol %, H2 30 atm, iPrOH/H2O 1.2:0.3 mL, 60 °C, 12 h. C_B is observational context only: its performance must not be relabelled as a measurement for C_A, and calculations on C_B are not a required outcome."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "With C_A under its toluene/H2 conditions in PI3, the primary substrate gave its alcohol in 87% yield and 86:14 enantiomeric ratio. With C_B under its optimized iPrOH/H2O/H2 conditions in PI3, the primary substrate gave its alcohol in 95% yield and 93:7 enantiomeric ratio. The tert-butyl analogue showed lower enantiomer discrimination in experiments with related catalysts, but no matched numerical C_A measurement for that analogue is supplied. This is contextual evidence, not a same-catalyst quantitative selectivity datum. Yields and enantiomeric ratios are observations, not calculated answers or rate constants; no concentration-versus-time data are supplied."
+    }
+  ],
+  "changes": [
+    {
+      "subject_id": "scientific_question",
+      "change_type": "source_correction",
+      "reason": "Stage05 reduced the investigation to features of competing hydrogen-transfer paths. The actual connected Fe4 computation also optimized catalyst organization, compared precursor and cycle spin states, investigated Me3NO-assisted activation and the full H2 cycle including MECP2 and turnover limitation, and compared trimethylsilyl and tert-butyl enantiodiscrimination. Restore those connected scientific purposes without prescribing the author mechanism, spin route, contacts, DFT or NCI. The original acylsilane, alcohol and Fe4 computational system are retained; Fe9 remains experimental context rather than a substituted computational target. CR1 maps to pathway/turnover, CR4 and the Int-H structure to organization/reactivity, CR2 to enantiomer competition, and CR3 plus the actual same-scaffold tert-butyl transition-state comparison to the substrate/selectivity relationship. Experimental substrate scope, transfer hydrogenation and catalyst synthesis do not become extra computational goals.",
+      "evidence_ids": [
+        "ev_doc_102d2a86f8c8_000045_15ce4acea46a",
+        "ev_doc_102d2a86f8c8_000046_adfb7cddd71f",
+        "ev_doc_102d2a86f8c8_000057_cf82e996ca40",
+        "ev_doc_7f136c34a44b_000067_55429afd153e",
+        "ev_doc_7f136c34a44b_000084_20568ffb3230",
+        "ev_doc_7f136c34a44b_000085_33cb2ec02c5f",
+        "ev_doc_7f136c34a44b_000115_2e9776267529",
+        "ev_doc_7f136c34a44b_000117_135535c543b7",
+        "ev_doc_7f136c34a44b_000081_d5c724760c7f",
+        "pdf-page-doc_7f136c34a44b-p8"
+      ]
+    },
+    {
+      "subject_id": "PI1",
+      "change_type": "identity_clarification",
+      "reason": "The viewed starting/product diagrams verify Ph–C(=O)–SiMe3 rather than a silylethyl or O-silylated ketone. Retain that graph and add graph-explicit neutral names/SMILES for the actually computed matched tert-butyl analogue required by the full-scope question correction. The paired transition-state drawings show the same catalyst scaffold and a direct SiMe3-to-CMe3 replacement, not a different reaction.",
+      "evidence_ids": [
+        "pdf-page-doc_102d2a86f8c8-p3",
+        "ev_doc_102d2a86f8c8_000046_adfb7cddd71f",
+        "ev_doc_102d2a86f8c8_000057_cf82e996ca40",
+        "pdf-page-doc_7f136c34a44b-p7",
+        "pdf-page-doc_7f136c34a44b-p8",
+        "ev_doc_7f136c34a44b_000081_d5c724760c7f"
+      ]
+    },
+    {
+      "subject_id": "PI2",
+      "change_type": "identity_clarification",
+      "reason": "Clarify the unchanged primary alcohol constitution and the matched carbon analogue using the viewed ordinary product drawings. Both enantiomers remain outcomes to investigate. Do not silently equate a source transition-state S/R label or common attack face with a verified product CIP assignment; public absolute configuration is therefore not asserted.",
+      "evidence_ids": [
+        "pdf-page-doc_102d2a86f8c8-p3",
+        "pdf-page-doc_102d2a86f8c8-p6",
+        "pdf-page-doc_7f136c34a44b-p7",
+        "pdf-page-doc_7f136c34a44b-p8"
+      ]
+    },
+    {
+      "subject_id": "PI3",
+      "change_type": "source_correction",
+      "reason": "Stage05 PI3 identifies Fe9 whereas all frozen computational references identify Fe4. Retain the actual Fe9 structure/conditions as C_B observational context, explicitly separate the actually computed Fe4 reacting system as C_A, and supply its unambiguous graph and direct experimental conditions. The original Fe9 conditions are not changed or applied to Fe4. Viewed Fig. 2 identifies Fe4 as n=2, Ar=4-phenylphenyl and Fe9 as n=2, Ar=3,5-di-tert-butyl-4-methoxyphenyl; the precursor route and stereobonds verify the two retained L-proline-derived S centers. The n=2 six-membered fused ring corresponds to a four-methylene bridge between adjacent CPD carbons. The tricarbonyl CPD ligand is coordinated through its four diene carbons; no hydride, ligand-OH intermediate, optimized geometry, preferred conformation or spin multiplicity is made public. This corrects an upstream model/observation conflation within the same frozen investigation, not a switch to another catalyst study.",
+      "evidence_ids": [
+        "ev_doc_102d2a86f8c8_000025_36c996375eb6",
+        "ev_doc_102d2a86f8c8_000026_a5fa22baf8cd",
+        "pdf-page-doc_102d2a86f8c8-p2",
+        "pdf-page-doc_102d2a86f8c8-p3",
+        "pdf-page-doc_102d2a86f8c8-p6",
+        "ev_doc_7f136c34a44b_000067_55429afd153e",
+        "ev_doc_102d2a86f8c8_000039_c607caf90ba6",
+        "ev_doc_102d2a86f8c8_000034_675b5fce45b9",
+        "ev_doc_102d2a86f8c8_000063_e4533c6a003a"
+      ]
+    },
+    {
+      "subject_id": "PI4",
+      "change_type": "source_correction",
+      "reason": "The Stage05 93% yield is a demonstrable transcription error: the cited Fig. 2 entry 13 reports 95% yield and 93:7 er for Fe9. Correct only that yield, identify it as C_B context, and add the same source table entry 4 for Fe4/C_A (87%, 86:14 er). Retain the qualitative experimentally reported lower er of the tert-butyl analogue without inventing a matched Fe4 measurement: the viewed peer-review diagram lists Fe9/Fe12 experiments, not Fe4. Do not convert endpoint yields, er or isotope observations into fitted rates or a requirement to compute unstudied transfer-hydrogenation kinetics. The independently viewed main Fig. 3 primary product 2a also gives 95%, 93:7 er at the 0.5 mmol C_B conditions retained in PI3; this confirms the public observation at that exact reported scale.",
+      "evidence_ids": [
+        "ev_doc_102d2a86f8c8_000026_a5fa22baf8cd",
+        "ev_doc_102d2a86f8c8_000027_6089ceb19829",
+        "pdf-page-doc_102d2a86f8c8-p3",
+        "ev_doc_7f136c34a44b_000080_1143b43c4225",
+        "pdf-page-doc_7f136c34a44b-p7",
+        "pdf-page-doc_102d2a86f8c8-p4",
+        "layout-doc_102d2a86f8c8-p4-b24",
+        "ev_doc_102d2a86f8c8_000034_675b5fce45b9"
+      ]
+    }
+  ]
+}

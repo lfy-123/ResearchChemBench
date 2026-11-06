@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "items": [
+    {
+      "failure_id": "fabricated_evidence",
+      "statement": "Confirmed fabricated execution or numerical evidence invalidates the submission.",
+      "trigger": "Affirmative evidence confirms forged execution, logs or results, or unexecuted reference values misrepresented as independent calculations. Honest failure, missing work, numerical disagreement and mistaken molecular identity are not by themselves fabrication.",
+      "assessment": "Use invalid_submission only for confirmed fabrication. Ordinary errors fail the affected scientific outcomes; independently supported outcomes retain their credit.",
+      "evidence_ids": [
+        "main"
+      ]
+    },
+    {
+      "failure_id": "hidden_answer_leakage",
+      "statement": "Confirmed unauthorized use of hidden answers presented as independent discovery invalidates the submission.",
+      "trigger": "Affirmative evidence confirms reliance on private evaluator answers or hidden native reference assets misrepresented as independently generated findings. Publicly supplied guidance is not itself leakage.",
+      "assessment": "Use invalid_submission only for confirmed unauthorized hidden-answer use. Ordinary missing items, identity errors or unit errors affect the relevant outcomes without automatically erasing independent valid results.",
+      "evidence_ids": [
+        "main"
+      ]
+    }
+  ],
+  "ordinary_failure_policy": "Missing or unsupported final conclusions fail only the affected items; supported independent outcomes retain their points. Return pass/fail for every item and record demonstrated reference defects separately in objective_issue_flags. No pending scientific-review status.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_preferred_initial_mechanism",
+      "r_oxidizing_activity_explanation",
+      "r_initial_oxidation_outcome"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "guidance_markdown": "## Author-provided scientific guidance\n\nThe author baseline hypothesizes that in situ partial oxidation of dippf forms its mono-oxide, which changes olefin access and the species responsible for Heck regioselectivity. For neutral complexes the P=O donor can vacate a coordination site. The authors contrast this β-selective context with an α-selective context attributed to a cationic parent-dippf complex. This is a disclosed baseline to execute and assess for the same scientific question, not a uniquely established mechanism or a demand to model oxidation kinetics.\n\nThe computed model set comprises neutral [(dippf)Pd(Ph)I], neutral [(dippf(O))Pd(Ph)I], neutral [(dippf(O))Pd(Ph)(OPh)], anionic [Pd(Ph)I2]− and cationic [(dippf)Pd(Ph)]+. The primary modeled olefin is 1,2-dihydronaphthalene; styrene is a comparison in the parent-neutral, anionic and cationic calculations and in mono-oxide iodide binding. Ph denotes phenyl in these models, not the experimental para-tert-butylphenyl group. Dippf(O) has one oxidized phosphorus on the same ferrocene/isopropyl ligand graph.\n\nThe authors use Gaussian16. Geometry optimizations and harmonic frequency calculations are at B3LYP-D3/def2-SVP; higher-level single-point energies use M06-L/def2-TZVP with SMD solvation. The article specifies diethyl ether at25 °C for these olefin-insertion comparisons, and discusses Gibbs free energies. The general SI method mentions ether or methanol across the work; it does not make methanol an additional input/target for this shared Heck core. Do not invent unreported numerical/search or thermochemical settings.\n\nThe SI describes harmonic validation of minima by zero imaginary frequencies and transition states by one imaginary frequency at the optimization level, and consideration of possible isomers. Its stated validation does not itself provide an IRC protocol. Preserve actual execution and validation evidence and assess connectivity when making transition-state claims; do not claim a source-reported IRC that was not stated.\n\nThe author ligand-displacement comparisons report dihydronaphthalene binding costs of+15.2 kcal/mol for parent dippf and+9.2 kcal/mol for its mono-oxide on neutral Pd(Ph)I models. Styrene binding to the mono-oxide model is+6.8 kcal/mol. These are equilibrium relative Gibbs costs of opening/binding the site, not calculated barriers for diphosphine oxidation or ligand-exchange kinetics. The original diagrams distinguish the parent and mono-oxide despite the duplicated complex name in one prose passage.\n\nFor the neutral parent-dippf iodide control, SI figures display eight ground-state configurations and eight α/β insertion transition structures for each olefin. The lowest α/β transition energies are22.0/20.0 kcal/mol for dihydronaphthalene and20.9/19.9 for styrene, each relative to its own lowest ground-state reference. These are actual reported model controls, not a universal conformer or job-count requirement.\n\nFor the mono-oxide phenoxide complex with dihydronaphthalene, the authors locate eight ground-state conformers and eight insertion transition structures. Trans ground states are disfavored by11–15 kcal/mol relative to cis partners, but the lowest α/β transition structures are trans and have relative Gibbs energies22.7/18.4 kcal/mol. The authors relate the4.3 kcal/mol β-favoring gap to the high β-selectivity under the experimental heating condition.\n\nThe author selectivity comparison assumes rapid ground-state conformer interconversion and irreversible aryl insertion, invoking a Curtin–Hammett treatment and choosing the lowest-energy ground-state conformer as the common reference for competing insertion transitions. Treat those as scientific assumptions to assess, not as independently proven kinetics.\n\nThe authors interpret phenoxide-model transition structures using weak phenoxide/migrating-phenyl π–π contacts, displaced dispersion-like stacking, additional β CH–π stabilization involving an isopropyl fragment and the dihydronaphthalene aromatic ring, and α phosphine/aliphatic steric contact. These are their explanatory analyses, not standalone proof of a unique catalytic mechanism.\n\nFor mono-oxide iodide insertion with dihydronaphthalene, eight ground states and eight transition structures are optimized. Lowest α/β transitions are cis with relative Gibbs energies21.6/19.4 kcal/mol and a2.2 gap. Authors contrast the absence of phenoxide π contacts. Natural population analysis gives β-transition Pd partial charges about+0.31 e for phenoxide and+0.04 e for iodide, which the authors interpret together with attractive and repulsive structural interactions.\n\nFor anionic [Pd(Ph)I2]− insertion, the lowest dihydronaphthalene α/β transition energies are18.5/17.4 kcal/mol. The authors judge the small gap insufficient to explain the high β-selectivity as the major pathway and suggest possible minor late contribution after ligand deactivation; this is an interpretation, not computed deactivation kinetics. SI S5 shows two styrene ground states, three dihydronaphthalene ground states and α/β transition controls; styrene α/β energies are21.1/19.2 on its own reference.\n\nThe cationic parent-dippf model for dihydronaphthalene has four explored ground-state conformers and four insertion transition structures. Ligand pseudoaxial/pseudoequatorial orientation and olefin orientation relative to a proximal substituent are considered. The authors use the lowest ground-state conformer to compare α/β transitions and favor α. Main prose reports17.1/18.8 kcal/mol, whereas the viewed figure and SI show17.5/18.8; the prose also states a1.3 gap and local barriers15.7/17.0. Retain this unresolved source discrepancy and assess it explicitly rather than silently choosing, averaging or correcting an α value.\n\nThe cationic styrene control in SI S6 displays three ground states and four insertion transition structures, with lowest α/β energies11.3/16.0 kcal/mol. The article compares the11.3 styrene α barrier to17.5 for dihydronaphthalene and interprets the benzofused olefin as more difficult in that model. Keep the two substrates’ ground-state references separate; the comparison is not an experimental absolute-rate benchmark.\n\nThe author cationic-model interpretation invokes an early α transition state with about+0.36 e benzylic partial charge and aromatic-conjugation stabilization. In β they invoke lost conjugative stabilization plus an olefin/isopropyl steric interaction. These are contextual electronic/structural hypotheses to assess, not required final causal conclusions or universally applicable descriptor targets.\n\nThe actual supporting workflow uses NBO natural population analysis on selected stationary points and Hirshfeld independent-gradient-model analysis with Multiwfn3.7; visualization uses VMD1.9.3 and CYLview1.0. These supporting methods address electronic and weak-interaction explanations of the same outcomes. Record fidelity and justified substitutions if adopting this disclosed baseline, without treating a missing author descriptor as failure when another relevant supported analysis addresses the scientific outcome.\n\nThe author experimental context privately withheld from the autonomous inputs includes biphenyl-4-yl mono-oxide Pd complexes. With KOPh in anisole, the bromide starting complex gives69% β product and30:1 selectivity; with i-Pr2NEt instead it gives3% and1:1. A phenoxide complex formed by KOPh pretreatment at50 °C and then exposed to the olefin at100 °C gives70% and32:1. These observations motivate the author hypotheses but are not computational references for a full biphenyl model and are not additional required experiments, scientific goals or scored deliverables.\n\nReported limitations and comparison boundaries include finite explored configurations, the assumed fast interconversion/irreversible-insertion treatment, phenyl rather than experimental para-tert-butylphenyl models, nominal100 °C experimental heating versus the article’s25 °C ether computational context, and no reported uncertainty bars or full enumeration of every thermochemical/standard-state setting. The cationic α-energy reporting ambiguity remains unresolved. The references do not establish an exhaustive catalytic network, oxidation/release/deactivation rate law or unique mechanism. Preserve these limits and any execution failure or scientific alternative in the same shared submission.\n",
+  "statements": [
+    {
+      "protocol_id": "APG01",
+      "statement": "The author baseline hypothesizes that in situ partial oxidation of dippf forms its mono-oxide, which changes olefin access and the species responsible for Heck regioselectivity. For neutral complexes the P=O donor can vacate a coordination site. The authors contrast this β-selective context with an α-selective context attributed to a cationic parent-dippf complex. This is a disclosed baseline to execute and assess for the same scientific question, not a uniquely established mechanism or a demand to model oxidation kinetics.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000010_cf99446c292a",
+        "ev_doc_d2a1d4b93cff_000011_9baa90291c78",
+        "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+        "ev_doc_d2a1d4b93cff_000147_b7e116809c02"
+      ]
+    },
+    {
+      "protocol_id": "APG02",
+      "statement": "The computed model set comprises neutral [(dippf)Pd(Ph)I], neutral [(dippf(O))Pd(Ph)I], neutral [(dippf(O))Pd(Ph)(OPh)], anionic [Pd(Ph)I2]− and cationic [(dippf)Pd(Ph)]+. The primary modeled olefin is 1,2-dihydronaphthalene; styrene is a comparison in the parent-neutral, anionic and cationic calculations and in mono-oxide iodide binding. Ph denotes phenyl in these models, not the experimental para-tert-butylphenyl group. Dippf(O) has one oxidized phosphorus on the same ferrocene/isopropyl ligand graph.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+        "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+        "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+        "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+        "pdf-page-doc_f98a8942bf98-p4",
+        "pdf-page-doc_f98a8942bf98-p5",
+        "pdf-page-doc_f98a8942bf98-p6",
+        "pdf-page-doc_f98a8942bf98-p7",
+        "pdf-page-doc_f98a8942bf98-p8",
+        "pdf-page-doc_f98a8942bf98-p9",
+        "pdf-page-doc_f98a8942bf98-p10",
+        "pdf-page-doc_f98a8942bf98-p88",
+        "pdf-page-doc_f98a8942bf98-p89"
+      ]
+    },
+    {
+      "protocol_id": "APG03",
+      "statement": "The authors use Gaussian16. Geometry optimizations and harmonic frequency calculations are at B3LYP-D3/def2-SVP; higher-level single-point energies use M06-L/def2-TZVP with SMD solvation. The article specifies diethyl ether at25 °C for these olefin-insertion comparisons, and discusses Gibbs free energies. The general SI method mentions ether or methanol across the work; it does not make methanol an additional input/target for this shared Heck core. Do not invent unreported numerical/search or thermochemical settings.",
+      "evidence_ids": [
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+        "ev_doc_d2a1d4b93cff_000146_27eb6995645a"
+      ]
+    },
+    {
+      "protocol_id": "APG04",
+      "statement": "The SI describes harmonic validation of minima by zero imaginary frequencies and transition states by one imaginary frequency at the optimization level, and consideration of possible isomers. Its stated validation does not itself provide an IRC protocol. Preserve actual execution and validation evidence and assess connectivity when making transition-state claims; do not claim a source-reported IRC that was not stated.",
+      "evidence_ids": [
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+        "pdf-page-doc_f98a8942bf98-p11",
+        "pdf-page-doc_f98a8942bf98-p12",
+        "pdf-page-doc_f98a8942bf98-p13"
+      ]
+    },
+    {
+      "protocol_id": "APG05",
+      "statement": "The author ligand-displacement comparisons report dihydronaphthalene binding costs of+15.2 kcal/mol for parent dippf and+9.2 kcal/mol for its mono-oxide on neutral Pd(Ph)I models. Styrene binding to the mono-oxide model is+6.8 kcal/mol. These are equilibrium relative Gibbs costs of opening/binding the site, not calculated barriers for diphosphine oxidation or ligand-exchange kinetics. The original diagrams distinguish the parent and mono-oxide despite the duplicated complex name in one prose passage.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+        "ev_doc_f98a8942bf98_000054_76f98ec20384",
+        "pdf-page-doc_d2a1d4b93cff-p12",
+        "pdf-page-doc_f98a8942bf98-p10",
+        "pdf-page-doc_f98a8942bf98-p88",
+        "pdf-page-doc_f98a8942bf98-p89"
+      ]
+    },
+    {
+      "protocol_id": "APG06",
+      "statement": "For the neutral parent-dippf iodide control, SI figures display eight ground-state configurations and eight α/β insertion transition structures for each olefin. The lowest α/β transition energies are22.0/20.0 kcal/mol for dihydronaphthalene and20.9/19.9 for styrene, each relative to its own lowest ground-state reference. These are actual reported model controls, not a universal conformer or job-count requirement.",
+      "evidence_ids": [
+        "ev_doc_f98a8942bf98_000042_0850f5ea87dd",
+        "pdf-page-doc_f98a8942bf98-p4",
+        "pdf-page-doc_f98a8942bf98-p5"
+      ]
+    },
+    {
+      "protocol_id": "APG07",
+      "statement": "For the mono-oxide phenoxide complex with dihydronaphthalene, the authors locate eight ground-state conformers and eight insertion transition structures. Trans ground states are disfavored by11–15 kcal/mol relative to cis partners, but the lowest α/β transition structures are trans and have relative Gibbs energies22.7/18.4 kcal/mol. The authors relate the4.3 kcal/mol β-favoring gap to the high β-selectivity under the experimental heating condition.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000147_b7e116809c02",
+        "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+        "pdf-page-doc_f98a8942bf98-p7",
+        "pdf-page-doc_d2a1d4b93cff-p12"
+      ]
+    },
+    {
+      "protocol_id": "APG08",
+      "statement": "The author selectivity comparison assumes rapid ground-state conformer interconversion and irreversible aryl insertion, invoking a Curtin–Hammett treatment and choosing the lowest-energy ground-state conformer as the common reference for competing insertion transitions. Treat those as scientific assumptions to assess, not as independently proven kinetics.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000154_cad86c5a4645"
+      ]
+    },
+    {
+      "protocol_id": "APG09",
+      "statement": "The authors interpret phenoxide-model transition structures using weak phenoxide/migrating-phenyl π–π contacts, displaced dispersion-like stacking, additional β CH–π stabilization involving an isopropyl fragment and the dihydronaphthalene aromatic ring, and α phosphine/aliphatic steric contact. These are their explanatory analyses, not standalone proof of a unique catalytic mechanism.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+        "pdf-page-doc_f98a8942bf98-p7",
+        "pdf-page-doc_d2a1d4b93cff-p12"
+      ]
+    },
+    {
+      "protocol_id": "APG10",
+      "statement": "For mono-oxide iodide insertion with dihydronaphthalene, eight ground states and eight transition structures are optimized. Lowest α/β transitions are cis with relative Gibbs energies21.6/19.4 kcal/mol and a2.2 gap. Authors contrast the absence of phenoxide π contacts. Natural population analysis gives β-transition Pd partial charges about+0.31 e for phenoxide and+0.04 e for iodide, which the authors interpret together with attractive and repulsive structural interactions.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+        "ev_doc_d2a1d4b93cff_000162_a5cd3dbc6fc5",
+        "pdf-page-doc_f98a8942bf98-p6",
+        "pdf-page-doc_d2a1d4b93cff-p12"
+      ]
+    },
+    {
+      "protocol_id": "APG11",
+      "statement": "For anionic [Pd(Ph)I2]− insertion, the lowest dihydronaphthalene α/β transition energies are18.5/17.4 kcal/mol. The authors judge the small gap insufficient to explain the high β-selectivity as the major pathway and suggest possible minor late contribution after ligand deactivation; this is an interpretation, not computed deactivation kinetics. SI S5 shows two styrene ground states, three dihydronaphthalene ground states and α/β transition controls; styrene α/β energies are21.1/19.2 on its own reference.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+        "ev_doc_f98a8942bf98_000050_72cdb5daffb7",
+        "pdf-page-doc_f98a8942bf98-p8"
+      ]
+    },
+    {
+      "protocol_id": "APG12",
+      "statement": "The cationic parent-dippf model for dihydronaphthalene has four explored ground-state conformers and four insertion transition structures. Ligand pseudoaxial/pseudoequatorial orientation and olefin orientation relative to a proximal substituent are considered. The authors use the lowest ground-state conformer to compare α/β transitions and favor α. Main prose reports17.1/18.8 kcal/mol, whereas the viewed figure and SI show17.5/18.8; the prose also states a1.3 gap and local barriers15.7/17.0. Retain this unresolved source discrepancy and assess it explicitly rather than silently choosing, averaging or correcting an α value.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000199_9e67a6466495",
+        "ev_doc_d2a1d4b93cff_000201_9134cd09bd4c",
+        "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+        "pdf-page-doc_d2a1d4b93cff-p14",
+        "pdf-page-doc_f98a8942bf98-p9"
+      ]
+    },
+    {
+      "protocol_id": "APG13",
+      "statement": "The cationic styrene control in SI S6 displays three ground states and four insertion transition structures, with lowest α/β energies11.3/16.0 kcal/mol. The article compares the11.3 styrene α barrier to17.5 for dihydronaphthalene and interprets the benzofused olefin as more difficult in that model. Keep the two substrates’ ground-state references separate; the comparison is not an experimental absolute-rate benchmark.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000209_dd866baf669a",
+        "ev_doc_f98a8942bf98_000052_4520099de1a6",
+        "pdf-page-doc_f98a8942bf98-p9"
+      ]
+    },
+    {
+      "protocol_id": "APG14",
+      "statement": "The author cationic-model interpretation invokes an early α transition state with about+0.36 e benzylic partial charge and aromatic-conjugation stabilization. In β they invoke lost conjugative stabilization plus an olefin/isopropyl steric interaction. These are contextual electronic/structural hypotheses to assess, not required final causal conclusions or universally applicable descriptor targets.",
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000208_b292e9d0c2fb",
+        "pdf-page-doc_d2a1d4b93cff-p14",
+        "pdf-page-doc_f98a8942bf98-p9"
+      ]
+    },
+    {
+      "protocol_id": "APG15",
+      "statement": "The actual supporting workflow uses NBO natural population analysis on selected stationary points and Hirshfeld independent-gradient-model analysis with Multiwfn3.7; visualization uses VMD1.9.3 and CYLview1.0. These supporting methods address electronic and weak-interaction explanations of the same outcomes. Record fidelity and justified substitutions if adopting this disclosed baseline, without treating a missing author descriptor as failure when another relevant supported analysis addresses the scientific outcome.",
+      "evidence_ids": [
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+        "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+        "ev_doc_d2a1d4b93cff_000162_a5cd3dbc6fc5",
+        "ev_doc_d2a1d4b93cff_000208_b292e9d0c2fb"
+      ]
+    },
+    {
+      "protocol_id": "APG16",
+      "statement": "The author experimental context privately withheld from the autonomous inputs includes biphenyl-4-yl mono-oxide Pd complexes. With KOPh in anisole, the bromide starting complex gives69% β product and30:1 selectivity; with i-Pr2NEt instead it gives3% and1:1. A phenoxide complex formed by KOPh pretreatment at50 °C and then exposed to the olefin at100 °C gives70% and32:1. These observations motivate the author hypotheses but are not computational references for a full biphenyl model and are not additional required experiments, scientific goals or scored deliverables.",
+      "evidence_ids": [
+        "ev_doc_461d0f914b5c_000521_04b28fe8aad5",
+        "ev_doc_461d0f914b5c_000522_8ce72f286890",
+        "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14"
+      ]
+    },
+    {
+      "protocol_id": "APG17",
+      "statement": "Reported limitations and comparison boundaries include finite explored configurations, the assumed fast interconversion/irreversible-insertion treatment, phenyl rather than experimental para-tert-butylphenyl models, nominal100 °C experimental heating versus the article’s25 °C ether computational context, and no reported uncertainty bars or full enumeration of every thermochemical/standard-state setting. The cationic α-energy reporting ambiguity remains unresolved. The references do not establish an exhaustive catalytic network, oxidation/release/deactivation rate law or unique mechanism. Preserve these limits and any execution failure or scientific alternative in the same shared submission.",
+      "evidence_ids": [
+        "ev_doc_f98a8942bf98_000010_4ed2b082e9ba",
+        "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+        "ev_doc_d2a1d4b93cff_000154_cad86c5a4645",
+        "ev_doc_d2a1d4b93cff_000147_b7e116809c02",
+        "ev_doc_d2a1d4b93cff_000108_f2cf10ddc25c",
+        "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+        "ev_doc_d2a1d4b93cff_000209_dd866baf669a",
+        "pdf-page-doc_d2a1d4b93cff-p14",
+        "pdf-page-doc_f98a8942bf98-p9"
+      ]
+    }
+  ]
+}

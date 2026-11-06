@@ -1,0 +1,154 @@
+{
+  "paper_id": "paper_cf8ce1fc0fbcd300",
+  "revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "酸性甲醇官能化形成三个异构体的机制、动力学竞争及中性产物稳定性/再分配。",
+  "source_location": "Main text p7–8 Fig.4A; SI1 p54–55 Fig.S9; SI2 p43–44",
+  "public_result_requirements": [
+    "Explain the methanol-functionalization chemistry for the three different C–O connectivities using actual reaction evidence.",
+    "Compare the competing formation processes of all three supplied candidate connectivities using compatible precursor references.",
+    "Establish the neutral-product stability relationships and explain whether formation preference and thermodynamic redistribution favor the same outcome, without inferring uncomputed exchange rates.",
+    "Report the complete stability ordering of the three neutral products from comparable calculations, separately from formation preference and redistribution kinetics."
+  ],
+  "required_numerical_evidence": [
+    {
+      "id": "p1_formation",
+      "description": "P1 甲醇捕获的实际形成路径能量/活化量，明确活化模型与质子库存。",
+      "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P1, with the activation model and proton inventory defined."
+    },
+    {
+      "id": "p2_formation",
+      "description": "P2 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+      "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P2, using references compatible with the competing channels."
+    },
+    {
+      "id": "p3_formation",
+      "description": "P3 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+      "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P3, using references compatible with the competing channels."
+    },
+    {
+      "id": "p2_p3_kinetics",
+      "description": "P2/P3 形成活化量的差值及定义。",
+      "public_requirement": "The P2/P3 formation activation-energy difference and its definition."
+    },
+    {
+      "id": "p2_p1_kinetics",
+      "description": "P2/P1 形成活化量的差值及定义。",
+      "public_requirement": "The P2/P1 formation activation-energy difference and its definition."
+    },
+    {
+      "id": "p2_p3_stability",
+      "description": "中性 P2/P3 的实际 Gibbs 能量与差值，不能用带电形成态代替。",
+      "public_requirement": "Computed Gibbs energies and their difference for neutral P2 and P3, kept separate from charged formation states."
+    },
+    {
+      "id": "p1_stability",
+      "description": "中性 P1 的 Gibbs 能量及其相对中性 P2/P3 的差值。",
+      "public_requirement": "The computed Gibbs energy of neutral P1 and its differences from neutral P2 and P3."
+    }
+  ],
+  "coverage": [
+    {
+      "scientific_question": "三个 C–O 连接如何在同一酸性官能化化学中形成？",
+      "outcome_id": "methanol_capture_mechanism",
+      "required_numerical_evidence_ids": [
+        "p1_formation",
+        "p2_formation",
+        "p3_formation"
+      ],
+      "old_outcome_ids": [
+        "methanol_capture_mechanism"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "points": 30,
+      "criterion": "用真实反应结果解释酸性条件下亲核甲醇捕获如何产生 P1/P2/P3 的不同 C–O 连接，并交代所采用活化/质子化模型及质子去向。参考为质子化反应模型中的甲醇加成；有证据的等效解释可通过。仅优化题给中性产物或画出三个已知图不构成机制解释。不要求求出未知酸活度、上游光化学或全部互变路径；形成通道快慢另计。"
+    },
+    {
+      "scientific_question": "P2 与 P3 的形成竞争方向是什么？",
+      "outcome_id": "p2_over_p3_formation",
+      "required_numerical_evidence_ids": [
+        "p2_formation",
+        "p3_formation",
+        "p2_p3_kinetics"
+      ],
+      "old_outcome_ids": [
+        "p2_over_p3_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "points": 25,
+      "criterion": "实际、同组成同物理参照的竞争形成证据支持 P2 比 P3 更有利；正确识别两种 C–O 成键位置。中性产物稳定性、已知实验分布或单条通道不能代替这项动力学比较。不要求绝对/差分势垒落入作者数值范围，也不硬性要求 OH···F 因果分解。"
+    },
+    {
+      "scientific_question": "P2 与 P1 的另一组形成竞争方向是什么？",
+      "outcome_id": "p2_over_p1_formation",
+      "required_numerical_evidence_ids": [
+        "p1_formation",
+        "p2_formation",
+        "p2_p1_kinetics"
+      ],
+      "old_outcome_ids": [
+        "p2_over_p1_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "points": 25,
+      "criterion": "实际且可比的形成证据支持 P2 比 P1 更易形成，明确不同 C–O 连接，不得用 P2/P3 的证据替代。结论必须由两种形成过程支持，产物能量或仅引用文献偏好不足。此项只评价该独立竞争关系，不要求复现势垒差大小。"
+    },
+    {
+      "scientific_question": "P3 与 P2 的稳定性是否支持与形成竞争相同的方向？",
+      "outcome_id": "p3_to_p2_redistribution",
+      "required_numerical_evidence_ids": [
+        "p2_p3_stability"
+      ],
+      "old_outcome_ids": [
+        "p3_to_p2_redistribution"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "points": 10,
+      "criterion": "可比的中性 P2/P3 计算支持 P2 更稳定，因此存在 P3→P2 的热力学驱动；明确该方向与 P2 的形成优势相容。不能把该驱动力当成已经求得交换势垒、速率或达到平衡；若断言在指定时间内必然互变却没有交换证据，不满足此结论的物理边界。无需新做完整互变网络。"
+    },
+    {
+      "scientific_question": "三个中性产物在一致条件下的完整稳定性排序是什么？",
+      "outcome_id": "three_product_stability_order",
+      "required_numerical_evidence_ids": [
+        "p2_p3_stability",
+        "p1_stability"
+      ],
+      "old_outcome_ids": [
+        "p1_stability_position"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2",
+        "existing_native_verification"
+      ],
+      "points": 10,
+      "criterion": "对同组成、同条件的中性 P1/P2/P3 作实际能量比较，支持稳定性 P2 > P3 > P1（Gibbs 能顺序相反），正确识别三种连接，并给出完整序列及其计算依据。只确定 P1 最不稳定而未确定 P2/P3 顺序不足。带电反应态与中性产物不得混排；不设任何能差大小门槛。本项评价静态完整排序；P3→P2 再分配项另评该排序对方向的物理推论及其动力学边界，不能用同一句排序自动满足两项。"
+    }
+  ],
+  "excluded_scope": [
+    "不要求上游制备、未知质子活度下的绝对速率或完整交换网络。",
+    "邻近 OH···F 接触不能升级为已验证的氢键唯一因果或能量分解硬指标。",
+    "再分配方向是热力学倾向，不等于交换速率或已实现平衡。"
+  ],
+  "verification_support": "正文 Fig.4A、两份 SI 的亲核加成结构；历史验证有三个甲醇捕获反应及三个中性产物的可比能量、反应模式和分子图。"
+}

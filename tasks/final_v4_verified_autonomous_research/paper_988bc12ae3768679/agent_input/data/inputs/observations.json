@@ -1,0 +1,38 @@
+{
+  "uv_vis": {
+    "medium": "water",
+    "source": "Supplied aqueous absorption measurements",
+    "rows": [
+      {
+        "condition": "pH2",
+        "maximum_nm": 350
+      },
+      {
+        "condition": "pH14",
+        "maximum_nm": 440
+      }
+    ],
+    "neutral_maximum": null
+  },
+  "nmr": {
+    "signal": "aromatic H adjacent to phenolic groups",
+    "source": "Supplied aromatic-proton NMR observations",
+    "reported_medium": "DMSO NMR comparison; acid/neutral/base are nominal sample conditions, not aqueous pH activity in DMSO",
+    "reference": "TMS",
+    "rows": [
+      {
+        "condition": "acid",
+        "shift_ppm": 6.95
+      },
+      {
+        "condition": "neutral",
+        "shift_ppm": 6.8
+      },
+      {
+        "condition": "base",
+        "shift_ppm": 6.1
+      }
+    ]
+  },
+  "uncertainty": "No source measurement-error bars supplied; do not invent a universal tolerance."
+}

@@ -11,7 +11,7 @@ from pydantic import ValidationError
 from .artifacts import ArtifactStore, canonicalize_artifact_refs, collect_artifact_refs
 from .catalog import action_specs, active_catalog_hash, backend_specs
 from .models import ActionRequest, ActionResult
-from .orca_contract import normalize_orca_method_basis
+from .orca_contract import OrcaParameterError, normalize_orca_method_basis, orca_solvent_token
 from .resource_budget import (
     ResourceBudgetExceeded,
     normalize_resource_limits,
@@ -207,17 +207,26 @@ def _required_setting_is_present(
     )
 
 
-def _validate_orca_method_basis_contract(
+def validate_orca_method_contract(
     action_id: str,
     backend_id: str,
     request: ActionRequest,
 ) -> dict[str, Any] | None:
+    """Share typed ORCA validation between single Actions and batch acceptance."""
     if backend_id != "orca" or "method" not in request.method_spec:
         return None
     method = request.method_spec["method"]
     basis = request.method_spec.get("basis")
     try:
         normalize_orca_method_basis(method, basis)
+        if request.method_spec.get("solvation_model") is not None:
+            orca_solvent_token(request.method_spec.get("solvent", ""))
+    except OrcaParameterError as exc:
+        return _repairable_invalid(
+            action_id, backend_id, request, str(exc),
+            code="invalid_orca_parameter",
+            extra_details={"invalid_field": exc.field},
+        )
     except ValueError as exc:
         composite = str(method).strip().casefold().endswith("-3c")
         replacement = (
@@ -766,7 +775,14 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
     if invalid_aliases is not None:
         return invalid_aliases
 
-    invalid_orca_basis = _validate_orca_method_basis_contract(
+    if backend_id == "gaussian" and request.method_spec.get("dispersion") is not None:
+        from .gaussian_contract import validate_gaussian_dispersion
+        try:
+            validate_gaussian_dispersion(request.method_spec["dispersion"])
+        except ValueError as exc:
+            return _repairable_invalid(action_id, backend_id, request, str(exc), code="invalid_gaussian_dispersion")
+
+    invalid_orca_basis = validate_orca_method_contract(
         action_id, backend_id, request
     )
     if invalid_orca_basis is not None:
@@ -863,6 +879,12 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                         error_details=exc.details, retryable=True)
     except (ValueError, KeyError, OSError) as exc:
         return _invalid(action_id, backend_id, f"Structure preflight failed: {exc}", code="backend_input_error", retryable=True)
+    if backend_id == "gaussian" and action_id == "calculate_excited_states":
+        from .gaussian_contract import validate_gaussian_excited_request
+        try:
+            validate_gaussian_excited_request(execution_inputs["structure"], request.method_spec, request.action_settings)
+        except (KeyError, TypeError, ValueError) as exc:
+            return _repairable_invalid(action_id, backend_id, request, str(exc), code="invalid_gaussian_excited_request")
     resource_references = collect_resource_references(
         {"inputs": request.inputs, "method_spec": request.method_spec}
     )
@@ -1022,6 +1044,9 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                 )
             except (KeyError, OSError, ValueError) as exc:
                 worker.setdefault("warnings", []).append(f"Artifact registration failed: {exc}")
+        for reference in output_artifacts:
+            if reference.media_type == "application/json":
+                store.save_dependencies(reference)
     elif worker.get("error"):
         parent_ids = [item.artifact_id for item in input_artifacts]
         try:

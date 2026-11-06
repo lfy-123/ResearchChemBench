@@ -1,0 +1,69 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "Eox*为−3.008453/−2.746614 V；E00为2.398453/2.426614 eV；寿命比28.8667。PhCl I ΔE/ΔG=−6.9859996/+2.6769554，II=−8.7702544/+3.3998463 kcal/mol。",
+  "accepted_limitations": "1e多指数平均公式未知。PhCl不是实测4-氯苯甲醚；负电子能不能证明负G或强占据。不可逆电位、标准态和观察分辨率须保留。",
+  "objective_issue_flags": [
+    "1e多指数平均公式未知。PhCl不是实测4-氯苯甲醚；负电子能不能证明负G或强占据。不可逆电位、标准态和观察分辨率须保留。"
+  ],
+  "current_rules": [
+    "r_redox_substituent_comparison",
+    "r_lifetime_comparison",
+    "r_reduction_1a",
+    "r_reduction_1e",
+    "r_bounded_preassociation"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_3e4cad1d1d650d0c",
+    "scoring_policy": "paper_science_v3",
+    "mode": "final_results_100",
+    "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+    "reason": "原两供体/实际淬灭底物的分子解释问题不变。8条改7条100分，静态淬灭判别与微观可辨识性合为一个最终解释，避免重复得分。",
+    "accepted_limitations": "373/410 nm激发注释冲突；原始TCSPC轨迹及各淬灭点误差缺失；1e平均寿命公式未报且分量不能无说明替换平均；原生关联模型为PhCl而非4-chloroanisole。旧严格验收在有限解释范围内，新7项不自动全面PASS。",
+    "new_computations_performed": false,
+    "reference_evidence_reuse": "r_redox_1a/r_redox_1e：既有光谱/电化学重建 E00=2.3984526/2.4266145 eV，Eox*=−3.0084526/−2.7466145 V vs SCE，保留原±0.02 V硬窗。r_redox_substituent_comparison：同参照0.29 V基态氧化差与约0.0282 eV光学差支持解释。r_lifetime_comparison：给定43.3 ns与1.5 ns须进一步计算竞争/比值（约28.87），不能复述即得分。r_reduction_1a/r_reduction_1e：分别相对−2.91 V形成约−0.09845/+0.16339 eV的名义电子转移差；不推C–Cl速率。r_bounded_preassociation：图3强度随浓度下降而寿命比例约1，须分析其可辨识性；原生PhCl模型ΔE/ΔG=−6.9859996/+2.6769554和含K模型−8.7702544/+3.3998463 kcal/mol只作代理背景，不能证明实际底物强缔合。",
+    "historical_qualification": {
+      "paper_id": "paper_3e4cad1d1d650d0c",
+      "scoring_policy": "paper_science_v2",
+      "status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "current_scope_verified": true,
+      "acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+      "reason": "Authorized 2026-10-19 scientific-scoring migration preserves existing independent strict acceptance. This is not new chemistry validation, a blind agent experiment or publication approval.",
+      "accepted_limitations": "Current strict acceptance is molecular DMSO redox/photophysics and bounded weak-association explanation. Most source ground-state oxidation waves are irreversible peak potentials, so excited potentials are estimates rather than exact reversible redox thermodynamics. Source PhCl association is an approximation to actual4-chloroanisole. Steady-state excitation conflict373nm prose versus410nm caption remains;375nm TCSPC is a separate measurement. High-concentration nonlinearity does not uniquely quantify a dynamic component. No full catalytic mechanism, product yield, cleavage rate or unique sphere-of-action geometry is certified. Table1 reports1e average1.5ns; SI29 gives multiexponential fitting and species-specific440nm excitation. No averaging formula is reconstructed or uncertainty invented. Source experimental lifetimes are now public inputs in both modes.",
+      "tolerance_basis": "The two source-derived excited oxidation estimates retain inclusive±0.02V, reflecting reported optical/electrode input precision rather than universal computational redox error. The20points formerly tied to undisclosed PhCl association numbers are redistributed to existing public-system redox, lifetime and quenching findings. No full4-chloroanisole association target or tolerance is invented; such evidence is assessed only at its supported physical scope.",
+      "authority": [
+        "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "tasks/v2_autonomous_research/paper_3e4cad1d1d650d0c/evaluation/verified_computation_reference.md"
+      ],
+      "coordinator_review": {
+        "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+        "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+        "review_key": "v2_paper_3e4cad1d1d650d0c",
+        "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+        "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+        "publication_readiness_unchanged": true
+      },
+      "repair_round3": {
+        "date": "2026-10-19",
+        "mode_scope": "AR remains open-method for public identities; PR author-baseline provenance retained.",
+        "historical_chemical_acceptance_changed": false,
+        "new_computations": false,
+        "review_report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_02/paper_3e4cad1d1d650d0c.md"
+      }
+    }
+  }
+}

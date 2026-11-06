@@ -7,8 +7,9 @@ import copy
 import re
 import gzip
 import time
+from .native_diagnostics import ORCA_INPUT_ERROR
 
-PARSER_VERSION = "native-observations-4"
+PARSER_VERSION = "native-observations-5"
 _ORCA_MODE = re.compile(r"^\s*(\d+)\s*:\s*([+-]?\d+(?:\.\d+)?)\s+cm\*\*-1")
 
 
@@ -127,8 +128,11 @@ def _parse(software_id, filename, size, mtime_ns):
                 segments.append(segment)
                 geometry_line = None
             if "ORCA TERMINATED NORMALLY" in line or "Normal termination of Gaussian" in line:
-                segment["normal_termination"] = True
+                segment["normal_termination"] = not segment.get("fatal_error_line")
                 segment["termination_line"] = number
+            if software_id == "orca" and re.search(ORCA_INPUT_ERROR, line, re.I):
+                segment["normal_termination"] = False
+                segment["error_line"] = segment["fatal_error_line"] = number
             if re.search(r"Error termination|ORCA finished by error|SCF NOT CONVERGED", line, re.I):
                 segment["normal_termination"] = False
                 segment["error_line"] = number

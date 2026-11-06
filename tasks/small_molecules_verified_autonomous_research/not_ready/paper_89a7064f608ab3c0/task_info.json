@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "task_type": "autonomous_research",
+  "title": "Activation and selective framework rearrangement of a neutral BN-benzvalene",
+  "category": "computational reaction mechanism",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires independent activation-state discrimination from a neutral experimental substrate and catalyst controls.",
+    "Requires connected competing rearrangements, valid energy references and computed neutral endpoint identity."
+  ],
+  "paper": {
+    "title": "Positional Isomerization of 1,2-Azaborine through BN-Benzvalene",
+    "doi": "10.1021/jacs.5c21413",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-13"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Complete neutral substrate/product graphs, independently generated starting substrate conformer, PC A/B coordination graphs and counterions, documented conditions, experimental controls and source-qualified reagent properties."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Agent-defined models, computed evidence, claims, validation and truthful completion status."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Scientific answer, reasoning, methods, evidence interpretation and unresolved scope."
+    }
+  ]
+}

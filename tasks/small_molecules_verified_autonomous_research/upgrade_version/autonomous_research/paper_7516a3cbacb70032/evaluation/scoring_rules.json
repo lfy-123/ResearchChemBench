@@ -1,0 +1,158 @@
+{
+  "paper_id": "paper_7516a3cbacb70032",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "total_points": 100,
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+  "semantic_review_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+  "rules": [
+    {
+      "rule_id": "r_formation_explanation",
+      "reference_id": "formation_explanation",
+      "type": "semantic",
+      "expected": "Explain with computed energetics and molecular connectivity why the supplied partners can form the specified annulated helicene skeleton under the stated molecular model. Relate catalytic activation and bond formation to feasibility, rather than merely listing intermediate structures. The source CMD/insertion/C-N closure pathway is supporting context; a validated equivalent route to the same skeleton passes without reproducing its labels or event inventory. Distinguish the computed Ir-bound, N-H-retaining endpoint from the neutral released product; account for composition changes without claiming uncomputed release/regeneration energetics. A supplied product graph alone does not answer this question.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_ligand_promotion",
+      "reference_id": "ligand_promotion",
+      "type": "semantic",
+      "expected": "Conclude and quantitatively support that the specified chiral ligand lowers the molecular difficulty of substrate activation relative to a controlled ligand-free model. Compare each activation free energy against its own chemically balanced precursor and explain a supported physical role of the ligand; the source nitrile coordination and phosphine-oxide-assisted deprotonation is one accepted account. Source 16.4 versus 22.5 kcal/mol is context, not a hard window. Cross-formula total-energy subtraction, endpoint yield alone or an unsupported descriptor fails. No experimental rate law is inferred.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_helicity_explanation",
+      "reference_id": "helicity_explanation",
+      "type": "semantic",
+      "expected": "Explain the already disclosed M preference with actual competing formation calculations for the same supplied ligand enantiomer and a molecular account of stereochemical discrimination. Report the free-energy difference and show how the selection connects to the product helicity. The source lower M-directed C-H-activation route (16.4 versus 18.1 kcal/mol) and favorable interaction geometry are reference evidence, not mandatory structures or hard numbers. A physically equivalent supported stereoselective account passes. Repeating M or back-calculating from the given 91% ee is insufficient; single-conformer barrier differences do not establish the measured endpoint ee.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_kinetic_distinction",
+      "reference_id": "kinetic_distinction",
+      "type": "semantic",
+      "expected": "Use actual comparable local activation free energies to identify the most difficult tested product-forming transformation and distinguish it from the stage setting helicity. The source local ordering is alkyne insertion < C-H activation < C-N closure/reductive elimination, so stereochemical selection is earlier than the largest local barrier. Report the ordering and numerical barriers with local references. Source 11.9/16.4/25.6 kcal/mol are context; 14.1 uses a different III+ reference and is not the IV-local insertion barrier. Do not elevate a finite local-barrier comparison to a proven global turnover law. An equivalent route must support the same final distinction with actual energy and connection evidence.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "formation_explanation",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Energetic and molecular explanation of helicene annulation",
+      "rule_ids": [
+        "r_formation_explanation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "ligand_promotion",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "The specified ligand facilitates substrate activation relative to the ligand-free model",
+      "rule_ids": [
+        "r_ligand_promotion"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "helicity_explanation",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Computed stereochemical competition explains the observed M helicity",
+      "rule_ids": [
+        "r_helicity_explanation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "kinetic_distinction",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Stereochemical selection and the greatest local chemical difficulty occur at different stages",
+      "rule_ids": [
+        "r_kinetic_distinction"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "package_version": "expert_round1_20261103",
+  "scoring_revision": "expert_round1_20261103",
+  "required_for_whole_case_success_item_ids": [
+    "formation_explanation",
+    "ligand_promotion",
+    "helicity_explanation",
+    "kinetic_distinction"
+  ]
+}

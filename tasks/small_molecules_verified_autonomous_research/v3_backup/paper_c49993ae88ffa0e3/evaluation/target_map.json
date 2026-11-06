@@ -1,0 +1,66 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_cumulative_f_dry",
+      "r_cumulative_f_water",
+      "r_reductant_molecular_role",
+      "r_local_hydration_effect"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Explicit waters define finite hydration energy comparisons, not a required water-catalyzed path. Local ionic stabilization and net reaction thermodynamics are distinct conclusions.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Explain the molecular basis and thermodynamic feasibility of light-driven pyridine N-oxide deoxygenation by preformed phenanthrene-9,10-diol (H2PQ) in acetonitrile. Determine how adding two explicit water molecules changes the net deoxygenation thermodynamics and the stabilization of relevant ionic transfer states. This is an explanation task with quantitative net thermodynamic outputs.",
+  "active_rule_ids": [
+    "r_cumulative_f_dry",
+    "r_cumulative_f_water",
+    "r_reductant_molecular_role",
+    "r_local_hydration_effect"
+  ],
+  "current_outcome_ids": [
+    "cumulative_f_dry",
+    "cumulative_f_water",
+    "reductant_molecular_role",
+    "local_hydration_effect"
+  ],
+  "historical_record": {
+    "paper_id": "paper_c49993ae88ffa0e3",
+    "scoring_policy": "paper_science_v3",
+    "active_rule_ids": [
+      "r_cumulative_f_dry",
+      "r_cumulative_f_water",
+      "r_reductant_molecular_role",
+      "r_local_hydration_effect"
+    ],
+    "coverage": "evaluation/final_result_coverage.json",
+    "note": "Historical route nodes are supporting evidence only; see the protected v1_backup package for the former plan.",
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_cumulative_f_dry",
+        "r_cumulative_f_water",
+        "r_reductant_molecular_role",
+        "r_local_hydration_effect"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

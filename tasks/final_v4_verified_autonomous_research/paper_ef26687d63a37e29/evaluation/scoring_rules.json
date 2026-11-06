@@ -1,0 +1,157 @@
+{
+  "paper_id": "paper_ef26687d63a37e29",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.objects",
+          "$.records",
+          "$.artifact_manifest"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "rule_id": "r_contact_reorganization",
+      "reference_id": "contact_reorganization",
+      "expected": "From chemically mapped comparable full molecular structures, establish that the PO-derived terminal oxygen has a compact P contact together with N-ethyl CH2/CH3-H contacts, whereas the PA-derived terminal oxygen is distributed across the N-ethyl hydrogen contact environment with a more remote P contact. Explain the local structural reorganization using the H-contact network, not merely the two requested O-P distances, which remain structural evidence. Define alpha/beta hydrogens by the P-N-CH2-CH3 graph; do not equate the nearest H or a family mean with an unmapped figure label. A contact pattern alone does not establish a binding energy or rate.",
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_charge_separated_electrostatics",
+      "reference_id": "charge_separated_electrostatics",
+      "type": "semantic",
+      "expected": "Actual signed ESP and/or spatially resolved compatible charge analysis supports a positive onium-region versus negative carboxylate-oxygen pattern in the PA zwitterion. Specify sign, physical quantity and region; a blue image described as increased electron density is not evidence of this result. Physical definition: Complete neutral singlet free (Et2N)3P, PO adduct and PA adduct: 46/56/61 atoms, with intact supplied chemical graphs and comparable relaxed gas-phase local structures. Map phosphorus, the chemically corresponding terminal oxygen and N-ethyl CH2/CH3 hydrogen classes by connectivity; source atom numbers are an evaluator crosswalk, not required agent labels. Report the requested free/PO/PA phosphorus ADCH populations as evidence under their stated definition; do not relabel another charge partition as ADCH. These populations have no numerical matching gate and are not a prerequisite to an independently established equivalent spatial electrostatic explanation. Spatial ESP or other justified density analysis may independently establish semantic electrostatic claims. Alternative electronic-structure implementations must preserve identity, electronic state, environment and observable. The incomplete source PA coordinate block is not a mandatory starting route; the full C20H34N3O3P graph is required. Molecular probe observations are separate from bulk 80 C CO2/PO polymerization kinetics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.objects"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_epoxide_association_role",
+      "reference_id": "epoxide_association_role",
+      "type": "semantic",
+      "expected": "Integrate the PA onium electrostatic/contact results with direct molecular probe evidence or a comparable calculated association to support a local electrophilic contribution to epoxide association/activation alongside Et3B. Do not present the source NMR shifts as newly calculated or claim a faster ring-opening rate from contact/charge alone. Physical definition: Complete neutral singlet free (Et2N)3P, PO adduct and PA adduct: 46/56/61 atoms, with intact supplied chemical graphs and comparable relaxed gas-phase local structures. Map phosphorus, the chemically corresponding terminal oxygen and N-ethyl CH2/CH3 hydrogen classes by connectivity; source atom numbers are an evaluator crosswalk, not required agent labels. Report the requested free/PO/PA phosphorus ADCH populations as evidence under their stated definition; do not relabel another charge partition as ADCH. These populations have no numerical matching gate and are not a prerequisite to an independently established equivalent spatial electrostatic explanation. Spatial ESP or other justified density analysis may independently establish semantic electrostatic claims. Alternative electronic-structure implementations must preserve identity, electronic state, environment and observable. The incomplete source PA coordinate block is not a mandatory starting route; the full C20H34N3O3P graph is required. Molecular probe observations are separate from bulk 80 C CO2/PO polymerization kinetics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_chain_end_association_role",
+      "reference_id": "chain_end_association_role",
+      "type": "semantic",
+      "expected": "Integrate mapped onium/H–oxygen contact and charge-separation evidence to support a local association/stabilization role for oxygen-containing chain-end models, compatible with the ethoxide probe. The inference is a local interaction role, not a demonstrated reduction of backbiting barrier or bulk chain kinetics. Physical definition: Complete neutral singlet free (Et2N)3P, PO adduct and PA adduct: 46/56/61 atoms, with intact supplied chemical graphs and comparable relaxed gas-phase local structures. Map phosphorus, the chemically corresponding terminal oxygen and N-ethyl CH2/CH3 hydrogen classes by connectivity; source atom numbers are an evaluator crosswalk, not required agent labels. Report the requested free/PO/PA phosphorus ADCH populations as evidence under their stated definition; do not relabel another charge partition as ADCH. These populations have no numerical matching gate and are not a prerequisite to an independently established equivalent spatial electrostatic explanation. Spatial ESP or other justified density analysis may independently establish semantic electrostatic claims. Alternative electronic-structure implementations must preserve identity, electronic state, environment and observable. The incomplete source PA coordinate block is not a mandatory starting route; the full C20H34N3O3P graph is required. Molecular probe observations are separate from bulk 80 C CO2/PO polymerization kinetics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "contact_reorganization",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Local oxygen-contact reorganization",
+      "rule_ids": [
+        "r_contact_reorganization"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "charge_separated_electrostatics",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Spatial electrostatic separation in the PA-derived species",
+      "rule_ids": [
+        "r_charge_separated_electrostatics"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "epoxide_association_role",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Bounded local contribution to epoxide association",
+      "rule_ids": [
+        "r_epoxide_association_role"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "chain_end_association_role",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Bounded local interaction with oxygen-containing chain ends",
+      "rule_ids": [
+        "r_chain_end_association_role"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

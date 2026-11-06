@@ -1,0 +1,15 @@
+# Submission guide
+
+Write `report/results.json` and `report/report.md`. The schema is an auditable record, not a prescribed research matrix. Choose meaningful object, method, hypothesis, record and quantity IDs. Hypotheses may be an empty list when the actual route does not use explicit hypotheses; their names and number are unrestricted. Describe observable definitions, units, charge/electronic state, atom correspondence and conditions precisely. Use null plus an explanation for unavailable or inapplicable numeric values, never invented zeros.
+
+Every quantity links to objects, calculation/analysis records and artifacts. Artifacts list workspace-relative `outputs/`, `data/` or `code/` paths with actual SHA256. Preserve full native inputs/outputs, structures, measurement provenance and analysis code appropriate to your route. Referenced IDs must resolve, files must exist, and hashes must match. Evidence review must inspect those artifacts; passing JSON shape alone earns no scientific result credit. The host format validator does not by itself verify all nested IDs, artifact hashes or scientific correctness.
+
+Decision records are concise purposes or predictions, available evidence, actual outcomes and changes of direction. Link authentic execution traces where available; your own timestamp or retrospective story cannot establish advance prediction. Do not provide hidden internal chain-of-thought.
+
+`complete` asserts an adequately evidenced answer to the stated question, which can be supported, refuted or genuinely unresolved. It requires substantive quantitative evidence and at least one completed analysis/calculation, not completion of any fixed count of jobs. `partial` reports supported progress with remaining gaps. `bounded_failure` reports an input/resource/computation barrier and a concrete release condition. Both require failure_report; zero starts and no artifacts are valid when nothing ran, but are not a scientific pass. Uncertainty must arise from evidence, not omitted work. Claims that were revised or withdrawn remain distinguishable from supported claims.
+
+Keep calculations at distinct conditions, on different surfaces or with different energy references distinguishable. Only make claims justified at the supplied physical scale. Select appropriate evidence for each claim; no hypothesis count or additional control matrix is prescribed. Select models and research methods independently; research decisions receive no independent points.
+
+Scientific scoring uses paper_science_v3: 100 points across independent final scientific conclusions, with each leaf receiving its assigned points or zero. There is no process score or multiplier. Investigative freedom and honest partial reporting remain permitted; credit requires actual evidence establishing the scientific proposition, and unsupported or differently scoped claims do not satisfy it.
+
+V3 evaluates the required final results in the task. Linked structures, calculations and analysis support those conclusions and have no independent process score.

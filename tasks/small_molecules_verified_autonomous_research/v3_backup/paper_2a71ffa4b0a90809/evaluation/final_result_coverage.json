@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_axial_activity_contrast",
+      "r_linker_accessibility_contrast",
+      "r_framework_electronic_explanation",
+      "r_background_contrast"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required molecular explanation concerns catalyst-level structure–activity relationships at initial activation; hypotheses and quantitative molecular comparisons are selected independently. A complete cycle, yield-time model or resolved C/E crossing mechanism is not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How do catalysts A–E promote the initial activation of the isoquinoline Mukaiyama–Mannich reaction, and which molecular differences explain their principal activity contrasts? This is an explanation task: the measured yields are given; the molecular explanation must come from your calculations.",
+  "active_rule_ids": [
+    "r_axial_activity_contrast",
+    "r_linker_accessibility_contrast",
+    "r_framework_electronic_explanation",
+    "r_background_contrast"
+  ],
+  "current_outcome_ids": [
+    "axial_activity_contrast",
+    "linker_accessibility_contrast",
+    "framework_electronic_explanation",
+    "background_contrast"
+  ],
+  "historical_record": {
+    "paper_id": "paper_2a71ffa4b0a90809",
+    "version": "20261027_v3",
+    "new_quantum_jobs": 0,
+    "automatic_inheritance_of_pass": false,
+    "items": [
+      {
+        "rule_id": "r_axial_activity_contrast",
+        "source_evidence_ids": [
+          "main_p3_4_8_9",
+          "supplementary_001_p63_64_65"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/core7_upgrade_20261012T190159Z/attempt_20261014T143300Z/minimum_parent_evidence_table.json",
+        "evidence_status": "reusable_bounded_support",
+        "local_support": "A/B raw association G = -8.209078940/-2.558356126 kcal/mol; native full-complex contacts A 3.2038/3.2035 Angstrom versus B 3.1442/9.9829; 15 binding-component log hashes and thermochemistry reread on 2026-10-27."
+      },
+      {
+        "rule_id": "r_linker_accessibility_contrast",
+        "source_evidence_ids": [
+          "main_p7",
+          "supplementary_001_p60_66"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/core7_upgrade_20261012T190159Z/attempt_20261014T143300Z/minimum_parent_evidence_table.json",
+        "evidence_status": "reusable_bounded_support",
+        "local_support": "C/D connected anti-to-TS barriers 17.612935918/1.589481498 kcal/mol; finite analytic-mode displacement and relaxed endpoints, not long IRC. D endpoint splitting 0.233433524 differs from source <0.1."
+      },
+      {
+        "rule_id": "r_framework_electronic_explanation",
+        "source_evidence_ids": [
+          "main_p7",
+          "supplementary_001_p61_62",
+          "main_p8_9_12"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/core7_upgrade_20261012T190159Z/attempt_20261014T143300Z/minimum_parent_evidence_table.json",
+        "evidence_status": "reusable_bounded_support",
+        "local_support": "Five existing finite-grid ESP results A/B/C/D/E =129.309510/116.007992/109.738371/126.603178/118.753132 kJ/mol at density 0.0004 au; raw wavefunction-derived surface indices in halogen_new_results.json. Electronic direction and C exception can be compared; continuous maxima unqualified."
+      },
+      {
+        "rule_id": "r_background_contrast",
+        "source_evidence_ids": [
+          "main_p3_4_8_9",
+          "main_p8_9_12"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/core7_upgrade_20261012T190159Z/attempt_20261014T143300Z/minimum_parent_evidence_table.json",
+        "evidence_status": "reusable_bounded_support",
+        "local_support": "Seven donor–chloride association results and E effective one-point geometry support bounded enhancement interpretation together with supplied matched-time yields. No independent uncatalyzed elementary barrier or full reaction kinetic network exists; these are not required by the original bounded question."
+      }
+    ],
+    "limits": [
+      "C initial conformer populations and exact kinetic/yield predictions remain unknown.",
+      "Finite-grid ESP analysis is not a continuous-surface maximum proof.",
+      "No new quantum calculation or blind autonomous run was performed.",
+      "Historical constrained A profile 29.99558036965 remains outside its historical 31±1 window; it is not a current final-result target.",
+      "Seven old per-conformer affinity targets and ±1 kcal/mol windows remain non-scoring evidence context; no value/window was changed or hidden because of failure."
+    ],
+    "model_choice_and_time_dependence_scope": "The active C/D and C/E conclusions evaluate supported molecular explanations of the specified comparisons. Conformational accessibility and directional electronic properties are reference explanations, not mandatory model choices. Evidence requirements follow claims. C/E crossing must be retained and the reach of the molecular evidence assessed; resolving its time-dependent mechanism or computing a new kinetic model is not required. Unsupported speculation and generic uncertainty remain insufficient.",
+    "scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

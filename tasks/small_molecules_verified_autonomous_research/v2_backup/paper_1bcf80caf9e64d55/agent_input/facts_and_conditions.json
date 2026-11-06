@@ -1,0 +1,44 @@
+{
+  "system_id": "triethylphosphine_alkyne_ester_cyclization",
+  "reactants": {
+    "catalyst": {
+      "name": "triethylphosphine",
+      "smiles": "CCP(CC)CC",
+      "charge": 0,
+      "multiplicity": 1,
+      "formula": "C6H15P"
+    },
+    "substrate_1a": {
+      "name": "diethyl 2-cinnamyl-2-(3-(4-nitrophenyl)prop-2-yn-1-yl)malonate",
+      "smiles": "CCOC(=O)C(C/C=C/c1ccccc1)(CC#Cc1ccc([N+](=O)[O-])cc1)C(=O)OCC",
+      "charge": 0,
+      "multiplicity": 1,
+      "formula": "C25H25NO6"
+    },
+    "nucleophile_2a": {
+      "name": "4-fluorophenol",
+      "smiles": "Oc1ccc(F)cc1",
+      "charge": 0,
+      "multiplicity": 1
+    }
+  },
+  "endpoint": {
+    "name": "ethyl 1-cinnamyl-4-(4-fluorophenoxy)-3-(4-nitrophenyl)-2-oxocyclopent-3-ene-1-carboxylate",
+    "smiles": "CCOC(=O)C1(C/C=C/c2ccccc2)CC(Oc2ccc(F)cc2)=C(c2ccc([N+](=O)[O-])cc2)C1=O",
+    "formula": "C29H24FNO6",
+    "charge": 0,
+    "multiplicity": 1,
+    "stereochemistry": "E-cinnamyl side chain retained; no enantioselective assignment is specified at the ring quaternary stereocenter.",
+    "description": "Observed organic product connectivity. Its formation mechanism and atom mapping are to be established; include any coproducts needed for balance."
+  },
+  "conditions": {
+    "solvent": "fluorobenzene",
+    "temperature_K": 383.15,
+    "substrate_mmol": 0.1,
+    "phenol_mmol": 0.1,
+    "catalyst_loading_mol_percent": 20,
+    "solvent_mL": 1,
+    "duration_h": 12
+  },
+  "public_boundary": "This is a route-neutral investigation. Do not assume a named mechanism, pathway, candidate ranking or published computational value."
+}

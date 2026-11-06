@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "role": "Unscored evidence for independent final scientific conclusions. Original numerical and historical reference records are preserved in historical_scoring_20261029.json and verified_computation_reference.md.",
+  "items": [
+    {
+      "key_point_id": "support_lowest_excitation_comparison",
+      "key_point_type": "scientific_evidence",
+      "statement": "Lowest singlet excitation change under BN substitution",
+      "expected": "Actual state-matched vertical response calculations for full neutral-singlet 40-atom BN-AkFlu (C22H14B2N2) and CC-AkFlu (C26H14) establish a lower-energy lowest singlet excitation in BN-AkFlu. Quantify the difference under comparable molecular/medium definitions and identify the physical states being compared. The conclusion concerns the weak low-energy onset, not necessarily the position of the dominant absorption band. Source S1 energies are comparison evidence, not numerical windows; an orbital gap alone, a copied S1 label or an unmatched state/root comparison fails. Do not infer emission rates or device behavior from this excitation comparison.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1",
+        "verified_cc_s1"
+      ]
+    },
+    {
+      "key_point_id": "support_bn_strength_pattern",
+      "key_point_type": "scientific_evidence",
+      "statement": "BN-AkFlu low-energy absorption-intensity distribution",
+      "expected": "Establish from actual state-resolved energies and oscillator strengths that BN-AkFlu has a weak lowest singlet and weak intervening states before a much stronger higher-energy transition (source S5). Quantify the spectral separation and relative intensity scale, identifying physical transition character or state correspondence so that a root number alone does not define the assignment. This is the BN low-energy absorption pattern, not a fixed root-count checklist or agreement with a bright-state energy/strength window. Equivalent physical state matching is eligible. Printing one bright scalar without the contrasting weak region fails.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1"
+      ]
+    },
+    {
+      "key_point_id": "support_cc_strength_pattern",
+      "key_point_type": "scientific_evidence",
+      "statement": "CC-AkFlu low-energy absorption-intensity distribution",
+      "expected": "Establish from actual state-resolved energies and oscillator strengths that CC-AkFlu has a weak lowest singlet followed immediately by a dominant bright transition (source S2), while its other nearby low-energy transitions are much weaker. Quantify the separation and intensity contrast using physically corresponding states. Source numbering and a fixed root count are not required, and neither bright-state energy nor oscillator strength has a numerical acceptance window. A single bright value without the nearby weak-state comparison fails. This is the CC pattern, assessed independently of whether the BN pattern or the electronic explanation succeeds.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_cc_s1"
+      ]
+    },
+    {
+      "key_point_id": "support_bn_s1_explanation",
+      "key_point_type": "scientific_evidence",
+      "statement": "Electronic explanation of the excitation-energy change and intensity redistribution",
+      "expected": "Explain the BN-versus-CC excitation change through actual electronic-structure evidence: BN substitution raises the frontier occupied level more than the frontier unoccupied level and reduces their separation, while state-character evidence makes the low-state comparison physically meaningful. Both source S1 states are predominantly HOMO-to-LUMO, but equivalent transition-density/NTO or many-electron evidence can establish the same explanation without a prescribed orbital representation. The score is for this physical explanation, not a second award for a lower S1 number. Distinguish orbital eigenvalue separation from an interacting vertical excitation; neither a smaller gap alone nor unresolved SI charge-transfer descriptors establish quantitatively stronger charge transfer. Bound robustness to the supported molecular states and model, without claiming device or emission-rate predictions. Explain the intensity redistribution as well as the energy shift: use actual transition character, transition-dipole evidence or an equivalent physical analysis to connect the weak lowest excitations and the distinct dominant bright transitions to the changed absorption pattern. A lower BN S1 does not itself predict a red shift of the dominant absorption band; distinguish the weak onset from the bright band. Do not earn explanation credit by repeating the separately scored energy/strength values or orderings. No fixed orbital decomposition or new descriptor is required.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1",
+        "verified_cc_s1"
+      ]
+    }
+  ]
+}

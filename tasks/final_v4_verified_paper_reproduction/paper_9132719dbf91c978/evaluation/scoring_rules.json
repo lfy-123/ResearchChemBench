@@ -1,0 +1,145 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_terminal_h2_formation",
+      "reference_id": "terminal_h2_formation",
+      "type": "semantic",
+      "expected": "Establish an energetically accessible local conversion from the complete neutral-singlet Pd/XantPhos dihydride to molecular H2 formation in DMAc at 298.15 K. Actual mapped structures, Pd–H/H–H bonding changes and physically connected activation evidence must support the low-barrier interpretation relative to the relaxed dihydride. Use comparable solution electronic energies and thermal corrections for the full 77-atom inventory. A claimed saddle needs reaction-relevant motion and connection evidence; one imaginary frequency, a short H–H distance or a completed TS search alone fails. A supported equivalent connected formation account passes without author node names or a specific IRC implementation. This result concerns H–H formation, not gas dissociation, unique catalyst recovery or the full-cycle rate. The printed 0.9 kcal/mol and old tolerance are unscored historical evidence.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_release_reference_sensitivity",
+      "reference_id": "release_reference_sensitivity",
+      "type": "semantic",
+      "expected": "An actual atom-balanced thermodynamic result separates molecular H-H formation from release of one equivalent of H2(g) from the explicitly identified Pd/H2-containing reactant into the stated released Pd species. From genuine calculated molecular free energies, report the release free energy at declared temperature, solute activities and H2 pressure and establish the quantitative pressure relation: at otherwise fixed conditions in the ideal dilute-gas regime, DeltaG_release(p2)-DeltaG_release(p1)=RT ln(p2/p1), or RT ln(f2/f1) using H2 fugacity for a justified nonideal model. Lower H2 pressure must make release more favorable; increasing it must make release less favorable. Any gas/solution standard-state conversion must preserve the same chemical potential, with the H2 stoichiometric coefficient and convention applied once. A single barrier, arbitrary near-zero value, generic statement of pressure sensitivity, or unchanged-pressure comparison with inconsistent standard states fails. No universal near-zero release value or sign is required: the verifier 1-atm value is not a paper target. Physical definition: Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_pd_availability",
+      "reference_id": "pd_availability",
+      "type": "semantic",
+      "expected": "From genuinely calculated balanced molecular thermodynamics, identify an accessible full-ligand Pd-containing candidate after H2 loss and assess its availability in DMAc under stated solvent activities and gas conditions. Interpret any explicit solvent association consistently; an arbitrary single-DMAc route is not mandatory. Explain why accessibility is conditional on the represented species and references rather than proof of a unique catalytically active state or its regeneration rate. A physically established equivalent recovery model passes directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_gas_experiment_inference",
+      "reference_id": "gas_experiment_inference",
+      "type": "semantic",
+      "expected": "Use the computed local H2-forming/releasing model to explain compatibility with transferable hydrogenating gas in the irradiated experiment, while distinguishing this consistency from identification of the specific Pd intermediate. The receiver hydrogenation and dark control do not uniquely identify donor-chamber Pd speciation, local rates, the upstream photocycle or full catalyst turnover. Tie this inference to the actual calculated local model and the supplied experiment; simply repeating 96% or listing generic caveats does not pass.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "terminal_h2_formation",
+      "description": "Local chemical accessibility of H–H bond formation",
+      "max_score": 30,
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p10_11_12_50_51_52_53"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_terminal_h2_formation"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "release_reference_sensitivity",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "H2 release is reference-sensitive",
+      "rule_ids": [
+        "r_release_reference_sensitivity"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p10_11_12_50_51_52_53",
+        "verified_release_species"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "pd_availability",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Conditional availability of a Pd recovery candidate after H2 loss",
+      "rule_ids": [
+        "r_pd_availability"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p10_11_12_50_51_52_53",
+        "verified_release_species"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "gas_experiment_inference",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "What the two-chamber observation establishes about the local model",
+      "rule_ids": [
+        "r_gas_experiment_inference"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p10_11_12_50_51_52_53",
+        "verified_release_species"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

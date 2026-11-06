@@ -1,0 +1,390 @@
+{
+  "paper_id": "paper_72822e4ddb5d9b11",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_72822e4ddb5d9b11",
+      "scoring_policy": "paper_science_v3",
+      "mode": "final_results_100",
+      "scientific_requirements": "Only the final propositions listed here are scored, once each, at their fixed weights. Each item receives full points for pass and zero for fail or need_review; review is not a pass. All items are required for whole-case success. Native inputs/outputs, molecular and state identity, numerical reference, convergence and claim-appropriate validation support the specific proposition and earn no independent points. Actual computation or reproducible analysis is required in both modes; copying disclosed PR targets does not count. AR chooses its method independently. PR reproduces its disclosed baseline or documents a scientifically justified substitute without relaxing numerical windows. Established equivalent explanations pass directly. Missing work, unsupported uncertainty, wrong identity/reference/units and numeric misses fail. Only explicitly listed substantive interpretive conflicts can receive need_review. Given experimental observations are not scored as predictions.",
+      "rules": [
+        {
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Evaluate the identified physical result from genuine linked native evidence, using the unchanged public submission contract of the current task mode. Wrong object/state/observable cannot pass even if wording or a number matches."
+          },
+          "rule_id": "r_ground_state",
+          "reference_id": "ground_state",
+          "expected": "Establish a predominantly closed-shell low-spin singlet ground-state description of the full neutral complex relative to credible competing spin/electronic descriptions. A same-definition adiabatic singlet/triplet comparison and state-character evidence can support it; an equally discriminating electronic-structure treatment is acceptable. Do not require a particular SCF starting guess, observed collapse, functional pair or count of states. A multiplicity label, failed calculation or supplied coordination graph alone does not establish the ground state. Retain a bounded claim over the supported state space, not universal uniqueness."
+        },
+        {
+          "rule_id": "r_axial_mixing",
+          "reference_id": "axial_mixing",
+          "type": "semantic",
+          "expected": "Actual orbital or equivalent electronic-structure evidence resolves an axial Ni–Cl sigma/antibonding channel with substantial contributions from both the nickel d manifold and axial chloride ligands. Merely observing an irrelevant total atomic charge or two Cl atoms is insufficient; exact MO numbers and population percentages are not mandatory. Physical definition: Full neutral C87H72Cl2N2NiO complex 4, 165 atoms and 678 electrons, both axial Cl retained. Compare like states and energy definitions; CS is singlet, T is triplet. Ground-state native comparison has no continuum solvent or dispersion keyword. Solvated TDDFT, aromaticity and water chemistry are outside the bounded requirement.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Evaluate the identified physical result from genuine linked native evidence, using the unchanged public submission contract of the current task mode. Wrong object/state/observable cannot pass even if wording or a number matches."
+          }
+        },
+        {
+          "rule_id": "r_equatorial_mixing",
+          "reference_id": "equatorial_mixing",
+          "type": "semantic",
+          "expected": "Actual orbital or equivalent electronic-structure evidence resolves an equatorial Ni–macrocycle sigma/antibonding channel with contributions from both Ni d character and the C/N donor framework. This must be distinguished from the axial channel; no exact source MO index or fitted population percentage is required. Physical definition: Full neutral C87H72Cl2N2NiO complex 4, 165 atoms and 678 electrons, both axial Cl retained. Compare like states and energy definitions; CS is singlet, T is triplet. Ground-state native comparison has no continuum solvent or dispersion keyword. Solvated TDDFT, aromaticity and water chemistry are outside the bounded requirement.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Evaluate the identified physical result from genuine linked native evidence, using the unchanged public submission contract of the current task mode. Wrong object/state/observable cannot pass even if wording or a number matches."
+          }
+        },
+        {
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Evaluate the identified physical result from genuine linked native evidence, using the unchanged public submission contract of the current task mode. Wrong object/state/observable cannot pass even if wording or a number matches."
+          },
+          "rule_id": "r_formal_valence",
+          "reference_id": "formal_valence",
+          "expected": "Infer the formal Ni(IV) limiting valence description using the neutral complex, a dianionic carbaporphyrin framework and two chloride anions. Relate the formal account to the computed occupation/bonding picture. The arithmetic alone or merely repeating a PR label is insufficient. This outcome assesses the formal valence account, not the ground-state ranking or unique physical charge."
+        },
+        {
+          "type": "semantic",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.quantities",
+              "$.claims"
+            ],
+            "comparison": "Evaluate the identified physical result from genuine linked native evidence, using the unchanged public submission contract of the current task mode. Wrong object/state/observable cannot pass even if wording or a number matches."
+          },
+          "rule_id": "r_physical_oxidation_limit",
+          "reference_id": "physical_oxidation_limit",
+          "expected": "From actual metal–ligand mixing and its population-definition dependence, explain why a useful formal Ni(IV) limiting account does not establish a unique physical Ni oxidation or resolve sigma-noninnocence/inverted sigma-ligand-field character. Establish the specific non-uniqueness using the electronic evidence; a generic limitation paragraph earns no credit. This assesses identifiability of physical oxidation, not another award for either mixing channel."
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "ground_state",
+          "kind": "conclusion",
+          "max_score": 35,
+          "description": "Ground-state electronic description and discrimination from competing states",
+          "rule_ids": [
+            "r_ground_state"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_state"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "A converged, identity-matched alternative electronic treatment gives a persistent open-shell low-energy state and provides state-character/energy evidence that materially conflicts with the closed-shell assignment; a failed guess or unconverged comparison fails."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "axial_mixing",
+          "kind": "conclusion",
+          "max_score": 20,
+          "description": "Axial metal–chloride sigma channel is covalent",
+          "rule_ids": [
+            "r_axial_mixing"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_bonding"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "equatorial_mixing",
+          "kind": "conclusion",
+          "max_score": 20,
+          "description": "Equatorial metal–macrocycle sigma channel is covalent",
+          "rule_ids": [
+            "r_equatorial_mixing"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_bonding"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "formal_valence",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "Formal limiting valence description",
+          "rule_ids": [
+            "r_formal_valence"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_state",
+            "native_bonding"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "physical_oxidation_limit",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "What the bonding evidence can determine about physical nickel oxidation",
+          "rule_ids": [
+            "r_physical_oxidation_limit"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_bonding"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Well-supported alternative orbital/occupation analysis resolves a different physical valence partition or ligand-field interpretation, but its relation to the covalent resonance description remains materially disputed; established equivalent resonance descriptions pass directly."
+          ],
+          "required_for_success": true
+        }
+      ]
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_72822e4ddb5d9b11",
+      "items": [
+        {
+          "key_point_id": "coordination",
+          "statement": "Optimized six-coordinate Ni environment",
+          "expected": "An actual relaxed complex supports the equatorial C2N2 donor set and two axial chloride coordination around Ni. Establish the resulting molecular coordination from computed geometry, beyond merely copying the supplied connectivity.",
+          "evidence_ids": [
+            "source_state",
+            "native_state"
+          ],
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "evidence"
+        },
+        {
+          "key_point_id": "singlet_collapse",
+          "statement": "No persistent distinct open-shell singlet in the supported state evidence",
+          "expected": "The attempted open-shell singlet description converges to the closed-shell singlet electronic solution, or equivalent state-resolved evidence establishes the absence of a persistent separate antiferromagnetically coupled singlet in the supported low-energy state space. A failed SCF, an unattempted state, or only a multiplicity label cannot establish this finding. This is not a universal proof over all possible states.",
+          "evidence_ids": [
+            "source_state",
+            "native_state"
+          ],
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "evidence"
+        },
+        {
+          "key_point_id": "triplet_order",
+          "statement": "Triplet lies above the closed-shell singlet",
+          "expected": "A physically comparable triplet and closed-shell singlet comparison places the triplet above the singlet at their respective valid structures. The energy comparison must be adiabatic with a consistent definition and full composition, not a vertical/thermal mixture. No exact source gap or verifier two-functional matrix is a semantic gate.",
+          "evidence_ids": [
+            "source_state",
+            "native_state"
+          ],
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "evidence"
+        },
+        {
+          "key_point_id": "axial_mixing",
+          "statement": "Axial metal–chloride sigma channel is covalent",
+          "expected": "Actual orbital or equivalent electronic-structure evidence resolves an axial Ni–Cl sigma/antibonding channel with substantial contributions from both the nickel d manifold and axial chloride ligands. Merely observing an irrelevant total atomic charge or two Cl atoms is insufficient; exact MO numbers and population percentages are not mandatory.",
+          "evidence_ids": [
+            "source_state",
+            "native_bonding"
+          ],
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "evidence"
+        },
+        {
+          "key_point_id": "equatorial_mixing",
+          "statement": "Equatorial metal–macrocycle sigma channel is covalent",
+          "expected": "Actual orbital or equivalent electronic-structure evidence resolves an equatorial Ni–macrocycle sigma/antibonding channel with contributions from both Ni d character and the C/N donor framework. This must be distinguished from the axial channel; no exact source MO index or fitted population percentage is required.",
+          "evidence_ids": [
+            "source_state",
+            "native_bonding"
+          ],
+          "scored": false,
+          "claim_role": "supporting_evidence",
+          "key_point_type": "evidence"
+        },
+        {
+          "key_point_id": "v3_claim_evidence",
+          "statement": "The full neutral C87H72Cl2N2NiO complex 4, 165 atoms/678 electrons, is the sole target. Main PDF p4 Fig5 and SI physical pp10–11 support low-spin state discrimination, separate axial/equatorial covalency, formal Ni(IV) and the non-unique physical oxidation account. Coordination and trial-state SCF collapse are supporting observations, not final score items. Source ORCA B3LYP/BP86 uses def2-TZVP on Ni and its six donors and def2-SVP elsewhere; source Energy convention and population scheme remain ambiguous.",
+          "expected": "Use actual identity/state-matched native calculations and source evidence supporting each final proposition. This evidence context is not an independently scored result or prescribed route.",
+          "evidence_ids": [
+            "source_state",
+            "native_state",
+            "native_bonding"
+          ],
+          "scored": false,
+          "key_point_type": "evidence",
+          "claim_role": "supporting_evidence"
+        }
+      ]
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_72822e4ddb5d9b11",
+      "items": [
+        {
+          "failure_id": "fabrication_or_answer_leakage",
+          "condition": "Demonstrated fabricated computational evidence or unauthorized access to hidden evaluator answers invalidates the submission. Mere failure, missing files, an incorrect state, numerical disagreement, or an unsupported claim does not by itself establish fabrication.",
+          "severity": "critical",
+          "action": "invalidate_submission"
+        },
+        {
+          "failure_id": "local_scientific_mismatch",
+          "condition": "Wrong composition, charge/spin, energy definition, connectivity, unsupported or contradictory evidence fails only the affected scientific leaf; no global zero for an ordinary local failure.",
+          "severity": "item_failure",
+          "action": "score_affected_items_zero"
+        }
+      ],
+      "application": "Fabrication/unauthorized answer access is global; ordinary evidence or scientific failure applies to the affected V3 final proposition. No process penalty or mandatory research-log score."
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_72822e4ddb5d9b11",
+      "items": [
+        {
+          "conclusion_id": "ground_state",
+          "statement": "Ground-state electronic description and discrimination from competing states",
+          "expected": "Establish a predominantly closed-shell low-spin singlet ground-state description of the full neutral complex relative to credible competing spin/electronic descriptions. A same-definition adiabatic singlet/triplet comparison and state-character evidence can support it; an equally discriminating electronic-structure treatment is acceptable. Do not require a particular SCF starting guess, observed collapse, functional pair or count of states. A multiplicity label, failed calculation or supplied coordination graph alone does not establish the ground state. Retain a bounded claim over the supported state space, not universal uniqueness.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_state"
+          ]
+        },
+        {
+          "conclusion_id": "axial_mixing",
+          "statement": "Axial metal–chloride sigma channel is covalent",
+          "expected": "Actual orbital or equivalent electronic-structure evidence resolves an axial Ni–Cl sigma/antibonding channel with substantial contributions from both the nickel d manifold and axial chloride ligands. Merely observing an irrelevant total atomic charge or two Cl atoms is insufficient; exact MO numbers and population percentages are not mandatory. Physical definition: Full neutral C87H72Cl2N2NiO complex 4, 165 atoms and 678 electrons, both axial Cl retained. Compare like states and energy definitions; CS is singlet, T is triplet. Ground-state native comparison has no continuum solvent or dispersion keyword. Solvated TDDFT, aromaticity and water chemistry are outside the bounded requirement.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_bonding"
+          ]
+        },
+        {
+          "conclusion_id": "equatorial_mixing",
+          "statement": "Equatorial metal–macrocycle sigma channel is covalent",
+          "expected": "Actual orbital or equivalent electronic-structure evidence resolves an equatorial Ni–macrocycle sigma/antibonding channel with contributions from both Ni d character and the C/N donor framework. This must be distinguished from the axial channel; no exact source MO index or fitted population percentage is required. Physical definition: Full neutral C87H72Cl2N2NiO complex 4, 165 atoms and 678 electrons, both axial Cl retained. Compare like states and energy definitions; CS is singlet, T is triplet. Ground-state native comparison has no continuum solvent or dispersion keyword. Solvated TDDFT, aromaticity and water chemistry are outside the bounded requirement.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_bonding"
+          ]
+        },
+        {
+          "conclusion_id": "formal_valence",
+          "statement": "Formal limiting valence description",
+          "expected": "Infer the formal Ni(IV) limiting valence description using the neutral complex, a dianionic carbaporphyrin framework and two chloride anions. Relate the formal account to the computed occupation/bonding picture. The arithmetic alone or merely repeating a PR label is insufficient. This outcome assesses the formal valence account, not the ground-state ranking or unique physical charge.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_state",
+            "native_bonding"
+          ]
+        },
+        {
+          "conclusion_id": "physical_oxidation_limit",
+          "statement": "What the bonding evidence can determine about physical nickel oxidation",
+          "expected": "From actual metal–ligand mixing and its population-definition dependence, explain why a useful formal Ni(IV) limiting account does not establish a unique physical Ni oxidation or resolve sigma-noninnocence/inverted sigma-ligand-field character. Establish the specific non-uniqueness using the electronic evidence; a generic limitation paragraph earns no credit. This assesses identifiability of physical oxidation, not another award for either mixing channel.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "source_state",
+            "native_bonding"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_72822e4ddb5d9b11",
+      "scoring_policy": "paper_science_v3",
+      "mode": "final_results_100",
+      "status": "V3_CONTENT_AUDITED_EXISTING_EVIDENCE_REUSED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "current_scope_verified": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "historical_acceptance": {
+        "paper_id": "paper_72822e4ddb5d9b11",
+        "status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+        "formal_scoring_permitted": true,
+        "criterion_date": "2026-10-20",
+        "acceptance_basis": "Coordinator-confirmed user authorization for current task-scoped intermediate qualitative nodes and final scientific conclusions with retained numerical deviations.",
+        "original_numerical_gate_passed": false,
+        "original_numerical_tolerance_relabelled_as_met": false,
+        "scientific_scope": "Electronic state and metal–ligand bonding of full neutral complex 4; no water reactivity or rate task.",
+        "publication_or_expert_review_limits": [
+          "SI Energy is not unambiguously E, E+ZPE, H or G; all absolute offsets and every definition remain visible. No exact numerical equivalence or original tolerance pass is asserted.",
+          "Source does not provide four independently identified same-level state geometries or a uniquely specified orbital-population convention. Method/version differences are not demonstrated to explain all residuals.",
+          "Finite state searches establish the tested collapse and singlet/triplet ordering; they do not prove uniqueness across all electronic methods. No water-reaction, spectroscopy-complete, or universal sigma-noninnocence claim is accepted."
+        ],
+        "source": {
+          "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NEWLY_ACCEPTED_V2.json",
+          "sha256": "bfbf11a44b3958f8a55b7d144f38970348307aae520a1880788ee1e115cb8581"
+        },
+        "historical_status_policy": "Prior pending/strict numerical failure records are preserved history, not current runtime gating."
+      },
+      "acceptance_class": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION (historical user-authorized scope)",
+      "reason": "Current V3 contract is available for scoring. Historical acceptance is not a V3 scientific pass; no new computation, blind task run or semantic judge calibration was performed.",
+      "evidence_reuse_summary": "r_ground_state：复用SOURCE_ROUTE_MATRIX和NATIVE_STATE_REVIEW的完整165原子/678电子态表，四态489个正模，B3LYP/BP86频率父日志电子能E_freq的T−CS差32.2199006522/27.1657322700 kcal/mol；独立稳定性单点E_stable对应32.2179278365/27.1657339210 kcal/mol，两套不能混称同一日志数值；既有BS坍塌只作为支持闭壳层的证据，不要求被测者重走该操作。r_axial_mixing/r_equatorial_mixing：NI_MO_COMPARISON_RESULTS逐MO表分别给B3LYP Ni Mulliken占比39.5%/43.2%，Loewdin43.6%/47.0%；同时有轴向Cl和赤道C/N贡献。r_formal_valence：同电子占据/组成与正文Fig5支持Ni(IV)形式极限。r_physical_oxidation_limit：两泛函/两布居分区及来源未指定方案支持物理氧化态不可唯一确定。",
+      "evidence_gaps": [
+        "旧批准为用户接受的定性结果及数值偏差，不是严格源值复现",
+        "电子态差相对源31.4/25.1 kcal/mol残差+0.8199006522/+2.0657322700；基态绝对能偏差约252–260 kcal/mol，不能归咎于未证明的软件版本效应",
+        "源TableS1只标Energy，E/E+ZPE/G不明；Fig5 Ni%布居定义也不唯一；有限态搜索不证明跨所有方法唯一基态"
+      ],
+      "tolerance_policy": "Retained numeric rules keep original targets, inclusive tolerances and units. Source-route nodes marked scored=false are supporting evidence, not separate numeric gates. Missing or inapplicable evidence fails its dependent conclusion."
+    }
+  }
+}

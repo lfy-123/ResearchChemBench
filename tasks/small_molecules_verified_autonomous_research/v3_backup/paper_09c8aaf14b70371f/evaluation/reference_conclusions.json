@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "items": [
+    {
+      "conclusion_id": "series_3_5",
+      "statement": "Substituent-dependent reduction relationship for compounds 3–5",
+      "expected": "Report actual comparable electron-acceptance descriptor values for compounds 3–5 in ACN and DMSO and the peak-potential ordering suggested by those descriptors, allowing unresolved ties and explicitly comparing with the measured ordering for 3–5. Establish within compounds 3–5 that electron uptake becomes less favorable from 3 to 4 to 5 in ACN and DMSO. The source neutral-LUMO relationship supports this bounded trend; a physically equivalent validated descriptor passes. Do not infer absolute peak potentials from orbital eigenvalues. No exact LUMO or redox-potential window applies. Applicability to compounds 1/2 and any full-series mismatch are assessed separately under r_hydroxy_departure; missing or unresolved results for 1/2 alone must not fail this supported 3–5 conclusion. The complete task still covers all five supplied compounds.",
+      "supporting_key_point_ids": [
+        "support_series_3_5"
+      ],
+      "evidence_ids": [
+        "main_p7_14",
+        "supplementary_001_p1_2_3_4"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "hydroxy_departure",
+      "statement": "Applicability of the computed reduction relationship to hydroxy compounds 1 and 2",
+      "expected": "Evaluate from actual, comparably defined calculations of all five compounds whether the chosen structure–reduction relationship for 3–5 also describes compounds 1 and 2. Establish the claimed applicability or departure using the calculated descriptor values, their physical relation to measured Epc, and clearly identified molecular models, including 2. The source neutral-LUMO relationship fails to transfer unchanged: 1/3 have nearly equal orbital energies despite different Epc, and 2/3 do not follow the 3–5 relationship. This is a result for that descriptor, not a mandatory counterexample for every model. An independently computed, physically substantiated alternative that consistently explains all five passes directly; it need not manufacture a hydroxy departure or an additional causal mechanism. Merely fitting the supplied Epc values, relabeling them as a computed descriptor, or claiming universality without computational and physical support fails. Exact source E1/E2 scalar attribution is not required.",
+      "supporting_key_point_ids": [
+        "support_hydroxy_departure"
+      ],
+      "evidence_ids": [
+        "main_p7_10_14"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "acn_dmso",
+      "statement": "Scale of the ACN/DMSO solvent effect across all five compounds",
+      "expected": "Comparable calculations support a small ACN/DMSO effect across all five compounds, consistent with weak measured solvent dependence. The source neutral LUMO route is one sufficient explanation; an equivalent validated electronic-acceptance comparison passes directly. Report numerical descriptor changes without requiring unresolvable tiny signs. No universal <0.004 eV cutoff exists; Table4 gives 0.005 eV for 5.",
+      "supporting_key_point_ids": [
+        "support_acn_dmso"
+      ],
+      "evidence_ids": [
+        "main_p7_12"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "dcm_comparison",
+      "statement": "Direction of the compound-3 DCM/polar-solvent comparison",
+      "expected": "For compound 3, establish a computed solvent effect consistent with more favorable electron uptake in ACN/DMSO than DCM and the positive Epc shift. Stabilization of the neutral LUMO in polar solvents is the source reference explanation; equivalent appropriately referenced electron-acceptance or differential-solvation results establishing this physical direction pass directly. Source LUMOs −2.508/−2.538/−2.540 eV are unscored context, not a magnitude gate.",
+      "supporting_key_point_ids": [
+        "support_dcm_comparison"
+      ],
+      "evidence_ids": [
+        "main_p14"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "bounded_relationship",
+      "statement": "Molecular hypothesis for the peak-potential differences and its evidential limits",
+      "expected": "Give a molecular hypothesis for why peak potentials differ, identifying a specific structural or medium-dependent electronic effect supported by the submitted computations and stating which additional chemistry remains unresolved. Relate the hypothesis to actual descriptor results and measured Epc, without treating orbital eigenvalues as absolute electrochemical potentials or assigning unique hydroxyl causation from correlation alone. This rule scores the additional physical interpretation, not a second award for the four comparisons. An evidence-backed equivalent explanation passes; bare restatement, generic limitations or speculation without a computed anchor fails. Orbital localization and reduced-anion spin analyses remain optional. A source-supported example is the raised accepting orbital and less favorable reduction of compound 5, whose conjugated framework contains a 4-aminophenyl group and a 6-methoxynaphthalen-2-yl group. Donation and the extended conjugated framework provide a molecular hypothesis; the available comparison does not uniquely separate their contributions or establish the cause of the hydroxy-subseries departures.",
+      "supporting_key_point_ids": [
+        "support_bounded_relationship"
+      ],
+      "evidence_ids": [
+        "main_p12_13_14_15"
+      ],
+      "claim_role": "final"
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "source_checked_evidence_scope_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_series_3_5",
+      "r_hydroxy_departure",
+      "r_acn_dmso",
+      "r_dcm_comparison",
+      "r_bounded_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The series_3_5 outcome requires evidence for compounds 3–5 only. The complete task and the other outcomes still cover compounds 1/2 and all five compounds as authored.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "paper_id": "paper_3c3d73b8715d5fcd",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Numerical targets and existing tolerances are not adjustable. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate.",
+  "rules": [
+    {
+      "rule_id": "r_endo_ocm",
+      "reference_id": "endo_ocm",
+      "type": "semantic",
+      "expected": "Recover substrate coordination and endo oxidative cyclometalation to the eta3 organorhodium intermediate using connected, composition- and CO-balanced structures and valid stationary-state evidence. Names INT1/INT2 are source labels, not mandatory output IDs.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_overall_barrier",
+      "reference_id": "overall_barrier",
+      "type": "numeric",
+      "expected": "Recover the overall cycloisomerization activation free energy relative to the physical resting-state reference identified as INT11 in the main discussion. Do not substitute the local 12.9 kcal/mol barrier relative to INT1 or unbalanced CO references.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      },
+      "target": 22.8,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_co_loss",
+      "reference_id": "co_loss",
+      "type": "semantic",
+      "expected": "Establish a valid CO-dissociation connection from the oxidative-cyclometalation intermediate to the next catalyst state. Include the exchanged CO in composition and energy references. A demonstrated equivalent connection is acceptable; do not require the historical failed-IRC/QRC trajectory.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_beta_h",
+      "reference_id": "beta_h",
+      "type": "semantic",
+      "expected": "Establish the connected beta-H elimination within the paper cycloisomerization channel, with appropriate saddle/mode or equivalent connection evidence and consistent species inventory. The source local 6.0 kcal/mol is context with no new numerical gate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_product_release",
+      "reference_id": "product_release",
+      "type": "semantic",
+      "expected": "Recover reductive elimination leading to the cycloisomerization product and chemically consistent catalyst regeneration/ligand exchange. The source local 8.9 kcal/mol is contextual; do not impose an uncalibrated magnitude target.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_competing_22",
+      "reference_id": "competing_22",
+      "type": "semantic",
+      "expected": "Recover direct reductive elimination from the OCM intermediate to the distinct [2+2] product with connected molecular evidence and a common energy reference. Product existence alone is insufficient. The local 17.1 kcal/mol is not the overall cycloisomerization barrier.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_endo_exo_gap",
+      "reference_id": "endo_exo_gap",
+      "type": "semantic",
+      "expected": "Compare the correctly assigned endo and exo oxidative-cyclometalation transition structures of the same substrate/catalyst and establish that the endo saddle is lower in Gibbs free energy. Require valid saddle/connectivity evidence and comparable composition, charge/spin, conditions, thermochemical definition and energy reference. This item scores the supported ordering, not agreement with a particular numerical gap; the source 7.5 and SI 7.2 kcal/mol discussions are context only. Comparing unrelated minima or unbalanced states does not establish this ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_competition_conclusion",
+      "reference_id": "competition_conclusion",
+      "type": "semantic",
+      "expected": "The final selected mechanism uses endo OCM followed by connected cycloisomerization and [2+2] branches, and explains their competing accessibility from a balanced free-energy profile. Endo initiation controls the main route; do not confuse local and overall barriers or infer an experimental product yield from this finite model. No CO-insertion [2+1+2] scope expansion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "endo_ocm",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "endo 氧化环金属化中间节点",
+      "rule_ids": [
+        "r_endo_ocm"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p39_41"
+      ]
+    },
+    {
+      "id": "overall_barrier",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "环异构化总活化自由能",
+      "rule_ids": [
+        "r_overall_barrier"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41_42"
+      ]
+    },
+    {
+      "id": "co_loss",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "CO 解离连接节点",
+      "rule_ids": [
+        "r_co_loss"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ]
+    },
+    {
+      "id": "beta_h",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "β-H 消除节点",
+      "rule_ids": [
+        "r_beta_h"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ]
+    },
+    {
+      "id": "product_release",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "还原消除与产物释放节点",
+      "rule_ids": [
+        "r_product_release"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ]
+    },
+    {
+      "id": "competing_22",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "竞争 [2+2] 产物通道",
+      "rule_ids": [
+        "r_competing_22"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41"
+      ]
+    },
+    {
+      "id": "endo_exo_gap",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "endo 起始过渡态低于 exo 的能量排序",
+      "rule_ids": [
+        "r_endo_exo_gap"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p35_41"
+      ]
+    },
+    {
+      "id": "competition_conclusion",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "最终：endo 起始及两种产物的竞争机制",
+      "rule_ids": [
+        "r_competition_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p3"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Round-one scope: The required chemistry begins at supplied Int-3. Int-2 is contextual only; no benzylic activation, peroxide cleavage or upstream radical generation is required. Both product drawings are inputs, not discoveries.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "expert_round2_20261103",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_local_cleavage_chemistry",
+      "reference_id": "local_cleavage_chemistry",
+      "type": "semantic",
+      "expected": "Explain the local accessibility of acetophenone plus ethyl radical from the supplied oxygen-centered C10H13O doublet Int-3 with mapped bond changes, correct composition/charge/spin and actual connected-route activation Gibbs-energy evidence in MeCN at 298.15 K and 1 atm. Use a physically connected precursor basin rather than a conveniently chosen higher-energy conformer. The product structures are supplied and earn no independent identification credit. A drawing or isolated saddle fails. Source 9.07 kcal/mol is historical context, not a target. This item concerns local acetophenone formation; ranking against the other cleavage is separate. No Int-2 formation, peroxide-bond cleavage, benzylic HAT, radical generation or full oxidation route is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_cleavage_selectivity",
+      "reference_id": "cleavage_selectivity",
+      "type": "semantic",
+      "expected": "Establish and explain the local accessibility of propiophenone plus methyl radical from the supplied Int-3, using actual calculations with mapped bond changes and reaction-path connection evidence between Int-3 and the specified product fragments. A barrier scalar or isolated saddle without this connection evidence is insufficient. Report the competing local activation Gibbs free energy and the common-reference barrier difference, and conclude that acetophenone plus ethyl radical formation is favored. Source competing barrier 13.39 and methyl-minus-ethyl difference 4.32 kcal/mol are context without hard matching windows. Use matching energy definitions, composition, charge/spin and conformer references. Product stability alone does not establish formation accessibility or preference. Interpret the conclusion as local competition, not the supplied 63% yield, a measured branching ratio or full-network flux. No upstream activation, peroxide cleavage or particular path-validation algorithm is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "local_cleavage_chemistry",
+      "kind": "conclusion",
+      "max_score": 50,
+      "description": "Local cleavage chemistry and accessibility of acetophenone formation",
+      "rule_ids": [
+        "r_local_cleavage_chemistry"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37",
+        "supplementary_001_p33_34_35",
+        "main_p8",
+        "supplementary_001_p33_35"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "cleavage_selectivity",
+      "kind": "conclusion",
+      "max_score": 50,
+      "description": "Local accessibility of propiophenone formation and kinetic preference between the competing cleavages",
+      "rule_ids": [
+        "r_cleavage_selectivity"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "required_for_whole_case_success_item_ids": [
+    "local_cleavage_chemistry",
+    "cleavage_selectivity"
+  ]
+}

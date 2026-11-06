@@ -1,0 +1,102 @@
+{
+  "revision_date": "2026-10-17",
+  "purpose": "Keep source locators and editorial provenance private while public inputs present a self-contained scientific problem. Scientific values, uncertainty, structures, scoring and verification conclusions are unchanged.",
+  "removed_public_fields": [
+    {
+      "original_public_file": "agent_input/data/inputs/source_facts.json",
+      "json_pointer": "/source_locators",
+      "original_value": [
+        {
+          "claim": "Substrate identity, observed products and NBS procedure",
+          "source": "main PDF pp3,5–7; SI PDF pp30–32"
+        },
+        {
+          "claim": "Source comparator7 product yields and environment",
+          "source": "main PDF pp3,6–7"
+        },
+        {
+          "claim": "NBS amount/volume and printed concentration are inconsistent",
+          "source": "main PDF p7 Chemical Halocyclization"
+        }
+      ]
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/observations.json",
+      "json_pointer": "/records/0/source",
+      "original_value": "main PDF pp3,5,7"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/observations.json",
+      "json_pointer": "/records/1/source",
+      "original_value": "main PDF pp3,6–7"
+    }
+  ],
+  "input_wording_before_after": [
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/source_facts.json",
+      "before": "The source NBS experiment",
+      "after": "The NBS experiment"
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/source_facts.json",
+      "before": "; the printed 473 mM is inconsistent.",
+      "after": "."
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/source_facts.json",
+      "before": "The procedure does not explicitly state a temperature.",
+      "after": "Temperature is unspecified for this procedure."
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/source_facts.json",
+      "before": "its reported ring-product distribution",
+      "after": "its measured ring-product distribution"
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/source_facts.json",
+      "before": "The 473 mM printed concentration is not used as the physical input.",
+      "after": "Use the NBS concentration derived from the supplied amount and solvent volume."
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/source_facts.json",
+      "before": "not explicitly reported for chemical halocyclization",
+      "after": "unspecified for chemical halocyclization"
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/observations.json",
+      "before": "same reported chromatographic/NMR profile",
+      "after": "same observed chromatographic/NMR profile"
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/observations.json",
+      "before": "source mixed-substrate procedure",
+      "after": "mixed-substrate procedure"
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/observations.json",
+      "before": "Under the source enzyme protocol",
+      "after": "Under the enzyme conditions"
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/systems.json",
+      "before": "Source NBS reagent identity.",
+      "after": "NBS reagent identity."
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/systems.json",
+      "before": "Source triethylamine reagent identity.",
+      "after": "Triethylamine reagent identity."
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/systems.json",
+      "before": "Connectivity and stereochemistry extracted from the source identity and checked against SI atom indexing; coordinates are private.",
+      "after": "Complete molecular connectivity, stereochemistry and atom indexing are supplied; generate coordinates independently."
+    },
+    {
+      "file": "paper_c625cba3ce868eb1/agent_input/data/inputs/systems.json",
+      "before": "Source 5-octenol identity; source optimized coordinates are private.",
+      "after": "5-octenol identity with complete molecular connectivity and atom indexing; generate coordinates independently."
+    }
+  ],
+  "concentration_editorial_note": "The printed 473 mM was inconsistent with 0.284 mmol NBS in 6 mL DCM. The active public input remains 47.33333333333333 mM. This correction predates the wording revision."
+}

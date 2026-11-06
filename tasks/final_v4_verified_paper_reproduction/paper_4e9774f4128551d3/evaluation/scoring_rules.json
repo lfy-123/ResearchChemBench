@@ -1,0 +1,158 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_endpoint_stability",
+      "reference_id": "endpoint_stability",
+      "type": "semantic",
+      "expected": "Actual comparable endpoint free energies place50/trans belowS20/cis for the intact neutral-singlet local epimer pair, preserving every other stereocenter. State the medium, temperature and conformational scope actually represented and relate them to the supplied23°C experiment with its unresolvedTHF/MeOH composition. A supported same-condition full-molecule comparison is eligible without a hidden pureMeOH/298.15K source route. Compositionally different acid/enol species or a protonation barrier cannot establish this product ordering. Assess the disclosed intact-pair methanol/298.15 K baseline or an evidence-backed comparable substitution, keeping it distinct from the 23 degrees C mixed-solvent experiment. Source free-energy differences are evidence context, not targets.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_equilibrium_implication",
+      "reference_id": "equilibrium_implication",
+      "type": "semantic",
+      "expected": "From the actual computed cis-minus-trans Gibbs difference and explicit common-temperature Boltzmann/detailed-balance relation, show the trans-biased equilibrium implication, consistent with recovery of trans under reversible epimerization and substantially more trans-biased than the 1.1:1 single-pass outcome. State which solvent and conformational model this establishes. Do not equate this model equilibrium with the 30 min mixed-solvent experiment or award credit for merely repeating the observed trans outcome.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_finite_time_nonuniqueness",
+      "reference_id": "finite_time_nonuniqueness",
+      "type": "semantic",
+      "expected": "Demonstrate with an explicit physically coherent reaction-network/kinetic analysis or equivalent quantitative construction that the same endpoint free-energy difference can admit different finite-timeT/C outcomes when formation barriers/rates or preparation history differ. Any reversible branch must satisfy the same detailed-balance ratio. This is a non-identifiability result; merely missing aTS, asserting uncertainty or proposing unexecuted calculations fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_local_stereochemical_reset",
+      "reference_id": "local_stereochemical_reset",
+      "type": "semantic",
+      "expected": "Explain with atom-mapped local geometry and evidence-backed stereochemical/kinetic reasoning that C6 becomes planar in the tetrasubstituted O-TMS enol ether and its protonolysis restores the local stereocenter, allowing access to both epimers while preserving the rest of the polycycle. Distinguish this structural explanation from proof of a unique acid-face transition state or exact branching ratio. The cumulative 70% recycled cis yield is not intrinsic stability or single-pass selectivity. A demonstrated equivalent stereochemical account passes directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "endpoint_stability",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Relative Gibbs stability of the intact trans/cis ketoester pair",
+      "rule_ids": [
+        "r_endpoint_stability"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "equilibrium_implication",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Equilibrium implication and its relation to the reversible experiment",
+      "rule_ids": [
+        "r_equilibrium_implication"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "finite_time_nonuniqueness",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Fixed endpoint thermodynamics does not determine finite-time protonolysis selectivity",
+      "rule_ids": [
+        "r_finite_time_nonuniqueness"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "local_stereochemical_reset",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Local stereochemical origin of access to both ketoester epimers",
+      "rule_ids": [
+        "r_local_stereochemical_reset"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "paper_id": "paper_9455a82229de2427",
+  "status": "V3_EVIDENCE_REUSE_REVIEW_NO_NEW_COMPUTATION",
+  "formal_scoring_permitted": true,
+  "criterion_date": "2026-10-28",
+  "acceptance_basis": "Historical computations reused proposition by proposition as documented in the 2026-10-28 prefix and modification report. Previous PASS or qualified acceptance is not a new V3 whole-case validation.",
+  "original_numerical_gate_passed": false,
+  "original_numerical_tolerance_relabelled_as_met": false,
+  "scientific_scope": "Same isolated-gas SiN/isoprene H-loss question: two source-supported products and their E0, a bounded connected formation explanation and product identifiability; no new network or control matrix.",
+  "publication_or_expert_review_limits": [
+    "The source itself gives i2→i4 barrier140 in prose versus142 from Fig5, while actual is148.7503075743 kJ/mol; the gap remains a disclosed mismatch with no fitted window or invented causal explanation.",
+    "Finite source-oriented entry and exit connections are supported. Infinite-separation barrierlessness, all38 isomers, a complete P2 network, absolute rates and branching fractions are outside the accepted result.",
+    "The experimental energy interval tests channel compatibility, not thermodynamic 298 K equilibrium or local barrier accuracy. Composite spin contamination and unavailable source TS definition remain visible."
+  ],
+  "source": {
+    "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NEWLY_ACCEPTED_V2.json",
+    "sha256": "bfbf11a44b3958f8a55b7d144f38970348307aae520a1880788ee1e115cb8581"
+  },
+  "historical_status_policy": "Prior pending/strict numerical failure records are preserved history, not current runtime gating.",
+  "historical_acceptance_status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+  "scoring_policy": "paper_science_v3",
+  "evaluation_mode": "final_results_100",
+  "current_scope_verified": false,
+  "evidence_reuse_note": "r_p1_structure/p2_structure and r_p1_exoergicity/p2_exoergicity reuse P1/P2_CBS_verification and P1_P2_H_asymptote_comparison_20260930.json: E0=-156.4325195194/-150.5408983284 kJ/mol within unchanged [-189,-135]. r_formation_account reuses P1_ROUTE_EDGE_AUDIT.json and connected-edge native CBS/IRC/LQA/exit evidence, without making its author node sequence mandatory. r_product_identifiability follows from the overlap and bounded route coverage. The i2→i4 local barrier is 148.7503076 kJ/mol versus source prose140/Fig5-derived142; it is still -40.6059774 relative to reactants. This mismatch, finite exit/entry sampling and composite spin contamination remain unresolved limits. The full P2 network, all38 isomers and rates are not claimed.",
+  "second_audit_candidate_coverage": "Second audit: the public comparison now explicitly addresses two inequivalent diene/SiN orientations, without supplying product graphs, ring size, entry atom or a winning mechanism. Existing evidence covers two specific P1/P2 endpoints and a finite P1 route, not the whole product space. Source-specific required endpoints versus independent AR alternatives remain an expert issue. Do not silently apply P1/P2 windows to another product or claim whole-space exclusion.",
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "evidence_gaps": "仍需关注自主发现题与参考P1/P2候选覆盖的公平性：公开未给产品图，本轮不改变发现范围。P2没有完整路线，38异构体未穷尽；有限出口不是全点CBS+ZPE无穷远MEP。旧实验区间不作为计算命中窗，真实不一致须解释而非抹平；不能据二产品能差给分支比。",
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "mode_scope_exception": "两模式的最终科学命题相同；AR自主选择方法，PR评估披露基线或有依据的可比替代。作者数值均为证据。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "必需结果1：第一不同区域异构产物及E0物理意义",
+      "rule_id": "r_p1_product_channel",
+      "conclusion_id": "p1_product_channel",
+      "weight": 30,
+      "independence": "第一通道身份/热力学，不由第二候选或一条路径自动成立。",
+      "source_location": "正文pp3–7：CBS-QB3方法、Fig4产品空间/能量、Fig5形成路线及P9/P12尾部；SI源坐标；既有edge/原生CBS审计。",
+      "source_evidence_ids": [
+        "source_products",
+        "native_products"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/continuous_forward_20261009T071333Z/papers/paper_9455a82229de2427/P1_ROUTE_EDGE_AUDIT.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/resume_closeout_20261010T1000Z/papers/paper_9455a82229de2427/SOURCE_COMPARISON.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/H_atom_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P1_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P1_P2_H_asymptote_comparison_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P2_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/connected_edge_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/H_atom_doublet_CBSQB3_SP_reference_v2a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/P1_source_CBSQB3_NoOpt_0K_v2a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/P2_source_CBSQB3_NoOpt_0K_v2a1/stdout.log"
+      ],
+      "existing_support_or_gap": "P1/P2+H E0=−156.432520/−150.540898 kJ/mol，共反应物−538.521952 Eh、H=−.499818 Eh；源约−156/−150、观察−162±27。P1有限连通路线有IRC/入口/出口；i2→i4局部148.7503对源140/142。",
+      "scientific_limitations": "仍需关注自主发现题与参考P1/P2候选覆盖的公平性：公开未给产品图，本轮不改变发现范围。P2没有完整路线，38异构体未穷尽；有限出口不是全点CBS+ZPE无穷远MEP。旧实验区间不作为计算命中窗，真实不一致须解释而非抹平；不能据二产品能差给分支比。"
+    },
+    {
+      "scientific_requirement": "必需结果1：第二不同区域异构产物及E0物理意义",
+      "rule_id": "r_p2_product_channel",
+      "conclusion_id": "p2_product_channel",
+      "weight": 30,
+      "independence": "不同结构和通道热力学，不能重复P1几何取得分数。",
+      "source_location": "正文pp3–7：CBS-QB3方法、Fig4产品空间/能量、Fig5形成路线及P9/P12尾部；SI源坐标；既有edge/原生CBS审计。",
+      "source_evidence_ids": [
+        "source_products",
+        "native_products"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/continuous_forward_20261009T071333Z/papers/paper_9455a82229de2427/P1_ROUTE_EDGE_AUDIT.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/resume_closeout_20261010T1000Z/papers/paper_9455a82229de2427/SOURCE_COMPARISON.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/H_atom_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P1_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P1_P2_H_asymptote_comparison_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P2_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/connected_edge_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/H_atom_doublet_CBSQB3_SP_reference_v2a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/P1_source_CBSQB3_NoOpt_0K_v2a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/P2_source_CBSQB3_NoOpt_0K_v2a1/stdout.log"
+      ],
+      "existing_support_or_gap": "P1/P2+H E0=−156.432520/−150.540898 kJ/mol，共反应物−538.521952 Eh、H=−.499818 Eh；源约−156/−150、观察−162±27。P1有限连通路线有IRC/入口/出口；i2→i4局部148.7503对源140/142。",
+      "scientific_limitations": "仍需关注自主发现题与参考P1/P2候选覆盖的公平性：公开未给产品图，本轮不改变发现范围。P2没有完整路线，38异构体未穷尽；有限出口不是全点CBS+ZPE无穷远MEP。旧实验区间不作为计算命中窗，真实不一致须解释而非抹平；不能据二产品能差给分支比。"
+    },
+    {
+      "scientific_requirement": "必需结果2：至少一条真实连通形成解释",
+      "rule_id": "r_formation_account",
+      "conclusion_id": "formation_account",
+      "weight": 25,
+      "independence": "从完整反应物到产品+H的可达路线，不由端点能量兼容推出。",
+      "source_location": "正文pp3–7：CBS-QB3方法、Fig4产品空间/能量、Fig5形成路线及P9/P12尾部；SI源坐标；既有edge/原生CBS审计。",
+      "source_evidence_ids": [
+        "source_products",
+        "native_products",
+        "native_route"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/continuous_forward_20261009T071333Z/papers/paper_9455a82229de2427/P1_ROUTE_EDGE_AUDIT.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/resume_closeout_20261010T1000Z/papers/paper_9455a82229de2427/SOURCE_COMPARISON.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/H_atom_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P1_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P1_P2_H_asymptote_comparison_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P2_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/connected_edge_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/H_atom_doublet_CBSQB3_SP_reference_v2a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/P1_source_CBSQB3_NoOpt_0K_v2a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/P2_source_CBSQB3_NoOpt_0K_v2a1/stdout.log"
+      ],
+      "existing_support_or_gap": "P1/P2+H E0=−156.432520/−150.540898 kJ/mol，共反应物−538.521952 Eh、H=−.499818 Eh；源约−156/−150、观察−162±27。P1有限连通路线有IRC/入口/出口；i2→i4局部148.7503对源140/142。",
+      "scientific_limitations": "仍需关注自主发现题与参考P1/P2候选覆盖的公平性：公开未给产品图，本轮不改变发现范围。P2没有完整路线，38异构体未穷尽；有限出口不是全点CBS+ZPE无穷远MEP。旧实验区间不作为计算命中窗，真实不一致须解释而非抹平；不能据二产品能差给分支比。"
+    },
+    {
+      "scientific_requirement": "必需结果3：实验/形成证据的产物识别范围",
+      "rule_id": "r_product_identifiability",
+      "conclusion_id": "product_identifiability",
+      "weight": 15,
+      "independence": "有限产品与路径覆盖的识别结论，不重复两个兼容端点。",
+      "source_location": "正文pp3–7：CBS-QB3方法、Fig4产品空间/能量、Fig5形成路线及P9/P12尾部；SI源坐标；既有edge/原生CBS审计。",
+      "source_evidence_ids": [
+        "source_products",
+        "native_products",
+        "native_route"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/continuous_forward_20261009T071333Z/papers/paper_9455a82229de2427/P1_ROUTE_EDGE_AUDIT.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/resume_closeout_20261010T1000Z/papers/paper_9455a82229de2427/SOURCE_COMPARISON.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/H_atom_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P1_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P1_P2_H_asymptote_comparison_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/P2_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/analysis/connected_edge_CBS_verification_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/H_atom_doublet_CBSQB3_SP_reference_v2a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/P1_source_CBSQB3_NoOpt_0K_v2a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9455a82229de2427/outputs/P2_source_CBSQB3_NoOpt_0K_v2a1/stdout.log"
+      ],
+      "existing_support_or_gap": "P1/P2+H E0=−156.432520/−150.540898 kJ/mol，共反应物−538.521952 Eh、H=−.499818 Eh；源约−156/−150、观察−162±27。P1有限连通路线有IRC/入口/出口；i2→i4局部148.7503对源140/142。",
+      "scientific_limitations": "仍需关注自主发现题与参考P1/P2候选覆盖的公平性：公开未给产品图，本轮不改变发现范围。P2没有完整路线，38异构体未穷尽；有限出口不是全点CBS+ZPE无穷远MEP。旧实验区间不作为计算命中窗，真实不一致须解释而非抹平；不能据二产品能差给分支比。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

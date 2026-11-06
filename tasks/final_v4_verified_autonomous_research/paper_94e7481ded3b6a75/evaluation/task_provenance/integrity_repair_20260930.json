@@ -1,0 +1,79 @@
+{
+  "date": "2026-09-30",
+  "finding_id": "B3-I01",
+  "mode": "autonomous_research",
+  "sources": [
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/main.pdf",
+      "physical_page": 2,
+      "sha256": "3f8646e8d8d8a74dffa3f64435459cdf2446757ce7c5c6507bd92d0b79fbe09c"
+    },
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/main.pdf",
+      "physical_page": 3,
+      "sha256": "3f8646e8d8d8a74dffa3f64435459cdf2446757ce7c5c6507bd92d0b79fbe09c"
+    },
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/supplementary_001.pdf",
+      "physical_page": 4,
+      "sha256": "d806f9e3af0e9faa3be4ac6098097c936f2418e1f3151fb4c4206620806d90c6"
+    },
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/supplementary_001.pdf",
+      "physical_page": 6,
+      "sha256": "d806f9e3af0e9faa3be4ac6098097c936f2418e1f3151fb4c4206620806d90c6"
+    },
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/supplementary_001.pdf",
+      "physical_page": 19,
+      "sha256": "d806f9e3af0e9faa3be4ac6098097c936f2418e1f3151fb4c4206620806d90c6"
+    },
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/supplementary_001.pdf",
+      "physical_page": 20,
+      "sha256": "d806f9e3af0e9faa3be4ac6098097c936f2418e1f3151fb4c4206620806d90c6"
+    },
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/main.pdf",
+      "physical_page": 5,
+      "sha256": "3f8646e8d8d8a74dffa3f64435459cdf2446757ce7c5c6507bd92d0b79fbe09c"
+    },
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/main.pdf",
+      "physical_page": 6,
+      "sha256": "3f8646e8d8d8a74dffa3f64435459cdf2446757ce7c5c6507bd92d0b79fbe09c"
+    },
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/main.pdf",
+      "physical_page": 7,
+      "sha256": "3f8646e8d8d8a74dffa3f64435459cdf2446757ce7c5c6507bd92d0b79fbe09c"
+    }
+  ],
+  "correction": "Experimental PBNA is the neutral singlet N-hexyl compound C34H42B2N2 (80 atoms), with two N-linked n-hexyl groups and the supplied B-phenyl BN-anthracene connectivity. Observations are for 10^-5 M dichloromethane solution at room temperature. The experimental identity is the reference for this question; physically admissible full-molecule models or explicitly mapped and justified approximations are allowed. State exactly which atoms or substituents change, why the approximation is adequate for each claimed optical property, and what cannot be transferred to the experiment. No additional full-molecule calculation matrix is prescribed. Other functionalized BN-anthracenes and condensed-phase aggregation are outside the required problem. Absorption bands, onset and emission features are distinct observables. Source identity distinction: main physical pp2–3 (section 2.2.3), SI physical p4 FigS3 and p6 TableS2 identify experimental N-hexyl PBNA, C34H42B2N2. The PBNA coordinate block in SI physical pp19–20 TableS12 instead contains the N-methyl computational approximation C24H22B2N2 (50 atoms). The experimental graph is in this package data/inputs/objects.json; author_model.json and author_model_mapping.json are PR-only assets in the companion paper_reproduction package. Reproduce the disclosed computational baseline or justify substitutions, then assess the transfer to the experimental molecule; the author approximation is not a second experimental identity and does not itself validate that transfer.",
+  "existing_evidence_reuse": {
+    "reusable": "Existing 50-atom source-model S0/TD/orbital/NTO and limited excited-state outputs remain conditional evidence for N-methyl PBNA, after explicit graph/state remapping. They do not become 80-atom experimental calculations.",
+    "remaining": "Assess the adequacy and optical consequence of truncation for the claims; retain missing solution excited-state/relaxation validation and software/method calibration. A chosen scientifically justified approximation is allowed; no fixed full-molecule matrix is newly required."
+  },
+  "source_precedence": "This current repair supersedes inconsistent pre-repair identity/protocol descriptions, not original bytes or historical raw calculation results.",
+  "mode_visibility": "AR public inputs disclose experimental identity/observations and limitations only; author approximations, shell coordinates and structural assignments remain PR/private. Public/private filesystem isolation is not certified.",
+  "verification_status": "Source-bound package repair and offline QA only. No new scientific calculation, paid judge or blind-run semantic calibration.",
+  "chronology": {
+    "repair_date": "2026-09-30",
+    "not_an_original_plan": "This is a later source correction, not knowledge or a plan recorded on 2026-09-28. Original dated design and casebook bytes remain unchanged.",
+    "superseded_records": [
+      {
+        "path": "evaluation/task_provenance/v2_design_audit.md",
+        "sha256": "e36a5c1557b35cc0b0b3ae6e080390e644ef938e0ca249bcedc0a64846c151a1"
+      },
+      {
+        "path": "evaluation/task_provenance/source_scope_audit.md",
+        "sha256": "cc39112a4612aae2545bf272c9e2b03a54cd3a97cab934e19760130d651b8cc8"
+      },
+      {
+        "path": "evaluation/task_provenance/scientific_acceptance_cases.json",
+        "sha256": "e70fbca80a7d2725caf120f7bb69a8ea78b9ff5df115d693b7f59919250e7dd6"
+      }
+    ],
+    "precedence": "Use current task, current evaluator nodes/rules and this repair for identity, observation, protocol and credit decisions. Conflicting old identity or rule descriptions in dated records are historical and superseded."
+  }
+}

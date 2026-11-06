@@ -1,0 +1,28 @@
+{
+  "conditions": {
+    "solvent": "1,4-dioxane",
+    "reporting_temperature_K": 298.15,
+    "solute_standard_state_M": 1.0,
+    "free_CO_concentration_M": 0.0085
+  },
+  "catalyst_precursor": {
+    "id": "Rh_precursor",
+    "identity": "[Rh(CO)2Cl]2",
+    "formula": "C4Cl2O4Rh2",
+    "net_charge": 0,
+    "multiplicity": 1,
+    "coordination": "Dimer; two chlorides bridge the two Rh centers; each Rh bears two terminal CO ligands coordinated through carbon."
+  },
+  "observations": "The connectivities of P1 and P2 define the known reaction types to be explained; quantitative yield/distribution data are not available for this simplified substrate.",
+  "model_note": "The substrate is an O-linked model with two methyl groups at the allene terminus; its numerical results must not be equated with those of the larger experimental substrates.",
+  "target_stereochemistry": {
+    "product_id": "P2",
+    "junction_atom_ids": [
+      6,
+      10
+    ],
+    "junction_hydrogen_relationship": "cis",
+    "identity_status": "Supplied relative configuration, not a stereoselectivity prediction target.",
+    "mirror_image_equally_acceptable": true
+  }
+}

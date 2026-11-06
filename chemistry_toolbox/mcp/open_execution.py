@@ -353,6 +353,12 @@ def write_workspace_text(request: WorkspaceTextWriteRequest) -> dict[str, Any]:
 
 
 def read_workspace_text(request: WorkspaceTextReadRequest) -> dict[str, Any]:
+    from .response_policy import compact_enabled
+    advanced = (request.offset != 0 or request.end_offset is not None or request.start_line is not None
+                or request.end_line is not None or request.json_pointer is not None or request.expected_sha256 is not None)
+    if compact_enabled() or advanced:
+        from .workspace_reading import read_selected
+        return read_selected(request)
     path = resolve_workspace_path(request.path, must_exist=True)
     if path.is_symlink() or not path.is_file():
         raise ValueError(f"Workspace text source is not a regular file: {request.path}")
@@ -482,6 +488,53 @@ def _read_staged_text(
         raise ValueError(f"{software_id}_input_encoding: {target!r} must be UTF-8 text") from exc
 
 
+def _validate_orca_2json_invocation(request: NativeJobRequest) -> dict[str, Any]:
+    """Validate only the reviewed GBW -> ASCII JSON export interface."""
+    args = request.arguments
+    if (len(args) not in {1, 2} or not args[0].endswith(".gbw")
+            or (len(args) == 2 and args[1] != "-json")):
+        raise ValueError("orca_2json_arguments: use a staged basename.gbw and optional -json")
+    if request.stdin_target is not None:
+        raise ValueError("orca_2json_stdin: this exporter does not use stdin_target")
+    target = args[0]
+    sources = _staged_sources(request)
+    gbw = sources.get(target)
+    if gbw is None or not gbw.is_file() or gbw.stat().st_size == 0:
+        raise ValueError("orca_2json_missing_gbw: stage a nonempty GBW under the exact argument name")
+    base = str(PurePosixPath(target).with_suffix(""))
+    output = base + ".json"
+    if output in sources:
+        raise ValueError("orca_2json_output_collision: do not stage the generated JSON as an input")
+    candidates = list(dict.fromkeys([base + ".json.conf", "orca.json.conf"]))
+    configs = [name for name in candidates if name in sources]
+    if len(configs) > 1:
+        raise ValueError("orca_2json_ambiguous_config: stage only the basename or directory configuration")
+    other_configs = [name for name in sources if name.endswith(".json.conf") and name not in candidates]
+    if other_configs:
+        raise ValueError("orca_2json_config_basename: configuration must match the GBW basename or orca.json.conf")
+    config = {}
+    if configs:
+        config = json.loads(_read_staged_text(sources, configs[0], software_id="orca_2json"))
+        if not isinstance(config, dict):
+            raise ValueError("orca_2json_config: configuration must be a JSON object")
+        if "JSONFormats" in config and config["JSONFormats"] != ["json"]:
+            raise ValueError("orca_2json_format: the reviewed export contract requires JSONFormats=[json]")
+        densities = config.get("Densities", [])
+        if not isinstance(densities, list) or any(not isinstance(x, str) or not x for x in densities):
+            raise ValueError("orca_2json_densities: Densities must be a list of names")
+        if densities:
+            density = sources.get(base + ".densities")
+            if density is None or not density.is_file() or density.stat().st_size == 0:
+                raise ValueError("orca_2json_missing_densities: explicitly requested densities require matching staged .densities")
+    return {
+        "lint_profile": "orca_2json_gbw_ascii_v1", "input_target": target,
+        "config_target": configs[0] if configs else None,
+        "configuration_keys": sorted(config), "expected_output": output,
+        "calculation_intent": "other",
+        "compatibility_boundary": "Staging and JSON export contract only; GBW compatibility, requested fields, TD state identity and scientific validity require output review.",
+    }
+
+
 def _validate_orca_input_deck(request: NativeJobRequest) -> dict[str, Any]:
     sources = _staged_sources(request)
     targets = [argument for argument in request.arguments if argument in sources]
@@ -493,7 +546,7 @@ def _validate_orca_input_deck(request: NativeJobRequest) -> dict[str, Any]:
     text = _read_staged_text(sources, target, software_id="orca")
     from .orca_input_lint import lint_orca_input
     return {"input_target": target, **lint_orca_input(
-        text, staged_targets=set(sources), cpu_cores=request.resource_limits.cpu_cores,
+        text, staged_targets=set(sources), staged_sources=sources, cpu_cores=request.resource_limits.cpu_cores,
         memory_mb=request.resource_limits.memory_mb,
     )}
 
@@ -849,6 +902,8 @@ def _validate_native_input_deck(
         return _validate_pysisyphus_input_deck(request, guide)
     if key == ("orca", "orca"):
         return _validate_orca_input_deck(request)
+    if key == ("orca", "orca_2json"):
+        return _validate_orca_2json_invocation(request)
     if key == ("gaussian", "g16"):
         return _validate_gaussian_input_deck(request)
     if key == ("crest", "crest"):
@@ -1473,7 +1528,9 @@ def _analysis_required_symbols(tree: ast.AST) -> dict[str, list[str]]:
                 parts = alias.name.split(".")
                 bound = alias.asname or parts[0]
                 module = alias.name if alias.asname else parts[0]
-                aliases[bound] = (module, [] if alias.asname else parts[1:])
+                # Without an alias, Python binds the top-level name; the full
+                # attribute expression already contains the submodule path.
+                aliases[bound] = (module, [])
         elif isinstance(node, ast.ImportFrom) and node.module:
             for alias in node.names:
                 if alias.name == "*":
@@ -1861,6 +1918,7 @@ def _probe_runtime_modules(
     *,
     local_modules: set[str],
     required_symbols: dict[str, list[str]],
+    from_imports: dict[str, list[str]] | None = None,
 ) -> tuple[dict[str, bool], dict[str, dict[str, Any]]]:
     if not modules:
         return {}, {}
@@ -1890,14 +1948,27 @@ import json
 import sys
 
 requirements = json.loads(sys.argv[1])
+from_imports = json.loads(sys.argv[2])
 package_map = importlib.metadata.packages_distributions()
 results = {}
+loaded, import_errors, captured = {}, {}, {}
+# Complete declared imports before checking attributes: importing a.b also
+# binds b on a, and from a import b may load a real submodule of a.
+for name in requirements:
+    captured_stdout, captured_stderr = io.StringIO(), io.StringIO()
+    try:
+        with contextlib.redirect_stdout(captured_stdout), contextlib.redirect_stderr(captured_stderr):
+            loaded[name] = importlib.import_module(name)
+            if from_imports.get(name):
+                __import__(name, fromlist=from_imports[name])
+    except BaseException as exc:
+        import_errors[name] = exc
+    captured[name] = (captured_stdout.getvalue()[-1000:], captured_stderr.getvalue()[-1000:])
 for name, symbols in requirements.items():
     try:
-        captured_stdout = io.StringIO()
-        captured_stderr = io.StringIO()
-        with contextlib.redirect_stdout(captured_stdout), contextlib.redirect_stderr(captured_stderr):
-            module = importlib.import_module(name)
+        if name in import_errors:
+            raise import_errors[name]
+        module = loaded[name]
         distributions = package_map.get(name.split('.', 1)[0], [])
         versions = {}
         for distribution in distributions:
@@ -1921,8 +1992,8 @@ for name, symbols in requirements.items():
             'version': str(module_version) if module_version is not None else None,
             'distribution_versions': versions,
             'missing_symbols': missing_symbols,
-            'captured_stdout': captured_stdout.getvalue()[-1000:],
-            'captured_stderr': captured_stderr.getvalue()[-1000:],
+            'captured_stdout': captured[name][0],
+            'captured_stderr': captured[name][1],
         }
     except BaseException as exc:
         results[name] = {
@@ -1937,8 +2008,8 @@ for name, symbols in requirements.items():
 print('__RESEARCHCHEM_MODULE_PROBE__' + json.dumps(results, sort_keys=True))
 '''
     environment = runtime_environment(runtime)
-    completed = subprocess.run(
-        [
+    from chemistry_toolbox.src.sandbox import calculation
+    sandbox = calculation([
             str(python),
             "-c",
             program,
@@ -1946,11 +2017,13 @@ print('__RESEARCHCHEM_MODULE_PROBE__' + json.dumps(results, sort_keys=True))
                 {name: required_symbols.get(name, []) for name in probe_modules},
                 sort_keys=True,
             ),
-        ],
+            json.dumps(from_imports or {}, sort_keys=True),
+        ], runtime=runtime, env={**os.environ, **environment})
+    completed = sandbox.run(
         check=False,
         capture_output=True,
         text=True,
-        timeout=30,
+        timeout=60,  # Scientific imports can exceed 30 s on shared storage.
         env=environment,
     )
     if completed.returncode != 0:
@@ -2419,16 +2492,21 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             modules,
             local_modules=local_modules,
             required_symbols=required_symbols,
+            from_imports={name: sorted({alias.name for node in ast.walk(tree)
+                if isinstance(node, ast.ImportFrom) and node.module == name and not node.level
+                for alias in node.names if alias.name != "*"}) for name in imports},
         )
     except (OSError, RuntimeError, subprocess.SubprocessError) as exc:
-        return _analysis_failure(
+        failure = _analysis_failure(
             stage="import",
-            code="runtime_module_probe_failed",
+            code="runtime_module_probe_timeout" if isinstance(exc, subprocess.TimeoutExpired) else "runtime_module_probe_failed",
             message="Could not inspect modules in the selected runtime",
             file=str(python),
             evidence=str(exc),
             candidate_fixes=["Inspect the runtime and retry with an available configured environment."],
         )
+        failure["status"] = "unavailable"
+        return failure
     module_details.update(local_module_details)
     module_status.update(
         {
@@ -2448,7 +2526,7 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             code="runtime_modules_missing",
             message=f"Selected runtime lacks imported or required modules: {missing}",
             file=request.script_path,
-            evidence=json.dumps(module_status, sort_keys=True),
+            evidence=json.dumps(module_details, sort_keys=True),
             candidate_fixes=[
                 "Select a runtime returned by list_analysis_runtimes that provides every module.",
                 "Remove unused imports or declare and stage a local Python module explicitly.",
@@ -2631,8 +2709,8 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "job_context_compliance": validation["job_context_compliance"],
             },
             "security_boundary": (
-                "Subprocess/resource/workspace convention only; deploy MCP inside an OS container "
-                "or scheduler sandbox when executing untrusted programs."
+                "Program runs in gVisor with explicit runtime/input mounts and writable job outputs; "
+                "MCP and job supervision remain outside the sandbox."
             ),
         },
         submission_key=request.submission_key,
@@ -2804,19 +2882,21 @@ def _program_failure_diagnostic(
         "Validate intermediate values and declared output schemas before resubmission.",
     ]
     details: dict[str, Any] = {}
-    if exception_type == "KeyError":
+    if any(text in lowered for text in (
+        "undeclared input name", "undeclared output name", "unknown input name", "unknown output name"
+    )):
+        classification = "job_context_name_mismatch"
+        candidate_fixes = [
+            "Make the JobContext helper name exactly match the submitted contract name (case-sensitive).",
+            "Run validate_analysis_program again before resubmission.",
+        ]
+    elif exception_type == "KeyError":
         classification = "missing_mapping_key"
         missing_key = (message or "").strip().strip("'\"")
         details["missing_key"] = missing_key or None
         candidate_fixes = [
             "Inspect the actual JSON/object keys with inspect_analysis_inputs.",
             "Use the existing field name or handle the field as optional with an explicit fallback.",
-        ]
-    elif "unknown input name" in lowered or "unknown output name" in lowered:
-        classification = "job_context_name_mismatch"
-        candidate_fixes = [
-            "Make the JobContext helper name exactly match the submitted contract name.",
-            "Run validate_analysis_program again before resubmission.",
         ]
     elif exception_type == "NameError":
         classification = "undefined_name"
@@ -2893,7 +2973,22 @@ def _native_scientific_axes(
         convergence = {"status": "not_reached", "evidence": []}
         artifacts = {"status": "not_validated", "evidence": []}
         return software, convergence, artifacts
-    if software_id in {"orca", "gaussian"}:
+    if software_id == "orca" and metadata.get("executable") == "orca_2json":
+        # Exporters neither run SCF nor print the ORCA driver's normal footer.
+        # Do not report scientific convergence or parse potentially huge matrices
+        # on each status poll. Collection retains the bytes/hashes for explicit QA.
+        convergence = {"status": "not_applicable", "evidence": ["existing-wavefunction export"]}
+        target = (metadata.get("input_deck_validation") or {}).get("expected_output")
+        path = directory / target if isinstance(target, str) else None
+        safe = path is not None and path.resolve().is_relative_to(directory.resolve())
+        present = bool(safe and path.is_file() and not path.is_symlink() and path.stat().st_size)
+        marker = bool(re.search(r"Writing the JSON file[^\n]*done", stdout))
+        software = {"status": "normal_termination" if process_ok and marker else "running" if status.get("status") not in TERMINAL_JOB_STATES else "failed" if not process_ok else "unknown",
+                    "evidence": ["stdout.log"], "observations": {"json_write_marker": marker, "SCF_or_TD_recalculated": False}}
+        artifacts = {"status": "present_not_validated" if present else "missing" if status.get("status") in TERMINAL_JOB_STATES else "pending_execution",
+                     "evidence": [target] if target else [],
+                     "boundary": "Presence only; inspect collected JSON structure, requested fields, identity and dimensions separately."}
+    elif software_id in {"orca", "gaussian"}:
         from chemistry_toolbox.src.native_observations import parse_native_observations
         observation = parse_native_observations(software_id, [stdout_path, *sorted(directory.glob("*.hess"))])
         normal = observation.get("normal_termination")
@@ -2997,6 +3092,14 @@ def _native_scientific_axes(
         valid = all((directory / item).is_file() and (directory / item).stat().st_size for item in required)
         artifacts = {"status": "valid" if valid else "invalid", "evidence": required}
     from chemistry_toolbox.src.execution_feedback import feedback_schema_version
+    orca_input_error = False
+    if software_id == "orca":
+        from chemistry_toolbox.src.native_diagnostics import ORCA_INPUT_ERROR
+        orca_input_error = bool(re.search(
+            ORCA_INPUT_ERROR, _bounded_head_and_tail_text(directory / "stderr.log"), re.I | re.M))
+        if orca_input_error:
+            software["status"] = "failed"
+            software["evidence"].append("stderr.log")
     if feedback_schema_version() == 2 and software["status"] != "normal_termination":
         state = status.get("status")
         if state not in TERMINAL_JOB_STATES:
@@ -3007,6 +3110,7 @@ def _native_scientific_axes(
             # Absence of a footer is not itself a software failure. Preserve an
             # explicit native error when there is one, otherwise report unknown.
             explicit_error = any(s.get("error_line") for s in software.get("observations", {}).get("segments", []))
+            explicit_error = explicit_error or orca_input_error
             if software_id == "lobster": explicit_error = bool(re.search(r"^ERROR:", lobsterout, flags=re.M))
             software["status"] = "failed" if explicit_error else "unknown"
     return software, convergence, artifacts
@@ -3267,6 +3371,8 @@ def _collect_terminal_job(
         "previous_status": previous_status,
         "worker_id": job["worker_id"] or None,
         "resource_limits": status.get("resource_limits") or {},
+        "duration_seconds": status.get("duration_seconds"),
+        "resource_usage": status.get("resource_usage"),
         "scientific_validation_status": collected.get(
             "scientific_validation_status"
         ),
@@ -3487,7 +3593,9 @@ def _job_wait_steps(
         if job_id in terminal_ids
     ]
     from .result_transport import bound_terminal_items
-    newly_terminal = bound_terminal_items(newly_terminal)
+    from .response_policy import compact_enabled
+    if not compact_enabled():
+        newly_terminal = bound_terminal_items(newly_terminal)
     running = [
         _compact_running_job(job, now_unix=now_unix)
         for job in jobs.values()
@@ -3552,12 +3660,18 @@ def _job_wait_steps(
 
 def _wait_execution_jobs(request, *, policy=None, monotonic_fn=time.monotonic,
                          sleep_fn=time.sleep, unix_time_fn=time.time):
+    if request.response_cursor:
+        from .response_pages import read_page
+        return read_page(request.response_cursor, tool="wait_execution_jobs")
     from .supervision_wait import run_wait
     return run_wait(_job_wait_steps(request, policy=policy, monotonic_fn=monotonic_fn,
                                    unix_time_fn=unix_time_fn), sleep_fn=sleep_fn)
 
 
 async def wait_execution_jobs_async(request: JobWaitRequest) -> dict[str, Any]:
+    if request.response_cursor:
+        from .response_pages import read_page
+        return read_page(request.response_cursor, tool="wait_execution_jobs")
     from .supervision_wait import run_wait_async
     return await run_wait_async(_job_wait_steps(request))
 
@@ -3587,7 +3701,7 @@ def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
         **{key: value for key, value in axes.items() if key != "details"},
         "execution_status_details": axes["details"],
         "resource_availability": _resource_availability(),
-    }, request.known_result_version)
+    }, request.known_result_version, view_scope={"tool":"get_execution_job","tail_chars":request.tail_chars})
 
 
 def lookup_execution_submission(
@@ -4061,6 +4175,11 @@ def _collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
 
 
 def list_execution_jobs(request=None) -> dict[str, Any]:
+    from .response_policy import compact_enabled
+    from .execution_models import ExecutionJobListRequest
+    if compact_enabled() or isinstance(request, ExecutionJobListRequest) and request.cursor:
+        from .response_projection import list_job_page
+        return list_job_page(request or ExecutionJobListRequest())
     store = execution_store()
     jobs = store.list_jobs()
     for row in jobs:

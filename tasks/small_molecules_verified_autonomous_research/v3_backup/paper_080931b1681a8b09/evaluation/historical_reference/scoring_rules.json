@@ -1,0 +1,296 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价当前公开科学问题的中间科学发现与最终科学结论，满分100。每个叶子项满足全部条件得满分，否则0；不即兴分配部分分。真实执行证据、正确身份/组成/原子映射/电荷自旋/单位/参照和适合所作主张的验证是结果成立的前提，不另计过程分。题面中历史60分研究质量/40分科学结果、工具调用、假设/探索次数、软件顺序、资源投入、效率、失败诊断、报告文风和通用局限性段落均不计分。本篇为解释型任务，全部semantic规则；作者数字和本次验证残差只作来源及可比性上下文，没有隐含数值窗。中间结构、竞争方向、物理差异与最终综合解释独立评分，不因单项缺失抹去其他有效项；最终项须明确采用且有证据支持。允许与命题相容的等价方法、模型或连接验证，不要求复刻作者或验证者软件、描述符、搜索路径或完整IRC。普通失败/错误仅影响对应项；有确证的伪造或隐藏答案泄漏按有效性规则处理。",
+  "scoring_requirements": "只评价当前公开科学问题的中间科学发现与最终科学结论，满分100。每个叶子项满足全部条件得满分，否则0；不即兴分配部分分。真实执行证据、正确身份/组成/原子映射/电荷自旋/单位/参照和适合所作主张的验证是结果成立的前提，不另计过程分。题面中历史60分研究质量/40分科学结果、工具调用、假设/探索次数、软件顺序、资源投入、效率、失败诊断、报告文风和通用局限性段落均不计分。本篇为解释型任务，全部semantic规则；作者数字和本次验证残差只作来源及可比性上下文，没有隐含数值窗。中间结构、竞争方向、物理差异与最终综合解释独立评分，不因单项缺失抹去其他有效项；最终项须明确采用且有证据支持。允许与命题相容的等价方法、模型或连接验证，不要求复刻作者或验证者软件、描述符、搜索路径或完整IRC。普通失败/错误仅影响对应项；有确证的伪造或隐藏答案泄漏按有效性规则处理。",
+  "rules": [
+    {
+      "rule_id": "r_ni_substrate_binding",
+      "reference_id": "ni_substrate_binding",
+      "type": "semantic",
+      "expected": "实际结构或电子证据支持指定Ni(OTf)2/(S,S)-叔丁基PyBOX体系与所给BCB的酰基咪唑部位结合，并建立与后续转化有关的底物定位或活化环境。作者O,N双齿、含一个内球OTf的IM5为参考；允许有证据的等价结合模型，不要求IM5A/B/C排名、结合能命中或完整溶液物种分布。仅搭建正确身份、孤立催化剂或复述Lewis酸标签不足。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    },
+    {
+      "rule_id": "r_ni_ring_opening",
+      "reference_id": "ni_ring_opening",
+      "type": "semantic",
+      "expected": "实际连接证据支持苯并噻唑N与原苯基取代BCB桥头形成C–N键，同时原BCB桥头C–C键打开，得到能继续形成题给产物的开环骨架。作者IM5+1a到IM6为参考；须保留正确原子库存及原子映射。作者没有给出该手性开环TS，不要求补出此TS、完整IRC或以SI有歧义的+2.3作为局部能量目标。支持相同净连接事件的等价路线可以接受。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    },
+    {
+      "rule_id": "r_ni_r_closure",
+      "reference_id": "ni_r_closure",
+      "type": "semantic",
+      "expected": "实际计算支持酰基取代BCB桥头与苯并噻唑C2来源碳形成C–C键，并连接到题给产物骨架的R相关分支；对映标记必须对应PI4指定的饱和CH。作者TS3R/IM7R为参考，TS主张须有相关单虚频运动和所声称两侧化学连接的证据；允许科学等价的连接检验，不强制全IRC或复现−242.04 cm−1。仅凭名称或最终产物图不能成立。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    },
+    {
+      "rule_id": "r_ni_s_closure",
+      "reference_id": "ni_s_closure",
+      "type": "semantic",
+      "expected": "实际计算支持同一净C–C闭环事件通向PI4指定饱和CH为S的竞争分支，产物连接、组成及所用催化剂模型与R分支可比。作者TS3S/IM7S为参考，TS主张须有相关单虚频运动和所声称两侧化学连接的证据；允许科学等价的连接检验，不强制全IRC或复现−200.59 cm−1。只把R构型标签改为S或只优化一个无连接证据的产物不能成立。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    },
+    {
+      "rule_id": "r_ni_r_competition",
+      "reference_id": "ni_r_competition",
+      "type": "semantic",
+      "expected": "在正确反应物、配体立体化学、相容组成/电荷/自旋和共同反应物参照下，实际能量或其他有效竞争证据支持R形成通道较S形成通道更有利。作者C–C闭环TS3R低于TS3S约2.2 kcal/mol为参考，不设数值窗；不能用产物稳定性、不可比模型绝对能或题给er直接替代形成竞争。此项评价竞争方向，不替代最终产物绝对构型选择。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    },
+    {
+      "rule_id": "r_ni_selectivity_features",
+      "reference_id": "ni_selectivity_features",
+      "type": "semantic",
+      "expected": "在可比的R/S形成结构上，实际结构、密度或能量分析揭示能解释竞争差异的配体–底物环境差异。作者局部C–H···π弱接触观察为参考：部分R侧接触特征增强，与R偏好相容；不要求每个接触同向、R总吸引更强、精确红圈计数或指定IGMH指标。接受有证据且作用范围相容的相互作用、形变或其他物理分析；仅有能量排序或一个未比较的接触图不足。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    },
+    {
+      "rule_id": "r_ni_formation_answer",
+      "reference_id": "ni_formation_answer",
+      "type": "semantic",
+      "expected": "最终明确采用有实际计算支持的起始物到题给产物的连通化学解释，并说明指定Ni–手性配体体系如何参与底物结合及成键过程。须将所需C–N形成/BCB开环和去芳构化C–C闭合与产物连接相联系；作者分步亲核路线为参考，支持同一净转化的等价路线可以接受。孤立驻点、单个能量或重述产物观察不足；不要求完整催化循环、手性开环势垒、产率或全局速率预测。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    },
+    {
+      "rule_id": "r_ni_mapped_r_answer",
+      "reference_id": "ni_mapped_r_answer",
+      "type": "semantic",
+      "expected": "最终在PI4的苯并噻唑C2来源饱和CH上明确选择R为主要对映体，并把实际较有利的形成分支通过原子对应关系连接到该产物绝对构型。不得以配体S构型、任意原子编号、仅写R通道较低或只列两个候选代替产品构型归属；来源原子编号在IM6和TS/IM7不同，不要求复刻该编号。此项新增最终选择及反应分支到实验产物的映射。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    },
+    {
+      "rule_id": "r_ni_origin_answer",
+      "reference_id": "ni_origin_answer",
+      "type": "semantic",
+      "expected": "最终用实际R/S环境差异和竞争证据解释R偏好的物理来源。可采用与作者相容的局部弱接触解释，或有实际证据的等价解释；须说明所用物理差异为何与能量偏好相容，不能从局部密度描述符直接宣称可加稳定化能、总吸引增强或唯一/定量主导原因。若采用当前来源分析，必须保留吸引子域偏S及接触趋势混合的边界；不要求被评Agent复现验证者的积分、分解或分析流程。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    },
+    {
+      "rule_id": "r_ni_strength_answer",
+      "reference_id": "ni_strength_answer",
+      "type": "semantic",
+      "expected": "最终把实际竞争证据所支持的R偏好及其强度与题给92.5:7.5实验比例联系，说明计算所支持的富集方向/程度以及模型对强度推断的限制。可用定义自洽的比例估计或有证据的定性强度比较；不要求精确er、指定能隙或额外动力学网络。若用单对TS作定量转换，须采用相容温度、能量/速率关系与前因子假设，不把条件预测冒称实验测量或精确复现。仅重复题给比例或泛称有不确定性不足。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际物理对象和可定位的原生计算证据，仅评价本项明确科学命题；满足全部条件得满分，否则0。最终项须在最终交付中明确采用。不奖励研究过程。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "ni_substrate_binding",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "指定Ni–手性配体体系与酰基咪唑BCB形成参与反应的结合结构",
+      "rule_ids": [
+        "r_ni_substrate_binding"
+      ],
+      "evidence_ids": [
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ni_ring_opening",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "苯并噻唑N与BCB桥头成键并打开桥头C–C键",
+      "rule_ids": [
+        "r_ni_ring_opening"
+      ],
+      "evidence_ids": [
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ni_r_closure",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "通向R产物的去芳构化C–C闭环连接成立",
+      "rule_ids": [
+        "r_ni_r_closure"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ni_s_closure",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "通向S产物的竞争去芳构化C–C闭环连接成立",
+      "rule_ids": [
+        "r_ni_s_closure"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ni_r_competition",
+      "kind": "intermediate",
+      "max_score": 9,
+      "description": "同参照比较支持R形成通道更有利",
+      "rule_ids": [
+        "r_ni_r_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ni_selectivity_features",
+      "kind": "intermediate",
+      "max_score": 12,
+      "description": "R/S形成结构的不同物理环境有直接计算证据",
+      "rule_ids": [
+        "r_ni_selectivity_features"
+      ],
+      "evidence_ids": [
+        "V2_MAIN"
+      ]
+    },
+    {
+      "id": "ni_formation_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：连接的催化生成解释回答题给环加成产物为何形成",
+      "rule_ids": [
+        "r_ni_formation_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ni_mapped_r_answer",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：在题给饱和CH上明确预测R为主要对映体",
+      "rule_ids": [
+        "r_ni_mapped_r_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ni_origin_answer",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：有界物理解释将环境差异与R偏好联系",
+      "rule_ids": [
+        "r_ni_origin_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN"
+      ]
+    },
+    {
+      "id": "ni_strength_answer",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：将计算支持的选择性强度与实验92.5:7.5作有界比较",
+      "rule_ids": [
+        "r_ni_strength_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

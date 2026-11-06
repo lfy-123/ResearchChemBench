@@ -1,0 +1,127 @@
+{
+  "paper_id": "paper_86a0b654270a8ce7",
+  "scoring_policy": "paper_science_v3",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "physical_definition": "Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+  "retained_scientific_limitations": "Main p2 contains contradictory trans-N/O labels and an inconsistent Boltzmann sign; public graph identity and definedG2-G1 govern. Both source-level minima are valid, but absoluteG values share an unexplained offset. SuperFine control is fixed-geometry curvature, not independently reoptimised minima. Low-frequency/conformer/model uncertainty limits fine thermodynamic claims. Stacking attribution is not an interaction-energy decomposition; isolated yield is not equilibrium.",
+  "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+  "historical_before_v3": {
+    "status": "CURRENT_FROZEN_V2_STRICT_VERIFICATION_PRESERVED",
+    "reason": "Authorized scoring-only migration on 2026-10-19; existing independently strict acceptance within frozen V2 scope is preserved. Expert publication calibration remains separate from permitted runtime scoring. No new chemistry validation or blind Agent run is claimed.",
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_86a0b654270a8ce7",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "status": "targeted_repairs_pending_coordinator_review",
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_03/REPORT.md",
+      "changes": [
+        "Self-audit confirmed19%/53% isolated yields are not supplied AR facts and are not needed for the population inference: retained the genuine computed Boltzmann relation while removing mandatory unpublished-value/source-expression criticism."
+      ],
+      "historical_acceptance_unchanged": true,
+      "new_chemical_validation": false,
+      "tolerances_unchanged": true
+    },
+    "current_scope_verified": true,
+    "tolerance_policy": {
+      "status": "provisional_benchmark_policy",
+      "basis": "The single deltaG leaf uses provisional ±0.50kJ/mol, a deliberately sub-kJ resolution appropriate to a ~2.84kJ/mol difference in a flexible heavy-atom pair. It exceeds source rounding and observed grid sensitivity (~0.063kJ/mol) without treating either as an author error bar; it is not residual+epsilon. Sign/resolution and explanation remain independent semantic findings even if a defensible calculation misses the magnitude window.",
+      "not_author_error_bars": true
+    }
+  },
+  "evaluation_mode": "final_results_100",
+  "status": "V3_DESIGN_CHECKED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+  "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "evidence_reuse_summary": "THF339K，完整130原子C60H63IrN4O2；G2−G1=−2.901177 kJ/mol，对源−2.83554/−2.84；ΔE=+.372322，热项反转排序；条件[2]/[1]=2.799095。固定几何替代Hamiltonian借用热项可+0.325/+0.332。 All former numerical windows are historical only; current scoring uses final semantic conclusions.",
+  "evidence_gaps": "源trans命名与Boltzmann式符号冲突需按图/ΔG定义处理。固定几何替代计算不是完整重新优化极小点，不能虚称独立溶液系综；小G差不唯一由堆积导致，不预测19%/53%分离产率。",
+  "required_new_validation": "本版未新增物理问题，已有模型内结果可复用；跨方法稳健偏好、唯一接触因果或真实产率推断需要额外研究，本轮不执行。",
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "mode_scope_exception": "两模式的最终科学命题相同；AR自主选择方法，PR评估披露基线或有依据的可比替代。作者数值均为证据。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "必需结果：两配位异构体G比较及含义",
+      "rule_id": "r_relative_gibbs",
+      "conclusion_id": "relative_gibbs",
+      "weight": 30,
+      "independence": "端点热力学偏好/分辨度，不重复解释物理贡献或条件布居。",
+      "source_location": "正文p2异构体/热力学文字及结构图；SI p11源热化学；图映射优先于矛盾trans标签。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_scope_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/analysis/native_reuse_verification.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/outputs/Ir_pair_SF_fixed_geometry_curvature_339K_remaining24h_20261005_a2/isomer1/freq.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/outputs/Ir_pair_SF_fixed_geometry_curvature_339K_remaining24h_20261005_a2/isomer2/freq.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/compute_first_20261009T035336Z/papers/paper_86a0b654270a8ce7/NATIVE_REUSE_READBACK.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/outputs/Ir_source_geometry_G_precision_archive_strict_2/RESULT.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_86a0b654270a8ce7/artifacts/gaussian_batch/complex1_b3lyp_def2svp_smdthf_optfreq_339k/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_86a0b654270a8ce7/artifacts/gaussian_batch/complex2_b3lyp_def2svp_smdthf_optfreq_339k/stdout.log"
+      ],
+      "existing_support_or_gap": "THF339K，完整130原子C60H63IrN4O2；G2−G1=−2.901177 kJ/mol，对源−2.83554/−2.84；ΔE=+.372322，热项反转排序；条件[2]/[1]=2.799095。固定几何替代Hamiltonian借用热项可+0.325/+0.332。",
+      "scientific_limitations": "源trans命名与Boltzmann式符号冲突需按图/ΔG定义处理。固定几何替代计算不是完整重新优化极小点，不能虚称独立溶液系综；小G差不唯一由堆积导致，不预测19%/53%分离产率。"
+    },
+    {
+      "scientific_requirement": "必需结果：稳定性分子起因",
+      "rule_id": "r_relative_stability_synthesis",
+      "conclusion_id": "relative_stability_synthesis",
+      "weight": 40,
+      "independence": "解释实际能量来源，不能重复偏好方向得分。",
+      "source_location": "正文p2异构体/热力学文字及结构图；SI p11源热化学；图映射优先于矛盾trans标签。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_scope_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/analysis/native_reuse_verification.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/outputs/Ir_pair_SF_fixed_geometry_curvature_339K_remaining24h_20261005_a2/isomer1/freq.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/outputs/Ir_pair_SF_fixed_geometry_curvature_339K_remaining24h_20261005_a2/isomer2/freq.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/compute_first_20261009T035336Z/papers/paper_86a0b654270a8ce7/NATIVE_REUSE_READBACK.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/outputs/Ir_source_geometry_G_precision_archive_strict_2/RESULT.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_86a0b654270a8ce7/artifacts/gaussian_batch/complex1_b3lyp_def2svp_smdthf_optfreq_339k/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_86a0b654270a8ce7/artifacts/gaussian_batch/complex2_b3lyp_def2svp_smdthf_optfreq_339k/stdout.log"
+      ],
+      "existing_support_or_gap": "THF339K，完整130原子C60H63IrN4O2；G2−G1=−2.901177 kJ/mol，对源−2.83554/−2.84；ΔE=+.372322，热项反转排序；条件[2]/[1]=2.799095。固定几何替代Hamiltonian借用热项可+0.325/+0.332。",
+      "scientific_limitations": "源trans命名与Boltzmann式符号冲突需按图/ΔG定义处理。固定几何替代计算不是完整重新优化极小点，不能虚称独立溶液系综；小G差不唯一由堆积导致，不预测19%/53%分离产率。"
+    },
+    {
+      "scientific_requirement": "必需结果：G差对应的布居及产率局限",
+      "rule_id": "r_population_yield_limit",
+      "conclusion_id": "population_yield_limit",
+      "weight": 30,
+      "independence": "计算条件平衡含义并界定实验可推范围，不重复相对稳定性。",
+      "source_location": "正文p2异构体/热力学文字及结构图；SI p11源热化学；图映射优先于矛盾trans标签。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_scope_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/analysis/native_reuse_verification.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/outputs/Ir_pair_SF_fixed_geometry_curvature_339K_remaining24h_20261005_a2/isomer1/freq.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/outputs/Ir_pair_SF_fixed_geometry_curvature_339K_remaining24h_20261005_a2/isomer2/freq.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/compute_first_20261009T035336Z/papers/paper_86a0b654270a8ce7/NATIVE_REUSE_READBACK.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_86a0b654270a8ce7/outputs/Ir_source_geometry_G_precision_archive_strict_2/RESULT.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_86a0b654270a8ce7/artifacts/gaussian_batch/complex1_b3lyp_def2svp_smdthf_optfreq_339k/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_86a0b654270a8ce7/artifacts/gaussian_batch/complex2_b3lyp_def2svp_smdthf_optfreq_339k/stdout.log"
+      ],
+      "existing_support_or_gap": "THF339K，完整130原子C60H63IrN4O2；G2−G1=−2.901177 kJ/mol，对源−2.83554/−2.84；ΔE=+.372322，热项反转排序；条件[2]/[1]=2.799095。固定几何替代Hamiltonian借用热项可+0.325/+0.332。",
+      "scientific_limitations": "源trans命名与Boltzmann式符号冲突需按图/ΔG定义处理。固定几何替代计算不是完整重新优化极小点，不能虚称独立溶液系综；小G差不唯一由堆积导致，不预测19%/53%分离产率。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

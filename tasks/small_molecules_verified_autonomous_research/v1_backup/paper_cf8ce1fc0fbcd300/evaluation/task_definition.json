@@ -1,0 +1,103 @@
+{
+  "scientific_question": "What controls regioselective methoxy cyclopropene formation and the observed redistribution of its regioisomers during the acid-promoted methanol functionalization of ((1-(difluoromethyl)-2-phenylcycloprop-2-en-1-yl)oxy)dimethyl(phenyl)silane in dichloromethane, and how are product-formation selectivity and relative product stability related?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Phenylacetylene is the alkyne used to prepare the acid-stage starting material. Its molecular graph is specified by SMILES C#Cc1ccccc1."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "The accompanying acylsilane is HCF2-C(=O)-Si(CH3)2-phenyl, with SMILES FC(F)C(=O)[Si](C)(C)c1ccccc1. The experimentally isolated starting material for the methanol stage is siloxy_start: ((1-(difluoromethyl)-2-phenylcycloprop-2-en-1-yl)oxy)dimethyl(phenyl)silane, with SMILES C[Si](C)(OC1(C(F)F)C(c2ccccc2)=C1)c1ccccc1. In siloxy_start, difluoromethyl and O-Si(CH3)2-phenyl are attached to the same saturated cyclopropene ring carbon; phenyl is attached to an alkene ring carbon, and the other alkene ring carbon bears hydrogen. This starting material was isolated in 82% yield after the light-driven preparation. These are connectivity definitions, with no specified absolute stereochemistry."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "condition",
+      "content": "The preparation uses phenylacetylene (0.2 mmol), the acylsilane (0.3 mmol), 4CzIPN (2,4,5,6-tetra(9H-carbazol-9-yl)isophthalonitrile; 1.5 mol%), dry dichloromethane (1.0 mL), an argon atmosphere, and blue LEDs (6 W, 460 nm) at room temperature for 12 h. Methanol (0.6 mmol, 3.0 equivalents relative to the alkyne) and chlorotrimethylsilane (TMSCl; 5 mol%) are then added, and the mixture is stirred at room temperature for 5 min. Room temperature is not assigned a more precise numerical value."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "The observed major product, methoxy_major, is (3-(difluoromethyl)-3-methoxycycloprop-1-en-1-yl)benzene, with SMILES COC1(C(F)F)C(c2ccccc2)=C1. Its methoxy and difluoromethyl groups are on the same saturated ring carbon, phenyl is on an alkene ring carbon, and the other alkene ring carbon bears hydrogen. Under the optimized small-scale conditions it was isolated in 83% yield; the crude-mixture regioisomer ratio was greater than 20:1 by fluorine NMR. Absolute stereochemistry is not specified; enantioselectivity is not the target."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "The detected minor regioisomer, methoxy_minor, has SMILES COC1C(c2ccccc2)=C1C(F)F: phenyl and difluoromethyl are attached to the two alkene ring carbons, while methoxy and hydrogen are attached to the remaining saturated ring carbon. The third comparison regioisomer, methoxy_comparator, has SMILES COC1(c2ccccc2)C(C(F)F)=C1: methoxy and phenyl are attached to the saturated ring carbon, difluoromethyl is attached to one alkene ring carbon, and the other bears hydrogen. In a gram-scale preparation using phenylacetylene (10 mmol), the acylsilane (15 mmol), dry dichloromethane (10.0 mL; nominal alkyne concentration 1.0 M), and the same reagent ratios, methoxy_major and methoxy_minor were isolated in 82% and 2% yields, respectively; methoxy_comparator was not observed. The detailed gram-scale preparation reports 24 h of illumination, whereas the reaction overview reports 12 h; this is a reporting ambiguity in the upstream preparation, which is context rather than the research target. Both descriptions give the subsequent methanol (3.0 equivalents)/TMSCl (5 mol%) stage at room temperature for 5 min. Do not assume that the gram-scale preparation used the small-scale concentration or an unambiguously identical illumination time. No detection limit is specified. Separately, methoxy_minor treated with methanol (3.0 equivalents) and TMSCl (5 mol%) in dichloromethane (0.1 M) at room temperature for 5 min gave methoxy_major in 91% yield and remaining methoxy_minor in 1% yield by fluorine NMR; methoxy_comparator was not observed. These are endpoint observations, not a measured time course or an assertion of complete equilibrium. Absolute stereochemistry of the comparison species is unspecified."
+    }
+  ],
+  "changes": [
+    {
+      "subject_id": "scientific_question",
+      "change_type": "source_correction",
+      "reason": "The frozen question states the author-selected cyclopropenium model and foregrounds its addition substep. The actual connected computational investigation also compares all three product Gibbs energies and relates these to minor-to-major redistribution. Reorganize those same scientific purposes into one question, beginning with the independently isolated, unambiguously depicted siloxy substrate rather than disclosing the proposed charged intermediate. No chemical system, computed reference or experimental condition is replaced. The full scope mapping is inventoried in workflow_review question_worthwhile and paper_route.",
+      "evidence_ids": [
+        "ev_doc_31695a0a949d_000035_a566188741cd",
+        "ev_doc_31695a0a949d_000036_68355f8b412b",
+        "ev_doc_66884e111ce4_000074_4cac510a97c9",
+        "ev_doc_31695a0a949d_000359_9cb5c1cb8968",
+        "pdf-page-doc_66884e111ce4-p8",
+        "pdf-page-doc_31695a0a949d-p43",
+        "pdf-page-doc_31695a0a949d-p44"
+      ]
+    },
+    {
+      "subject_id": "PI1",
+      "change_type": "identity_clarification",
+      "reason": "Retain phenylacetylene and add its graph-explicit SMILES, verified against the depicted terminal phenyl alkyne rather than merely copying its name.",
+      "evidence_ids": [
+        "pdf-page-doc_31695a0a949d-p5",
+        "pdf-page-doc_66884e111ce4-p8",
+        "ev_doc_31695a0a949d_000036_68355f8b412b"
+      ]
+    },
+    {
+      "subject_id": "PI2",
+      "change_type": "identity_clarification",
+      "reason": "Retain the dimethylphenylsilyl difluoroacetylsilane and make its acyl C-Si connectivity explicit. Add the graph of the experimentally isolated same-system siloxy substrate as an ordinary acid-stage starting identity, not as a disclosed hypothesized intermediate or optimized author geometry. The printed substrate name and original drawing agree.",
+      "evidence_ids": [
+        "ev_doc_31695a0a949d_000035_a566188741cd",
+        "ev_doc_31695a0a949d_000036_68355f8b412b",
+        "pdf-page-doc_31695a0a949d-p5",
+        "pdf-page-doc_66884e111ce4-p8"
+      ]
+    },
+    {
+      "subject_id": "PI3",
+      "change_type": "neutral_rewording",
+      "reason": "Retain all frozen light, catalyst, solvent, temperature, time, methanol and TMSCl conditions, adding the source-supported reagent quantities, dry solvent volume and argon atmosphere for a usable neutral preparation context. Do not infer an exact room temperature or unreported acid/solvation model.",
+      "evidence_ids": [
+        "ev_doc_66884e111ce4_000045_af0aa3eb9462",
+        "ev_doc_66884e111ce4_000090_11944315972e",
+        "ev_doc_31695a0a949d_000040_6424f07e658a",
+        "ev_doc_66884e111ce4_000051_a538a462b291"
+      ]
+    },
+    {
+      "subject_id": "PI4",
+      "change_type": "neutral_rewording",
+      "reason": "Replace the undefined phrase desired product with the graph-explicit identity of the same observed major product, preserving the 83% isolated yield and >20:1 regioisomer observation and clarifying the fluorine-NMR assay. This supplies an observed product, not an author-computed answer or a stereochemical prediction.",
+      "evidence_ids": [
+        "ev_doc_31695a0a949d_000038_72be6a48830d",
+        "ev_doc_31695a0a949d_000040_6424f07e658a",
+        "pdf-page-doc_31695a0a949d-p5",
+        "pdf-page-doc_66884e111ce4-p8",
+        "ev_doc_66884e111ce4_000051_a538a462b291"
+      ]
+    },
+    {
+      "subject_id": "PI5",
+      "change_type": "source_correction",
+      "reason": "The frozen observation omits the actual minor/comparator connectivity and the endpoint redistribution experiment that the authors use to connect their product-stability and formation-selectivity calculations. Supply those source-supported neutral facts for the same computed three-product system, keeping the 2% minor and non-observation in their gram-scale context instead of conflating them with the small-scale 83% yield. The consistent main text, main Figure 4 and SI interconversion drawing establish the minor as substrate and 3.0-equivalent MeOH/5-mol% TMSCl conditions. The inconsistent SI prose is preserved as a private reporting limitation, not silently used to alter identities or conditions. Independent Stage07 inspection of the original gram-scale page also corrects the unsupported claim of identical preparation conditions: the gram-scale concentration is 1.0 M, not the small-scale 0.2 M, and the detailed SI reports 24 h illumination while the main reaction overview reports 12 h. Retain that discrepancy explicitly rather than choosing a duration; both agree on the subsequent five-minute methanol/TMSCl stage. These upstream preparation limitations do not change the acid-stage system, observed product graphs or author-computed comparisons.",
+      "evidence_ids": [
+        "ev_doc_66884e111ce4_000074_4cac510a97c9",
+        "pdf-page-doc_66884e111ce4-p8",
+        "pdf-page-doc_31695a0a949d-p43",
+        "ev_doc_31695a0a949d_000354_8b82efb49116",
+        "ev_doc_31695a0a949d_000301_5b197e562ae2",
+        "pdf-page-doc_31695a0a949d-p36"
+      ]
+    }
+  ]
+}

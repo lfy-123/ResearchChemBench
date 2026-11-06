@@ -1,0 +1,63 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "cis−trans为2.641369354而来源2.3171919 kcal/mol；K为86.325而来源49.947。12个详细平衡构造在同ΔG下1800 s T/C可0.1/1.1/10。",
+  "accepted_limitations": "动力学反例为分析构造而非新QC。THF/MeOH=1:1或10:1来源冲突、纯MeOH 298.15 K与23°C区别保留。低层表E标签实际为G，不能重复加热修正。",
+  "objective_issue_flags": [
+    "动力学反例为分析构造而非新QC。THF/MeOH=1:1或10:1来源冲突、纯MeOH 298.15 K与23°C区别保留。低层表E标签实际为G，不能重复加热修正。"
+  ],
+  "current_rules": [
+    "r_endpoint_stability",
+    "r_equilibrium_implication",
+    "r_finite_time_nonuniqueness",
+    "r_local_stereochemical_reset"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_4e9774f4128551d3",
+    "scoring_policy": "paper_science_v3",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "reason": "2026-10-28 final-result redesign; historical acceptance is not a new V3 full pass.",
+    "accepted_limitations": "Existing independent strict status is retained for the local thermodynamic interpretation and demonstrated limitation of endpoint-only selectivity inference. Pure-MeOH model, main/SI mixture1:1 versus10:1 and absoluteSP discrepancies remain. No acid-face TS, unique protonation pathway, full catalytic mechanism, asymmetricBINOL protocol or exact isolated yield is verified. The70% result is recycling yield, not one-pass selectivity. A future model establishing specific kinetics needs its own physical evidence; current counterexample constants are hypothetical.",
+    "authority": [
+      "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+      "tasks/v2_paper_reproduction/paper_4e9774f4128551d3/evaluation/verified_computation_reference.md"
+    ],
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_4e9774f4128551d3",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "mode_scope": "AR remains open-method for public identities; PR author-baseline provenance retained.",
+      "historical_chemical_acceptance_changed": false,
+      "new_computations": false,
+      "review_report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_02/paper_4e9774f4128551d3.md"
+    },
+    "historical_acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+    "historical_status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+    "historical_current_scope_verified": true,
+    "historical_tolerance_basis": "Retain the pre-existing same-quantity inclusive±1.0kcal/mol rule around source2.3171919, not around native2.641369354. It is a provisional conformational/composite-thermochemistry window that remains smaller than the positive source difference and is explicitly limited to this paired productDeltaG. It is not expanded to absoluteSP energies, barriers, rate constants or the measured1.1:1 ratio. No numerical tolerance is invented for uncomputed protonation surfaces. The finite-time counterexample is an exact logical non-uniqueness test under declared kinetics, not an empirical chemical validation.",
+    "status": "V3_CONTRACT_MIGRATED_EVIDENCE_REUSED_NOT_REVALIDATED",
+    "current_scope_verified": false,
+    "v3_scope": "解释题范围不变：端点稳定性、平衡解释、有限时选择性可辨识性及局部立体转换。两模式各4条同权重最终命题。保留既有模式差异：PR稳定性项为原2.3171919±1.0 kcal/mol纯MeOH复合G目标，AR为自选可比条件的稳定性判断，未向AR暗加纯MeOH门槛。",
+    "v3_evidence_gaps": [
+      "正文THF/MeOH 1:1与SI10:1冲突未解；已有计算为纯MeOH 298.15 K而实验23 °C。",
+      "本地单点绝对能量与SI不同；相对G偏差+0.324177 kcal/mol在PR原窗内。",
+      "有限时反例是满足详细平衡的假设动力学，不是实际质子化TS、速率或1.1:1拟合。"
+    ]
+  }
+}

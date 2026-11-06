@@ -4,6 +4,10 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+ORCA_INPUT_ERROR = (
+    r"^\s*(?:\[file [^\]]+\]:\s*)?(?:Solvent name not provided\b|"
+    r"Unknown identifier in \w+ block\b|Invalid assignment in \w+ block\b)"
+)
 
 _SIGNATURES = (
     ("input_read_error", "invalid_input", r"End of file in ZSymb|QPErr|Error reading|input error|unrecognized.*keyword|Unrecognized symbol"),
@@ -14,6 +18,7 @@ _SIGNATURES = (
 
 def native_diagnostic(paths, *, root: Path, software_id: str = "unknown", fallback=None):
     evidence, matches = [], []
+    signatures = (("orca_input_error", "invalid_input", ORCA_INPUT_ERROR),) + _SIGNATURES if software_id == "orca" else _SIGNATURES
     for raw_path in paths:
         path = Path(raw_path)
         if not path.is_file() or not path.resolve().is_relative_to(root.resolve()):
@@ -22,7 +27,7 @@ def native_diagnostic(paths, *, root: Path, software_id: str = "unknown", fallba
         evidence.append({"path": relative})
         with path.open(errors="replace") as stream:
             for line_no, line in enumerate(stream, 1):
-                for priority, (code, category, pattern) in enumerate(_SIGNATURES):
+                for priority, (code, category, pattern) in enumerate(signatures):
                     if re.search(pattern, line, re.I):
                         matches.append((priority, code, category, {"path": relative,
                             "line_start": line_no, "line_end": line_no, "excerpt": line.strip()[:1200]}))

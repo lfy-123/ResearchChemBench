@@ -1,0 +1,115 @@
+{
+  "paper_id": "paper_0dcba54d6a1436bd",
+  "evidence": [
+    {
+      "evidence_id": "main_method",
+      "source": {
+        "path": "papers/paper_0dcba54d6a1436bd/documents/main.pdf",
+        "sha256": "1f5313ccf56ae62c57d8601e056099404ee5a1080b2d31189c5c7b9365b8e6ff",
+        "pdf_pages_1based": [
+          7
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "acceptor_excitation_explanation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "main_nto",
+      "source": {
+        "path": "papers/paper_0dcba54d6a1436bd/documents/main.pdf",
+        "sha256": "1f5313ccf56ae62c57d8601e056099404ee5a1080b2d31189c5c7b9365b8e6ff",
+        "pdf_pages_1based": [
+          8
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "s1_character_np",
+        "s1_character_aq",
+        "s1_character_pq",
+        "acceptor_excitation_explanation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "si_low_states",
+      "source": {
+        "path": "papers/paper_0dcba54d6a1436bd/documents/supplementary_001.pdf",
+        "sha256": "3f9dab0079efd4f0e2879bf457db34f03f8e6cee529e9fd1c2cbe17e43795198",
+        "pdf_pages_1based": [
+          27,
+          28,
+          29
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "low_bright_np",
+        "low_bright_aq",
+        "low_bright_pq",
+        "acceptor_excitation_explanation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "si_bright",
+      "source": {
+        "path": "papers/paper_0dcba54d6a1436bd/documents/supplementary_001.pdf",
+        "sha256": "3f9dab0079efd4f0e2879bf457db34f03f8e6cee529e9fd1c2cbe17e43795198",
+        "pdf_pages_1based": [
+          26,
+          27
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "low_bright_np",
+        "low_bright_aq",
+        "low_bright_pq",
+        "acceptor_excitation_explanation"
+      ],
+      "scored_independently": false
+    }
+  ],
+  "final_result_evidence_links": {
+    "s1_energy_np": [
+      "si_low_states"
+    ],
+    "low_bright_np": [
+      "si_low_states",
+      "si_bright"
+    ],
+    "s1_character_np": [
+      "main_nto"
+    ],
+    "s1_energy_aq": [
+      "si_low_states"
+    ],
+    "low_bright_aq": [
+      "si_low_states",
+      "si_bright"
+    ],
+    "s1_character_aq": [
+      "main_nto"
+    ],
+    "s1_energy_pq": [
+      "si_low_states"
+    ],
+    "low_bright_pq": [
+      "si_low_states",
+      "si_bright"
+    ],
+    "s1_character_pq": [
+      "main_nto"
+    ],
+    "acceptor_excitation_explanation": [
+      "main_nto",
+      "main_method",
+      "si_low_states",
+      "si_bright"
+    ]
+  }
+}

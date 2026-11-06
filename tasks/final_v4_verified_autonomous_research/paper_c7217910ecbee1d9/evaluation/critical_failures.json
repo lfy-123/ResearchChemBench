@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_c7217910ecbee1d9",
+  "items": [
+    {
+      "failure_id": "fabrication_or_answer_leakage",
+      "condition": "Demonstrated fabricated computational evidence or unauthorized access to hidden evaluator answers invalidates the submission. Mere failure, missing files, an incorrect state, numerical disagreement, or an unsupported claim does not by itself establish fabrication.",
+      "severity": "critical",
+      "action": "invalidate_submission"
+    },
+    {
+      "failure_id": "local_scientific_mismatch",
+      "condition": "Wrong composition, charge/spin, energy definition, connectivity, unsupported or contradictory evidence fails only the affected scientific leaf; no global zero for an ordinary local failure.",
+      "severity": "item_failure",
+      "action": "score_affected_items_zero"
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "local_failure_policy": "Only pass/fail is allowed. Missing or unsupported evidence fails the affected independent conclusion; established equivalents pass. Other independent points remain. Record demonstrated reference defects in objective_issue_flags.",
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_n0_electron_binding",
+      "r_n1_electron_binding",
+      "r_n2_electron_binding",
+      "r_first_ligand_affinity_gain",
+      "r_second_ligand_affinity_gain",
+      "r_neutral_binding_redistribution",
+      "r_acceptor_stabilization",
+      "r_shell_scope"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_local_failure_policy": "An unsupported result fails its dependent final proposition; need_review is restricted to the concrete rubric triggers and is never a pass."
+}

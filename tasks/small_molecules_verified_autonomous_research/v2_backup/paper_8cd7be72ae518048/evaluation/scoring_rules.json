@@ -1,0 +1,403 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_07",
+  "source_paper_id": "paper_8cd7be72ae518048",
+  "scoring_policy": "paper_science_v2",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence eligibility must pass; no arbitrary threshold such as 60 points is used. The original rules concern recovery of bounded literature conclusions and cannot establish a unique true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances; first review the comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not change tolerances unilaterally. Source numbers without a target provide context only and are not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to the system's identity assigns pass/fail/needs_review from native computational evidence. Equivalent mechanisms supporting the same physical proposition are permitted; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_beta_connectivity",
+      "reference_id": "beta_connectivity",
+      "type": "semantic",
+      "expected": "In the declared candidate model for the β conditions, actual structures and reaction-connectivity evidence distinguish the aryl bond-forming positions leading to α and β products of the primary substrate, preserving the specified cyclic-olefin skeleton and correct charge/electronic state. The authors' phenoxide insertion model is a reference; equivalent formation routes supported by evidence are acceptable. Labels, a single-imaginary-frequency count or product observations alone are insufficient; a complete release cycle or full IRC is not additionally required.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_alpha_connectivity",
+      "reference_id": "alpha_connectivity",
+      "type": "semantic",
+      "expected": "In the declared candidate model for the α conditions, actual structures and reaction-connectivity evidence distinguish the α- and β-forming channels of the primary substrate, with consistent definitions of ligand, composition and charge/electronic state. The authors' cationic insertion model is a reference; equivalent routes supporting the same scientific result are acceptable. Merely repeating the supplied α product or treating bond-forming positions in different systems as the same control comparison is insufficient.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_beta_competition",
+      "reference_id": "beta_competition",
+      "type": "semantic",
+      "expected": "Actual competing energies with the same composition, conditions and reference support more favorable β formation than α formation. In the authors' phenoxide model, α/β heights relative to IMO1′ are 22.7/18.4 kcal/mol; these provide scientific context, not hard numerical windows. Do not directly subtract absolute total energies of two different models or substitute yields for computed competition.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_alpha_competition",
+      "reference_id": "alpha_competition",
+      "type": "semantic",
+      "expected": "Physically comparable actual competing energies support more favorable α formation than β formation. For the authors' cationic model with IM3 as zero, the figure/SI give 17.5/18.8 kcal/mol, while the main text also gives 17.1 for α. Retain both source α values; both support lower α energy. Do not score by choosing the source value closest to validation results; actual relative energies must support the direction.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_access_topology",
+      "reference_id": "access_topology",
+      "type": "semantic",
+      "expected": "Actual structural evidence shows how the investigated coordination environment allows the primary olefin to access a reactive site, distinguishing coordination connectivity before and after entry. Coordination-arm opening/olefin binding in the authors' neutral iodide models of the parent diphosphine and its monoxide provide the reference; supported alternative explanations with the same scientific role are acceptable. Merely stating that a ligand leaves more easily or showing an isolated geometry is insufficient.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_access_cost",
+      "reference_id": "access_cost",
+      "type": "semantic",
+      "expected": "In a comparison with balanced composition/charge and consistent free-olefin references, calculations support that the declared environmental difference changes the cost for the primary substrate to access a reactive state. Binding G values of +15.2/+9.2 kcal/mol for the authors' neutral iodide parent and monoxide models support a lower cost for the latter. An actual comparison with compatible references is needed; this quantity is a binding-equilibrium free energy, not an oxidation barrier, exchange-activation barrier or overall turnover barrier.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_styrene_access",
+      "reference_id": "styrene_access",
+      "type": "semantic",
+      "expected": "An actual comparison using the same catalytic model and standard state, with each substrate referenced to its own free form, supports easier access by styrene to the investigated reactive state. The authors' monoxide neutral iodide model gives +6.8 versus +9.2 kcal/mol for the primary substrate; physically equivalent support is acceptable. Do not compare unbalanced total energies of different molecular compositions or replace the primary substrate's identity.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_styrene_regio_competition",
+      "reference_id": "styrene_regio_competition",
+      "type": "semantic",
+      "expected": "With the correct styrene graph, compatible charge/spin and a common precursor reference, actual α/β formation competition supports more favorable α formation. The authors' cationic model gives 11.3/16.0 kcal/mol relative to SIM3; these provide source context without an exact numerical window. Comparable evidence for both channels is required; one styrene energy or an experimental analogy is insufficient.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_styrene_substrate_cost",
+      "reference_id": "styrene_substrate_cost",
+      "type": "semantic",
+      "expected": "In matched catalytic models, an actual comparison using each substrate's own consistent precursor reference supports easier α formation for styrene than for the primary cyclic olefin. The authors' cationic styrene α value is 11.3 and the primary cyclic-olefin figure/SI value is 17.5 kcal/mol; retain the conflicting main-text value of 17.1. Do not compare unbalanced total energies of different compositions or claim on this basis that experimental rates have been reproduced.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_selectivity_answer",
+      "reference_id": "selectivity_answer",
+      "type": "semantic",
+      "expected": "In the final conclusion, explicitly adopt a condition-dependent explanation jointly supported by valid structures, connectivity and competing energies, linking β preference under the β conditions and α preference under the α conditions to the two product connectivities. The authors' phenoxide/cationic switch is a hypothetical reference; alternative explanations with corresponding computational evidence are acceptable. Merely listing two sets of numbers, repeating observations or failing to select a conclusion is insufficient. Exact 45:1, 7:1 or yield reproduction is not required. Do not portray a hypothesized correspondence between conditions and species as a computed complete speciation distribution.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_access_answer",
+      "reference_id": "access_answer",
+      "type": "semantic",
+      "expected": "In the final conclusion, integrate structural/free-energy results for site access with regioselective competition within a state to explain why changes in the coordination environment can affect both reaction facility and selectivity, distinguishing their different physical roles. The authors' reduction of the binding cost by monoxide formation is a reference. A computationally supported connection is required; repeating the two rankings alone is insufficient. Access costs and insertion barriers for models with different compositions, charges or ligands cannot simply be added into a full-cycle barrier. Oxidation/ionization rates or a complete network are not required.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_substrate_answer",
+      "reference_id": "substrate_answer",
+      "type": "semantic",
+      "expected": "In the final conclusion, relate the matched styrene binding and insertion comparisons to the difficulty of reaction of the primary cyclic olefin, providing a model-supported explanation of substrate dependence while preserving the primary reaction identity. One local number or an independent explanation of another substrate is insufficient; do not claim reproduction of experimental styrene yields, exact turnover rates or a universal substrate rule on this basis.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "beta_connectivity",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Two regioselective bond-forming connections for the candidate under β conditions",
+      "rule_ids": [
+        "r_beta_connectivity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "alpha_connectivity",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Two regioselective bond-forming connections for the candidate under α conditions",
+      "rule_ids": [
+        "r_alpha_connectivity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "beta_competition",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Regioselective competition energies within the candidate under β conditions",
+      "rule_ids": [
+        "r_beta_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "alpha_competition",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Regioselective competition energies within the candidate under α conditions",
+      "rule_ids": [
+        "r_alpha_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "access_topology",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "Structural results for opening a reactive site and binding the olefin",
+      "rule_ids": [
+        "r_access_topology"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "access_cost",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "Effect of coordination-environment changes on the free-energy cost of access to a reactive state",
+      "rule_ids": [
+        "r_access_cost"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "styrene_access",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "Matched comparison of access costs for styrene and the primary substrate",
+      "rule_ids": [
+        "r_styrene_access"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "styrene_regio_competition",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "Regioselective competition within the styrene model",
+      "rule_ids": [
+        "r_styrene_regio_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "styrene_substrate_cost",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "Matched comparison of insertion costs for styrene and the primary substrate",
+      "rule_ids": [
+        "r_styrene_substrate_cost"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "selectivity_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Final: explanation of condition switching and α/β selectivity reversal",
+      "rule_ids": [
+        "r_selectivity_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "access_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Final: distinguish access cost from competition within a state and explain reactivity",
+      "rule_ids": [
+        "r_access_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "substrate_answer",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Final: use the styrene control to explain bounded substrate dependence",
+      "rule_ids": [
+        "r_substrate_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ],
+  "scope_changes": [],
+  "reference_issues": [
+    "The cationic α height is 17.1 in the main text and 17.5 in Fig.16/SI; β is 18.8. Rules assess directions/physical propositions; the conflicting α values are not assigned a unique exact target."
+  ],
+  "source_location": "Main text p10–15 Fig.13/14/16; computational SI is supplementary_001",
+  "source_files": [
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_07/main.pdf",
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_07/supplementary_001.pdf",
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_07/supplementary_002.pdf",
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_07/supplementary_003.pdf"
+  ],
+  "paper_id": "paper_8cd7be72ae518048",
+  "expert_scoring_policy": "scientific_results_only_binary_items",
+  "expert_rules_file": "expert_scoring_rules.json",
+  "required_for_whole_case_success_item_ids": [
+    "beta_connectivity",
+    "alpha_connectivity",
+    "beta_competition",
+    "alpha_competition",
+    "access_topology",
+    "access_cost",
+    "styrene_access",
+    "styrene_regio_competition",
+    "styrene_substrate_cost",
+    "selectivity_answer",
+    "access_answer",
+    "substrate_answer"
+  ],
+  "scientific_requirements": "All scientific items marked required_for_whole_case_success must pass, and evidence eligibility must pass; no arbitrary threshold such as 60 points is used. The original rules concern recovery of bounded literature conclusions and cannot establish a unique true mechanism.\nRetain the existing numerical targets/tolerances; first review the comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not change tolerances unilaterally. Source numbers without a target provide context only and are not implicit thresholds.\nA chemistry reviewer blinded to the system's identity assigns pass/fail/needs_review from native computational evidence. Equivalent mechanisms supporting the same physical proposition are permitted; keyword matching alone is insufficient.\nEvery scientific item retains its expert-authored weight and all-or-nothing rule. No research-process points are awarded.\nThe weighted score reports partial scientific achievement. Use expert_scoring_rules.json and score_case.py for the explicit pass/fail/needs_review whole-case adjudication; no score threshold replaces that decision."
+}

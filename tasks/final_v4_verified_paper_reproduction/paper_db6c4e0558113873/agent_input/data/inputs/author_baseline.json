@@ -1,0 +1,90 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "source": "Main Fig. 1 (PDF pp. 8–9); SI p. 65 Table S1 and pp. 66–74 coordinates. DOI 10.1021/jacs.5c17536.",
+  "models": [
+    {
+      "id": "C1_synsyn",
+      "source_label": "syn, syn-Cu-Int-I-6b",
+      "coordinate_file": "data/structures/C1_synsyn.xyz",
+      "formula": "C26H30ClCuO6S",
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_count": 65,
+      "identity_note": "Full allyl-Cu/acac/Cl inventory. Formal CuIII is the proposed oxidation-state label. XYZ atom indices are source-local, distinct from reactant atom maps."
+    },
+    {
+      "id": "C3_synsyn",
+      "source_label": "syn, syn-Cu-Int-I'-6b",
+      "coordinate_file": "data/structures/C3_synsyn.xyz",
+      "formula": "C26H30ClCuO6S",
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_count": 65,
+      "identity_note": "Full allyl-Cu/acac/Cl inventory. Formal CuIII is the proposed oxidation-state label. XYZ atom indices are source-local, distinct from reactant atom maps."
+    },
+    {
+      "id": "C1_synanti",
+      "source_label": "syn, anti-Cu-Int-I-6b",
+      "coordinate_file": "data/structures/C1_synanti.xyz",
+      "formula": "C26H30ClCuO6S",
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_count": 65,
+      "identity_note": "Full allyl-Cu/acac/Cl inventory. Formal CuIII is the proposed oxidation-state label. XYZ atom indices are source-local, distinct from reactant atom maps."
+    },
+    {
+      "id": "C3_synanti",
+      "source_label": "syn, anti-Cu-Int-I'-6b",
+      "coordinate_file": "data/structures/C3_synanti.xyz",
+      "formula": "C26H30ClCuO6S",
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_count": 65,
+      "identity_note": "Full allyl-Cu/acac/Cl inventory. Formal CuIII is the proposed oxidation-state label. XYZ atom indices are source-local, distinct from reactant atom maps."
+    }
+  ],
+  "label_mapping": {
+    "C1": "Benzylic terminus: map 11 of allene_6b.",
+    "C2": "Central carbon: map 10 of allene_6b.",
+    "C3": "Ester/propyl-substituted terminus: map 6 of allene_6b."
+  },
+  "source_table": {
+    "C1_synsyn": {
+      "Eelec_Eh": -2514.87081,
+      "cor_Ggas_Eh": 0.437778,
+      "G273_15_printed_Eh": -2514.433032,
+      "Esol_Eh": -2515.355823,
+      "Gsol_Eh": -2514.918045
+    },
+    "C3_synsyn": {
+      "Eelec_Eh": -2514.862981,
+      "cor_Ggas_Eh": 0.441125,
+      "G273_15_printed_Eh": -2514.421855,
+      "Esol_Eh": -2515.342098,
+      "Gsol_Eh": -2514.900973
+    },
+    "C1_synanti": {
+      "Eelec_Eh": -2514.869318,
+      "cor_Ggas_Eh": 0.439893,
+      "G273_15_printed_Eh": -2514.429425,
+      "Esol_Eh": -2515.354285,
+      "Gsol_Eh": -2514.914392
+    },
+    "C3_synanti": {
+      "Eelec_Eh": -2514.870576,
+      "cor_Ggas_Eh": 0.439523,
+      "G273_15_printed_Eh": -2514.431053,
+      "Esol_Eh": -2515.347312,
+      "Gsol_Eh": -2514.907789
+    }
+  },
+  "relative_Gsol_targets_kcal_mol": {
+    "reference": "C1_synsyn",
+    "C1_synanti": 2.292292,
+    "C3_synsyn": 10.712842,
+    "C3_synanti": 6.435737
+  },
+  "temperature_note": "Printed G273.15 label retained. Actual author thermochemical temperature unresolved; source-column reconstruction and 313.15 K experimental applicability are distinct questions.",
+  "method": "Gaussian16; B3LYP-D3(BJ)/6-31G(d,p),LANL2DZ(Cu) Opt/Freq; M06/6-311+G(d,p),SDD(Cu),SMD MeCN electronic single point plus gas thermal correction once.",
+  "coordinate_status": "Author supplied coordinates for model identification; not new results or independently certified stationary points."
+}

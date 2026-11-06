@@ -1,0 +1,41 @@
+{
+  "source": "Supplied experimental absorption observations",
+  "observable": "tabulated absorption band wavelengths",
+  "rows": [
+    {
+      "dye": "dye1",
+      "solvent": "CHCl3",
+      "bands_nm": [
+        326,
+        424
+      ]
+    },
+    {
+      "dye": "dye1",
+      "solvent": "MeOH",
+      "bands_nm": [
+        322,
+        412
+      ]
+    },
+    {
+      "dye": "dye2",
+      "solvent": "CHCl3",
+      "bands_nm": [
+        334,
+        414
+      ]
+    },
+    {
+      "dye": "dye2",
+      "solvent": "MeOH",
+      "bands_nm": [
+        328,
+        404
+      ]
+    }
+  ],
+  "uncertainty": "Not reported for these band positions. No computational tolerance or assignment to particular excited roots implied.",
+  "conditions": "Dilute-solution absorption measurements; the absorption temperature is not specified. A separate 25 °C quantum-yield protocol does not define it.",
+  "identity_warning": "Use the complete atom-indexed graphs in objects.json to identify the dyes."
+}

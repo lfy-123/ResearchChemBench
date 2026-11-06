@@ -1,0 +1,71 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "scope_version": "neutral-start-author-scope-20261012",
+  "items": [
+    {
+      "key_point_id": "activation_origin",
+      "rule_ids": [
+        "rule_activation_origin"
+      ],
+      "scientific_max_score": 25,
+      "verification_target_ids": [
+        "activation_redox",
+        "activation_triplet"
+      ]
+    },
+    {
+      "key_point_id": "first_rearrangement",
+      "rule_ids": [
+        "rule_first_rearrangement"
+      ],
+      "scientific_max_score": 20,
+      "verification_target_ids": [
+        "first_rearrangement_requalification"
+      ]
+    },
+    {
+      "key_point_id": "second_rearrangement",
+      "rule_ids": [
+        "ar_rule_barrier"
+      ],
+      "scientific_max_score": 25,
+      "verification_target_ids": [
+        "second_rearrangement_requalification"
+      ]
+    },
+    {
+      "key_point_id": "selectivity",
+      "rule_ids": [
+        "rule_selectivity"
+      ],
+      "scientific_max_score": 20,
+      "verification_target_ids": [
+        "selectivity_completion"
+      ]
+    },
+    {
+      "key_point_id": "endpoint_balance",
+      "rule_ids": [
+        "rule_endpoint_balance"
+      ],
+      "scientific_max_score": 10,
+      "verification_target_ids": [
+        "neutral_endpoint_balance"
+      ]
+    }
+  ],
+  "support_only": [
+    {
+      "key_point_id": "evidence_validity",
+      "rule_id": "rule_evidence_validity",
+      "scientific_max_score": 0
+    }
+  ],
+  "final_synthesis": {
+    "conclusion_id": "answer",
+    "rule_id": "rule_answer",
+    "scientific_max_score": 0
+  },
+  "qualification_file": "evaluation/qualification.json",
+  "validation_plan_file": "evaluation/validation_plan.json"
+}

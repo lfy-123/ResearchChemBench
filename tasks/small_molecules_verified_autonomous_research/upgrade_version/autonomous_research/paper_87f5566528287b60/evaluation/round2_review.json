@@ -1,0 +1,25 @@
+{
+  "paper_id": "paper_87f5566528287b60",
+  "revision": "expert_round2_20261103",
+  "expert_feedback_status": "addressed",
+  "changes_zh": "删除催化剂能量略低于底物激发能仍可能相容的公开提示，让agent自主解释计算比较。",
+  "reason_zh": "SI Tables S6–S7的61.8与62.0 kcal/mol说明近匹配需要科学判断。该判断保留在私有评分，不提前提供给agent，也不改成严格能量阈值。六项权重15/15/20/15/15/20不变。",
+  "active_rule_ids": [
+    "r_tx_compatibility",
+    "r_ir_dfppy_compatibility",
+    "r_standard_ir_boundary",
+    "r_fac_ir_mismatch",
+    "r_mes_acr_mismatch",
+    "r_yield_nonmonotonicity"
+  ],
+  "removed_outcome_ids": [],
+  "weights_changed": false,
+  "public_file_sha256": {
+    "data/inputs/system.json": "74caf5adf3c720e08bac0fab709b800c0046637a750b1d264faf962049225bee",
+    "submission_guide.md": "ebd049f11f9b43db8edb133d5c7ca5198c6a3b1321f0fff1699dd0a18ca4f689",
+    "submission_schema.json": "f7a312792700221c5dadabf9ab2ac85719893a59654fbdaada4541aadc83fb99",
+    "task.md": "2b1350567f12be005cadde209ec492b7c7e5f2a900a2eef1e7adabf2a2c02919"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false
+}

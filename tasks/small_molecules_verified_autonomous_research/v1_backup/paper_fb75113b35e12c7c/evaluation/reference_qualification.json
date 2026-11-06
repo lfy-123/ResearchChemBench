@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+  "strict_numeric_whole_pass": false,
+  "verification_scope": "current_autonomous_research_scientific_question",
+  "reason": "用户授权已验收的当前AR科学问题迁移科学分V2。父级独立审计确认32组Opt/Freq+SP与2项gamma阶段覆盖必要结果，保留限定结论；评分可用不等于数值专家批准、自动满分或发布。",
+  "unblock_conditions": [],
+  "physical_definition": {
+    "method1": "B3LYP-D3BJ/def2-TZVP CPCM(chloroform) Opt/Freq; RRHO 298.15 K",
+    "method7": "wB97M-V/def2-TZVPD SMD(chloroform) SP, DEFGRID3 RIJCOSX",
+    "composite": "G7 = E_SP7 + (G1 - E1); same matched optimized geometry",
+    "charges": "neutral states 0; methanethiolate and anionic adduct/TS states -1; all multiplicity 1",
+    "proton_reservoir": "Neutral overall adduct formation uses neutral MeSH; anion formation uses MeS-. Second addition: mono-adduct + MeSH -> double adduct. No free proton energy or unspecified deprotonation reservoir inserted.",
+    "standard_state": "1 atm RRHO to 1 M: per-species RT ln(RT/(P*0.001 m3/mol)) at 298.15 K, P=101325 Pa",
+    "standard_state_per_species_kcal_mol": 1.8943284454941451,
+    "candidate_rounded_constant_kcal_mol": 1.8941975683244532,
+    "candidate_difference_reason": "Candidate uses RT ln(24.46), exact ideal-gas volume gives per bimolecular association -0.00013087717 kcal/mol; no change to interpretation.",
+    "source_version": "ORCA 6.0.1",
+    "actual_version": "ORCA 6.1.1",
+    "recovery": "SCF numerical aids (SOSCF/SlowConv/shift) disclosed; no changed functional/basis/charge to chase source values."
+  },
+  "tolerance_policy": {
+    "numeric_rules": 0,
+    "rationale": "比较/解释型题目采用13项明确可证伪的定性科学结果；不新增精确能量窗，不用验证值替换作者目标，不按最大残差拟合容差。"
+  },
+  "publication_review_pending": [
+    "原生SCF采用Total+1el-Energy（ConvCheckMode 2）；正常终止/宣告收敛不等于所有density、DIIS、orbital打印阈值通过。Sulf_SMe4_P2_0_1 method7的MAX/RMS density 0.22963/0.0072282、orbital gradient 0.00042272等残差必须由专家判断。",
+    "原生small-step替代收敛发生于中性母体R6_0_1，MAX gradient 0.0005810986>0.0003000000；R6_SMe6_cyc2S_-1_1环阴离子四项几何判据全部通过。",
+    "R5简单端点小能差且method1/method7最低位点改序；MeSH二次加成略有利，与EtSH实验不完全一致，是作者自身有限预测能力。",
+    "R6初始阴离子正文δ最低，与Figure S8/本次β′最低有来源歧义，不设唯一排序。",
+    "R6 gamma为12点有限受约束method1电子能路径，不能成为精确gamma Gibbs势垒或全局无势垒证明；R5重构gamma阴离子释放仅为来源附近局部开环证据。",
+    "作者ORCA 6.0.1、实际6.1.1；SCF恢复数值辅助有披露。选定来源构象复核并非穷尽构象或完整唯一动力学网络。"
+  ],
+  "independent_acceptance_review": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/sulf_review/audit.json"
+}

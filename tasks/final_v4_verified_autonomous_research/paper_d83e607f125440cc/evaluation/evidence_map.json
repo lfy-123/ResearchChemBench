@@ -1,0 +1,444 @@
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "evidence": [
+    {
+      "evidence_id": "main",
+      "source": {
+        "path": "papers/paper_d83e607f125440cc/documents/main.pdf",
+        "sha256": "d63064511e76ff3931ee92587cddf3e8cc5c9b3eb90ec95e717ab9ce7d838b2c",
+        "pdf_pages_1based": [
+          2,
+          3,
+          4
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "si",
+      "source": {
+        "path": "papers/paper_d83e607f125440cc/documents/supplementary_001.pdf",
+        "sha256": "2f5e58e7475452312c03fef41f7156127656bc4ea3a7d83f138b6c0772c540c8",
+        "pdf_pages_1based": [
+          4,
+          34,
+          35,
+          36,
+          37
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "native_de",
+      "source": [
+        {
+          "path": "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_official_data_mechanism_scope_20260930.json",
+          "sha256": "bb4d2cad9fdd7760d04641e14124e4e1f0154afdc130fa53fab0a7820bac8177"
+        },
+        {
+          "path": "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_source_acceptance_20261001.json",
+          "sha256": "943aeadf30c214f78dfd2aba1bb9da8132d5ac1a5c71cbe13d53704c05e9b6e5"
+        },
+        {
+          "path": "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_curvature_acceptance_20261001.json",
+          "sha256": "6d4b4aa4300f89fafa437cefdd290a56498a6a2dcbce48fa2e81f0017929796b"
+        }
+      ],
+      "scope": "Actual endpoint/spin quantities, source mapping and linked native logs; the later OMe source-basin record supersedes the earlier OMe value only for that baseline. No new calculation."
+    },
+    {
+      "evidence_id": "native_spin",
+      "source": [
+        {
+          "path": "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_benzyl_full_S8_binding_20261001.json",
+          "sha256": "ee1df316aba773ec83735b0ce1317bbe895431ee5bf4afbafb19e6e42c1d4971"
+        },
+        {
+          "path": "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_grid_spin_acceptance_20261001.json",
+          "sha256": "58d0219bbc606b594476249a16be2af6f6c2b9d69aca002eb4ec3f27768408a9"
+        },
+        {
+          "path": "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_thermo_spin_figure_acceptance.json",
+          "sha256": "ba08c56ec0ac038d5dc1df239af2d742a47f8b68b6374b232ac2b3107fcb41e2"
+        }
+      ],
+      "scope": "Actual endpoint/spin quantities, source mapping and linked native logs; the later OMe source-basin record supersedes the earlier OMe value only for that baseline. No new calculation."
+    }
+  ],
+  "final_conclusion_evidence": {
+    "SMe_harder_than_OMe": [
+      "main",
+      "si",
+      "native_de"
+    ],
+    "SMe_harder_than_Cl": [
+      "main",
+      "si",
+      "native_de"
+    ],
+    "SMe_harder_than_Me": [
+      "main",
+      "si",
+      "native_de"
+    ],
+    "SMe_harder_than_H": [
+      "main",
+      "si",
+      "native_de"
+    ],
+    "sulfur_localized_radical": [
+      "main",
+      "si",
+      "native_spin"
+    ],
+    "oxidation_interpretation": [
+      "main",
+      "si",
+      "native_de",
+      "native_spin"
+    ]
+  },
+  "current_scoring_policy": "paper_science_v3",
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_SMe_harder_than_OMe",
+      "r_SMe_harder_than_Cl",
+      "r_SMe_harder_than_Me",
+      "r_SMe_harder_than_H",
+      "r_sulfur_localized_radical",
+      "r_oxidation_interpretation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "SMe相对OMe的有效苄位脱氢能量可达性",
+      "rule_id": "r_SMe_harder_than_OMe",
+      "conclusion_id": "SMe_harder_than_OMe",
+      "independence": "四个不同底物的成对关系独立判定，不由其他底物排序推断。",
+      "source_locator": "正文pp2–4 Fig2/3；SIp4 S3.1/S3.2，pp34–37 S6、TablesS8–S16及结构",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_official_data_mechanism_scope_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_source_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_curvature_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_benzyl_full_S8_binding_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_grid_spin_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_thermo_spin_figure_acceptance.json",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/evidence/SMe_gas_fragment_native_input.com",
+        "docs/verification/group_1/paper_d83e607f125440cc/provenance/b3lyp_bde_repair_20260921/2g_B3LYP_6311plus_BDE_repair_20260921/gaussian.log"
+      ],
+      "existing_support": "SMe减OMe/Cl/Me/H电子De=24.8327/41.1902/45.7439/59.0855 kJ/mol；硫自旋0.400951且大于苄醇C/O；无催化受氢体、TS或速率证据。",
+      "limits": [
+        "气相自由基阳离子失H电子De支持分子阻碍，不证明氩气实际受氢体、控速步或低转化唯一原因。制备30°C/24h与分析25°C/8h不可混同。",
+        "SI水相SMe正电子能、S9热H参照和标准态实施不明仍保留为来源问题；可选热矩阵不恢复为PR门槛。OMe异盆地及微小自旋残差保留。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de"
+      ],
+      "previous_rule_ids": [
+        "r_SMe_harder_than_OMe"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "SMe相对Cl的有效苄位脱氢能量可达性",
+      "rule_id": "r_SMe_harder_than_Cl",
+      "conclusion_id": "SMe_harder_than_Cl",
+      "independence": "四个不同底物的成对关系独立判定，不由其他底物排序推断。",
+      "source_locator": "正文pp2–4 Fig2/3；SIp4 S3.1/S3.2，pp34–37 S6、TablesS8–S16及结构",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_official_data_mechanism_scope_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_source_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_curvature_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_benzyl_full_S8_binding_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_grid_spin_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_thermo_spin_figure_acceptance.json",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/evidence/SMe_gas_fragment_native_input.com",
+        "docs/verification/group_1/paper_d83e607f125440cc/provenance/b3lyp_bde_repair_20260921/2g_B3LYP_6311plus_BDE_repair_20260921/gaussian.log"
+      ],
+      "existing_support": "SMe减OMe/Cl/Me/H电子De=24.8327/41.1902/45.7439/59.0855 kJ/mol；硫自旋0.400951且大于苄醇C/O；无催化受氢体、TS或速率证据。",
+      "limits": [
+        "气相自由基阳离子失H电子De支持分子阻碍，不证明氩气实际受氢体、控速步或低转化唯一原因。制备30°C/24h与分析25°C/8h不可混同。",
+        "SI水相SMe正电子能、S9热H参照和标准态实施不明仍保留为来源问题；可选热矩阵不恢复为PR门槛。OMe异盆地及微小自旋残差保留。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de"
+      ],
+      "previous_rule_ids": [
+        "r_SMe_harder_than_Cl"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "SMe相对Me的有效苄位脱氢能量可达性",
+      "rule_id": "r_SMe_harder_than_Me",
+      "conclusion_id": "SMe_harder_than_Me",
+      "independence": "四个不同底物的成对关系独立判定，不由其他底物排序推断。",
+      "source_locator": "正文pp2–4 Fig2/3；SIp4 S3.1/S3.2，pp34–37 S6、TablesS8–S16及结构",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_official_data_mechanism_scope_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_source_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_curvature_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_benzyl_full_S8_binding_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_grid_spin_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_thermo_spin_figure_acceptance.json",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/evidence/SMe_gas_fragment_native_input.com",
+        "docs/verification/group_1/paper_d83e607f125440cc/provenance/b3lyp_bde_repair_20260921/2g_B3LYP_6311plus_BDE_repair_20260921/gaussian.log"
+      ],
+      "existing_support": "SMe减OMe/Cl/Me/H电子De=24.8327/41.1902/45.7439/59.0855 kJ/mol；硫自旋0.400951且大于苄醇C/O；无催化受氢体、TS或速率证据。",
+      "limits": [
+        "气相自由基阳离子失H电子De支持分子阻碍，不证明氩气实际受氢体、控速步或低转化唯一原因。制备30°C/24h与分析25°C/8h不可混同。",
+        "SI水相SMe正电子能、S9热H参照和标准态实施不明仍保留为来源问题；可选热矩阵不恢复为PR门槛。OMe异盆地及微小自旋残差保留。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de"
+      ],
+      "previous_rule_ids": [
+        "r_SMe_harder_than_Me"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "SMe相对H的有效苄位脱氢能量可达性",
+      "rule_id": "r_SMe_harder_than_H",
+      "conclusion_id": "SMe_harder_than_H",
+      "independence": "四个不同底物的成对关系独立判定，不由其他底物排序推断。",
+      "source_locator": "正文pp2–4 Fig2/3；SIp4 S3.1/S3.2，pp34–37 S6、TablesS8–S16及结构",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_official_data_mechanism_scope_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_source_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_curvature_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_benzyl_full_S8_binding_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_grid_spin_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_thermo_spin_figure_acceptance.json",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/evidence/SMe_gas_fragment_native_input.com",
+        "docs/verification/group_1/paper_d83e607f125440cc/provenance/b3lyp_bde_repair_20260921/2g_B3LYP_6311plus_BDE_repair_20260921/gaussian.log"
+      ],
+      "existing_support": "SMe减OMe/Cl/Me/H电子De=24.8327/41.1902/45.7439/59.0855 kJ/mol；硫自旋0.400951且大于苄醇C/O；无催化受氢体、TS或速率证据。",
+      "limits": [
+        "气相自由基阳离子失H电子De支持分子阻碍，不证明氩气实际受氢体、控速步或低转化唯一原因。制备30°C/24h与分析25°C/8h不可混同。",
+        "SI水相SMe正电子能、S9热H参照和标准态实施不明仍保留为来源问题；可选热矩阵不恢复为PR门槛。OMe异盆地及微小自旋残差保留。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de"
+      ],
+      "previous_rule_ids": [
+        "r_SMe_harder_than_H"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "与硫相关的自由基分布",
+      "rule_id": "r_sulfur_localized_radical",
+      "conclusion_id": "sulfur_localized_radical",
+      "independence": "氧化电子响应的空间位置不同于脱氢能量或催化因果。",
+      "source_locator": "正文pp2–4 Fig2/3；SIp4 S3.1/S3.2，pp34–37 S6、TablesS8–S16及结构",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_official_data_mechanism_scope_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_source_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_curvature_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_benzyl_full_S8_binding_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_grid_spin_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_thermo_spin_figure_acceptance.json",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/evidence/SMe_gas_fragment_native_input.com",
+        "docs/verification/group_1/paper_d83e607f125440cc/provenance/b3lyp_bde_repair_20260921/2g_B3LYP_6311plus_BDE_repair_20260921/gaussian.log"
+      ],
+      "existing_support": "SMe减OMe/Cl/Me/H电子De=24.8327/41.1902/45.7439/59.0855 kJ/mol；硫自旋0.400951且大于苄醇C/O；无催化受氢体、TS或速率证据。",
+      "limits": [
+        "气相自由基阳离子失H电子De支持分子阻碍，不证明氩气实际受氢体、控速步或低转化唯一原因。制备30°C/24h与分析25°C/8h不可混同。",
+        "SI水相SMe正电子能、S9热H参照和标准态实施不明仍保留为来源问题；可选热矩阵不恢复为PR门槛。OMe异盆地及微小自旋残差保留。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_spin"
+      ],
+      "previous_rule_ids": [
+        "r_sulfur_localized_radical"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "最终分子氧化差异",
+      "rule_id": "r_oxidation_interpretation",
+      "conclusion_id": "oxidation_interpretation",
+      "independence": "分子证据到实验因果的可推断范围，不重复前五项物性。",
+      "source_locator": "正文pp2–4 Fig2/3；SIp4 S3.1/S3.2，pp34–37 S6、TablesS8–S16及结构",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_official_data_mechanism_scope_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_source_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_curvature_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_benzyl_full_S8_binding_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/strict_OMe_grid_spin_acceptance_20261001.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/v2_execution_20260929/benzyl_thermo_spin_figure_acceptance.json",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Cl_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/H_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Hatom_superfine/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_fragment/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/Me_gas_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/SMe_altOH_radical/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_fragment_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_radical_officialgeom_freq_a01/input.com",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/v2_strict_OMe_source_Hirshfeld_a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/outputs/evidence/SMe_gas_fragment_native_input.com",
+        "docs/verification/group_1/paper_d83e607f125440cc/provenance/b3lyp_bde_repair_20260921/2g_B3LYP_6311plus_BDE_repair_20260921/gaussian.log"
+      ],
+      "existing_support": "SMe减OMe/Cl/Me/H电子De=24.8327/41.1902/45.7439/59.0855 kJ/mol；硫自旋0.400951且大于苄醇C/O；无催化受氢体、TS或速率证据。",
+      "limits": [
+        "气相自由基阳离子失H电子De支持分子阻碍，不证明氩气实际受氢体、控速步或低转化唯一原因。制备30°C/24h与分析25°C/8h不可混同。",
+        "SI水相SMe正电子能、S9热H参照和标准态实施不明仍保留为来源问题；可选热矩阵不恢复为PR门槛。OMe异盆地及微小自旋残差保留。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de",
+        "native_spin"
+      ],
+      "previous_rule_ids": [
+        "r_oxidation_interpretation"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

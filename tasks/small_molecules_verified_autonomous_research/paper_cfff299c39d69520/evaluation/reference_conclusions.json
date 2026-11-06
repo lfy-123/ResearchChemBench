@@ -1,0 +1,90 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "items": [
+    {
+      "conclusion_id": "active_catalyst",
+      "statement": "Chemically accessible active zinc species from the supplied precatalyst",
+      "expected": "Select and justify a neutral Zn(II) bis-prolinate active species with intact L stereochemistry and N/O coordination, using actual molecular results and a balanced thermodynamically favorable formation from ZnEt2+2L-proline to catalyst+2ethane. Source formation−98.5kcal/mol is context, not a hard target. Treat formal oxidation state by ligand/electron counting, not atomic charge; failure to optimize a Zn0 candidate is not proof that all Zn0 chemistry is impossible. An established physically equivalent speciation explanation passes.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_active_catalyst"
+      ],
+      "evidence_ids": [
+        "zn_species",
+        "zn_components"
+      ]
+    },
+    {
+      "conclusion_id": "coupling_chemistry",
+      "statement": "Bond-forming chemistry and zinc oxidation-state behavior",
+      "expected": "Explain the computed formation of the mapped unsymmetrical1,3-diyne as substitution-type Csp–Csp formation with Csp–Br cleavage and release of the Zn–C bond, with Zn remaining formally+2 along the supported route. Actual state/saddle/reactive-mode and sufficient connection evidence are required; a matching scalar or a product drawing alone fails. Equivalent physical reaction descriptions pass without author labels; do not mislabel this as a Pd-like Zn0/ZnII oxidative-addition/reductive-elimination cycle or exclude every uninvestigated radical mechanism.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_coupling_chemistry"
+      ],
+      "evidence_ids": [
+        "zn_species",
+        "zn_network",
+        "zn_ts"
+      ]
+    },
+    {
+      "conclusion_id": "balanced_profile",
+      "statement": "Thermodynamics of the balanced finite pathway through diyne release",
+      "expected": "Report a numerical atom- and charge-balanced finite free-energy profile from the supported catalyst/reactant inventory through terminal-alkyne activation, coupling and diyne release. The reference supports mildly uphill alkyne activation and favorable coupled product formation; assess these relationships with actual species energies and explicit ligand, carbonate, proton and leaving-ion reservoirs. Identify the remaining zinc species at the end. Equivalent balanced ion-pair conventions pass after explicit conversion. Catalyst regeneration, catalyst return and complete cycle closure are not scored or required. The source Int2 main-text 9.6 versus SI-derived 4.078812 kcal/mol conflict precludes an exact Int2 target; author values are context only.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_balanced_profile"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ]
+    },
+    {
+      "conclusion_id": "path_activation",
+      "statement": "Principal activation demand in the tested finite product-forming pathway",
+      "expected": "Identify the principal activation demand within the tested finite product-forming pathway using actual connected molecular calculations and a consistently balanced reference. In the reference, coupling with Csp-Br cleavage supplies the major tested demand. Report both its local activation free energy from the immediately preceding reactants and its height from the common catalyst/reactant reservoirs, with explicit stoichiometric expressions. The reference overall-height expression is G(TS)+G(Cs-prolinate)+G(CsHCO3)-[G(neutral bis-prolinate catalyst)+G(R1)+G(R2)+G(Cs2CO3)]; equivalent balanced references pass. This finite-path height is not by itself the energy span or rate-limiting step of an uncomputed catalytic cycle. A naked TS energy, mismatched reservoirs or unsupported bottleneck declaration fails. Source 29.2 kcal/mol is context without a matching gate. Temperature consequences are evaluated separately.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_turnover_span"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_components"
+      ]
+    },
+    {
+      "conclusion_id": "temperature_effect",
+      "statement": "Conditional temperature effect on the tested product-forming activation",
+      "expected": "Use independently calculated activation energetics from the tested finite pathway and an explicit justified kinetic approximation to quantify the conditional effect of changing 298.15 K to 398.15 K. Report a numerical rate or timescale comparison with reactant-activity, standard-state and molecularity assumptions. A fixed-DeltaG Eyring illustration is sufficient if labeled as a conditional approximation rather than recalculated high-temperature free energy, experimental kinetics or steady-state catalytic TOF. Explain how heating improves accessibility in the tested model and what cannot be concluded without regeneration and a full kinetic network. Copying source 29.2 to obtain rates without actual calculated activation evidence fails. No exact rate target or full-cycle energy-span calculation is required.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_temperature_effect"
+      ],
+      "evidence_ids": [
+        "zn_network",
+        "zn_eyring"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_active_catalyst",
+      "r_coupling_chemistry",
+      "r_balanced_profile",
+      "r_path_activation",
+      "r_temperature_effect"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required model is a finite product-forming pathway through diyne release. No catalyst regeneration, full-cycle closure, steady-state turnover or complete catalytic energy span is required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

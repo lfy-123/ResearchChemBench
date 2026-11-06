@@ -1,0 +1,233 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "scope_version": "neutral-start-author-scope-20261012",
+  "created_at_utc": "2026-10-12T19:15:22.249931+00:00",
+  "scientifically_verified": false,
+  "release_ready": false,
+  "previous_evidence_reusable": [
+    {
+      "scope": "Local six nodes, TS1 finite two-basin low/high pairs, TS2 andTS-A actual IRC joins",
+      "evidence": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/verification_report.md",
+      "qualification": "Reuse physical evidence with existing mismatch and conformer limits; not whole-taskPASS."
+    },
+    {
+      "scope": "Neutral3a low/high pair and identity",
+      "evidence": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/progress_1110_BN_neutral_product.json",
+      "qualification": "Completed endpoint evidence; no absolute electron-transfer thermochemistry implied."
+    }
+  ],
+  "removed_requirements": [
+    "Supplied+1 doublet starting state and upstream activation exclusion",
+    "Any purported requirement for explicit SET/back-SET TS or full catalyst cycle",
+    "Standalone scored -170.8/-168.3 charged-to-neutral raw energy difference",
+    "New exact triplet numerical rule until source definition clarified"
+  ],
+  "targets": [
+    {
+      "id": "activation_redox",
+      "score_ids": [
+        "activation_origin"
+      ],
+      "source": "SI PDF S67-72 section9.1; S76 SchemeS5",
+      "physical_quantities": [
+        "Eox(2a)=+1.10 V",
+        "Ered(2a)=-2.69 V"
+      ],
+      "model": "full C26H36BNSi (65 atoms), neutral singlet/+1 doublet/-1 doublet",
+      "method": "(U)B3LYP/6-31+G(d,p) optimization/frequency and energy, CPCM(MeCN)",
+      "reference": "E=(Goxidized-Greduced)/23.061-4.422 V vs SCE; for Ered oxidized=neutral, reduced=anion",
+      "existing_evidence": "Published geometries and energies only for this protocol; local SMD DCM energies are not compatible substitutes. Public PC A/B metadata now SCE/MeCN qualified.",
+      "missing_evidence": "Independent native minima/frequencies and energy assembly for the three source charge states.",
+      "prerequisite_definition": "Record native thermochemical temperature/standard state; section9.1 does not separately state them. Check published kcal/mol free energies and equation, not section9.3 energies. No exact DCM SET free energy or catalyst QM required.",
+      "can_compute_immediately": true,
+      "necessary_native_success_markers": [
+        "Native Normal termination, completed optimization, all expected frequencies (189 for65 atoms), zero imaginary modes for a minimum",
+        "Explicit charge/multiplicity and complete graph; SCF/state consistency",
+        "Same geometry hashes for low geometry/frequency and high single point; matching own thermal terms",
+        "Extraction locations and native SHA256 preserved; platform status alone is insufficient"
+      ],
+      "numeric_acceptance": "Manual source comparison, no calibrated new tolerance."
+    },
+    {
+      "id": "activation_triplet",
+      "score_ids": [
+        "activation_origin"
+      ],
+      "source": "SI PDF S76-80 section9.2; main PDF p3-5",
+      "physical_quantities": [
+        "source-reported triplet gap; robust ordering above catalyst A59.8/B61.8 kcal/mol"
+      ],
+      "model": "full65-atom neutral2a, charge0 singlet and charge0 triplet",
+      "method": "M06-2X/def2-SVP optimization/frequency, wB97XD/aug-cc-pVTZ CPCM(CH2Cl2) single point",
+      "reference": "Same neutral composition; optimized-state singlet/triplet difference; source exact electronic/thermal assembly must be audited",
+      "existing_evidence": "Main73.9 and SI74.1 quoted values; published source structures/SCF labels. These are not independently validated logs.",
+      "missing_evidence": "Source clarification of displayed energies versus quoted gaps; then native paired source-level single points/geometry-state checks, reusing any existing valid stages.",
+      "prerequisite_definition": "Resolve exact energy combination before quantitative reference replay; do not select a target by closeness, insert an invented thermal correction or convert source ambiguity into a blind job request. This definition gap does not remove the author qualitative energy-transfer discrimination.",
+      "can_compute_immediately": false,
+      "necessary_native_success_markers": [
+        "Native Normal termination, completed optimization, all expected frequencies (189 for65 atoms), zero imaginary modes for a minimum",
+        "Explicit charge/multiplicity and complete graph; SCF/state consistency",
+        "Same geometry hashes for low geometry/frequency and high single point; matching own thermal terms",
+        "Extraction locations and native SHA256 preserved; platform status alone is insufficient",
+        "Document spin/excitation definition and each uncorrected energy term; assess whether gap ordering is robust"
+      ],
+      "numeric_acceptance": "Exact73.9/74.1 excluded from active numeric scoring; no tolerance."
+    },
+    {
+      "id": "first_rearrangement_requalification",
+      "score_ids": [
+        "first_rearrangement"
+      ],
+      "source": "Main PDF p7 Scheme8; SI S80-88 SchemeS6/coordinates",
+      "physical_quantities": [
+        "G(TS1)-G([2a]radicalcation)=+1.9 kcal/mol",
+        "Int1 relative energy-8.0 kcal/mol (context)"
+      ],
+      "model": "full65-atom+1 doublet for initial, TS1 andInt1",
+      "method": "(U)B3LYP/6-31G(d) gas geometry/frequency; wB97XD/def2-TZVPP SMD(CH2Cl2) same-geometry single point; low RRHO298K/1atm; no extra D3 or fitted method",
+      "reference": "TS1 minus its genuinely connected initial basin; never a cross-conformer low/high energy mixture",
+      "existing_evidence": {
+        "status": "MISMATCH",
+        "finding": "TS1负向最低点的匹配高SP完成，正负两端均有65原子、+1双重态、189正模式和各自高SP。负端与正端复合自由能差−9.885257 kcal/mol；负端与来源Int1是同连接不同构象。按298K两端自身热项组装的第一步差仍为−1.219030，对来源+1.9反号。中性3a的匹配高SP也完成，E=−1381.77339413 Eh，Gcorr=0.492921 Eh，G=−1381.28047313 Eh；中性单重态与当前3a图一致。",
+        "remaining": "来源+1.9未恢复；负端与来源Int1重原子RMSD=1.070495 Å，不能把不同构象热项/高SP拼接。已完成有限两盆地恢复，不再重复同一问题。",
+        "evidence_files": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/bn_recomputed.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/identity_and_IRC_joins.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/neutral_product_gate_correction.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/new_BN_minima_application_review.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/new_BN_endpoint_energy_review.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/progress_1110_BN_endpoints.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/progress_1110_BN_neutral_product.json"
+        ]
+      },
+      "missing_evidence": "Source-method/conformer explanation of signed mismatch; scientifically qualified connected source-equivalent basin. Finite plus/minus basin recovery and highSPs already completed.",
+      "prerequisite_definition": "Read prior native analyses first; repeated displacement/minimum/highSP jobs are not authorized by this delta. Only identify a genuinely missing author-route stage after diagnosis; keep unresolved if no supported correction exists.",
+      "can_compute_immediately": false,
+      "necessary_native_success_markers": [
+        "Native Normal termination, completed optimization, all expected frequencies (189 for65 atoms), zero imaginary modes for a minimum",
+        "Explicit charge/multiplicity and complete graph; SCF/state consistency",
+        "Same geometry hashes for low geometry/frequency and high single point; matching own thermal terms",
+        "Extraction locations and native SHA256 preserved; platform status alone is insufficient",
+        "One reaction-relevant imaginary mode and actual two-sided connection; positive source barrier not recovered by absolute value"
+      ],
+      "numeric_acceptance": "Source+1.9 kept, manual comparison; no new tolerance."
+    },
+    {
+      "id": "second_rearrangement_requalification",
+      "score_ids": [
+        "second_rearrangement"
+      ],
+      "source": "SI S80-93 SchemeS6",
+      "physical_quantities": [
+        "G(TS2)-G(Int1)=4.6 kcal/mol"
+      ],
+      "model": "full65-atom+1 doublet Int1, TS2, C4-connectedInt2",
+      "method": "(U)B3LYP/6-31G(d) gas geometry/frequency; wB97XD/def2-TZVPP SMD(CH2Cl2) same-geometry single point; low RRHO298K/1atm; no extra D3 or fitted method",
+      "reference": "Local precedingInt1, not initial radical cation; sourceTS2=-3.4 is a different reference",
+      "existing_evidence": {
+        "status": "PARTIAL",
+        "finding": "TS2局部节点差4.574770，落在原有4.6±1.5范围。原生IRC两向60/100点与两个最低点初始几何逐一零误差接合；返回Int1和C4产物图。",
+        "remaining": "Int1侧重原子RMSD0.00518Å，低层差−0.000816；C4另一端比来源Int2高2.823121，不能称同一来源构象/完整复合剖面。可建议升级局部连接证据，整体仍未通过。",
+        "evidence_files": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/bn_recomputed.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/identity_and_IRC_joins.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/neutral_product_gate_correction.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/new_BN_minima_application_review.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/new_BN_endpoint_energy_review.json"
+        ]
+      },
+      "missing_evidence": "Conformer qualification of the joined C4 endpoint and source composite profile; do not erase real IRC evidence.",
+      "prerequisite_definition": "Review 60/100-point IRC joins and matched endpoint logs before deciding if any new stage is necessary. Alternative product conformer is not automatically a wrong graph, but cannot use another conformer's thermal terms.",
+      "can_compute_immediately": false,
+      "necessary_native_success_markers": [
+        "Native Normal termination, completed optimization, all expected frequencies (189 for65 atoms), zero imaginary modes for a minimum",
+        "Explicit charge/multiplicity and complete graph; SCF/state consistency",
+        "Same geometry hashes for low geometry/frequency and high single point; matching own thermal terms",
+        "Extraction locations and native SHA256 preserved; platform status alone is insufficient",
+        "One imaginary mode; reuse candidate-specific genuine IRC and minima joins"
+      ],
+      "numeric_acceptance": "Existing numeric rule4.6 +/-1.5 kcal/mol unchanged."
+    },
+    {
+      "id": "selectivity_completion",
+      "score_ids": [
+        "selectivity"
+      ],
+      "source": "SI S81 SchemeS7 and S94-102 coordinates; mainp7",
+      "physical_quantities": [
+        "TS-A+6.3, Int-A+1.0, TS-B+5.3 kcal/mol relative to [2a]radicalcation",
+        "C4 pathway preferred over the connected C5 competitor"
+      ],
+      "model": "complete65-atom+1 doublet C4 and C5 pathways",
+      "method": "(U)B3LYP/6-31G(d) gas geometry/frequency; wB97XD/def2-TZVPP SMD(CH2Cl2) same-geometry single point; low RRHO298K/1atm; no extra D3 or fitted method",
+      "reference": "Common [2a]radicalcation reference; local barriers separately identified",
+      "existing_evidence": {
+        "status": "PARTIAL",
+        "finding": "竞争TS-A相对起点6.264584，来源6.3；其100/100点IRC两向均精确接合真实端点，反向回到起点图。",
+        "remaining": "第一条C4入口仍反号/未闭合；竞争正向端为不同环连接，来源IntA/TS-B后续尚未完整重组，不可据两个标量证明C4选择性。",
+        "evidence_files": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/bn_recomputed.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/identity_and_IRC_joins.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/neutral_product_gate_correction.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/new_BN_minima_application_review.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/new_BN_endpoint_energy_review.json"
+        ]
+      },
+      "missing_evidence": "SourceIntA/TS-B/downstream competitor qualification and complete comparison to a qualified C4 entry.",
+      "prerequisite_definition": "Inventory existing competitor logs and the real100/100-point TS-A IRC first; compute only absent author-reported nodes/connections. Do not repeat verified entrance stages or invent side branches.",
+      "can_compute_immediately": false,
+      "necessary_native_success_markers": [
+        "Native Normal termination, completed optimization, all expected frequencies (189 for65 atoms), zero imaginary modes for a minimum",
+        "Explicit charge/multiplicity and complete graph; SCF/state consistency",
+        "Same geometry hashes for low geometry/frequency and high single point; matching own thermal terms",
+        "Extraction locations and native SHA256 preserved; platform status alone is insufficient",
+        "One imaginary mode per saddle and genuine endpoint joins; complete common-reference comparisons"
+      ],
+      "numeric_acceptance": "Manual source comparison; no new source6.3/5.3 windows or experimental product-ratio target."
+    },
+    {
+      "id": "neutral_endpoint_balance",
+      "score_ids": [
+        "endpoint_balance"
+      ],
+      "source": "Mainp7 Scheme8B; SI S82-93 neutral2a/Int2/PDT",
+      "physical_quantities": [
+        "Neutral2a and3a identities, formula65 atoms; Int2+e- ->3a; net neutral substrate-to-product atom/electron account"
+      ],
+      "model": "2a0/1, Int2+1/2,3a0/1; PC+B/PF6 only for stoichiometric bookkeeping",
+      "method": "Reuse validated neutral3a low/high pair and Int2 identities; neutral starting identities are also covered in redox source work",
+      "reference": "Balanced stoichiometry, not an unreferenced difference between charged and neutral energies",
+      "existing_evidence": {
+        "status": "PARTIAL",
+        "finding": "中性3a低层频率和缺失高SP已成匹配对：65原子、0/1、189正模式，当前公开结构重原子RMSD=0.020682 Å，三种距离图阈值均全图同构。Int2(+1,2)+e−→3a(0,1)的元素与电荷配平明确。",
+        "remaining": "中性终点计算缺口已关闭；电子化学势缺失，不能报告绝对还原ΔG或声称完整光氧化还原循环已验证。",
+        "evidence_files": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/bn_recomputed.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/identity_and_IRC_joins.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/neutral_product_gate_correction.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/new_BN_minima_application_review.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/new_BN_endpoint_energy_review.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/progress_1110_BN_endpoints.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/analysis/progress_1110_BN_neutral_product.json"
+        ]
+      },
+      "missing_evidence": "Connect newly included neutral-start identity to the existing computed endpoints; review actual catalyst charges. No missing neutral3a single point remains.",
+      "prerequisite_definition": "The old note asking for an electron chemical potential is outside this bounded scoring target; do not submit catalyst SET/back-SET or invent an electron reservoir.",
+      "can_compute_immediately": false,
+      "necessary_native_success_markers": [
+        "Native Normal termination, completed optimization, all expected frequencies (189 for65 atoms), zero imaginary modes for a minimum",
+        "Explicit charge/multiplicity and complete graph; SCF/state consistency",
+        "Same geometry hashes for low geometry/frequency and high single point; matching own thermal terms",
+        "Extraction locations and native SHA256 preserved; platform status alone is insufficient",
+        "Reuse neutral3a E=-1381.77339413 Eh,Gcorr=0.492921 Eh from matched logs; do not recompute them or make them new numeric targets"
+      ],
+      "numeric_acceptance": "Identity/state/stoichiometry semantic result, no absolute SET energy gate."
+    }
+  ],
+  "global_instructions": [
+    "No quantum jobs executed during implementation.",
+    "Reuse completed native evidence before considering a missing stage.",
+    "Never change author targets/tolerance to accommodate verification failures.",
+    "No new reference calculations outside author sections9.1-9.3."
+  ]
+}

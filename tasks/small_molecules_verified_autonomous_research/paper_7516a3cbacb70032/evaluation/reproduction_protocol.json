@@ -1,0 +1,114 @@
+{
+  "paper_id": "paper_7516a3cbacb70032",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_formation_explanation",
+      "r_ligand_promotion",
+      "r_helicity_explanation",
+      "r_kinetic_distinction"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Explain how the specified Ir(III)-catalyzed annulation of 3-(phenanthren-4-yl)-1H-indazole with diphenylacetylene forms the diaza[6]helicene, how the axially chiral nitrile–phosphine oxide ligand influences helicity, and how stereochemical selection relates to the relative kinetic difficulty of product formation. This is an explanation task: the observed product connectivity and M helicity are given facts.",
+  "active_rule_ids": [
+    "r_formation_explanation",
+    "r_ligand_promotion",
+    "r_helicity_explanation",
+    "r_kinetic_distinction"
+  ],
+  "current_outcome_ids": [
+    "formation_explanation",
+    "ligand_promotion",
+    "helicity_explanation",
+    "kinetic_distinction"
+  ],
+  "historical_record": {
+    "guidance_markdown": "## Author-provided scientific guidance\n\nThis block discloses the author baseline for execution and critical assessment; it does not change the shared scientific question, inputs, deliverables or scoring allocation.\n\n### Author-performed reaction account\n\nDensity functional theory (DFT) calculations were performed to gain deeper mechanistic insights into the reaction (Figure 7). The active catalyst I is initially generated from [ \\mathrm { C p } ^ { * t \\bar { \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } and AgOTf. In the absence of the chiral ligand (gray pathway), substrate 1a coordinates to the iridium center in I to form intermediate INT-1a, stabilized by a hydrogen bond with a triflate anion. Subsequently, INT-1a undergoes a CMD process assisted by another triflate molecule, yielding the cyclometalated complex III-1a. In the presence of chiral nitrile ligand L1 (blue pathway), the mechanism diverges. Both INT-L1 (with L1 coordinated first) and INT-1a (with 1a coordinated first) may form initially. These species readily equilibrate to a more stable cationic intermediate II-1a-L1 via facile dissociation of one triflate anion. Subsequent enantio-determining C(sp<sup>2</sup>)−H cleavage proceeds via a CMD transition state, where the phosphine oxide moiety of L1 acts as a key Lewis base instead of the triflate anion. The free energy barrier for the C−H cleavage leading to the (M)-configured product via TSII-(M)-L1 is 16.4 kcal·mol<sup>−1</sup>, which is 1.7 kcal·mol<sup>−1</sup> lower than that for the (P)- pathway (18.1 kcal·mol<sup>−1</sup> for TSII-(P)-L1; Figure 7b). This enantioselectivity is attributed to enhanced hydrogen-bonding interactions among the triflate anion, the chiral ligand, and substrate 1a in the favored transition state. The free energies of subsequent steps were also calculated (see Figure S2 in the Supporting Information). The barrier for the alkyne insertion step is indeed lower than that for C−H activation, consistent with previous mechanistic studies. In addition, reductive elimination is likely to be the rate-determining step.\n\n### Molecular models and boundaries\n\nThe depicted pre-C–H molecular model I contains one Ir center, the full tert-butyl/tetramethyl Cp fragment and two triflate groups; the one-triflate fragment is labelled I+. The common ligand/substrate-bound model II-1a-L1 contains the full supplied substrate and full nitrile–phosphine oxide ligand together with one triflate, with nitrile-N and substrate-N coordination as depicted. These selected pre-C–H molecular models do not retain the experimental chloride-bridged precursor dimer, chloride ligands or explicit water molecules; dichloromethane is represented through the reported solvation model. Silver-containing ligand capture is included in the downstream comparison. These are the author-selected molecular boundaries, not evidence for computed chloride-abstraction or water-additive kinetics, and unspecified Gaussian charge/multiplicity input lines must not be represented as reported settings.\n\n### Quantum-chemical route\n\nAll the quantum chemical calculations were carried out with the Gaussian 1 6 ^ { 9 } package. Optimizations of the geometries of minima and transition states (TSs) were carried out at the \\mathrm { P B E 0 – D 3 ( B J ) ^ { 1 0 , 1 1 } } / 6 \\mathrm { - } 3 1 \\mathrm { G ( d , p ) ^ { 1 2 } } \\mathrm { - } \\mathrm { S D D ( I r , A g ) ^ { 1 3 - 1 5 } } level of theory. Frequency calculations were performed at the same level to ensure their nature as minimal (no imaginary frequency) or transition states (only one imaginary frequency). The single point energy calculations were performed at the \\mathrm { P B E 0 - D 3 ( B J ) } / 6 - 3 1 1 \\mathrm { + + } \\mathrm { G ( d , p ) } \\mathrm { - } \\mathrm { S D D } ( \\mathrm { I r } , \\mathbf { A g } ) level of theory to obtain more accurate electronic energies, \\mathrm { S M D } ^ { 1 6 } solvation model was used to account for the solvation effects of dichloromethane (DCM), which were used in the corresponding experiments. Grimme’s quasi-RRHO correction<sup>17</sup> for the frequencies that are below 1 0 0 \\mathrm { c m } ^ { - 1 } and concentration correction from 1 atm to 1 mol/L were implemented by GoodVibes 3.2<sup>18</sup>. The 3D plots for the molecules were created with CYLview 2 0 ^ { 1 9 }\n\n### Association comparison\n\nAs shown in Figure S2, for initial transformation of \\mathrm { I r } ^ { \\mathrm { I I I } } species I, either coordination of 1a or L1 to Ir center followed with dissociation of one [OTf]<sup>-</sup> giving intermediate II-1a-L1 is feasible process, which is strongly exergonic by 29.5 kcal/mol.\n\n### Depicted pre-selection model values\n\nThe original profiles label I at 0.0, I+ at 12.7, INT-1a at −20.0, INT-L1 at −17.7, INT-1a+ at −8.4, INT-L1+ at −8.1, INT-L1-1a at 0.0 and II-1a-L1 at −29.5 kcal/mol. The ligand-free TS-1a activation label is ΔG‡ = 22.5 kcal/mol. These are the depicted molecular association/triflate-loss and C–H comparisons; no chloride-abstraction transition state or precursor activation-release rate is reported by this profile.\n\n### Connected downstream investigation\n\nThe Figure S2 continuation is the (M) branch. It depicts ligand capture in an AgOTf/alkyne-containing comparison as L1AgOTf·HOTf and shows III-(M) → III-(M)+ → IV-(M) → TSIV-(M) → V-(M) → TSV-(M) → VI-(M). The printed activation labels are ΔG‡ = 14.1 kcal/mol for the alkyne-insertion comparison and ΔG‡ = 25.6 kcal/mol for the reductive-elimination comparison. The printed levels are III-(M) −26.1, III-(M)+ −33.2, IV-(M) −31.0, TSIV-(M) −19.1, V-(M) −45.9, TSV-(M) −20.3 and VI-(M) −28.7 kcal/mol. These values are transcribed from the original figure, not recalculated from rounded thermal data.\n\n### Interpretive limits and reporting ambiguities\n\nThe author describes reductive elimination as likely rate-determining. That interpretation concerns the selected molecular downstream profile, not a reported fitted microkinetic turnover law. The displayed VI-(M) endpoint remains Ir-associated and contains NH; it is not an optimized geometry of the isolated neutral product or a complete regeneration cycle. The inspected method and thermal-data pages do not specify Gaussian charge/multiplicity input lines, the thermochemical temperature, an IRC protocol or uncertainty bars. The thermal table is rounded and its INT-L1-1a E entry (−5194.520) is anomalous beside EsPC (−5192.202); preserve this ambiguity rather than silently repairing source values. Report any necessary assumptions or scientifically justified substitutions and assess conclusions within those limits.",
+    "statements": [
+      {
+        "protocol_id": "AP_MECHANISM",
+        "statement": "Density functional theory (DFT) calculations were performed to gain deeper mechanistic insights into the reaction (Figure 7). The active catalyst I is initially generated from [ \\mathrm { C p } ^ { * t \\bar { \\mathrm { B u } } } \\mathrm { I r } \\mathrm { C l } _ { 2 } ] _ { 2 } and AgOTf. In the absence of the chiral ligand (gray pathway), substrate 1a coordinates to the iridium center in I to form intermediate INT-1a, stabilized by a hydrogen bond with a triflate anion. Subsequently, INT-1a undergoes a CMD process assisted by another triflate molecule, yielding the cyclometalated complex III-1a. In the presence of chiral nitrile ligand L1 (blue pathway), the mechanism diverges. Both INT-L1 (with L1 coordinated first) and INT-1a (with 1a coordinated first) may form initially. These species readily equilibrate to a more stable cationic intermediate II-1a-L1 via facile dissociation of one triflate anion. Subsequent enantio-determining C(sp<sup>2</sup>)−H cleavage proceeds via a CMD transition state, where the phosphine oxide moiety of L1 acts as a key Lewis base instead of the triflate anion. The free energy barrier for the C−H cleavage leading to the (M)-configured product via TSII-(M)-L1 is 16.4 kcal·mol<sup>−1</sup>, which is 1.7 kcal·mol<sup>−1</sup> lower than that for the (P)- pathway (18.1 kcal·mol<sup>−1</sup> for TSII-(P)-L1; Figure 7b). This enantioselectivity is attributed to enhanced hydrogen-bonding interactions among the triflate anion, the chiral ligand, and substrate 1a in the favored transition state. The free energies of subsequent steps were also calculated (see Figure S2 in the Supporting Information). The barrier for the alkyne insertion step is indeed lower than that for C−H activation, consistent with previous mechanistic studies. In addition, reductive elimination is likely to be the rate-determining step.",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000070_cac4d33409ec"
+        ]
+      },
+      {
+        "protocol_id": "AP_MOLECULAR_MODELS",
+        "statement": "The depicted pre-C–H molecular model I contains one Ir center, the full tert-butyl/tetramethyl Cp fragment and two triflate groups; the one-triflate fragment is labelled I+. The common ligand/substrate-bound model II-1a-L1 contains the full supplied substrate and full nitrile–phosphine oxide ligand together with one triflate, with nitrile-N and substrate-N coordination as depicted. These selected pre-C–H molecular models do not retain the experimental chloride-bridged precursor dimer, chloride ligands or explicit water molecules; dichloromethane is represented through the reported solvation model. Silver-containing ligand capture is included in the downstream comparison. These are the author-selected molecular boundaries, not evidence for computed chloride-abstraction or water-additive kinetics, and unspecified Gaussian charge/multiplicity input lines must not be represented as reported settings.",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000070_cac4d33409ec",
+          "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+          "ev_doc_86333f5a9e46_000529_e7dbe55b1020",
+          "ev_doc_86333f5a9e46_000531_7b23d920f01d",
+          "pdf-page-doc_0f676ddde554-p7",
+          "pdf-page-doc_86333f5a9e46-p66"
+        ]
+      },
+      {
+        "protocol_id": "AP_COMPUTATIONAL_METHOD",
+        "statement": "All the quantum chemical calculations were carried out with the Gaussian 1 6 ^ { 9 } package. Optimizations of the geometries of minima and transition states (TSs) were carried out at the \\mathrm { P B E 0 – D 3 ( B J ) ^ { 1 0 , 1 1 } } / 6 \\mathrm { - } 3 1 \\mathrm { G ( d , p ) ^ { 1 2 } } \\mathrm { - } \\mathrm { S D D ( I r , A g ) ^ { 1 3 - 1 5 } } level of theory. Frequency calculations were performed at the same level to ensure their nature as minimal (no imaginary frequency) or transition states (only one imaginary frequency). The single point energy calculations were performed at the \\mathrm { P B E 0 - D 3 ( B J ) } / 6 - 3 1 1 \\mathrm { + + } \\mathrm { G ( d , p ) } \\mathrm { - } \\mathrm { S D D } ( \\mathrm { I r } , \\mathbf { A g } ) level of theory to obtain more accurate electronic energies, \\mathrm { S M D } ^ { 1 6 } solvation model was used to account for the solvation effects of dichloromethane (DCM), which were used in the corresponding experiments. Grimme’s quasi-RRHO correction<sup>17</sup> for the frequencies that are below 1 0 0 \\mathrm { c m } ^ { - 1 } and concentration correction from 1 atm to 1 mol/L were implemented by GoodVibes 3.2<sup>18</sup>. The 3D plots for the molecules were created with CYLview 2 0 ^ { 1 9 }",
+        "evidence_ids": [
+          "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+          "pdf-page-doc_86333f5a9e46-p65"
+        ]
+      },
+      {
+        "protocol_id": "AP_ASSOCIATION",
+        "statement": "As shown in Figure S2, for initial transformation of \\mathrm { I r } ^ { \\mathrm { I I I } } species I, either coordination of 1a or L1 to Ir center followed with dissociation of one [OTf]<sup>-</sup> giving intermediate II-1a-L1 is feasible process, which is strongly exergonic by 29.5 kcal/mol.",
+        "evidence_ids": [
+          "ev_doc_86333f5a9e46_000522_07d9ffb12bbc",
+          "ev_doc_86333f5a9e46_000524_47ccb6385beb",
+          "pdf-page-doc_86333f5a9e46-p66"
+        ]
+      },
+      {
+        "protocol_id": "AP_PRE_SELECTION_PROFILE",
+        "statement": "The original profiles label I at 0.0, I+ at 12.7, INT-1a at −20.0, INT-L1 at −17.7, INT-1a+ at −8.4, INT-L1+ at −8.1, INT-L1-1a at 0.0 and II-1a-L1 at −29.5 kcal/mol. The ligand-free TS-1a activation label is ΔG‡ = 22.5 kcal/mol. These are the depicted molecular association/triflate-loss and C–H comparisons; no chloride-abstraction transition state or precursor activation-release rate is reported by this profile.",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000066_96725ab51fb3",
+          "ev_doc_86333f5a9e46_000524_47ccb6385beb",
+          "ev_doc_0f676ddde554_000070_cac4d33409ec",
+          "pdf-page-doc_0f676ddde554-p7",
+          "pdf-page-doc_86333f5a9e46-p66"
+        ]
+      },
+      {
+        "protocol_id": "AP_DOWNSTREAM_MODEL",
+        "statement": "The Figure S2 continuation is the (M) branch. It depicts ligand capture in an AgOTf/alkyne-containing comparison as L1AgOTf·HOTf and shows III-(M) → III-(M)+ → IV-(M) → TSIV-(M) → V-(M) → TSV-(M) → VI-(M). The printed activation labels are ΔG‡ = 14.1 kcal/mol for the alkyne-insertion comparison and ΔG‡ = 25.6 kcal/mol for the reductive-elimination comparison. The printed levels are III-(M) −26.1, III-(M)+ −33.2, IV-(M) −31.0, TSIV-(M) −19.1, V-(M) −45.9, TSV-(M) −20.3 and VI-(M) −28.7 kcal/mol. These values are transcribed from the original figure, not recalculated from rounded thermal data.",
+        "evidence_ids": [
+          "ev_doc_86333f5a9e46_000524_47ccb6385beb",
+          "ev_doc_0f676ddde554_000070_cac4d33409ec",
+          "ev_doc_86333f5a9e46_000527_28b34224851c",
+          "pdf-page-doc_86333f5a9e46-p66"
+        ]
+      },
+      {
+        "protocol_id": "AP_BOUNDARIES_AND_AMBIGUITIES",
+        "statement": "The author describes reductive elimination as likely rate-determining. That interpretation concerns the selected molecular downstream profile, not a reported fitted microkinetic turnover law. The displayed VI-(M) endpoint remains Ir-associated and contains NH; it is not an optimized geometry of the isolated neutral product or a complete regeneration cycle. The inspected method and thermal-data pages do not specify Gaussian charge/multiplicity input lines, the thermochemical temperature, an IRC protocol or uncertainty bars. The thermal table is rounded and its INT-L1-1a E entry (−5194.520) is anomalous beside EsPC (−5192.202); preserve this ambiguity rather than silently repairing source values. Report any necessary assumptions or scientifically justified substitutions and assess conclusions within those limits.",
+        "evidence_ids": [
+          "ev_doc_0f676ddde554_000070_cac4d33409ec",
+          "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+          "ev_doc_86333f5a9e46_000527_28b34224851c",
+          "ev_doc_86333f5a9e46_000524_47ccb6385beb",
+          "ev_doc_86333f5a9e46_000596_e2e03feb6b8a",
+          "pdf-page-doc_86333f5a9e46-p65",
+          "pdf-page-doc_86333f5a9e46-p66",
+          "pdf-page-doc_86333f5a9e46-p67"
+        ]
+      }
+    ],
+    "record_role": "Private historical source/reference material; source-route statements do not create additional public tasks or scored intermediate requirements.",
+    "active_evaluation": "Only scoring_rules.json defines the V3 final outcomes and weights. Historical contract decisions are source-qualification records, not current scientific acceptance."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

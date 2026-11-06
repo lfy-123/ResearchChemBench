@@ -1,0 +1,232 @@
+{
+  "paper_id": "paper_43d74f8a469d9ad3",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_dye1_electronic_character",
+      "reference_id": "dye1_electronic_character",
+      "type": "semantic",
+      "expected": "Actual transition-orbital, density or equivalent evidence assigns dye1 low-energy absorption to the conjugated molecular pi electronic system, identifying participating imine/aromatic/organoboron framework rather than asserting causality from a near wavelength alone. An unchanged connectivity file or orbital-gap number alone is insufficient.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_dye2_electronic_character",
+      "reference_id": "dye2_electronic_character",
+      "type": "semantic",
+      "expected": "Actual transition-orbital, density or equivalent evidence assigns dye2 low-energy absorption to its correctly substituted molecular pi system and resolves the methoxy-bearing graph. The assignment must identify the relevant charge/electron redistribution rather than blindly transfer SI numbering or a peak label.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_structural_absorption_explanation",
+      "reference_id": "structural_absorption_explanation",
+      "type": "semantic",
+      "expected": "Conclude that the chemically mapped methoxy substitution changes the electronic transition distribution on the intact framework and accounts for the dye2 versus dye1 long-band blue ordering. Link actual state-character evidence with comparative energies and supplied spectra, rather than claiming that every electron donor necessarily red-shifts every band. Include both disclosed gas-phase S1 energies and oscillator strengths from actual calculations in the comparison: the baseline has a higher-energy, stronger low transition for dye2 than dye1. Explain how this electronic/intensity response relates to the substitution and keep gas roots distinct from solution maxima. All four values are supporting evidence, without separate magnitude targets.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_dye1_solvent_explanation",
+      "reference_id": "dye1_solvent_explanation",
+      "type": "semantic",
+      "expected": "For intact dye1, actual corresponding-state calculations in CHCl3 and MeOH establish differential ground/excited electronic stabilization consistent with the observed higher absorption energy in MeOH. Explain the sign using computed electronic redistribution or an equivalent solvation analysis. The supplied experimental blue direction alone earns no credit. State the model contribution and any unresolved specific-solvation effects; a two-solvent comparison does not isolate viscosity. No exact shift magnitude is imposed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_dye2_solvent_explanation",
+      "reference_id": "dye2_solvent_explanation",
+      "type": "semantic",
+      "expected": "For intact dye2, actual corresponding-state calculations in CHCl3 and MeOH establish differential ground/excited electronic stabilization consistent with the observed higher absorption energy in MeOH. Explain the sign using computed electronic redistribution or an equivalent solvation analysis. The supplied experimental blue direction alone earns no credit. State the model contribution and any unresolved specific-solvation effects; a two-solvent comparison does not isolate viscosity. No exact shift magnitude is imposed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_relative_vs_absolute_optical_account",
+      "reference_id": "relative_vs_absolute_optical_account",
+      "type": "semantic",
+      "expected": "Use quantitative calculations-versus-measured-band comparisons to conclude exactly what the molecular model explains: the source baseline supports relative state/solvent trends while it does not by itself quantitatively reconstruct the observed absolute solution absorption. Identify the actual residuals and appropriate vertical/solution distinctions; no fitted wavelength offset or favorable root switching establishes absolute agreement. A demonstrably improved physically justified model may establish more, but unsupported claims that the source baseline fits all peaks fail.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "dye1_electronic_character",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Dye1 low-energy absorption has electronic transition support",
+      "rule_ids": [
+        "r_dye1_electronic_character"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "dye2_electronic_character",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Dye2 low-energy absorption has electronic transition support",
+      "rule_ids": [
+        "r_dye2_electronic_character"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "structural_absorption_explanation",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Intact-dye electronic structure explains the relative long-band order",
+      "rule_ids": [
+        "r_structural_absorption_explanation"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "dye1_solvent_explanation",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Computed differential-solvation explanation for dye1",
+      "rule_ids": [
+        "r_dye1_solvent_explanation"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "dye2_solvent_explanation",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Computed differential-solvation explanation for dye2",
+      "rule_ids": [
+        "r_dye2_solvent_explanation"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "relative_vs_absolute_optical_account",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Relative electronic response is distinct from absolute band reconstruction",
+      "rule_ids": [
+        "r_relative_vs_absolute_optical_account"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_si",
+        "verification_reference"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

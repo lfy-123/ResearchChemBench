@@ -1,0 +1,247 @@
+{
+  "paper_id": "paper_ef26687d63a37e29",
+  "evidence": [
+    {
+      "evidence_id": "paper_main",
+      "source": {
+        "path": "papers/paper_ef26687d63a37e29/documents/main.pdf",
+        "sha256": "bf0ec692ef2eec7d4342ed722884bcabb2137396dcb3fc6c6a867eed7f62b0b8",
+        "pdf_pages_1based": [
+          8,
+          9,
+          10
+        ]
+      },
+      "scope": "Fig6 p8 contains P charges and interaction geometries; p10 distinguishes O-P/H contacts, source H populations and TFPO/ethoxide experiments. p9 supplies contiguous mechanistic context."
+    },
+    {
+      "evidence_id": "paper_si",
+      "source": {
+        "path": "papers/paper_ef26687d63a37e29/documents/supplementary_001.pdf",
+        "sha256": "bc6f2dea0dc2ca97f7ae56c8bdda09c32be5fd0656a670db51c46cf023cebf96",
+        "pdf_pages_1based": [
+          4,
+          5,
+          11,
+          12,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ]
+      },
+      "scope": "Methods pp4–5 define B3LYP/D3BJ and ADCH; Figs S10–S12 probe NMR data pp11–12; source molecular coordinates pp35–40 include the incomplete PA block."
+    },
+    {
+      "evidence_id": "verification_history",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_ef26687d63a37e29/evaluation/verified_computation_reference.md",
+        "sha256": "67f26423ae1cbdd8739c30e99d47af97c469e6e316299576e0940136ab8c42cd"
+      },
+      "scope": "Historical computational provenance, not author targets or new validation."
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_contact_reorganization",
+      "r_charge_separated_electrostatics",
+      "r_epoxide_association_role",
+      "r_chain_end_association_role"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "PA替代PO后的局部结构/接触变化；两距离为证据",
+      "rule_id": "r_contact_reorganization",
+      "conclusion_id": "contact_reorganization",
+      "independence": "几何接触网络不同于空间电势和反应探针角色。",
+      "source_locator": "正文pp8–10 Fig6；SIpp4–5、11–12、35–40；原生free/PO/PA、PA_MEP及TFPO探针",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_ef26687d63a37e29/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W07/papers/paper_ef26687d63a37e29/cases/final_adch_baseline_reparse_20261007/run/results.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/Et3B_TFPO_minimum_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/PA_TFPO_minimum_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_MEP.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/source_probe_protocol_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/surface_export_correction_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/Et3B_TFPO_C6D6proxy_contact_pilot/a01/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/Et3B_TFPO_C6D6proxy_contact_pilot/a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/PA61_TFPO_C6D6proxy_contact_pilot/a01/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/PA61_TFPO_C6D6proxy_contact_pilot/a01/input.com"
+      ],
+      "existing_support": "PO/PA O–P=1.829262/2.652210 Å；P-ADCH=−0.01900749/0.44705269/0.45568970 e；H图和带符号ESP支持局部重组及静电分离，探针支持有限关联。",
+      "limits": [
+        "已删除五个中间标量独立得分，原来“固定ADCH/距离30分限制解释”设计争议已解决；所要求数值仍作为证据报告，不强制用它们替代等效电子解释。",
+        "来源PA坐标51原子缺C6H4；完整61原子重建保留，落近作者值不证明唯一源几何恢复。源选定H电荷标签未唯一映射；P–N–CH2–CH3连接与源文字不一致保留。",
+        "ESP不是电子密度；TFPO探针频率链位移残差保留。现有局部接触/静电没有结合G、NMR或开环/回咬势垒，不证明速率提升或长链稳定幅度。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "previous_rule_ids": [
+        "r_contact_reorganization",
+        "r_po_op",
+        "r_pa_op"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "局部电子相互作用；三ADCH及ESP为证据",
+      "rule_id": "r_charge_separated_electrostatics",
+      "conclusion_id": "charge_separated_electrostatics",
+      "independence": "静电分布不从距离直接导出，也不自动证明探针作用。",
+      "source_locator": "正文pp8–10 Fig6；SIpp4–5、11–12、35–40；原生free/PO/PA、PA_MEP及TFPO探针",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_ef26687d63a37e29/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W07/papers/paper_ef26687d63a37e29/cases/final_adch_baseline_reparse_20261007/run/results.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/Et3B_TFPO_minimum_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/PA_TFPO_minimum_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_MEP.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/source_probe_protocol_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/surface_export_correction_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/Et3B_TFPO_C6D6proxy_contact_pilot/a01/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/Et3B_TFPO_C6D6proxy_contact_pilot/a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/PA61_TFPO_C6D6proxy_contact_pilot/a01/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/PA61_TFPO_C6D6proxy_contact_pilot/a01/input.com"
+      ],
+      "existing_support": "PO/PA O–P=1.829262/2.652210 Å；P-ADCH=−0.01900749/0.44705269/0.45568970 e；H图和带符号ESP支持局部重组及静电分离，探针支持有限关联。",
+      "limits": [
+        "已删除五个中间标量独立得分，原来“固定ADCH/距离30分限制解释”设计争议已解决；所要求数值仍作为证据报告，不强制用它们替代等效电子解释。",
+        "来源PA坐标51原子缺C6H4；完整61原子重建保留，落近作者值不证明唯一源几何恢复。源选定H电荷标签未唯一映射；P–N–CH2–CH3连接与源文字不一致保留。",
+        "ESP不是电子密度；TFPO探针频率链位移残差保留。现有局部接触/静电没有结合G、NMR或开环/回咬势垒，不证明速率提升或长链稳定幅度。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "previous_rule_ids": [
+        "r_charge_separated_electrostatics",
+        "r_free_p_adch",
+        "r_po_p_adch",
+        "r_pa_p_adch"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "环氧化物缔合/活化的局部贡献",
+      "rule_id": "r_epoxide_association_role",
+      "conclusion_id": "epoxide_association_role",
+      "independence": "环氧化物对象与链端氧不同，须针对性探针证据。",
+      "source_locator": "正文pp8–10 Fig6；SIpp4–5、11–12、35–40；原生free/PO/PA、PA_MEP及TFPO探针",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_ef26687d63a37e29/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W07/papers/paper_ef26687d63a37e29/cases/final_adch_baseline_reparse_20261007/run/results.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/Et3B_TFPO_minimum_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/PA_TFPO_minimum_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_MEP.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/source_probe_protocol_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/surface_export_correction_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/Et3B_TFPO_C6D6proxy_contact_pilot/a01/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/Et3B_TFPO_C6D6proxy_contact_pilot/a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/PA61_TFPO_C6D6proxy_contact_pilot/a01/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/PA61_TFPO_C6D6proxy_contact_pilot/a01/input.com"
+      ],
+      "existing_support": "PO/PA O–P=1.829262/2.652210 Å；P-ADCH=−0.01900749/0.44705269/0.45568970 e；H图和带符号ESP支持局部重组及静电分离，探针支持有限关联。",
+      "limits": [
+        "已删除五个中间标量独立得分，原来“固定ADCH/距离30分限制解释”设计争议已解决；所要求数值仍作为证据报告，不强制用它们替代等效电子解释。",
+        "来源PA坐标51原子缺C6H4；完整61原子重建保留，落近作者值不证明唯一源几何恢复。源选定H电荷标签未唯一映射；P–N–CH2–CH3连接与源文字不一致保留。",
+        "ESP不是电子密度；TFPO探针频率链位移残差保留。现有局部接触/静电没有结合G、NMR或开环/回咬势垒，不证明速率提升或长链稳定幅度。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "previous_rule_ids": [
+        "r_epoxide_association_role"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "含氧链端相互作用",
+      "rule_id": "r_chain_end_association_role",
+      "conclusion_id": "chain_end_association_role",
+      "independence": "独立链端角色，不由环氧化物探针外推。",
+      "source_locator": "正文pp8–10 Fig6；SIpp4–5、11–12、35–40；原生free/PO/PA、PA_MEP及TFPO探针",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_ef26687d63a37e29/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W07/papers/paper_ef26687d63a37e29/cases/final_adch_baseline_reparse_20261007/run/results.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/Et3B_TFPO_minimum_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/PA_TFPO_minimum_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_MEP.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PA_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/PO_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_ADCH.out",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_native.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/free_postprocessing_audit.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/source_probe_protocol_review_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/data/surface_export_correction_20260930.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/Et3B_TFPO_C6D6proxy_contact_pilot/a01/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/Et3B_TFPO_C6D6proxy_contact_pilot/a01/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/PA61_TFPO_C6D6proxy_contact_pilot/a01/gaussian.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_ef26687d63a37e29/v2_execution_20260929/outputs/PA61_TFPO_C6D6proxy_contact_pilot/a01/input.com"
+      ],
+      "existing_support": "PO/PA O–P=1.829262/2.652210 Å；P-ADCH=−0.01900749/0.44705269/0.45568970 e；H图和带符号ESP支持局部重组及静电分离，探针支持有限关联。",
+      "limits": [
+        "已删除五个中间标量独立得分，原来“固定ADCH/距离30分限制解释”设计争议已解决；所要求数值仍作为证据报告，不强制用它们替代等效电子解释。",
+        "来源PA坐标51原子缺C6H4；完整61原子重建保留，落近作者值不证明唯一源几何恢复。源选定H电荷标签未唯一映射；P–N–CH2–CH3连接与源文字不一致保留。",
+        "ESP不是电子密度；TFPO探针频率链位移残差保留。现有局部接触/静电没有结合G、NMR或开环/回咬势垒，不证明速率提升或长链稳定幅度。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "previous_rule_ids": [
+        "r_chain_end_association_role"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

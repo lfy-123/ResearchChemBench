@@ -1,0 +1,213 @@
+{
+  "paper_id": "paper_e0791c047a731974",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_sensitization_electronic_account",
+      "reference_id": "sensitization_electronic_account",
+      "type": "semantic",
+      "expected": "Explain the sensitization contrast of complete IR780+, Cy1+ and Cy2+ from actual state-resolved molecular evidence in a declared chloroform treatment. Establish each requested vertical S1/T1/T2 diagram at its own S0 minimum using matched electronic references, and use transition/density or coupling evidence to interpret relevant spatial and heavy-element involvement. The reference has greater selenium involvement in Cy2 than iodine involvement in Cy1 despite iodine's higher atomic number. This is an electronic explanation, not nine energy-matching or orbital-label checks: reported energies and physical-state correspondence substantiate it without author-value gates. Scientifically established equivalent accounts can pass when they reconcile the actual comparative response with the observed contrast. Distinguish atomic participation from calculated molecular SOC and ISC rates; different molecular frameworks preclude an otherwise-identical single-atom causal attribution. Listing energies, quoting given triplet yields or atomic-number scaling alone fails. The independent question of whether energy gaps alone explain the contrast is scored separately.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_energy_gap_explanation",
+      "reference_id": "energy_gap_explanation",
+      "type": "semantic",
+      "expected": "Actual matched vertical spectra show that Cy2 has the larger T2-S1 separation despite its larger supplied triplet yield. Thus a smaller gap alone cannot account for the observed sensitization enhancement. Quantify the relevant gaps, explain the implication and distinguish a yield from an ISC rate. This scores the cross-property explanatory inference, not the energy values a second time. A method-sensitive alternative may pass if actual matched three-sensitizer spectra and quantitative comparison establish what gap trends do or do not explain; source ordering is not a universal imposed fact. Energy proximity alone still cannot establish a molecular ISC rate or exclusive pathway.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_IR780_rubrene_matching",
+      "reference_id": "IR780_rubrene_matching",
+      "type": "semantic",
+      "expected": "Determine the conditional triplet-energy compatibility of full proper-charge IR780 and neutral rubrene in a matched chloroform molecular treatment. Calculate each molecule's electronic adiabatic T1 gap from separately relaxed valid T1 and S0 states, report both gaps and the signed donor-minus-rubrene margin, and distinguish them from vertical energies, ZPE-corrected gaps and Gibbs energies. The reference gives a positive margin, small enough that model sensitivity matters. Evaluate what the actual margin and evidence-supported sensitivity establish about energetically allowed transfer; neither source matching, window overlap nor assumed cancellation of donor/acceptor errors qualifies. A method-sensitive reversed or unresolved sign can pass only if actual matched states, comparable electronic quantities and quantitative uncertainty/sensitivity evidence establish that bounded alternative, rather than a generic warning or missing calculation. A positive molecular margin is not a transfer rate, proof of real solution transfer free energy or guarantee of upconversion efficiency. Preserve full identities, state correspondence and disclosed heavy-element/solvent treatment.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_Cy1_rubrene_matching",
+      "reference_id": "Cy1_rubrene_matching",
+      "type": "semantic",
+      "expected": "Determine the conditional triplet-energy compatibility of full proper-charge Cy1 and neutral rubrene in a matched chloroform molecular treatment. Calculate each molecule's electronic adiabatic T1 gap from separately relaxed valid T1 and S0 states, report both gaps and the signed donor-minus-rubrene margin, and distinguish them from vertical energies, ZPE-corrected gaps and Gibbs energies. The reference gives a positive margin, small enough that model sensitivity matters. Evaluate what the actual margin and evidence-supported sensitivity establish about energetically allowed transfer; neither source matching, window overlap nor assumed cancellation of donor/acceptor errors qualifies. A method-sensitive reversed or unresolved sign can pass only if actual matched states, comparable electronic quantities and quantitative uncertainty/sensitivity evidence establish that bounded alternative, rather than a generic warning or missing calculation. A positive molecular margin is not a transfer rate, proof of real solution transfer free energy or guarantee of upconversion efficiency. Preserve full identities, state correspondence and disclosed heavy-element/solvent treatment.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_Cy2_rubrene_matching",
+      "reference_id": "Cy2_rubrene_matching",
+      "type": "semantic",
+      "expected": "Determine the conditional triplet-energy compatibility of full proper-charge Cy2 and neutral rubrene in a matched chloroform molecular treatment. Calculate each molecule's electronic adiabatic T1 gap from separately relaxed valid T1 and S0 states, report both gaps and the signed donor-minus-rubrene margin, and distinguish them from vertical energies, ZPE-corrected gaps and Gibbs energies. The reference gives a positive margin, larger than the other two donors. Evaluate what the actual margin and evidence-supported sensitivity establish about energetically allowed transfer; neither source matching, window overlap nor assumed cancellation of donor/acceptor errors qualifies. A method-sensitive reversed or unresolved sign can pass only if actual matched states, comparable electronic quantities and quantitative uncertainty/sensitivity evidence establish that bounded alternative, rather than a generic warning or missing calculation. Compare all three margins under the same definition without imposing their source magnitudes. A positive molecular margin is not a transfer rate, proof of real solution transfer free energy or guarantee of upconversion efficiency. Preserve full identities, state correspondence and disclosed heavy-element/solvent treatment.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "sensitization_electronic_account",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Electronic participation underlying the sensitization contrast",
+      "rule_ids": [
+        "r_sensitization_electronic_account"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_full_xy",
+        "native_cy1_fixed",
+        "native_response"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "energy_gap_explanation",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Whether the computed gap trend alone accounts for the supplied sensitization contrast.",
+      "rule_ids": [
+        "r_energy_gap_explanation"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_response"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "IR780_rubrene_matching",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "IR780 triplet-energy compatibility with rubrene",
+      "rule_ids": [
+        "r_IR780_rubrene_matching"
+      ],
+      "evidence_ids": [
+        "main",
+        "native_response",
+        "native_endpoints",
+        "native_validity",
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "Cy1_rubrene_matching",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Cy1 triplet-energy compatibility with rubrene",
+      "rule_ids": [
+        "r_Cy1_rubrene_matching"
+      ],
+      "evidence_ids": [
+        "main",
+        "native_response",
+        "native_endpoints",
+        "native_validity",
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "Cy2_rubrene_matching",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Cy2 triplet-energy compatibility with rubrene",
+      "rule_ids": [
+        "r_Cy2_rubrene_matching"
+      ],
+      "evidence_ids": [
+        "main",
+        "native_response",
+        "native_endpoints",
+        "native_validity",
+        "si"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "paper_id": "paper_d142c9737f95225b",
+  "scoring_policy": "paper_science_v3",
+  "items": [
+    {
+      "conclusion_id": "candidate_availability",
+      "statement": "配体环境影响候选态形成和稳定",
+      "expected": "对 Me/tBu 两系列作配平的候选形成/转化及醇结合稳定性比较，得出环境影响候选可达性的结论。参考 NNS 二羰基由相应烷氧态失 tBuOH 形成 amido 的代价较 NN 三羰基小，醇加成均可稳定候选；允许支持同一物理问题的等效模型。不据不同组成总能排全溶液布居，不强制两系列内部或醇结合强度的统一细排序。仅有一个最低点或半反应势垒不回答本项；含硫 NN 不得冒充无硫 HL_0。 当前公开输入明确要求Me/tBu系列的NN/NNS配位环境比较，故保留该科学问题；NNS+2CO只是参考活性态模型，不是必须照搬的输入或唯一合格活性种。允许独立提出、计算并配平CO/质子账本的其他合理配位模型，但不能完全省略公开要求的NN/NNS比较。",
+      "required_numerical_evidence": [
+        {
+          "id": "candidate_energies",
+          "description": "Me/tBu 两系列候选形成/转化及醇结合稳定化的配平 Gibbs 能量差。",
+          "public_requirement": "Computed balanced Gibbs-energy differences for candidate formation/conversion and alcohol-binding stabilization in both Me and tBu series."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- Me/tBu 两系列候选形成/转化及醇结合稳定化的配平 Gibbs 能量差。",
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD",
+        "E_FORMATION",
+        "E_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "oxidation_ligand_effect",
+      "statement": "NN/NNS 环境对醇氧化的影响",
+      "expected": "实际且对应构型/库存的氧化过程支持两系列含硫但 S 臂游离的 NN 候选比 NNS 候选具有较低氧化活化需求，或由充分等效模型说明同一配位环境效应。须具备 H/电荷连接自洽的氧化化学，不能使用还原或无硫对照的能量代替。不要求精确势垒或 Me/tBu 谁更快。 当前公开输入明确要求Me/tBu系列的NN/NNS配位环境比较，故保留该科学问题；NNS+2CO只是参考活性态模型，不是必须照搬的输入或唯一合格活性种。允许独立提出、计算并配平CO/质子账本的其他合理配位模型，但不能完全省略公开要求的NN/NNS比较。",
+      "required_numerical_evidence": [
+        {
+          "id": "oxidation_energies",
+          "description": "Me/tBu 系列 NN/NNS 氧化的匹配 Gibbs 活化量和环境间差值。",
+          "public_requirement": "Computed matched Gibbs activation energies and coordination-environment differences for NN/NNS alcohol oxidation in the Me/tBu series."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- Me/tBu 系列 NN/NNS 氧化的匹配 Gibbs 活化量和环境间差值。",
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD",
+        "E_OX",
+        "E_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "reduction_ligand_effect",
+      "statement": "NN/NNS 环境对酮还原的影响",
+      "expected": "对实际配对的供氢态、苯乙酮及构型作还原比较，支持参考构型优选面上 NNS 比 NN 的还原活化需求较低，并说明这与氧化的配体效应不同。镜像约定可以等价换面，不能混淆构型造成假排序。不强制 R 面跨家族细排序、Me/tBu 内部排序或作者数值；需要真实氢转移/产物连接支持。 当前公开输入明确要求Me/tBu系列的NN/NNS配位环境比较，故保留该科学问题；NNS+2CO只是参考活性态模型，不是必须照搬的输入或唯一合格活性种。允许独立提出、计算并配平CO/质子账本的其他合理配位模型，但不能完全省略公开要求的NN/NNS比较。",
+      "required_numerical_evidence": [
+        {
+          "id": "reduction_energies",
+          "description": "Me/tBu 系列 NN/NNS 还原的匹配 Gibbs 活化量和环境间差值，明确供氢态/构型。",
+          "public_requirement": "Computed matched Gibbs activation energies and coordination-environment differences for NN/NNS ketone reduction in the Me/tBu series, defining donor states and configurations."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- Me/tBu 系列 NN/NNS 还原的匹配 Gibbs 活化量和环境间差值，明确供氢态/构型。",
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_RED",
+        "E_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "effective_halfcycle_control",
+      "statement": "静息态修正后的氧化控制",
+      "expected": "把实际醇结合/静息态稳定化纳入相应活化参照后，判断醇氧化是较困难的半反应，并解释为何分离反应物的 TS 高度不能直接代替稳定前体出发的有效需求。须对两半反应作有依据的比较，不只是说明存在低能态。允许等效参照模型，但不推断完整溶液群体、唯一活性物种或实验绝对速率。",
+      "required_numerical_evidence": [
+        {
+          "id": "candidate_energies",
+          "description": "Me/tBu 两系列候选形成/转化及醇结合稳定化的配平 Gibbs 能量差。",
+          "public_requirement": "Computed balanced Gibbs-energy differences for candidate formation/conversion and alcohol-binding stabilization in both Me and tBu series."
+        },
+        {
+          "id": "oxidation_energies",
+          "description": "Me/tBu 系列 NN/NNS 氧化的匹配 Gibbs 活化量和环境间差值。",
+          "public_requirement": "Computed matched Gibbs activation energies and coordination-environment differences for NN/NNS alcohol oxidation in the Me/tBu series."
+        },
+        {
+          "id": "reduction_energies",
+          "description": "Me/tBu 系列 NN/NNS 还原的匹配 Gibbs 活化量和环境间差值，明确供氢态/构型。",
+          "public_requirement": "Computed matched Gibbs activation energies and coordination-environment differences for NN/NNS ketone reduction in the Me/tBu series, defining donor states and configurations."
+        },
+        {
+          "id": "effective_barriers",
+          "description": "计入相应醇结合/静息态后的两半反应有效活化量及差值。",
+          "public_requirement": "Computed effective activation energies and their difference for the two half-reactions after the relevant alcohol-bound/resting-state references are included."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- Me/tBu 两系列候选形成/转化及醇结合稳定化的配平 Gibbs 能量差。\n- Me/tBu 系列 NN/NNS 氧化的匹配 Gibbs 活化量和环境间差值。\n- Me/tBu 系列 NN/NNS 还原的匹配 Gibbs 活化量和环境间差值，明确供氢态/构型。\n- 计入相应醇结合/静息态后的两半反应有效活化量及差值。",
+      "evidence_ids": [
+        "E_OX",
+        "E_RED",
+        "E_CYCLE",
+        "E_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "microscopic_stereopreference",
+      "statement": "固定催化剂构型的微观立体偏好",
+      "expected": "实际匹配的两面反应及完整构型映射支持固定参考催化剂构型偏 S；若选择镜像催化剂，对应 R 偏好属于物理等价。须清楚交代所研究 Me/tBu 催化形式及产物构型，不能只算一面后猜测另一面或从作者标签推断。不要求作者 ΔΔG 数字；此项仅为微观偏好，不给宏观 ee 结论。",
+      "required_numerical_evidence": [
+        {
+          "id": "stereo_pair",
+          "description": "每个明确研究构型的两面还原活化量及 S/R 差值；镜像/群体推论复用这些实际数值和构型映射，不要求另算完整镜像网络。",
+          "public_requirement": "Computed face-specific reduction activation energies and S/R differences for each explicitly investigated configuration. Apply these values and mappings to mirror/ensemble reasoning; no additional complete mirror-pathway calculation is required."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 每个明确研究构型的两面还原活化量及 S/R 差值；镜像/群体推论复用这些实际数值和构型映射，不要求另算完整镜像网络。",
+      "evidence_ids": [
+        "E_RED",
+        "E_CYCLE",
+        "E_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "mirror_ensemble_result",
+      "statement": "镜像群体抵消与宏观选择性界限",
+      "expected": "将本次实际计算构型和产物映射到镜像，说明两催化剂镜像交换 S/R 偏好，在其他条件无手性且镜像等布居时贡献抵消。因此不能直接把单构型偏好声称为宏观非零 ee。需要对自己的实际结果应用此推论，泛称“ee 未知”不足。不要求新跑完整镜像网络或布居计算；正确定义的对称映射即可支持这个独立群体结论。",
+      "required_numerical_evidence": [
+        {
+          "id": "stereo_pair",
+          "description": "每个明确研究构型的两面还原活化量及 S/R 差值；镜像/群体推论复用这些实际数值和构型映射，不要求另算完整镜像网络。",
+          "public_requirement": "Computed face-specific reduction activation energies and S/R differences for each explicitly investigated configuration. Apply these values and mappings to mirror/ensemble reasoning; no additional complete mirror-pathway calculation is required."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 每个明确研究构型的两面还原活化量及 S/R 差值；镜像/群体推论复用这些实际数值和构型映射，不要求另算完整镜像网络。",
+      "evidence_ids": [
+        "E_RED",
+        "E_CYCLE",
+        "E_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    }
+  ]
+}

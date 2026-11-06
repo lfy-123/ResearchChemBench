@@ -1,0 +1,27 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "PROVISIONAL_PASS_QUALITATIVE",
+  "strict_numeric_whole_pass": false,
+  "reason": "用户授权将已验收当前AR科学问题迁移为仅科学结果评分；独立验收支持当前必要定性结论，数值误差和发布判断保留给专家。该资格不等同于严格数值复现或盲测满分。",
+  "unblock_conditions": [],
+  "physical_definition": "Gaussian16 C.01；PBE0-D3BJ/6-31G(d)气相优化/频率，298.15 K、1 atm RRHO；PBE0-D3BJ/6-311+G(d,p)、SMD-DMSO/DMF同几何单点。保留来源分子模型；单点色散措辞及未公开热化学细节存在不确定性。",
+  "tolerance_policy": {
+    "numeric_rules": 0,
+    "rationale": "当前题面是解释/比较型问题，原规则没有必达数值目标。本次以明确科学命题、真实结构/电子结果和最终解释计分，不为偏差拟合宽窗。作者数值及与验证的残差保留为上下文。"
+  },
+  "publication_review_pending": [
+    "TS3局部势垒对正文高6.682461 kcal/mol；来源前配合物单点差−7.226079仍未解释，不能归因为构象松弛。",
+    "反向连接为有效IRC片段、连续继承几何的优化和最终端点，不宣称完整连续IRC。",
+    "未独立计算完整光循环、Zn溶液物种分布、离子交换、精确E/Z比或全局速率；这些不是当前必要计算。",
+    "历史PR范围较窄，保持其已有候选状态；本次只迁移当前AR整题，不自动给旧PR严格数值验收。"
+  ],
+  "verification_scope": "current_autonomous_research_scientific_question",
+  "independent_acceptance_review": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/acceptance_audit.json"
+}

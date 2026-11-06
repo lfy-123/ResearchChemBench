@@ -31,7 +31,7 @@ def ingest_file(store, path: Path, *, session_id: str, kind="native", attempt_id
     key = hashlib.sha256((kind + str(path.resolve())).encode()).hexdigest()
     with file_lock(store.directory / "usage_locks" / (key + ".lock")):
         old = store.get_record("usage_stream", key, {})
-        value = json.loads(json.dumps(old)) if old else {"session_id": session_id, "kind": kind, "offset": 0, "segments": {}, "turn_sequence": 0}
+        value = json.loads(json.dumps(old)) if old else {"session_id": session_id, "kind": "native" if kind == "claude" else kind, "offset": 0, "segments": {}, "turn_sequence": 0}
         try:
             stat = path.stat()
             with path.open("rb") as handle:
@@ -73,6 +73,32 @@ def ingest_file(store, path: Path, *, session_id: str, kind="native", attempt_id
                             value["non_event_lines"] = value.get("non_event_lines", 0) + 1
                         else:
                             value["malformed_events"] = value.get("malformed_events", 0) + 1
+                        continue
+                    if kind == "claude":
+                        if event.get("type") != "assistant" or event.get("isApiErrorMessage"):
+                            continue
+                        if event.get("sessionId") != session_id:
+                            value["identity_error"] = "Claude session metadata does not match the expected session"
+                            break
+                        message = event.get("message") or {}
+                        usage = message.get("usage") or {}
+                        if not message.get("id") or not usage:
+                            continue
+                        counts = {"input_tokens": sum(usage.get(k, 0) for k in
+                                  ("input_tokens", "cache_read_input_tokens", "cache_creation_input_tokens")),
+                                  "output_tokens": usage.get("output_tokens", 0),
+                                  "cached_input_tokens": usage.get("cache_read_input_tokens", 0),
+                                  "cache_write_input_tokens": usage.get("cache_creation_input_tokens", 0)}
+                        if any(type(n) is not int or n < 0 for n in counts.values()):
+                            value["invalid_counter"] = True
+                            continue
+                        event_id = session_id + ":" + message["id"]
+                        previous = store.get_record("usage", event_id, {})
+                        # Claude emits one record per content block. Count a
+                        # response once, retaining its final reported usage.
+                        store.put_record("usage", event_id, {"session_id": session_id, "turns": 1,
+                            **{k: max(previous.get(k, 0), n) for k, n in counts.items()}, "reported_fields": counts})
+                        value["last_event_at"] = event.get("timestamp")
                         continue
                     if kind == "stdout":
                         if event.get("type") == "turn.completed":
@@ -131,6 +157,12 @@ def ingest_file(store, path: Path, *, session_id: str, kind="native", attempt_id
                 value["backlog_bytes"] = max(0, stat.st_size - value["offset"])
         except OSError as exc:
             value["read_error"] = str(exc)
+        if kind == "claude":
+            responses = [v for v in store.records("usage").values() if v.get("session_id") == session_id]
+            value["segments"] = {"default": {k: sum(v.get(k, 0) for v in responses) for k in
+                ("input_tokens", "output_tokens", "cached_input_tokens", "cache_write_input_tokens")}}
+            value["observable_model_steps"] = len(responses)
+            value["requests_without_identity"] = True
         if value != old:
             store.put_record("usage_stream", key, value)
         return value
@@ -144,6 +176,12 @@ def refresh_usage(runner, *, force=False):
         return
     runner._last_usage_refresh = now
     store = runner_store(runner)
+    if getattr(runner, "agent", {}).get("kind") == "gemini":
+        from .gemini_adapter import refresh_usage as refresh_gemini_usage
+        return refresh_gemini_usage(runner)
+    if getattr(runner, "agent", {}).get("kind") == "claude":
+        from .claude_adapter import refresh_usage as refresh_claude_usage
+        return refresh_claude_usage(runner, force=force)
     sessions = {str(runner._resume_session_id)} if runner._resume_session_id else set()
     attempts = store.records("attempt")
     sessions.update(str(v["provider_session_id"]) for v in attempts.values() if v.get("provider_session_id"))

@@ -1,0 +1,145 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Numerical targets and existing tolerances are not adjustable. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate.",
+  "rules": [
+    {
+      "rule_id": "r_series_3_5",
+      "reference_id": "series_3_5",
+      "type": "semantic",
+      "expected": "Computed neutral LUMO energies become less negative from 3 to 4 to 5 in ACN and DMSO, corresponding to increasingly negative measured reduction potentials. Establish the trend from actual electronic-structure results; no fitted universal numerical window or absolute redox potential is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_hydroxy_departure",
+      "reference_id": "hydroxy_departure",
+      "type": "semantic",
+      "expected": "Calculated five-compound comparisons establish that the 3–5 relationship does not transfer unchanged to 1 and 2. In particular, 1 and 3 have similar computed LUMO energies but markedly different measured Epc. Include an explicitly identified model of 2; its exact source E1/E2 property-conformer assignment is unresolved and is not a scored requirement.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_acn_dmso",
+      "reference_id": "acn_dmso",
+      "type": "semantic",
+      "expected": "Comparable calculations support small ACN/DMSO changes across the series consistent with the measured weak solvent dependence. Do not demand a universal <0.004 eV cutoff: Table 4 includes a 0.005 eV difference for 5, and tiny separations need not be resolved beyond numerical precision.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_dcm_comparison",
+      "reference_id": "dcm_comparison",
+      "type": "semantic",
+      "expected": "For compound 3, the computed LUMO is stabilized in ACN/DMSO relative to DCM, consistent with the positive measured reduction-potential shift. Source LUMOs -2.508/-2.538/-2.540 eV are context, not a newly calibrated magnitude gate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_bounded_relationship",
+      "reference_id": "bounded_relationship",
+      "type": "semantic",
+      "expected": "The final answer integrates the calculated 3–5 trend, its failure to generalize to hydroxy members, and solvent comparisons into a bounded structure–reduction relationship. Using chemical knowledge and the actual computations, propose plausible hypotheses for the different cathodic peak potentials, tied to specific observations; distinguish supported findings from unresolved explanations. An enone-centered electron-addition interpretation, neutral-orbital localization, or reduced-anion spin analysis is not mandatory. Generic speculation, a claimed universal descriptor, or an unsupported absolute-potential prediction is insufficient.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "series_3_5",
+      "kind": "intermediate",
+      "max_score": 25,
+      "description": "3–5 系列的电子结构—还原趋势",
+      "rule_ids": [
+        "r_series_3_5"
+      ],
+      "evidence_ids": [
+        "main_p7_14",
+        "supplementary_001_p1_2_3_4"
+      ]
+    },
+    {
+      "id": "hydroxy_departure",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "羟基取代成员偏离共同关系",
+      "rule_ids": [
+        "r_hydroxy_departure"
+      ],
+      "evidence_ids": [
+        "main_p7_10_14"
+      ]
+    },
+    {
+      "id": "acn_dmso",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "ACN 与 DMSO 的较弱溶剂差异",
+      "rule_ids": [
+        "r_acn_dmso"
+      ],
+      "evidence_ids": [
+        "main_p7_12"
+      ]
+    },
+    {
+      "id": "dcm_comparison",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "化合物 3 的 DCM 对照趋势",
+      "rule_ids": [
+        "r_dcm_comparison"
+      ],
+      "evidence_ids": [
+        "main_p14"
+      ]
+    },
+    {
+      "id": "bounded_relationship",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "最终：有限适用的还原关系与峰电位差异假说",
+      "rule_ids": [
+        "r_bounded_relationship"
+      ],
+      "evidence_ids": [
+        "main_p12_13_14_15"
+      ]
+    }
+  ]
+}

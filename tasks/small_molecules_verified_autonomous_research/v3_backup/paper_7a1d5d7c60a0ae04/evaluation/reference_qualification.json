@@ -1,0 +1,118 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_catalyst_function",
+      "r_d4_kinetic_control",
+      "r_catalyst_selectivity_contrast",
+      "r_ring_size_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required selectivity pathways start from the supplied cyclic oxocarbenium and borohydride species. Diketone-to-cation formation, H2 activation and regeneration are not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Starting from the supplied cyclic oxocarbenium ions and triarylborohydride anions, explain catalyst-dependent cis/trans formation selectivity in the local reduction stage of hydrogenative reductive cycloetherification of D4 (1,4-diphenylbutane-1,4-dione) and D5 (1,5-diphenylpentane-1,5-dione), and its relation to product stability across ring sizes. Account for the supplied triarylborane performance comparisons using molecular evidence. This is an explanation task; the measured ratios and yields are supplied observations.",
+  "active_rule_ids": [
+    "r_catalyst_function",
+    "r_d4_kinetic_control",
+    "r_catalyst_selectivity_contrast",
+    "r_ring_size_relationship"
+  ],
+  "current_outcome_ids": [
+    "catalyst_function",
+    "d4_kinetic_control",
+    "catalyst_selectivity_contrast",
+    "ring_size_relationship"
+  ],
+  "historical_record": {
+    "paper_id": "paper_7a1d5d7c60a0ae04",
+    "scoring_policy": "paper_science_v3",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "verification_status": "V3_NOT_REASSESSED",
+    "current_scientific_question_verified": false,
+    "required_results_complete": false,
+    "required_conclusions_supported": false,
+    "strict_numeric_whole_pass": false,
+    "numeric_pass_scope": "数值和方法边界待专家，现行科学项按各自定义独立评分",
+    "expert_review_required": true,
+    "expert_review_notes": "Review D4 B-A discrimination of only 0.088814 kcal/mol, D5 cis 0.514759 cm-1 mode and product deviation +2.918602 kcal/mol, and SI S55/S64 gas/solvent geometry-heading conflict. The pure-RRHO all-positive-frequency primary values must not be replaced by closer QRRHO/cutoff values.",
+    "acceptance_decision": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_acceptance_decision.json",
+    "independent_audit": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_7a1d_audit/audit.json",
+    "release_note": "评分迁移和当前科学问题验证不自动授予出版批准；尚无专家发布裁定。",
+    "scoring_mode": "final_results_100",
+    "status": "V3_DESIGN_AND_EVIDENCE_MAPPING_COMPLETE",
+    "current_scope_verified": false,
+    "scientific_acceptance_reassessed_this_migration": false,
+    "new_quantum_validation_performed": false,
+    "new_arche_run_performed": false,
+    "historical_reference_status": {
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW"
+    },
+    "reason": "Final outcomes were mapped individually to source and existing native evidence. Historical acceptance is not inherited. See outcome_evidence_coverage and the per-paper Chinese change record.",
+    "outcome_evidence_coverage": [
+      {
+        "rule_id": "r_catalyst_function",
+        "source": "Main pp. 2–3 and 7; SI S55–S64, Tables S4/S5, structures and reaction modes S62–S63",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_7a1d_audit/native_recomputed.json",
+        "actual_evidence": "Native FIA A/B/C=467.227544/422.524396/409.296603 and HIA=516.171498/476.465751/464.085838 kJ/mol with source atomic-E convention.",
+        "coverage": "Bounded directional comparison covered; magnitude and robustness limitations remain. D4 catalyst difference is near-degenerate; D5 product entropy is soft-mode sensitive. No new computation or inherited PASS."
+      },
+      {
+        "rule_id": "r_d4_kinetic_control",
+        "source": "Main pp. 2–3 and 7; SI S55–S64, Tables S4/S5, structures and reaction modes S62–S63",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_7a1d_audit/native_recomputed.json",
+        "actual_evidence": "Pure-RRHO D4 TS trans-cis A=1.967453/B=2.056267; product=-0.206072 kcal/mol.",
+        "coverage": "Bounded directional comparison covered; magnitude and robustness limitations remain. D4 catalyst difference is near-degenerate; D5 product entropy is soft-mode sensitive. No new computation or inherited PASS."
+      },
+      {
+        "rule_id": "r_catalyst_selectivity_contrast",
+        "source": "Main pp. 2–3 and 7; SI S55–S64, Tables S4/S5, structures and reaction modes S62–S63",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_7a1d_audit/native_recomputed.json",
+        "actual_evidence": "Pure-RRHO (B gap)-(A gap)=0.088814 kcal/mol; source counterpart 1.391483.",
+        "coverage": "Bounded directional comparison covered; magnitude and robustness limitations remain. D4 catalyst difference is near-degenerate; D5 product entropy is soft-mode sensitive. No new computation or inherited PASS."
+      },
+      {
+        "rule_id": "r_ring_size_relationship",
+        "source": "Main pp. 2–3 and 7; SI S55–S64, Tables S4/S5, structures and reaction modes S62–S63",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_7a1d_audit/native_recomputed.json",
+        "actual_evidence": "Pure-RRHO D5 formation=4.389786, product=5.517269 kcal/mol; product-source deviation +2.918602; cis soft mode 0.514759 cm-1.",
+        "coverage": "Bounded directional comparison covered; magnitude and robustness limitations remain. D4 catalyst difference is near-degenerate; D5 product entropy is soft-mode sensitive. No new computation or inherited PASS."
+      }
+    ],
+    "outcome_count": 4,
+    "active_rule_ids": [
+      "r_catalyst_function",
+      "r_d4_kinetic_control",
+      "r_catalyst_selectivity_contrast",
+      "r_ring_size_relationship"
+    ],
+    "scoring_revision": "conclusion_only_20261029",
+    "active_numeric_rules": 0,
+    "binary_final_result_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+    "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+    "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+    "migration_20261029": "Scoring-contract update only. Historical scientific status, acceptance labels, evidence gaps and source/native values remain unchanged. No quantum jobs, new scientific validation or automatic promotion to strict acceptance."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "catalyst_function": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "d4_kinetic_control": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "catalyst_selectivity_contrast": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "ring_size_relationship": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

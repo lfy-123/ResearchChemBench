@@ -29,8 +29,13 @@ def preflight_external(runner) -> None:
         raise AgentConfigError(f"Required external environment variables are unset: {missing}")
 
 
-def build_external_argv(definition, request_path: Path) -> list[str]:
-    return [*definition["command"], "--request", str(request_path.absolute())]
+def build_external_argv(definition, request_path: Path, *, resume_context=None) -> list[str]:
+    result = [*definition["command"], "--request", str(request_path.absolute())]
+    if resume_context:
+        if definition.get("resume_protocol") != "arche-checkpoint-v1":
+            raise AgentConfigError("external_resume_unsupported")
+        result += ["--resume-context", str(resume_context)]
+    return result
 
 
 def build_external_environment(runner, definition) -> dict[str, str]:

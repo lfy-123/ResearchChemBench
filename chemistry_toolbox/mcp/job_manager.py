@@ -33,9 +33,23 @@ class JobManager:
     def _directory(self, entity_id):
         return self.workspace / "outputs" / "execution_jobs" / entity_id
 
-    def _configure(self):
+    def _environment(self):
+        """Use this host's default resource pool without editing saved config.
+
+        An explicit operator migration may move a terminal run to another
+        host. The default host-scoped pool is runtime state, not a scientific
+        setting. Custom allocation roots retain their original meaning.
+        """
         config = self.store.get_record("manager", "config", {})
-        os.environ.update(config.get("environment", {}))
+        environment = dict(config.get("environment", {}))
+        key = "RESEARCHCHEMBENCH_GLOBAL_RESOURCE_ALLOCATION_ROOT"
+        root = Path(environment[key]) if environment.get(key) else None
+        if root and root.parent == self.store.directory.parent and root.name.startswith("host_"):
+            environment[key] = str(root.parent / ("host_" + socket.gethostname()))
+        return environment
+
+    def _configure(self):
+        os.environ.update(self._environment())
         os.environ["RESEARCHCHEMBENCH_WORKSPACE"] = str(self.workspace)
         os.environ["RESEARCHCHEM_MCP_WORKSPACE"] = str(self.workspace)
         os.environ["RESEARCHCHEMBENCH_RUN_ID"] = self.run_id
@@ -82,8 +96,9 @@ class JobManager:
         atomic_json(spec_path, value)
         environment = _job_environment(spec["runtime"], job_id, directory, spec["resource_limits"], allocation,
                                        job_type=spec["job_type"], software_id=metadata.get("software_id"))
-        environment.update(self.store.get_record("manager", "config", {}).get("environment", {}))
+        environment.update(self._environment())
         environment.update({"PYTHONPATH": str(directory) + os.pathsep + str(PROJECT_ROOT), "RCB_JOB_LAUNCH_TOKEN": token,
+                            "RCB_SANDBOX_CONTROL_ROOT": str(self.store.directory),
                             "RESEARCHCHEMBENCH_WORKSPACE": str(self.workspace), "RESEARCHCHEMBENCH_RUN_ID": self.run_id})
         return spec_path, environment
 
@@ -99,10 +114,12 @@ class JobManager:
         parent = spec.get("parent_batch")
         if parent:
             parent_spec = self.store.spec(parent)
-            running = sum(self.store.spec(j["entity_id"]).get("parent_batch") == parent and j["state"] in {"launching", "running", "needs_reconciliation"}
-                          for j in self.store.list_jobs() if self.store.spec(j["entity_id"]))
-            if running >= (parent_spec.get("max_concurrency") or 32):
-                return
+            limit = parent_spec.get("max_concurrency")
+            if limit is not None:
+                running = sum(self.store.spec(j["entity_id"]).get("parent_batch") == parent and j["state"] in {"launching", "running", "needs_reconciliation"}
+                              for j in self.store.list_jobs() if self.store.spec(j["entity_id"]))
+                if running >= limit:
+                    return
         try:
             reservation = reserve_resources(spec["resource_limits"], kind=spec["job_type"], label=job_id,
                                              owner_id=self.run_id + "/" + job_id)
@@ -159,12 +176,14 @@ class JobManager:
             raw = (result or {}).get("action_result")
             public = compact_action_result(raw, full_result_ref=result.get("full_result_ref")) if raw else result
             feedback = (public or {}).get("execution_feedback")
+            status = json.loads(row["state_json"]).get("status", {})
             if feedback:
                 from chemistry_toolbox.src.execution_feedback import execution_feedback
-                facts = json.loads(row["state_json"])
-                feedback = execution_feedback(status={**facts.get("status", {}), "job_id": job_id, "status": row["state"]}, action_result=raw, record=result)
+                feedback = execution_feedback(status={**status, "job_id": job_id, "status": row["state"]}, action_result=raw, record=result)
                 public = {**public, "execution_feedback": feedback}
-            rows.append({"item_id": item_id, "job_id": job_id, "batch_index": index, "status": row["state"], "result": public, "execution_feedback": feedback, "resource_limits": self.store.spec(job_id).get("resource_limits", {})})
+            rows.append({"item_id": item_id, "job_id": job_id, "batch_index": index, "status": row["state"], "result": public, "execution_feedback": feedback,
+                         "resource_limits": self.store.spec(job_id).get("resource_limits", {}),
+                         "duration_seconds": status.get("duration_seconds"), "resource_usage": status.get("resource_usage")})
             if row["state"] in TERMINAL_STATES:
                 prior = [e for e in history if e.get("item_id") == item_id]
                 receipt = (result or {}).get("result_receipt_id")
@@ -265,7 +284,7 @@ class JobManager:
                 elif owner.get("verified"):
                     if state == "needs_reconciliation" and facts.get("reason") == "owner_unverified" and not facts.get("cancel_reason") and not (facts.get("status") or {}).get("error"):
                         state, payload = "running", {"reason": None, "survivors": [], "supervisor_identity": identity}
-                elif time.time() - facts.get("launch_time", 0) > 5:
+                elif time.time() - facts.get("launch_time", 0) > (60 if state == "launching" and not claim else 5):
                     if state != "needs_reconciliation" or facts.get("reason") == "owner_unverified":
                         state, payload = blocked_state, {"reason": "owner_unverified", "owner_diagnostic": owner.get("reason"),
                             "survivors": token_processes(token) if token else []}
@@ -315,6 +334,8 @@ class JobManager:
         if process_identity(identity.get("pid"), identity).get("verified"):
             signalled = signal_identity(identity)
         elif facts.get("launch_token"):
+            from chemistry_toolbox.src.sandbox import stop_owned
+            stop_owned(self.store.directory, facts['launch_token'])
             # Unknown owner: stop only independently identified surviving
             # descendants. Keep the reservation until their absence is proven.
             survivors = token_processes(facts["launch_token"])
@@ -336,7 +357,10 @@ class JobManager:
         expired = bool(deadline and time.time() >= datetime.fromisoformat(deadline).timestamp())
         totals = self.store.usage()
         config = run.get("config", {})
-        usage_exhausted = (config.get("max_tokens") and totals["input_tokens"] + totals["output_tokens"] >= config["max_tokens"]) or (config.get("max_turns") and totals["turns"] >= config["max_turns"])
+        # Claude enforces the remaining turns in its CLI; its native history
+        # may reach the limit before the final success event is delivered.
+        turns_exhausted = run.get("agent_kind") != "claude" and config.get("max_turns") and totals["turns"] >= config["max_turns"]
+        usage_exhausted = (config.get("max_tokens") and totals["input_tokens"] + totals["output_tokens"] >= config["max_tokens"]) or turns_exhausted
         stopping = expired or usage_exhausted or control.get("command") in {"cancel", "finalize"}
         if expired:
             self.store.put_record("control", "current", {"command": "cancel", "reason": "deadline"})
@@ -358,6 +382,10 @@ class JobManager:
             stop_key = str(agent.get("pid")) + ":" + str(agent.get("start_ticks"))
             stop_started = self.store.put_record("agent_stop", stop_key, time.time(), immutable=True)
             sig = signal.SIGKILL if time.time() - stop_started > 5 else signal.SIGTERM
+            sandbox_record = self.store.get_record('agent', 'sandbox', {})
+            if sandbox_record and agent.get('host') == socket.gethostname():
+                from chemistry_toolbox.src.sandbox import Sandbox
+                Sandbox.load(sandbox_record['directory']).stop(force=sig == signal.SIGKILL)
             signal_identity(agent, sig)
             if agent.get("agent_token"):
                 for child in token_processes(agent["agent_token"], variable="RCB_AGENT_RUN_TOKEN"):

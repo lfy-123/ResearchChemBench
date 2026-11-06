@@ -1,0 +1,87 @@
+{
+  "paper_id": "paper_48278ec4f02de3d9",
+  "items": [
+    {
+      "statement": "直接酮插入局部势垒",
+      "expected": "完整氧连接1t/Rh模型，G(TS2)−G(INT3)，相同组成的局部势垒，不是55.3剖面高度。298.15 K热项、均三甲苯溶剂、正确中性单重态及自身原生热项；真实相关鞍点/连接合格后，40.8±2.0 kcal/mol。单个标量通过不认证全网络。",
+      "evidence_ids": [
+        "rh_direct",
+        "rh_method",
+        "rh_identity"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "direct_insertion",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "直接metallo-ene总体剖面",
+      "expected": "G(TS2′)+G(游离CO)−G(1t)−0.5G(Rh二聚体)，完整氧连接模型、组成和CO储库配平；298.15 K、均三甲苯、其他溶质1 M、CO 6.2 mM。36.4±2.0 kcal/mol；局部TS2′−INT3′的13.7不是本量。必须使用真实相关反应态与自身热项，不能以二聚体打印溶剂差冒充RRHO。",
+      "evidence_ids": [
+        "rh_direct",
+        "rh_method",
+        "rh_identity"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "direct_alternative",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "氧化环化总体剖面",
+      "expected": "G(TS-OC)−G(1t)−0.5G(Rh二聚体)，保留两个羰基配体，因此本态不加释放CO修正；不是相对24.3结合态的局部势垒。完整氧连接模型，298.15 K、均三甲苯、1 M标准态、自身热项及相关鞍点/连接合格后按44.6±2.0 kcal/mol比较。",
+      "evidence_ids": [
+        "rh_direct",
+        "rh_method",
+        "rh_identity"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "oxidative_profile",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "CO先插入的真实化学连接",
+      "expected": "实际结构、相关模式及路径/端点或等价证据支持环丙烷打开后CO插入先于酮参与，形成与后续酮配位相容的酰基/有机骨架。守恒完整1t、Rh与CO库存；来源标签或低能标量不足。不要求完整双向IRC或固定TS数，但有限轨迹必须与有效独立端点共同支持所声称连接。",
+      "evidence_ids": [
+        "rh_carbonylation",
+        "rh_identity",
+        "rh_method"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "co_insertion_connection",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "酮参与与成环的连接",
+      "expected": "实际证据将CO插入后结构经有据的配位/构象衔接连接到酮参与的C–C成键、再C–O成键/还原消除。必须有真实键变、正确原子映射及可审查端点；仅用作者命名或把受限扫描峰冒充自由能TS不通过。不要求每个配位交换势垒、快速构象平衡或来源全部局部能量复现。",
+      "evidence_ids": [
+        "rh_carbonylation",
+        "rh_method"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ketone_closure_connection",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "正确稠合内酯的计算结构",
+      "expected": "实际计算的成环端点/产物具有所给氧连接底物+CO对应的C10H14O3稠合内酯连接关系，并支持CO进入产物和正确C–C/C–O成键。不能仅复制实验产物图或用其他底物系列产物替代；该结构项独立于反应自由能数值。",
+      "evidence_ids": [
+        "rh_carbonylation",
+        "rh_identity",
+        "rh_experiment"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "lactone_structure",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "羰基化已比较化学步骤的控制顺序",
+      "expected": "在配平共同分离反应物及CO储库的实际自由能剖面上，CO插入TS3高于随后metallo-ene和还原消除化学TS。区分剖面高度和各自局部势垒；31.2/24.9及23.0/18.9仅为来源上下文，不设新数值窗口。此项保留现行CO插入控制的必要比较，不断言未知配位交换均低或整个真实催化网络全局决速。",
+      "evidence_ids": [
+        "rh_carbonylation",
+        "rh_method"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "carbonylation_order",
+      "key_point_type": "result"
+    }
+  ]
+}

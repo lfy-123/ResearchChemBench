@@ -1,0 +1,177 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "evidence": [
+    {
+      "evidence_id": "main_p7_8",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/main.pdf",
+        "sha256": "841ece66df3ad8ce05fabb57f349899aa15c4670be374c58cc88c574bd4ec776",
+        "pdf_pages_1based": [
+          7,
+          8
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p33_35_36_37",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/supplementary_001.pdf",
+        "sha256": "5b36831783622a0a64865b2ca733e2e90dba98b9dd1a20d9ddfb7cbaeaa555b4",
+        "pdf_pages_1based": [
+          33,
+          35,
+          36,
+          37
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p8",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/main.pdf",
+        "sha256": "841ece66df3ad8ce05fabb57f349899aa15c4670be374c58cc88c574bd4ec776",
+        "pdf_pages_1based": [
+          8
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p33_35",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/supplementary_001.pdf",
+        "sha256": "5b36831783622a0a64865b2ca733e2e90dba98b9dd1a20d9ddfb7cbaeaa555b4",
+        "pdf_pages_1based": [
+          33,
+          35
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p33_34_35",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/supplementary_001.pdf",
+        "sha256": "5b36831783622a0a64865b2ca733e2e90dba98b9dd1a20d9ddfb7cbaeaa555b4",
+        "pdf_pages_1based": [
+          33,
+          34,
+          35
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p6_7",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/main.pdf",
+        "sha256": "841ece66df3ad8ce05fabb57f349899aa15c4670be374c58cc88c574bd4ec776",
+        "pdf_pages_1based": [
+          6,
+          7
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p25_26_27_28_29",
+      "source": {
+        "path": "papers/paper_b33676a2051f5e91/documents/supplementary_001.pdf",
+        "sha256": "5b36831783622a0a64865b2ca733e2e90dba98b9dd1a20d9ddfb7cbaeaa555b4",
+        "pdf_pages_1based": [
+          25,
+          26,
+          27,
+          28,
+          29
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required chemistry begins at supplied Int-3. Int-2 is contextual only; no benzylic activation, peroxide cleavage or upstream radical generation is required. Both product drawings are inputs, not discoveries.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "historical_non_scoring_final_result_bindings": [
+    {
+      "conclusion_id": "cleavage_products",
+      "rule_id": "r_cleavage_products",
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37",
+        "supplementary_001_p33_34_35"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+      "coverage": "Both finite product-side IRCs and mapped formulas verified; not infinite-separation product thermodynamics."
+    },
+    {
+      "conclusion_id": "acetophenone_barrier",
+      "rule_id": "r_acetophenone_barrier",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_35"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+      "coverage": "Connected-baseline local barrier10.050192–10.149338 satisfies preserved9.07±2 window."
+    },
+    {
+      "conclusion_id": "cleavage_selectivity",
+      "rule_id": "r_cleavage_selectivity",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+      "coverage": "Methyl14.549435–14.648581 and common-reference difference4.499243kcal/mol; values differ from source because connected reactant basin is lower."
+    },
+    {
+      "conclusion_id": "local_activation",
+      "rule_id": "r_local_activation",
+      "evidence_ids": [
+        "main_p6_7",
+        "supplementary_001_p25_26_27_28_29"
+      ],
+      "local_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+      "coverage": "Cl-HAT TS/66+79-point IRC and separated-reference barrier3.239204 supported; intervening oxygen capture/peroxide cleavage and photochemical production not verified."
+    }
+  ],
+  "final_result_bindings": [
+    {
+      "conclusion_id": "local_cleavage_chemistry",
+      "rule_id": "r_local_cleavage_chemistry",
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37",
+        "supplementary_001_p33_34_35",
+        "main_p8",
+        "supplementary_001_p33_35"
+      ],
+      "scientific_requirement": "Local cleavage chemistry and accessibility of acetophenone formation"
+    },
+    {
+      "conclusion_id": "cleavage_selectivity",
+      "rule_id": "r_cleavage_selectivity",
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ],
+      "scientific_requirement": "Local accessibility of propiophenone formation and kinetic preference between the competing cleavages"
+    }
+  ]
+}

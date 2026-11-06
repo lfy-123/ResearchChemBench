@@ -1,0 +1,82 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "scoring_policy": "paper_science_v3",
+  "items": [
+    {
+      "conclusion_id": "benzyl_ring_outcome",
+      "statement": "苄基芳环邻位六元成环结果",
+      "expected": "实际计算支持给定 R 的自由基中心对苄基芳环邻位加成，形成对应六元环的局部自由基产物连接；解释芳环加成及键级/自由基重分布。按当前 molecules.json，目标新键为 C10–C15 或对称等价 C10–C19。C10–C14 是五元 ipso 连接，不能替代。原子身份以分子图同构为准，作者 XYZ 行号不可直接套用。本项评价局部结构/区域化学结果，不要求它已被选为最终优势通道，也不要求后续芳构化。",
+      "required_numerical_evidence": [
+        {
+          "id": "benzyl_activation",
+          "description": "真实苄基芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+          "public_requirement": "Computed Gibbs barrier and reference/reactive-state energies for benzyl-ring closure, identifying the actual bond-forming atoms."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 真实苄基芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p34_36_37_38",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "sulfonyl_ring_outcome",
+      "statement": "磺酰芳环邻位六元成环结果",
+      "expected": "实际计算支持自由基中心对磺酰芳环邻位的竞争加成，并正确说明对应含硫环骨架的局部连接及自由基重分布。当前输入新键为 C10–C24 或对称等价 C10–C29，按完整分子图确认，不能用另一链长底物或苄基 ipso 通道代替。证据须确实涉及该化学成环事件，单纯写一个势垒或给结构命名不足。此项不要求后续氧化产物或预先赢得竞争。",
+      "required_numerical_evidence": [
+        {
+          "id": "sulfonyl_activation",
+          "description": "真实磺酰芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+          "public_requirement": "Computed Gibbs barrier and reference/reactive-state energies for sulfonyl-ring closure, identifying the actual bond-forming atoms."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 真实磺酰芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p34_36_40",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "cyclization_preference",
+      "statement": "最终优选苄基邻位六元通道",
+      "expected": "用共同未环化 R 参照下可比的实际形成证据，最终选择苄基芳环邻位六元成环，优于磺酰芳环邻位竞争。须核对最终答案中的具体连接与环大小；仅有苄基/磺酰两个家族关键词或某个正确子排序不足。如果报告实际最终优选 C10–C14 ipso 或其他错误连接，本项失败，即使 C10–C15 相对 C10–C24 的子比较正确。未被充分研究的新通道不能被断言最优；无须穷尽全部芳环位点。",
+      "required_numerical_evidence": [
+        {
+          "id": "benzyl_activation",
+          "description": "真实苄基芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+          "public_requirement": "Computed Gibbs barrier and reference/reactive-state energies for benzyl-ring closure, identifying the actual bond-forming atoms."
+        },
+        {
+          "id": "sulfonyl_activation",
+          "description": "真实磺酰芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+          "public_requirement": "Computed Gibbs barrier and reference/reactive-state energies for sulfonyl-ring closure, identifying the actual bond-forming atoms."
+        },
+        {
+          "id": "channel_difference",
+          "description": "相对同一未环化 R 的两成环势垒差。",
+          "public_requirement": "The barrier difference between the two ring closures relative to the same uncyclized R reference."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 真实苄基芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。\n- 真实磺酰芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。\n- 相对同一未环化 R 的两成环势垒差。",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p36_38_40",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    }
+  ]
+}

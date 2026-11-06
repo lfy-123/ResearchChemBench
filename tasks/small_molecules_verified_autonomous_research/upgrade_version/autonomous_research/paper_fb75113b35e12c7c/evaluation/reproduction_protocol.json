@@ -1,0 +1,302 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_r5_site_answer",
+      "r_r5_product_class",
+      "r_r5_second_competition",
+      "r_r6_thermodynamic_fate",
+      "r_r6_accessible_fate",
+      "r_comparative_robustness"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only PI1/PI2 and their stated reaction comparisons are scored. PI3 is outside scope. Supplied unranked candidate sites and structures do not determine a preferred outcome.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "For the specified five- and six-membered cyclic-enone electron-deficient [3]dendralenes reacting with methanethiolate in chloroform, determine the favored addition sites and protonated-product connectivities. Explain the competition between simple addition and cyclization for the five- and six-membered cyclic-enone pair, assess whether second thiol addition to the five-membered substrate is competitive, and establish how reliable the predictions are. This is a computational prediction and explanation task; no measured product distribution is supplied.",
+  "active_rule_ids": [
+    "r_r5_site_answer",
+    "r_r5_product_class",
+    "r_r5_second_competition",
+    "r_r6_thermodynamic_fate",
+    "r_r6_accessible_fate",
+    "r_comparative_robustness"
+  ],
+  "current_outcome_ids": [
+    "r5_site_answer",
+    "r5_product_class",
+    "r5_second_competition",
+    "r6_thermodynamic_fate",
+    "r6_accessible_fate",
+    "comparative_robustness"
+  ],
+  "historical_record": {
+    "guidance_markdown": "## Author-provided scientific guidance\n\nWhen this block is supplied, execute and critically assess the disclosed author baseline within the shared scientific objective. Record protocol fidelity, ambiguities, and scientifically justified substitutions in the investigations and readable report. Reported results are comparison evidence, not unique truth or additional goals.\n\n- The author calculations concerned exactly the five-membered cyclic-enone, six-membered cyclic-enone, and vinyl phenylsulfone dendralene graphs supplied as PI1, PI2, and PI3. They selected thiolate chemistry because these substrates showed different experimental attack sites; hydride chemistry was not the selected computational investigation. MeSH/methanethiolate replaced the experimental EtSH/ethanethiolate to reduce computational cost. For the supplied parent chain, counting the ester carbonyl carbons as C1 and C6, the author labels alpha, beta, gamma and delta correspond to C2, C3, C4 and C5, respectively. On either cyclic-enone appendage, alpha-prime is the ring attachment carbon and beta-prime is its neighboring vinylic CH; these labels specify atoms, not extra required attack sites.\n\n- The authors first examined reactant geometries and conformations: the dienoate segment was approximately planar, the cyclic appendages were bent from that plane by about 60-70 degrees, and the vinylsulfone appendage was roughly perpendicular. Axially chiral minima were considered; the six-membered substrate interconversion barrier was reported near 13 kcal/mol, with the SI note specifying 12.8 kcal/mol. The source illustrations include mirror-related depictions, not a requirement for one absolute axial configuration.\n\n- Anionic Fukui functions were calculated for the three reactants from the difference between the added-electron and neutral SCF densities. The authors found that this reactant descriptor did not reliably distinguish the experimentally preferred electrophilic site, and consequently investigated reaction pathways rather than relying on a reactant-density ranking.\n\n- The computational software reported was ORCA 6.0.1, Turbomole 7.8, CREST 2.12, and xTB 6.6.1. The geometry/frequency baseline, called method1 in the SI, was B3LYP-D3BJ/def2-TZVP with CPCM chloroform in ORCA. Minima were characterized by zero imaginary frequencies and transition states by one. Reaction species were treated as closed-shell singlets; the added-electron reactants used for Fukui functions were doublets.\n\n- At the method1 geometries the reported single-point comparisons were B3LYP-D3BJ/def2-TZVPD with CPCM (method2) or SMD (method3), M06-2X/def2-TZVPD with CPCM (method4) or SMD (method5), omegaB97M-V/def2-TZVPD with CPCM (method6) or SMD (method7), and selected DLPNO-CCSD(T)/cc-pVTZ calculations with NormalPNO settings and SMD (method8). DEFGRID3 was specified for the meta-GGA functionals, and RI/COSX approximations were used. The authors selected omegaB97M-V by comparison of reaction energies with DLPNO-CCSD(T) on selected systems; not every network entry has a coupled-cluster result.\n\n- The additional COSMO-RS comparison (method9) used the method1 geometries: BP86 gas-phase and COSMO infinite-dielectric/FINE-cavity calculations supplied the COSMO-RS solvation calculation in BIOVIA COSMOtherm 2023 with BP_TZVPD_FINE_22.ctd, and this solvation free energy was added to the gas-phase omegaB97M-V/def2-TZVPD energy.\n\n- The authors sampled conformers, including transition-state conformers, using a modified CREST/xTB procedure with GFN2 and ALPB chloroform. For transition states they fixed key reacting bond lengths obtained from an initial optimized transition state of a random conformer. Sampling geometries were ranked with BP86/dgauss-dzvp, RI, D3-BJ and COSMO/COSMO-RS; the reported dispersion parameters were s6=1.0, a1=0.7182, s8=3.2176 and a2=3.8572. Typically the ten lowest-ranked conformers were reoptimized with method1, and the lowest-energy conformer was used for other single points. This describes the performed baseline, not a fixed job or conformer quota for the shared question.\n\n- For reaction paths other than protonation/deprotonation the authors either found a transition state or used a relaxed reaction-coordinate scan to check whether the electronic energy surface was barrierless. Protonation/deprotonation barriers were assumed to be low, not established by explicit transition-state calculations. The main text says that the literature B3LYP gas-phase local-enolate-minimum problem was not observed in the present study; this does not make every hypothetical conformation a retained minimum.\n\n- Reported reaction energies were Gibbs free energies formed from the selected single-point electronic energy including solvation, the method1 zero-point term and translational/rigid-rotor/harmonic-vibrational partition functions: G_n = E_SP,n + E_ZPVE,1 - RT ln(q_trans,1 q_rot,1 q_vib,1) + RT. The 1 atm, 298.15 K ORCA standard state was converted to 1 M, 298.15 K by adding about 1.89 kcal/mol per species. The solvent comparison was chloroform.\n\n- The finite reaction networks include trial additions and reactant-thiolate complexes, stable anionic adducts, protonated addition products and configurational variants, competing cyclic products for the two cyclic-enone substrates, and second additions to five-membered-substrate monoaddition products. The SI figure explicitly marks some structures as not calculated, N/A, or reverting to reactants. It is not proof of an exhaustive network of every physically possible pathway.\n\n- The SI relative-energy definitions compare initial anions with substrate plus methanethiolate, protonated monoaddition products with substrate plus MeSH, and five-membered-substrate double-addition products with substrate plus two MeSH. Figure S8 lists available relative Gibbs free energies in the order method7, method6, method9, method3, method5, method8. Table S4 connects its structure names to those in the article; the original stationary-point coordinate/energy records are the private baseline context, not prescribed autonomous starting geometries.\n\n- For the relevant alpha, delta and beta-prime initial attacks the authors reported no significant electronic barriers. They described effective association barriers of roughly 7-8 kcal/mol as entropic and compensated by favorable interaction enthalpies, and interpreted product preference as mainly controlled by overall reaction free energies. This is their conditional mechanistic interpretation, not an independently fitted kinetic law.\n\n- For the five-membered substrate, the displayed lowest initial anion arises from beta-prime attack. Among the displayed protonated simple-addition products, the rearranged delta-addition connectivity corresponding to experimental product 15 is lowest at the displayed main-text method; this is not a ranking below the hypothetical cyclic or double-addition endpoints. Simple monoaddition product free energies are approximately -4 kcal/mol relative to balanced reactants and their differences are within the stated typical DFT error of 2-3 kcal/mol. The preferred simple-addition product changes across methods. Some double-addition products are calculated slightly more stable than the simple monoaddition product, by about 2 kcal/mol in the discussed comparison, contrary to the exclusive experimental monoaddition isolation.\n\n- For the five-membered substrate the beta-prime-derived enolate was tested for two cyclic outcomes. Its alpha-directed 5(O)-endo-trig cyclization had a reported barrier greater than 35 kcal/mol. The alternative gamma-directed 5(O)-exo-trig cyclic intermediates could not be retained in optimization and returned toward reactants. The authors interpreted this as strain in the prospective [3.3.0] intermediate; after hypothetical furan aromatization the endpoint energy could be close to simple addition. Failed optimization itself did not calculate a globally impossible pathway.\n\n- For the six-membered substrate simple protonated addition products were again near -4 kcal/mol. The beta-prime-derived enolate could reach the gamma-directed 5(O)-exo-trig cyclic route through an intermediate described as about 4 kcal/mol uphill, and ultimately the furan connectivity corresponding to experimental product 17b. The cyclic endpoint was reported near -18 kcal/mol, about 14 kcal/mol below the simple-addition endpoints, and interpreted as a thermodynamic sink. An alternative alpha-directed 5(O)-endo-trig route led to a similarly favorable endpoint but required a barrier of about 28 kcal/mol.\n\n- The orbital analysis compared three occupied IBOs during the alternative six-membered-substrate enolate cyclizations. The authors interpreted gamma-directed access as favored by orbital overlap/orientation and alpha-directed access as requiring partial breaking of the dienoate C_alpha=C_beta bond, consistent with Baldwin rules. They used IboView v20211019-RevA, method1 wavefunctions, exponent 2 and visualization threshold 50.\n\n- For the phenylsulfone substrate the authors compared addition anions and protonated products from different sites and conformations. Alpha-derived anions were favored, and their protonation gave the most favorable displayed product connectivity, corresponding to experimental adduct 20. One depicted alpha-adduct followed from the lowest-energy parent conformation; another lower-energy alpha-adduct was associated conceptually with a hypothetical parent conformation that was not stable at B3LYP/TZVP. The authors discussed stronger sulfone electron withdrawal and conformational planarization as explanations, while the earlier experimental discussion questioned simple conjugative reasoning for an out-of-plane vinylsulfone.\n\n- There is a retained source ambiguity in the cross-system prose: it describes the lowest initial anion for the six-membered substrate as delta-derived, while the labeled energy scheme and the first SI method column put beta-prime INT2 at -1.7 kcal/mol below delta INT1 at +2.8 kcal/mol. Neither record is silently corrected. This discrepancy is to be assessed as a baseline ambiguity, not made into a required unique initial-anion ordering or a different scientific goal.\n\n- The experimental comparisons were different thiolates: for the five-membered substrate EtSH/DBU gave an unstable initial adduct that rearranged during chromatography to simple-addition product 15, with the enone remaining unreacted even with excess thiol. For the six-membered substrate EtSH gave furan 17b and nonaromatized counterparts unless iodine assistance steered completion. For the phenylsulfone substrate EtSH gave alpha-addition product 20 from a preparation containing E/Z appendage isomers. These observations contextualize the model; no quantitative MeSH yield, iodine pathway, or chromatographic mechanism was computed as part of this baseline.\n\n- The authors concluded that many addition pathways have negligible barriers and product thermodynamics can rationalize the six-membered cyclic and phenylsulfone outcomes, with some cyclizations kinetically restricted. They explicitly said their DFT methods did not provide useful selectivity predictions for the five-membered substrate. Their finite selected-state, implicit-solvent model and larger-thiolate substitution do not establish every possible pathway, full experimental workup, explicit counterion/solvent effects, or a uniquely proven mechanism; unreported uncertainties and assumed proton-transfer accessibility remain limitations.",
+    "statements": [
+      {
+        "protocol_id": "RP01",
+        "statement": "The author calculations concerned exactly the five-membered cyclic-enone, six-membered cyclic-enone, and vinyl phenylsulfone dendralene graphs supplied as PI1, PI2, and PI3. They selected thiolate chemistry because these substrates showed different experimental attack sites; hydride chemistry was not the selected computational investigation. MeSH/methanethiolate replaced the experimental EtSH/ethanethiolate to reduce computational cost. For the supplied parent chain, counting the ester carbonyl carbons as C1 and C6, the author labels alpha, beta, gamma and delta correspond to C2, C3, C4 and C5, respectively. On either cyclic-enone appendage, alpha-prime is the ring attachment carbon and beta-prime is its neighboring vinylic CH; these labels specify atoms, not extra required attack sites.",
+        "evidence_ids": [
+          "layout-doc_e968c0ba81c1-p4-b2",
+          "layout-doc_e968c0ba81c1-p4-b3",
+          "layout-doc_e968c0ba81c1-p39-b2",
+          "pdf-page-doc_e968c0ba81c1-p4",
+          "pdf-page-doc_e968c0ba81c1-p39",
+          "ev_doc_c273e45e3ac0_000025_8c8d0b4979ef",
+          "ev_doc_c273e45e3ac0_000027_5b063e52ae64",
+          "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+          "layout-doc_e968c0ba81c1-p47-b1",
+          "pdf-page-doc_e968c0ba81c1-p47",
+          "ev_doc_e968c0ba81c1_000069_291ea7779cf0",
+          "layout-doc_e968c0ba81c1-p51-b2",
+          "pdf-page-doc_e968c0ba81c1-p6",
+          "pdf-page-doc_e968c0ba81c1-p51",
+          "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+          "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+          "ev_doc_c273e45e3ac0_000095_9b737c352eaf",
+          "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "pdf-page-doc_c273e45e3ac0-p8"
+        ]
+      },
+      {
+        "protocol_id": "RP02",
+        "statement": "The authors first examined reactant geometries and conformations: the dienoate segment was approximately planar, the cyclic appendages were bent from that plane by about 60-70 degrees, and the vinylsulfone appendage was roughly perpendicular. Axially chiral minima were considered; the six-membered substrate interconversion barrier was reported near 13 kcal/mol, with the SI note specifying 12.8 kcal/mol. The source illustrations include mirror-related depictions, not a requirement for one absolute axial configuration.",
+        "evidence_ids": [
+          "ev_doc_e968c0ba81c1_000232_fc981e213e51",
+          "ev_doc_e968c0ba81c1_000238_dc5065aabbb2",
+          "pdf-page-doc_e968c0ba81c1-p31",
+          "pdf-page-doc_e968c0ba81c1-p32"
+        ]
+      },
+      {
+        "protocol_id": "RP03",
+        "statement": "Anionic Fukui functions were calculated for the three reactants from the difference between the added-electron and neutral SCF densities. The authors found that this reactant descriptor did not reliably distinguish the experimentally preferred electrophilic site, and consequently investigated reaction pathways rather than relying on a reactant-density ranking.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+          "ev_doc_e968c0ba81c1_000228_7bf6dac01bc5",
+          "ev_doc_e968c0ba81c1_000240_4d10103531f4"
+        ]
+      },
+      {
+        "protocol_id": "RP04",
+        "statement": "The computational software reported was ORCA 6.0.1, Turbomole 7.8, CREST 2.12, and xTB 6.6.1. The geometry/frequency baseline, called method1 in the SI, was B3LYP-D3BJ/def2-TZVP with CPCM chloroform in ORCA. Minima were characterized by zero imaginary frequencies and transition states by one. Reaction species were treated as closed-shell singlets; the added-electron reactants used for Fukui functions were doublets.",
+        "evidence_ids": [
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+        ]
+      },
+      {
+        "protocol_id": "RP05",
+        "statement": "At the method1 geometries the reported single-point comparisons were B3LYP-D3BJ/def2-TZVPD with CPCM (method2) or SMD (method3), M06-2X/def2-TZVPD with CPCM (method4) or SMD (method5), omegaB97M-V/def2-TZVPD with CPCM (method6) or SMD (method7), and selected DLPNO-CCSD(T)/cc-pVTZ calculations with NormalPNO settings and SMD (method8). DEFGRID3 was specified for the meta-GGA functionals, and RI/COSX approximations were used. The authors selected omegaB97M-V by comparison of reaction energies with DLPNO-CCSD(T) on selected systems; not every network entry has a coupled-cluster result.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000244_909307f3c299",
+          "pdf-page-doc_e968c0ba81c1-p34"
+        ]
+      },
+      {
+        "protocol_id": "RP06",
+        "statement": "The additional COSMO-RS comparison (method9) used the method1 geometries: BP86 gas-phase and COSMO infinite-dielectric/FINE-cavity calculations supplied the COSMO-RS solvation calculation in BIOVIA COSMOtherm 2023 with BP_TZVPD_FINE_22.ctd, and this solvation free energy was added to the gas-phase omegaB97M-V/def2-TZVPD energy.",
+        "evidence_ids": [
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23"
+        ]
+      },
+      {
+        "protocol_id": "RP07",
+        "statement": "The authors sampled conformers, including transition-state conformers, using a modified CREST/xTB procedure with GFN2 and ALPB chloroform. For transition states they fixed key reacting bond lengths obtained from an initial optimized transition state of a random conformer. Sampling geometries were ranked with BP86/dgauss-dzvp, RI, D3-BJ and COSMO/COSMO-RS; the reported dispersion parameters were s6=1.0, a1=0.7182, s8=3.2176 and a2=3.8572. Typically the ten lowest-ranked conformers were reoptimized with method1, and the lowest-energy conformer was used for other single points. This describes the performed baseline, not a fixed job or conformer quota for the shared question.",
+        "evidence_ids": [
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+        ]
+      },
+      {
+        "protocol_id": "RP08",
+        "statement": "For reaction paths other than protonation/deprotonation the authors either found a transition state or used a relaxed reaction-coordinate scan to check whether the electronic energy surface was barrierless. Protonation/deprotonation barriers were assumed to be low, not established by explicit transition-state calculations. The main text says that the literature B3LYP gas-phase local-enolate-minimum problem was not observed in the present study; this does not make every hypothetical conformation a retained minimum.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+          "ev_doc_c273e45e3ac0_000115_7dbdda4c11d3",
+          "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab"
+        ]
+      },
+      {
+        "protocol_id": "RP09",
+        "statement": "Reported reaction energies were Gibbs free energies formed from the selected single-point electronic energy including solvation, the method1 zero-point term and translational/rigid-rotor/harmonic-vibrational partition functions: G_n = E_SP,n + E_ZPVE,1 - RT ln(q_trans,1 q_rot,1 q_vib,1) + RT. The 1 atm, 298.15 K ORCA standard state was converted to 1 M, 298.15 K by adding about 1.89 kcal/mol per species. The solvent comparison was chloroform.",
+        "evidence_ids": [
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000229_4e37e1c1f88b",
+          "ev_doc_e968c0ba81c1_000230_584a4304c796",
+          "ev_doc_e968c0ba81c1_000231_3559624a64f3",
+          "pdf-page-doc_e968c0ba81c1-p31"
+        ]
+      },
+      {
+        "protocol_id": "RP10",
+        "statement": "The finite reaction networks include trial additions and reactant-thiolate complexes, stable anionic adducts, protonated addition products and configurational variants, competing cyclic products for the two cyclic-enone substrates, and second additions to five-membered-substrate monoaddition products. The SI figure explicitly marks some structures as not calculated, N/A, or reverting to reactants. It is not proof of an exhaustive network of every physically possible pathway.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000105_c5fac22b8120",
+          "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+          "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "ev_doc_c273e45e3ac0_000117_206638db73d5",
+          "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+          "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+          "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+          "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+          "ev_doc_e968c0ba81c1_000244_909307f3c299",
+          "pdf-page-doc_e968c0ba81c1-p34"
+        ]
+      },
+      {
+        "protocol_id": "RP11",
+        "statement": "The SI relative-energy definitions compare initial anions with substrate plus methanethiolate, protonated monoaddition products with substrate plus MeSH, and five-membered-substrate double-addition products with substrate plus two MeSH. Figure S8 lists available relative Gibbs free energies in the order method7, method6, method9, method3, method5, method8. Table S4 connects its structure names to those in the article; the original stationary-point coordinate/energy records are the private baseline context, not prescribed autonomous starting geometries.",
+        "evidence_ids": [
+          "ev_doc_e968c0ba81c1_000233_79addafdad99",
+          "ev_doc_e968c0ba81c1_000244_909307f3c299",
+          "pdf-page-doc_e968c0ba81c1-p31",
+          "pdf-page-doc_e968c0ba81c1-p32",
+          "pdf-page-doc_e968c0ba81c1-p34"
+        ]
+      },
+      {
+        "protocol_id": "RP12",
+        "statement": "For the relevant alpha, delta and beta-prime initial attacks the authors reported no significant electronic barriers. They described effective association barriers of roughly 7-8 kcal/mol as entropic and compensated by favorable interaction enthalpies, and interpreted product preference as mainly controlled by overall reaction free energies. This is their conditional mechanistic interpretation, not an independently fitted kinetic law.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+          "ev_doc_e968c0ba81c1_000244_909307f3c299"
+        ]
+      },
+      {
+        "protocol_id": "RP13",
+        "statement": "For the five-membered substrate, the displayed lowest initial anion arises from beta-prime attack. Among the displayed protonated simple-addition products, the rearranged delta-addition connectivity corresponding to experimental product 15 is lowest at the displayed main-text method; this is not a ranking below the hypothetical cyclic or double-addition endpoints. Simple monoaddition product free energies are approximately -4 kcal/mol relative to balanced reactants and their differences are within the stated typical DFT error of 2-3 kcal/mol. The preferred simple-addition product changes across methods. Some double-addition products are calculated slightly more stable than the simple monoaddition product, by about 2 kcal/mol in the discussed comparison, contrary to the exclusive experimental monoaddition isolation.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000056_095093ad0b4a",
+          "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+          "pdf-page-doc_c273e45e3ac0-p8",
+          "pdf-page-doc_e968c0ba81c1-p34"
+        ]
+      },
+      {
+        "protocol_id": "RP14",
+        "statement": "For the five-membered substrate the beta-prime-derived enolate was tested for two cyclic outcomes. Its alpha-directed 5(O)-endo-trig cyclization had a reported barrier greater than 35 kcal/mol. The alternative gamma-directed 5(O)-exo-trig cyclic intermediates could not be retained in optimization and returned toward reactants. The authors interpreted this as strain in the prospective [3.3.0] intermediate; after hypothetical furan aromatization the endpoint energy could be close to simple addition. Failed optimization itself did not calculate a globally impossible pathway.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000117_206638db73d5",
+          "pdf-page-doc_c273e45e3ac0-p8",
+          "pdf-page-doc_e968c0ba81c1-p34"
+        ]
+      },
+      {
+        "protocol_id": "RP15",
+        "statement": "For the six-membered substrate simple protonated addition products were again near -4 kcal/mol. The beta-prime-derived enolate could reach the gamma-directed 5(O)-exo-trig cyclic route through an intermediate described as about 4 kcal/mol uphill, and ultimately the furan connectivity corresponding to experimental product 17b. The cyclic endpoint was reported near -18 kcal/mol, about 14 kcal/mol below the simple-addition endpoints, and interpreted as a thermodynamic sink. An alternative alpha-directed 5(O)-endo-trig route led to a similarly favorable endpoint but required a barrier of about 28 kcal/mol.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000118_46627f0d4ac5",
+          "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+          "pdf-page-doc_c273e45e3ac0-p9",
+          "pdf-page-doc_c273e45e3ac0-p10",
+          "pdf-page-doc_e968c0ba81c1-p34"
+        ]
+      },
+      {
+        "protocol_id": "RP16",
+        "statement": "The orbital analysis compared three occupied IBOs during the alternative six-membered-substrate enolate cyclizations. The authors interpreted gamma-directed access as favored by orbital overlap/orientation and alpha-directed access as requiring partial breaking of the dienoate C_alpha=C_beta bond, consistent with Baldwin rules. They used IboView v20211019-RevA, method1 wavefunctions, exponent 2 and visualization threshold 50.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+          "ev_doc_c273e45e3ac0_000125_bada47a425ee",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+          "pdf-page-doc_c273e45e3ac0-p10"
+        ]
+      },
+      {
+        "protocol_id": "RP17",
+        "statement": "For the phenylsulfone substrate the authors compared addition anions and protonated products from different sites and conformations. Alpha-derived anions were favored, and their protonation gave the most favorable displayed product connectivity, corresponding to experimental adduct 20. One depicted alpha-adduct followed from the lowest-energy parent conformation; another lower-energy alpha-adduct was associated conceptually with a hypothetical parent conformation that was not stable at B3LYP/TZVP. The authors discussed stronger sulfone electron withdrawal and conformational planarization as explanations, while the earlier experimental discussion questioned simple conjugative reasoning for an out-of-plane vinylsulfone.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000069_c0e91a281fc0",
+          "ev_doc_c273e45e3ac0_000070_b8f02daea014",
+          "ev_doc_c273e45e3ac0_000126_33868fe95d6b",
+          "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+          "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+          "pdf-page-doc_c273e45e3ac0-p5",
+          "pdf-page-doc_c273e45e3ac0-p11",
+          "pdf-page-doc_e968c0ba81c1-p34"
+        ]
+      },
+      {
+        "protocol_id": "RP18",
+        "statement": "There is a retained source ambiguity in the cross-system prose: it describes the lowest initial anion for the six-membered substrate as delta-derived, while the labeled energy scheme and the first SI method column put beta-prime INT2 at -1.7 kcal/mol below delta INT1 at +2.8 kcal/mol. Neither record is silently corrected. This discrepancy is to be assessed as a baseline ambiguity, not made into a required unique initial-anion ordering or a different scientific goal.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+          "pdf-page-doc_c273e45e3ac0-p9",
+          "pdf-page-doc_e968c0ba81c1-p34"
+        ]
+      },
+      {
+        "protocol_id": "RP19",
+        "statement": "The experimental comparisons were different thiolates: for the five-membered substrate EtSH/DBU gave an unstable initial adduct that rearranged during chromatography to simple-addition product 15, with the enone remaining unreacted even with excess thiol. For the six-membered substrate EtSH gave furan 17b and nonaromatized counterparts unless iodine assistance steered completion. For the phenylsulfone substrate EtSH gave alpha-addition product 20 from a preparation containing E/Z appendage isomers. These observations contextualize the model; no quantitative MeSH yield, iodine pathway, or chromatographic mechanism was computed as part of this baseline.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000055_7e98151e8b3d",
+          "ev_doc_c273e45e3ac0_000056_095093ad0b4a",
+          "ev_doc_c273e45e3ac0_000057_772b4e124f82",
+          "ev_doc_c273e45e3ac0_000058_457eddef003d",
+          "ev_doc_c273e45e3ac0_000065_33a345d72273",
+          "ev_doc_c273e45e3ac0_000067_b96fd73185fa",
+          "ev_doc_c273e45e3ac0_000069_c0e91a281fc0",
+          "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "ev_doc_e968c0ba81c1_000069_291ea7779cf0",
+          "pdf-page-doc_c273e45e3ac0-p4",
+          "pdf-page-doc_c273e45e3ac0-p5"
+        ]
+      },
+      {
+        "protocol_id": "RP20",
+        "statement": "The authors concluded that many addition pathways have negligible barriers and product thermodynamics can rationalize the six-membered cyclic and phenylsulfone outcomes, with some cyclizations kinetically restricted. They explicitly said their DFT methods did not provide useful selectivity predictions for the five-membered substrate. Their finite selected-state, implicit-solvent model and larger-thiolate substitution do not establish every possible pathway, full experimental workup, explicit counterion/solvent effects, or a uniquely proven mechanism; unreported uncertainties and assumed proton-transfer accessibility remain limitations.",
+        "evidence_ids": [
+          "ev_doc_c273e45e3ac0_000106_7aaa54097120",
+          "ev_doc_c273e45e3ac0_000116_490d8ee5e298",
+          "ev_doc_c273e45e3ac0_000117_206638db73d5",
+          "ev_doc_c273e45e3ac0_000124_794c2c3673df",
+          "ev_doc_c273e45e3ac0_000135_d9174d0d5992",
+          "ev_doc_c273e45e3ac0_000136_7ef9c2a75f71",
+          "ev_doc_e968c0ba81c1_000225_8f4b6c178d23",
+          "ev_doc_e968c0ba81c1_000226_9b4585740eab",
+          "ev_doc_e968c0ba81c1_000244_909307f3c299"
+        ]
+      }
+    ],
+    "record_role": "Private historical source/reference material; source-route statements do not create additional public tasks or scored intermediate requirements.",
+    "active_evaluation": "scoring_rules.json and reference_conclusions.json define the sole active final conclusions; original source records do not impose numerical, node or process gates.",
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_r5_site_answer",
+        "r_r5_product_class",
+        "r_r5_second_competition",
+        "r_r6_thermodynamic_fate",
+        "r_r6_accessible_fate",
+        "r_sulf_site_answer",
+        "r_comparative_robustness"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

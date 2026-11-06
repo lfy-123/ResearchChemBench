@@ -1,0 +1,66 @@
+{
+  "paper_id": "paper_f62b895afc2db020",
+  "case_id": "case_12",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "TXO 光敏化可达性、局部骨架重排与 cis/trans 形成偏好。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "state_access",
+      "description": "定义相容的敏化剂/底物相关电子态能量及态间差值，交代垂直/绝热定义与电子态。",
+      "public_requirement": "Computed compatible sensitizer/substrate electronic-state energies and state gaps, identifying vertical/adiabatic definitions and electronic states."
+    },
+    {
+      "id": "skeleton_energies",
+      "description": "支撑实际成键、断裂和扩环机制的关键态/反应剖面能量与适用活化量，注明各电子态和参照。",
+      "public_requirement": "Computed key-state/profile energies and applicable activation requirements supporting bond formation, cleavage and ring expansion, identifying electronic states and references."
+    },
+    {
+      "id": "conditional_cis_trans_formation",
+      "description": "明确局部前体/态上匹配cis/trans形成的实际活化、交叉或闭环能量及差值；仅限本模型，不要求本项完成全程电子态衔接。",
+      "public_requirement": "Computed activation, crossing or closure energies and differences for matched cis/trans formation from an explicitly defined local precursor/state. Distinguish this conditional comparison from proof of access through the entire investigated pathway."
+    },
+    {
+      "id": "selectivity_connection_evidence",
+      "description": "支持局部选择性模型与已研究骨架/电子态过程关联的实际态能或连接剖面，并提交、解释相关反向证据的数值；可复用已提交剖面，不强制新算完整光物理网络。",
+      "public_requirement": "Computed state or connection-profile energies supporting the link between the selectivity model and the investigated skeletal/electronic-state pathway, including the relevant calculated contrary evidence and its interpretation. Existing computed profiles may be reused; a complete photophysical network is not required."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "sensitized_accessibility",
+      "points": 30,
+      "description": "光敏化反应态可达性",
+      "allow_need_review": false
+    },
+    {
+      "id": "skeletal_mechanism",
+      "points": 30,
+      "description": "加成、断裂与扩环的骨架机制",
+      "allow_need_review": false
+    },
+    {
+      "id": "conditional_cis_formation_preference",
+      "points": 20,
+      "description": "限定形成模型中的 cis 偏好",
+      "allow_need_review": false
+    },
+    {
+      "id": "selectivity_pathway_applicability",
+      "points": 20,
+      "description": "选择性模型与实际骨架及电子态过程的关联",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Fig.3、SI S105–121；历史验证支持敏化/反应态比较、加成-断裂扩环及参考交叉点/产物比较，不能等同完整光物理/ISC 动力学验证。",
+  "boundaries": [
+    "题面只要求局部机制及定性选择，不要求精确 ISC、dr 或产率。",
+    "较稳定 cis 产物不是更易形成的充分证据；热量、电子能与 Gibbs 能不可混比较。",
+    "匹配且化学相关的形成过程可支持明确限定的 cis 预测；不能把任意单重态扫描直接称为已经证明实际光通道唯一选择。",
+    "条件模型支持并不自动证明实际路径适用；后20分必须有具体计算证据支撑关联和反证处理，不能凭一般性局限声明得分。"
+  ],
+  "source_locator": "Main text p6–8 Fig.3; SI p105–121",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

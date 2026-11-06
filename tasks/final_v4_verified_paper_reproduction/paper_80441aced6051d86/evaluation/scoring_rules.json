@@ -1,0 +1,185 @@
+{
+  "paper_id": "paper_80441aced6051d86",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_free_association_change",
+      "reference_id": "free_association_change",
+      "type": "semantic",
+      "expected": "Matched aqueous calculations for complete G1 (+2) and its free pair (+4) establish the twisted isolated naphthyl/pyridinium/tolyl conformation and a slipped near-parallel aromatic pair arrangement compatible with concentration-dependent association. Quantify the relative structural change with mapped atom-defined descriptors. The result is the structural comparison, not delivery or optimization of two structures. Local minimum claims need appropriate curvature evidence. No exact source torsions, arbitrary figure distances, or excitonic J-sign assignment are required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_cb7_inclusion",
+      "reference_id": "cb7_inclusion",
+      "type": "semantic",
+      "expected": "Actual CB7·G1 geometry places the naphthalene unit in the cavity and pyridinium/tolyl groups outside or at portals. Correct1:1 composition alone does not establish topology. Detailed proton-shift or NOESY patterns are not supplied experimental inputs and are not mandatory comparisons; if independently available under the task permissions, they may support the claim. Actual atom-mapped molecular evidence is required. Use complete mapped structures in the declared aqueous/counterion model and establish the geometric claim with actual computation. No exact source geometry is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_cb8_inclusion",
+      "reference_id": "cb8_inclusion",
+      "type": "semantic",
+      "expected": "Actual CB8·G1_2 geometry supports two nearby naphthalene units in the cavity with peripheral pyridinium/tolyl parts exposed. Correct1:2 composition alone does not establish this packing. Detailed proton-shift or NOESY patterns are not supplied experimental inputs and are not mandatory comparisons; use actual atom-mapped structural evidence for topology and proximity. Use complete mapped structures in the declared aqueous/counterion model and establish the geometric claim with actual computation. No exact source geometry is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_packing_contrast",
+      "reference_id": "packing_contrast",
+      "type": "semantic",
+      "expected": "Using the same atom-defined centroids and planes, actual geometries establish that the CB8-contained guest pair is more compact and less laterally slipped than the free guest pair. This direction was already present in the reference and is now explicit here. Undefined Fig4 atom sets cannot substitute for a matched comparison; no fixed arbitrary threshold applies. Use complete mapped structures in the declared aqueous/counterion model and establish the geometric claim with actual computation. No exact source geometry is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_association_optical_synthesis",
+      "reference_id": "association_optical_synthesis",
+      "type": "semantic",
+      "expected": "Final answer uses the submitted association structures to explain why CB7 and CB8 provide distinct molecular optical environments, and combines that structural explanation with their opposite host-associated spectral changes to reject pure dilution as a sufficient explanation of the within-branch host contrast. Use an explicitly labelled common-concentration branch: the main-text/Fig6 0.02 mM branch or the SI Table S1 0.50 mM branch. The supplied concentration conflict remains unresolved and neither branch is an automatic failure. Do not invent a concentration dependence or pool the two labels as independent spectra. Geometry or NOESY proximity alone does not establish excitonic H/J sign, CT dominance or complete emission kinetics; those claims need their own evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "free_association_change",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Conformational and packing change on free G1 association",
+      "rule_ids": [
+        "r_free_association_change"
+      ],
+      "evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "cb7_inclusion",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "CB7 supports one naphthalene-centred guest",
+      "rule_ids": [
+        "r_cb7_inclusion"
+      ],
+      "evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "cb8_inclusion",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "CB8 supports two nearby naphthalene-centred guests",
+      "rule_ids": [
+        "r_cb8_inclusion"
+      ],
+      "evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "packing_contrast",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "CB8 guest pair is more compact and less slipped than free pair",
+      "rule_ids": [
+        "r_packing_contrast"
+      ],
+      "evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "association_optical_synthesis",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final association structures explain a bounded optical contrast",
+      "rule_ids": [
+        "r_association_optical_synthesis"
+      ],
+      "evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

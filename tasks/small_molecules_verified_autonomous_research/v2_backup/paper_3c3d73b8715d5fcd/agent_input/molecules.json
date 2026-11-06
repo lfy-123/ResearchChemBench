@@ -1,0 +1,795 @@
+{
+  "format_version": "1.0",
+  "representation": "text only",
+  "index_policy": "Each molecule has independent atom_id numbering; its SMILES, atom/bond tables and additional stereochemical constraints jointly define its identity. Chemical numbering in the stated facts does not automatically correspond to atom_id. Report any conflict and stop using the conflicting item; do not silently substitute a different molecule.",
+  "molecules": [
+    {
+      "id": "S",
+      "name": "O-linked 1,7-allenene",
+      "smiles": "C=CCOCC=C=C(C)C",
+      "mapped_smiles": "[CH2:1]=[CH:2][CH2:3][O:4][CH2:5][CH:6]=[C:7]=[C:8]([CH3:9])[CH3:10]",
+      "formula": "C9H14O",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            10
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Heavy-atom numbering is local to this molecule; hydrogen counts are given in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings across states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly specified in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single dominant configuration."
+    },
+    {
+      "id": "P1",
+      "name": "Known product connectivity",
+      "smiles": "CC(C)=C1CC=COCC1",
+      "mapped_smiles": "[CH3:1][C:2]([CH3:3])=[C:4]1[CH2:5][CH:6]=[CH:7][O:8][CH2:9][CH2:10]1",
+      "formula": "C9H14O",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            4
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            9,
+            10
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Heavy-atom numbering is local to this molecule; hydrogen counts are given in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings across states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly specified in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single dominant configuration."
+    },
+    {
+      "id": "P2",
+      "name": "Product connectivity with known relative configuration",
+      "smiles": "CC(C)=C1C[C@H]2COC[C@@H]12",
+      "mapped_smiles": "[CH3:1][C:2]([CH3:3])=[C:4]1[CH2:5][C@H:6]2[CH2:7][O:8][CH2:9][C@@H:10]12",
+      "formula": "C9H14O",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 3,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": "R"
+        },
+        {
+          "atom_id": 7,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 8,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 9,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 10,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 1,
+          "cip": "R"
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            4
+          ],
+          "order": 2.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            9,
+            10
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            10,
+            6
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Heavy-atom numbering is local to this molecule; hydrogen counts are given in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings across states.",
+      "stereochemistry_note": "The two centers in the SMILES define the relative fused-ring configuration: the hydrogens at junction atom_id 6 and 10 are cis. The complete mirror image equally represents this diastereoselectivity problem."
+    },
+    {
+      "id": "CO",
+      "name": "Carbon monoxide",
+      "smiles": "[C-]#[O+]",
+      "mapped_smiles": "[C-:1]#[O+:2]",
+      "formula": "CO",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": -1,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": 1,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 3.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Heavy-atom numbering is local to this molecule; hydrogen counts are given in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings across states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly specified in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single dominant configuration."
+    },
+    {
+      "id": "dioxane",
+      "name": "1,4-Dioxane",
+      "smiles": "C1COCCO1",
+      "mapped_smiles": "[CH2:1]1[CH2:2][O:3][CH2:4][CH2:5][O:6]1",
+      "formula": "C4H8O2",
+      "formal_charge": 0,
+      "smiles_radical_electrons": 0,
+      "atoms": [
+        {
+          "atom_id": 1,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 2,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 3,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        },
+        {
+          "atom_id": 4,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 5,
+          "element": "C",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 2,
+          "cip": null
+        },
+        {
+          "atom_id": 6,
+          "element": "O",
+          "isotope": null,
+          "formal_charge": 0,
+          "radical_electrons": 0,
+          "aromatic": false,
+          "hydrogen_count": 0,
+          "cip": null
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        },
+        {
+          "atoms": [
+            6,
+            1
+          ],
+          "order": 1.0,
+          "aromatic": false,
+          "stereo": "STEREONONE"
+        }
+      ],
+      "atom_index_scope": "Heavy-atom numbering is local to this molecule; hydrogen counts are given in atoms. Numbering is not automatically shared with other molecules. The submitter must establish mappings across states.",
+      "stereochemistry_note": "Use only the stereochemical information explicitly specified in the SMILES and the additional constraints in this entry. Do not treat undefined centers as having a known single dominant configuration."
+    }
+  ]
+}

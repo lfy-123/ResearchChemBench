@@ -1,0 +1,976 @@
+{
+  "at_utc": "2026-09-30T09:10:54.063262+00:00",
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "status": "source_input_integrated_pending_scientific_reference",
+  "instruction": "docs/v2_source_recovery_20260930/instructions/author6_cif_integration.md",
+  "supersedes_current_input_blocker": "blocked_missing_authenticated_cif",
+  "source_files": [
+    {
+      "source": "tasks/tmp/2445596.cif",
+      "destination": "papers/paper_5ea491c741fbd8d4/source_data/2445596.cif",
+      "size": 795534,
+      "sha256": "3d0d3db9b4232bd19d56e55705a5a4240af868d5a80151046de71951ec1d8d89",
+      "provenance": "user supplied; original download URL not provided",
+      "actual_sha256": "3d0d3db9b4232bd19d56e55705a5a4240af868d5a80151046de71951ec1d8d89",
+      "exists": true
+    },
+    {
+      "source": "tasks/tmp/SI/isoxazole_mmc1.zip",
+      "destination": "papers/paper_5ea491c741fbd8d4/documents/user_supplied_20260930/isoxazole_mmc1.zip",
+      "size": 170696,
+      "sha256": "59048684e58e1a69bf82c86ab3f440cf7ebfd0550377792f46c97cde65bc9be8",
+      "provenance": "user supplied; original download URL not provided",
+      "actual_sha256": "59048684e58e1a69bf82c86ab3f440cf7ebfd0550377792f46c97cde65bc9be8",
+      "exists": true
+    },
+    {
+      "source": "tasks/tmp/SI/isoxazole_mmc2.pdf",
+      "destination": "papers/paper_5ea491c741fbd8d4/documents/user_supplied_20260930/isoxazole_mmc2.pdf",
+      "size": 74592,
+      "sha256": "4d381cbbbbade30dc691faf5ca339844b62b609a221568ee0f9a7983b29299a5",
+      "provenance": "user supplied; original download URL not provided",
+      "actual_sha256": "4d381cbbbbade30dc691faf5ca339844b62b609a221568ee0f9a7983b29299a5",
+      "exists": true
+    },
+    {
+      "source": "tasks/tmp/SI/isoxazole_mmc3.docx",
+      "destination": "papers/paper_5ea491c741fbd8d4/documents/user_supplied_20260930/isoxazole_mmc3.docx",
+      "size": 202654,
+      "sha256": "07d9b3d4306e71346983760f7107a71203ee6d27b9d3cdf347e77602fde7b7d3",
+      "provenance": "user supplied; original download URL not provided",
+      "actual_sha256": "07d9b3d4306e71346983760f7107a71203ee6d27b9d3cdf347e77602fde7b7d3",
+      "exists": true
+    }
+  ],
+  "input_validation": {
+    "at_utc": "2026-09-30T09:06:35.304719+00:00",
+    "scope": "Input syntax, identity, field equality, graph correspondence and parser expansion only; no interaction, contact, surface, energy or mechanistic calculation.",
+    "status": "passed",
+    "source_sha256": "3d0d3db9b4232bd19d56e55705a5a4240af868d5a80151046de71951ec1d8d89",
+    "si_archive_member": "1a.cif",
+    "si_member_sha256": "1751fe77d178053fafff7599a0334c891c46456999b96756822226f3d5a4abed",
+    "minimal_sha256": "b22ef7a983d3365a8f5b4bc6abd1654352f86972829b34488b619339cb810ae3",
+    "raw_files_differ": true,
+    "raw_diff_tags": [
+      "_citation_doi",
+      "_audit_update_record",
+      "_citation_id",
+      "_publ_section_references",
+      "_audit_contact_author_email",
+      "_audit_contact_author_address",
+      "_database_code_depnum_ccdc_archive",
+      "_audit_author_name",
+      "_audit_author_address",
+      "_audit_block_doi",
+      "_publ_contact_author_id_orcid",
+      "_citation_year",
+      "_audit_contact_author_name",
+      "_audit_contact_author_phone"
+    ],
+    "retained_tags": [
+      "_database_code_depnum_ccdc_archive",
+      "_chemical_formula_moiety",
+      "_chemical_formula_sum",
+      "_chemical_formula_weight",
+      "_space_group_crystal_system",
+      "_space_group_IT_number",
+      "_space_group_name_H-M_alt",
+      "_space_group_name_Hall",
+      "_space_group_symop_operation_xyz",
+      "_cell_length_a",
+      "_cell_length_b",
+      "_cell_length_c",
+      "_cell_angle_alpha",
+      "_cell_angle_beta",
+      "_cell_angle_gamma",
+      "_cell_volume",
+      "_cell_formula_units_Z",
+      "_cell_measurement_temperature",
+      "_diffrn_ambient_temperature",
+      "_diffrn_radiation_type",
+      "_diffrn_radiation_wavelength",
+      "_refine_diff_density_max",
+      "_refine_diff_density_min",
+      "_refine_ls_goodness_of_fit_ref",
+      "_refine_ls_hydrogen_treatment",
+      "_refine_ls_R_factor_all",
+      "_refine_ls_R_factor_gt",
+      "_refine_ls_wR_factor_ref",
+      "_olex2_refinement_description",
+      "_atom_sites_solution_hydrogens",
+      "_atom_site_label",
+      "_atom_site_type_symbol",
+      "_atom_site_fract_x",
+      "_atom_site_fract_y",
+      "_atom_site_fract_z",
+      "_atom_site_U_iso_or_equiv",
+      "_atom_site_adp_type",
+      "_atom_site_occupancy",
+      "_atom_site_site_symmetry_order",
+      "_atom_site_calc_flag",
+      "_atom_site_refinement_flags_posn",
+      "_atom_site_refinement_flags_adp",
+      "_atom_site_refinement_flags_occupancy",
+      "_atom_site_disorder_assembly",
+      "_atom_site_disorder_group",
+      "_atom_site_aniso_label",
+      "_atom_site_aniso_U_11",
+      "_atom_site_aniso_U_22",
+      "_atom_site_aniso_U_33",
+      "_atom_site_aniso_U_23",
+      "_atom_site_aniso_U_13",
+      "_atom_site_aniso_U_12"
+    ],
+    "removed_tags": [
+      {
+        "tag": "_audit_block_doi",
+        "reason": "source attribution retained in original/private provenance; excluded from AR",
+        "value_sha256": "2c1f20a981cad2a31b53290cdd3437cddf809d79a2c113b4f403c515d15d66f6",
+        "entries": 1
+      },
+      {
+        "tag": "_citation_id",
+        "reason": "source attribution retained in original/private provenance; excluded from AR",
+        "value_sha256": "43de3a417d75f4818c5a553268b80ce3a5805109a3bbc6b605e9fb0b8f50b485",
+        "entries": 1
+      },
+      {
+        "tag": "_citation_doi",
+        "reason": "source attribution retained in original/private provenance; excluded from AR",
+        "value_sha256": "8a4cc40434482c2fd85831055e5bc15d0ea9de86cdfcaa4e32e929b5f5f4db14",
+        "entries": 1
+      },
+      {
+        "tag": "_citation_year",
+        "reason": "source attribution retained in original/private provenance; excluded from AR",
+        "value_sha256": "3fb9c1f31149df96076a7599d2598aecaea807334bb42e6b9cd20a2f0a91070f",
+        "entries": 1
+      },
+      {
+        "tag": "_audit_author_name",
+        "reason": "source attribution retained in original/private provenance; excluded from AR",
+        "value_sha256": "adc1a30745b2cdb629cfdbe2ffd52d3b0b1760f61a184b307ded9737e6ba3005",
+        "entries": 1
+      },
+      {
+        "tag": "_audit_author_address",
+        "reason": "source attribution retained in original/private provenance; excluded from AR",
+        "value_sha256": "1942eb3276cf5e56977574cd895b5702a1f284e0d70cf6db11eb83ba92135744",
+        "entries": 1
+      },
+      {
+        "tag": "_audit_update_record",
+        "reason": "source attribution retained in original/private provenance; excluded from AR",
+        "value_sha256": "58d59a6e01112cf2331bd1259b544e1e6760386df39564a2af8f815fec092d42",
+        "entries": 1
+      },
+      {
+        "tag": "_audit_creation_date",
+        "reason": "source attribution retained in original/private provenance; excluded from AR",
+        "value_sha256": "e4d11caafb51c5322b7c0558104a45359cd15f85744534774160a753b4f7f384",
+        "entries": 1
+      },
+      {
+        "tag": "_audit_creation_method",
+        "reason": "source attribution retained in original/private provenance; excluded from AR",
+        "value_sha256": "eacc1298f97bde0be23ad3d280a3b1ac50d2350f36776bd9eafdcc8368602276",
+        "entries": 1
+      },
+      {
+        "tag": "_shelx_SHELXL_version_number",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "1fea8b03bf7f8b15750f62d362754a24a1febb21bf853c02a621fb957b575acd",
+        "entries": 1
+      },
+      {
+        "tag": "_chemical_name_common",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_chemical_name_systematic",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_chemical_melting_point",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_atom_type_symbol",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "4a428507da2c4ddccc8c7d4813972c838de550b75ec851377dfdbd28a646e7d1",
+        "entries": 4
+      },
+      {
+        "tag": "_atom_type_description",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "4a428507da2c4ddccc8c7d4813972c838de550b75ec851377dfdbd28a646e7d1",
+        "entries": 4
+      },
+      {
+        "tag": "_atom_type_scat_dispersion_real",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "da21331a241f6679a9c5d96548dcf7598f515a36c3fa77b7098ad99fc353ad29",
+        "entries": 4
+      },
+      {
+        "tag": "_atom_type_scat_dispersion_imag",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "81f6c6e4ab51416a57d5d08f21fb3777b49fbb506ec0537d7161dcea29c47933",
+        "entries": 4
+      },
+      {
+        "tag": "_atom_type_scat_source",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "9b0aa9e48e8f4df056b9997d0b0d8d41053367dfa889a338f4b9625285fa6aac",
+        "entries": 4
+      },
+      {
+        "tag": "_shelx_space_group_comment",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "e8e9b27a1315c69c749a233425cef3fd005ea0bc14c5b2e3ae289daf78d30bb8",
+        "entries": 1
+      },
+      {
+        "tag": "_cell_measurement_reflns_used",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "95e956dc241f4199a56589a33e334ebaef501f7b1d980a9897ebbf9eb0ab6fee",
+        "entries": 1
+      },
+      {
+        "tag": "_cell_measurement_theta_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "17a76bf8d0d3807851153fd732aeb14a2a700fde2fadb40631ae5dfd56371c20",
+        "entries": 1
+      },
+      {
+        "tag": "_cell_measurement_theta_min",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "095a482af6070b09403d3217bd1b19f8c689ef6a67ae2b033b2c29cc5e3acfe8",
+        "entries": 1
+      },
+      {
+        "tag": "_shelx_estimated_absorpt_T_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_shelx_estimated_absorpt_T_min",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_absorpt_coefficient_mu",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "a0a17bb6665936c19751fa4a8df20e08bb7d3081a3d99b293ac09fbd7c7765d7",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_absorpt_correction_T_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "c83a3658aed0c268a3e4caaa25ab73838b6aef38b5310eb5005c0e6b21f5232e",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_absorpt_correction_T_min",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "f6f76634939a4db1833c9bcf9fa8964fbe1a01a937cc1b1371d6187ba5f1c051",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_absorpt_correction_type",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "29a8737542abecbc53f9c24be4f87c69d03c32f502038db459fe6f33bf667b53",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_absorpt_process_details",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "9c838dd030177b078dc8869789810662d8068ab75280b709d503d3bc44e90884",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_absorpt_special_details",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_crystal_colour",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "205c1562679017d637268d76555c84920581471d335e58ca531ff553390271e7",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_crystal_density_diffrn",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "14db9e87beced25cb1f427c349d0844865a5d97dc1217a3e7e3650791bd43076",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_crystal_density_meas",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_crystal_density_method",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_crystal_description",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "2be67bcc90fe243cd8a82e5bae61beb9d7cb2d7d939b71c244af71c6ccc7b3ff",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_crystal_F_000",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "819c9cb391c04c02643b08ba9f27ce137fca54f3d8e89a214699df8ab7cfa001",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_crystal_size_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "bad09dedb35cd5a42cbe4fd3506a5739c115427785945162d31daf62e94b0ed2",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_crystal_size_mid",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "39b75e15f0d015312a0d6d28e650e4296181a28fa1f0e2c603d9155c06cbfc7d",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_crystal_size_min",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "be9ee1cca3388d3c57ab8b0c5bdec84fe69105d79969e162648d7d7cc3e29f70",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_transmission_factor_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_exptl_transmission_factor_min",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_av_R_equivalents",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "53b53d0e78e9d0ad44572b1bcb14e19163b8454ebf09b875ce1667039c652bb7",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_av_unetI/netI",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "71670cd0bd98aab89a7d5470cac68517c37944d81f335af4f6dd0445c5a21a2b",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_Laue_measured_fraction_full",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7c063505ace97492a1c002ddc421b252e5d317cd0c5ad2a66c1795b25759f710",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_Laue_measured_fraction_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "72f65275cd4cc473a6baecfb3f19414d4256bafa85627d1b769d093bcae343f3",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_limit_h_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "e4bb04eec661be0b6c4cde1d3e6dca3fff3c9bdbb8c1244061f85bab274505e9",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_limit_h_min",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "4a57e3450aa712e310dc232a486695e17a9ec3dd0922fd760f997d48ddf29bbd",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_limit_k_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "986b79d4b69dffb1d19836f47b27073d95bf55201b3385aceb7e0687a21d8667",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_limit_k_min",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "d26d7e0f75a792fd6c4988a06198147b86ee4391428779795c6fbfed1a8f1bc2",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_limit_l_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "e4bb04eec661be0b6c4cde1d3e6dca3fff3c9bdbb8c1244061f85bab274505e9",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_limit_l_min",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "f30725ec5d180591c1977552edf61b514bd2c13d231780cb824e73f210834cec",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_number",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "95e956dc241f4199a56589a33e334ebaef501f7b1d980a9897ebbf9eb0ab6fee",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_point_group_measured_fraction_full",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7c063505ace97492a1c002ddc421b252e5d317cd0c5ad2a66c1795b25759f710",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_point_group_measured_fraction_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "72f65275cd4cc473a6baecfb3f19414d4256bafa85627d1b769d093bcae343f3",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_theta_full",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "57e702f0d799b29b7da936bbb61b1509155cf14f6b534f685891197def449891",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_theta_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "17a76bf8d0d3807851153fd732aeb14a2a700fde2fadb40631ae5dfd56371c20",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_reflns_theta_min",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "095a482af6070b09403d3217bd1b19f8c689ef6a67ae2b033b2c29cc5e3acfe8",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_detector_area_resol_mean",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_measured_fraction_theta_full",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7c063505ace97492a1c002ddc421b252e5d317cd0c5ad2a66c1795b25759f710",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_measured_fraction_theta_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "72f65275cd4cc473a6baecfb3f19414d4256bafa85627d1b769d093bcae343f3",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_measurement_device_type",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "6aef737dc0b5da19b337d19bd701d1711d81cf7860be313d6ae767494ed4bf7e",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_measurement_method",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_diffrn_source",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_reflns_Friedel_coverage",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7f2dc38d65c93f4dbab7c6b74acb5445999c3b22e27c74c832f684dba7293460",
+        "entries": 1
+      },
+      {
+        "tag": "_reflns_Friedel_fraction_full",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7299b59de0b5dad3b622afc3bdf57544e505249c77a6d4254bd14b1fc9a4ade8",
+        "entries": 1
+      },
+      {
+        "tag": "_reflns_Friedel_fraction_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7299b59de0b5dad3b622afc3bdf57544e505249c77a6d4254bd14b1fc9a4ade8",
+        "entries": 1
+      },
+      {
+        "tag": "_reflns_number_gt",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "8802d0bf2c2308385d3a36a768d014cb563b126e5e90b1d005751977b7b8a621",
+        "entries": 1
+      },
+      {
+        "tag": "_reflns_number_total",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "04861f086b3161376a3ebae3916643da43e7b3b4af9d6c856e7ee4e2bc61d4a9",
+        "entries": 1
+      },
+      {
+        "tag": "_reflns_special_details",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "44d887c969df7bd73c3286383de923302100790290af48f1cb9e6080c73ad8a6",
+        "entries": 1
+      },
+      {
+        "tag": "_reflns_threshold_expression",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "52c03348fd2b9dc9ba2c3d6ef2acecce4c54d9ff4e18e93f181c9cda5cf06d84",
+        "entries": 1
+      },
+      {
+        "tag": "_computing_cell_refinement",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_computing_data_collection",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_computing_data_reduction",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_computing_molecular_graphics",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "18576e6f19aac8dacee72140c5013b9799db317d462659178460cd81819e72bf",
+        "entries": 1
+      },
+      {
+        "tag": "_computing_publication_material",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "18576e6f19aac8dacee72140c5013b9799db317d462659178460cd81819e72bf",
+        "entries": 1
+      },
+      {
+        "tag": "_computing_structure_refinement",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "80b1f9d284d08b660811960af2e2a4d2e660964d5ddd3bc572d254fb75ee457c",
+        "entries": 1
+      },
+      {
+        "tag": "_computing_structure_solution",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7d3ae55be1628d9cab0231981fc6d3b1c4308a544f34827bbbddbce0718d3d8d",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_diff_density_rms",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "1587d2a4ab8f46f24b9f808b98f1096fcc9e691240e59e500ca97cbf1db41427",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_extinction_coef",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7299b59de0b5dad3b622afc3bdf57544e505249c77a6d4254bd14b1fc9a4ade8",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_extinction_method",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "30a0924a3360be687d1df9fcbbfdff62c01bc0fd14036ab9076cf7f451568666",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_matrix_type",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "1e5941238a72b1f89a5d4cfad9164d5d37f08fab209161841ebf39bf057083d4",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_number_parameters",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "1b580220fe1521846722925fb939df82f103bf369dabe8709414e53888ea1a17",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_number_reflns",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "04861f086b3161376a3ebae3916643da43e7b3b4af9d6c856e7ee4e2bc61d4a9",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_number_restraints",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "98089e6d36f78e9766c9ea34d5acb3611f3a92cd81c5eb102095d924ffc7d08b",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_restrained_S_all",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "9ad65cb3137d0ce966e3d96e8bff8d6afb3d46f4e66be8f3e6a5ef30c42e8330",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_shift/su_max",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7f2dc38d65c93f4dbab7c6b74acb5445999c3b22e27c74c832f684dba7293460",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_shift/su_mean",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7f2dc38d65c93f4dbab7c6b74acb5445999c3b22e27c74c832f684dba7293460",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_structure_factor_coef",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "d54edcc76febd7d500249f379794c0288210ea9589db25a3b0ad58646a8b4a9d",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_weighting_details",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "918591b0b159c90e3ddef6e7ddbe4b366ccce194ad700a08b4a1a3d9c2c6196e",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_weighting_scheme",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "942a6de810594bfeb49a6124156cdd64169bcb51c92a194ad710b40b3ad319b2",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_ls_wR_factor_gt",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "ec4def0607fb812a2a6a3d366042765ed79a351382efcf387be8454bf2ef75e2",
+        "entries": 1
+      },
+      {
+        "tag": "_refine_special_details",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_atom_sites_solution_primary",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_atom_sites_solution_secondary",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "15c5e748338b7ecd1296c700d6863dad8091e354a9dfa475fbb4bffba89d225f",
+        "entries": 1
+      },
+      {
+        "tag": "_geom_special_details",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "e8b4d4a211905769e560293054d83ead6594b704c79765afb32b3d5164542276",
+        "entries": 1
+      },
+      {
+        "tag": "_geom_bond_atom_site_label_1",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "711a30ff6a72537795df8215294cc9e98be1a4cf1cb5bedcf53a998ab8ab227b",
+        "entries": 28
+      },
+      {
+        "tag": "_geom_bond_atom_site_label_2",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "850ad7edd233d756d76ffc9ee3cb79c21f5f635a1cd33a92b1ed2955eb64f2ad",
+        "entries": 28
+      },
+      {
+        "tag": "_geom_bond_distance",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "6a5d748d1a2846eb43c1c8e741892df4f0e6a0a0434f8d2afe8460501383a9ce",
+        "entries": 28
+      },
+      {
+        "tag": "_geom_bond_site_symmetry_2",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "6ac5b340688fab17ce38359909294d32390fab91c5a402cd02e4565e45c99d6d",
+        "entries": 28
+      },
+      {
+        "tag": "_geom_bond_publ_flag",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "6f43315d7bdba52df6fc6162ad667cc7a098ab76570d963a13fe0a844132fbe8",
+        "entries": 28
+      },
+      {
+        "tag": "_geom_angle_atom_site_label_1",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "5f11e6f6e44098a31491465dc4d2afea5e62ed08534c8c0e5eb0b6275607ca60",
+        "entries": 45
+      },
+      {
+        "tag": "_geom_angle_atom_site_label_2",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "e701a0408cf5f45a2a47ccf5b408797107f3e01b2d61e7eaff1b5a5887396505",
+        "entries": 45
+      },
+      {
+        "tag": "_geom_angle_atom_site_label_3",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "d5133704099d9e9a55d86843134d00f00689c0e7fa9e635ff37b997464b25dde",
+        "entries": 45
+      },
+      {
+        "tag": "_geom_angle",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "9ab0e53b879a03a4018254acc4bfbc10b5bc3640d94a74a728c65ca6705ee72c",
+        "entries": 45
+      },
+      {
+        "tag": "_geom_angle_site_symmetry_1",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "dfa72ff2ddf2fd78b61aa29093a1c8c730b2ec93fba36edc40cff49fbee05622",
+        "entries": 45
+      },
+      {
+        "tag": "_geom_angle_site_symmetry_3",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "dfa72ff2ddf2fd78b61aa29093a1c8c730b2ec93fba36edc40cff49fbee05622",
+        "entries": 45
+      },
+      {
+        "tag": "_geom_angle_publ_flag",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "193c2384af36a11ebaed0a65a55108366832f89a9e9217dd088389c82d97258d",
+        "entries": 45
+      },
+      {
+        "tag": "_geom_torsion_atom_site_label_1",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "410e130634b0c75d46a5b2e855a5a21f12300a44f32e5bc32577fad003103fbd",
+        "entries": 29
+      },
+      {
+        "tag": "_geom_torsion_atom_site_label_2",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "70035b935f9aff61d780c30386d5a8bb86d6e995721604784c8629cecc0aadc8",
+        "entries": 29
+      },
+      {
+        "tag": "_geom_torsion_atom_site_label_3",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "c4b8ccc1bf32bb57584f28b52d0def76aa8815e0d310be2e9dddc0a9650770f6",
+        "entries": 29
+      },
+      {
+        "tag": "_geom_torsion_atom_site_label_4",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "132ec029ed257d4bcea18890b1ea358f8bfebd6e89d4fb86eee9786ae7f02ec2",
+        "entries": 29
+      },
+      {
+        "tag": "_geom_torsion",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "7c60c76b04e50be77c29b2ff1e990e8a1e0237ceef6e84ec0f37133e8f21c212",
+        "entries": 29
+      },
+      {
+        "tag": "_geom_torsion_site_symmetry_1",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "e29298bf311b5905b7b11c7345b9a10dbdd3d63fd728ea6b9c0eb927cc5045c4",
+        "entries": 29
+      },
+      {
+        "tag": "_geom_torsion_site_symmetry_2",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "e29298bf311b5905b7b11c7345b9a10dbdd3d63fd728ea6b9c0eb927cc5045c4",
+        "entries": 29
+      },
+      {
+        "tag": "_geom_torsion_site_symmetry_3",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "e29298bf311b5905b7b11c7345b9a10dbdd3d63fd728ea6b9c0eb927cc5045c4",
+        "entries": 29
+      },
+      {
+        "tag": "_geom_torsion_site_symmetry_4",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "e29298bf311b5905b7b11c7345b9a10dbdd3d63fd728ea6b9c0eb927cc5045c4",
+        "entries": 29
+      },
+      {
+        "tag": "_geom_torsion_publ_flag",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "f0f656428a08c1fb68eb5aac1d9e28aec3117aa21dc28277a68cd2e810114b82",
+        "entries": 29
+      },
+      {
+        "tag": "_shelx_res_file",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "453238791be637cca81791093ac25ce59639424c25cdf54e8bec5ebf76ba07ac",
+        "entries": 1
+      },
+      {
+        "tag": "_shelx_res_checksum",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "2f972c59eeb6f3a1f1fe1d37c9c622cfb020f6e2db53efbce332b5afb108ff84",
+        "entries": 1
+      },
+      {
+        "tag": "_shelx_hkl_file",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "6e0b792218879aba2148feb7231c8f8f1212c61cd9cd8b78bc5b109c825343ea",
+        "entries": 1
+      },
+      {
+        "tag": "_shelx_hkl_checksum",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "5260a5601debe3414b6c5d4bb7f0c843d78b97703f4c8dd5f5a3181a41fe6b0b",
+        "entries": 1
+      },
+      {
+        "tag": "_olex2_submission_special_instructions",
+        "reason": "not needed for structure/measurement input; excludes precomputed geometry, refinement/diffraction payload and ancillary metadata",
+        "value_sha256": "08357ec600d8f676700dabea9b044344c7efbaf362cf6a77f2f86636475b211c",
+        "entries": 1
+      }
+    ],
+    "source_si_retained_scientific_fields_equal": true,
+    "derivative_retained_fields_exact": true,
+    "ase_independent_retained_fields_equal": true,
+    "atom_count_asymmetric_unit": 27,
+    "atom_count_cell": 108,
+    "composition": {
+      "O": 3,
+      "N": 1,
+      "C": 12,
+      "H": 11
+    },
+    "occupancy": [
+      1
+    ],
+    "disorder": "All assembly/group values dot; no split/disordered site declared. This does not prove absence of unmodeled disorder.",
+    "H_model": "11 H sites present; calculated/riding coordinates, five CH and two rotating methyl groups. Original X-ray model retained; no neutron normalization applied.",
+    "ADP": "16 anisotropic non-H sites and 11 isotropic H; original uncertainties/flags retained.",
+    "anomalies": [
+      "One fractional coordinate is negative; kept as source periodic representation, not invalid or wrapped.",
+      "H sites are constrained/model-derived, not independently refined nuclear positions.",
+      "No new experimental authentication against live CCDC: user-supplied deposition metadata, DOI/cell/composition and independent SI agree; original download URL unrecorded."
+    ],
+    "graph_bond_set_equal": true,
+    "graph_bonds": 28,
+    "mapping_atoms": 27,
+    "expanded_structures_equal": true,
+    "parsers": {
+      "pymatgen": "2026.5.4",
+      "ase": "3.29.0"
+    },
+    "parse_summaries": [
+      {
+        "source": "CCDC_original",
+        "cell_sites": 108,
+        "composition": {
+          "H": 44.0,
+          "C": 48.0,
+          "N": 4.0,
+          "O": 12.0
+        },
+        "warnings": []
+      },
+      {
+        "source": "SI1a",
+        "cell_sites": 108,
+        "composition": {
+          "H": 44.0,
+          "C": 48.0,
+          "N": 4.0,
+          "O": 12.0
+        },
+        "warnings": []
+      },
+      {
+        "source": "minimal",
+        "cell_sites": 108,
+        "composition": {
+          "H": 44.0,
+          "C": 48.0,
+          "N": 4.0,
+          "O": 12.0
+        },
+        "warnings": []
+      }
+    ],
+    "scientific_pass_claimed": false
+  },
+  "public_input_hashes": {
+    "source_crystal.cif": "b22ef7a983d3365a8f5b4bc6abd1654352f86972829b34488b619339cb810ae3",
+    "atom_mapping.json": "b6904875d7c68fe7aedbd731d79523c4f05c6beb8ace180bf38e6278a9ce4d8c"
+  },
+  "independent_coordinator_check": {
+    "path": "docs/v2_source_recovery_20260930/intake/INDEPENDENT_CIF_FIELD_CHECK.json",
+    "sha256": "ac24c92c8d28347f9e0a00b361c42c3225862d2bc72eaf419ae2be8d30d45a41"
+  },
+  "historical_boundary": "Prior integrity repair and audit files remain time-specific and unchanged. Current source-input status in this record supersedes their missing-CIF claim; it does not retroactively alter their conclusions.",
+  "scientific_calculations_performed": false,
+  "new_scientific_engine_launches": 0,
+  "scientifically_validated": false,
+  "judge_calibration": "pending",
+  "scope_note": "No change to question, weights, substantive evidence standards or AR method freedom. PR attachments only disclose the source.",
+  "stereochemistry_correction": {
+    "at_utc": "2026-09-30T09:16:42.200614+00:00",
+    "before_mapped_smiles": "[C:1]([C:2]1=[N:3][O:4][C:5](=[O:6])/[C:7]1=[C:8](/[c:9]1[c:10]([H:21])[c:11]([H:22])[c:12]([O:13][C:14]([H:23])([H:24])[H:25])[c:15]([H:26])[c:16]1[H:27])[H:20])([H:17])([H:18])[H:19]",
+    "after_mapped_smiles": "[C:1]([C:2]1=[N:3][O:4][C:5](=[O:6])/[C:7]1=[C:8](\\[c:9]1[c:10]([H:21])[c:11]([H:22])[c:12]([O:13][C:14]([H:23])([H:24])[H:25])[c:15]([H:26])[c:16]1[H:27])[H:20])([H:17])([H:18])[H:19]",
+    "input_check": {
+      "scope": "Static stereochemical input identity, using supplied coordinates. No interaction or new reference computed.",
+      "rdkit_version": "2025.9.5",
+      "atomic_map_numbers_removed_before_assignment": true,
+      "current_smiles_stereo": "STEREOE",
+      "source_geometry_stereo": "STEREOZ",
+      "match": false,
+      "source_tabulated_torsion": {
+        "labels": [
+          "C11",
+          "C9",
+          "C8",
+          "C5"
+        ],
+        "source_value_degrees": "7.4(3)",
+        "kind": "already tabulated CIF value, not recomputed"
+      },
+      "CIP_reason": "At C9(map7), carbonyl C11(map5) has O/O/O neighbor sequence, higher priority than C10(map2) with N/N/C. At C8(map8), aryl C5(map9) outranks H8(map20). The source geometry places those higher-priority substituents on the same side.",
+      "source_name_boundary": "Article pp1 and4 name (E); original source and its geometry are preserved. Observed deposited crystal governs this task; nomenclature mismatch is disclosed, not repaired by moving atoms."
+    },
+    "historical_evidence_reuse": "Inspect the actual geometry and mapping of each E-labelled historical calculation. No automatic reuse as this Z source crystal; no old monomer result certifies packing."
+  },
+  "pr_checkcif_disclosure": {
+    "source_sha256": "4d381cbbbbade30dc691faf5ca339844b62b609a221568ee0f9a7983b29299a5",
+    "public_path": "data/author_sources/checkcif_observations.md",
+    "derived_sha256": "bbb68d05b67428234c332ed46a14d014b57f622b5d6f9932574a147df831ddf6",
+    "method": "PyMuPDF page-by-page text extraction, four pages; no images transcribed",
+    "reason": "Official validate_task_package excludes .pdf in both modes; original remains unchanged in papers/ archive. Not renamed or hidden in archive to evade rule."
+  },
+  "independent_stereo_review": {
+    "path": "docs/v2_source_recovery_20260930/intake/INDEPENDENT_STEREO_SOURCE_REVIEW.json",
+    "sha256": "09631bc9edb3b181693568c3b27bb1998da4a6fc3fcfcc6056e3254cf0372f14"
+  }
+}

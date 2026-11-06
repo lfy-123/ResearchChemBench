@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -88,7 +89,7 @@ def build_run_index(workspace, *, output_dir=None):
             item["role"] = role
         return item
 
-    for name in ("report", "outputs", "code", "data", "_tool_results", "_tool_artifacts"):
+    for name in ("report", "outputs", "code", "data", "research", "_tool_results", "_tool_artifacts"):
         for path in _files(workspace / name):
             add(path, role="agent_report" if name == "report" else "tool_record" if name.startswith("_tool_") else "scientific_artifact")
     for name in ("_meta.json", "_tool_trace.jsonl", "_tool_call_events.jsonl", "task.md", "submission_schema.json", "_score.json", "_score_history.jsonl", "_scoring_attempt.json"):
@@ -217,6 +218,9 @@ def build_run_index(workspace, *, output_dir=None):
     # exist rather than depending on arbitrary job IDs or directory ordering.
     for job in jobs:
         for link in job["inputs"]:
+            frozen = entries.get(link.get("snapshot"))
+            if frozen:
+                frozen["source_path"] = link["source"]
             upstream = entries.get(link["source"])
             if upstream and job["job_id"] not in upstream["consumers"]:
                 upstream["consumers"].append(job["job_id"])
@@ -291,7 +295,14 @@ def write_index(index, output_dir):
     (output / "INDEX.md").write_text("\n".join(lines) + "\n")
 
 
-def export_run_archive(workspace, destination, *, compress_logs=False):
+def export_run_archive(workspace, destination, *, compress_logs=False, link_large_files=False):
+    """Export evidence; optional hard links require a closed, immutable run.
+
+    Large unredacted binary job files can share storage with the source on the
+    same filesystem. Both paths remain usable if either directory is removed,
+    but callers must not modify either copy in place after opting into linking.
+    Text and SQLite files are always copied/sanitized independently.
+    """
     destination = Path(destination).resolve()
     if destination.exists() or destination.is_relative_to(Path(workspace).resolve()):
         raise ValueError("archive destination must be new and outside the source workspace")
@@ -320,6 +331,14 @@ def export_run_archive(workspace, destination, *, compress_logs=False):
         index["problems"].append({"reason": "active_jobs_during_export", "required": True})
     if read_json(Path(workspace) / "_meta.json").get("status") in {"running", "ready", "recovering"}:
         index["problems"].append({"reason": "active_agent_during_export", "required": True})
+    if link_large_files:
+        status = read_json(Path(workspace) / "_meta.json").get("status")
+        if status not in {"completed", "failed", "cancelled", "budget_exhausted", "timeout"}:
+            raise ValueError("hard-link export requires an explicitly terminal run")
+        if any(p.get("reason") in {"active_agent_during_export", "active_jobs_during_export", "active_manager_during_export"}
+               for p in index["problems"]):
+            raise ValueError("hard-link export requires stopped jobs and manager")
+        index["retention"]["linked_binary_files_require_immutable_sources"] = True
     def signature(path):
         try:
             stat = path.stat()
@@ -352,6 +371,24 @@ def export_run_archive(workspace, destination, *, compress_logs=False):
                         redacted = redacted or sanitized != line
                         dst.write(sanitized)
                 item["stored_size_bytes"] = target.stat().st_size
+            elif (link_large_files and before.st_size >= 1024 * 1024
+                  and item["scope"] == "workspace"
+                  and item["path"].startswith("outputs/execution_jobs/")
+                  and source.suffix.lower() not in {".db", ".sqlite", ".sqlite3", ".wal", ".shm"}
+                  and not source.name.endswith(("-wal", "-shm", "-journal"))):
+                digest = hashlib.sha256()
+                with source.open("rb") as stream:
+                    while chunk := stream.read(8 * 1024 * 1024):
+                        digest.update(chunk)
+                actual = digest.hexdigest()
+                if item.get("sha256") and item["sha256"] != actual:
+                    raise ValueError("source digest differs from recorded evidence")
+                # Fail rather than silently copying hundreds of GB across
+                # filesystems. A caller can explicitly select ordinary export.
+                os.link(source, target, follow_symlinks=False)
+                if (target.stat().st_dev, target.stat().st_ino) != (before.st_dev, before.st_ino):
+                    raise ValueError("source identity changed during hard-link export")
+                item.update(storage="hardlink", sha256=actual)
             else:
                 shutil.copy2(source, target)
             after = source.stat()
@@ -449,10 +486,13 @@ def main(argv=None):
     parser.add_argument("source", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--compress-logs", action="store_true")
+    parser.add_argument("--link-large-files", action="store_true",
+                        help="share large binary job files of a stopped run; source and archive must remain immutable")
     args = parser.parse_args(argv)
     if args.operation == "export":
         if not args.output: parser.error("export requires --output")
-        result = export_run_archive(args.source, args.output, compress_logs=args.compress_logs)
+        result = export_run_archive(args.source, args.output, compress_logs=args.compress_logs,
+                                    link_large_files=args.link_large_files)
     elif args.operation == "index":
         result = build_run_index(args.source, output_dir=args.output or audit_directory(args.source))
     else:

@@ -1,0 +1,191 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "evidence": [
+    {
+      "evidence_id": "e_conditions",
+      "source": "main.pdf PDF pages [7]; Figure3 and mechanistic-investigation text",
+      "source_document": "papers/paper_9f24eac60feca79d/documents/main.pdf",
+      "source_sha256": "b3d769ddd824f5431a63271617f65acabaad7b76f056a51ba8e3bbaf0cc8f211",
+      "pdf_pages_1based": [
+        7
+      ],
+      "locator": "Figure3 and mechanistic-investigation text",
+      "evidence_class": "experiment",
+      "claim": "Thermal enamine cyclization, toluene80°C/N2; scope starts at the supplied N-allyl enamine.",
+      "render_directory": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/source_review/paper_9f24eac60feca79d"
+    },
+    {
+      "evidence_id": "e_profile",
+      "source": "main.pdf PDF pages [7, 8]; Figure4a and accompanying discussion",
+      "source_document": "papers/paper_9f24eac60feca79d/documents/main.pdf",
+      "source_sha256": "b3d769ddd824f5431a63271617f65acabaad7b76f056a51ba8e3bbaf0cc8f211",
+      "pdf_pages_1based": [
+        7,
+        8
+      ],
+      "locator": "Figure4a and accompanying discussion",
+      "evidence_class": "author_computation",
+      "claim": "Starting-enamine-referenced free-energy heights31.0 (crossed [2+2], OSS) and37.1 (lowest aza-Claisen trans-imine route, CSS); preferred cycloaddition.",
+      "render_directory": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/source_review/paper_9f24eac60feca79d"
+    },
+    {
+      "evidence_id": "e_method",
+      "source": "supplementary_001.pdf PDF pages [23, 24, 25, 26]; printed S22–S25; methods and Supplementary Figures3–5",
+      "source_document": "papers/paper_9f24eac60feca79d/documents/supplementary_001.pdf",
+      "source_sha256": "1107ddcf7791cc067d30086364f61ab4969ab33aa503d775274f5da2f31f8b99",
+      "pdf_pages_1based": [
+        23,
+        24,
+        25,
+        26
+      ],
+      "locator": "printed S22–S25; methods and Supplementary Figures3–5",
+      "evidence_class": "author_computation",
+      "claim": "M06-2X/def2-SVP then def2-TZVP SMD toluene, stability/frequency/IRC and1M correction; state and path details.",
+      "render_directory": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/source_review/paper_9f24eac60feca79d"
+    },
+    {
+      "evidence_id": "e_distinct_system",
+      "source": "main.pdf PDF pages [9]; Figure5",
+      "source_document": "papers/paper_9f24eac60feca79d/documents/main.pdf",
+      "source_sha256": "b3d769ddd824f5431a63271617f65acabaad7b76f056a51ba8e3bbaf0cc8f211",
+      "pdf_pages_1based": [
+        9
+      ],
+      "locator": "Figure5",
+      "evidence_class": "context_only_not_scored",
+      "claim": "Figure5 concerns a homoallyl-alcohol-derived oxabicyclo[3.1.1] system, not current N-allyl enamine. Its36.0 barrier and kinetic/thermodynamic product switch are not current targets.",
+      "render_directory": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/source_review/paper_9f24eac60feca79d"
+    },
+    {
+      "evidence_id": "V2_MAIN",
+      "source": {
+        "path": "papers/paper_9f24eac60feca79d/documents/main.pdf",
+        "sha256": "b3d769ddd824f5431a63271617f65acabaad7b76f056a51ba8e3bbaf0cc8f211",
+        "pdf_pages_1based": [
+          7,
+          8
+        ]
+      },
+      "description": "2026-10-25直接核对的原论文/补充材料；PDF页序从1开始。完整来源、验证与评分对应见verified_computation_reference.md。"
+    },
+    {
+      "evidence_id": "V2_SI",
+      "source": {
+        "path": "papers/paper_9f24eac60feca79d/documents/supplementary_001.pdf",
+        "sha256": "1107ddcf7791cc067d30086364f61ab4969ab33aa503d775274f5da2f31f8b99",
+        "pdf_pages_1based": [
+          23,
+          24,
+          25,
+          26
+        ]
+      },
+      "description": "2026-10-25直接核对的原论文/补充材料；PDF页序从1开始。完整来源、验证与评分对应见verified_computation_reference.md。"
+    },
+    {
+      "evidence_id": "V3_EXISTING_NATIVE_EVIDENCE",
+      "source": {
+        "paths": [
+          "docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json"
+        ]
+      },
+      "description": "Existing native computation and audited arithmetic, mapped per final outcome in reference_qualification.json. Source values are not local computed values."
+    }
+  ],
+  "public_input_source_locators": [
+    "main pp7–8 Figures3–4 (substrate and net outcomes)",
+    "SI PDF p23 (printed S22): thermochemical reporting boundary"
+  ],
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_cycloaddition_formation",
+      "r_imine_formation",
+      "r_product_competition_interpretation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+  },
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "必需结果1与3：双环整体活化、连接及电子/成键解释",
+      "rule_id": "r_cycloaddition_formation",
+      "conclusion_id": "cycloaddition_formation",
+      "independence": "回答双环如何热形成，不借亚胺相对高低作为充分判据。",
+      "source_locator": "正文PDF7–8 Fig.4a；SI PDF23–26，方法及Supplementary Fig.3–5",
+      "native_artifacts": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/native_return.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/verification_matrix.json"
+      ],
+      "existing_support": "OSS路线整体31.012403；闭环28.343667、必要转动19.026830均更低；CSS受限解有R→U不稳定。",
+      "limits": [
+        "破缺对称态的自旋污染与受限CSS波函数不稳定必须按实际物理状态解释。",
+        "已有作者引导有限候选和连接审计不等于盲发现或全局穷尽；保留方法/实现差别。",
+        "孤立烯胺暗对照为N-(4-氯苯基)类似物；不能定量移用到给定N-苯基模型。"
+      ],
+      "evidence_ids": [
+        "e_profile",
+        "e_method",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "必需结果2：同参照亚胺族整体活化及形成连接",
+      "rule_id": "r_imine_formation",
+      "conclusion_id": "imine_formation",
+      "independence": "回答亚胺如何形成及所需活化，可独立于双环机理解释成立。",
+      "source_locator": "正文PDF7–8 Fig.4a；SI PDF23–26，方法及Supplementary Fig.3–5",
+      "native_artifacts": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/native_return.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/verification_matrix.json"
+      ],
+      "existing_support": "闭壳层trans-imine 37.092612，two-sided TS8连接；cis39.969492和stepwise40.918456为有限候选。",
+      "limits": [
+        "破缺对称态的自旋污染与受限CSS波函数不稳定必须按实际物理状态解释。",
+        "已有作者引导有限候选和连接审计不等于盲发现或全局穷尽；保留方法/实现差别。",
+        "孤立烯胺暗对照为N-(4-氯苯基)类似物；不能定量移用到给定N-苯基模型。"
+      ],
+      "evidence_ids": [
+        "e_profile",
+        "e_method",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "必需结果4：两产物族动力学竞争及实验解释边界",
+      "rule_id": "r_product_competition_interpretation",
+      "conclusion_id": "product_competition_interpretation",
+      "independence": "比较两族的竞争及观察意义，不再次奖励单条路径或绝对势垒数字。",
+      "source_locator": "正文PDF7–8 Fig.4a；SI PDF23–26，方法及Supplementary Fig.3–5",
+      "native_artifacts": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/native_return.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/verification_matrix.json"
+      ],
+      "existing_support": "同参照imine−cycloaddition=6.080209 kcal/mol支持双环动力学优势；不是80°C精确收率。",
+      "limits": [
+        "破缺对称态的自旋污染与受限CSS波函数不稳定必须按实际物理状态解释。",
+        "已有作者引导有限候选和连接审计不等于盲发现或全局穷尽；保留方法/实现差别。",
+        "孤立烯胺暗对照为N-(4-氯苯基)类似物；不能定量移用到给定N-苯基模型。"
+      ],
+      "evidence_ids": [
+        "e_profile",
+        "e_method",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

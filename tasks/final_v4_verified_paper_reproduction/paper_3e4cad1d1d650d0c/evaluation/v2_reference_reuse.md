@@ -1,0 +1,7 @@
+# Conditional reuse of prior evidence
+
+Read-only existing real artifacts: docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/report/results.json (SHA256 84bf365fd1e7d49e9837eb500d20900948bbb04702c74bb35a1771f4af22fd75), report/report.md, analysis/recompute.py, analysis/resource_accounting.json, outputs/legacy_reused/1a_anion/stdout.log, outputs/legacy_reused/1e_anion/stdout.log, outputs/1a_radical_source_optfreq/attempt_002/stdout.log and outputs/1e_radical_source_optfreq/attempt_001/stdout.log. These support an author-informed CAM-B3LYP/CPCM route and its limited sensitivities plus a graphical quenching analysis. They are not blind AR evidence or an exhaustive model reference, and their additional operations are not V2 requirements.
+
+Exact archived summary: `evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot`. Read `evaluation/task_provenance/reference_artifact_inventory.json` for resolved historical paths, byte hashes, missing links and the applicability boundary. Its existence/hash audit does not certify the scientific content of every historical file.
+
+V1 is preserved as private snapshots. Old rules, fixed matrices, numerical targets, tolerances and PASS labels are superseded by the five active V2 evaluator files; they are not hidden requirements. No new chemistry or judge call was made. Semantic calibration and execution isolation remain pending.

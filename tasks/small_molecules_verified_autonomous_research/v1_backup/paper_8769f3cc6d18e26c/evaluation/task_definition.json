@@ -1,0 +1,102 @@
+{
+  "scientific_question": "For the specified prochiral diarylamine-containing rotaxane undergoing electrophilic amination with dibenzyl azodicarboxylate under chiral phosphoric acid catalysis in chloroform at 25 °C, what solution-state structural features, if any, differentiate its two enantiotopic aryl para positions in their susceptibility to amination, and how far can substrate-level computational evidence account for the observed mechanically planar enantioselectivity?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Substrate S is a neutral, singly threaded [2]rotaxane (C48H60F6N2O7), not an unthreaded mixture. Its macrocycle contains two benzene rings, labelled alpha and beta only for bookkeeping. Each ring has cyclic carbon order 1-2-3-4-5-6-1. A secondary diarylamine NH is bonded to carbon 1 of both rings. Their carbon-3 positions are joined by the covalent bridge alpha-C3-CH2-O-(CH2-CH2-O)5-CH2-beta-C3; the rings are otherwise unsubstituted. This defines the 25-atom shortest macrocyclic circuit through the NH and polyether bridge. Alpha-C4 and beta-C4 are the initially equivalent, enantiotopic para C-H positions of interest. The axle is N-(3,5-bis(trifluoromethyl)benzyl)-3,5-di-tert-butylbenzamide: 3,5-di-tert-butyl-C6H3-C(=O)-NH-CH2-C6H3-3,5-(CF3)2, with each aromatic attachment to the amide/benzyl segment at carbon 1. The axle passes once through the macrocycle aperture, with its stoppers outside opposite sides and no covalent bond between the two components. No particular three-dimensional pose is supplied."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Electrophilic amination reagent R is dibenzyl azodicarboxylate, Bn-O-C(=O)-N=N-C(=O)-O-Bn, where Bn denotes CH2-C6H5."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "condition",
+      "content": "The reported chiral phosphoric acid-catalyzed reaction is performed in CHCl3 at 25 °C. The model reaction uses 0.05 mmol substrate S in 2 mL CHCl3 (0.025 M) for 24 h. These are experimental conditions, not a prescribed computational model."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "The reaction gives the monoaminated, mechanically planar chiral rotaxane P with high enantioselectivity under optimized conditions. P retains the axle and mechanical threading of S; one of the two diarylamine para C-H positions is replaced by -N(C(=O)-O-Bn)-NH-C(=O)-O-Bn, while the other remains C-H. The diarylamine NH remains present. An absolute mechanical stereochemical assignment is not a prediction target here."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "Reaction progress under standard conditions shows P and a di-amination byproduct D over time, with the enantiomeric excess of P increasing as D accumulates. D has the same axle and mechanical threading, with both diarylamine para positions bearing the hydrazinedicarboxylate substituent specified for P. This is observed reaction context, not a specified kinetic explanation."
+    }
+  ],
+  "changes": [
+    {
+      "subject_id": "scientific_question",
+      "change_type": "neutral_rewording",
+      "reason": "Neutrally rewords the same-system structural/reactivity question while making its connected scientific unknowns and source-supported comparison boundaries explicit. The actual author calculations are substrate optimization/frequency analysis and a ring-wide charge comparison, interpreted with an explicit alternative mechanism. Structural outcomes and their relation to para-site susceptibility remain required, and the question retains its connection to observed mechanically planar enantioselectivity. No uncomputed barrier, kinetic model, catalyst-specific mechanism, or product-ratio prediction is added. The reaction, substrate, reagent, experimental conditions, and computational reference records are unchanged. Source labels are replaced by neutral public identities, and the author route and descriptor are not prescribed. This is not a claim that the source contains a naming or transcription error.",
+      "evidence_ids": [
+        "ev_doc_4b5d1c8b6138_000443_4eccfc4fe423",
+        "ev_doc_4b5d1c8b6138_000444_0e3effea787d",
+        "ev_doc_4b5d1c8b6138_000459_457faf23c3eb",
+        "ev_doc_4b5d1c8b6138_000461_1807d8a7d69e",
+        "ev_doc_e1783ea73595_000107_1aed8e653d61",
+        "ev_doc_e1783ea73595_000055_ca0c1a8f009b"
+      ]
+    },
+    {
+      "subject_id": "PI1",
+      "change_type": "identity_clarification",
+      "reason": "Expands the underspecified substrate name into the graph and mechanical topology actually drawn in the original precursor/substrate/axle structures. Both original coordinate records were checked against this graph and bonded-H counts; the 25-atom circuit, meta ether attachments, exact axle substituents and para sites agree. This is a neutral identity clarification, not a newly selected conformation or a source-name repair. Alpha/beta and S are local bookkeeping labels, not the authors' computed ring/conformer labels. No optimized coordinates or interaction assignments are supplied.",
+      "evidence_ids": [
+        "ev_doc_4b5d1c8b6138_000101_07d381296df7",
+        "ev_doc_4b5d1c8b6138_000054_6f2d7bdc6dd1",
+        "layout-doc_4b5d1c8b6138-p56-b1",
+        "layout-doc_4b5d1c8b6138-p56-b15",
+        "pdf-page-doc_4b5d1c8b6138-p7",
+        "pdf-page-doc_4b5d1c8b6138-p14",
+        "pdf-page-doc_4b5d1c8b6138-p56",
+        "pdf-page-doc_4b5d1c8b6138-p71",
+        "pdf-page-doc_4b5d1c8b6138-p80",
+        "pdf-page-doc_e1783ea73595-p5"
+      ]
+    },
+    {
+      "subject_id": "PI2",
+      "change_type": "identity_clarification",
+      "reason": "States the ordinary covalent graph of the same dibenzyl azodicarboxylate reagent and replaces the source label with the neutral label R. No author pose, activated reagent, reaction mechanism or computational prescription is added.",
+      "evidence_ids": [
+        "ev_doc_e1783ea73595_000055_ca0c1a8f009b",
+        "pdf-page-doc_e1783ea73595-p5"
+      ]
+    },
+    {
+      "subject_id": "PI3",
+      "change_type": "neutral_rewording",
+      "reason": "Replaces the source substrate label with S and identifies the unchanged solvent, temperature, scale, concentration and duration as experimental rather than computational conditions. Chiral phosphoric acid catalysis is already the frozen question's reaction context. No condition is silently changed or unreported computational parameter invented.",
+      "evidence_ids": [
+        "ev_doc_4b5d1c8b6138_000185_6efcbb975e67",
+        "ev_doc_e1783ea73595_000055_ca0c1a8f009b"
+      ]
+    },
+    {
+      "subject_id": "PI4",
+      "change_type": "neutral_rewording",
+      "reason": "Expresses the same observed monoaminative desymmetrization using the graph-explicit product constitution seen in the original reaction drawing and characterized product, with a neutral local label. High enantioselectivity remains an observation, not a computed answer. Absolute mechanical stereochemical prediction is excluded because it was not an author-computed outcome. No calculated intermediate, favored ring, numerical answer or pathway is disclosed.",
+      "evidence_ids": [
+        "ev_doc_4b5d1c8b6138_000185_6efcbb975e67",
+        "ev_doc_e1783ea73595_000055_ca0c1a8f009b",
+        "pdf-page-doc_e1783ea73595-p5"
+      ]
+    },
+    {
+      "subject_id": "PI5",
+      "change_type": "neutral_rewording",
+      "reason": "Retains the exact qualitative time-trend observation, replaces the authors' product labels with P and D, and clarifies the ordinary diamination-product constitution viewed in the original reaction-progress scheme. The authors' kinetic-resolution interpretation is not supplied. No additional kinetic or reaction-network goal is created.",
+      "evidence_ids": [
+        "ev_doc_4b5d1c8b6138_000438_52c80a091837",
+        "ev_doc_e1783ea73595_000107_1aed8e653d61",
+        "pdf-page-doc_e1783ea73595-p9",
+        "pdf-page-doc_4b5d1c8b6138-p69",
+        "pdf-page-doc_4b5d1c8b6138-p70"
+      ]
+    }
+  ]
+}

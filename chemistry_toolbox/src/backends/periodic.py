@@ -14,6 +14,7 @@ from .common import (
     ase_atoms,
     atoms_and_coordinates,
     command_artifacts,
+    external_failure,
     module_version,
     output_directory,
     partial_success,
@@ -92,7 +93,7 @@ def _run_yambo(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if not completed["available"]:
         return unavailable(completed["stderr"], install="Install Yambo 5.3 or later")
     if completed["returncode"] != 0:
-        raise RuntimeError(f"Yambo failed: {completed['stderr'][-2000:]}")
+        raise external_failure(completed, directory, "Yambo")
     reports = list(directory.glob("r-*"))
     normal_exit = any("Game Over" in path.read_text(encoding="utf-8", errors="replace") for path in reports)
     if bool(settings["require_normal_exit"]) and not normal_exit:
@@ -101,6 +102,7 @@ def _run_yambo(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     limit = int(settings["maximum_returned_records"])
     if not 1 <= limit <= 100000:
         raise ValueError("maximum_returned_records must be between 1 and 100000")
+    invalid_rows = 0
     if action_id == "calculate_quasiparticle_corrections":
         files = sorted(directory.glob("o-*.qp"))
         if not files:
@@ -108,12 +110,15 @@ def _run_yambo(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         records = []
         for line in files[0].read_text(encoding="utf-8", errors="replace").splitlines():
             fields = line.split()
-            if len(fields) < 5 or line.lstrip().startswith("#"):
+            if not fields or line.lstrip().startswith("#"):
                 continue
             try:
                 kpoint, band = int(fields[0]), int(fields[1])
                 energy, correction, self_energy = map(float, fields[2:5])
-            except ValueError:
+                if not all(math.isfinite(v) for v in (energy, correction, self_energy)):
+                    raise ValueError("Non-finite QP row")
+            except (ValueError, IndexError):
+                invalid_rows += 1
                 continue
             records.append({
                 "kpoint_index": kpoint,
@@ -131,14 +136,26 @@ def _run_yambo(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         points = []
         for line in files[0].read_text(encoding="utf-8", errors="replace").splitlines():
             fields = line.split()
-            if len(fields) < 3 or line.lstrip().startswith("#"):
+            if not fields or line.lstrip().startswith("#"):
                 continue
             try:
                 values = [float(value) for value in fields]
+                if len(values) < 3 or not all(math.isfinite(v) for v in values):
+                    raise ValueError("Invalid BSE row")
             except ValueError:
+                invalid_rows += 1
                 continue
             points.append({"energy_ev": values[0], "epsilon_2": values[1], "epsilon_1": values[2]})
         result = {"point_count": len(points), "spectrum": points[:limit], "normal_exit": normal_exit}
+    result["unparsed_row_count"] = invalid_rows
+    if invalid_rows or not result.get("state_count", result.get("point_count", 0)):
+        return partial_success(
+            result,
+            artifact_files=command_artifacts(directory),
+            backend_version="5.3.0",
+            provenance={"command": completed["command"], "native_input_preserved": True},
+            warnings=["Yambo output has missing or unparseable records; inspect the saved result files."],
+        )
     return success(
         result,
         artifact_files=command_artifacts(directory),

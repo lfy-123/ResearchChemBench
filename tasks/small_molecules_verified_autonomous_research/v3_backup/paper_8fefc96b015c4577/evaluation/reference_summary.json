@@ -1,0 +1,54 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "case_id": "case_02",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "给定自由基的局部芳环成环位点、形成的环骨架及通道竞争。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "benzyl_activation",
+      "description": "真实苄基芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+      "public_requirement": "Computed Gibbs barrier and reference/reactive-state energies for benzyl-ring closure, identifying the actual bond-forming atoms."
+    },
+    {
+      "id": "sulfonyl_activation",
+      "description": "真实磺酰芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+      "public_requirement": "Computed Gibbs barrier and reference/reactive-state energies for sulfonyl-ring closure, identifying the actual bond-forming atoms."
+    },
+    {
+      "id": "channel_difference",
+      "description": "相对同一未环化 R 的两成环势垒差。",
+      "public_requirement": "The barrier difference between the two ring closures relative to the same uncyclized R reference."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "benzyl_ring_outcome",
+      "points": 25,
+      "description": "苄基芳环邻位六元成环结果",
+      "allow_need_review": false
+    },
+    {
+      "id": "sulfonyl_ring_outcome",
+      "points": 25,
+      "description": "磺酰芳环邻位六元成环结果",
+      "allow_need_review": false
+    },
+    {
+      "id": "cyclization_preference",
+      "points": 50,
+      "description": "最终优选苄基邻位六元通道",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Scheme 3c 与 SI B/TS2/TS2′ 坐标；历史验证支持两类真实邻位成环及相对竞争。另核对了当前输入 atom_id 的成环图。",
+  "boundaries": [
+    "输入 C10 为自由基中心；苄基芳环 C14 为 ipso，C15/C19 为邻位；磺酰芳环邻位为 C24/C29。对称等价映射可接受。",
+    "C10–C14 是五元 ipso 连接，不能当作作者苄基邻位六元环；作者坐标行号不等于输入 atom_id。",
+    "只研究给定 R，排除上游光催化及后续氧化/芳构化；单个子比较正确而最终选错通道，不能获得最终竞争分。"
+  ],
+  "source_locator": "Main text p4 Scheme 3c; SI p34–40",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

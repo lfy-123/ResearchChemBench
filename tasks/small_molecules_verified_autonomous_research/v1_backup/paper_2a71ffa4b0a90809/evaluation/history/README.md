@@ -1,0 +1,1 @@
+These are immutable historical task inputs and evaluators. They are outside agent_input and are not active scoring rules. The current five evaluation JSON files and paper_route.md supersede their scope. No historical PASS transfers to the upgraded reaction question.

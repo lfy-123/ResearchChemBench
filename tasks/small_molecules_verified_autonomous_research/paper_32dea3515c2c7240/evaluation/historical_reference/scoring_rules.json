@@ -1,0 +1,293 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or computation outside the public scope is required. Numeric targets and tolerances are fixed, absolute and inclusive; the host computes agreement and the Judge must not adjust them. A contextual source number without an authored numeric rule creates no numerical gate. Qualitative items are independent of numeric-window passes and need their own actual computational support. An unsupported or failed item loses only its own points. Final conclusions require explicit supported inference or selection. Genuine unresolved essential physical identity/reference ambiguity requires needs_review; publication review pending alone does not block this version.",
+  "rules": [
+    {
+      "rule_id": "r_ts_gap",
+      "reference_id": "ts_gap",
+      "type": "numeric",
+      "expected": "比较完整Pd/L-pGlu/S、相同组成和粒子/质子库存的G(TS20-b)−G(TS20-a)，并映射作者a/b结构；这是共同参考剖面之差，不是两条各自局部势垒之差。MeCN/SMD、363.15 K热项；相同电荷/自旋。来源未明确输入电荷/多重度，中性闭壳层Pd(II)/双去质子化L-pGlu+中性S为需声明并支持的图重构。真实相关鞍点与反应连接合格后，按8.6±1.5 kcal/mol比较。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      },
+      "target": 8.6,
+      "tolerance": 1.5,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_inversion_s",
+      "reference_id": "inversion_s",
+      "type": "numeric",
+      "expected": "比较G(S反转鞍点)−G(与其相连的孤立S/1b最低点)，完整中性分子，无Pd/配体、同粒子数；MeCN/SMD、353.15 K，单重态为图重构假设须支持。使用自身最低点与自身热项、真实相关模式及连接；按31.82±2.0 kcal/mol比较。不得用催化条件363.15 K替代。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      },
+      "target": 31.82,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_inversion_p",
+      "reference_id": "inversion_p",
+      "type": "numeric",
+      "expected": "比较G(P反转鞍点)−G(与其相连的孤立P/3ba最低点)，完整中性E-烯基化分子，无Pd/配体、同粒子数；n-octane/SMD、398.15 K，单重态为图重构假设须支持。使用自身最低点/热项、真实相关模式及连接；按33.99±2.0 kcal/mol比较。不得为接近目标事后更换RRHO/qRRHO、最低点或温度。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      },
+      "target": 33.99,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_ts_direction",
+      "reference_id": "ts_direction",
+      "type": "semantic",
+      "expected": "相同映射物种、组成、状态和MeCN/363.15 K条件下，实际计算支持G(TS20-a)<G(TS20-b)。独立判断方向；未映射或方向反转不通过。无需先通过8.6数值窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_cmd_structure",
+      "reference_id": "cmd_structure",
+      "type": "semantic",
+      "expected": "实际两构型计算的结构、相关振动和连接证据支持CMD：芳基C–H断裂、向配体受体转移H及C–Pd成键，并保持配体手性与七元环构型的一致映射。不能用近共平面氮单个局部有向体积变化直接替代完整构型判断；仅TS标签不通过。不要求完整催化循环或固定IRC点数。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_inversion_s_identity",
+      "reference_id": "inversion_s_identity",
+      "type": "semantic",
+      "expected": "真实S最低点和反转鞍点、相关软模/路径或等价连接支持同一分子两构型互变，并保持组成与质子化；在353.15 K/MeCN下有正的反转自由能势垒。仅源坐标、频率符号或写“可反转”不通过；该结构/定性结果独立于31.82数值窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_inversion_p_identity",
+      "reference_id": "inversion_p_identity",
+      "type": "semantic",
+      "expected": "真实E-烯基化P最低点和反转鞍点、相关软模/路径或等价连接支持同一分子两构型互变而不改变E烯烃及化学组成；在398.15 K/n-octane下有正的反转自由能势垒。仅源坐标或“产物稳定”叙述不足；此项不要求33.99数值窗口通过。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_reactivity_conclusion",
+      "reference_id": "reactivity_conclusion",
+      "type": "semantic",
+      "expected": "最终将有效映射的两套反应态和较低TS20-a连接到其更有利的生产性C–H活化，给出计算支持的立体区分解释。无需数值8.6落窗，但必须实际支持方向及相关反应。不能断言高通道恰好零反应、未经映射的绝对构型、全循环决速或精确实验终点ee；有执行证据的等价机理解释可接受。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_configuration_conclusion",
+      "reference_id": "configuration_conclusion",
+      "type": "semantic",
+      "expected": "最终根据已计算的S/P反转、各自最低点/溶剂/温度和相应正势垒，说明孤立分子构型互变受热活化限制，并将其与时间曲线和产物稳定观察作有边界的联系。分别条件的数值排序不能证明同条件动力学排序，也不能证明363.15 K/MeCN/36 h中S快速互变或闭合定量DKR模型。需要两者真实结果支持这一科学判断，不因P数值超窗自动取消；不要求配位态互变、全循环或精确ee。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "ts_gap",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "C–H活化过渡态共同参考自由能差",
+      "rule_ids": [
+        "r_ts_gap"
+      ],
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "inversion_s",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "S独立分子的反转自由能势垒",
+      "rule_ids": [
+        "r_inversion_s"
+      ],
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "inversion_p",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "P独立分子的反转自由能势垒",
+      "rule_ids": [
+        "r_inversion_p"
+      ],
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "ts_direction",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "独立的立体选择方向",
+      "rule_ids": [
+        "r_ts_direction"
+      ],
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "cmd_structure",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "C–H活化的实际键变和构型归属",
+      "rule_ids": [
+        "r_cmd_structure"
+      ],
+      "evidence_ids": [
+        "E_PATH",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "inversion_s_identity",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "S的构型互变结构发现",
+      "rule_ids": [
+        "r_inversion_s_identity"
+      ],
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "inversion_p_identity",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "P的构型互变结构发现",
+      "rule_ids": [
+        "r_inversion_p_identity"
+      ],
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "reactivity_conclusion",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：两构型生产性反应活性不同",
+      "rule_ids": [
+        "r_reactivity_conclusion"
+      ],
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_SYSTEM"
+      ]
+    },
+    {
+      "id": "configuration_conclusion",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：分别条件下的构型稳定性及DKR边界",
+      "rule_ids": [
+        "r_configuration_conclusion"
+      ],
+      "evidence_ids": [
+        "E_INV",
+        "E_OBS",
+        "E_METHOD"
+      ]
+    }
+  ]
+}

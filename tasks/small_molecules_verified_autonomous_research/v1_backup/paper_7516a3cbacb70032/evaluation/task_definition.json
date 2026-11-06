@@ -1,0 +1,128 @@
+{
+  "scientific_question": "How does the homogeneous Ir(III)-catalyzed annulation of 3-(phenanthren-4-yl)-1H-indazole with diphenylacetylene form the specified diaza[6]helicene, and how does the specified axially chiral nitrile–phosphine oxide ligand influence helicity selection and the relative kinetic difficulty of the connected product-forming chemistry?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "3-(phenanthren-4-yl)-1H-indazole, C21H14N2; indazole C3 is attached to phenanthrene C4 and the starting tautomer has N1-H. The substrate graph is in data/inputs/identities.json."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Diphenylacetylene, C14H10; its connectivity is in data/inputs/identities.json."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "identity",
+      "content": "2'-(Diphenylphosphoryl)-[1,1'-binaphthalene]-2-carbonitrile, C33H22NOP. Use the specific axial enantiomer defined by the graph and oriented-volume sign in data/inputs/identities.json, not an unspecified racemate."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "Substrate 0.10 mmol, diphenylacetylene 0.20 mmol (2.0 equivalents), [CpIrCl2]2 precursor dimer (5 mol% of dimer), the specified chiral ligand (20 mol%), AgOTf (2.5 equivalents), and H2O (10 equivalents) in dichloromethane (1.0 mL), under Ar at 50 °C for 36 h. All loadings are relative to substrate. Cp is the 1-tert-butyl-2,3,4,5-tetramethylcyclopentadienyl ligand specified in data/inputs/identities.json; do not substitute pentamethylcyclopentadienyl."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "The annulation affords the product specified in PI6 in 82% isolated yield and 91% enantiomeric excess under the conditions in PI4. These are isolated-product endpoint observations, not an elementary rate measurement."
+    },
+    {
+      "input_id": "PI6",
+      "kind": "observation",
+      "content": "The observed product is (M)-5,6-diphenylindazolo[3,2-a]naphtho[2,1-h]isoquinoline, C35H22N2. Its M helical configuration is assigned by single-crystal X-ray diffraction. The product connectivity is in data/inputs/identities.json."
+    }
+  ],
+  "changes": [
+    {
+      "subject_id": "scientific_question",
+      "change_type": "source_correction",
+      "reason": "Stage05 framed only explanatory features of one C-H-cleavage substep. The actual connected DFT investigation also evaluates ligand-free versus ligand-containing chemistry, substrate-first versus ligand-first association and triflate loss, both helicity-selecting transition states, ligand transfer to silver, alkyne insertion, reductive elimination, and a bound product endpoint. Organize these same-system computations into one formation/selectivity/relative-kinetic-difficulty problem without disclosing the author route. Do not add catalyst-regeneration or activation-release kinetics, an exhaustive network, other substrates, or molecular racemization calculations. The immutable CR1-CR3 records remain unchanged; their C-H comparison is connected to the other outcomes through the source-grounded Figure S2 profile.",
+      "evidence_ids": [
+        "ev_doc_0f676ddde554_000070_cac4d33409ec",
+        "ev_doc_86333f5a9e46_000520_775bb9db98c2",
+        "ev_doc_86333f5a9e46_000522_07d9ffb12bbc",
+        "ev_doc_86333f5a9e46_000524_47ccb6385beb",
+        "ev_doc_86333f5a9e46_000527_28b34224851c",
+        "ev_doc_0f676ddde554_000066_96725ab51fb3",
+        "pdf-page-doc_0f676ddde554-p7",
+        "pdf-page-doc_86333f5a9e46-p66"
+      ]
+    },
+    {
+      "subject_id": "PI1",
+      "change_type": "identity_clarification",
+      "reason": "Replace the opaque source alias by a self-contained graph and starting tautomer. Visual inspection of the substrate drawing confirms bay-position phenanthrene C4 attachment to indazole C3; the original free-substrate coordinates give the same heavy-atom topology and N1-H. No substrate-name correction or system substitution is made.",
+      "evidence_ids": [
+        "ev_doc_86333f5a9e46_000091_e4a763b4f2ac",
+        "ev_doc_86333f5a9e46_000094_f78cc8c427d3",
+        "ev_doc_86333f5a9e46_000531_7b23d920f01d",
+        "pdf-page-doc_86333f5a9e46-p10",
+        "pdf-page-doc_86333f5a9e46-p69"
+      ]
+    },
+    {
+      "subject_id": "PI2",
+      "change_type": "neutral_rewording",
+      "reason": "Remove the source alias and link a neutral connectivity encoding for the same diphenylacetylene input; no chemical identity or comparison is changed.",
+      "evidence_ids": [
+        "ev_doc_0f676ddde554_000029_dfcca0140131",
+        "ev_doc_0f676ddde554_000042_3799047d0508",
+        "pdf-page-doc_0f676ddde554-p3"
+      ]
+    },
+    {
+      "subject_id": "PI3",
+      "change_type": "identity_clarification",
+      "reason": "The upstream ligand alias is not a startable identity by itself. Supply the 2-cyano/2-prime-diphenylphosphoryl binaphthyl graph and its drawn axial enantiomer. The oriented sign agrees with the free ligand and all supplied ligand-containing coordinates. The public encoding specifies handedness only, not optimized coordinates, an unsupported R/S nomenclatural assignment, or ligand function in a mechanism.",
+      "evidence_ids": [
+        "ev_doc_0f676ddde554_000029_dfcca0140131",
+        "ev_doc_86333f5a9e46_000049_303309ac4717",
+        "ev_doc_86333f5a9e46_000529_e7dbe55b1020",
+        "ev_doc_86333f5a9e46_000531_7b23d920f01d",
+        "pdf-page-doc_86333f5a9e46-p4",
+        "pdf-page-doc_86333f5a9e46-p68",
+        "pdf-page-doc_86333f5a9e46-p69"
+      ]
+    },
+    {
+      "subject_id": "PI4",
+      "change_type": "neutral_rewording",
+      "reason": "Retain every frozen reaction condition and loading, remove the source ligand alias, and make the already-reported batch scale, alkyne loading, solvent volume and dimer loading explicit. The Cp graph verified in the computed catalyst is 1-tert-butyl plus four methyl substituents, not the parent pentamethyl Cp. These are neutral chemical-starting facts, not a computational recipe or active-species assignment.",
+      "evidence_ids": [
+        "ev_doc_86333f5a9e46_000207_874977f976cd",
+        "ev_doc_0f676ddde554_000042_3799047d0508",
+        "ev_doc_0f676ddde554_000035_66fb6e1ac72b",
+        "ev_doc_86333f5a9e46_000531_7b23d920f01d",
+        "pdf-page-doc_86333f5a9e46-p26",
+        "pdf-page-doc_86333f5a9e46-p69",
+        "pdf-page-doc_86333f5a9e46-p70"
+      ]
+    },
+    {
+      "subject_id": "PI5",
+      "change_type": "neutral_rewording",
+      "reason": "Preserve 82% isolated yield and 91% ee; replace the opaque product alias with the PI6 identity and distinguish an isolated-product endpoint from an elementary-rate observation. No extra observation or numerical result is introduced.",
+      "evidence_ids": [
+        "ev_doc_0f676ddde554_000029_dfcca0140131",
+        "ev_doc_0f676ddde554_000035_66fb6e1ac72b",
+        "ev_doc_86333f5a9e46_000209_5072a51752a9"
+      ]
+    },
+    {
+      "subject_id": "PI6",
+      "change_type": "neutral_rewording",
+      "reason": "Retain the observed M configuration and diffraction attribution while replacing the source alias with the full product name, molecular formula and neutral connectivity asset. The drawn crystal graph matches the computed final organic heavy-atom graph; the computed Ir-associated NH-containing endpoint is not misrepresented as neutral isolated product geometry.",
+      "evidence_ids": [
+        "ev_doc_0f676ddde554_000036_73d557d14c9a",
+        "ev_doc_86333f5a9e46_000208_5600cc882efe",
+        "ev_doc_86333f5a9e46_000214_0520d974e8ad",
+        "ev_doc_86333f5a9e46_000601_176bf1a8e6b5",
+        "ev_doc_86333f5a9e46_000604_7c08a254c6b8",
+        "ev_doc_86333f5a9e46_000596_e2e03feb6b8a",
+        "pdf-page-doc_86333f5a9e46-p26",
+        "pdf-page-doc_86333f5a9e46-p104",
+        "pdf-page-doc_86333f5a9e46-p66"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "paper_id": "paper_ea6fdc38b4a7f8c7",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "PROVISIONAL_PASS_QUALITATIVE",
+  "strict_numeric_whole_pass": false,
+  "reason": "用户授权将已验收当前AR科学问题迁移为仅科学结果评分；独立验收支持当前必要定性结论，数值误差和发布判断保留给专家。该资格不等同于严格数值复现或盲测满分。",
+  "unblock_conditions": [],
+  "physical_definition": "UB3LYP/6-311G(d,p)气相优化/未缩放频率，同几何SMD-MeCN单点，298 K、1 atm，与作者明确设置一致。实际Gaussian16 C.01/NBO3.1；六个身份复用来源坐标，S1补全缺失两H、S6-c2重建；未重跑完整Rowan/CREST筛选。",
+  "tolerance_policy": {
+    "numeric_rules": 0,
+    "rationale": "当前题面是解释/比较型问题，原规则没有必达数值目标。本次以明确科学命题、真实结构/电子结果和最终解释计分，不为偏差拟合宽窗。作者数值及与验证的残差保留为上下文。"
+  },
+  "publication_review_pending": [
+    "未重跑完整构象筛选，S1及c2重建不等于找到了作者所有原始构象或全局构象集合。",
+    "S1绝对能和各体系热G修正差异未解释；作者负NBO C3–O4能量缺少无歧义定义/自旋汇总，不能声称该列数值复现。",
+    "电荷、几何和自旋分布只支持有限解释；未计算完整取代/HAT/分解势能面，不宣称唯一成因或精确收率。",
+    "S6不可逆但无相同TEMPO+返回特征，不能把所有低产体系归为同一种已证明反应命运；初级DCM与次级MeCN不是匹配条件对照。"
+  ],
+  "verification_scope": "current_autonomous_research_scientific_question",
+  "independent_acceptance_review": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T2343Z/acceptance_audit_ea6/acceptance_audit.json"
+}

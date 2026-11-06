@@ -1,0 +1,67 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "role": "Unscored evidence for independent final scientific conclusions. Original numerical and historical reference records are preserved in historical_scoring_20261029.json and verified_computation_reference.md.",
+  "items": [
+    {
+      "key_point_id": "support_aqueous_optical_explanation",
+      "key_point_type": "scientific_evidence",
+      "statement": "Electronic explanation of the aqueous acid–base absorption change",
+      "expected": "For chemically balanced acid/base models with the C30N6O4 skeleton, explain the observed acid-to-base red shift through genuine vertical water-optical calculations identifying the dominant absorbing transitions. The base dominant transition is lower in energy; the acid and base bright bands are predominantly pi→pi-star with important HOMO→LUMO contributions involving the azobenzene moieties and isoDPP core. Identify physical transition character and intensity rather than requiring source root numbers or pure single configurations. The computed energy/intensity/transition evidence is support for this optical explanation, not three independent author-node scores. Use one declared response consistently, separating corrected-LR energies from uncorrected LR stages. The source observed wavelengths alone do not establish the explanation; no exact excitation-energy/oscillator-strength window is imposed.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_optical",
+        "source_switch"
+      ]
+    },
+    {
+      "key_point_id": "support_nmr_acid_vs_neutral",
+      "key_point_type": "scientific_evidence",
+      "statement": "Calculated local proton-shielding response in acid versus neutral conditions",
+      "expected": "Actual calculated aromatic-proton shielding evidence for protons adjacent to phenolicOH supports acid shifts higher/downfield than neutral under one consistent NMR solvent/reference convention. Map the corresponding protons and preserve all relevant values; selective atom averaging, changing TMS reference to fit, or comparing water-optical quantities is insufficient. Absolute acid-shift agreement is not required because source theory already differs from experiment.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_nmr",
+        "source_switch"
+      ]
+    },
+    {
+      "key_point_id": "support_nmr_base_vs_neutral",
+      "key_point_type": "scientific_evidence",
+      "statement": "Calculated local proton-shielding response in base versus neutral conditions",
+      "expected": "Actual calculated aromatic-proton shielding evidence for protons adjacent to phenolicOH supports base shifts lower/upfield than neutral under one consistent NMR solvent/reference convention. Map the corresponding protons and preserve all relevant values; selective atom averaging, changing TMS reference to fit, or comparing water-optical quantities is insufficient. Absolute acid-shift agreement is not required because source theory already differs from experiment.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_nmr",
+        "source_switch"
+      ]
+    },
+    {
+      "key_point_id": "support_hydrazone_competitor",
+      "key_point_type": "scientific_evidence",
+      "statement": "Can neutral azo/hydrazone rearrangement carry the principal switch?",
+      "expected": "An actual investigation of the chemically admissible neutral azo/hydrazone alternative supports that neutral tautomerism is not the principal acid–base chromatic-switch carrier. Use physically comparable computed spectral/electronic or same-charge thermochemical evidence that discriminates the proposed competing account; a missing candidate, generic caveat or a bare unmatched total energy is insufficient. No fixed conformer count or exact population is required.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_switch",
+        "source_optical"
+      ]
+    },
+    {
+      "key_point_id": "support_joint_proton_response",
+      "key_point_type": "scientific_evidence",
+      "statement": "Responsive-species assignment and its identification limits",
+      "expected": "Use the joint spatial and observable constraints to assign the molecular response to phenolic protonation/deprotonation, with explicit changes of proton number, charge and electron count relative to the neutral parent. This item scores the species-level inference and what is identifiable, not a second award for the separately assessed optical/NMR signs or hydrazone result. Explain why local phenolic-adjacent proton shifts and the delocalized optical response constrain the responsive functionality, yet do not by themselves fix unique solution protonation sites or populations. Retain the acid absolute NMR disagreement with experiment and any model-specific residuals; do not resolve them by choosing a subset of mapped protons or adjusting TMS to fit. Equivalent evidence-supported assignment passes. Unbalanced cross-charge total-energy comparisons, unsupported exact populations and degradation/redox/device extrapolation fail.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_optical",
+        "source_switch",
+        "source_nmr"
+      ]
+    }
+  ]
+}

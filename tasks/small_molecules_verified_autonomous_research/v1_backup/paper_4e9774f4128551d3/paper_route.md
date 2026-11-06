@@ -1,0 +1,5 @@
+# Private reference boundary
+
+The source supports G(cis S20)−G(trans 50)=2.3171919 kcal/mol (main p6; SI p71 energy table and pp71–76 geometries/frequencies). B3LYP-D3/6-31G(d,p) optimizations and thermal corrections, 6-311++G(d,p) single points and IEF-PCM methanol are a reference protocol, not a mandatory agent method. Old native readback gives 2.641225 kcal/mol, within the existing 1.0 tolerance. The low-level table heading and high-level absolute energies have unresolved source/reproduction issues; do not add a thermal correction twice or manufacture matching absolute energies.
+
+Reversible epimerization yields trans. HMDS/TMSI then second-pot racemic CSA yields 1.1:1 trans:cis; three recycling rounds furnish cis in 70% cumulative isolated yield. The THF/MeOH ratio is 1:1 in main Scheme 5 versus 6.0/0.60 mL in SI pp20–21. No author protonation transition state is established. Full microscopic protonation selectivity is not certified by endpoint energies. The result policy is scientific_results.v1; old open-research waivers are inactive. Current candidate still requires parent/current-target review.

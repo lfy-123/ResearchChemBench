@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "items": [
+    {
+      "statement": "环加成整体自由能势垒",
+      "expected": "完整指定烯胺、298.15 K、1 M甲苯边界下，以同一起始烯胺为零点的已连接跨式环加成路线最高必要自由能高度为31.0 kcal/mol，允许绝对差≤2.0 kcal/mol。对象、电子态和成键身份须有实际证据；不能拿闭环局部势垒或另一底物代替。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_REPRODUCED",
+      "key_point_id": "kp_cycloaddition_barrier",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "最低竞争亚胺通道自由能势垒",
+      "expected": "完整指定烯胺、同一起始零点和298.15 K、1 M甲苯定义下，最低已验证亚胺形成通道的总体高度为37.1 kcal/mol，允许绝对差≤2.0 kcal/mol。作者参考为闭壳层trans-imine连接的aza-Claisen通道；不得沿用环加成OSS态或以其中间体为零点。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_REPRODUCED",
+      "key_point_id": "kp_imine_barrier",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "两类竞争的电子态区别",
+      "expected": "实际电子态和可比计算证据支持较低跨式环加成首步为开壳层单重态双自由基路线，相关受限闭壳层和三重态初始比较更高；最低亚胺通道为闭壳层。须区分破缺对称态与自旋纯态；受限CSS具有R→U不稳定时不能宣称其为已稳定的可行路线。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_REPRODUCED",
+      "key_point_id": "electronic_state",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "首步—转动—闭环的连续可达性",
+      "expected": "实际成键、驻点及连接证据将起始烯胺、双自由基、可到达闭环构象和正确双环产物相连；必要构象转动与闭环不引入高于首步控制高度的新瓶颈。不能只排列孤立节点。接受与主张相称的作者几何核验、IRC/端点或连续分支证据，不强制全局穷尽。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_REPRODUCED",
+      "key_point_id": "connected_path",
+      "key_point_type": "result"
+    }
+  ]
+}

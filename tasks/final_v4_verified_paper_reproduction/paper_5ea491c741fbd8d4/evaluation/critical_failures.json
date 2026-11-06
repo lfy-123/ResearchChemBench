@@ -1,0 +1,15 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "items": [
+    {
+      "id": "fabricated_evidence",
+      "description": "Demonstrated fabrication of computational or experimental evidence, including copied reference answers falsely presented as independent results, invalidates the submission."
+    },
+    {
+      "id": "hidden_answer_leakage",
+      "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Local failed calculations, wrong physical assignments or incomplete conclusions affect only their dependent scientific items."
+    }
+  ],
+  "scope_note": "Apply these integrity failures only on demonstrated evidence. An ordinary unsupported or failed result receives zero for the dependent V3 outcome, not an unrelated global process penalty.",
+  "ordinary_failure_policy": "Unsupported conclusions fail only the affected items with reasons; supported independent conclusions retain points. No need_review scoring state. Demonstrated reference defects are recorded separately in objective_issue_flags."
+}

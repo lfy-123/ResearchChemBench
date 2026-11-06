@@ -1,0 +1,99 @@
+{
+  "paper_id": "paper_9ec32e81e2826041",
+  "mode": "autonomous_research",
+  "scientific_scope_changed": false,
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果：两取向的S1能量/强度与光学差",
+      "rule_id": "r_orientation_absorption_contrast",
+      "conclusion_id": "orientation_absorption_contrast",
+      "weight": 30,
+      "independence": "分子光学物性对比，不重复电子混合原因或热布居。",
+      "source_location": "正文pp3–4 Figs1/2；SI p3方法、pp10–15结构、p21 TablesS7–S9；原生TD/NAO与四热化学模型。",
+      "source_evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p3_10_11_13_14_15_21"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/groups/group1/ZN_THERMO_MODE_COMPARISON_20261006.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/coplanar_PBE0_D3geometry_canonical_TD10/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/perpendicular_PBE0_D3geometry_canonical_TD10/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/v2_zinc_perp_noD3_ReadFC_Tight_control_20261005_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/v2_execution_20260929/zinc_Fig2_saved_NAO_crosscheck_20261005.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/v2_execution_20260929/zinc_thermochemistry_audit.json"
+      ],
+      "existing_support_or_gap": "垂直/共平面S1=3.1097/2.4524 eV，f=.0883/.0132；Zn4p=2.094985/8.547679%；D3/无D3 G共−垂=−.047259/+4.681266 kJ/mol（300K）。四模型234正模；NAO替代实现有闭合核查。",
+      "scientific_limitations": "源D3−.1及无D3+4.8只是参考；低频熵敏感性D3−2.7281/−2.0412，不能当置信区间或真实溶液布居。无D3精修前后ΔG−.042008不是误差条。替代NAO非作者私有NBO，C2p残差+.139807百分点保留；孤立分子不认证晶体堆积/旋转速率。旧Zn4p硬门槛设计争议已按最终电子解释解决。"
+    },
+    {
+      "scientific_requirement": "必需结果：Zn/卡宾电子作用",
+      "rule_id": "r_metal_role_explanation",
+      "conclusion_id": "metal_role_explanation",
+      "weight": 25,
+      "independence": "吸收取向效应的电子原因，不能仅重复方向差得分。",
+      "source_location": "正文pp3–4 Figs1/2；SI p3方法、pp10–15结构、p21 TablesS7–S9；原生TD/NAO与四热化学模型。",
+      "source_evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p3_10_11_13_14_15_21",
+        "verified_zn_population"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/groups/group1/ZN_THERMO_MODE_COMPARISON_20261006.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/coplanar_PBE0_D3geometry_canonical_TD10/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/perpendicular_PBE0_D3geometry_canonical_TD10/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/v2_zinc_perp_noD3_ReadFC_Tight_control_20261005_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/v2_execution_20260929/zinc_Fig2_saved_NAO_crosscheck_20261005.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/v2_execution_20260929/zinc_thermochemistry_audit.json"
+      ],
+      "existing_support_or_gap": "垂直/共平面S1=3.1097/2.4524 eV，f=.0883/.0132；Zn4p=2.094985/8.547679%；D3/无D3 G共−垂=−.047259/+4.681266 kJ/mol（300K）。四模型234正模；NAO替代实现有闭合核查。",
+      "scientific_limitations": "源D3−.1及无D3+4.8只是参考；低频熵敏感性D3−2.7281/−2.0412，不能当置信区间或真实溶液布居。无D3精修前后ΔG−.042008不是误差条。替代NAO非作者私有NBO，C2p残差+.139807百分点保留；孤立分子不认证晶体堆积/旋转速率。旧Zn4p硬门槛设计争议已按最终电子解释解决。"
+    },
+    {
+      "scientific_requirement": "必需结果：近室温构型热可达性",
+      "rule_id": "r_thermal_accessibility",
+      "conclusion_id": "thermal_accessibility",
+      "weight": 25,
+      "independence": "匹配G相对RT的竞争，与激发或溶液/晶体外推不同。",
+      "source_location": "正文pp3–4 Figs1/2；SI p3方法、pp10–15结构、p21 TablesS7–S9；原生TD/NAO与四热化学模型。",
+      "source_evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p3_10_11_13_14_15_21",
+        "verified_zn_thermal_control"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/groups/group1/ZN_THERMO_MODE_COMPARISON_20261006.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/coplanar_PBE0_D3geometry_canonical_TD10/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/perpendicular_PBE0_D3geometry_canonical_TD10/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/v2_zinc_perp_noD3_ReadFC_Tight_control_20261005_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/v2_execution_20260929/zinc_Fig2_saved_NAO_crosscheck_20261005.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/v2_execution_20260929/zinc_thermochemistry_audit.json"
+      ],
+      "existing_support_or_gap": "垂直/共平面S1=3.1097/2.4524 eV，f=.0883/.0132；Zn4p=2.094985/8.547679%；D3/无D3 G共−垂=−.047259/+4.681266 kJ/mol（300K）。四模型234正模；NAO替代实现有闭合核查。",
+      "scientific_limitations": "源D3−.1及无D3+4.8只是参考；低频熵敏感性D3−2.7281/−2.0412，不能当置信区间或真实溶液布居。无D3精修前后ΔG−.042008不是误差条。替代NAO非作者私有NBO，C2p残差+.139807百分点保留；孤立分子不认证晶体堆积/旋转速率。旧Zn4p硬门槛设计争议已按最终电子解释解决。"
+    },
+    {
+      "scientific_requirement": "必需结果：同黄溶液与两晶体的解释边界",
+      "rule_id": "r_solution_crystal_applicability",
+      "conclusion_id": "solution_crystal_applicability",
+      "weight": 20,
+      "independence": "气分子证据到相态观察的适用域，不重复近简并本身。",
+      "source_location": "正文pp3–4 Figs1/2；SI p3方法、pp10–15结构、p21 TablesS7–S9；原生TD/NAO与四热化学模型。",
+      "source_evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p3_10_11_13_14_15_21",
+        "verified_zn_thermal_control"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/groups/group1/ZN_THERMO_MODE_COMPARISON_20261006.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/coplanar_PBE0_D3geometry_canonical_TD10/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/perpendicular_PBE0_D3geometry_canonical_TD10/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/outputs/v2_zinc_perp_noD3_ReadFC_Tight_control_20261005_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/v2_execution_20260929/zinc_Fig2_saved_NAO_crosscheck_20261005.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/v2_execution_20260929/zinc_thermochemistry_audit.json"
+      ],
+      "existing_support_or_gap": "垂直/共平面S1=3.1097/2.4524 eV，f=.0883/.0132；Zn4p=2.094985/8.547679%；D3/无D3 G共−垂=−.047259/+4.681266 kJ/mol（300K）。四模型234正模；NAO替代实现有闭合核查。",
+      "scientific_limitations": "源D3−.1及无D3+4.8只是参考；低频熵敏感性D3−2.7281/−2.0412，不能当置信区间或真实溶液布居。无D3精修前后ΔG−.042008不是误差条。替代NAO非作者私有NBO，C2p残差+.139807百分点保留；孤立分子不认证晶体堆积/旋转速率。旧Zn4p硬门槛设计争议已按最终电子解释解决。"
+    }
+  ],
+  "new_computation": false
+}

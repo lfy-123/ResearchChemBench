@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_f62b895afc2db020",
+  "items": [
+    {
+      "statement": "The sensitization conditions can supply the energy for the alkene triplet",
+      "expected": "Actual calculations support an alkene-associated triplet/open-shell excited state of this substrate whose energy is compatible with TXO sensitization conditions and which can serve as the reactive starting point for skeletal rearrangement. Compare compatible excitation-energy definitions, electronic states and solvents. The paper's 52.2 is a Gibbs energy difference between states, not a vertical electronic excitation energy; TXO 65.5 is a literature reference, not an actual calculation from this verification. Neither number has a scoring tolerance. The lamp wavelength alone or repetition of the authors' mechanism does not earn credit. An additional calculation of the carbonyl triplet at 75.6 to exclude a Norrish pathway is not required.",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "sensitized_triplet",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "C–C addition from the alkene to the carbonyl forms a bicyclic intermediate",
+      "expected": "Calculated structures/pathways of this substrate support intramolecular C–C addition of the alkene moiety to the carbonyl carbon to form the corresponding bicyclic skeletal intermediate, described by the authors as triplet 5-exo-trig addition. Actual local connectivity/reaction-mode evidence for this bond-forming event and a compatible electronic state is required; the product observation cannot replace it. Equivalent methods and labels are allowed; a full IRC, specific software or the exact value 9.7 is not mandatory.",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107",
+        "si_p108_121"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "addition_connectivity",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "C–C cleavage of the original ring yields a ring-expanded open-shell skeleton",
+      "expected": "Actual structures/local pathways support cleavage of a C–C bond of the original ring after addition, yielding a ring-expanded open-shell intermediate leading to the target [5.1.0] skeleton, corresponding to the authors' eight-membered-ring diradical 3B. Assess this bond-cleavage and ring-expansion structural event independently of the preceding bond-formation item. The source local barrier of 3.0 and downhill reaction free energy of −13.6 are nonmandatory context. Do not mislabel a cumulative profile height as a local barrier; no thermochemical numerical threshold is added to this structural item.",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ring_opening",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Energetic preference for cis over trans in the target product",
+      "expected": "For cis/trans comparisons with the same target-product connectivity graph, the same conditions and compatible physical quantities, calculations support a lower free energy for the cis product, with the C1 methoxycarbonyl and C7 phenyl groups on the same face, than for trans. The two relative configurations must actually be distinguished; do not infer the result backward from the known cis observation. The paper's 23.5 is a Gibbs energy difference, whereas the approximately 3.7 difference at the crossing points is an electronic energy difference; they must not be mixed. Crossing points may provide additional relevant evidence, but a new MECP trajectory or crossing-point numerical threshold is not mandatory. The product stability difference itself is neither a room-temperature isomerization rate nor a precise dr.",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "cis_preference",
+      "key_point_type": "result"
+    }
+  ]
+}

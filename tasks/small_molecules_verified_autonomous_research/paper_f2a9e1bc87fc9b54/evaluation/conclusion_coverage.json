@@ -1,0 +1,82 @@
+{
+  "paper_id": "paper_f2a9e1bc87fc9b54",
+  "revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "NaH/DMF 下吡咯 N-炔丙基化机制、局部活化比较与配平净热力学。",
+  "source_location": "Main text pp2–3, Figure 1 on p3; SI DOCX Theoretical study, Table 1 and Cartesian coordinates",
+  "public_result_requirements": [
+    "Explain base-mediated nitrogen activation and subsequent or coupled N–C bond formation, supported by actual connectivity and balanced proton/hydride accounting.",
+    "Determine which local chemical event has the greater activation demand and distinguish that from overall thermodynamic driving force.",
+    "Establish the thermodynamic direction of the balanced net reaction within the explicitly declared molecular or ionic model."
+  ],
+  "required_numerical_evidence": [
+    {
+      "id": "local_energies",
+      "description": "碱/氮活化及 N–C 取代的实际局部活化量、各自前体/反应态能量和差值；耦合机制需提供对应实际剖面支持同一比较。",
+      "public_requirement": "Computed local activation energies, precursor/reactive-state energies and differences for base/nitrogen activation and N–C substitution; a coupled mechanism must supply an actual profile addressing the same comparison."
+    },
+    {
+      "id": "net_energies",
+      "description": "完整配平的反应物、产物及必需离子/气体/副产物能量账本和净 Gibbs ΔG。",
+      "public_requirement": "Computed energies for the complete balanced reactant/product inventory, including required ions, gases and coproducts, and the resulting net Gibbs ΔG."
+    }
+  ],
+  "coverage": [
+    {
+      "scientific_question": "NaH 如何激活 N，并促成 N-炔丙基化？",
+      "outcome_id": "base_enabled_n_alkylation",
+      "required_numerical_evidence_ids": [
+        "local_energies"
+      ],
+      "old_outcome_ids": [
+        "base_enabled_n_alkylation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 35,
+      "criterion": "实际化学连接支持 N–H 与氢化物发生去质子化/放 H2，形成可亲核进攻的 N，继而或耦合形成 N–C 并断 C–Br；解释这些作用的先后/耦合。允许有证据的等效局部模型，但质子/氢化物/电荷账本须自洽。产物图、泛称 SN2 或无连接的两个态不足。不把局部离子模型宣称为完整 NaH 固体/溶液机制。"
+    },
+    {
+      "scientific_question": "局部转化中哪个化学事件的活化需求更高？",
+      "outcome_id": "local_activation_order",
+      "required_numerical_evidence_ids": [
+        "local_energies"
+      ],
+      "old_outcome_ids": [
+        "local_activation_order"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 30,
+      "criterion": "各自正确前体参照下的实际比较支持 N–C 取代/离去比氮去质子化更费活化，并说明局部困难不等于以任意总能零点排序。若提出耦合机制，须有足够证据解释同一活化分工问题；不能仅算一个 TS 就宣布控制步骤。不要求本次势垒或差值与论文数值吻合，也不据局部比较声明实际固体 NaH 整体速率。"
+    },
+    {
+      "scientific_question": "完整库存下净 N-炔丙基化是否有热力学驱动？",
+      "outcome_id": "balanced_net_exergonicity",
+      "required_numerical_evidence_ids": [
+        "net_energies"
+      ],
+      "old_outcome_ids": [
+        "balanced_net_exergonicity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "points": 35,
+      "criterion": "实际、配平的反应物/产物能量支持净反应放能，并区别于上述局部活化困难。显式 Na/离子/氢气/离去组分须按所用模型一致计入或说明守恒抵消，不能用不同组成总能差或不含必需副产物的账本。无需命中作者约 -45.5 等数值；可独立于机理是否完整得分。"
+    }
+  ],
+  "excluded_scope": [
+    "源 TS 不含完整 Na 环境，不能宣称复现固体/聚集/全溶液 NaH；可使用明确配平的局部模型。",
+    "产物 N 连接已公开，单独给产物图不计预测分。",
+    "不加入药物对接、细胞活性、后续衍生或全固体 NaH。"
+  ],
+  "verification_support": "正文 Fig.1、SI DOCX Theoretical study/Table 1/坐标；历史验证支持 N–H 去质子化/氢气、亲核取代、局部活化排序与净反应放能。"
+}

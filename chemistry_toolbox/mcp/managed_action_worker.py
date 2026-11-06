@@ -11,6 +11,9 @@ from .execution_store import ExecutionStore
 
 def restore_input_artifacts(spec: dict, workspace: Path) -> None:
     """Verify frozen files and register only the declared input references."""
+    from .workspace import resolve_workspace_path
+    for path in spec.get("input_directories", []):
+        resolve_workspace_path(path).mkdir(parents=True, exist_ok=True)
     for item in spec.get("frozen_inputs", []):
         if file_hash(workspace / item["target_path"]) != item["sha256"]:
             raise ValueError("Action input snapshot mismatch")
@@ -19,7 +22,7 @@ def restore_input_artifacts(spec: dict, workspace: Path) -> None:
     if references is None:
         references = collect_artifact_refs(spec.get("action_request", {}).get("inputs", {}))
     artifacts = ArtifactStore(workspace)
-    for reference in references:
+    for reference in artifacts.dependency_closure(references):
         artifacts.import_reference(reference)
 
 
@@ -30,8 +33,9 @@ def _execute(store, launch, spec, workspace):
     restore_input_artifacts(spec, workspace)
     from chemistry_toolbox.src.service import execute_action
     result = execute_action(spec["action_id"], spec["action_request"], _managed_allocation=launch["resource_allocation"])
+    local_artifacts = ArtifactStore(workspace)
     input_references = {ref.artifact_id: ref.model_dump(mode="json")
-                        for ref in collect_artifact_refs(spec["action_request"]["inputs"])}
+                        for ref in local_artifacts.dependency_closure(collect_artifact_refs(spec["action_request"]["inputs"]))}
     prefix = str(workspace.relative_to(store.root))
     def relocate(value):
         if isinstance(value, dict):
@@ -52,10 +56,14 @@ def _execute(store, launch, spec, workspace):
                     return prefix + "/" + str(candidate.relative_to(workspace))
             except (OSError, ValueError): pass
         return value
+    local_references = result.get("output_artifacts", [])
     result = relocate(result)
     artifacts = ArtifactStore(store.root)
     for reference in result.get("output_artifacts", []):
         artifacts.import_reference(reference)
+    for original, exported in zip(local_references, result.get("output_artifacts", [])):
+        dependencies = local_artifacts.dependencies(original)
+        artifacts.save_dependencies(exported, {key: relocate(ref.model_dump(mode="json")) for key, ref in dependencies.items()})
     return result
 
 

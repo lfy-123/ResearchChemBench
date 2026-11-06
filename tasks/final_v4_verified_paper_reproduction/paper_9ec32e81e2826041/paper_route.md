@@ -1,0 +1,17 @@
+# Current final-conclusion scoring — 2026-10-29
+
+Only the independent final scientific propositions in scoring_rules.json are active: semantic pass/fail, 100 points, no author-number matching, process scores or pending scientific-review states. Actual scientific evidence and original scope remain required. The source and historical route text below is context, not an active scoring prescription. Historical verification classifications remain unchanged.
+
+## Source and pre-revision context (non-scoring)
+
+# Current V3 final-results scope
+
+closure、mapping、fragment RMSD不独立计分，仍作为结论的可审计证据。原始题面直接询问吸收差异，保留两组激发能与振子强度；Zn-4p原规则标为intermediate，是否应独立设门仍需专家设计裁决，本轮保留现有两项规则和权重，不以可计算性证明其独立终点必要性。PR保留D3/noD3源表热化学窄靶以评价表值复现，不将两个值等同于稳健构象分布。两模式均保留分子吸收机制、溶液/晶体边界、热倾向/稳健性三个科学解释终点。取消两个几何交付独立分和重复红移/混合综合分；按最终分子解释、热可达性、凝聚相适用性评分。原PR另有300 K D3BJ/无D3BJ自由能复现，本轮保留其两个硬窗；AR不新增该消融，范围差异显式登记。 Final-result weights and review conditions are defined exclusively in evaluation/scoring_rules.json. Source details below are private provenance; they do not prescribe the AR route.
+
+# Private source route and V3 alignment
+
+The source reports colorless/perpendicular and yellow/more-coplanar crystal forms, with angles between carbene/zincafluorene ring planes83.1 and23.9degrees (main p3 Figure1). Its interpretation is that coplanarity stabilizes a C–Zn pi-type LUMO and enables lower-energy absorption; source Zn4p LUMO contributions are2.1% versus8.5% (main p4 Figure2). Reconstruct the full molecular conformations and reproduce/assess this baseline. SI p3 uses PBE0/6-311+G** with D3BJ for ground-state optimizations and frequencies, also separately omits D3BJ to examine dispersion; G is at300K. TableS7 gives Gcoplanar−Gperpendicular−0.1kJ/mol withD3BJ and+4.8without forZ-cAACCy. TD-PBE0/6-311+G** on the optimized ground states gives five lowest singlets; TablesS8/S9 report S1=3.1097eV,f0.0883 versus2.4526eV,f0.0132. Source NAO/Multiwfn orbital analysis is one metal-character definition, not a unique physical population observable. Thermal low-frequency treatment and population implications require scrutiny; identical yellow solutions do not measure a gas free-energy difference. Fixed cross-geometry decompositions, alternative root-matching diagnostics and broader sensitivities are benchmark additions. Z-IP SOC/phosphorescence calculations are not part of this molecule reproduction.
+
+D3 and noD3 native thermochemistry and the full transition comparison are completed in the retained evidence. The tight noD3 endpoint has 234 positive modes and gives delta G = 4.6812658551 kJ/mol; D3 gives -0.0472589928 kJ/mol at 300 K. Native TD10 logs cover both conformations, and the saved NAO crosscheck supports the defined whole Zn-4p subspace values. See ZN_FINAL_HESSIAN_NATIVE_ACCEPTANCE_20261006.json, ZN_THERMO_MODE_COMPARISON_20261006.json and zinc_Fig2_saved_NAO_crosscheck_20261005.json at the package evidence-map paths. These results do not establish robustness of a population ratio, equivalence of the private author population-analysis implementation, or a crystal-packing mechanism. No additional calculations were launched in this review. Before scored deployment calibrate actual different research routes, geometry-label-only answers, missing curvature, state-index switching, unsupported Zn percentages, low-frequency overprecision and molecular-to-crystal/population overreach.
+
+This metadata file is not an AR public input. The public loader exposes task_info, which was separately reviewed.

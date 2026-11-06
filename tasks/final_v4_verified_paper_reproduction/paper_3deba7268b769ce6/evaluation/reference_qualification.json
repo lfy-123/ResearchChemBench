@@ -1,0 +1,131 @@
+{
+  "paper_id": "paper_3deba7268b769ce6",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "DCM full-TD为56.979593/65.369919，TDA为59.561913/68.239505；固定Catalán dye3 EtOAc残差+3.91472。额外连续介质三溶剂全蓝移。",
+  "accepted_limitations": "Tol→EtOAc连续介质方向反实验，不能声称该模型已重现反转。标准全表R²上界0.86983而印刷0.986；不得跨full-TD/TDA挑近值。样品组成、短寿命和来源数值问题继续保留。",
+  "objective_issue_flags": [
+    "Tol→EtOAc连续介质方向反实验，不能声称该模型已重现反转。标准全表R²上界0.86983而印刷0.986；不得跨full-TD/TDA挑近值。样品组成、短寿命和来源数值问题继续保留。"
+  ],
+  "current_rules": [
+    "r_electronic_origin_dye3",
+    "r_electronic_origin_dye4",
+    "r_inter_dye_response",
+    "r_solvent_explanation_dye3",
+    "r_solvent_explanation_dye4",
+    "r_sample_applicability"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_3deba7268b769ce6",
+    "scoring_policy": "paper_science_v3",
+    "status": "V3_ADAPTED_EXISTING_EVIDENCE_NOT_REVALIDATED",
+    "formal_scoring_permitted": true,
+    "current_scope_verified": false,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "unblock_conditions": [],
+    "reason": "保留两种完整阴离子、三溶剂低能吸收解释题。将电子归属、分子间比较、各染料溶剂响应解释及样品适用性拆为6个独立最终结论；不重复奖励给定谱带趋势，不规定作者计算节点。AR自主建模，PR保留分子计算与固定Catalán基线。",
+    "publication_expert_review_status": "Publication/expert review remains separate from runtime scientific scoring; not a Judge blocker.",
+    "numerical_policy": "No numerical leaves or invented tolerance; original values, residuals and historical policy are retained.",
+    "limitations": [
+      "Main Fig5/prose dye3 experimental DCM57.18 differs from SI TableS2 DCM55.19 kcal/mol; neither is silently substituted for the source calculated59.44.",
+      "Source loose positional-isomer wording does not override distinct nitrothiophene/nitrophenyl graphs.",
+      "Source TDA/full-TD choice is not disclosed; both common protocols retained.",
+      "Fixed Catalán has +3.91472 kcal/mol dye3 EtOAc residual and is not a new19-solvent refit or blind prediction.",
+      "Pure continuum predicts the wrong Tol→EtOAc direction; only the combined bounded author interpretation is accepted.",
+      "Acceptance is for the combined bounded molecular interpretation and disclosed DCM baseline. It does not certify a pure-CPCM solvent inversion, a causal H-bond proof,19-solvent refit, unique counterion-free experimental species or predictive accuracy.",
+      "The incorrect continuum shift is a genuine limitation of the added model. It is not a reversal of a source claim that this specific continuum-only scan reproduces inversion.",
+      "No V1 one-MeOH contact/remote intervention, fixed matrix or frozen prediction requirement is reintroduced."
+    ],
+    "verification_reference": "evaluation/verified_computation_reference.md",
+    "private_archive_index": "docs/final_verified_science_v2_additions_20261020/astra_science_02/ARCHIVE_INDEX.json",
+    "historical_acceptance_before_v3": {
+      "paper_id": "paper_3deba7268b769ce6",
+      "scoring_policy": "paper_science_v2",
+      "status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+      "acceptance_type": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+      "accepted_at_utc": "2026-10-20",
+      "formal_scoring_permitted": true,
+      "current_scope_verified": true,
+      "release_ready": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "unblock_conditions": [],
+      "reason": "Coordinator confirmed all task-critical qualitative findings, disclosed important method/model settings and valid necessary calculations under the2026-10-20 numerical-deviation authorization. No exact numerical reproduction or original-tolerance pass is claimed.",
+      "coordinator_decision_artifact": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAPER_DECISIONS.json",
+      "publication_expert_review_status": "Publication/expert review remains separate from runtime scientific scoring; not a Judge blocker.",
+      "numerical_policy": "No numerical leaves or invented tolerance; original values, residuals and historical policy are retained.",
+      "limitations": [
+        "Main Fig5/prose dye3 experimental DCM57.18 differs from SI TableS2 DCM55.19 kcal/mol; neither is silently substituted for the source calculated59.44.",
+        "Source loose positional-isomer wording does not override distinct nitrothiophene/nitrophenyl graphs.",
+        "Source TDA/full-TD choice is not disclosed; both common protocols retained.",
+        "Fixed Catalán has +3.91472 kcal/mol dye3 EtOAc residual and is not a new19-solvent refit or blind prediction.",
+        "Pure continuum predicts the wrong Tol→EtOAc direction; only the combined bounded author interpretation is accepted.",
+        "Acceptance is for the combined bounded molecular interpretation and disclosed DCM baseline. It does not certify a pure-CPCM solvent inversion, a causal H-bond proof,19-solvent refit, unique counterion-free experimental species or predictive accuracy.",
+        "The incorrect continuum shift is a genuine limitation of the added model. It is not a reversal of a source claim that this specific continuum-only scan reproduces inversion.",
+        "No V1 one-MeOH contact/remote intervention, fixed matrix or frozen prediction requirement is reintroduced."
+      ],
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "private_archive_index": "docs/final_verified_science_v2_additions_20261020/astra_science_02/ARCHIVE_INDEX.json"
+    },
+    "scoring_mode": "final_results_100",
+    "evidence_gaps": [
+      "历史验收为用户接受定性结果及数值偏差，不是严格源数值复现",
+      "共同full-TD/TDA均未同时精确重现两染料DCM作者计算值，源响应近似未明确",
+      "dye3 EtOAc固定Catalán残差+3.91472 kcal/mol；纯CPCM的Tol→EtOAc方向相反",
+      "只有三溶剂及有限寿命信息，不能证实唯一微观溶剂机制或完整实验物种"
+    ],
+    "final_result_evidence_reuse": {
+      "electronic_origin_dye3": "正文p4 Fig5；NTO_REUSE_SUMMARY.json中dye3_DCM hole phenolate 0.51558→particle 0.14873，bridge/acceptor增大，其他三介质同方向；支持ICT归属，不是弛豫电荷转移量。",
+      "electronic_origin_dye4": "SI p9 FigS8；NTO_REUSE_SUMMARY.json中dye4_DCM hole phenolate 0.62119→particle 0.21662，particle bridge 0.60293、acceptor 0.18045；支持向桥/受体重分布，不能强制受体>50%。",
+      "inter_dye_response": "REUSED_SCIENTIFIC_RESULTS.json：共同DCM fullTD 56.97959<65.36992；TDA 59.56191<68.23950 kcal/mol。排序支持，作者59.44/66.18不同时精确复现。",
+      "solvent_explanation_dye3": "固定Catalán 57.42180→56.85472→63.64499 kcal/mol；MeOH SA +7.24185；结合NTO支持有界差异溶剂化解释。EtOAc残差+3.91472、纯CPCM反号须保留。",
+      "solvent_explanation_dye4": "固定Catalán 61.60384→59.73978→70.11053 kcal/mol；MeOH SA +11.12595；结合NTO支持有界解释，不能由模型系数单独证明唯一原因。",
+      "sample_applicability": "正文pp2–3,5：5 μL 1 M NBu4OH/MeOH，dye3 EtOAc约10 s光降解；模型无NBu4+、显式溶剂及降解。SOURCE_SCOPE_REVIEW与原生模型支持有界适用性结论。"
+    },
+    "new_quantum_calculations": 0,
+    "v3_scientific_revalidation_performed": false,
+    "secondary_audit_20261028": {
+      "scope_changed": false,
+      "new_calculations": 0,
+      "verification_status": "电子归属、分子间排序和固定模型方向有支持；DCM源值疑点、EtOAc残差与连续介质反号保留，不认定严格全面复现",
+      "confirmed_fixes": [
+        {
+          "file": "AR problem_facts.json facts[2]",
+          "before": "Rapid spectra were recorded rapid spectra despite stability limits",
+          "after": "Rapid spectra were recorded despite stability limits",
+          "reason": "重复词；正文pp2–3支持记录光谱事实。"
+        },
+        {
+          "file": "两模式submission_schema.json及guide",
+          "before": "complete分支research_log.minItems=1",
+          "after": "minItems=0，guide明确可为空",
+          "reason": "流程叙述不作科学前提；真实结果与原生证据要求保留。"
+        }
+      ],
+      "expert_issues": [
+        {
+          "issue": "DCM源值对应",
+          "evidence": "fullTD残差−2.460407/−0.810081；TDA残差+0.121913/+2.059505；dye3实验57.18与55.19冲突。",
+          "impact": "无法声明严格源数值复现。",
+          "suggestion": "保留所有值，先核实源响应近似和结构对应。",
+          "new_computation_needed": "目前无确定新算方案。"
+        },
+        {
+          "issue": "固定Catalán解释边界",
+          "evidence": "dye3 EtOAc+3.91472；标准全表R²条件上界0.86983低于打印0.986。",
+          "impact": "不支持唯一因果或全表精度认证。",
+          "suggestion": "评估有界解释充分性；不猜测未知拟合子集／权重，不增隐含容差。",
+          "new_computation_needed": "否，先澄清数据和方法。"
+        }
+      ]
+    }
+  }
+}

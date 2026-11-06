@@ -1,0 +1,194 @@
+{
+  "paper_id": "paper_72822e4ddb5d9b11",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "V3_CONTENT_AUDITED_EXISTING_EVIDENCE_REUSED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "historical_acceptance": {
+    "paper_id": "paper_72822e4ddb5d9b11",
+    "status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "formal_scoring_permitted": true,
+    "criterion_date": "2026-10-20",
+    "acceptance_basis": "Coordinator-confirmed user authorization for current task-scoped intermediate qualitative nodes and final scientific conclusions with retained numerical deviations.",
+    "original_numerical_gate_passed": false,
+    "original_numerical_tolerance_relabelled_as_met": false,
+    "scientific_scope": "Electronic state and metal–ligand bonding of full neutral complex 4; no water reactivity or rate task.",
+    "publication_or_expert_review_limits": [
+      "SI Energy is not unambiguously E, E+ZPE, H or G; all absolute offsets and every definition remain visible. No exact numerical equivalence or original tolerance pass is asserted.",
+      "Source does not provide four independently identified same-level state geometries or a uniquely specified orbital-population convention. Method/version differences are not demonstrated to explain all residuals.",
+      "Finite state searches establish the tested collapse and singlet/triplet ordering; they do not prove uniqueness across all electronic methods. No water-reaction, spectroscopy-complete, or universal sigma-noninnocence claim is accepted."
+    ],
+    "source": {
+      "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NEWLY_ACCEPTED_V2.json",
+      "sha256": "bfbf11a44b3958f8a55b7d144f38970348307aae520a1880788ee1e115cb8581"
+    },
+    "historical_status_policy": "Prior pending/strict numerical failure records are preserved history, not current runtime gating."
+  },
+  "acceptance_class": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION (historical user-authorized scope)",
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "evidence_reuse_summary": "完整165原子678电子；B3LYP/BP86 T−CS=32.21990/27.16573 kcal/mol，对源31.4/25.1；轴向与赤道Ni/配体混合已读回。绝对能残差252–260 kcal/mol保留。 All former numerical windows are historical only; current scoring uses final semantic conclusions.",
+  "evidence_gaps": "绝对能和不同能量/人口定义不完全重现，不能挑E+ZPE贴源。形式NiIV记账与物理氧化态不等价；σ非无辜性仍有界。科学接受分类保持，不因评分更新认证新基态空间穷尽。",
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "mode_scope_exception": "两模式的最终科学命题相同；AR自主选择方法，PR评估披露基线或有依据的可比替代。作者数值均为证据。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "必需结果：自旋/电子基态",
+      "rule_id": "r_ground_state",
+      "conclusion_id": "ground_state",
+      "weight": 35,
+      "independence": "竞争态能量与性质结论，不由形式价态或配位图推出。",
+      "source_location": "正文pp4–5 Fig5；SI物理pp10–12、TableS1及FigS5/S6；source_state/native_state/native_bonding。",
+      "source_evidence_ids": [
+        "source_state",
+        "native_state"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_comparison/attempt_001/NI_MO_COMPARISON_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/B3LYP/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/BP86/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_CS_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_T_legacy_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_T_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/v2_BP86_T_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/SOURCE_ROUTE_MATRIX.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/thermal_definition_repair/attempt_001/THERMAL_DEFINITION_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NI_DIRECT_FREQUENCY_READBACK.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_closure_20260921/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_triplet_matched_grid_stationarity_20260921/20260921T065101_137993_188/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_endpoint_20260919/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_singlet_torsion_minimum_hessian_20260919/20260919T080601_476816_187/orca_stdout.log"
+      ],
+      "existing_support_or_gap": "完整165原子678电子；B3LYP/BP86 T−CS=32.21990/27.16573 kcal/mol，对源31.4/25.1；轴向与赤道Ni/配体混合已读回。绝对能残差252–260 kcal/mol保留。",
+      "scientific_limitations": "绝对能和不同能量/人口定义不完全重现，不能挑E+ZPE贴源。形式NiIV记账与物理氧化态不等价；σ非无辜性仍有界。科学接受分类保持，不因评分更新认证新基态空间穷尽。"
+    },
+    {
+      "scientific_requirement": "必需结果：轴向成键电子结构",
+      "rule_id": "r_axial_mixing",
+      "conclusion_id": "axial_mixing",
+      "weight": 20,
+      "independence": "Ni–Cl通道，和赤道Ni–大环不同。",
+      "source_location": "正文pp4–5 Fig5；SI物理pp10–12、TableS1及FigS5/S6；source_state/native_state/native_bonding。",
+      "source_evidence_ids": [
+        "source_state",
+        "native_bonding"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_comparison/attempt_001/NI_MO_COMPARISON_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/B3LYP/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/BP86/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_CS_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_T_legacy_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_T_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/v2_BP86_T_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/SOURCE_ROUTE_MATRIX.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/thermal_definition_repair/attempt_001/THERMAL_DEFINITION_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NI_DIRECT_FREQUENCY_READBACK.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_closure_20260921/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_triplet_matched_grid_stationarity_20260921/20260921T065101_137993_188/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_endpoint_20260919/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_singlet_torsion_minimum_hessian_20260919/20260919T080601_476816_187/orca_stdout.log"
+      ],
+      "existing_support_or_gap": "完整165原子678电子；B3LYP/BP86 T−CS=32.21990/27.16573 kcal/mol，对源31.4/25.1；轴向与赤道Ni/配体混合已读回。绝对能残差252–260 kcal/mol保留。",
+      "scientific_limitations": "绝对能和不同能量/人口定义不完全重现，不能挑E+ZPE贴源。形式NiIV记账与物理氧化态不等价；σ非无辜性仍有界。科学接受分类保持，不因评分更新认证新基态空间穷尽。"
+    },
+    {
+      "scientific_requirement": "必需结果：赤道成键电子结构",
+      "rule_id": "r_equatorial_mixing",
+      "conclusion_id": "equatorial_mixing",
+      "weight": 20,
+      "independence": "独立的Ni–C/N混合通道，不能用轴向证据替代。",
+      "source_location": "正文pp4–5 Fig5；SI物理pp10–12、TableS1及FigS5/S6；source_state/native_state/native_bonding。",
+      "source_evidence_ids": [
+        "source_state",
+        "native_bonding"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_comparison/attempt_001/NI_MO_COMPARISON_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/B3LYP/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/BP86/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_CS_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_T_legacy_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_T_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/v2_BP86_T_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/SOURCE_ROUTE_MATRIX.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/thermal_definition_repair/attempt_001/THERMAL_DEFINITION_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NI_DIRECT_FREQUENCY_READBACK.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_closure_20260921/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_triplet_matched_grid_stationarity_20260921/20260921T065101_137993_188/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_endpoint_20260919/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_singlet_torsion_minimum_hessian_20260919/20260919T080601_476816_187/orca_stdout.log"
+      ],
+      "existing_support_or_gap": "完整165原子678电子；B3LYP/BP86 T−CS=32.21990/27.16573 kcal/mol，对源31.4/25.1；轴向与赤道Ni/配体混合已读回。绝对能残差252–260 kcal/mol保留。",
+      "scientific_limitations": "绝对能和不同能量/人口定义不完全重现，不能挑E+ZPE贴源。形式NiIV记账与物理氧化态不等价；σ非无辜性仍有界。科学接受分类保持，不因评分更新认证新基态空间穷尽。"
+    },
+    {
+      "scientific_requirement": "必需结果：形式氧化态记账",
+      "rule_id": "r_formal_valence",
+      "conclusion_id": "formal_valence",
+      "weight": 10,
+      "independence": "配体电荷与占据关系，不重复基态稳定性。",
+      "source_location": "正文pp4–5 Fig5；SI物理pp10–12、TableS1及FigS5/S6；source_state/native_state/native_bonding。",
+      "source_evidence_ids": [
+        "source_state",
+        "native_state",
+        "native_bonding"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_comparison/attempt_001/NI_MO_COMPARISON_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/B3LYP/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/BP86/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_CS_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_T_legacy_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_T_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/v2_BP86_T_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/SOURCE_ROUTE_MATRIX.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/thermal_definition_repair/attempt_001/THERMAL_DEFINITION_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NI_DIRECT_FREQUENCY_READBACK.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_closure_20260921/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_triplet_matched_grid_stationarity_20260921/20260921T065101_137993_188/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_endpoint_20260919/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_singlet_torsion_minimum_hessian_20260919/20260919T080601_476816_187/orca_stdout.log"
+      ],
+      "existing_support_or_gap": "完整165原子678电子；B3LYP/BP86 T−CS=32.21990/27.16573 kcal/mol，对源31.4/25.1；轴向与赤道Ni/配体混合已读回。绝对能残差252–260 kcal/mol保留。",
+      "scientific_limitations": "绝对能和不同能量/人口定义不完全重现，不能挑E+ZPE贴源。形式NiIV记账与物理氧化态不等价；σ非无辜性仍有界。科学接受分类保持，不因评分更新认证新基态空间穷尽。"
+    },
+    {
+      "scientific_requirement": "必需结果：真实物理氧化态可识别性",
+      "rule_id": "r_physical_oxidation_limit",
+      "conclusion_id": "physical_oxidation_limit",
+      "weight": 15,
+      "independence": "混合和分区依赖导致的解释限度，不重复两通道各自有混合。",
+      "source_location": "正文pp4–5 Fig5；SI物理pp10–12、TableS1及FigS5/S6；source_state/native_state/native_bonding。",
+      "source_evidence_ids": [
+        "source_state",
+        "native_bonding"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_comparison/attempt_001/NI_MO_COMPARISON_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/B3LYP/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W04/papers/paper_72822e4ddb5d9b11/mo_population_checkpoint/attempt_001/BP86/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_CS_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/B3LYP_T_legacy_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_CS_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/BP86_T_free_optfreq/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_72822e4ddb5d9b11/outputs/v2_BP86_T_relaxed_stability/attempt_01/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/SOURCE_ROUTE_MATRIX.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/v2_reopened_verification_20261014/papers/paper_72822e4ddb5d9b11/thermal_definition_repair/attempt_001/THERMAL_DEFINITION_RESULTS.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NI_DIRECT_FREQUENCY_READBACK.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_closure_20260921/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_triplet_matched_grid_stationarity_20260921/20260921T065101_137993_188/orca_stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/runs/hold_verification/group_5/complex4_endpoint_20260919/paper_72822e4ddb5d9b11/provenance/qzcli_hpc/complex4_singlet_torsion_minimum_hessian_20260919/20260919T080601_476816_187/orca_stdout.log"
+      ],
+      "existing_support_or_gap": "完整165原子678电子；B3LYP/BP86 T−CS=32.21990/27.16573 kcal/mol，对源31.4/25.1；轴向与赤道Ni/配体混合已读回。绝对能残差252–260 kcal/mol保留。",
+      "scientific_limitations": "绝对能和不同能量/人口定义不完全重现，不能挑E+ZPE贴源。形式NiIV记账与物理氧化态不等价；σ非无辜性仍有界。科学接受分类保持，不因评分更新认证新基态空间穷尽。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

@@ -1,0 +1,185 @@
+{
+  "paper_id": "paper_f62b895afc2db020",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。",
+  "rules": [
+    {
+      "rule_id": "r_sensitized_triplet",
+      "reference_id": "sensitized_triplet",
+      "type": "semantic",
+      "expected": "实际计算支持本底物存在与烯烃相关的三重态/开壳层激发态，其能量与TXO敏化条件相容，能够作为骨架重排的反应性起点；以相容的激发能定义、电子态及溶剂作比较。论文52.2为Gibbs态间差而非垂直电子激发能，TXO65.5为文献参照而非本次验证实算；两数字均无评分容差。不能仅凭灯波长或复述作者机理得分，也不要求额外计算羰基三重态75.6来排除Norrish路线。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_addition_connectivity",
+      "reference_id": "addition_connectivity",
+      "type": "semantic",
+      "expected": "本底物的计算结构/路径支持烯烃部分与羰基碳发生分子内C–C加成、形成对应双环骨架中间体；在作者表述中为三重态5-exo-trig加成。需要该成键事件和相容电子态的实际局部连接/反应模式证据，不能以产物观察代替。允许等价方法和标签，不强制全IRC、特定软件或9.7精确数值。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_ring_opening",
+      "reference_id": "ring_opening",
+      "type": "semantic",
+      "expected": "实际结构/局部路径支持加成后原环C–C键断裂，得到通往目标[5.1.0]骨架的扩环开壳层中间体；对应作者八元环双自由基3B。独立于前一成键项评价该断键及扩环的结构事件。来源局部势垒3.0和下坡反应自由能−13.6为非强制上下文；不能把累计图高度误称局部势垒，本结构项不附加热化学数值门槛。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_cis_preference",
+      "reference_id": "cis_preference",
+      "type": "semantic",
+      "expected": "对同一目标产物连接图、相同条件和相容物理量的cis/trans比较，计算支持C1甲氧羰基与C7苯基同侧的cis产物自由能低于trans。必须实际区分两种相对构型，不能由已知cis观察反推。论文23.5为Gibbs差；交叉点约3.7为电子差，两者不可混用。交叉点可作为额外相关证据，但不强制新增MECP轨迹或交叉数值门槛；产物稳定性差本身不是室温异构化速率或精确dr。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_transformation_answer",
+      "reference_id": "transformation_answer",
+      "type": "semantic",
+      "expected": "最终用实际计算支持的成键/断键及电子态变化，将所给底物转变为所给环丙烷并合[5.1.0]产物解释为有限的光敏化开壳层加成—扩环—闭环路线。需将中间局部结果整合到正确目标连接图及DMSO/TXO光照条件；只罗列中间体或重述产物不能得分。等价命名和有实证的等价物理解释可接受，任意不同机理不自动等于论文结果；不要求证明唯一机理、ISC速率、全部竞争通道或99%产率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_stereochemistry_answer",
+      "reference_id": "stereochemistry_answer",
+      "type": "semantic",
+      "expected": "最终明确把该体系计算所得cis相对trans偏好与观察到C1甲氧羰基/C7苯基同侧联系起来，给出限定的能量/结构解释；区分产物热力学偏好与可能的闭环/交叉选择因素。只说cis较稳定而未将证据应用于所给立体结果不够。可以结合较低cis交叉点，但不要求它为唯一原因；没有有效速率/动力学模型时不得把能差直接等同精确选择性、室温异构化速率或将99%分离产率当dr。其他产物22/27的热实验不构成本产物的直接动力学证据。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "sensitized_triplet",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "烯烃三重态可由敏化条件提供能量",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107"
+      ],
+      "rule_ids": [
+        "r_sensitized_triplet"
+      ]
+    },
+    {
+      "id": "addition_connectivity",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "烯烃至羰基的C–C加成形成双环中间体",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_addition_connectivity"
+      ]
+    },
+    {
+      "id": "ring_opening",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "原环C–C断裂给出扩环开壳层骨架",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_ring_opening"
+      ]
+    },
+    {
+      "id": "cis_preference",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "目标产物cis相对trans的能量偏好",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_cis_preference"
+      ]
+    },
+    {
+      "id": "transformation_answer",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "最终：由加成、扩环及闭环解释目标骨架",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_transformation_answer"
+      ]
+    },
+    {
+      "id": "stereochemistry_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "最终：cis偏好解释观察到的相对立体化学",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_stereochemistry_answer"
+      ]
+    }
+  ]
+}

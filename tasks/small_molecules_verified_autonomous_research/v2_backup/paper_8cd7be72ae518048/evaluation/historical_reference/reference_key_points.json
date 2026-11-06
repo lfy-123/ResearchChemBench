@@ -1,0 +1,95 @@
+{
+  "paper_id": "paper_8cd7be72ae518048",
+  "items": [
+    {
+      "statement": "β条件候选的两种区域成键连接",
+      "expected": "在声明的β条件候选模型中，实际结构与反应连接证据区分通向主底物α和β的芳基成键位置，保留指定环烯骨架及正确电荷/电子态。作者苯氧基插入模型为参考；有证据支持的等价形成路线可接受。仅标签、单虚频个数或产物观察不足；不额外要求完整释放循环或全IRC。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "beta_connectivity",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "α条件候选的两种区域成键连接",
+      "expected": "在声明的α条件候选模型中，实际结构与反应连接证据区分主底物α和β形成通道，保持配体、组成及电荷/电子态定义一致。作者阳离子插入模型为参考；接受可支持同一科学结果的等价路线。不能只重复题面α产物，或把不同体系的成键位置当同一对照。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "alpha_connectivity",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "β条件候选内的区域竞争能量",
+      "expected": "同组成、同条件及同参照的实际竞争能量支持β形成比α有利。作者苯氧基模型以IMO1′为零的α/β为22.7/18.4 kcal/mol，作为科学上下文而非硬数值窗；不将两个模型的绝对总能直接相减，也不以产率代替计算竞争。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "beta_competition",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "α条件候选内的区域竞争能量",
+      "expected": "物理可比的实际竞争能量支持α形成比β有利。作者阳离子模型以IM3为零，图/SI为17.5/18.8 kcal/mol，正文α另写17.1；两个α来源值均保留，均支持α较低。不以选择最接近验证的来源值为评分依据；需要实际相对能量支持方向。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "alpha_competition",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "反应位点开放与烯烃结合的结构结果",
+      "expected": "实际结构证据显示所研究配位环境如何允许主烯烃进入可反应位点，并区分进入前后配位连接。作者母体双膦与单氧化物在中性碘模型中的配位臂打开/烯烃结合为参考；接受相同科学作用的已支持替代解释。仅说配体更易离去或展示孤立几何不足。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "access_topology",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "配位环境改变进入可反应状态的自由能成本",
+      "expected": "在组成/电荷配平、游离烯烃参照一致的比较中，计算支持所声明环境差异改变主底物进入可反应状态的成本。作者中性碘母体与单氧化物的结合G为+15.2/+9.2 kcal/mol，支持后者成本更低。需相容参考下的实际比较；此量是结合平衡自由能，不是氧化、交换活化或总周转势垒。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "access_cost",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "苯乙烯与主底物的匹配进入成本比较",
+      "expected": "相同催化模型与标准态、各自游离底物参照的实际比较支持苯乙烯较易进入所研究可反应状态。作者单氧化物中性碘模型为+6.8对主底物+9.2 kcal/mol；接受物理等价支持。不能比较不同分子组成的裸总能或替换主底物身份。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "key_point_id": "styrene_access",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "styrene_regio_competition",
+      "key_point_type": "result",
+      "statement": "苯乙烯模型内的区域竞争",
+      "expected": "在正确苯乙烯分子图、相容电荷/自旋和同一前体参照下，实际α/β形成竞争支持α较有利。作者阳离子模型以SIM3为零为11.3/16.0 kcal/mol，作为来源上下文，不设精确窗口。需要两个通道的可比证据，单一苯乙烯能量或实验类比不足。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "key_point_id": "styrene_substrate_cost",
+      "key_point_type": "result",
+      "statement": "苯乙烯与主底物的匹配插入成本比较",
+      "expected": "在匹配催化模型中，各底物使用自身一致前体参照的实际比较支持苯乙烯α形成较主环烯容易。作者阳离子苯乙烯α为11.3、主环烯图/SI为17.5 kcal/mol，保留主文17.1冲突。不能比较不同组成的裸总能，也不据此声称实验速率已复现。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

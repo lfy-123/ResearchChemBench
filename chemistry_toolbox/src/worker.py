@@ -9,6 +9,7 @@ import traceback
 from contextlib import redirect_stderr, redirect_stdout
 
 from .backends import execute_local
+from .backends.common import ExternalProcessError
 
 
 def _repair_details(payload: dict, *, runtime_failure: bool = False, message: str = "") -> dict:
@@ -65,7 +66,7 @@ def main() -> int:
                 str(payload["backend_id"]),
                 execution_request,
             )
-    except ValueError as exc:
+    except (ValueError, FileNotFoundError) as exc:
         repair = _repair_details(payload, message=str(exc))
         result = {
             "status": "invalid_request",
@@ -77,6 +78,8 @@ def main() -> int:
             },
             "retryable": bool(repair["retryable_after_input_correction"]),
         }
+    except ExternalProcessError as exc:
+        result = {"status": "failed", "error": exc.diagnostic, "retryable": False}
     except Exception as exc:  # Worker boundary must always return structured JSON.
         repair = _repair_details(payload, runtime_failure=True, message=str(exc))
         result = {

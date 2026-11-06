@@ -1,0 +1,37 @@
+# 19篇自主科研任务：专家反馈调整（含第二轮及来源复核）
+
+任务指令补充（2026-11-03）：[paper_7a1d5d7c60a0ae04](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_7a1d5d7c60a0ae04.md)采用`research_completion_reinforced_20261103`，将现有一句提示强化为持续研究至最终结论、不草草提交未完成报告；评分仍为`expert_round1_20261103`，研究范围和权重不变。该更新用于新运行，旧运行快照不改。
+
+更新日期：2026-11-03。两题完成正文/SI证据范围复核，使用`source_checked_evidence_scope_20261103`；三题使用`expert_round2_20261103`，其余14题保留`expert_round1_20261103`。19题共72项独立最终科学结论，每题100分，均为语义pass/fail。
+
+来源复核更新：[两题核对与修订记录](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/两题正文SI核对与证据范围修订_20261103.md)。查尔酮3–5趋势项不再依赖1/2计算；回收项使用给定单轮比例时不再依赖端点量化计算，仍要求实际执行的衡算和可恢复证据。
+
+第一轮修改14份科学输入卡；04、08、10、16、18核对后保留题面。新增18份带映射二维SDF，补齐4题的结构输入。删除Mallory已知产物预测、Fe题tBu比较、Int-3上游苄位活化及dendralene PI3四项评分。审查页中的英文题面和评分JSON直接嵌入当前文件。
+
+源任务位于`autonomous_research/`。
+
+第二轮更新：[三题修改前后记录](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/第二轮专家反馈调整记录_20261103.md)。删除两处解题提示，明确苯丙酮路径可达性；结论数量和分值不变。
+
+|编号|论文ID|当前主题|本轮处理|最终结论与权重|
+|---|---|---|---|---|
+|01|[paper_09c8aaf14b70371f](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_09c8aaf14b70371f.md)|五种查尔酮的还原峰电位与分子电子结构|措辞澄清；限定分项证据范围|化合物 3–5 中取代基依赖的还原关系 25分；所计算还原关系对化合物 1 和 2 的适用性 20分；全部五种化合物的 ACN/DMSO 溶剂效应尺度 15分；化合物 3 的 DCM／极性溶剂比较方向 10分；峰电位差异的分子假说及其证据边界 30分|
+|02|[paper_0dc85595cab7bc0a](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_0dc85595cab7bc0a.md)|给定产物的连续Mallory光环化位点选择解释|提供结构并调整评分|第一次环化的区域异构体热力学偏好 25分；第一次位点区分的电子起源 15分；第二次环化的区域异构体热力学偏好 25分；第二次位点区分的电子起源 15分；连续氧化环化路线的化学解释 20分|
+|03|[paper_2a71ffa4b0a90809](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_2a71ffa4b0a90809.md)|卤键催化剂系列的结构—活性解释|初始活化；第二轮删除结合/离子对提示|A/B活性差别的分子起源 30分；C/D活性差别的分子解释 25分；C/E行为的分子解释及证据的解释范围 25分；相对于无催化剂反应的催化剂依赖增强 20分|
+|04|[paper_3e27c1888e57a947](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_3e27c1888e57a947.md)|光驱动二氟甲基化/砜形成的区域与 E/Z 选择性|核对后保留|相连的分子与能量解释说明目标砜形成 30分；计算的形成竞争解释丁二烯 1,4 偏好 25分；在明确互变假设下，形成能量支持观测 E 偏好 20分；末端苯基体系在指定条件下反转有利区域化学 25分|
+|05|[paper_4761e82fee080c35](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_4761e82fee080c35.md)|PC2条件下磷酰供体活化与反应性变化|明确反应性目标|与指定PC2及组分条件相容的局部活化模型 45分；活化改变供体向醇转移磷酰基团的能力 55分|
+|06|[paper_4e9774f4128551d3](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_4e9774f4128551d3.md)|酮酯局部差向异构化与三轮回收|澄清回收模型；解除额外端点门槛|映射cis/trans端点的热力学偏好与物理范围 20分；平衡与分瓶操作的立体化学结果为何不同 40分；三轮cis回收及其与观察分离收率的关系 40分|
+|07|[paper_6d19b537a0030e5a](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_6d19b537a0030e5a.md)|单一酰基硅烷的铁催化氢化及对映区分|缩减比较并补起始态|C_A催化氢化和催化剂返回的化学机理 30分；条件模型下的周转限制 25分；形成竞争所偏好的主底物醇产物对映体 20分；催化剂组织方式为何区分主底物的形成路径 25分|
+|08|[paper_7516a3cbacb70032](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_7516a3cbacb70032.md)|手性双功能配体调控 Ir(III) 螺烯并环与立体选择|核对后保留解释版|螺烯并环的能量与分子解释 30分；指定配体相对于无配体模型促进底物活化 20分；计算的立体化学竞争解释观测 M 螺旋性 25分；立体化学选择与最大局部化学难度发生在不同阶段 25分|
+|09|[paper_7a1d5d7c60a0ae04](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_7a1d5d7c60a0ae04.md)|给定氧代碳正离子的硼氢负离子还原选择性|补充局部反应起点；强化一句持续研究及不提前收尾提示|催化剂酸性与反应性能具有不同的分子起因 25分；D4 的 cis 偏好来自形成效应而非产物稳定性偏好 25分；A/B 变化以依赖模型的强度影响 D4 立体化学区分 20分；增大环尺寸使 cis 形成偏好与 cis 产物稳定性同向 30分|
+|10|[paper_7cfd59d5c7061c6b](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_7cfd59d5c7061c6b.md)|单核侧向 Fe(III)-peroxo 引发 DMA 初始氧化|核对后保留|通过有根据的竞争分析确定能量受支持的初始氧化机制 40分；氧化剂引发 DMA 氧化能力的分子和电子解释 25分；初始氧化产生羟基化 DMA 部分而未确立最终 N-脱甲基 35分|
+|11|[paper_8769f3cc6d18e26c](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_8769f3cc6d18e26c.md)|轮烷首次胺化的两对位响应及解释范围|限于首次胺化|计算溶液结构及对位环境的等价或不等价 35分；计算对位响应及其对亲电胺化的含义 35分；首次胺化位点响应及底物证据对净ee推断的范围 30分|
+|12|[paper_87f5566528287b60](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_87f5566528287b60.md)|硫亚胺光酰胺化的催化剂相容性与产率解释范围|底物活化；第二轮删除近匹配提示|Thioxanthone 的活化相容性 15分；Ir(dFppy)3 的活化相容性 15分；标准铱光催化剂与活化尺度的近匹配 20分；fac-Ir(ppy)3 相对于有效催化剂的分子失配 15分；Mes-Acr+ 相对于有效催化剂的分子失配 15分；分子相容性对产率差异的解释能力 20分|
+|13|[paper_9f24eac60feca79d](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_9f24eac60feca79d.md)|偕二氟烯胺两种候选产物族的热竞争预测|改为候选产物预测|热双环形成的电子与活化解释 30分；竞争亚胺族的形成化学与活化 30分；根据计算预测两种给定产物族的动力学竞争 40分|
+|14|[paper_b33676a2051f5e91](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_b33676a2051f5e91.md)|给定Int-3的两条局部碳—碳裂解竞争|局部裂解；第二轮明确苯丙酮可达性|局部裂解化学及苯乙酮形成可达性 50分；苯丙酮形成的局部可达性及两条裂解的动力学偏好 50分|
+|15|[paper_c49993ae88ffa0e3](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_c49993ae88ffa0e3.md)|预成H2PQ的光脱氧与有限水合热力学|限定有限水合解释|无加水净脱氧的热力学驱动力 20分；双加水净脱氧的热力学驱动力 20分；预成H2PQ光驱动还原的分子基础 30分；有限水合为何改变反应热力学及其解释能力 30分|
+|16|[paper_c625cba3ce868eb1](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_c625cba3ce868eb1.md)|非酶NBS局部环选择性与比较归因|核对后保留|(R,E)-4局部六元与七元环选择性的分子解释 70分；结构和实验比较对选择性起源能够确立什么 30分|
+|17|[paper_cfff299c39d69520](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_cfff299c39d69520.md)|Zn/脯氨酸有限产物形成路径及温度效应|删再生并同步限定活化量|从给定预催化剂出发在化学上可达的活性锌物种 20分；成键化学及锌氧化态行为 25分；至二炔释放的配平有限路径热力学 20分；已研究有限产物形成路径的主要活化需求 20分；升温对已研究产物形成活化的条件性影响 15分|
+|18|[paper_ea6fdc38b4a7f8c7](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_ea6fdc38b4a7f8c7.md)|α-羰基烷氧胺的取代捕获、电化学行为及侧链效应|核对后保留|有效捕获及电化学行为对羰基官能团的依赖 35分；Weinreb 酰胺侧链如何改变分子组织及反应相容性 35分；电化学持久性与一级／二级捕获效率为何可能不同 30分|
+|19|[paper_fb75113b35e12c7c](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/papers/paper_fb75113b35e12c7c.md)|两种环烯酮dendralene的加成、成环及稳健性|补结构并删除独立底物|PI1 单加成具有弱且依赖模型的位点选择性 20分；PI1 在所考察成环结局的竞争中偏向可达的简单加成 20分；PI1 的第二次 MeSH 加成具有弱热力学竞争力 10分；PI2 成环端点比简单加成物明显更稳定 15分；PI2 可达成环选择 γ 衍生的呋喃连接方式 20分；两个环烯酮底物的选择性可靠度比较 15分|
+
+完整专家反馈、修改原因及检查结果见[第一轮审查记录](/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/handle/小分子有机化学反应_审查材料_20261029/剩下的其他评估任务/第一轮专家反馈调整记录_20261103.md)。历史改编文档按其日期理解，不覆盖本轮范围。

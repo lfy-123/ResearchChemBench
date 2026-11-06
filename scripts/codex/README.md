@@ -40,13 +40,14 @@ bash scripts/codex/test_codex_gpt56.sh --mode paper_reproduction --resume \
 | --- | --- |
 | `RCB_CODEX_API_KEY` | API 密钥，真实运行必填 |
 | `RCB_CODEX_BASE_URL` | API 地址；仅填写域名或 IP 及端口时会补上 `/v1` |
-| `RCB_CODEX_MODEL` | Agent 和 Judge 的模型，默认 `gpt-5.6-sol` |
+| `RCB_CODEX_MODEL` | Agent 模型，默认 `gpt-5.6-sol`；Judge 默认跟随 |
 | `RCB_CODEX_REASONING_EFFORT` | 推理强度，默认 `high` |
 
 需要另选配置文件时，设置 `RESEARCHCHEMBENCH_LOCAL_CONFIG=/绝对路径/配置.env`。配置文件内的赋值优先于启动前已有的同名环境变量。框架默认使用 `.envs/researchchembench/bin/python`，无需手动激活环境。
 
 | 参数 | 默认值或行为 |
 | --- | --- |
+| `--judge-model` | 新任务独立指定评分模型，例如 `gpt-5.6-sol`；API、凭据和推理强度沿用 Agent 配置。resume 保留原评分配置 |
 | `--timeout-seconds` | 每篇 Agent 总墙钟预算 `345600` 秒，即 96 小时 |
 | `--job-timeout-seconds` | 单个工具作业 `86400` 秒，即 24 小时；同时受任务总截止时间约束 |
 | `--cpu-cores` | 每篇可用 CPU 核数 `48` |

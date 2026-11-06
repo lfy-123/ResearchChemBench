@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_cf8ce1fc0fbcd300",
+  "case_id": "case_03",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "酸性甲醇官能化形成三个异构体的机制、动力学竞争及中性产物稳定性/再分配。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "p1_formation",
+      "description": "P1 甲醇捕获的实际形成路径能量/活化量，明确活化模型与质子库存。",
+      "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P1, with the activation model and proton inventory defined."
+    },
+    {
+      "id": "p2_formation",
+      "description": "P2 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+      "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P2, using references compatible with the competing channels."
+    },
+    {
+      "id": "p3_formation",
+      "description": "P3 甲醇捕获的实际形成路径能量/活化量，与相关竞争者采用相容参照。",
+      "public_requirement": "Computed formation-pathway energies and activation requirement for methanol capture giving P3, using references compatible with the competing channels."
+    },
+    {
+      "id": "p2_p3_kinetics",
+      "description": "P2/P3 形成活化量的差值及定义。",
+      "public_requirement": "The P2/P3 formation activation-energy difference and its definition."
+    },
+    {
+      "id": "p2_p1_kinetics",
+      "description": "P2/P1 形成活化量的差值及定义。",
+      "public_requirement": "The P2/P1 formation activation-energy difference and its definition."
+    },
+    {
+      "id": "p2_p3_stability",
+      "description": "中性 P2/P3 的实际 Gibbs 能量与差值，不能用带电形成态代替。",
+      "public_requirement": "Computed Gibbs energies and their difference for neutral P2 and P3, kept separate from charged formation states."
+    },
+    {
+      "id": "p1_stability",
+      "description": "中性 P1 的 Gibbs 能量及其相对中性 P2/P3 的差值。",
+      "public_requirement": "The computed Gibbs energy of neutral P1 and its differences from neutral P2 and P3."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "methanol_capture_mechanism",
+      "points": 30,
+      "description": "三种连接的甲醇捕获机制",
+      "allow_need_review": false
+    },
+    {
+      "id": "p2_over_p3_formation",
+      "points": 25,
+      "description": "P2 比 P3 更易形成",
+      "allow_need_review": false
+    },
+    {
+      "id": "p2_over_p1_formation",
+      "points": 25,
+      "description": "P2 比 P1 更易形成",
+      "allow_need_review": false
+    },
+    {
+      "id": "p3_to_p2_redistribution",
+      "points": 10,
+      "description": "P3→P2 的热力学再分配倾向",
+      "allow_need_review": false
+    },
+    {
+      "id": "three_product_stability_order",
+      "points": 10,
+      "description": "三种中性产物的完整稳定性序列",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Fig.4A、两份 SI 的亲核加成结构；历史验证有三个甲醇捕获反应及三个中性产物的可比能量、反应模式和分子图。",
+  "boundaries": [
+    "不要求上游制备、未知质子活度下的绝对速率或完整交换网络。",
+    "邻近 OH···F 接触不能升级为已验证的氢键唯一因果或能量分解硬指标。",
+    "再分配方向是热力学倾向，不等于交换速率或已实现平衡。"
+  ],
+  "source_locator": "Main text p7–8 Fig.4A; SI1 p54–55 Fig.S9; SI2 p43–44",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

@@ -1,0 +1,521 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Use the authored numerical targets and tolerances; the Judge must not adjust them. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate. Qualitative findings carry separate points for actual computed topology, trends or bounded scientific inferences. Numerical failure alone does not invalidate independently supported qualitative findings; correct words without genuine supporting calculations do not pass. Tolerances are provisional benchmark acceptance policies approved on 2026-10-17, not author error bars or statistical confidence intervals. Expert review may revise a future version, but absence of that later review does not block this version.",
+  "rules": [
+    {
+      "rule_id": "r_dry_first_pt",
+      "reference_id": "dry_first_pt",
+      "type": "numeric",
+      "expected": "Paper target-0.9kcal/mol with inclusive absolute tolerance1.0kcal/mol. PT endpoint S1-HPQ− + PyOH+ relative to R=S1-H2PQ+ground-state PyO; the deprotonated HPQ− remains S1. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -0.9,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_dry_first_et",
+      "reference_id": "dry_first_et",
+      "type": "numeric",
+      "expected": "Paper target-1.6kcal/mol with inclusive absolute tolerance1.0kcal/mol. H2PQ radical cation + PyO radical anion relative to R. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -1.6,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_hydrated_first_pt",
+      "reference_id": "hydrated_first_pt",
+      "type": "numeric",
+      "expected": "Paper target-2.2kcal/mol with inclusive absolute tolerance1.0kcal/mol. PT endpoint with two added solvent waters relative to matched hydrated R, retaining the S1 HPQ− state. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -2.2,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_hydrated_first_et",
+      "reference_id": "hydrated_first_et",
+      "type": "numeric",
+      "expected": "Paper target-8.2kcal/mol with inclusive absolute tolerance1.5kcal/mol. First ET endpoint with two added solvent waters relative to matched hydrated R. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -8.2,
+      "tolerance": 1.5,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_second_dry_pt",
+      "reference_id": "second_dry_pt",
+      "type": "numeric",
+      "expected": "Paper target2.3kcal/mol with inclusive absolute tolerance1.0kcal/mol. PQ radical anion + PyOH2 radical cation relative to I=ground-state HPQ radical+PyOH radical. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": 2.3,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_second_dry_et",
+      "reference_id": "second_dry_et",
+      "type": "numeric",
+      "expected": "Paper target7.4kcal/mol with inclusive absolute tolerance1.0kcal/mol. HPQ cation + PyOH anion relative to the same I. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": 7.4,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_second_water_pt",
+      "reference_id": "second_water_pt",
+      "type": "numeric",
+      "expected": "Paper target-1.3kcal/mol with inclusive absolute tolerance1.0kcal/mol. Second PT endpoint relative to the matched two-added-water I. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -1.3,
+      "tolerance": 1.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_second_water_et",
+      "reference_id": "second_water_et",
+      "type": "numeric",
+      "expected": "Paper target-9.6kcal/mol with inclusive absolute tolerance1.5kcal/mol. Second ET endpoint relative to the matched two-added-water I. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -9.6,
+      "tolerance": 1.5,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_cumulative_i_dry",
+      "reference_id": "cumulative_i_dry",
+      "type": "numeric",
+      "expected": "Paper target-43.9kcal/mol with inclusive absolute tolerance2.0kcal/mol. Ground-state HPQ radical+PyOH radical relative to R, not a local second-step reference. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -43.9,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_cumulative_i_water",
+      "reference_id": "cumulative_i_water",
+      "type": "numeric",
+      "expected": "Paper target-41.7kcal/mol with inclusive absolute tolerance2.0kcal/mol. Hydrated I relative to matching hydrated R. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -41.7,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_cumulative_f_dry",
+      "reference_id": "cumulative_f_dry",
+      "type": "numeric",
+      "expected": "Paper target-115.1kcal/mol with inclusive absolute tolerance2.0kcal/mol. F=PQ+PyOH2 associated Py/generated-water product relative to R; not an additional increment after I, and not an arbitrary sum of separated fragments. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -115.1,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_cumulative_f_water",
+      "reference_id": "cumulative_f_water",
+      "type": "numeric",
+      "expected": "Paper target-112.1kcal/mol with inclusive absolute tolerance2.0kcal/mol. Hydrated F relative to matched hydrated R; distinguish two added solvent waters from the water generated by deoxygenation. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      },
+      "target": -112.1,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_dry_first_competition",
+      "reference_id": "dry_first_competition",
+      "type": "semantic",
+      "expected": "Actual physically comparable calculations support mildly favorable dry first PT and first ET endpoints, providing thermodynamic support for both starting routes. No exact numerical-window pass is required for this independent qualitative finding. Endpoints alone do not establish a unique sequence or kinetic preference.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_dry_second_competition",
+      "reference_id": "dry_second_competition",
+      "type": "semantic",
+      "expected": "Actual calculations from the same I support uphill dry second PT and ET endpoints with PT less endergonic than ET. Assess the supported signs and relative ordering independently from numerical magnitude windows; do not relabel these endpoint energies as activation barriers.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_first_h_transfer_species",
+      "reference_id": "first_h_transfer_species",
+      "type": "semantic",
+      "expected": "Actual structures/electronic-state evidence establish the compositionally consistent first hydrogen-transfer intermediate I as ground-state HPQ radical plus PyOH radical and connect it to the analyzed PT/ET endpoints with conserved atoms, charge and hydrogen inventory. A drawing or copied species names alone is insufficient; no new transition-state or unique kinetic pathway calculation is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_hydration_conclusion",
+      "reference_id": "hydration_conclusion",
+      "type": "semantic",
+      "expected": "The final dry/hydrated comparison uses computed endpoints to explain stabilization of ionic intermediates by local hydration, particularly ET: first ET becomes more exergonic, second ET changes from uphill to downhill and its hydrated endpoint lies below PT. This integrated hydration inference is distinct from the dry local comparisons. Do not infer a measured rate, unique kinetic order or optimum bulk water concentration from endpoint thermodynamics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    },
+    {
+      "rule_id": "r_deoxygenation_conclusion",
+      "reference_id": "deoxygenation_conclusion",
+      "type": "semantic",
+      "expected": "The final answer connects the computed excited reactants through the first H-transfer state to PQ and the deoxygenated Py/generated-water product, supporting strongly exergonic net reduction with and without added water. Correctly distinguish cumulative I/F energies from local second-step increments; do not add F twice. Evidence must support the net transformation, not merely list a negative number. Do not claim rates or a unique kinetic mechanism; reagent regeneration is outside scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match molecular identity, electronic state, physical observable, reference, conditions and genuine submitted evidence before comparison; score this item independently."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "dry_first_pt",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "无水第一次 PT自由能",
+      "rule_ids": [
+        "r_dry_first_pt"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "dry_first_et",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "无水第一次 ET自由能",
+      "rule_ids": [
+        "r_dry_first_et"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "hydrated_first_pt",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "双水第一次 PT自由能",
+      "rule_ids": [
+        "r_hydrated_first_pt"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "hydrated_first_et",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "双水第一次 ET自由能",
+      "rule_ids": [
+        "r_hydrated_first_et"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "second_dry_pt",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "无水第二次 PT自由能",
+      "rule_ids": [
+        "r_second_dry_pt"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "second_dry_et",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "无水第二次 ET自由能",
+      "rule_ids": [
+        "r_second_dry_et"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "second_water_pt",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "双水第二次 PT自由能",
+      "rule_ids": [
+        "r_second_water_pt"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "second_water_et",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "双水第二次 ET自由能",
+      "rule_ids": [
+        "r_second_water_et"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "cumulative_i_dry",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "无水第一氢转移累计结果 I自由能",
+      "rule_ids": [
+        "r_cumulative_i_dry"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "cumulative_i_water",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "双水第一氢转移累计结果 I自由能",
+      "rule_ids": [
+        "r_cumulative_i_water"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "cumulative_f_dry",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "无水最终脱氧累计结果 F自由能",
+      "rule_ids": [
+        "r_cumulative_f_dry"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "cumulative_f_water",
+      "kind": "intermediate",
+      "max_score": 4,
+      "description": "双水最终脱氧累计结果 F自由能",
+      "rule_ids": [
+        "r_cumulative_f_water"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "dry_first_competition",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "无水第一次 PT/ET 均轻度有利",
+      "rule_ids": [
+        "r_dry_first_competition"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "dry_second_competition",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "无水第二次 PT 比 ET 少吸能",
+      "rule_ids": [
+        "r_dry_second_competition"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "first_h_transfer_species",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "第一氢转移中间物种的化学解释",
+      "rule_ids": [
+        "r_first_h_transfer_species"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "hydration_conclusion",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：水合改变 PT/ET 热力学竞争",
+      "rule_ids": [
+        "r_hydration_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    },
+    {
+      "id": "deoxygenation_conclusion",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：净脱氧的累计热力学解释",
+      "rule_ids": [
+        "r_deoxygenation_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ]
+    }
+  ]
+}

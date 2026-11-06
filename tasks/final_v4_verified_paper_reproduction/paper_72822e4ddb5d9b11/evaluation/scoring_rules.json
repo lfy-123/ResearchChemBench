@@ -1,0 +1,176 @@
+{
+  "paper_id": "paper_72822e4ddb5d9b11",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "rule_id": "r_ground_state",
+      "reference_id": "ground_state",
+      "expected": "Establish a predominantly closed-shell low-spin singlet ground-state description of the full neutral complex relative to credible competing spin/electronic descriptions. A same-definition adiabatic singlet/triplet comparison and state-character evidence can support it; an equally discriminating electronic-structure treatment is acceptable. Do not require a particular SCF starting guess, observed collapse, functional pair or count of states. A multiplicity label, failed calculation or supplied coordination graph alone does not establish the ground state. Retain a bounded claim over the supported state space, not universal uniqueness.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_axial_mixing",
+      "reference_id": "axial_mixing",
+      "type": "semantic",
+      "expected": "Actual orbital or equivalent electronic-structure evidence resolves an axial Ni–Cl sigma/antibonding channel with substantial contributions from both the nickel d manifold and axial chloride ligands. Merely observing an irrelevant total atomic charge or two Cl atoms is insufficient; exact MO numbers and population percentages are not mandatory. Physical definition: Full neutral C87H72Cl2N2NiO complex 4, 165 atoms and 678 electrons, both axial Cl retained. Compare like states and energy definitions; CS is singlet, T is triplet. Ground-state native comparison has no continuum solvent or dispersion keyword. Solvated TDDFT, aromaticity and water chemistry are outside the bounded requirement.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_equatorial_mixing",
+      "reference_id": "equatorial_mixing",
+      "type": "semantic",
+      "expected": "Actual orbital or equivalent electronic-structure evidence resolves an equatorial Ni–macrocycle sigma/antibonding channel with contributions from both Ni d character and the C/N donor framework. This must be distinguished from the axial channel; no exact source MO index or fitted population percentage is required. Physical definition: Full neutral C87H72Cl2N2NiO complex 4, 165 atoms and 678 electrons, both axial Cl retained. Compare like states and energy definitions; CS is singlet, T is triplet. Ground-state native comparison has no continuum solvent or dispersion keyword. Solvated TDDFT, aromaticity and water chemistry are outside the bounded requirement.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "rule_id": "r_formal_valence",
+      "reference_id": "formal_valence",
+      "expected": "Infer the formal Ni(IV) limiting valence description using the neutral complex, a dianionic carbaporphyrin framework and two chloride anions. Relate the formal account to the computed occupation/bonding picture. The arithmetic alone or merely repeating a PR label is insufficient. This outcome assesses the formal valence account, not the ground-state ranking or unique physical charge.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "rule_id": "r_physical_oxidation_limit",
+      "reference_id": "physical_oxidation_limit",
+      "expected": "From actual metal–ligand mixing and its population-definition dependence, explain why a useful formal Ni(IV) limiting account does not establish a unique physical Ni oxidation or resolve sigma-noninnocence/inverted sigma-ligand-field character. Establish the specific non-uniqueness using the electronic evidence; a generic limitation paragraph earns no credit. This assesses identifiability of physical oxidation, not another award for either mixing channel.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "ground_state",
+      "kind": "conclusion",
+      "max_score": 35,
+      "description": "Ground-state electronic description and discrimination from competing states",
+      "rule_ids": [
+        "r_ground_state"
+      ],
+      "evidence_ids": [
+        "source_state",
+        "native_state"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "axial_mixing",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Axial metal–chloride sigma channel is covalent",
+      "rule_ids": [
+        "r_axial_mixing"
+      ],
+      "evidence_ids": [
+        "source_state",
+        "native_bonding"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "equatorial_mixing",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Equatorial metal–macrocycle sigma channel is covalent",
+      "rule_ids": [
+        "r_equatorial_mixing"
+      ],
+      "evidence_ids": [
+        "source_state",
+        "native_bonding"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "formal_valence",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Formal limiting valence description",
+      "rule_ids": [
+        "r_formal_valence"
+      ],
+      "evidence_ids": [
+        "source_state",
+        "native_state",
+        "native_bonding"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "physical_oxidation_limit",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "What the bonding evidence can determine about physical nickel oxidation",
+      "rule_ids": [
+        "r_physical_oxidation_limit"
+      ],
+      "evidence_ids": [
+        "source_state",
+        "native_bonding"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

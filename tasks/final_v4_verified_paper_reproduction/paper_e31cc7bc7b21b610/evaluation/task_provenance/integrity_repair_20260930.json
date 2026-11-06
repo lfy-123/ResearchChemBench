@@ -1,0 +1,102 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "mode": "paper_reproduction",
+  "recorded_at_utc": "2026-09-30T05:37:30.917960+00:00",
+  "finding_ids": [
+    "B5-V01"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_e31cc7bc7b21b610/documents/main.pdf",
+      "sha256": "d10f786f46a66110c6c194aac86b204d3e34dc8be7d608d5c2557be4dd91f5d0",
+      "page_count": 12,
+      "physical_pages": [
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "path": "papers/paper_e31cc7bc7b21b610/documents/supplementary_001.pdf",
+      "sha256": "8160f45b57e772b48642e1e20d0ddddb8e64c97146b96bb942b33584b6cae2ec",
+      "page_count": 30,
+      "physical_pages": [
+        22,
+        29
+      ]
+    }
+  ],
+  "existing_verifier_evidence_read_only": [
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/v2_execution_20260929/B5_V01_CORRECTION.json",
+      "sha256": "c8047327fca8b2c04ab746b817787ad4fa0a6b137028524696325f5b8c68be15",
+      "bytes": 1186,
+      "mtime_ns": 1790739030456904659
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/report.md",
+      "sha256": "f962e7bc48f52c4006221e9d910e34e645aeb35a24a9b988d4a978558255e740",
+      "bytes": 4401,
+      "mtime_ns": 1790739030323824000
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+      "sha256": "cbc96a2bf0bad50714b3ca1d793afad81837c8883a185292f97173f2d1b67e3f",
+      "bytes": 11647292,
+      "mtime_ns": 1790739030158202945
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/evidence_mapping.json",
+      "sha256": "e1947bf94aa27ee9883c7663a3484480a3ed6a83e56b07e6dbe034d017ce6c89",
+      "bytes": 25559,
+      "mtime_ns": 1790740602473492000
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/outputs/v2_Hap54_C2h_Ir1_Ir28_occupancy_B5V01/attempt_01/C2h_occupancy/native.log",
+      "sha256": "d7beb648e93362a380eb0bf3045e4edbc65c90ed97f9594d3987ef6385250b93",
+      "bytes": 14015,
+      "mtime_ns": 1790738983901488070
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/outputs/v2_Hap54_C2h_Ir1_Ir28_occupancy_B5V01/attempt_01/occupancy.txt",
+      "sha256": "8193210a064b66368ab7364621c8f1b4d79c3294f8485d1e849a3ef7b3ed366e",
+      "bytes": 13,
+      "mtime_ns": 1790738879963958829
+    }
+  ],
+  "batch_source_readback": "docs/v2_integrity_repairs_20260930/batch5/source_readback.json",
+  "reuse_and_remaining_plan": "evaluation/reference_validation_plan.md#2026-09-30",
+  "historical_records_preserved": true,
+  "new_scientific_calculations_performed": false,
+  "semantic_judge_run": false,
+  "full_scientific_acceptance_asserted": false,
+  "public_boundary": "Only INP unit wording and double-E encoding change publicly; no new source endpoint, fitted answer or native numerical result is added to AR.",
+  "corrected_native_summary": {
+    "whole_paper_accepted": false,
+    "C2h_Mayer": 0.61403928,
+    "C2h_Ir_ids": [
+      1,
+      28
+    ],
+    "C2h_occupancy_rows": 129,
+    "corrected_occupancy_evidence": {
+      "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/outputs/v2_Hap54_C2h_Ir1_Ir28_occupancy_B5V01/attempt_01/C2h_occupancy/native.log",
+      "sha256": "d7beb648e93362a380eb0bf3045e4edbc65c90ed97f9594d3987ef6385250b93",
+      "input_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_e31cc7bc7b21b610/outputs/v2_Hap54_C2h_Ir1_Ir28_occupancy_B5V01/attempt_01/occupancy.txt",
+      "input_sha256": "8193210a064b66368ab7364621c8f1b4d79c3294f8485d1e849a3ef7b3ed366e",
+      "atom_ids": [
+        1,
+        28
+      ],
+      "baseline_Mayer": 0.614039,
+      "return_code": 0,
+      "elapsed_seconds": 0.8199894316494465,
+      "independent_HPC_reexecution": true
+    },
+    "original_IrO_excluded": false,
+    "S4_reusable": true,
+    "54_atom_Gaussian_reusable": true
+  },
+  "correction_status": "native_correct_pair_repaired_science_partial",
+  "correction_readback": "docs/v2_integrity_repairs_20260930/batch5/ir_correction_readback.json"
+}

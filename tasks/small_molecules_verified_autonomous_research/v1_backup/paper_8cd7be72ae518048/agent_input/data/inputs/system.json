@@ -1,0 +1,25 @@
+{
+  "scientific_question": "For the specified homogeneous palladium-catalyzed Heck arylation of 1,2-dihydronaphthalene with 4-tert-butylphenyl iodide, what accounts for the condition-dependent β-versus-α regioselectivity, and how are access to productive catalytic states and the relative energetics of competing product-forming routes connected to substrate-dependent reactivity when styrene is used as a model-olefin comparison?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "The primary olefin is 1,2-dihydronaphthalene (C10H10). Its nonaromatic ring is C1–C2–C3=C4–C4a–C8a–C1; its fused aromatic ring is C4a–C5–C6–C7–C8–C8a–C4a. C1 and C2 are adjacent CH2 groups, C3 and C4 each bear one hydrogen, and C4a and C8a are the shared fusion atoms. The aromatic ring is delocalized. Styrene (C8H8), Ph–CH=CH2, is the model-olefin comparison; it is not a replacement for the primary experimental substrate. No initial conformation or optimized geometry is supplied."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "The experimental aryl iodide is 1-tert-butyl-4-iodobenzene, also called 4-tert-butylphenyl iodide (C10H13I). Iodine and a C(CH3)3 group occupy para positions on the same benzene ring. This is the experimental aryl identity in both condition sets; any computational simplification must be identified and justified, not silently substituted."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "condition",
+      "content": "The β-selective benchmark uses 0.10 mmol primary olefin, 0.15 mmol aryl iodide, Pd(OAc)2 (5 mol%), dippf (6 mol%), potassium phenoxide KOPh (3 equivalents), tetra-n-butylammonium iodide n-Bu4NI (0.1 equivalent), and diethyl ether, with nominal 100 °C heating for 12 h. A same-reactant α-selective comparison uses Pd(dba)2 (5 mol%), dippf (10 mol%), DABCO (3 equivalents), and diethyl ether at nominal 100 °C without added n-Bu4NI. These are solution reactions set up under argon; the stated temperature is the heating condition, not an independently measured solution temperature. Dippf is 1,1′-bis(diisopropylphosphino)ferrocene: one P[CH(CH3)2]2 group on each cyclopentadienyl ring of ferrocene. Pd(OAc)2 denotes palladium(II) acetate; Pd(dba)2 denotes bis(dibenzylideneacetone)palladium(0), with dba connectivity Ph–CH=CH–C(=O)–CH=CH–Ph. DABCO is 1,4-diazabicyclo[2.2.2]octane. KOPh is potassium phenoxide, and n-Bu4NI is the salt of a nitrogen bearing four n-butyl groups with iodide. No solution catalyst constitution, catalyst-state geometry, activation sequence, or kinetic rate law is supplied."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "The β-selective benchmark affords 91% yield of the β-arylated product with β/α = 45:1. The α-selective comparison gives approximately 60% combined arylation-product yield with α/β = 7:1; the combined yield is not the yield of the major isomer alone. The β product is 3-(4-tert-butylphenyl)-1,2-dihydronaphthalene: replace the hydrogen on C3 of the PI1 ring graph by the aryl group and retain C3=C4. The α product is 1-(4-tert-butylphenyl)-1,2-dihydronaphthalene: replace one hydrogen on C1 of that ring graph by the aryl group and retain C3=C4. These are product-connectivity descriptions with product numbering, not a stipulated atom-mapped pathway. No absolute configuration or enantioselectivity benchmark is supplied. The observations establish reaction outcomes, not a mechanism, unique catalyst identity, or absolute kinetic rate. No experimental styrene yield or regioselectivity benchmark is supplied."
+    }
+  ]
+}

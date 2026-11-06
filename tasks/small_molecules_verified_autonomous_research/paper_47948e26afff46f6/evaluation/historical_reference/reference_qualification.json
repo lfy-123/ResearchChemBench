@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_47948e26afff46f6",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "PROVISIONAL_PASS_QUALITATIVE",
+  "reason": "按用户明确的验收目的，验证计算用于确认任务科学结果的正确性和可计算性，允许从作者中间体、过渡态和方法出发。当前任务科学问题已完成定性计算验证；自主科研与论文复现模式共享同一验证证据，不因披露信息不同增加科学验收目标。专家对数值偏差及发布的审查独立保留。",
+  "unblock_conditions": [],
+  "physical_definition": "完整底物对失N2并发生H转移后的36原子、中性三重态自由基对模型；相同3Int2参照的N/O成键Gibbs势垒，SMD DCM、298.15 K、1 atm；闭壳层N产物独立核身份。",
+  "tolerance_policy": {
+    "numeric_rules": 0,
+    "rationale": "解释型题面与旧规则没有独立数值目标；本版不为两个明显偏差设宽窗。论文25.8/33.7及其差7.9保留为参考上下文，依据有实际证据的成键事件和竞争方向评分，不奖励方法执行或失败说明。"
+  },
+  "publication_review_pending": [
+    "当前任务的四项科学结果均有有效计算支持；论文范围外的上游HAT、全部自旋转换、NCI因果等未完成部分不是任一模式的任务验收阻碍。",
+    "N/O局部G势垒对作者差−3.890746/−3.386767，O−N差+0.503978 kcal/mol；数值接受程度交专家。",
+    "作者ORCA5.0.3→实际6.1.1；298.15 K与SI G373.15表头冲突，低频处理未完整公开，实际采用native quasi-RRHO。",
+    "上游HAT与若干产物有额外负频/残余力，3Int3三重态N产物不合格；不用于有效公共零点/全程曲线。没有独立验证IBO/QRO/NCI因果、ISC或真实布居。"
+  ],
+  "verification_scope": "current_task_scientific_question",
+  "shared_scientific_verification_modes": [
+    "autonomous_research",
+    "paper_reproduction"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "task_type": "autonomous_research",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T16:45:52.617266+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_3e4cad1d1d650d0c.json",
+  "plan_sha256": "4b35c3a43002fa5f9c218da7195e9908226b029838b1faa319a7e576583c8fcb",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_3e4cad1d1d650d0c",
+  "v1_package_content_sha256": "8e219cd69c2d2b98e4d5376ccf66a046d7262480a633cf036f984ad856e8dbcd",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "207224523d4050fc9810fcdb9b662f9da72424b3f27bdc9784d699237629b4a0",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_3e4cad1d1d650d0c/documents/main.pdf",
+      "sha256": "ea79927bb71341d55d64f9a60c4ef6d5904528fc3f91a1ef221313c29e171094",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        4,
+        5
+      ],
+      "sections_figures_tables": "PDF p4 Table 1: optical crossings and electrochemical values; p5 Figure 3 and accompanying quenching observations and interpretation."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_3e4cad1d1d650d0c/documents/supplementary_001.pdf",
+      "sha256": "674c2d21b7a260c23cc55a07bb394e8e67f19d18ddf217229fe5080352fe8810",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        23,
+        57,
+        58
+      ],
+      "sections_figures_tables": "PDF p23: dry DMSO, preparation, excitation/emission wavelengths and reference conversion; pp57–58 computational protocol and anion/substrate models."
+    }
+  ],
+  "historical_class": "B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "existing_author_informed_solution_and_quenching_reference_partial_for_open_V2",
+  "scope_changes": [
+    "Remove prescribed four-state oxidation cycle, static/dynamic candidate menu, fixed sensitivity matrix and challenge-freeze sequence.",
+    "Remove calibration/challenge labels and disclose both experimentally printed donor oxidation potentials.",
+    "Keep the genuine experimental quenching figure while leaving mechanistic attribution open."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:42:56.407343+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

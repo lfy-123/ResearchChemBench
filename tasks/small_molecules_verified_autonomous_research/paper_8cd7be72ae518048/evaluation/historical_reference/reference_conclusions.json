@@ -1,0 +1,176 @@
+{
+  "paper_id": "paper_8cd7be72ae518048",
+  "items": [
+    {
+      "statement": "最终：条件切换与α/β选择性反转的解释",
+      "expected": "最终明确采用由有效结构、连接及竞争能量共同支持的条件相关解释，将β条件的β优势与α条件的α优势联系到两种产物连接。作者苯氧基/阳离子切换是假设性参考；接受有相应计算证据的替代解释。只列两组数值、重复观察或未选择结论不足。不要求精确45:1、7:1或产率，不将条件与物种的假设对应说成已计算完整物种分布。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "conclusion_id": "selectivity_answer",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "beta_connectivity",
+        "alpha_connectivity",
+        "beta_competition",
+        "alpha_competition"
+      ]
+    },
+    {
+      "statement": "最终：区分进入成本与状态内竞争并解释反应性",
+      "expected": "最终综合进入位点的结构/自由能结果与状态内区域竞争，解释配位环境改变为何可同时影响反应容易程度与选择性，明确两者的不同物理作用。作者单氧化降低结合成本为参考；需有计算支持的联系，不能只重复两项排序。不同组成、电荷或配体模型的进入成本与插入势垒不能直接相加为全循环势垒；不要求计算氧化/电离速率或完整网络。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "conclusion_id": "access_answer",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "access_topology",
+        "access_cost",
+        "beta_competition",
+        "alpha_competition"
+      ]
+    },
+    {
+      "statement": "最终：用苯乙烯对照解释有限的底物依赖性",
+      "expected": "最终把苯乙烯的匹配结合和插入比较联系到主环烯的反应困难，给出模型支持的底物依赖性解释，同时保持主反应身份。只有一个局部数字或另一个底物的独立解释不足；不能据此声称已复现实验苯乙烯产率、精确周转率或普遍底物规律。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "conclusion_id": "substrate_answer",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "styrene_access",
+        "styrene_regio_competition",
+        "styrene_substrate_cost"
+      ]
+    }
+  ],
+  "conditional_references": [
+    {
+      "reference_id": "CTX_BINDING",
+      "statement": "CR1/CR2: reported donor displacement/binding Gibbs costs for dihydronaphthalene are+15.2/+9.2 kcal/mol on parent/mono-oxide neutral iodide models. Figure13/SI S7 additionally gives+6.8 for styrene on the mono-oxide model. These are binding equilibria, not oxidation or ligand-exchange activation barriers.",
+      "computational_reference_ids": [
+        "CR1",
+        "CR2"
+      ],
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000146_27eb6995645a",
+        "ev_doc_f98a8942bf98_000054_76f98ec20384",
+        "pdf-page-doc_d2a1d4b93cff-p12",
+        "pdf-page-doc_f98a8942bf98-p10"
+      ],
+      "applicability": "Context for investigator-selected corresponding models and the core access/substrate questions. No independent score or required donor-displacement calculation; omitting this author model is not a deduction if another relevant account is supported."
+    },
+    {
+      "reference_id": "CTX_PHENOXIDE",
+      "statement": "CR3/CR4: phenoxide α/β insertion TS Gibbs energies22.7/18.4 kcal/mol relative to the author’s lowest ground state, gap4.3. Lowest TSs are trans despite cis ground states. Authors invoke phenoxide/migrating-phenyl π–π stacking, β CH–π stabilization and α steric repulsion. NPA gives β Pd about+0.31 e.",
+      "computational_reference_ids": [
+        "CR3",
+        "CR4"
+      ],
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000147_b7e116809c02",
+        "ev_doc_d2a1d4b93cff_000154_cad86c5a4645",
+        "ev_doc_d2a1d4b93cff_000155_fd6c984d2990",
+        "ev_doc_d2a1d4b93cff_000162_a5cd3dbc6fc5",
+        "pdf-page-doc_f98a8942bf98-p7",
+        "pdf-page-doc_d2a1d4b93cff-p12"
+      ],
+      "applicability": "Optional mechanistic/descriptor comparison only when a corresponding model is investigated. No independent score, required NPA/IGMH plot or penalty for omitting these author interactions in favor of a supported relevant explanation."
+    },
+    {
+      "reference_id": "CTX_IODIDE",
+      "statement": "CR5/CR6: mono-oxide iodide α/β TS Gibbs energies21.6/19.4, gap2.2 kcal/mol, lowest cis structures. Authors contrast missing phenoxide π contacts and β Pd NPA about+0.04 e with the phenoxide model. The experimentally tested bromide complex is not identical to the computed iodide model.",
+      "computational_reference_ids": [
+        "CR5",
+        "CR6"
+      ],
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14",
+        "ev_doc_d2a1d4b93cff_000162_a5cd3dbc6fc5",
+        "ev_doc_461d0f914b5c_000521_04b28fe8aad5",
+        "pdf-page-doc_f98a8942bf98-p6",
+        "pdf-page-doc_d2a1d4b93cff-p12"
+      ],
+      "applicability": "Optional context for matched iodide-model comparison, not an obligatory route or descriptor. Preserve the bromide/iodide and base-condition distinctions; no hidden demand to execute a stoichiometric experiment."
+    },
+    {
+      "reference_id": "CTX_ANION",
+      "statement": "CR7/CR8: anionic phosphine-free Pd(Ph)I2 model dihydronaphthalene α/β TS energies18.5/17.4 kcal/mol. Authors consider this gap insufficient for the high β selectivity and speculate about late minor contribution. SI S5 separately reports styrene21.1/19.2 on its own ground-state anchor.",
+      "computational_reference_ids": [
+        "CR7",
+        "CR8"
+      ],
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000164_7a69d9d78fde",
+        "ev_doc_f98a8942bf98_000050_72cdb5daffb7",
+        "pdf-page-doc_f98a8942bf98-p8"
+      ],
+      "applicability": "Context only for a corresponding alternative state; author discounting/deactivation interpretation is not a required conclusion or computed deactivation rate. No score attaches to invoking or omitting this hypothesis."
+    },
+    {
+      "reference_id": "CTX_CATION_SOURCE_AMBIGUITY",
+      "statement": "CR9 is the unchanged prose reference17.1 kcal/mol for cationic dihydronaphthalene α insertion; CR10 is18.8 for β. Viewed Figure16 and SI S6 show17.5/18.8, and the prose also reports a1.3 gap, local15.7/17.0 barriers and styrene11.3 versus dihydronaphthalene17.5. This is an unresolved reporting discrepancy, not an inferred new convention. Both reported α values imply α below β; neither is silently selected, averaged or corrected.",
+      "computational_reference_ids": [
+        "CR9",
+        "CR10"
+      ],
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000202_a5067f1ffe71",
+        "ev_doc_d2a1d4b93cff_000209_dd866baf669a",
+        "pdf-page-doc_d2a1d4b93cff-p14",
+        "pdf-page-doc_f98a8942bf98-p9"
+      ],
+      "applicability": "Optional numerical author context for a matching model. Exact α-TS numerical agreement is not scored. The core condition-dependent energetic competition remains scored through reliable evidence, declared references and justified uncertainty; no unique source value is presumed."
+    },
+    {
+      "reference_id": "CTX_CATION_EXPLANATION",
+      "statement": "Authors associate the cationic α preference with an early TS, about+0.36 e benzylic NPA charge and aromatic conjugation, and invoke loss of that stabilization plus i-Pr/olefin steric contact in β. SI S6 reports styrene lowest α/β energies11.3/16.0 on its separately defined ground-state reference.",
+      "computational_reference_ids": [
+        "CR9",
+        "CR10"
+      ],
+      "evidence_ids": [
+        "ev_doc_d2a1d4b93cff_000208_b292e9d0c2fb",
+        "ev_doc_d2a1d4b93cff_000209_dd866baf669a",
+        "ev_doc_f98a8942bf98_000052_4520099de1a6",
+        "pdf-page-doc_d2a1d4b93cff-p14",
+        "pdf-page-doc_f98a8942bf98-p9"
+      ],
+      "applicability": "Optional interpretation/descriptor context, not mandatory causal truth, charge target or plot. The substrate/selectivity outcomes remain core; descriptor omission is not a deduction when another relevant account is supported."
+    },
+    {
+      "reference_id": "CTX_PARENT_NEUTRAL_CONTROL",
+      "statement": "Additional SI S1/S2 results for the same parent-neutral ligand model underlying CR1 display eight ground states and eight TSs per olefin, with lowest dihydronaphthalene α/β22.0/20.0 and styrene20.9/19.9 kcal/mol on their respective lowest ground-state references. These TS control numbers are direct SI results, not the binding value recorded as CR1.",
+      "computational_reference_ids": [
+        "CR1"
+      ],
+      "evidence_ids": [
+        "ev_doc_f98a8942bf98_000042_0850f5ea87dd",
+        "pdf-page-doc_f98a8942bf98-p4",
+        "pdf-page-doc_f98a8942bf98-p5"
+      ],
+      "applicability": "Supplementary contextual comparison, not a fixed autonomous conformer/TS quota or an independent scored model. The scientific purposes of this control are retained in CC1–CC3; supported different models are allowed."
+    },
+    {
+      "reference_id": "CTX_STOICHIOMETRIC_CONTEXT",
+      "statement": "Frozen PI5/PI6 source experiments use a mono-oxide biphenyl-4-yl Pd phenoxide/bromide context: phenoxide70%/32:1, bromide with KOPh69%/30:1, but bromide with i-Pr2NEt3%/1:1. They are experimental mechanistic diagnostics, not DFT on the full biphenyl ligand, and the base-dependent conversion context is essential to interpreting them.",
+      "computational_reference_ids": [
+        "CR3",
+        "CR4",
+        "CR5",
+        "CR6"
+      ],
+      "evidence_ids": [
+        "ev_doc_461d0f914b5c_000522_8ce72f286890",
+        "ev_doc_461d0f914b5c_000521_04b28fe8aad5",
+        "ev_doc_d2a1d4b93cff_000163_dab7ffe13d14"
+      ],
+      "applicability": "Private author-hypothesis context and disclosed guidance only, shared evaluation in both views. No independent score, required experiment or autonomous requirement to identify the disclosed intermediates."
+    }
+  ]
+}

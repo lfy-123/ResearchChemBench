@@ -1,0 +1,89 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "给定自由基的局部芳环成环位点、形成的环骨架及通道竞争。",
+  "source_location": "Main text p4 Scheme 3c; SI p34–40",
+  "public_result_requirements": [
+    "Determine the chemically distinct competing ring-closure connectivities, including the aryl attachment positions and ring skeletons, from actual reaction evidence.",
+    "Compare channel-specific formation accessibility from the same uncyclized radical and identify the final favored connectivity.",
+    "Distinguish any additional tested regioisomers from the final selection; energies support the conclusion without paper-specific numerical targets."
+  ],
+  "required_numerical_evidence": [
+    {
+      "id": "benzyl_activation",
+      "description": "真实苄基芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+      "public_requirement": "Computed Gibbs barrier and reference/reactive-state energies for benzyl-ring closure, identifying the actual bond-forming atoms."
+    },
+    {
+      "id": "sulfonyl_activation",
+      "description": "真实磺酰芳环成环的 Gibbs 势垒及 R/反应态能量，绑定实际成环原子。",
+      "public_requirement": "Computed Gibbs barrier and reference/reactive-state energies for sulfonyl-ring closure, identifying the actual bond-forming atoms."
+    },
+    {
+      "id": "channel_difference",
+      "description": "相对同一未环化 R 的两成环势垒差。",
+      "public_requirement": "The barrier difference between the two ring closures relative to the same uncyclized R reference."
+    }
+  ],
+  "coverage": [
+    {
+      "scientific_question": "苄基芳环一侧的自由基加成产生哪种局部环骨架？",
+      "outcome_id": "benzyl_ring_outcome",
+      "required_numerical_evidence_ids": [
+        "benzyl_activation"
+      ],
+      "old_outcome_ids": [
+        "benzyl_ring_outcome"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p34_36_37_38",
+        "existing_native_verification"
+      ],
+      "points": 25,
+      "criterion": "实际计算支持给定 R 的自由基中心对苄基芳环邻位加成，形成对应六元环的局部自由基产物连接；解释芳环加成及键级/自由基重分布。按当前 molecules.json，目标新键为 C10–C15 或对称等价 C10–C19。C10–C14 是五元 ipso 连接，不能替代。原子身份以分子图同构为准，作者 XYZ 行号不可直接套用。本项评价局部结构/区域化学结果，不要求它已被选为最终优势通道，也不要求后续芳构化。"
+    },
+    {
+      "scientific_question": "另一芳环参与时形成哪一种竞争环骨架？",
+      "outcome_id": "sulfonyl_ring_outcome",
+      "required_numerical_evidence_ids": [
+        "sulfonyl_activation"
+      ],
+      "old_outcome_ids": [
+        "sulfonyl_ring_outcome"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p34_36_40",
+        "existing_native_verification"
+      ],
+      "points": 25,
+      "criterion": "实际计算支持自由基中心对磺酰芳环邻位的竞争加成，并正确说明对应含硫环骨架的局部连接及自由基重分布。当前输入新键为 C10–C24 或对称等价 C10–C29，按完整分子图确认，不能用另一链长底物或苄基 ipso 通道代替。证据须确实涉及该化学成环事件，单纯写一个势垒或给结构命名不足。此项不要求后续氧化产物或预先赢得竞争。"
+    },
+    {
+      "scientific_question": "考虑实际研究的相关竞争连接后，最后应该选择哪条成环通道？",
+      "outcome_id": "cyclization_preference",
+      "required_numerical_evidence_ids": [
+        "benzyl_activation",
+        "sulfonyl_activation",
+        "channel_difference"
+      ],
+      "old_outcome_ids": [
+        "cyclization_preference"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p36_38_40",
+        "existing_native_verification"
+      ],
+      "points": 50,
+      "criterion": "用共同未环化 R 参照下可比的实际形成证据，最终选择苄基芳环邻位六元成环，优于磺酰芳环邻位竞争。须核对最终答案中的具体连接与环大小；仅有苄基/磺酰两个家族关键词或某个正确子排序不足。如果报告实际最终优选 C10–C14 ipso 或其他错误连接，本项失败，即使 C10–C15 相对 C10–C24 的子比较正确。未被充分研究的新通道不能被断言最优；无须穷尽全部芳环位点。"
+    }
+  ],
+  "excluded_scope": [
+    "输入 C10 为自由基中心；苄基芳环 C14 为 ipso，C15/C19 为邻位；磺酰芳环邻位为 C24/C29。对称等价映射可接受。",
+    "C10–C14 是五元 ipso 连接，不能当作作者苄基邻位六元环；作者坐标行号不等于输入 atom_id。",
+    "只研究给定 R，排除上游光催化及后续氧化/芳构化；单个子比较正确而最终选错通道，不能获得最终竞争分。"
+  ],
+  "verification_support": "正文 Scheme 3c 与 SI B/TS2/TS2′ 坐标；历史验证支持两类真实邻位成环及相对竞争。另核对了当前输入 atom_id 的成环图。"
+}

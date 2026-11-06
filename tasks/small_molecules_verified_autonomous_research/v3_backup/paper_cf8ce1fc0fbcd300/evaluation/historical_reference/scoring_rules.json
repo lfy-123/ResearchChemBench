@@ -1,0 +1,219 @@
+{
+  "paper_id": "paper_cf8ce1fc0fbcd300",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。 本批为解释/比较型题目，全部采用定性科学结果项。来源数值保留为可比性上下文，没有新设精确能量窗口；不使用验证值替换作者值。合理替代模型或路径可按相同科学命题的证据评价，不能仅因未选作者软件、描述符或机理标签扣分。",
+  "rules": [
+    {
+      "rule_id": "r_competing_addition_channels",
+      "reference_id": "competing_addition_channels",
+      "type": "semantic",
+      "expected": "实际结构和反应证据支持甲醇参与的三个候选C–O成键通道，分别映射到major、minor、comparator连接。作者相同环丙烯鎓/甲醇的三个TS为参考；可接受同一科学比较的等价状态表示。若声称TS，须为目标成键振型及适当连接证据；不能仅给三产物能量替代形成通道。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_major_vs_minor_formation",
+      "reference_id": "major_vs_minor_formation",
+      "type": "semantic",
+      "expected": "在同组成、同电荷及相容零点下的实际计算支持major形成通道相对minor更有利。作者TS1′−TS1=1.3 kcal/mol为上下文；排序必须正确，数字相近或实验major产率高本身不能代替竞争证据。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_major_vs_comparator_formation",
+      "reference_id": "major_vs_comparator_formation",
+      "type": "semantic",
+      "expected": "实际可比计算支持通向major的形成通道低于comparator通道。作者TS1″−TS1=7.1 kcal/mol仅作上下文，不能把该相对TS差称绝对势垒；不要求精确数值。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_major_vs_minor_stability",
+      "reference_id": "major_vs_minor_stability",
+      "type": "semantic",
+      "expected": "三个指定产物中，实际有效极小点及相容G比较支持major低于minor。作者minor−major=3.2 kcal/mol为参考；必须比较相同组成和物理量，不能以带电加成态替代中性产物。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_minor_vs_comparator_stability",
+      "reference_id": "minor_vs_comparator_stability",
+      "type": "semantic",
+      "expected": "实际中性产物G比较支持minor低于comparator，从而与major最低共同形成major<minor<comparator排序。作者相对major为3.2/7.2 kcal/mol是上下文；无计算或排序相反不计分。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_selectivity_answer",
+      "reference_id": "selectivity_answer",
+      "type": "semantic",
+      "expected": "最终综合实际形成通道比较和中性产物稳定性，说明major在所研究模型中更容易形成且更稳定，将这一双重依据用于解释给定区域选择性；区分comparator形成/稳定性不利与严格零产率。未独立分解的氢键/位阻因果不作为强制答案，也不得从产物低能单独推导路线。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_redistribution_answer",
+      "reference_id": "redistribution_answer",
+      "type": "semantic",
+      "expected": "最终用实际产物G下降解释minor向major重分配的方向，并区分重新分配的热力学驱动与初始生成竞争。仅有五分钟91%端点不能证明完全平衡或唯一速率；给出有计算支持的方向性解释即可，不要求未有来源的全酸交换网络。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "competing_addition_channels",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "三个位置的C–O生成通道物理可比",
+      "rule_ids": [
+        "r_competing_addition_channels"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ]
+    },
+    {
+      "id": "major_vs_minor_formation",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "major形成通道低于minor通道",
+      "rule_ids": [
+        "r_major_vs_minor_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ]
+    },
+    {
+      "id": "major_vs_comparator_formation",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "major形成通道低于比较异构体通道",
+      "rule_ids": [
+        "r_major_vs_comparator_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ]
+    },
+    {
+      "id": "major_vs_minor_stability",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "major中性产物比minor稳定",
+      "rule_ids": [
+        "r_major_vs_minor_stability"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ]
+    },
+    {
+      "id": "minor_vs_comparator_stability",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "minor中性产物比comparator稳定",
+      "rule_ids": [
+        "r_minor_vs_comparator_stability"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ]
+    },
+    {
+      "id": "selectivity_answer",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "最终：形成竞争与稳定性共同支持主要异构体",
+      "rule_ids": [
+        "r_selectivity_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ]
+    },
+    {
+      "id": "redistribution_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "最终：minor到major重分配具有热力学驱动",
+      "rule_ids": [
+        "r_redistribution_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ]
+    }
+  ]
+}

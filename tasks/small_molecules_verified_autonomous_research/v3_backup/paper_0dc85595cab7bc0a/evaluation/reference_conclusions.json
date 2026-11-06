@@ -1,0 +1,89 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "items": [
+    {
+      "conclusion_id": "first_stage",
+      "statement": "First-cyclization regioisomer thermodynamic preference",
+      "expected": "Chemically mapped, validated first-stage dihydrophenanthrene candidates support the thermodynamic preference corresponding to source IS1 below IS2 through quantitative same-composition, common-definition energetic comparisons. The paper uses Gibbs energies and reports a 9.9 kcal/mol separation as context, not a numerical target. Consistent with the public task, an alternative energy definition can support the bounded ordering if the actual calculations and physical argument justify that inference and the effect of omitted contributions; do not reject a comparison solely because it is electronic DeltaE rather than DeltaG. Do not treat an unqualified electronic-energy table as a free-energy result. Require valid molecular identities and stationary-state evidence appropriate to the claimed comparison; never compare absolute energies of different hydrogen inventories.",
+      "supporting_key_point_ids": [
+        "support_first_stage"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "first_site_electronic",
+      "statement": "Electronic origin of first-site discrimination",
+      "expected": "Independent computed orbital or equivalent site-resolved electronic/structural evidence supports the first closure site corresponding to C1 over C2 of 1-cis. The source shows greater LUMO density and the relevant relative phase pattern at C1. Absolute orbital phase/color is arbitrary; evidence must discriminate physical forming-bond sites, not merely restate energy ranking. The source phase description is qualitative; local two-point samples do not establish all nodal features. An equivalent physical site explanation passes without requiring exact orbital colors or author labels.",
+      "supporting_key_point_ids": [
+        "support_first_site_electronic"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "second_stage",
+      "statement": "Second-cyclization regioisomer thermodynamic preference",
+      "expected": "Starting from the chemically mapped oxidized first-stage scaffold corresponding to IS3, establish sequential connectivity and support the thermodynamic preference corresponding to IS4 below IS5 using valid equal-composition candidates and quantitative common-definition energetic comparisons. The source Gibbs-energy separation of 11.3 kcal/mol is context, not a magnitude tolerance. An alternative energy definition is acceptable when actual calculations and a justified treatment of omitted contributions support the stated bounded ordering; a DeltaE label alone is neither a failure nor proof of a DeltaG ordering. Require molecular and stationary-state validity appropriate to the inference, without prescribing the author method.",
+      "supporting_key_point_ids": [
+        "support_second_stage"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "second_site_electronic",
+      "statement": "Electronic origin of second-site discrimination",
+      "expected": "Computed orbital or equivalent independent site-resolved evidence for the first-stage oxidized scaffold supports the second closure at source C3 rather than C4. The source LUMO topology supports that assignment; numerical energy ordering alone does not earn this separate electronic-discrimination item.",
+      "supporting_key_point_ids": [
+        "support_second_site_electronic"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "sequential_chemistry",
+      "statement": "Chemical rationale for the sequential oxidative cyclization route",
+      "expected": "Explain why the supported continuation is cyclization followed by aromatization before the next cyclization, rather than merely accumulating two unrearomatized closures. Use mapped hydrogen-accounted structures and comparable calculations to support the chemical inference (source IS1→IS3→IS4, with high-lying same-inventory bis-dihydro alternatives IS6/IS7). Do not require author labels or claim a balanced oxidation free energy from subtracting different hydrogen inventories. A physically equivalent supported sequence passes; endpoint stability alone is not proof of reaction rate or excited-state exclusivity. For this bounded endpoint/site rationale, mapped hydrogen-accounted connectivity and appropriate same-composition endpoint comparisons do not require a separate balanced oxidation free energy, explicit iodine calculation or reaction barrier. Evidence obligations follow the actual claim: a quantitative oxidation-energy assertion needs balanced reactant/product reference evidence, and a kinetic-order assertion needs corresponding pathway or kinetic evidence. Missing evidence necessary for the submitted inference fails that claim; omission of unclaimed oxidation energetics alone does not.",
+      "supporting_key_point_ids": [
+        "support_sequential_chemistry"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "source_evidence_alignment_20261104",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_first_stage",
+      "r_first_site_electronic",
+      "r_second_stage",
+      "r_second_site_electronic",
+      "r_sequential_chemistry"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Product 2 connectivity is supplied public input. Score only computed competing-site energetics, independent site explanations and the balanced sequence; never award product-identification points.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

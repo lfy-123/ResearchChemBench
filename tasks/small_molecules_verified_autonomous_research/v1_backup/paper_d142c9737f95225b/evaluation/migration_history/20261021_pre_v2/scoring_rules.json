@@ -1,0 +1,395 @@
+{
+  "paper_id": "paper_d142c9737f95225b",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "R_ACTIVE",
+      "reference_id": "K_ACTIVE",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Assess actual chemical identities and state evidence for plausible candidates. No predetermined active-species population, activation barrier or compulsory discovery of all author forms."
+      },
+      "expected": "Assess actual chemical identities and state evidence for plausible candidates. No predetermined active-species population, activation barrier or compulsory discovery of all author forms."
+    },
+    {
+      "rule_id": "R_OX",
+      "reference_id": "K_OX",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "QUANTITATIVE REFERENCE PENDING: retain this item and its full authored weight in the 100-point denominator. Until the benchmark release/verification owner resolves the physical quantity and publishes a qualified reference, this result is unassessable and its reserved scientific points are not awardable. Do not mark it completed, choose a favorable conflicting value, treat trend-only evidence as its completion, or redistribute its points. The autonomous agent is not required to discover hidden source conflicts. Evaluate actual research process separately. Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Assess independently computed oxidation results with complete physical definitions. Compare to both preserved source reports. Because magnitudes conflict, do not assign numerical-closeness credit to either side or invent a target. Credit physically valid supported reaction-state results and bounded comparison."
+      },
+      "expected": "Assess independently computed oxidation results with complete physical definitions. Compare to both preserved source reports. Because magnitudes conflict, do not assign numerical-closeness credit to either side or invent a target. Credit physically valid supported reaction-state results and bounded comparison.",
+      "source_qualification": [
+        "Main Figures 4–6 and SI Table S2 solution Gtot do not produce identical barriers using the explicitly stated separated-reactant ledgers. Example Mn1-tBu S/R barriers: main 10.63/11.67, direct SI arithmetic 9.14219/11.06738 kcal/mol. The corresponding gap is main 1.04 versus SI 1.92520. Mn2-tBu gap is main 2.02 versus SI 2.91039. All source sides and arithmetic are preserved in source_audit/energy_table_audit.json. Do not select one side as unique gold or enlarge tolerances.",
+        "Some reaction thermodynamics or fine orderings change across sources: Mn1-tBu alcohol oxidation is −1.04 kcal/mol in the main text but +0.06777 from SI Gtot; Mn1 Me/tBu oxidation ordering and the tert-butyl R-channel NN/NNS reduction ordering are not source-robust. These are excluded from mandatory directional targets.",
+        "The robust current scientific scope is matched candidate identities; NN tricarbonyl versus NNS dicarbonyl oxidation ordering; the S-channel reduction ordering; within a fixed handed configuration the S/R energetic asymmetry; and the coupled half-reaction account. Absolute barrier/ΔΔG targets remain source-qualified pending reconciliation, so there are no unique numerical-closeness rules for the conflicted quantities.",
+        "SI Table S2 supplies gas E/ZPE/Hcorr/Gcorr/NImag and solution E/Htot/Gtot. Its solution Gtot values are not invariably identical to solution E plus the printed gas Gcorr. The exact correction assembly must be audited before attributing discrepancies to a method. Original input decks, grids, frequency scaling and multiplicity are not printed; a closed-shell singlet Mn(I) model is an explicit assumption unless supported by new evidence.",
+        "The source label TS2(Mn-Me) is assigned to Mn2-Me by the surrounding Table S2 rows and composition; retain this alias rather than silently changing the source. Some later proton-transfer TS Gibbs ordinates are lower than adjacent intermediate ordinates; validate the electronic stationary points and thermochemical definitions.",
+        "The selected achiral-ligand catalyst geometries can be chiral conformations/configurations. Their S/R differences and source 84%/96% estimates do not establish ensemble ee. Include mirror-related catalyst forms/populations only if making such an additional claim; bulk ee is not a gold.",
+        "No quantum-chemical validation was run in this repair. This package is release pending source reconciliation and current-scope computation. Proposing active forms does not require uncomputed precursor-activation barriers or proof of true solution speciation."
+      ],
+      "reference_status": "pending_source_qualification",
+      "qualification_owner": "benchmark release/verification owner",
+      "pending_reason": "Main Figures 4–6/8 and SI Table S2 quantitative candidates disagree under the stated physical ledgers. Keep all candidates and retained quantitative weights; no unique numeric gold until the release owner reconciles definitions and thermochemical assembly."
+    },
+    {
+      "rule_id": "R_REST",
+      "reference_id": "K_REST",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "QUANTITATIVE REFERENCE PENDING: retain this item and its full authored weight in the 100-point denominator. Until the benchmark release/verification owner resolves the physical quantity and publishes a qualified reference, this result is unassessable and its reserved scientific points are not awardable. Do not mark it completed, choose a favorable conflicting value, treat trend-only evidence as its completion, or redistribute its points. The autonomous agent is not required to discover hidden source conflicts. Evaluate actual research process separately. Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Assess computed stabilization and the explicit difference of the same oxidation TS against each physical reference. Source magnitudes remain qualified; no undocumented zero shift or source-selected numeric gold."
+      },
+      "expected": "Assess computed stabilization and the explicit difference of the same oxidation TS against each physical reference. Source magnitudes remain qualified; no undocumented zero shift or source-selected numeric gold.",
+      "source_qualification": [
+        "Main Figures 4–6 and SI Table S2 solution Gtot do not produce identical barriers using the explicitly stated separated-reactant ledgers. Example Mn1-tBu S/R barriers: main 10.63/11.67, direct SI arithmetic 9.14219/11.06738 kcal/mol. The corresponding gap is main 1.04 versus SI 1.92520. Mn2-tBu gap is main 2.02 versus SI 2.91039. All source sides and arithmetic are preserved in source_audit/energy_table_audit.json. Do not select one side as unique gold or enlarge tolerances.",
+        "Some reaction thermodynamics or fine orderings change across sources: Mn1-tBu alcohol oxidation is −1.04 kcal/mol in the main text but +0.06777 from SI Gtot; Mn1 Me/tBu oxidation ordering and the tert-butyl R-channel NN/NNS reduction ordering are not source-robust. These are excluded from mandatory directional targets.",
+        "The robust current scientific scope is matched candidate identities; NN tricarbonyl versus NNS dicarbonyl oxidation ordering; the S-channel reduction ordering; within a fixed handed configuration the S/R energetic asymmetry; and the coupled half-reaction account. Absolute barrier/ΔΔG targets remain source-qualified pending reconciliation, so there are no unique numerical-closeness rules for the conflicted quantities.",
+        "SI Table S2 supplies gas E/ZPE/Hcorr/Gcorr/NImag and solution E/Htot/Gtot. Its solution Gtot values are not invariably identical to solution E plus the printed gas Gcorr. The exact correction assembly must be audited before attributing discrepancies to a method. Original input decks, grids, frequency scaling and multiplicity are not printed; a closed-shell singlet Mn(I) model is an explicit assumption unless supported by new evidence.",
+        "The source label TS2(Mn-Me) is assigned to Mn2-Me by the surrounding Table S2 rows and composition; retain this alias rather than silently changing the source. Some later proton-transfer TS Gibbs ordinates are lower than adjacent intermediate ordinates; validate the electronic stationary points and thermochemical definitions.",
+        "The selected achiral-ligand catalyst geometries can be chiral conformations/configurations. Their S/R differences and source 84%/96% estimates do not establish ensemble ee. Include mirror-related catalyst forms/populations only if making such an additional claim; bulk ee is not a gold.",
+        "No quantum-chemical validation was run in this repair. This package is release pending source reconciliation and current-scope computation. Proposing active forms does not require uncomputed precursor-activation barriers or proof of true solution speciation."
+      ],
+      "reference_status": "pending_source_qualification",
+      "qualification_owner": "benchmark release/verification owner",
+      "pending_reason": "Main Figures 4–6/8 and SI Table S2 quantitative candidates disagree under the stated physical ledgers. Keep all candidates and retained quantitative weights; no unique numeric gold until the release owner reconciles definitions and thermochemical assembly."
+    },
+    {
+      "rule_id": "R_RED",
+      "reference_id": "K_RED",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "QUANTITATIVE REFERENCE PENDING: retain this item and its full authored weight in the 100-point denominator. Until the benchmark release/verification owner resolves the physical quantity and publishes a qualified reference, this result is unassessable and its reserved scientific points are not awardable. Do not mark it completed, choose a favorable conflicting value, treat trend-only evidence as its completion, or redistribute its points. The autonomous agent is not required to discover hidden source conflicts. Evaluate actual research process separately. Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Assess actual reduction-state energies, structures and connectivity for matched candidate forms and S/R faces. Source magnitudes remain qualified; no copied source values or favorable-branch selection."
+      },
+      "expected": "Assess actual reduction-state energies, structures and connectivity for matched candidate forms and S/R faces. Source magnitudes remain qualified; no copied source values or favorable-branch selection.",
+      "source_qualification": [
+        "Main Figures 4–6 and SI Table S2 solution Gtot do not produce identical barriers using the explicitly stated separated-reactant ledgers. Example Mn1-tBu S/R barriers: main 10.63/11.67, direct SI arithmetic 9.14219/11.06738 kcal/mol. The corresponding gap is main 1.04 versus SI 1.92520. Mn2-tBu gap is main 2.02 versus SI 2.91039. All source sides and arithmetic are preserved in source_audit/energy_table_audit.json. Do not select one side as unique gold or enlarge tolerances.",
+        "Some reaction thermodynamics or fine orderings change across sources: Mn1-tBu alcohol oxidation is −1.04 kcal/mol in the main text but +0.06777 from SI Gtot; Mn1 Me/tBu oxidation ordering and the tert-butyl R-channel NN/NNS reduction ordering are not source-robust. These are excluded from mandatory directional targets.",
+        "The robust current scientific scope is matched candidate identities; NN tricarbonyl versus NNS dicarbonyl oxidation ordering; the S-channel reduction ordering; within a fixed handed configuration the S/R energetic asymmetry; and the coupled half-reaction account. Absolute barrier/ΔΔG targets remain source-qualified pending reconciliation, so there are no unique numerical-closeness rules for the conflicted quantities.",
+        "SI Table S2 supplies gas E/ZPE/Hcorr/Gcorr/NImag and solution E/Htot/Gtot. Its solution Gtot values are not invariably identical to solution E plus the printed gas Gcorr. The exact correction assembly must be audited before attributing discrepancies to a method. Original input decks, grids, frequency scaling and multiplicity are not printed; a closed-shell singlet Mn(I) model is an explicit assumption unless supported by new evidence.",
+        "The source label TS2(Mn-Me) is assigned to Mn2-Me by the surrounding Table S2 rows and composition; retain this alias rather than silently changing the source. Some later proton-transfer TS Gibbs ordinates are lower than adjacent intermediate ordinates; validate the electronic stationary points and thermochemical definitions.",
+        "The selected achiral-ligand catalyst geometries can be chiral conformations/configurations. Their S/R differences and source 84%/96% estimates do not establish ensemble ee. Include mirror-related catalyst forms/populations only if making such an additional claim; bulk ee is not a gold.",
+        "No quantum-chemical validation was run in this repair. This package is release pending source reconciliation and current-scope computation. Proposing active forms does not require uncomputed precursor-activation barriers or proof of true solution speciation."
+      ],
+      "reference_status": "pending_source_qualification",
+      "qualification_owner": "benchmark release/verification owner",
+      "pending_reason": "Main Figures 4–6/8 and SI Table S2 quantitative candidates disagree under the stated physical ledgers. Keep all candidates and retained quantitative weights; no unique numeric gold until the release owner reconciles definitions and thermochemical assembly."
+    },
+    {
+      "rule_id": "R_SR",
+      "reference_id": "K_SR",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "QUANTITATIVE REFERENCE PENDING: retain this item and its full authored weight in the 100-point denominator. Until the benchmark release/verification owner resolves the physical quantity and publishes a qualified reference, this result is unassessable and its reserved scientific points are not awardable. Do not mark it completed, choose a favorable conflicting value, treat trend-only evidence as its completion, or redistribute its points. The autonomous agent is not required to discover hidden source conflicts. Evaluate actual research process separately. Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Assess independently computed matched S/R difference with correct handedness and atom mapping. The absolute gap is not uniquely fixed by the conflicting sources. Computed asymmetry is a conditional result, not an experimental ee."
+      },
+      "expected": "Assess independently computed matched S/R difference with correct handedness and atom mapping. The absolute gap is not uniquely fixed by the conflicting sources. Computed asymmetry is a conditional result, not an experimental ee.",
+      "source_qualification": [
+        "Main Figures 4–6 and SI Table S2 solution Gtot do not produce identical barriers using the explicitly stated separated-reactant ledgers. Example Mn1-tBu S/R barriers: main 10.63/11.67, direct SI arithmetic 9.14219/11.06738 kcal/mol. The corresponding gap is main 1.04 versus SI 1.92520. Mn2-tBu gap is main 2.02 versus SI 2.91039. All source sides and arithmetic are preserved in source_audit/energy_table_audit.json. Do not select one side as unique gold or enlarge tolerances.",
+        "Some reaction thermodynamics or fine orderings change across sources: Mn1-tBu alcohol oxidation is −1.04 kcal/mol in the main text but +0.06777 from SI Gtot; Mn1 Me/tBu oxidation ordering and the tert-butyl R-channel NN/NNS reduction ordering are not source-robust. These are excluded from mandatory directional targets.",
+        "The robust current scientific scope is matched candidate identities; NN tricarbonyl versus NNS dicarbonyl oxidation ordering; the S-channel reduction ordering; within a fixed handed configuration the S/R energetic asymmetry; and the coupled half-reaction account. Absolute barrier/ΔΔG targets remain source-qualified pending reconciliation, so there are no unique numerical-closeness rules for the conflicted quantities.",
+        "SI Table S2 supplies gas E/ZPE/Hcorr/Gcorr/NImag and solution E/Htot/Gtot. Its solution Gtot values are not invariably identical to solution E plus the printed gas Gcorr. The exact correction assembly must be audited before attributing discrepancies to a method. Original input decks, grids, frequency scaling and multiplicity are not printed; a closed-shell singlet Mn(I) model is an explicit assumption unless supported by new evidence.",
+        "The source label TS2(Mn-Me) is assigned to Mn2-Me by the surrounding Table S2 rows and composition; retain this alias rather than silently changing the source. Some later proton-transfer TS Gibbs ordinates are lower than adjacent intermediate ordinates; validate the electronic stationary points and thermochemical definitions.",
+        "The selected achiral-ligand catalyst geometries can be chiral conformations/configurations. Their S/R differences and source 84%/96% estimates do not establish ensemble ee. Include mirror-related catalyst forms/populations only if making such an additional claim; bulk ee is not a gold.",
+        "No quantum-chemical validation was run in this repair. This package is release pending source reconciliation and current-scope computation. Proposing active forms does not require uncomputed precursor-activation barriers or proof of true solution speciation."
+      ],
+      "reference_status": "pending_source_qualification",
+      "qualification_owner": "benchmark release/verification owner",
+      "pending_reason": "Main Figures 4–6/8 and SI Table S2 quantitative candidates disagree under the stated physical ledgers. Keep all candidates and retained quantitative weights; no unique numeric gold until the release owner reconciles definitions and thermochemical assembly."
+    },
+    {
+      "rule_id": "R_OX_ORDER",
+      "reference_id": "K_OX_ORDER",
+      "type": "ordering",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Check A(Me)<B(Me) and A(tBu)<B(tBu) for alcohol oxidation independently of absolute-magnitude source disagreements. Do not require the non-robust Me/tBu ordering."
+      },
+      "expected": "Check A(Me)<B(Me) and A(tBu)<B(tBu) for alcohol oxidation independently of absolute-magnitude source disagreements. Do not require the non-robust Me/tBu ordering."
+    },
+    {
+      "rule_id": "R_RED_ORDER",
+      "reference_id": "K_RED_ORDER",
+      "type": "ordering",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Check B(S)<A(S) at matched substituent and hydride/ketone reference. Do not award or require the source-conflicted R-channel cross-catalyst trend."
+      },
+      "expected": "Check B(S)<A(S) at matched substituent and hydride/ketone reference. Do not award or require the source-conflicted R-channel cross-catalyst trend."
+    },
+    {
+      "rule_id": "R_SR_ORDER",
+      "reference_id": "K_SR_ORDER",
+      "type": "ordering",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Check S<R only after mapping to the published handed configuration. For a mirror-related configuration invert the product-face mapping. A symmetric ensemble is not evidence of a bulk S preference."
+      },
+      "expected": "Check S<R only after mapping to the published handed configuration. For a mirror-related configuration invert the product-face mapping. A symmetric ensemble is not evidence of a bulk S preference."
+    },
+    {
+      "rule_id": "R_PATH",
+      "reference_id": "K_PATH",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Assess supported organic bond changes, reaction-state identities and hydrogen ledger linking both half-reactions, rather than a proposed diagram alone."
+      },
+      "expected": "Assess supported organic bond changes, reaction-state identities and hydrogen ledger linking both half-reactions, rather than a proposed diagram alone."
+    },
+    {
+      "rule_id": "R_C_ACTIVITY",
+      "reference_id": "C_ACTIVITY",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. Combine actual reaction-state results and robust source trends: tricarbonyl NN candidates ease alcohol oxidation, while NNS candidates can ease S-channel reduction. The source effective oxidation barriers motivate alcohol oxidation as the slower half-cycle, conditional on these models. Do not identify a unique active solution form or exact rate from this comparison."
+      },
+      "expected": "Combine actual reaction-state results and robust source trends: tricarbonyl NN candidates ease alcohol oxidation, while NNS candidates can ease S-channel reduction. The source effective oxidation barriers motivate alcohol oxidation as the slower half-cycle, conditional on these models. Do not identify a unique active solution form or exact rate from this comparison."
+    },
+    {
+      "rule_id": "R_C_STEREO",
+      "reference_id": "C_STEREO",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$.evidence[*].quantities",
+          "$.evidence[*].description",
+          "$.evidence[*].artifact_paths",
+          "$.conclusions[*].statement",
+          "$.conclusions[*].scope_and_uncertainty"
+        ],
+        "comparison": "Select quantities by scientific name or an explicit equivalence mapping, definition, molecular graph, state/conformer identity, charge, multiplicity, conditions, and reference ledger. Never select by closeness to the target or array position. Read the linked calculation inputs, structures, outputs and analysis; a copied literature number, a job-success label, or a conclusion without computed support earns no result credit. Different methods remain permissible when they produce a physically comparable quantity. A matched configuration can display an S/R energy difference. Explain its actual computational support and mirror/ensemble limitation. No bulk ee is established by an achiral-ligand, single-configuration profile."
+      },
+      "expected": "A matched configuration can display an S/R energy difference. Explain its actual computational support and mirror/ensemble limitation. No bulk ee is established by an achiral-ligand, single-configuration profile."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "SC_ACTIVE",
+      "max_score": 10,
+      "description": "Chemically valid active-form hypotheses lead to comparable catalytic states.",
+      "rule_ids": [
+        "R_ACTIVE"
+      ]
+    },
+    {
+      "id": "SC_OX",
+      "max_score": 10,
+      "description": "The matched alcohol-oxidation profiles contain real O-H/C-H transfer intermediates and barriers.",
+      "rule_ids": [
+        "R_OX"
+      ]
+    },
+    {
+      "id": "SC_REST",
+      "max_score": 10,
+      "description": "The stabilized isopropoxide reference changes the effective oxidation barrier.",
+      "rule_ids": [
+        "R_REST"
+      ]
+    },
+    {
+      "id": "SC_RED",
+      "max_score": 10,
+      "description": "Ketone-reduction profiles are computed for defined active forms and substrate faces.",
+      "rule_ids": [
+        "R_RED"
+      ]
+    },
+    {
+      "id": "SC_SR",
+      "max_score": 10,
+      "description": "S/R energetic asymmetry is conditional on the catalyst configuration.",
+      "rule_ids": [
+        "R_SR"
+      ]
+    },
+    {
+      "id": "SC_OX_ORDER",
+      "max_score": 10,
+      "description": "The author NN tricarbonyl forms have lower alcohol-oxidation barriers than matched NNS dicarbonyl forms.",
+      "rule_ids": [
+        "R_OX_ORDER"
+      ]
+    },
+    {
+      "id": "SC_RED_ORDER",
+      "max_score": 5,
+      "description": "The S-channel reduction favors the author NNS dicarbonyl forms in the conditional comparison.",
+      "rule_ids": [
+        "R_RED_ORDER"
+      ]
+    },
+    {
+      "id": "SC_SR_ORDER",
+      "max_score": 5,
+      "description": "The paired author configurations have a lower S-faced than R-faced TS.",
+      "rule_ids": [
+        "R_SR_ORDER"
+      ]
+    },
+    {
+      "id": "SC_PATH",
+      "max_score": 10,
+      "description": "A coupled proton/hydride-transfer account connects both organic half-reactions.",
+      "rule_ids": [
+        "R_PATH"
+      ]
+    },
+    {
+      "id": "SC_C_ACTIVITY",
+      "max_score": 10,
+      "description": "Explain the influence of plausible coordination forms on both transfer-hydrogenation half-reactions.",
+      "rule_ids": [
+        "R_C_ACTIVITY"
+      ]
+    },
+    {
+      "id": "SC_C_STEREO",
+      "max_score": 10,
+      "description": "State what a fixed-configuration calculation establishes about S/R formation.",
+      "rule_ids": [
+        "R_C_STEREO"
+      ]
+    }
+  ],
+  "reference_qualification": {
+    "status": "pending_source_qualification",
+    "reserved_scientific_points": 40,
+    "denominator": 100,
+    "redistribution_allowed": false,
+    "pending_rule_ids": [
+      "R_OX",
+      "R_RED",
+      "R_REST",
+      "R_SR"
+    ],
+    "owner": "benchmark release/verification owner",
+    "meaning": "Source-qualified unresolved quantitative items remain in the rubric and cannot be certified completed or replaced by trend-only credit. This is not an additional AR investigation requirement."
+  },
+  "comparison_policy": {
+    "process_is_independent": true,
+    "unresolved_counts_as_resolved": false,
+    "source_conflicts": "Conflicting or undefined source values are not a unique numeric gold. Assess the explicitly scoped result; no numerical-closeness credit from choosing one conflicting report or widening tolerance.",
+    "alternative_results": "Scientifically supported alternatives may receive the relevant result/conclusion credit with clear physical equivalence and evidence. Documented limitations alone are not a solved result."
+  }
+}

@@ -12,6 +12,9 @@ from datetime import datetime, timezone
 
 from chemistry_toolbox.mcp.job_manager import JobManager, ensure_manager
 from chemistry_toolbox.src.recovery_io import process_identity
+from chemistry_toolbox.src.execution_states import TERMINAL_STATES
+
+TERMINAL_SHUTDOWN_GRACE_SECONDS = 10
 from .recovery import ControllerLock, RunRecoveryError, runner_store, validate_session
 from .progress import LiveProgressReporter
 from ..provenance.results import write_workspace_results
@@ -23,6 +26,7 @@ from .resume_policy import configure, retry_delay
 
 
 def record_usage(runner, event):
+    if runner.agent.get("kind") in {"gemini", "claude"}: return  # Native per-response accounting.
     if event.get("type") != "turn.completed": return
     runner._turn_sequence += 1
     event_id = event.get("turn_id") or event.get("id") or (runner.attempt_id + ":" + str(runner._turn_sequence))
@@ -35,6 +39,7 @@ from .output_contract import validate_submission
 def _run_attempt(runner):
     store = runner_store(runner)
     reporter = None
+    history_transport = None
     attempt = None
     started = time.time()
     exit_code, termination, error = -1, "infrastructure_exit", None
@@ -80,26 +85,42 @@ def _run_attempt(runner):
                 runner._recovery_notice += (
                     "\nCompatibility recovery: the provider rejected the historical encrypted reasoning. "
                     "That internal reasoning was removed from a separate copy of this same session. "
+                    "Subsequent requests also omit encrypted reasoning for provider compatibility. "
                     "Readable messages, tool calls/results, files and saved jobs are retained; the original history is backed up. "
                     "Recheck relevant evidence as needed and query existing jobs before submitting anything.")
         ensure_manager(store)
         runner.attempt_id = f"attempt_{len(store.records('attempt')) + 1:04d}"
         attempt_directory = store.directory / "attempts" / runner.attempt_id
         runner.final_message_path = attempt_directory / "final_message.txt"
+        provider_home = session_home(store)
+        if runner.agent.get("kind") == "gemini":
+            from .gemini_adapter import session_home as gemini_home
+            provider_home = gemini_home(runner)
+        elif runner.agent.get("kind") == "claude":
+            from .claude_adapter import session_home as claude_home
+            provider_home = claude_home(runner)
         attempt = {"attempt_id": runner.attempt_id, "start_at": started, "start_reason": runner._attempt_start_reason,
                    "recovery_source_attempt": current.get("attempt_id") if runner._restored else None,
                    "provider_session_id": runner._resume_session_id, "log_path": str(attempt_directory / "agent.jsonl"),
                    "raw_event_offset": runner.output_path.stat().st_size if runner.output_path.exists() else 0,
                    "cwd": str(runner.workspace), "provider_cli_version": runner._provider_cli_version, "startup_status": "prepared",
-                   "session_store_path": str(session_home(store)), **history_metadata(store),
+                   "session_store_path": str(provider_home), **history_metadata(store),
                    "failure_source": current.get("error") or current.get("last_failure")}
         runner._persist_run_manifest(run_state="running", phase="agent_running", error=None, provider_diagnostics=runner._provider_diagnostics, _attempt_record=attempt)
         attempt_directory.mkdir(parents=True, exist_ok=False)
+        if runner.agent.get("kind") == "codex" and store.get_record("history_recovery", "active"):
+            from .codex_history_transport import CodexHistoryTransport
+            history_transport = CodexHistoryTransport(runner, store).start()
+            runner._codex_history_transport = history_transport
+        from .sandbox import prepare as prepare_sandbox, launch as launch_sandbox
+        prepare_sandbox(runner)
+        if runner.agent.get("kind") == "claude":
+            runner._write_claude_mcp_config()
         argv = runner.build_agent_argv()
         runner._write_meta("running", {"recovery_enabled": True, "agent_command": runner.command_preview()})
         reporter = LiveProgressReporter(runner.workspace, runner.run_id, enabled=runner.live_progress, console=runner.progress_console, max_chars=runner.progress_max_chars)
         reporter.emit("ATTEMPT_START", attempt_id=runner.attempt_id, resumed=runner._restored)
-        runner.process = subprocess.Popen(argv, cwd=runner.workspace, env=runner._agent_environment(), stdin=subprocess.DEVNULL,
+        runner.process = launch_sandbox(runner, argv, runner._agent_environment(), stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace", bufsize=1, start_new_session=True)
         attempt.update(startup_status="started", process_started_at=time.time(), pid=runner.process.pid)
         store.put_record("attempt", runner.attempt_id, attempt)
@@ -113,6 +134,7 @@ def _run_attempt(runner):
         thread = threading.Thread(target=reader, daemon=True)
         thread.start()
         final_event, drain_deadline = False, None
+        terminal_since, terminal_cleanup = None, False
         with runner.output_path.open("a") as combined, (attempt_directory / "agent.jsonl").open("a") as output:
             while True:
                 control = store.get_record("control", "current", {})
@@ -121,13 +143,25 @@ def _run_attempt(runner):
                 write_progress_snapshot(runner)
                 totals = store.usage()
                 expired = time.time() >= datetime.fromisoformat(runner.deadline_at).timestamp()
-                budget_used = totals["turns"] >= runner.max_turns or (runner.max_tokens and totals["input_tokens"] + totals["output_tokens"] >= runner.max_tokens)
+                # Claude receives the remaining turn limit via --max-turns.
+                # Let its terminal result distinguish success on the last turn
+                # from exhaustion; native history can be written before stdout.
+                turn_limit = runner.agent.get("kind") != "claude" and totals["turns"] >= runner.max_turns
+                budget_used = turn_limit or (runner.max_tokens and totals["input_tokens"] + totals["output_tokens"] >= runner.max_tokens)
                 if expired or budget_used or runner._stop_requested or control.get("command") in {"pause", "cancel"}:
                     termination = "budget_exhausted" if expired or budget_used else "pause" if control.get("command") == "pause" else "cancelled"
                     runner._terminate_process_tree()
                     break
                 try: line = lines.get(timeout=0.2)
                 except queue.Empty:
+                    # A CLI can emit its definitive terminal event yet hang in
+                    # shutdown with stdout open. Never infer failure from silence.
+                    if terminal_since is not None and time.monotonic() - terminal_since >= TERMINAL_SHUTDOWN_GRACE_SECONDS and runner.process.poll() is None:
+                        active = any(j["state"] not in TERMINAL_STATES for j in store.list_jobs())
+                        if failures.final or (final_event and not active):
+                            terminal_cleanup = True
+                            runner._terminate_process_tree()
+                            break
                     if runner.process.poll() is not None:
                         if drain_deadline is None: drain_deadline = time.time() + 1
                         if time.time() > drain_deadline:
@@ -140,8 +174,19 @@ def _run_attempt(runner):
                 event = runner.capture_provider_event(line)
                 failures.observe(event, {"path": str(attempt_directory / "agent.jsonl"), "offset": output.tell() - len(line.encode("utf-8"))})
                 record_usage(runner, event)
-                final_event = final_event or event.get("type") == "turn.completed"
-                reporter.handle_agent_line(line)
+                if runner.agent.get("kind") == "claude" and event.get("subtype") == "error_max_turns":
+                    termination = "budget_exhausted"
+                if event.get("type") in {"turn.completed", "turn.failed"}:
+                    final_event = event.get("type") == "turn.completed"
+                    terminal_since = time.monotonic()
+                elif event.get("type") in {"turn.started", "item.started"}:
+                    terminal_since = None
+                reporter.handle_agent_line(json.dumps({**json.loads(line), "_rcb_provider": "gemini"})
+                                           if runner.agent.get("kind") == "gemini" and event else line)
+                if failures.latest and failures.latest["category"] == "quota":
+                    failures.final = failures.latest
+                    runner._terminate_process_tree()
+                    break
             os.fsync(output.fileno()); os.fsync(combined.fileno())
         try: exit_code = runner.process.wait(timeout=5)
         except subprocess.TimeoutExpired:
@@ -150,7 +195,7 @@ def _run_attempt(runner):
         control = store.get_record("control", "current", {})
         if termination == "infrastructure_exit" and control.get("command") in {"pause", "cancel"}:
             termination = "pause" if control["command"] == "pause" else "budget_exhausted" if control.get("reason") in {"deadline", "usage_budget"} else "cancelled"
-        if termination == "infrastructure_exit" and exit_code == 0 and final_event and not failures.final:
+        if termination == "infrastructure_exit" and (exit_code == 0 or terminal_cleanup) and final_event and not failures.final:
             termination = "agent_completed"
         if termination == "infrastructure_exit":
             error = failures.failure(exit_code)
@@ -165,6 +210,13 @@ def _run_attempt(runner):
             termination = "budget_exhausted" if "expired" in str(exc) or "budget_exhausted" in str(exc) else "recovery_blocked"
     finally:
         try:
+            from .sandbox import close as close_sandbox
+            close_sandbox(runner)
+            if runner._stop_requested and termination == "infrastructure_exit":
+                termination, error = "cancelled", None
+            if history_transport:
+                history_transport.close()
+                runner._codex_history_transport = None
             refresh_usage(runner, force=True)
             status = {"infrastructure_exit": "suspended_infrastructure", "pause": "suspended_infrastructure", "cancelled": "cancelled",
                       "budget_exhausted": "budget_exhausted", "recovery_blocked": "recovery_blocked"}.get(termination, "finalizing")
@@ -193,7 +245,7 @@ def _run_attempt(runner):
                 if attempt["startup_status"] == "prepared":
                     attempt["startup_status"] = "launch_failed"
                 attempt.update(end_at=time.time(), end_reason=termination, provider_session_id=runner._resume_session_id,
-                               exit_code=exit_code, usage_total=store.usage(), error=error)
+                               exit_code=exit_code, usage_total=store.usage(), error=error, **history_metadata(store))
                 store.put_record("attempt", runner.attempt_id, attempt)
             from ..provenance.trace import load_tool_trace, process_metrics
             from ..provenance.model_io import export_model_io_trace

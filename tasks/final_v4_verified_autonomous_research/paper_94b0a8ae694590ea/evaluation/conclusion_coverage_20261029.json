@@ -1,0 +1,98 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "mode": "autonomous_research",
+  "scientific_scope_changed": false,
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1、2：三个HOMO及C8两对差",
+      "rule_id": "r_occupied_level_comparison",
+      "conclusion_id": "occupied_level_comparison",
+      "weight": 20,
+      "independence": "占据能级比较/分辨度，与未占据/能隙及真实界面电荷不同。",
+      "source_location": "正文pp3–5 Fig1六能级及复合PF；SI TablesS1–S3完整坐标；原生BT源样式/稳定BT、BF、完整C8几何与轨道。",
+      "source_evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "verified_bt_stable_frontier",
+        "verified_c8_frontier",
+        "native_molecular_synthesis"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_94b0a8ae694590ea/v2_execution_20260929/report/report.md",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bf/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt_tight_min_retry/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2c8_runtime_retry48g/stdout.log"
+      ],
+      "existing_support_or_gap": "稳定BT/BF/C8 HOMO=−5.126226/−5.002650/−4.990102、LUMO=−2.039392/−2.077005/−1.645259 eV。C8/BF HOMO差+.012547微小；源样式BT有两虚频，稳定LUMO比源高+.100608 eV。C8/BF峰值同10wt%，BT峰值20wt%。",
+      "scientific_limitations": "源样式BT两虚频−28.5338/−22.0826，不是稳定最低点；稳定BT改变BT/BF LUMO排序。原+.100608偏差保留但旧±.1不再计分。C8/BF微小HOMO差仅有几何/数值局部证据，不认证跨方法普适。−5.060 eV名义SWCNT参照非样品界面化学势；电子注入可填空穴，不自动证明p型增强或PF。"
+    },
+    {
+      "scientific_requirement": "必需结果1、2：LUMO/能隙和六本征值物理含义",
+      "rule_id": "r_unoccupied_gap_comparison",
+      "conclusion_id": "unoccupied_gap_comparison",
+      "weight": 30,
+      "independence": "接受能级与内部分离的联合物性比较，不把代数相关描述符逐数重复计分。",
+      "source_location": "正文pp3–5 Fig1六能级及复合PF；SI TablesS1–S3完整坐标；原生BT源样式/稳定BT、BF、完整C8几何与轨道。",
+      "source_evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "verified_bt_stable_frontier",
+        "verified_c8_frontier",
+        "native_molecular_synthesis"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_94b0a8ae694590ea/v2_execution_20260929/report/report.md",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bf/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt_tight_min_retry/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2c8_runtime_retry48g/stdout.log"
+      ],
+      "existing_support_or_gap": "稳定BT/BF/C8 HOMO=−5.126226/−5.002650/−4.990102、LUMO=−2.039392/−2.077005/−1.645259 eV。C8/BF HOMO差+.012547微小；源样式BT有两虚频，稳定LUMO比源高+.100608 eV。C8/BF峰值同10wt%，BT峰值20wt%。",
+      "scientific_limitations": "源样式BT两虚频−28.5338/−22.0826，不是稳定最低点；稳定BT改变BT/BF LUMO排序。原+.100608偏差保留但旧±.1不再计分。C8/BF微小HOMO差仅有几何/数值局部证据，不认证跨方法普适。−5.060 eV名义SWCNT参照非样品界面化学势；电子注入可填空穴，不自动证明p型增强或PF。"
+    },
+    {
+      "scientific_requirement": "必需结果3：与SWCNT名义参照的物理联系",
+      "rule_id": "r_molecular_transfer_interpretation",
+      "conclusion_id": "molecular_transfer_interpretation",
+      "weight": 25,
+      "independence": "条件能级对齐与真实转移/载流子可识别性，不重复分子排序。",
+      "source_location": "正文pp3–5 Fig1六能级及复合PF；SI TablesS1–S3完整坐标；原生BT源样式/稳定BT、BF、完整C8几何与轨道。",
+      "source_evidence_ids": [
+        "main_p3_4_5",
+        "native_molecular_synthesis"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_94b0a8ae694590ea/v2_execution_20260929/report/report.md",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bf/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt_tight_min_retry/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2c8_runtime_retry48g/stdout.log"
+      ],
+      "existing_support_or_gap": "稳定BT/BF/C8 HOMO=−5.126226/−5.002650/−4.990102、LUMO=−2.039392/−2.077005/−1.645259 eV。C8/BF HOMO差+.012547微小；源样式BT有两虚频，稳定LUMO比源高+.100608 eV。C8/BF峰值同10wt%，BT峰值20wt%。",
+      "scientific_limitations": "源样式BT两虚频−28.5338/−22.0826，不是稳定最低点；稳定BT改变BT/BF LUMO排序。原+.100608偏差保留但旧±.1不再计分。C8/BF微小HOMO差仅有几何/数值局部证据，不认证跨方法普适。−5.060 eV名义SWCNT参照非样品界面化学势；电子注入可填空穴，不自动证明p型增强或PF。"
+    },
+    {
+      "scientific_requirement": "必需结果4：复合性能解释及负载局限",
+      "rule_id": "r_composite_inference_limit",
+      "conclusion_id": "composite_inference_limit",
+      "weight": 25,
+      "independence": "实际同/异负载观测约束，独立于真空分子能级趋势。",
+      "source_location": "正文pp3–5 Fig1六能级及复合PF；SI TablesS1–S3完整坐标；原生BT源样式/稳定BT、BF、完整C8几何与轨道。",
+      "source_evidence_ids": [
+        "main_p3_4_5",
+        "native_molecular_synthesis"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_94b0a8ae694590ea/v2_execution_20260929/report/report.md",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bf/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt_tight_min_retry/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2c8_runtime_retry48g/stdout.log"
+      ],
+      "existing_support_or_gap": "稳定BT/BF/C8 HOMO=−5.126226/−5.002650/−4.990102、LUMO=−2.039392/−2.077005/−1.645259 eV。C8/BF HOMO差+.012547微小；源样式BT有两虚频，稳定LUMO比源高+.100608 eV。C8/BF峰值同10wt%，BT峰值20wt%。",
+      "scientific_limitations": "源样式BT两虚频−28.5338/−22.0826，不是稳定最低点；稳定BT改变BT/BF LUMO排序。原+.100608偏差保留但旧±.1不再计分。C8/BF微小HOMO差仅有几何/数值局部证据，不认证跨方法普适。−5.060 eV名义SWCNT参照非样品界面化学势；电子注入可填空穴，不自动证明p型增强或PF。"
+    }
+  ],
+  "new_computation": false
+}

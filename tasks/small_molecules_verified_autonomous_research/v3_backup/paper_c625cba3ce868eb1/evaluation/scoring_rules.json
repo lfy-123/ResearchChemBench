@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "source_evidence_alignment_20261104",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_local_regioselectivity_explanation",
+      "reference_id": "local_regioselectivity_explanation",
+      "type": "semantic",
+      "expected": "Explain the local six-membered haloether preference with actual site-resolved electronic/structural calculations on correctly assigned (R,E)-4 and an atom-mapped account of competing ring outcomes. The reference reactant has stronger negative polarization at the alkene carbon nearer OOH; a bounded electrophilic-Br interaction there and alcohol closure at the other carbon explains the six-membered topology, contrasted with the seven-membered alternative. Require a quantitative physical site distinction and a supported connection to the observed regioselectivity under NBS/DCM. A physically equivalent independently supported explanation passes. A bare charge table, ring graph, or shorter closure distance in one isolated reactant conformer does not alone establish the molecular origin of the preference. For a preorganization-based alternative, the evidence must connect the modeled arrangement to discrimination between the relevant reactive sites; simply calling a shorter distance consistent with the observed product is insufficient. A bounded reactant-polarization explanation remains acceptable when the computed site distinction supports the proposed electrophilic-Br response and mapped ring outcome; no unique microscopic mechanism is required. Source water-phase MK charges-0.507/-0.066e are definition-specific context without a calibrated numeric window; different population methods are not numerically interchangeable. Reactant MEP does not by itself prove a unique microscopic mechanism, kinetic barrier or product ratio. No mandatory transition-state route or separate calculation on7 is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_comparison_causal_attribution",
+      "reference_id": "comparison_causal_attribution",
+      "type": "semantic",
+      "expected": "Make a specific evidence-based causal assessment of the supplied comparisons: explain how the observed matching hydroperoxide-product profiles under enzyme and nonenzyme conditions support local substrate contributions and show that the same product pattern can occur without the enzyme; relate the mixed six/seven-membered outcome for7 to the calculated local-site account for4 and the actual molecular differences. Establish that7 is a different constitutional/branching context measured under enzyme conditions, so this comparison does not isolate a unique OOH effect or quantify enzyme control. This is a scientific attribution result, not credit for generic caveats: ground it in the actual molecular graphs, the participant's computed evidence for4 and the specific supplied outcomes/conditions. Separate computations on7 are optional; if absent, do not claim its electronic distribution was computed. The18% yield is for the3/4 mixture, not a prediction for pure(R,E)-4. A blanket uncertainty paragraph, copying yields, or claiming a unique OOH/Thorpe-Ingold/enzyme cause without discriminating evidence fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "local_regioselectivity_explanation",
+      "kind": "conclusion",
+      "max_score": 70,
+      "description": "Molecular explanation of local six- versus seven-membered ring selectivity for (R,E)-4",
+      "rule_ids": [
+        "r_local_regioselectivity_explanation"
+      ],
+      "evidence_ids": [
+        "main_p3_4_5_7",
+        "main_p3_4",
+        "supplementary_001_p30_31_32"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "comparison_causal_attribution",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "What the structural and experimental comparisons establish about the origin of selectivity",
+      "rule_ids": [
+        "r_comparison_causal_attribution"
+      ],
+      "evidence_ids": [
+        "main_p3_4_5_7",
+        "main_p3_4",
+        "supplementary_001_p30"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "required_for_whole_case_success_item_ids": [
+    "local_regioselectivity_explanation",
+    "comparison_causal_attribution"
+  ]
+}

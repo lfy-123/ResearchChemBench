@@ -1,0 +1,176 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "scoring_policy": "paper_science_v3",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_orientation_structure_stability",
+      "reference_id": "orientation_structure_stability",
+      "type": "semantic",
+      "expected": "Establish the structural and energetic difference between the S4 and C2h orientations of neutral-singlet gas-phase Ir2(Hap)4, retaining all 54 atoms and matched Ir identities. Determine both Ir-Ir distances and G(C2h)-G(S4) at 298.15 K under one standard-state and thermal/low-frequency convention. The reference S4 structure has a shorter Ir-Ir contact and lower Gibbs energy than C2h. Interpret the two structures and relative stability from actual relaxed geometries, energy components and stationary-character evidence; electronic DeltaE is not DeltaG. The source distances 2.599/2.724 A and 9.7 kcal/mol are context, not numerical gates. A physically established model-sensitive difference can pass when the same orientations and states are tracked, any changed stationary character is demonstrated, and the revised structural/energetic inference is bounded accordingly. This result does not itself identify the orbital cause or prove an equilibrium conformer population.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.objects"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_ligand_pi_mechanism",
+      "reference_id": "ligand_pi_mechanism",
+      "type": "semantic",
+      "expected": "Actual electronic evidence supports metal–iminoxolene mixing that leaves available metal dπ acceptor character and enables a net positive Ir–Ir π contribution. In a symmetry-adapted description the low occupied 1e manifold is π bonding, while empty 4e carries substantial metal/ligand π-antibonding character; occupied 2e/3e also have weak antibonding contributions. These assignments support a net mechanism rather than treating all occupied metal orbitals as bonding. Equivalent density/orbital representations pass without mandatory labels or partition values. A formal oxidation state or short distance alone fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.objects"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_orientation_mechanism",
+      "reference_id": "orientation_mechanism",
+      "type": "semantic",
+      "expected": "The S4 orientation permits filled metal dπ on one center to overlap with empty metal–iminoxolene π* character on the other. The C2h deformation suppresses this interaction, consistent with its longer Ir–Ir distance and higher energy. Establish this orientation-dependent physical account with spatial/electronic evidence plus the comparable structural-energy result, not just the two distances or numerical ordering. The optimized structures also differ in ligand distortion, so their full energy gap is not a uniquely isolated π-overlap energy. Established physically equivalent explanations pass.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.quantities"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_model_applicability",
+      "reference_id": "model_applicability",
+      "type": "semantic",
+      "expected": "The S4 Hap structure is a local minimum and the C2h comparison is a first-order saddle, so their Gibbs difference is not an equilibrium ratio of two metastable conformers. Use actual curvature/state evidence to establish that applicability conclusion; completion of a frequency calculation alone is not the result. The Hap model supports a qualitative ligand-assisted molecular Ir–Ir bonding account, but does not quantitatively certify the full Egan crystal distance, SOC response, or a unique physical bond order. A Mayer index, orbital population or MOS-based estimate is definition-dependent; it cannot be asserted as exact experimental bond order 2.34. No new full-Egan or SOC calculation is demanded. If a justified model establishes different stationary character for the same candidate orientations, assess its actual curvature and the resulting conformer inference explicitly rather than imposing the source saddle label; the Hap-to-Egan and definition-dependent bond-order limits still apply.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.objects"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "orientation_structure_stability",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Structural and energetic effect of the two Hap orientations",
+      "rule_ids": [
+        "r_orientation_structure_stability"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "ligand_pi_mechanism",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Metal–iminoxolene mixing and occupations enable net Ir–Ir π bonding",
+      "rule_ids": [
+        "r_ligand_pi_mechanism"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "orientation_mechanism",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Relative coordination-unit orientation changes intermetal donor–acceptor overlap",
+      "rule_ids": [
+        "r_orientation_mechanism"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "model_applicability",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Stationary character and model truncation bound the equilibrium and experimental interpretation",
+      "rule_ids": [
+        "r_model_applicability"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

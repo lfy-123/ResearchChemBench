@@ -23,6 +23,14 @@ DUAL_AXIS_POLICY: dict[str, Any] = {
         "A demonstrated benchmark input, framework, backend, or infrastructure failure may "
         "make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not."
     ),
+    "tool_call_attribution_policy": (
+        "tool_call_count includes all host tool work. Use tool_call_origins to distinguish "
+        "explicit client requests from adapter_internal execution, collection and cleanup. "
+        "Retain total system costs, but do not label internal or unknown calls as repeated "
+        "agent polling. Old traces without attribution require native-event evidence for that claim. "
+        "Internal validation can still reveal invalid client-supplied inputs; attribution does not excuse those errors. "
+        "One client request can expand into multiple computations; tool calls are not model API calls."
+    ),
     "invalid_submission_policy": (
         "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations "
         "make the final score zero."

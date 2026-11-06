@@ -1,0 +1,167 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "evidence": [
+    {
+      "evidence_id": "az_main",
+      "source": {
+        "path": "papers/paper_5d94285cfbd51973/documents/main.pdf",
+        "sha256": "9a4125a542a33af7128c39ebcf9df93cbe82923038415ed18e81bc77ca65e1a2",
+        "bytes": 3796712,
+        "pdf_pages_1based": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "locator": "C. albicans MIC table and molecular descriptor interpretation"
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "dipole_activity_association",
+        "frontier_activity_association",
+        "gap_activity_association",
+        "bounded_activity_information"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "az_si",
+      "source": {
+        "path": "papers/paper_5d94285cfbd51973/documents/supplementary_001.pdf",
+        "sha256": "9c09e4819df88ab73a3551dca09e2c5b390e7a783dac0df4f633e06e5e227f0e",
+        "bytes": 6680357,
+        "pdf_pages_1based": [
+          7,
+          41
+        ],
+        "locator": "Computational details and TableS12"
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "dipole_activity_association",
+        "frontier_activity_association",
+        "gap_activity_association",
+        "bounded_activity_information"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "validation_summary_1",
+      "source": {
+        "path": "docs/strict_author_route_validation_20261001/groups/group2/reopen_20261002T1212Z/AZ_literal_statistics/attempt_001/AZ_literal_statistics_results.json",
+        "sha256": "cb39a419d7bed141cbfd09fd51c4ea18a5e679700990360e647a13ad041cb121",
+        "bytes": 11381
+      },
+      "evidence_type": "existing_computational_validation_summary",
+      "supports_final_conclusion_ids": [
+        "dipole_activity_association",
+        "frontier_activity_association",
+        "gap_activity_association",
+        "bounded_activity_information"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "validation_summary_2",
+      "source": {
+        "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/INDEPENDENT_OTHER_NATIVE_SUPPLEMENT.json",
+        "sha256": "5f2ac9d3e1874077e3a9fbc7eda6c2020d36de0ae07dd915074a76fa73f6fea7",
+        "bytes": 9075
+      },
+      "evidence_type": "existing_computational_validation_summary",
+      "supports_final_conclusion_ids": [],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "native_validation",
+      "source": {
+        "path": "docs/final_verified_science_v2_additions_20261020/astra_science_03/paper_5d94285cfbd51973/NATIVE_READBACK.json",
+        "sha256": "f69d3c5662675632a16eb376c2cf95b3427ac553191b0951fa6f5888c21ef2a7",
+        "bytes": 21095
+      },
+      "evidence_type": "native_verification_readback",
+      "supports_final_conclusion_ids": [
+        "dipole_activity_association",
+        "frontier_activity_association",
+        "gap_activity_association"
+      ],
+      "scored_independently": false
+    }
+  ],
+  "final_outcome_bindings": {
+    "frontier_gap_az1": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_gap_az2": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_gap_az3": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_gap_az4": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_gap_az5": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_gap_az6": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_gap_az7": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_gap_az8": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_gap_az9": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_gap_az10": [
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "dipole_activity_association": [
+      "az_main",
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "frontier_activity_association": [
+      "az_main",
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "gap_activity_association": [
+      "az_main",
+      "az_si",
+      "native_validation",
+      "validation_summary_1"
+    ],
+    "bounded_activity_information": [
+      "az_main",
+      "az_si",
+      "validation_summary_1"
+    ]
+  },
+  "current_acceptance": "V3_SCOPE_MAPPED_TO_EXISTING_EVIDENCE_NOT_NEW_SCIENTIFIC_PASS"
+}

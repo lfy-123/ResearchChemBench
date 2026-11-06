@@ -1,0 +1,241 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "ARCHE text-only scientific results",
+    "type": "object",
+    "required": [
+      "case_id",
+      "models",
+      "states",
+      "metrics",
+      "claims",
+      "evidence",
+      "unresolved"
+    ],
+    "properties": {
+      "case_id": {
+        "type": "string",
+        "pattern": "^case_[0-9]{2}$"
+      },
+      "models": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "description",
+            "conditions",
+            "approximations"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "conditions": {
+              "type": "object"
+            },
+            "approximations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "states": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "molecular_identity",
+            "charge",
+            "multiplicity",
+            "geometry_file",
+            "evidence_ids"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "molecular_identity": {
+              "type": "string"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "geometry_file": {
+              "type": "string"
+            },
+            "atom_mapping": {
+              "type": "object"
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "metrics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "quantity",
+            "value",
+            "unit",
+            "definition",
+            "reference_states",
+            "conditions",
+            "evidence_ids"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "string"
+            },
+            "value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string"
+            },
+            "definition": {
+              "type": "string"
+            },
+            "reference_states": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "conditions": {
+              "type": "object"
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "claims": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "text",
+            "metric_ids",
+            "evidence_ids",
+            "limitations"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "metric_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "limitations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "evidence": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "native_input",
+            "native_output",
+            "calculation_type",
+            "settings",
+            "validation"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "native_input": {
+              "type": "string"
+            },
+            "native_output": {
+              "type": "string"
+            },
+            "geometry_files": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "calculation_type": {
+              "type": "string"
+            },
+            "settings": {
+              "type": "object"
+            },
+            "validation": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "unresolved": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": true,
+    "propertyNames": {
+      "not": {
+        "enum": [
+          "status",
+          "completion_status",
+          "research_status",
+          "question_status"
+        ]
+      }
+    }
+  }
+}

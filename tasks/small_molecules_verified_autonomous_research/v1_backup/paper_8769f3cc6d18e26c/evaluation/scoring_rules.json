@@ -1,0 +1,212 @@
+{
+  "paper_id": "paper_8769f3cc6d18e26c",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价当前任务范围内的科学发现与最终结论，总分100。各叶子项满足全部条件得满分，否则0，不临时给部分分。真实、可定位且物理身份/参照/单位相容的计算证据是结果成立前提，不是单独过程奖励。普通失败只影响有关项；不按假设数、工具序列、计算次数、资源投入、失败诊断或写作完整度给分。作者结果是参照，不以验证值替换目标；未设numeric规则的上下文数字不形成隐藏硬阈值，必须有对应科学方向/关系的实际证据。允许物理可比的替代方法和等价解释，不强制复刻搜索流程。未解决或与该项科学结果矛盾的内容不得仅因合理讨论获得该项分。最终结论必须在最终交付中明确采用；定量与独立定性分别计分，数值落窗不替代正确方向。公开材料及历史协议中的旧研究质量分或60/40分配不参与本轮评分，现行唯一计分清单为scientific_rubric。",
+  "rules": [
+    {
+      "rule_id": "r_nh_contacts",
+      "reference_id": "nh_contacts",
+      "type": "semantic",
+      "expected": "保持完整单次穿线图的实际溶液结构，支持轴NH与宏环醚氧、宏环NH与轴羰基间的有方向性接触，或科学等价的双组件预组织证据。结构须为有效局部最低点，不以未穿线混合物或两NH的存在替代相互作用证据；不强设通用距离窗。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_aryl_environment",
+      "reference_id": "aryl_environment",
+      "type": "semantic",
+      "expected": "同一有效穿线构象中实际几何支持一侧宏环芳环与轴含CF3芳环呈相对平行位移接触，另一侧更倾斜/偏移，形成不等价para空间环境。环和para身份须可映射，镜像重标不算反转；不把晶体距离直接当溶液计算。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_chpi_environment",
+      "reference_id": "chpi_environment",
+      "type": "semantic",
+      "expected": "实际结构支持宏环C–H与轴芳环的定向近接触及其在双组件相对姿态中的作用，或有相应证据的等价空间组织解释。作者CH···π为结构参考；仅画接触线或给一个距离不足以证明该接触的稳定化能或反应速率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_para_response",
+      "reference_id": "para_response",
+      "type": "semantic",
+      "expected": "保持相同构象、原子映射和性质定义的实际计算支持与轴堆积的A环para较B环para富电子。作者NPA −0.277/−0.259 e及A−B=−0.018 e为参考，不是硬阈值；接受支持同一电子比较的相容方法。不得比较两个不同构象或直接从已知产物选择性倒推电荷。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_structure_answer",
+      "reference_id": "structure_answer",
+      "type": "semantic",
+      "expected": "最终将氢键、芳环环境及辅助空间组织的实际证据综合为正确穿线底物的条件性溶液结构解释，说明该结构如何产生非等价局部环境。不能只复述单个接触，也不能把单一局部最低点称为全局构象群或已测定交换速率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_susceptibility_answer",
+      "reference_id": "susceptibility_answer",
+      "type": "semantic",
+      "expected": "最终依据同构象电子响应与空间环境，采用A侧para相对富电子、可支持相对亲电响应假设的解释。必须有实际性质证据；不能将NPA直接称为已计算的活化势垒、速率比或唯一反应位点。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_explanatory_reach",
+      "reference_id": "explanatory_reach",
+      "type": "semantic",
+      "expected": "最终从已验证的单构象位点不等价及其镜像关系推导：底物结构可支持预组织/条件电子差异，但无手性催化剂选择与动力学信息时不能单独确定净ee。须把该推论联系到实际底物证据及反应观察；只写通用局限性段落不得分。不要求新增催化TS、全构象群或时间曲线拟合。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "nh_contacts",
+      "kind": "intermediate",
+      "max_score": 12,
+      "description": "穿线结构的氢键组织",
+      "rule_ids": [
+        "r_nh_contacts"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "aryl_environment",
+      "kind": "intermediate",
+      "max_score": 16,
+      "description": "两个芳环的不同轴向接触环境",
+      "rule_ids": [
+        "r_aryl_environment"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "chpi_environment",
+      "kind": "intermediate",
+      "max_score": 12,
+      "description": "宏环—轴的辅助空间组织",
+      "rule_ids": [
+        "r_chpi_environment"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "para_response",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "同构象para电子响应差异",
+      "rule_ids": [
+        "r_para_response"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "structure_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：底物预组织的结构解释",
+      "rule_ids": [
+        "r_structure_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "susceptibility_answer",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：相对亲电胺化易感性的有限解释",
+      "rule_ids": [
+        "r_susceptibility_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "explanatory_reach",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：底物不等价与净对映选择性的区别",
+      "rule_ids": [
+        "r_explanatory_reach"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

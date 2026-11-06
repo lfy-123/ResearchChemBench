@@ -1,0 +1,199 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "scoring_policy": "paper_science_v3",
+  "status": "V3_ADAPTED_EXISTING_EVIDENCE_NOT_REVALIDATED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "physical_definition": "Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+  "retained_scientific_limitations": "Current scope is the four specified static molecular responses; dynamic wavelengths, other derivatives and a prescribed functional sweep are not required. Compound3 rho=35.17 is reconstructed from rounded source J3/J1, not reproduced as an exact unrounded value (real branches about36.50–40.59). Source-geometry/grid effects alter DR1/5; exact rho agreement is not certified. Structure/geometry/numerical defaults confound a unique causal decomposition.",
+  "historical_acceptance_before_v3": {
+    "paper_id": "paper_746e066c163800d8",
+    "scoring_policy": "paper_science_v2",
+    "status": "CURRENT_FROZEN_V2_STRICT_VERIFICATION_PRESERVED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "current_scope_verified": true,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "reason": "Authorized scoring-only migration on 2026-10-19; existing independently strict acceptance within frozen V2 scope is preserved. Expert publication calibration remains separate from permitted runtime scoring. No new chemistry validation or blind Agent run is claimed.",
+    "physical_definition": "Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+    "tolerance_policy": {
+      "status": "provisional_benchmark_policy",
+      "basis": "All four HRS leaves use a common provisional ±0.20 ×10^-30 esu absolute tolerance. It is a benchmark resolution choice: broader than source two-decimal printing and source cross-functional variations shown for 1/5 (1.03–1.10 and1.92–2.10), yet much smaller than the 1→5 and5→7 effects (~0.88 and0.65). It is not fitted to present residuals (~0.004 or less). Overlapping3/7 windows do not establish ordering. DR/tensor class uses semantic evidence, avoiding unstable ratios of tiny rounded J1 values.",
+      "not_author_error_bars": true
+    },
+    "retained_scientific_limitations": "V2 only: no paused V3 branch, dynamic wavelength, other derivatives or functional sweep required. Compound3 rho=35.17 is reconstructed from rounded source J3/J1, not reproduced as an exact unrounded value (real branches about36.50–40.59). Source-geometry/grid effects alter DR1/5; exact rho agreement is not certified. Structure/geometry/numerical defaults confound a unique causal decomposition.",
+    "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_746e066c163800d8",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "status": "targeted_repairs_pending_coordinator_review",
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_03/REPORT.md",
+      "changes": [
+        "Reclassified three_seven_similarity8 as an intermediate relation; retained the distinct cross-structure/tensor synthesis20. All numeric targets/tolerances unchanged. New split80/20."
+      ],
+      "historical_acceptance_unchanged": true,
+      "new_chemical_validation": false,
+      "tolerances_unchanged": true
+    }
+  },
+  "scoring_mode": "final_results_100",
+  "evidence_gaps": "G16与G09及导数无1/2约定需明确；源rho舍入不等于精确张量比例。3/7细排序不提升为跨方法规律，静态孤立四分子结果不能认证动态/体相性能。张量分类是题目明确要求的最终物性，本轮合并为一个比较项，四工具/标量项设计争议已解决。",
+  "final_result_evidence_reuse": {
+    "hrs_1": "正文Table3/SI TableS10；四个静态张量逐值重放：compound1=1.0390134 ×10^-30 esu，原target 1.04±0.2窗口获支持。",
+    "hrs_3": "正文Table3/SI TableS10；四个静态张量逐值重放：compound3=1.3036503 ×10^-30 esu，原target 1.3±0.2窗口获支持。",
+    "hrs_5": "正文Table3/SI TableS10；四个静态张量逐值重放：compound5=1.9179009 ×10^-30 esu，原target 1.92±0.2窗口获支持。",
+    "hrs_7": "正文Table3/SI TableS10；四个静态张量逐值重放：compound7=1.2695606 ×10^-30 esu，原target 1.27±0.2窗口获支持。",
+    "tensor_character_1": "hrs_source_geometry_definition_join.json：compound1的J1/J3与旋转平均支持dipolar-dominated；源几何/网格敏感性不改变类别。",
+    "tensor_character_3": "hrs_source_geometry_definition_join.json：compound3的J1/J3与旋转平均支持strongly octupolar-dominated；源几何/网格敏感性不改变类别。",
+    "tensor_character_5": "hrs_source_geometry_definition_join.json：compound5的J1/J3与旋转平均支持dipolar-dominated with a substantial octupolar contribution；源几何/网格敏感性不改变类别。",
+    "tensor_character_7": "hrs_source_geometry_definition_join.json：compound7的J1/J3与旋转平均支持strongly octupolar-dominated；源几何/网格敏感性不改变类别。",
+    "nonmonotonic_response": "静态1.0390134→1.9179009→1.2695606；增长约0.87889、下降约0.64834 ×10^-30 esu，支持非单调。",
+    "three_seven_similarity": "1.3036503与1.2695606相差约0.03409，明显小于1→5和5→7差，精细3/7顺序不能只由绝对容差判断。",
+    "structure_response_interpretation": "四对象张量/planarity join：全原子与碳骨架MPP不同；1/5源几何DR控制恢复7.03/5.29；支持结构相关性及非唯一归因，不能把源密度CT差异声称全部复现。"
+  },
+  "new_quantum_calculations": 0,
+  "v3_scientific_revalidation_performed": false,
+  "secondary_audit_20261028": {
+    "scope_changed": false,
+    "new_calculations": 0,
+    "verification_status": "四HRS硬窗、张量类别和非单调比较有原生支持；唯一结构因果及四张量项独立计分必要性未定，不认定整体严格通过",
+    "confirmed_fixes": [
+      {
+        "file": "两模式submission_schema.json/guide",
+        "before": "complete研究日志minItems=1",
+        "after": "minItems=0并明确可为空",
+        "reason": "去除流程叙述强制，原生证据和结果不变。"
+      },
+      {
+        "file": "两模式reference_qualification.json reason",
+        "before": "张量物理性质本身是题意最终量，保留其独立判断",
+        "after": "区分直接HRS终量与四张量类别独立计分设计未决",
+        "reason": "原始题面和旧intermediate不能支持上轮无保留断言。"
+      }
+    ],
+    "expert_issues": [
+      {
+        "issue": "逐对象张量性质的独立评分必要性",
+        "evidence": "原始题面问静态HRS差异、结构解释及可靠性；旧四tensor_character标intermediate。上轮新版明确必答且给32分，解释另10分。张量有物理意义，不等于必然应成为四个强制最终量。",
+        "impact": "可能将一种解释表征路线固化为必答，影响等价自主路线和计分独立性。",
+        "suggestion": "选项A保留为独立响应性质，但由专家明确确认原问题涵盖该终量且与解释分无重复；选项B把类别作为解释的可选证据，保留HRS、比较、归因三个科学目标并重新设计权重。不得只因新版Required results已经写入而宣称解决；本轮不机械删项。",
+        "new_computation_needed": "设计选择不需新量化计算；改变规则后需等价答案校准。"
+      },
+      {
+        "issue": "结构归因和数值尺度校准",
+        "evidence": "全原子与碳骨架MPP不同；源几何改变DR；rho舍入敏感，CT源定义未完全对应。",
+        "impact": "不能把四个HRS窗内等同于唯一因果或跨方法全面通过。",
+        "suggestion": "保留有限结构关联与非唯一归因；硬窗不变，进一步跨方法公平性校准由专家决定。",
+        "new_computation_needed": "本轮无；如要求唯一因果，需另行设计干预，不能暗加为当前必答。"
+      }
+    ]
+  },
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "mode_scope_exception": "两模式的最终科学命题相同；AR自主选择方法，PR评估披露基线或有依据的可比替代。作者数值均为证据。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "必需结果1、3：四HRS与两次结构扩展变化",
+      "rule_id": "r_nonmonotonic_response",
+      "conclusion_id": "nonmonotonic_response",
+      "weight": 30,
+      "independence": "整体非单调关系，不按四数字或两符号重复分项。",
+      "source_location": "正文Eqs15–18 pp2–4、Table3 pp9–10；SI物理pp37–38 TablesS9/S10。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound1_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound3_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound5_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound7_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/hrs_source_geometry_definition_join.json"
+      ],
+      "existing_support_or_gap": "四静态HRS=1.0390134/1.3036503/1.9179009/1.2695606；1→5为+.8788875，5→7为−.6483403，3−7为+.0340897，均10−30 esu。实际张量支持1/5偏偶极、3/7强八极，5有显著八极成分。",
+      "scientific_limitations": "G16与G09及导数无1/2约定需明确；源rho舍入不等于精确张量比例。3/7细排序不提升为跨方法规律，静态孤立四分子结果不能认证动态/体相性能。张量分类是题目明确要求的最终物性，本轮合并为一个比较项，四工具/标量项设计争议已解决。"
+    },
+    {
+      "scientific_requirement": "必需结果3：3/7差相对两个扩展的尺度",
+      "rule_id": "r_three_seven_similarity",
+      "conclusion_id": "three_seven_similarity",
+      "weight": 20,
+      "independence": "独立的跨结构近似幅值关系，不由1/5/7非单调性推出。",
+      "source_location": "正文Eqs15–18 pp2–4、Table3 pp9–10；SI物理pp37–38 TablesS9/S10。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound1_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound3_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound5_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound7_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/hrs_source_geometry_definition_join.json"
+      ],
+      "existing_support_or_gap": "四静态HRS=1.0390134/1.3036503/1.9179009/1.2695606；1→5为+.8788875，5→7为−.6483403，3−7为+.0340897，均10−30 esu。实际张量支持1/5偏偶极、3/7强八极，5有显著八极成分。",
+      "scientific_limitations": "G16与G09及导数无1/2约定需明确；源rho舍入不等于精确张量比例。3/7细排序不提升为跨方法规律，静态孤立四分子结果不能认证动态/体相性能。张量分类是题目明确要求的最终物性，本轮合并为一个比较项，四工具/标量项设计争议已解决。"
+    },
+    {
+      "scientific_requirement": "必需结果2：每个分子的张量物理性质",
+      "rule_id": "r_tensor_character_comparison",
+      "conclusion_id": "tensor_character_comparison",
+      "weight": 25,
+      "independence": "张量对称/不可约性质，不由幅值大小或扩展方向唯一确定。",
+      "source_location": "正文Eqs15–18 pp2–4、Table3 pp9–10；SI物理pp37–38 TablesS9/S10。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound1_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound3_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound5_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound7_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/hrs_source_geometry_definition_join.json"
+      ],
+      "existing_support_or_gap": "四静态HRS=1.0390134/1.3036503/1.9179009/1.2695606；1→5为+.8788875，5→7为−.6483403，3−7为+.0340897，均10−30 esu。实际张量支持1/5偏偶极、3/7强八极，5有显著八极成分。",
+      "scientific_limitations": "G16与G09及导数无1/2约定需明确；源rho舍入不等于精确张量比例。3/7细排序不提升为跨方法规律，静态孤立四分子结果不能认证动态/体相性能。张量分类是题目明确要求的最终物性，本轮合并为一个比较项，四工具/标量项设计争议已解决。"
+    },
+    {
+      "scientific_requirement": "必需结果4：结构—响应原因与局限",
+      "rule_id": "r_structure_response_interpretation",
+      "conclusion_id": "structure_response_interpretation",
+      "weight": 25,
+      "independence": "实际物理归因及可识别原因，不重复幅值或张量分类。",
+      "source_location": "正文Eqs15–18 pp2–4、Table3 pp9–10；SI物理pp37–38 TablesS9/S10。",
+      "source_evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound1_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound3_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound5_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/outputs/compound7_static_response/attempt_001/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_2/v2_execution_20260929/native_acceptance/hrs_source_geometry_definition_join.json"
+      ],
+      "existing_support_or_gap": "四静态HRS=1.0390134/1.3036503/1.9179009/1.2695606；1→5为+.8788875，5→7为−.6483403，3−7为+.0340897，均10−30 esu。实际张量支持1/5偏偶极、3/7强八极，5有显著八极成分。",
+      "scientific_limitations": "G16与G09及导数无1/2约定需明确；源rho舍入不等于精确张量比例。3/7细排序不提升为跨方法规律，静态孤立四分子结果不能认证动态/体相性能。张量分类是题目明确要求的最终物性，本轮合并为一个比较项，四工具/标量项设计争议已解决。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

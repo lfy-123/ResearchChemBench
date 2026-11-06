@@ -1,0 +1,243 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "scoring_policy": "paper_science_v3",
+  "status": "V3_CONTRACT_REVIEWED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "physical_definition": "Neutral singlet 54-atom C24H20Ir2N4O4 Hap model with two Ir and four iminoxolene N/O units, isolated gas-phase molecule. Compare the S4-like local minimum with the corresponding C2h-constrained first-order saddle at the same composition/electronic state. DeltaG=G(C2h)-G(S4) under matched 298.15 K molecular thermal conventions; this is not a stable-isomer population ratio. A different electronic-structure method must preserve this molecular object, stationary-state character and orbital/density correspondence. Program, functional and basis labels are provenance rather than pass conditions. Full experimental C88H104Ir2N4O12 Egan crystal is a different object; its 2.5584 Å distance is not the Hap theoretical target.",
+  "retained_scientific_limitations": "C2h has one imaginary mode, not a second metastable minimum. Native 9.750242 kcal/mol is +0.050242 relative to source 9.7; joint printed/native precision explains the boundary issue, not exact identity. Correct Ir pairs differ by ordering (S4 1/2, C2h 1/28). Failed composition module rc59 is not complete evidence; successful Mayer/occupancy and orbital-direction readbacks substantiate the retained claims. Scalar ECP Hap evidence does not establish SOC, full-Egan quantitative identity, or exact bond order 2.34.",
+  "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+  "coordinator_review": {
+    "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+    "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+    "review_key": "v2_paper_e31cc7bc7b21b610",
+    "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+    "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+    "publication_readiness_unchanged": true
+  },
+  "repair_round3": {
+    "date": "2026-10-19",
+    "scope": "Scoring-contract repair and read-only scientific re-audit; no new chemical verification.",
+    "acceptance_status_unchanged": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+    "source_method_provenance": "Main physical p4, SI22/27–30: source gas B3LYP/SDD(Ir)/6-31G*, S4 minimum and C2h first-order saddle. Source methodology remains provenance; no changed target or new chemical validation.",
+    "method_eligibility": "Use the concrete object/state/observable equivalence criteria in current rules, not a source software switch. Numeric reference values/tolerances are unchanged; method uncertainty beyond these preliminary windows remains a calibration limit.",
+    "dependency_policy": "Relevant key-point links are evidence references, not a demand to pass all numeric windows or unrelated ligand branches.",
+    "changes": [
+      "Removed method implementation from mandatory physical definitions.",
+      "Synchronized independent scientific leaves and evidence references.",
+      "Replaced only obsolete public scoring prose where present."
+    ]
+  },
+  "acceptance": "V3_NOT_NEWLY_VALIDATED",
+  "historical_acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+  "accepted_limitations": "Historical frozen-scope strict acceptance is preserved only as history. DeltaG differs from printed 9.7 by +0.050242 kcal/mol; no numerical window is changed. Correct Ir pairs are S4 1/2 and C2h 1/28. The failed composition module rc59 is partial output, not full success; later validated orbital blocks and native phase/occupancy evidence support bounded interpretation. Finite phase probes and simultaneous ligand distortions do not isolate a unique orientation energy decomposition. No SOC, full-Egan quantitative transfer, exact physical bond order 2.34 or equilibrium C2h population is certified.",
+  "scope_note": "Preserve the short Ir–Ir bonding explanation and model limits. Explicitly bound the pre-existing numerical comparison to the neutral singlet 54-atom Hap model, S4 and C2h candidate orientations, gas phase and 298.15 K; the 210-atom experimental Egan dimer remains the observation to explain, not an interchangeable numerical target. The model/orientation candidates make the old hidden numeric scope public without disclosing their ordering or stationary character in AR.",
+  "historical_current_scope_verified": true,
+  "paper": {
+    "title": "Iridium complexes of a chelating bis(iminoxolene): augmentation of metal–metal π bonding by metal–ligand π bonding",
+    "doi": "10.1039/d5dt02509e",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-06"
+  },
+  "second_expert_review": {
+    "date": "2026-10-28",
+    "group": "group_03",
+    "finding": "Direct Gaussian log readback confirms G(C2h)-G(S4)=9.750242 kcal/mol at 298.15 K and 1 atm. The native_evidence top-level 8.769690 value is the electronic-energy difference, not Gibbs. Existing task and scoring already distinguish these quantities and retain the S4 minimum/C2h saddle and Hap/full-Egan boundaries; no scientific target or rule change is needed.",
+    "new_computations": false
+  },
+  "historical_non_scoring_tolerance_policy": {
+    "status": "provisional_benchmark_policy",
+    "basis": "Both Ir–Ir distances use common ±0.01 Å as a preliminary same-model geometry window, well below the source 0.125 Å conformation difference. DeltaG uses ±0.2 kcal/mol: the reported 0.1 kcal/mol precision, low-frequency RRHO/numerical sensitivity and large 9.7 kcal/mol effect justify this predeclared class; it is not the current +0.050242 residual plus epsilon. No Mayer or exact orbital-population target is invented; those are explanatory evidence, because the publication gives orbital character rather than an invariant numerical partition.",
+    "not_author_error_bars": true
+  },
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_orientation_structure_stability",
+      "r_ligand_pi_mechanism",
+      "r_orientation_mechanism",
+      "r_model_applicability"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_reason": "2026-10-28 final-result redesign; existing evidence was reviewed per proposition. No new calculation or blind evaluation was performed. Historical acceptance is retained only as history.",
+  "historical_non_scoring_v3_evidence_reuse": "Three final quantitative rules retain S4/C2h Ir–Ir targets 2.599/2.724 Å (±0.01) and G(C2h)−G(S4)=9.7 kcal/mol (±0.2). Native distances are 2.598504/2.723610 Å; native Gaussian Gibbs sums −1655.046602/−1655.031064 Eh at 298.15 K and 1 atm give 9.750242 kcal/mol. The misleading C2h_minus_S4_kcal_mol field in native_evidence.json is 8.769690, actually the electronic-energy difference, and is not used as Gibbs evidence. The final ligand-mediated π-bonding explanation reuses occupied/empty directional orbital and occupancy evidence; the distinct orientation explanation reuses the S4/C2h structural-energy comparison. Model applicability uses actual curvature (S4 156 positive modes, C2h one −17.0855 cm−1 mode), molecular identity and explicit scalar-ECP/partition limits. Minima/saddle checks and individual orbital panels are supporting evidence, not independent scores.",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "两Ir–Ir距离、ΔG及物理驻点解释",
+      "rule_id": "r_orientation_structure_stability",
+      "conclusion_id": "orientation_structure_stability",
+      "independence": "结构/稳定性结果不直接认证电子成键原因。",
+      "source_locator": "正文p4方法、pp8–9机制；SIp22表、p29虚频/坐标；原生Hap54 S4/C2h日志及N1–N4",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e31cc7bc7b21b610/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_evidence.csv"
+      ],
+      "existing_support": "Ir–Ir=2.598504/2.723610Å，ΔG9.750242与ΔE8.769690kcal/mol不同；S4为156正模局部极小，C2h唯一17.0855i。轨道占据/相位和Mayer支持有界π机制。",
+      "limits": [
+        "历史冻结范围严格接受保持；N1旧顶层8.769689628是ΔE，不是ΔG；C2h Ir对1/28，旧1/2为Ir–O。来源9.7差+0.050242仍保留。",
+        "S4/C2h同时改变配体畸变，完整G差不等于隔离的π重叠能。相位探针窗口依赖，composition rc59是部分输出，不能宣称全部分析成功。",
+        "C2h为鞍点时不能用G差求两稳定构象人口；54原子Hap不定量认证完整Egan晶体或SOC，Mayer/轨道估计不是精确实验键级2.34。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "previous_rule_ids": [
+        "r_s4_irir_distance",
+        "r_c2h_irir_distance",
+        "r_c2h_relative_g"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "配体电子作用与净Ir–Ir成键",
+      "rule_id": "r_ligand_pi_mechanism",
+      "conclusion_id": "ligand_pi_mechanism",
+      "independence": "占据/混合的物理解释独立于两取向间差别。",
+      "source_locator": "正文p4方法、pp8–9机制；SIp22表、p29虚频/坐标；原生Hap54 S4/C2h日志及N1–N4",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e31cc7bc7b21b610/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_evidence.csv"
+      ],
+      "existing_support": "Ir–Ir=2.598504/2.723610Å，ΔG9.750242与ΔE8.769690kcal/mol不同；S4为156正模局部极小，C2h唯一17.0855i。轨道占据/相位和Mayer支持有界π机制。",
+      "limits": [
+        "历史冻结范围严格接受保持；N1旧顶层8.769689628是ΔE，不是ΔG；C2h Ir对1/28，旧1/2为Ir–O。来源9.7差+0.050242仍保留。",
+        "S4/C2h同时改变配体畸变，完整G差不等于隔离的π重叠能。相位探针窗口依赖，composition rc59是部分输出，不能宣称全部分析成功。",
+        "C2h为鞍点时不能用G差求两稳定构象人口；54原子Hap不定量认证完整Egan晶体或SOC，Mayer/轨道估计不是精确实验键级2.34。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "previous_rule_ids": [
+        "r_ligand_pi_mechanism"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "相对取向如何改变金属间相互作用",
+      "rule_id": "r_orientation_mechanism",
+      "conclusion_id": "orientation_mechanism",
+      "independence": "解释取向选择的空间机制，不重复距离/G排序。",
+      "source_locator": "正文p4方法、pp8–9机制；SIp22表、p29虚频/坐标；原生Hap54 S4/C2h日志及N1–N4",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e31cc7bc7b21b610/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_evidence.csv"
+      ],
+      "existing_support": "Ir–Ir=2.598504/2.723610Å，ΔG9.750242与ΔE8.769690kcal/mol不同；S4为156正模局部极小，C2h唯一17.0855i。轨道占据/相位和Mayer支持有界π机制。",
+      "limits": [
+        "历史冻结范围严格接受保持；N1旧顶层8.769689628是ΔE，不是ΔG；C2h Ir对1/28，旧1/2为Ir–O。来源9.7差+0.050242仍保留。",
+        "S4/C2h同时改变配体畸变，完整G差不等于隔离的π重叠能。相位探针窗口依赖，composition rc59是部分输出，不能宣称全部分析成功。",
+        "C2h为鞍点时不能用G差求两稳定构象人口；54原子Hap不定量认证完整Egan晶体或SOC，Mayer/轨道估计不是精确实验键级2.34。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "previous_rule_ids": [
+        "r_orientation_mechanism"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "驻点、模型截断与键级可推断范围",
+      "rule_id": "r_model_applicability",
+      "conclusion_id": "model_applicability",
+      "independence": "由证据到人口/完整Egan/键级推断的边界，不重复机制。",
+      "source_locator": "正文p4方法、pp8–9机制；SIp22表、p29虚频/坐标；原生Hap54 S4/C2h日志及N1–N4",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e31cc7bc7b21b610/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_evidence.csv"
+      ],
+      "existing_support": "Ir–Ir=2.598504/2.723610Å，ΔG9.750242与ΔE8.769690kcal/mol不同；S4为156正模局部极小，C2h唯一17.0855i。轨道占据/相位和Mayer支持有界π机制。",
+      "limits": [
+        "历史冻结范围严格接受保持；N1旧顶层8.769689628是ΔE，不是ΔG；C2h Ir对1/28，旧1/2为Ir–O。来源9.7差+0.050242仍保留。",
+        "S4/C2h同时改变配体畸变，完整G差不等于隔离的π重叠能。相位探针窗口依赖，composition rc59是部分输出，不能宣称全部分析成功。",
+        "C2h为鞍点时不能用G差求两稳定构象人口；54原子Hap不定量认证完整Egan晶体或SOC，Mayer/轨道估计不是精确实验键级2.34。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "previous_rule_ids": [
+        "r_model_applicability"
+      ],
+      "no_new_computation": true
+    }
+  ],
+  "objective_issue_flags": [
+    {
+      "issue": "历史冻结范围严格接受保持；N1旧顶层8.769689628是ΔE，不是ΔG；C2h Ir对1/28，旧1/2为Ir–O。来源9.7差+0.050242仍保留。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "S4/C2h同时改变配体畸变，完整G差不等于隔离的π重叠能。相位探针窗口依赖，composition rc59是部分输出，不能宣称全部分析成功。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "C2h为鞍点时不能用G差求两稳定构象人口；54原子Hap不定量认证完整Egan晶体或SOC，Mayer/轨道估计不是精确实验键级2.34。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    }
+  ]
+}

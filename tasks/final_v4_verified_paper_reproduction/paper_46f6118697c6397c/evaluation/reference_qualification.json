@@ -1,0 +1,68 @@
+{
+  "paper_id": "paper_46f6118697c6397c",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "1/4/3/2的bright能为3.1216/3.1242/3.4533/3.8445 eV；1来源3.0119残差+0.1097。1→4为+0.0026，去D3为−0.0032 eV。",
+  "accepted_limitations": "微小1/4分裂与展宽可变号，不能规定跨方法必蓝移。2−3实算0.3912 eV与实验约0.231并非同一量；2必须保留四共价OTf。",
+  "objective_issue_flags": [
+    "微小1/4分裂与展宽可变号，不能规定跨方法必蓝移。2−3实算0.3912 eV与实验约0.231并非同一量；2必须保留四共价OTf。"
+  ],
+  "current_rules": [
+    "r_bright_character_c1",
+    "r_bright_character_c2",
+    "r_bright_character_c3",
+    "r_bright_character_c4",
+    "r_methyl_toly_substitution",
+    "r_withdrawing_substitution"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_46f6118697c6397c",
+    "scoring_policy": "paper_science_v3",
+    "status": "V3_CONTRACT_REVIEWED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "unblock_conditions": [],
+    "reason": "2026-10-28 final-result redesign; existing evidence was reviewed per proposition. No new calculation or blind evaluation was performed. Historical acceptance is retained only as history.",
+    "coordinator_decision_artifact": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAPER_DECISIONS.json",
+    "publication_expert_review_status": "Publication/expert review remains separate from runtime scientific scoring; not a Judge blocker.",
+    "numerical_policy": "No numerical scoring rules or invented tolerance; original values, residuals and historical policy are retained.",
+    "limitations": [
+      "Main prose3.52/3.97/4.33eV differs from SI tabulated3.0119/3.4440/3.8436eV. The SI includes explicit states and f/configuration definitions, so those define the table comparison.",
+      "Source1→4 gap .1101eV becomes .0026eV but does not reverse on the disclosed baseline.",
+      "Added broadenedC1/C4 maxima overlap or interchange; no-D3 gap−.0032eV is a separate diagnostic, not the author baseline.",
+      "Computed broadenedC1 maxima396.6225–397.1307nm andC4 approximately396.8764nm may overlap or interchange for added kernels. Acceptance is not a claim that every chosen broadened maximum preserves a resolvable1/4 split.",
+      "Experimental maxima C1/C2/C3/C4=418/354/379/409nm are not relabeled as calculated sticks.",
+      "No unreported ordinary Gaussian default or optional noD3 control is made a new rejection requirement."
+    ],
+    "verification_reference": "evaluation/verified_computation_reference.md",
+    "private_archive_index": "docs/final_verified_science_v2_additions_20261020/astra_science_02/ARCHIVE_INDEX.json",
+    "acceptance": "V3_NOT_NEWLY_VALIDATED",
+    "historical_acceptance": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "accepted_limitations": "Historical acceptance is ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION under the prior authorization, not exact quantitative reproduction. C1 differs from SI by +0.1097 eV and C4−C1 is 0.0026 versus 0.1101 eV. Main prose 3.52/3.97/4.33 eV conflicts with SI 3.0119/3.4440/3.8436 eV. Optional no-D3 and broadening diagnostics can reverse/merge the small C1/C4 separation; this does not establish a robust resolved experimental splitting or full solvent speciation.",
+    "scope_note": "Same four complete neutral-singlet B2N6 derivatives and DCM absorption explanation, with identical AR/PR final quantities and weights. Experimental absorption is already disclosed; the scored new results are physical transition assignments and computed substitution explanations.",
+    "v3_evidence_reuse": "r_bright_character_c1/c2/c3/c4 reuse the native configuration/spatial join: C1 3.1216 eV/f0.3326, C4 3.1242/f0.5044, C3 3.4533/f0.3831 and C2 3.8445/f0.4733 with N6-localized transitions. r_methyl_toly_substitution reuses unequal orbital responses and a 0.0026 eV baseline shift; r_withdrawing_substitution reuses the N6 occupied-state reordering and C3/C2 higher-energy bright transitions. Original active V2 had no numeric windows; V3 does not introduce or restore historical windows. Supplied experimental ordering is context within the explanation, not an independent prediction score.",
+    "historical_acceptance_type": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "historical_current_scope_verified": true,
+    "paper": {
+      "title": "Substituent effect on the boron atoms in boron-bridged hexazenes",
+      "doi": "10.1039/d5dt02896e",
+      "journal": "Dalton Transactions",
+      "publication_date": "2026-01-15"
+    },
+    "historical_accepted_at_utc": "2026-10-20",
+    "second_expert_review": {
+      "date": "2026-10-28",
+      "group": "group_03",
+      "finding": "The withdrawing-substitution conclusion now explicitly covers the already-public compound 2 versus 3 comparison, using assigned optical shifts and electronic reordering. No new molecule, numerical target, tolerance or separate ranking score is introduced. Source prose/SI conflicts and the small 1-to-4 baseline split remain documented.",
+      "new_computations": false
+    }
+  }
+}

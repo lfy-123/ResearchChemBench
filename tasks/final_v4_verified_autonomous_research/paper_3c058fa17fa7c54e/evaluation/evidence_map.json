@@ -1,0 +1,128 @@
+{
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "evidence": [
+    {
+      "evidence_id": "source_main",
+      "source": {
+        "path": "papers/paper_3c058fa17fa7c54e/documents/main.pdf",
+        "sha256": "38002008855a03bf3bd90f3315f0008ae9fff275c1305e6fca20494ff3850e86",
+        "pdf_pages_1based": [
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "scope": "Main PDF2 Figure 2 resolves the reversed Ph S1/T1 prose on PDF4; PDF3–5 provide the source method, TTA criterion and molecular solution observations.",
+      "supports_final_conclusion_ids": [
+        "singlet_substitution_response",
+        "triplet_similarity",
+        "ph_tta_compatible",
+        "da_tta_compatible",
+        "molecular_solution_interpretation",
+        "small_gap_tadf"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "source_si",
+      "source": {
+        "path": "papers/paper_3c058fa17fa7c54e/documents/supplementary_001.pdf",
+        "sha256": "01140712f70bcc77d7c656fcc6c211bc78e72aaac4e90d1d37e3b22b7a7162cd",
+        "pdf_pages_1based": [
+          2
+        ]
+      },
+      "scope": "SI physical2: Gaussian16 plain B3LYP/6-31G(d,p) molecular baseline.",
+      "supports_final_conclusion_ids": [
+        "singlet_substitution_response",
+        "triplet_similarity",
+        "ph_tta_compatible",
+        "da_tta_compatible",
+        "molecular_solution_interpretation",
+        "small_gap_tadf"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "verification_reference",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_3c058fa17fa7c54e/evaluation/verified_computation_reference.md",
+        "sha256": "b476c338277c319ed9c84980d2b731eddb92d40fecf856060114a29932533771"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed.",
+      "supports_final_conclusion_ids": [
+        "singlet_substitution_response",
+        "triplet_similarity",
+        "ph_tta_compatible",
+        "da_tta_compatible",
+        "molecular_solution_interpretation",
+        "small_gap_tadf"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "verification_records",
+      "source": {
+        "path": "docs/v2_verification/papers/paper_3c058fa17fa7c54e/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json",
+        "sha256": "0e190e790d1f501a0e8c5624690360bcc886fd6dd6dbba388aff0daff44d1a46"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed.",
+      "supports_final_conclusion_ids": [],
+      "scored_independently": false
+    }
+  ],
+  "final_conclusion_evidence": {
+    "ph_s1": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "ph_t1": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "da_s1": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "da_t1": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "singlet_substitution_response": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "triplet_similarity": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "ph_tta_compatible": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "da_tta_compatible": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "small_gap_tadf": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "molecular_solution_interpretation": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ]
+  },
+  "current_scoring_policy": "paper_science_v3"
+}

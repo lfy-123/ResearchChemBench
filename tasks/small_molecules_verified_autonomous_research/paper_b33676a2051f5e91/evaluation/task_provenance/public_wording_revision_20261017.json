@@ -1,0 +1,78 @@
+{
+  "revision_date": "2026-10-17",
+  "purpose": "Keep source locators and editorial provenance private while public inputs present a self-contained scientific problem. Scientific values, uncertainty, structures, scoring and verification conclusions are unchanged.",
+  "removed_public_fields": [
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/0/source_locator",
+      "original_value": "Main Table 1, entry 1, physical page 2."
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/1/source_locator",
+      "original_value": "Main Table 1, entry 15."
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/2/source_locator",
+      "original_value": "Main Table 1, entry 16."
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/3/source_locator",
+      "original_value": "SI Table S8, entry 1, physical page 19"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/4/source_locator",
+      "original_value": "SI Table S8, entry 2, physical page 19"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/5/source_locator",
+      "original_value": "SI Table S8, entry 3, physical page 19"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/6/source_locator",
+      "original_value": "SI Table S8, entry 4, physical page 19"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/7/source_locator",
+      "original_value": "SI Scheme S6, physical page 20"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/8/source_locator",
+      "original_value": "SI Scheme S6, physical page 20"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/observations/9/source_locator",
+      "original_value": "SI Scheme S7, physical page 21"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/reaction_conditions.json",
+      "json_pointer": "/source_locator",
+      "original_value": "Main experimental Table 1 and SI general small-molecule procedure, physical page 4."
+    }
+  ],
+  "input_wording_before_after": [
+    {
+      "file": "paper_b33676a2051f5e91/agent_input/data/inputs/experimental_observations.json",
+      "before": "The reported yield is not a product branching ratio.",
+      "after": "The supplied experimental yield is not a product branching ratio."
+    },
+    {
+      "file": "paper_b33676a2051f5e91/agent_input/data/inputs/experimental_observations.json",
+      "before": "a numerical detection limit is not reported.",
+      "after": "a numerical detection limit is not supplied."
+    },
+    {
+      "file": "paper_b33676a2051f5e91/agent_input/data/inputs/experimental_observations.json",
+      "before": "The main-text narrative describes complete suppression for four control additives; the row-level SI Table S8 reports trace product for DPE and 9,10-dihydroanthracene. The supplied card follows those explicit rows.",
+      "after": "DPE and 9,10-dihydroanthracene give trace product in the supplied control observations. Distinguish trace product from a not-detected result."
+    }
+  ]
+}

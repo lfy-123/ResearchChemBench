@@ -1,0 +1,22 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "case_id": "case_06",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "existing_verification_reference_reused": true,
+  "new_quantum_validation_performed": false,
+  "new_agent_run_performed": false,
+  "scientific_acceptance_reassessed_this_migration": false,
+  "scoring_definition_reviewed": true,
+  "numerical_evidence_policy": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。",
+  "verification_support": "正文 Fig.9、SI S27–28/S10–11 与观察表；历史验证支持生产性构型差异及孤立 S/P 反转，连接带 source-assisted 限定。 SI Fig.S11提供关键生产性阶段之后到产物的参考路径；既有独立计算主要覆盖关键构型竞争与孤立反转，未独立复算新拆出的两条完整到产物路径。本次只修规则，不新增量化验证。",
+  "reference_issues": [
+    "催化比较为 MeCN/363.15 K；S 反转为 MeCN/353.15 K；P 为 n-octane/398.15 K。",
+    "原 P 反转数值偏差不再触发失败；但“都有正势垒”不能证明小时尺度稳定。",
+    "不得跨温度/溶剂直接比较反转速率，不要求完整 DKR、精确 ee 或完整催化循环。",
+    "保留人工要求的 P>S 条件限定活化比较，严禁将其表述为同条件内禀反转难度或速率结论；完整生产性路径不等于完整催化循环。"
+  ],
+  "human_review_resolution": "两构型路径各15；关键选择步骤10；S/P保持各10；条件限定P/S反转比较20；综合结论20。取消精确ee与“较大”势垒差门槛；修正跨条件解释范围。",
+  "note": "Reference definitions and scoring have been audited; this is not new quantum validation, a blind agent run, strict numeric reproduction or publication approval. Native logs and historical verification remain unchanged.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail."
+}

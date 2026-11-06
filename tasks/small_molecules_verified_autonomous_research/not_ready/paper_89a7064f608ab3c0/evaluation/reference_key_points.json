@@ -1,0 +1,126 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "items": [
+    {
+      "key_point_id": "redox_discrimination",
+      "rule_ids": [
+        "r_redox_discrimination"
+      ],
+      "scientific_max_score": 10,
+      "statement": "氧化还原活化判别",
+      "expected": "对完整中性2a及其+1/−1双重态的实际计算支持氧化活化而非底物还原；将底物电位与PC A/B在相容电极/溶剂标尺比较，支持B而非A具备所需氧化能力。不得只复述公开筛选或把MeCN电位称为DCM测量。本项判定能量排序，不要求精确命中背景电位。",
+      "evidence_ids": [
+        "bn_redox",
+        "bn_screen"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "triplet_discrimination",
+      "rule_ids": [
+        "r_triplet_discrimination"
+      ],
+      "scientific_max_score": 8,
+      "statement": "三重态能量转移不利",
+      "expected": "实际中性2a单/三重态计算支持其三重态需求高于所给PC A/B的59.8/61.8 kcal/mol，因而不支持这两个催化剂的三重态能量转移。须声明电子/热能定义；不对正文73.9与SI74.1的冲突值设置精确窗口，也不能混加热项追数。",
+      "evidence_ids": [
+        "bn_triplet",
+        "bn_screen",
+        "bn_main_triplet"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "first_connection",
+      "rule_ids": [
+        "r_first_connection"
+      ],
+      "scientific_max_score": 12,
+      "statement": "首步C5–C6重排连接",
+      "expected": "实际+1双重态路径经相关鞍点把BN-benzvalene的C5–C6连接重排成预富烯样Int1；要求真实反应模及相邻盆地/端点支持。该项只评价化学连接，不以首步复合自由能命中为条件；负的孤立节点差本身不构成连接或负速率势垒。",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "first_barrier",
+      "rule_ids": [
+        "r_first_barrier"
+      ],
+      "scientific_max_score": 8,
+      "statement": "首步局部G势垒",
+      "expected": "比较G(TS1)−G(与TS1相连的初始[2a]•+盆地)，目标+1.9 kcal/mol、绝对容差1.0 kcal/mol。保持同一构象/状态和自身匹配热项；不得取绝对值、用低层电子势垒替代复合G或采用任意更有利零点。",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "second_connection",
+      "rule_ids": [
+        "r_second_connection"
+      ],
+      "scientific_max_score": 8,
+      "statement": "第二步C3–C4断裂连接",
+      "expected": "实际Int1经C3–C4断裂相关鞍点通向具有C4产物连接的Int2，保持+1双重态和原子库存；以反应模及实际连接证据确立该化学变化。本项不要求局部势垒数值命中。",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "second_barrier",
+      "rule_ids": [
+        "r_second_barrier"
+      ],
+      "scientific_max_score": 12,
+      "statement": "第二步局部G势垒",
+      "expected": "比较G(TS2)−G(Int1)，目标4.6 kcal/mol、绝对容差1.5 kcal/mol；两者为同一+1双重态路径、匹配构象与自身热项。不能用TS2相对初始自由基的−3.4高度、全局峰值或中性产物能量替代。",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "c4_c5_order",
+      "rule_ids": [
+        "r_c4_c5_order"
+      ],
+      "scientific_max_score": 12,
+      "statement": "C4/C5竞争路径排序",
+      "expected": "实际C4/C5竞争路径在同一初始自由基盆地参照下表明C4所需鞍点低于C5竞争鞍点，支持C4优先；应有相连化学路径及芳基自由基稳定化或等价物理证据，不能比较不同零点的标量。此项只评分排序与局部物理解释，不从收率推导C4:C5比或精确速率。",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "endpoint_identity",
+      "rule_ids": [
+        "r_endpoint_identity"
+      ],
+      "scientific_max_score": 10,
+      "statement": "中性产物与自由基终点身份",
+      "expected": "实际计算支持重排Int2为C4连接的+1双重态，并对应所给中性3a的完整分子图；2a与3a保留相同65原子及C26H36BNSi库存。不能以只画出产物或复述输入代替计算端点。背景Int2−37.4不是额外数值门槛。",
+      "evidence_ids": [
+        "bn_path",
+        "bn_main_mechanism"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    }
+  ]
+}

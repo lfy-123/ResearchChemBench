@@ -1,0 +1,23 @@
+# Visibility and scoring audit
+
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "mode": "autonomous_research",
+  "public_files": [
+    "systems.json",
+    "observations.json"
+  ],
+  "metadata_review": "AR paper title/DOI/journal/date suppressed; all visible metadata neutralized. PR author metadata authorized.",
+  "old_input_disposition": {
+    "retain": "Neutral SMILES, formula and member labels; source qualitative observation and explicitly qualified experimental context.",
+    "replace": "study_scope with systems.json and observations.json, with no state/channel/observable recipe.",
+    "remove_from_AR": "SMe radical-cation XYZ, author mechanism, spin targets, dissociation targets, method and fixed control matrix. Source version preserved in evaluator-only historical archive.",
+    "metadata": "Neutral scientific title; AR paper fields empty.",
+    "sufficiency": "Neutral SMILES determine all five full molecules without using optimized answer structures; agent builds states it elects to study."
+  },
+  "author_route_public": false,
+  "result_policy": "common scientific criteria and schema; disclosed source protocol changes PR process evaluation",
+  "runtime_isolation_status": "pending_coordinator_runner_access_control",
+  "judge_calibration_status": "pending_not_run",
+  "source_and_V1_not_modified": true
+}

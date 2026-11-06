@@ -1,0 +1,48 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "澄清回收模型",
+  "changes_zh": "改问理想三轮回收与实验收率相容性；单轮比例须注明来源，端点平衡比例不能冒充两阶段质子解选择性。",
+  "source_locator": "正文第6页；SI S21、S71",
+  "scientific_scope_changed": false,
+  "active_rule_ids": [
+    "r_endpoint_gap",
+    "r_condition_interpretation",
+    "r_recycle_balance"
+  ],
+  "active_outcome_ids": [
+    "endpoint_gap",
+    "condition_interpretation",
+    "recycle_balance"
+  ],
+  "removed_outcome_ids": [],
+  "public_file_sha256": {
+    "data/inputs/observations.json": "f1341ceb4f29c7e358db1e357768140945cb630766205971a4fecafe2df06eab",
+    "data/inputs/source_facts.json": "433f746474fd9a39e31a575281f37818b78a70207f0b5cfa13326d68134f63f2",
+    "data/inputs/systems.json": "bb5faff418617e8c220d4a5cca1b923ab97f87038a2d52c11cf5e9a2002939bf",
+    "submission_guide.md": "36ddb84ec262bb6411e659ba8edbb99d6c22bb053b796f4f845b5ad535df00f6",
+    "submission_schema.json": "46b69533459f2e46b49dda73cdb6e8adf9ffc450e6153d8dd30571f76ecee83a",
+    "task.md": "fe4a91788e52faee4556fc4aaa64fe035598340156d5197ddbf0d2e7cc3349d3"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "source_checked_evidence_scope_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_endpoint_gap",
+      "r_condition_interpretation",
+      "r_recycle_balance"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The recycle_balance outcome may use the supplied experimental single-pass fraction with actually executed, recoverable mass-balance analysis. Endpoint molecular computations remain required for the separate endpoint and operation-interpretation outcomes.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

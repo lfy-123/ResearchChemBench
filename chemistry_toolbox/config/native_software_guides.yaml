@@ -372,7 +372,7 @@ software:
           - The installed NequIP 0.19 entry point uses Hydra with the job directory as its config search path; stage config.yaml and pass -cn config rather than a positional YAML path.
 
   orca:
-    purpose: Execute a complete ORCA 6.1 input deck.
+    purpose: Execute a complete ORCA 6.1 input deck or export an existing GBW to ASCII JSON.
     commands:
       orca:
         synopsis: "orca input.inp"
@@ -383,7 +383,22 @@ software:
         notes:
           - Method, basis, charge, multiplicity, calculation keywords, parallelism, memory, and convergence must be explicit in input.inp.
           - ORCA should be launched by its resolved absolute path; the execution layer does this without changing the input.
+          - Count negative modes in the final VIBRATIONAL FREQUENCIES block or matching .hess file; Total number of imaginary perturbations is not a vibrational imaginary-frequency count. A single negative mode still needs reaction-mode and connection evidence for a claimed pathway.
           - Use this asynchronous native-job contract when the Agent must author an ORCA input deck directly; it uses the same evaluator-controlled compute timeout as managed compute Actions and requires stable bulk supervision with wait_execution_jobs.
+      orca_2json:
+        synopsis: "orca_2json input.gbw -json"
+        configured_path: .software_cache/installations/orca/6.1.1/orca_2json
+        input_mode: arguments
+        required_files: [input.gbw, "optional input.json.conf or orca.json.conf", "matching input.densities when Densities are requested"]
+        output_behavior: Writes input.json and stdout.log in the job directory; collect_execution_job returns file paths and hashes. Export completion does not validate SCF, TD states or any scientific interpretation.
+        example_arguments: ["input.gbw", "-json"]
+        notes:
+          - Reviewed interface is existing GBW to ASCII JSON only, with optional -json. Property conversion, GBW import and binary JSON formats are not exposed by this contract.
+          - Stage the GBW and same-basename input.json.conf explicitly. A staged orca.json.conf is the directory-wide alternative; do not stage both configuration files. No configuration means native defaults, not requested densities or integrals.
+          - 'For MO coefficients, basis data and overlap use {"MOCoefficients": true, "Basisset": true, "1elIntegrals": ["S"], "JSONFormats": ["json"]}. ORCA may compute auxiliary integrals during export; no SCF or TD recalculation is requested.'
+          - 'JSON contains Molecule.Atoms, Charge, Multiplicity and CoordinateUnits; the example additionally requests per-atom Basis, MolecularOrbitals.MOs[].MOCoefficients and S-Matrix. Check actual keys/dimensions and molecular identity after collecting the output.'
+          - 'Densities requires the matching .densities file and explicitly selected names. GBW/MO export alone does not export full-RPA X/Y amplitudes; those require the original .cis and separate validated state mapping/analysis.'
+          - 'Use software_id=orca, executable=orca_2json, calculation_intent=other. The installed 6.1.1 executable is separately allowlisted; no arbitrary command or shell fallback is enabled.'
 
   gaussian:
     purpose: Execute Gaussian 16 input and convert checkpoint files with formchk.

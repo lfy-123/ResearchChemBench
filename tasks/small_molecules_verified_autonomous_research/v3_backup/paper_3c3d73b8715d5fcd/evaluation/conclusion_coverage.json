@@ -1,0 +1,185 @@
+{
+  "paper_id": "paper_3c3d73b8715d5fcd",
+  "revision": "independent_conclusions_adopted_20261103",
+  "scientific_scope": "Rh 催化 allenene 到 P1/P2 的催化机制、初始机理竞争、活化控制及两产物竞争。",
+  "source_location": "Main PDF pp2–3 Scheme 3/Figure 1; SI S34–35 Figures S2/S4 and S39–42 structures/Table S2",
+  "public_result_requirements": [
+    "Explain how the catalyst mediates formation of each supplied product from S, including the bond and hydrogen rearrangements relevant to each mechanism.",
+    "Compare relevant initial mechanisms and explain the role of coordination or ligand exchange.",
+    "Identify the kinetically demanding transformation with the appropriate reference, and explain how the two product-forming branches compete; exact numerical reproduction is not a scoring objective."
+  ],
+  "required_numerical_evidence": [
+    {
+      "id": "p1_local_hydrogen_mechanism_evidence",
+      "description": "局部转化的实际活化自由能、各步前体定义和对应成键/氢迁移证据；不能相加局部势垒冒充整体势垒。",
+      "public_requirement": "局部转化的实际活化自由能、各步前体定义和对应成键/氢迁移证据；不能相加局部势垒冒充整体势垒。"
+    },
+    {
+      "id": "p1_connected_formation_evidence",
+      "description": "关键中间体相对能量、对应局部活化量及配位/CO换参照关系。",
+      "public_requirement": "关键中间体相对能量、对应局部活化量及配位/CO换参照关系。"
+    },
+    {
+      "id": "p2_local_cis_closure_evidence",
+      "description": "局部闭环实际活化自由能及前体、成键和cis构型映射的原生证据。",
+      "public_requirement": "局部闭环实际活化自由能及前体、成键和cis构型映射的原生证据。"
+    },
+    {
+      "id": "p2_connected_formation_evidence",
+      "description": "相连中间体相对能量、局部活化量与CO/配位参照换算。",
+      "public_requirement": "相连中间体相对能量、局部活化量与CO/配位参照换算。"
+    },
+    {
+      "id": "p1_path",
+      "description": "通往 P1 的关键相连反应态/中间体相对能量与局部活化量，包含模型内的 CO/配体库存。",
+      "public_requirement": "Computed relative energies and local activation requirements along the connected P1 route, with CO/ligand inventory included consistently."
+    },
+    {
+      "id": "p2_path",
+      "description": "通往 P2 的关键相连反应态/中间体相对能量与局部活化量，包含模型内的 CO/配体库存。",
+      "public_requirement": "Computed relative energies and local activation requirements along the connected P2 route, with CO/ligand inventory included consistently."
+    },
+    {
+      "id": "activation_control",
+      "description": "从局部前体及稳定催化态出发的活化量、两分支可比总体活化需求及差值；交代换参照关系。",
+      "public_requirement": "Local and resting-state-referenced activation energies, comparable overall activation requirements for both product branches and their difference, with reference conversions stated."
+    },
+    {
+      "id": "initial_competition",
+      "description": "所选初始机制与实质竞争机制的可比活化量及差值，不要求穷尽论文所有方案。",
+      "public_requirement": "Comparable activation energies and differences for the proposed initial mechanism and substantive alternatives; an exhaustive reproduction of every published alternative is not required."
+    }
+  ],
+  "coverage": [
+    {
+      "scientific_question": "P1局部氢重分布机制",
+      "outcome_id": "p1_local_hydrogen_mechanism",
+      "required_numerical_evidence_ids": [
+        "p1_local_hydrogen_mechanism_evidence"
+      ],
+      "old_outcome_ids": [
+        "p1_mechanism"
+      ],
+      "points": 15,
+      "criterion": "以真实反应模式、IRC或等效两端连接证据说明相关金属中间体经β-H消除与氢递送等局部转化形成P1相容的键和氢分布。可靠替代机制可接受。必须明确局部前体、两步连接及Rh/CO库存，不要求该局部片段已经接通底物入口或游离产物释放；未接通时只能声称局部机制。不能只凭负频或产物图通过。",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "从底物到P1的连通形成解释",
+      "outcome_id": "p1_connected_formation",
+      "required_numerical_evidence_ids": [
+        "p1_connected_formation_evidence"
+      ],
+      "old_outcome_ids": [
+        "p1_mechanism"
+      ],
+      "points": 15,
+      "criterion": "实际相连证据把底物活化入口与P1局部出口接通，形成成键、氢、配位及CO库存自洽的产物形成解释。片段分别存在但未接通不通过。不强制完整再生/产物重入网络或作者固定节点。",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "P2局部cis闭环机制",
+      "outcome_id": "p2_local_cis_closure",
+      "required_numerical_evidence_ids": [
+        "p2_local_cis_closure_evidence"
+      ],
+      "old_outcome_ids": [
+        "p2_mechanism"
+      ],
+      "points": 15,
+      "criterion": "真实反应模式和IRC或等效连接证据支持相关金属中间体经闭环形成cis-P2相容的骨架与相对构型，明确催化剂参与。仅优化题给P2不能通过。可对结合态产物作有界结论，不以未完成入口、产物释放或P1路线为本项否决理由。",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p39_41",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "底物至P2的连通净[2+2]解释",
+      "outcome_id": "p2_connected_formation",
+      "required_numerical_evidence_ids": [
+        "p2_connected_formation_evidence"
+      ],
+      "old_outcome_ids": [
+        "p2_mechanism"
+      ],
+      "points": 15,
+      "criterion": "实际连接证据把烯烃/联烯入口与cis闭环接通，说明净[2+2]成键及催化剂作用。CO2入口不能无证据拼接CO1出口；需有配体交换和库存对应。",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p39_41",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "控制活化需求的转化及参照解释",
+      "outcome_id": "activation_control",
+      "required_numerical_evidence_ids": [
+        "p1_path",
+        "p2_path",
+        "activation_control"
+      ],
+      "old_outcome_ids": [
+        "activation_control"
+      ],
+      "points": 10,
+      "criterion": "结合实际反应能量与催化剂配位/CO 账本，识别控制所研究路线活化需求的化学转化，并说明局部前体与稳定催化态参照的区别。参考模型中初始 endo 氧化环金属化构成通往 P1 的主要需求；有证据的等效静息态/路线解释可以通过。仅罗列若干 TS 数值或把单个全局高度当局部势垒失败；不要求作者总体或局部势垒数值。",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "两产物分支均可竞争的解释",
+      "outcome_id": "product_branch_competition",
+      "required_numerical_evidence_ids": [
+        "p1_path",
+        "p2_path",
+        "activation_control"
+      ],
+      "old_outcome_ids": [
+        "product_branch_competition"
+      ],
+      "points": 20,
+      "criterion": "用实际、配平且可比的分支证据支持 P1/P2 两种形成路径均具有竞争可达性的结论，并解释协调环境如何关联该竞争。不是重复两张产物图或“观察到两个产物”；不能因某一局部势垒较低就未经参照处理断言另一支不可能。不规定势垒差窗口、产率或固定分支拓扑。",
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p41",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "初始转化的竞争性机理判断",
+      "outcome_id": "initial_mechanism_preference",
+      "required_numerical_evidence_ids": [
+        "initial_competition"
+      ],
+      "old_outcome_ids": [
+        "initial_mechanism_preference"
+      ],
+      "points": 10,
+      "criterion": "对相关初始转化作实际比较，解释优选机制及配位/配体交换假设。参考支持 endo 氧化环金属化优于 exo 或先 C–H 活化/直接亲核进攻的相关方案；不要求所有文献方案全算，只须比较能支撑主张的实质竞争者。证据充分的等效初始机理可接受。只提出一条能运行的路径而不比较，不能回答本项。",
+      "evidence_ids": [
+        "main_p2_3",
+        "supplementary_001_p34_35",
+        "supplementary_001_p41_42",
+        "existing_native_verification"
+      ]
+    }
+  ],
+  "excluded_scope": [
+    "P2 的 cis 身份已公开，不单独计预测分；不扩展到 CO 插入产物和定量产率。",
+    "局部势垒、静息态到控制转化的需求须分清，CO 结合/解离须配平。",
+    "不规定唯一状态序列、网络节点数或完整 IRC 算法。"
+  ],
+  "verification_support": "正文 Scheme 3/Fig.1、SI S34–35 与能量结构表；历史验证支持 17 个态、6 个 TS 及连接。部分连接使用模式位移/QRC，不全部为完整 IRC。"
+}

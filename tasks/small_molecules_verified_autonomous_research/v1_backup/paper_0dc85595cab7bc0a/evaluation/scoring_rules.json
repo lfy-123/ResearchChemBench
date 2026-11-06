@@ -1,0 +1,150 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Numerical targets and existing tolerances are not adjustable. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate.",
+  "rules": [
+    {
+      "rule_id": "r_first_stage",
+      "reference_id": "first_stage",
+      "type": "semantic",
+      "expected": "Chemically mapped, validated first-stage dihydrophenanthrene candidates recover the paper ordering IS1 below IS2. The source separation is 9.9 kcal/mol; no magnitude tolerance exists, so this item scores the supported ordering from a quantitative same-composition free-energy comparison, not an exact 9.9 match. Never compare absolute energies of different hydrogen inventories.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_first_site_electronic",
+      "reference_id": "first_site_electronic",
+      "type": "semantic",
+      "expected": "Independent computed orbital or equivalent site-resolved electronic/structural evidence supports the first closure site corresponding to C1 over C2 of 1-cis. The source shows greater LUMO density and the relevant relative phase pattern at C1. Absolute orbital phase/color is arbitrary; evidence must discriminate physical forming-bond sites, not merely restate energy ranking.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_second_stage",
+      "reference_id": "second_stage",
+      "type": "semantic",
+      "expected": "Starting from the chemically mapped oxidized first-stage intermediate IS3, compare valid sequential candidates and recover IS4 below IS5. The source 11.3 kcal/mol separation is context without a calibrated magnitude tolerance. Use equal-composition, common-definition free energies and establish sequential connectivity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_second_site_electronic",
+      "reference_id": "second_site_electronic",
+      "type": "semantic",
+      "expected": "Computed orbital or equivalent independent site-resolved evidence for the first-stage oxidized scaffold supports the second closure at source C3 rather than C4. The paper LUMO topology supports that assignment; numerical energy ordering alone does not earn this separate electronic-discrimination item.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_sequential_route",
+      "reference_id": "sequential_route",
+      "type": "semantic",
+      "expected": "The final selected route connects first closure, intervening aromatization/oxidation, second closure and final aromatization in the paper-supported sequence, and explicitly selects a generated product with dibenzo[a,o]picene connectivity. Require mapped, atom- and hydrogen-accounted sequential calculation evidence. Both the supported sequence and the correct final product selection are required for this combined item; merely listing the product while selecting another or remaining undecided is insufficient. This is a bounded endpoint/electronic selectivity explanation, not proof of excited-state kinetics; additional TS/IRC, iodine calculations and optical/device properties are not required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "first_stage",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "第一轮环化中间体的热力学选择",
+      "rule_ids": [
+        "r_first_stage"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ]
+    },
+    {
+      "id": "first_site_electronic",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "第一轮反应位点的独立电子证据",
+      "rule_ids": [
+        "r_first_site_electronic"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ]
+    },
+    {
+      "id": "second_stage",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "第二轮环化中间体的热力学选择",
+      "rule_ids": [
+        "r_second_stage"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ]
+    },
+    {
+      "id": "second_site_electronic",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "第二轮位点选择的独立电子证据",
+      "rule_ids": [
+        "r_second_site_electronic"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ]
+    },
+    {
+      "id": "sequential_route",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "最终：论文支持的连续路线与 dibenzo[a,o]picene 产物",
+      "rule_ids": [
+        "r_sequential_route"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9",
+        "main_p2_3"
+      ]
+    }
+  ]
+}

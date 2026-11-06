@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_86a0b654270a8ce7",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.430604+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_86a0b654270a8ce7/documents/main.pdf",
+      "sha256": "b19110f192c994ade2406a46c6cc62346d465b27568db22c2b86df46f3af5879",
+      "locator": "Main pp2-3 Scheme1 thermochemistry and contact discussion; SI pp6-7 geometry and pp11-18 Gibbs calculation details/coordinates.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p2 描述 NHC phenyl—salen naphthyl 非键合接触；SI p11 给 THF/SMD、339 K Gibbs 计算。原文 trans N/O 标签存在冲突，按供体图保留，不强行重写源拓扑。",
+      "actual_read_pages_and_sections": "Main pp2–3 structural, stability and contradictory trans-label paragraphs; SI p11 computational method and source coordinate identity."
+    },
+    {
+      "path": "papers/paper_86a0b654270a8ce7/documents/supplementary_001.pdf",
+      "sha256": "59edd5baf1ea3027779a0ba8fef20348da233372dfdccdaf0ea2fa1f3f5886fb",
+      "locator": "Main pp2-3 Scheme1 thermochemistry and contact discussion; SI pp6-7 geometry and pp11-18 Gibbs calculation details/coordinates.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p2 描述 NHC phenyl—salen naphthyl 非键合接触；SI p11 给 THF/SMD、339 K Gibbs 计算。原文 trans N/O 标签存在冲突，按供体图保留，不强行重写源拓扑。",
+      "actual_read_pages_and_sections": "Main pp2–3 structural, stability and contradictory trans-label paragraphs; SI p11 computational method and source coordinate identity."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "Correct donor-trans identities and a justified thermodynamic analysis at THF/339 K support relative stability with declared state/reference assumptions; no contact-removal matrix is required.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Actual uncertainties or model sensitivity prevent a stable ordering; the agent reports this and identifies the source sign/ratio ambiguity without forcing agreement.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "Positive G1-G2 is combined with exp(-(G1-G2)/RT)>1 without reversing the ratio, or isolated synthetic yields are treated as equilibrium populations.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A verified matched electronic-energy comparison is reported as electronic only; Gibbs stability and equilibrium population claims are withheld.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What relative stability and molecular explanation are supported for the two supplied Ir–salen–NHC coordination isomers in THF at339K? Determine whether a preference can be established at the achievable evidence resolution and identify the limits of the explanation.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Confirm full formulas and six-donor coordination identities, including explicitly supplied trans pairs. Match atom IDs through optimization; source textual N/O-trans descriptions conflict and cannot override the graph without evidence. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Use compatible molecular states and thermodynamic conventions for relative stability. Validate the structures/electronic states used, justify treatment of flexible modes and structural sampling where they affect the conclusion, and assess method/model uncertainty at the claimed resolution. Design checks relevant to your explanation rather than assume a contact proves causation. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "The result is a molecular thermodynamic/explanatory statement, not a synthetic yield prediction. Isolated yield ratios do not prove an equilibrium population or interconversion. A constrained contact change mixes energetic effects unless independently separated; finite stability does not prove emission efficiency or device performance. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

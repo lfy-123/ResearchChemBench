@@ -1,0 +1,61 @@
+{
+  "paper_id": "paper_8769f3cc6d18e26c",
+  "items": [
+    {
+      "conclusion_id": "structural_account",
+      "statement": "Computed solution structure and equivalence or inequivalence of para environments",
+      "expected": "Establish a physically valid, singly threaded rotaxane model through actual calculations and explain whether its macrocycle/axle organization gives equivalent or inequivalent para environments in the modeled solvent and states. The source hydrogen-bond-organized asymmetric pose, with one ring more parallel-displaced against the CF3 axle aryl ring and the other more tilted/offset, is a sufficient reference account; no particular contact checklist or asymmetric outcome is mandatory. A fully supported equivalent environment or alternative organization passes directly. Distinguish equivalence within one computed conformation from equivalence after averaging symmetry-related conformations; an ensemble claim requires justified state mapping and weights or applicable physical symmetry, and does not establish identical local geometries. A demonstrated symmetry operation on an actually computed pose may establish a related pose without a second independent quantum calculation, but does not establish solution populations or exchange rates. A bare symmetry assumption, crystal distance, unthreaded mixture or generic contact list without a valid computed solution model fails.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_structural_account"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "conclusion_id": "relative_susceptibility",
+      "statement": "Computed para-site response and its implication for electrophilic amination",
+      "expected": "Report actual numerical para-site electronic responses with consistent physical definitions and mapping, comparing the two sites within the same computed conformation or within an explicitly justified ensemble. Infer whether those results support different or equivalent susceptibility under that model. In the reference asymmetric pose, the axle-stacked ring para carbon is more electron rich: source NPA −0.277 versus −0.259 e is context without a hard window. A physically substantiated alternative response comparison, including established equivalence, passes directly; the reference charge sign is not mandatory for another valid descriptor or conformation. An ensemble average must use justified state mapping and weights or demonstrated applicable symmetry on computed states, and must be distinguished from each local site response. Mere symmetry assumptions or arbitrary averaging do not replace the numerical calculations. Explain the relevance to amination without equating a descriptor with a barrier, rate ratio or unique reactive site. Mirror relabeling alone is not a physical reversal; experimental product preference is not computed electronic evidence.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_relative_susceptibility"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "conclusion_id": "enantioselectivity_reach",
+      "statement": "Scope of substrate evidence for first-amination site susceptibility and net ee",
+      "expected": "Use the actual computed substrate structure, numerical para-site responses and demonstrated relevant symmetry relationships to assess local first-amination susceptibility and whether substrate-only evidence can determine a net enantiomeric excess. Either supported local inequivalence or established equivalence can answer this item. Distinguish a conditional local site preference from chiral-catalyst selection and reaction kinetics. An explicit symmetry operation on an actually computed pose may establish a related pose without a second quantum calculation, but not ensemble populations or exchange rates. A descriptor or equivalence result does not prove a unique catalytic mechanism. Generic limitations or assumed symmetry without the actual structural/site argument fail. No subsequent di-amination, kinetic resolution, time-course, catalyst TS or quantitative ee calculation is required.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_enantioselectivity_reach"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_structural_account",
+      "r_relative_susceptibility",
+      "r_enantioselectivity_reach"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only first-amination substrate structure, two para-site responses and their explanatory reach are scored. Subsequent di-amination and its time trend are outside scope.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

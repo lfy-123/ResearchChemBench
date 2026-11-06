@@ -1,0 +1,54 @@
+{
+  "paper_id": "paper_221aafe4bd916a11",
+  "items": [
+    {
+      "key_point_id": "hydride_connection",
+      "key_point_type": "result",
+      "statement": "P–H至CO2碳的局部氢负离子转移",
+      "expected": "计算支持2a的P–H键断裂及CO2碳–H键生成，局部连接通向甲酸根化学身份。正确的单重态单阳离子2a与中性单重态CO2总电荷为+1；有限局部路径可支持该转移，不要求证明所有备选机理不存在，也不能把有限IRC末端称为优化后的分离产物。",
+      "evidence_ids": [
+        "main_p3_4",
+        "si_p1_2_19_20_65_66"
+      ]
+    },
+    {
+      "key_point_id": "pp_product",
+      "key_point_type": "result",
+      "statement": "还原后的双膦二阳离子P–P稳定化",
+      "expected": "实际产物结构/电子证据支持去氢后的双膦框架形成稳定化P–P相互作用或键，物种为双膦二阳离子，与甲酸根共同维持总电荷+1。只含两个P原子或仅展示起始结构不能得分。此项评价产物中的P–P稳定化，不重复奖励氢转移连接。",
+      "evidence_ids": [
+        "main_p3_4",
+        "si_p1_2_19_20_65_66"
+      ]
+    },
+    {
+      "key_point_id": "activation",
+      "key_point_type": "result",
+      "statement": "直接转移Gibbs活化自由能",
+      "expected": "G(TS)−G(2a in–out)−G(CO2)目标21.8 kcal/mol，绝对容差3.0 kcal/mol，边界包含。使用乙腈、298.15 K任务条件，保留作者298 K的定义差异；源口径1 atm、分离反应物参照，单重态TS总电荷+1。透明标准态换算允许，不能用缔合复合物作零点或拟合偏移；TS必须对应P–H到CO2碳的真实转移。",
+      "evidence_ids": [
+        "main_p3_4",
+        "si_p1_2_19_20_65_66"
+      ]
+    },
+    {
+      "key_point_id": "capture_unfavorable",
+      "key_point_type": "result",
+      "statement": "限定共价CO2捕获吸能",
+      "expected": "在完整2a骨架且P–H保留的有效P–CO2共价捕获结构中，相对相同分离2a+CO2参照的缔合Gibbs自由能为正。非共价相遇、P–N断裂重排或非驻点不能替代该物种。只评价实际支持的有限捕获构象/模型，不要求排尽全构象；论文+15.0仅作上下文，不新增数值窗口。",
+      "evidence_ids": [
+        "si_p7"
+      ]
+    },
+    {
+      "key_point_id": "reduction_exergonic",
+      "key_point_type": "result",
+      "statement": "分离还原产物热力学有利",
+      "expected": "同一乙腈条件、温度和标准态下，独立有效双膦二阳离子与甲酸根的G之和低于分离2a+CO2，净还原反应Gibbs自由能为负。不能以P–O缔合端点替代分离产物；论文−3.0仅作上下文，不新增数值窗口。",
+      "evidence_ids": [
+        "main_p3_4",
+        "si_p1_2_19_20_65_66"
+      ]
+    }
+  ]
+}

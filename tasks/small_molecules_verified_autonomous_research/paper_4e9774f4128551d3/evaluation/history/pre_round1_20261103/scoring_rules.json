@@ -1,0 +1,117 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+  "rules": [
+    {
+      "rule_id": "r_endpoint_gap",
+      "reference_id": "endpoint_gap",
+      "type": "semantic",
+      "expected": "Establish the thermodynamic preference of the correctly mapped ketoester epimers from actual comparable Gibbs free energies at 298.15 K in the specified methanol-continuum endpoint model. The supported reference has trans more stable than cis; interpret what the calculated separation implies for equilibrium enrichment, while preserving the polycyclic skeleton and all remote stereocentres. This item evaluates an endpoint thermodynamic conclusion and its physical scope, not the sign of an unexplained subtraction or agreement with an author number. Raw electronic energies alone, different stereoisomers or an energy reference incompatible with the stated Gibbs comparison are insufficient. The endpoint result is not a protonation barrier, a single-pass product ratio or a calculation of the experimental mixed-solvent kinetics; the explanation of the two operations is scored separately.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_condition_interpretation",
+      "reference_id": "condition_interpretation",
+      "type": "semantic",
+      "expected": "Explain why reversible keto-enol conditions and soft enolization followed by separate-pot CSA protonolysis can produce different stereochemical outcomes. Use the actual endpoint calculations as context and a quantitative consistency argument that distinguishes thermodynamic equilibration from formation and trapping in the separate operations; a supported equivalent molecular explanation passes. Show why the endpoint equilibrium tendency does not uniquely determine the observed nearly equal single-pass products. Merely repeating that trans is more stable earns no credit for this distinct operational explanation. A kinetic consistency analysis is permitted without a prescribed transition-state search; it must not be misrepresented as validated CSA kinetics or an independent prediction of the supplied single-pass ratio.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_recycle_balance",
+      "reference_id": "recycle_balance",
+      "type": "semantic",
+      "expected": "Provide a reproducible quantitative three-cycle mass balance using an explicitly identified single-pass cis/trans product fraction and its provenance; track isolated cis, recycled trans and any stated loss/conversion assumptions to assess whether the reported 70% cumulative isolated cis yield is compatible with the model. The supplied trans:cis ratio about 1.1:1 may be used for mathematical consistency analysis, but must not be presented as independently predicted selectivity. A calculated ratio must describe the actual single-pass process: the endpoint Boltzmann equilibrium ratio is not automatically the protonolysis product ratio. For lossless identical cycles with complete cis separation and trans recycling, Y3=1-(1-p_cis)^3; other physically justified, mass-balanced models are acceptable. Merely repeating 70%, fitting hidden losses and claiming independent prediction, or equating single-pass and cumulative yields does not pass. No new protonation-TS study or exact isolated-yield prediction is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "endpoint_gap",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Endpoint thermodynamic preference of the mapped cis/trans epimers and its physical scope",
+      "rule_ids": [
+        "r_endpoint_gap"
+      ],
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_001_p71"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "condition_interpretation",
+      "kind": "conclusion",
+      "max_score": 40,
+      "description": "Why equilibrium and separate-pot stereochemical outcomes differ",
+      "rule_ids": [
+        "r_condition_interpretation"
+      ],
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p20_21_71"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "recycle_balance",
+      "kind": "conclusion",
+      "max_score": 40,
+      "description": "Three-cycle cis recovery and its relation to the observed isolated yield",
+      "rule_ids": [
+        "r_recycle_balance"
+      ],
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p21"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "package_version": "conclusion_only_20261029",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "semantic_review_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+  "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "required_for_whole_case_success_item_ids": [
+    "endpoint_gap",
+    "condition_interpretation",
+    "recycle_balance"
+  ]
+}

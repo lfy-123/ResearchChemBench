@@ -1,0 +1,179 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+  "rules": [
+    {
+      "rule_id": "r_series_3_5",
+      "reference_id": "series_3_5",
+      "type": "semantic",
+      "expected": "Establish from actual comparable calculations that electron uptake becomes less favorable from compound 3 to 4 to 5 in ACN and DMSO, consistent with increasingly negative measured Epc. The source route is the neutral LUMO becoming less negative; a physically equivalent, adequately validated electron-acceptance descriptor establishing the same bounded relationship passes directly. Report calculated descriptor values and their definitions. No exact LUMO or absolute redox-potential window is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_hydroxy_departure",
+      "reference_id": "hydroxy_departure",
+      "type": "semantic",
+      "expected": "Evaluate from actual, comparably defined calculations of all five compounds whether the chosen structure–reduction relationship for 3–5 also describes hydroxy members 1 and 2. Establish the claimed applicability or departure using the calculated descriptor values, their physical relation to measured Epc, and clearly identified molecular models, including 2. The source neutral-LUMO relationship fails to transfer unchanged: 1/3 have nearly equal orbital energies despite different Epc, and 2/3 do not follow the 3–5 relationship. This is a result for that descriptor, not a mandatory counterexample for every model. An independently computed, physically substantiated alternative that consistently explains all five passes directly; it need not manufacture a hydroxy departure or an additional causal mechanism. Merely fitting the supplied Epc values, relabeling them as a computed descriptor, or claiming universality without computational and physical support fails. Exact source E1/E2 scalar attribution is not required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_acn_dmso",
+      "reference_id": "acn_dmso",
+      "type": "semantic",
+      "expected": "Comparable calculations support a small ACN/DMSO effect across all five compounds, consistent with weak measured solvent dependence. The source neutral LUMO route is one sufficient explanation; an equivalent validated electronic-acceptance comparison passes directly. Report numerical descriptor changes without requiring unresolvable tiny signs. No universal <0.004 eV cutoff exists; Table4 gives 0.005 eV for 5.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_dcm_comparison",
+      "reference_id": "dcm_comparison",
+      "type": "semantic",
+      "expected": "For compound 3, establish a computed solvent effect consistent with more favorable electron uptake in ACN/DMSO than DCM and the positive Epc shift. Stabilization of the neutral LUMO in polar solvents is the source reference explanation; equivalent appropriately referenced electron-acceptance or differential-solvation results establishing this physical direction pass directly. Source LUMOs −2.508/−2.538/−2.540 eV are unscored context, not a magnitude gate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_bounded_relationship",
+      "reference_id": "bounded_relationship",
+      "type": "semantic",
+      "expected": "Give a molecular hypothesis for why peak potentials differ, identifying a specific structural or medium-dependent electronic effect supported by the submitted computations and stating which additional chemistry remains unresolved. Relate the hypothesis to actual descriptor results and measured Epc, without treating orbital eigenvalues as absolute electrochemical potentials or assigning unique hydroxyl causation from correlation alone. This rule scores the additional physical interpretation, not a second award for the four comparisons. An evidence-backed equivalent explanation passes; bare restatement, generic limitations or speculation without a computed anchor fails. Orbital localization and reduced-anion spin analyses remain optional. A source-supported example is the raised accepting orbital and less favorable reduction of compound 5, whose conjugated framework contains a 4-aminophenyl group and a 6-methoxynaphthalen-2-yl group. Donation and the extended conjugated framework provide a molecular hypothesis; the available comparison does not uniquely separate their contributions or establish the cause of the hydroxy-subseries departures.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "series_3_5",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Substituent-dependent reduction relationship for compounds 3–5",
+      "rule_ids": [
+        "r_series_3_5"
+      ],
+      "evidence_ids": [
+        "main_p7_14",
+        "supplementary_001_p1_2_3_4"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "hydroxy_departure",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Applicability of the computed reduction relationship to hydroxy compounds 1 and 2",
+      "rule_ids": [
+        "r_hydroxy_departure"
+      ],
+      "evidence_ids": [
+        "main_p7_10_14"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "acn_dmso",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Scale of the ACN/DMSO solvent effect across all five compounds",
+      "rule_ids": [
+        "r_acn_dmso"
+      ],
+      "evidence_ids": [
+        "main_p7_12"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "dcm_comparison",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Direction of the compound-3 DCM/polar-solvent comparison",
+      "rule_ids": [
+        "r_dcm_comparison"
+      ],
+      "evidence_ids": [
+        "main_p14"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bounded_relationship",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Molecular hypothesis for the peak-potential differences and its evidential limits",
+      "rule_ids": [
+        "r_bounded_relationship"
+      ],
+      "evidence_ids": [
+        "main_p12_13_14_15"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "package_version": "conclusion_only_20261029",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "semantic_review_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+  "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "required_for_whole_case_success_item_ids": [
+    "series_3_5",
+    "hydroxy_departure",
+    "acn_dmso",
+    "dcm_comparison",
+    "bounded_relationship"
+  ]
+}

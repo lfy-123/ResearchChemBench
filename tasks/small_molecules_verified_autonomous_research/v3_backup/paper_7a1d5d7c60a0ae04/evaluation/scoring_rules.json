@@ -1,0 +1,158 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "scoring_policy": "paper_science_v3",
+  "scoring_mode": "final_results_100",
+  "total_points": 100,
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes. Round-one scope: The required selectivity pathways start from the supplied cyclic oxocarbenium and borohydride species. Diketone-to-cation formation, H2 activation and regeneration are not required.",
+  "semantic_review_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+  "rules": [
+    {
+      "rule_id": "r_catalyst_function",
+      "reference_id": "catalyst_function",
+      "type": "semantic",
+      "expected": "Explain the catalyst-function comparison with actual molecular evidence for all three specified boranes: the source fluoride- and hydride-uptake enthalpies both rank A > B > C, but this acidity ordering alone cannot establish cis selectivity or endpoint yield. Report comparable computed quantities, their definitions and the connection and limits relative to the supplied K4 performance screen. Independent FIA and HIA are valid evidence, not a mandatory workflow; another quantitatively supported physical account of the same catalyst function may pass. Do not conflate anion affinity, H2 activation barriers and turnover. K4 NMR endpoints at 50 C in diisopropyl ether remain separate from D4 isolated yields/selectivity at 80 C in CPME. No furan-pathway or numerical yield prediction is required.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_d4_kinetic_control",
+      "reference_id": "d4_kinetic_control",
+      "type": "semantic",
+      "expected": "Explain D4 cis enrichment under both A and B from actual competing formation calculations, contrasting it with independently computed nearly degenerate cis/trans product stability. The source products weakly favor trans while both formation comparisons favor cis; the supported scientific conclusion is that product equilibrium alone does not explain the formation enrichment, not that a tiny product energy sign must survive every justified method. A physically supported near-degenerate endpoint result with the same formation-control conclusion passes. Use consistent free-energy definitions and retain the two catalyst comparisons. An equivalent supported formation account passes without a mandated oxocarbenium/hydride-transfer sequence. Observed ratios alone, endpoint calculations without formation competition, or a substantial contrary product-stability claim without resolving its physical implications are insufficient; no exact ratio reproduction is required.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_catalyst_selectivity_contrast",
+      "reference_id": "catalyst_selectivity_contrast",
+      "type": "semantic",
+      "expected": "Determine how replacing A by B affects D4 cis/trans formation discrimination using actual matched competing-formation calculations and a physically justified assessment of the strength and robustness of the difference. Compare within-catalyst free-energy gaps, not different-composition total energies. The reference nominally favors stronger cis discrimination for B, but existing evidence permits near-degeneracy and model sensitivity; a nominal B advantage with appropriately limited confidence passes, as does a calculation-supported finding that the catalyst ordering is not robust under informative conformational or thermochemical sensitivity analysis. The latter is a final finding about what the comparison can establish, not missing work or generic uncertainty. Preserve and interpret the actual results rather than choosing a convention to match the source. An unexplained reversal, supplied experimental ratios alone, or claiming a robust large enhancement or acidity as its unique cause without supporting evidence fails. This item concerns the catalyst substitution effect, not a second award for cis formation under each catalyst.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_ring_size_relationship",
+      "reference_id": "ring_size_relationship",
+      "type": "semantic",
+      "expected": "With catalyst A fixed, determine and explain how D4 versus D5 changes the relation between formation selectivity and product stability. Actual paired formation and product calculations must support stronger cis formation preference for D5, with cis also thermodynamically favored for D5, whereas D4 has near-degenerate products and mainly formation-driven cis enrichment. Report the numerical formation and product free-energy differences and a supported structural/energetic explanation; source chair/boat geometry is context, not a required descriptor. Retain the declared low-frequency treatment consistently: a softer product mode can strongly affect magnitude, and changing RRHO/QRRHO or a cutoff merely to approach a source value is invalid. The source 4.1/2.6 kcal/mol values are not hard targets, and observed >20:1 is a lower bound, not an exact modeled ratio.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "catalyst_function",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Catalyst acidity and reaction performance have distinct molecular origins",
+      "rule_ids": [
+        "r_catalyst_function"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "d4_kinetic_control",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "D4 cis preference is a formation effect rather than a product-stability preference",
+      "rule_ids": [
+        "r_d4_kinetic_control"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "catalyst_selectivity_contrast",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "The A/B change affects D4 stereochemical discrimination with model-dependent strength",
+      "rule_ids": [
+        "r_catalyst_selectivity_contrast"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "ring_size_relationship",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Increasing ring size aligns cis formation preference with cis product stability",
+      "rule_ids": [
+        "r_ring_size_relationship"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "package_version": "expert_round1_20261103",
+  "scoring_revision": "expert_round1_20261103",
+  "required_for_whole_case_success_item_ids": [
+    "catalyst_function",
+    "d4_kinetic_control",
+    "catalyst_selectivity_contrast",
+    "ring_size_relationship"
+  ]
+}

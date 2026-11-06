@@ -1,0 +1,456 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "current_scoring_authority": "Only scoring_rules.json awards points. Supporting items and historical records carry no numerical or independent points gates.",
+  "items": [
+    {
+      "key_point_id": "support_single_arm_optical_response",
+      "key_point_type": "scientific_evidence",
+      "statement": "Conformational optical response of the single arm",
+      "expected": "Explain the change in the principal low-energy absorption when the complete neutral-singlet C26H27NO3 single-arm model changes from transoid to cisoid geometry. Use actual gas-phase vertical S0-to-S1 transition energies, oscillator strengths and corresponding physical-state evidence for both candidates. The reference cisoid response is red-shifted and weaker, consistent with changed conjugated-arm geometry; neither the source energy shift nor either energy/strength is a target. Establish which transition is being compared, its molecular origin and whether the geometry is conditional or freely stable. A supported model-sensitive alternative can pass if actual comparable states, geometry and response evidence explain the revised optical conclusion. Source sample labels, two copied scalars, or a frozen torsion presented as a populated free minimum fail. This item concerns the one-arm response, not the full dye or the identity of the 700 nm band.",
+      "evidence_ids": [
+        "si"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_three_arm_optical_response",
+      "key_point_type": "scientific_evidence",
+      "statement": "Conformational redistribution of the full-dye absorption",
+      "expected": "Determine how transoid/cisoid arm arrangement changes the low-energy absorption pattern of the full neutral-singlet C66H69N3O3 chromophore. Report the actual S1-S4 energies and oscillator strengths at both declared S0 gas-phase geometries and interpret their physical-state correspondence and redistribution of intensity. Reference spectra retain two bright low states and much weaker higher states, with a modest cisoid redshift and a redistribution between the two bright transitions. Score the supported spectral conclusion rather than an exact eight-state matrix: no source energies, strengths, dark-root order or fixed configuration percentage is required to match. A changed state ordering or mixing is acceptable when actual response evidence establishes which states exchange character and explains the resulting spectrum. Distinguish a constrained cisoid candidate from an unconstrained minimum; this spectral calculation does not itself establish solution populations or a photoproduct.",
+      "evidence_ids": [
+        "si"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_full_dye_transfer",
+      "key_point_type": "scientific_evidence",
+      "statement": "Final reduced-model transfer assessment",
+      "expected": "Explain which single-arm findings transfer to the full three-arm chromophore and which do not, using actual comparative spectral and transition-density/orbital evidence. The conformational redshift tendency transfers, while the full dye has two low bright states with coupled/mixed arm response instead of a single isolated-arm excitation; higher states are much weaker. Exact canonical orbital indices or printed configuration percentages are not required. This is a physical account of model reduction, not another point for the same redshift sign or a generic limitations paragraph.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_molecular_band_account",
+      "key_point_type": "scientific_evidence",
+      "statement": "Final molecular photoisomerization account",
+      "expected": "Use actual conformer-resolved absorption calculations and state correspondence to explain a cisoid redshift as a possible molecular contribution to the extra long-wavelength feature. Compare the calculated transition energies to the approximately 700 nm observation: this finite gas-phase conformer model does not quantitatively reproduce that band or uniquely establish its photoproduct. Explain the physical limits of this inference and distinguish a conditional twisted geometry from a thermally populated free minimum. A raw redshift list or repetition of the observed band does not pass; genuine alternative physically equivalent analyses can pass.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "statement": "single_trans S1 vertical energy",
+      "expected": "single_trans S1 vertical singlet absorption energy at the source-defined S0 conformer: paper target 3.26 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_single_trans_S1_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "single_trans S1 vertical oscillator_strength",
+      "expected": "single_trans S1 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 0.9029 dimensionless, inclusive tolerance 0.005. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_single_trans_S1_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "single_cis S1 vertical energy",
+      "expected": "single_cis S1 vertical singlet absorption energy at the source-defined S0 conformer: paper target 3.18 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_single_cis_S1_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "single_cis S1 vertical oscillator_strength",
+      "expected": "single_cis S1 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 0.5587 dimensionless, inclusive tolerance 0.005. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_single_cis_S1_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S1 vertical energy",
+      "expected": "three_trans S1 vertical singlet absorption energy at the source-defined S0 conformer: paper target 2.87 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S1_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S1 vertical oscillator_strength",
+      "expected": "three_trans S1 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 1.484 dimensionless, inclusive tolerance 0.005. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S1_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S2 vertical energy",
+      "expected": "three_trans S2 vertical singlet absorption energy at the source-defined S0 conformer: paper target 2.89 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S2_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S2 vertical oscillator_strength",
+      "expected": "three_trans S2 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 1.4989 dimensionless, inclusive tolerance 0.005. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S2_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S3 vertical energy",
+      "expected": "three_trans S3 vertical singlet absorption energy at the source-defined S0 conformer: paper target 3.35 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S3_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S3 vertical oscillator_strength",
+      "expected": "three_trans S3 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 0.0005 dimensionless, inclusive tolerance 0.001. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S3_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S4 vertical energy",
+      "expected": "three_trans S4 vertical singlet absorption energy at the source-defined S0 conformer: paper target 3.58 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S4_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S4 vertical oscillator_strength",
+      "expected": "three_trans S4 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 0.0008 dimensionless, inclusive tolerance 0.001. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S4_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S1 vertical energy",
+      "expected": "three_cis S1 vertical singlet absorption energy at the source-defined S0 conformer: paper target 2.84 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S1_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S1 vertical oscillator_strength",
+      "expected": "three_cis S1 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 0.9141 dimensionless, inclusive tolerance 0.005. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S1_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S2 vertical energy",
+      "expected": "three_cis S2 vertical singlet absorption energy at the source-defined S0 conformer: paper target 2.88 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S2_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S2 vertical oscillator_strength",
+      "expected": "three_cis S2 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 1.8059 dimensionless, inclusive tolerance 0.005. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S2_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S3 vertical energy",
+      "expected": "three_cis S3 vertical singlet absorption energy at the source-defined S0 conformer: paper target 3.34 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S3_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S3 vertical oscillator_strength",
+      "expected": "three_cis S3 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 0.001 dimensionless, inclusive tolerance 0.001. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S3_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S4 vertical energy",
+      "expected": "three_cis S4 vertical singlet absorption energy at the source-defined S0 conformer: paper target 3.56 eV, inclusive tolerance 0.01. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S4_energy",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S4 vertical oscillator_strength",
+      "expected": "three_cis S4 vertical singlet absorption oscillator_strength at the source-defined S0 conformer: paper target 0.0593 dimensionless, inclusive tolerance 0.005. Neutral singlet molecule, gas-phase CAM-B3LYP/6-31G(d,p) reference or a physically comparable justified realization; source-like full cisoid must not be mislabeled a free minimum. Genuine state-resolved response required.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S4_oscillator_strength",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "single_trans S1 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies single_trans S1 as predominantly HOMO to LUMO. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_single_trans_S1_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "single_cis S1 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies single_cis S1 as predominantly HOMO to LUMO. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_single_cis_S1_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S1 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies three_trans S1 as predominantly HOMO to LUMO. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S1_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S2 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies three_trans S2 as predominantly HOMO-1 to LUMO. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S2_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S3 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies three_trans S3 as predominantly HOMO-3 to LUMO, dark relative to S1/S2. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S3_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_trans S4 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies three_trans S4 as predominantly HOMO-2 to LUMO, dark relative to S1/S2. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_trans_S4_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S1 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies three_cis S1 as mixed HOMO/HOMO-1 to LUMO. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S1_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S2 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies three_cis S2 as mixed HOMO/HOMO-1 to LUMO. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S2_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S3 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies three_cis S3 as predominantly HOMO-3 to LUMO, weak relative to S1/S2. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S3_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three_cis S4 electronic character",
+      "expected": "Actual orbital/transition-density evidence identifies three_cis S4 as predominantly HOMO-2 to LUMO, weak relative to S1/S2. Exact printed configuration percentages are not certified; different response normalization cannot be presented as exact source population.",
+      "evidence_ids": [
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_cis_S4_character",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "single S1 cisoid redshift",
+      "expected": "Matched single-arm transoid/cisoid S1 computations establish E(cisoid)<E(transoid), retaining state correspondence. Overlapping absolute windows, unresolved difference or reversed ordering do not pass.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_single_S1_redshift",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three S1 cisoid redshift",
+      "expected": "Matched three-arm transoid/cisoid S1 computations establish E(cisoid)<E(transoid), retaining state correspondence. Overlapping absolute windows, unresolved difference or reversed ordering do not pass.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_S1_redshift",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three S2 cisoid redshift",
+      "expected": "Matched three-arm transoid/cisoid S2 computations establish E(cisoid)<E(transoid), retaining state correspondence. Overlapping absolute windows, unresolved difference or reversed ordering do not pass.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_S2_redshift",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three S3 cisoid redshift",
+      "expected": "Matched three-arm transoid/cisoid S3 computations establish E(cisoid)<E(transoid), retaining state correspondence. Overlapping absolute windows, unresolved difference or reversed ordering do not pass.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_S3_redshift",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "three S4 cisoid redshift",
+      "expected": "Matched three-arm transoid/cisoid S4 computations establish E(cisoid)<E(transoid), retaining state correspondence. Overlapping absolute windows, unresolved difference or reversed ordering do not pass.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_three_S4_redshift",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "Source-like cisoid conditional structure",
+      "expected": "Actual geometry/stationarity or constrained-curvature evidence distinguishes the source-like three-arm cisoid conformer from a freely relaxed alternative. Identify the twisted arm and full-dye connectivity. A constrained stationary point cannot establish free equilibrium cis population.",
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "claim_role": "supporting",
+      "key_point_id": "support_conditional_cisoid_structure",
+      "key_point_type": "result",
+      "scored": false
+    }
+  ]
+}

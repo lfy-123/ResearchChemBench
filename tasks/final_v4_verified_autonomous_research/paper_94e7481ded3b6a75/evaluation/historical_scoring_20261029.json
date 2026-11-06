@@ -1,0 +1,443 @@
+{
+  "paper_id": "paper_94e7481ded3b6a75",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_94e7481ded3b6a75",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "scientific_requirements": "Score only the independently specified final scientific conclusions, totaling 100 points. Each result is pass (full assigned weight), fail (zero), or need_review only where its rubric explicitly permits a concrete unresolved scientific conflict; need_review earns no points and does not establish success. Missing calculations, unsupported guesses, wrong identity/state/environment/reference/units, and values outside a hard numeric window fail. Proven physically equivalent explanations pass directly; a different method is not itself a reason for review. Require actual submitted calculations or executed quantitative analyses and traceable native artifacts appropriate to each claim; copied supplied observations or disclosed targets are not new evidence. Geometry, stationarity, state assignment and model validity qualify their dependent conclusions and earn no separate points. No credit or score gate for workflow, logs, software, calculation counts, chronology or report completeness. Numeric tolerances are fixed and inclusive; contextual numbers without numeric rules are not hidden thresholds. Score each independent result without propagating unrelated failures. Historical verification does not certify this revised V3 rubric or a new blind run.",
+      "rules": [
+        {
+          "rule_id": "r_absorption_account",
+          "reference_id": "absorption_account",
+          "type": "semantic",
+          "expected": "Explain the supplied near-UV PBNA absorption by actual computed solution transitions and their physical state character within the declared molecular model. Establish a predominantly scaffold-local aromatic excitation account with limited core/B-phenyl charge transfer, or a scientifically established equivalent description; quantify relevant transition energies/wavelengths and intensities with matched geometry and DCM conventions. Frontier localization is supporting evidence, not a required pair of separately scored nodes. Distinguish the 321/375/392 nm experimental bands, the 404 nm onset, orbital gaps and vertical electronic roots; do not assign one root to every fine-structured feature. A copied observed spectrum, a HOMO-LUMO gap alone or an unsupported state assignment fails. This item assesses the optical account within the explicitly identified model; applicability to the full experimental identity is assessed separately.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$.models",
+              "$.operations",
+              "$.results",
+              "$.claims",
+              "$.conclusion",
+              "$.validations",
+              "$.artifacts"
+            ],
+            "comparison": "Resolve the actual physical identity, state, conditions, observable, units and reference in linked native evidence; assess only this final proposition. Explain the supplied near-UV PBNA absorption by actual computed solution transitions and their physical state character within the declared molecular model. Establish a predominantly scaffold-local aromatic excitation account with limited core/B-phenyl charge transfer, or a scientifically established equivalent description; quantify relevant transition energies/wavelengths and intensities with matched geometry and DCM conventions. Frontier localization is supporting evidence, not a required pair of separately scored nodes. Distinguish the 321/375/392 nm experimental bands, the 404 nm onset, orbital gaps and vertical electronic roots; do not assign one root to every fine-structured feature. A copied observed spectrum, a HOMO-LUMO gap alone or an unsupported state assignment fails. This item assesses the optical account within the explicitly identified model; applicability to the full experimental identity is assessed separately."
+          }
+        },
+        {
+          "rule_id": "r_emission_account",
+          "reference_id": "emission_account",
+          "type": "semantic",
+          "expected": "Explain the supplied PBNA fluorescence and its photon-energy relation to absorption using actual relaxed excited-state/emission or equivalent vibronic evidence in a declared model. Quantify the relevant transition and show what state, structural relaxation and solvent response support the account. Keep vertical emission, equilibrium endpoint E00 and measured peak maxima distinct. A valid equivalent explanation passes without a required author geometry or fixed motion/control grid. No unreported exact computed emission target is imposed. A ground-state gap, a raw oscillator strength or the copied 409/427 nm observation alone does not establish this result or a photophysical rate. This item assesses the model-scoped emission account; transfer to experimental PBNA is separate.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$.models",
+              "$.operations",
+              "$.results",
+              "$.claims",
+              "$.conclusion",
+              "$.validations",
+              "$.artifacts"
+            ],
+            "comparison": "Resolve the actual physical identity, state, conditions, observable, units and reference in linked native evidence; assess only this final proposition. Explain the supplied PBNA fluorescence and its photon-energy relation to absorption using actual relaxed excited-state/emission or equivalent vibronic evidence in a declared model. Quantify the relevant transition and show what state, structural relaxation and solvent response support the account. Keep vertical emission, equilibrium endpoint E00 and measured peak maxima distinct. A valid equivalent explanation passes without a required author geometry or fixed motion/control grid. No unreported exact computed emission target is imposed. A ground-state gap, a raw oscillator strength or the copied 409/427 nm observation alone does not establish this result or a photophysical rate. This item assesses the model-scoped emission account; transfer to experimental PBNA is separate."
+          }
+        },
+        {
+          "rule_id": "r_absorption_applicability",
+          "reference_id": "absorption_applicability",
+          "type": "semantic",
+          "expected": "Establish the applicability of the absorption account to full neutral-singlet N-hexyl PBNA, C34H42B2N2 (80 atoms), in dilute DCM. Direct full-molecule transition/state evidence can show that the retained conjugated framework rather than the N-alkyl tails carries the relevant absorption, without a separate N-methyl control. An approximate model requires explicit atom/substituent mapping and quantitative property-specific evidence for this transfer. Quantify the effect or limit of changed groups, not just their atom count. Source adoption of truncation, a reasonable model spectrum by itself or a generic limitations paragraph cannot establish this experimental-identity claim.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$.models",
+              "$.operations",
+              "$.results",
+              "$.claims",
+              "$.conclusion",
+              "$.validations",
+              "$.artifacts"
+            ],
+            "comparison": "Resolve the actual physical identity, state, conditions, observable, units and reference in linked native evidence; assess only this final proposition. Establish the applicability of the absorption account to full neutral-singlet N-hexyl PBNA, C34H42B2N2 (80 atoms), in dilute DCM. Direct full-molecule transition/state evidence can show that the retained conjugated framework rather than the N-alkyl tails carries the relevant absorption, without a separate N-methyl control. An approximate model requires explicit atom/substituent mapping and quantitative property-specific evidence for this transfer. Quantify the effect or limit of changed groups, not just their atom count. Source adoption of truncation, a reasonable model spectrum by itself or a generic limitations paragraph cannot establish this experimental-identity claim."
+          }
+        },
+        {
+          "rule_id": "r_emission_applicability",
+          "reference_id": "emission_applicability",
+          "type": "semantic",
+          "expected": "Establish the applicability of the relaxed-emission account to full N-hexyl PBNA under the stated solution conditions. Resolve the emitting-state character and relaxation/solvent response of the retained chromophore, including any contribution of the actual or changed N substituents. Direct full-molecule evidence is eligible without a prescribed truncated control; an approximation needs relaxation-sensitive transfer evidence. Agreement only for vertical absorption is insufficient. State which observed optical features can be interpreted and which remain unassigned from this evidence; do not extend the result to AIE, crystal packing, two-photon cross sections or rates. A generic caveat or source model label alone fails.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$.models",
+              "$.operations",
+              "$.results",
+              "$.claims",
+              "$.conclusion",
+              "$.validations",
+              "$.artifacts"
+            ],
+            "comparison": "Resolve the actual physical identity, state, conditions, observable, units and reference in linked native evidence; assess only this final proposition. Establish the applicability of the relaxed-emission account to full N-hexyl PBNA under the stated solution conditions. Resolve the emitting-state character and relaxation/solvent response of the retained chromophore, including any contribution of the actual or changed N substituents. Direct full-molecule evidence is eligible without a prescribed truncated control; an approximation needs relaxation-sensitive transfer evidence. Agreement only for vertical absorption is insufficient. State which observed optical features can be interpreted and which remain unassigned from this evidence; do not extend the result to AIE, crystal packing, two-photon cross sections or rates. A generic caveat or source model label alone fails."
+          }
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "absorption_account",
+          "kind": "conclusion",
+          "max_score": 35,
+          "description": "Molecular explanation of solution absorption",
+          "rule_ids": [
+            "r_absorption_account"
+          ],
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "native_frontier_mapping",
+            "verified_full80_absorption"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Valid transitions and state-character evidence support competing spectral/state assignments for the same model and solvent, with a material unresolved conflict."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "emission_account",
+          "kind": "conclusion",
+          "max_score": 35,
+          "description": "Molecular explanation of fluorescence and relaxation",
+          "rule_ids": [
+            "r_emission_account"
+          ],
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "native_frontier_mapping",
+            "verified_full80_relaxation",
+            "native_optical_transfer",
+            "native_full80_equilibrium_gap"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Physically valid relaxed-state or vibronic calculations support incompatible emitting-state or relaxation explanations for the same solution conditions and the conflict is unresolved."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "absorption_applicability",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "Applicability of the absorption account to experimental PBNA",
+          "rule_ids": [
+            "r_absorption_applicability"
+          ],
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "native_frontier_mapping",
+            "verified_full80_absorption"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Actual full/approximate-model evidence conflicts over a substituent contribution material to the absorption inference after state and solvent matching."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "emission_applicability",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "Applicability of the relaxed-emission account to experimental PBNA",
+          "rule_ids": [
+            "r_emission_applicability"
+          ],
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "native_frontier_mapping",
+            "verified_full80_emitting_character",
+            "native_optical_transfer",
+            "native_full80_equilibrium_gap"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Actual relaxation-sensitive model/state evidence conflicts over the transfer of the emitting-state account to N-hexyl PBNA, after matching the physical emission definition."
+          ],
+          "required_for_success": true
+        }
+      ]
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_94e7481ded3b6a75",
+      "items": [
+        {
+          "statement": "PBNA HOMO resides mainly on the BN-anthracene core",
+          "expected": "Actual orbital or equivalent wavefunction evidence establishes that the PBNA HOMO is predominantly delocalized over the BN-anthracene scaffold, with only minor B-phenyl contribution. Atom count alone or an energy value does not establish localization. Physical definition: Experimental PBNA is the full neutral singlet N-hexyl C34H42B2N2 molecule (80 atoms), with dilute 10^-5 M DCM observations at room temperature. Direct full-molecule electronic-state and relaxation evidence is eligible without a separate N-methyl control. Any chosen approximation must explicitly map retained core and changed substituents and justify the specific transferred optical property. The private 50-atom source-model gas orbital energies do not constrain AR full-molecule results. State/geometry/solvent definitions must match the claimed observable.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20"
+          ],
+          "key_point_id": "homo_scaffold",
+          "key_point_type": "result",
+          "scored": false,
+          "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+        },
+        {
+          "statement": "PBNA LUMO resides mainly on the BN-anthracene core",
+          "expected": "Actual orbital or equivalent wavefunction evidence establishes that the PBNA LUMO is predominantly delocalized over the BN-anthracene scaffold, with only minor B-phenyl contribution. Physical definition: Experimental PBNA is the full neutral singlet N-hexyl C34H42B2N2 molecule (80 atoms), with dilute 10^-5 M DCM observations at room temperature. Direct full-molecule electronic-state and relaxation evidence is eligible without a separate N-methyl control. Any chosen approximation must explicitly map retained core and changed substituents and justify the specific transferred optical property. The private 50-atom source-model gas orbital energies do not constrain AR full-molecule results. State/geometry/solvent definitions must match the claimed observable.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20"
+          ],
+          "key_point_id": "lumo_scaffold",
+          "key_point_type": "result",
+          "scored": false,
+          "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+        },
+        {
+          "statement": "Solution absorption is mainly scaffold-local excitation",
+          "expected": "Computed DCM vertical excited states and state-character evidence support predominantly local aromatic/scaffold excitation for PBNA, with limited BN-core/B-phenyl charge-transfer character, and place actual bright features in the near-UV. Distinguish electronic roots from the321/375/392nm fine-structured bands and404nm onset; one root cannot be relabeled as all measured features. Physical definition: Experimental PBNA is the full neutral singlet N-hexyl C34H42B2N2 molecule (80 atoms), with dilute 10^-5 M DCM observations at room temperature. Direct full-molecule electronic-state and relaxation evidence is eligible without a separate N-methyl control. Any chosen approximation must explicitly map retained core and changed substituents and justify the specific transferred optical property. The private 50-atom source-model gas orbital energies do not constrain AR full-molecule results. State/geometry/solvent definitions must match the claimed observable.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "verified_full80_absorption"
+          ],
+          "key_point_id": "solution_absorption_character",
+          "key_point_type": "result",
+          "scored": false,
+          "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+        },
+        {
+          "statement": "Relaxed excited-state evidence supports blue emission",
+          "expected": "A physically valid relaxed-state/emission or equivalent vibronic analysis supports blue PBNA fluorescence and explains the lower emission photon energy relative to absorption through actual state/geometry/solvent response. Keep vertical emission, endpoint E00 and spectral peak maxima distinct; S0 HOMO-LUMO separation alone fails. Do not require any unreported exact calculated emission target. Physical definition: Experimental PBNA is the full neutral singlet N-hexyl C34H42B2N2 molecule (80 atoms), with dilute 10^-5 M DCM observations at room temperature. Direct full-molecule electronic-state and relaxation evidence is eligible without a separate N-methyl control. Any chosen approximation must explicitly map retained core and changed substituents and justify the specific transferred optical property. The private 50-atom source-model gas orbital energies do not constrain AR full-molecule results. State/geometry/solvent definitions must match the claimed observable.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "verified_full80_relaxation",
+            "verified_full80_emitting_character"
+          ],
+          "key_point_id": "relaxed_emission",
+          "key_point_type": "result",
+          "scored": false,
+          "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+        },
+        {
+          "statement": "Experimental PBNA absorption is carried by the retained chromophore",
+          "expected": "Establish that the relevant absorption of experimental N-hexyl PBNA is predominantly carried by the retained conjugated BN-anthracene/B-phenyl framework rather than the alkyl tails. For a direct full-80-atom calculation, actual transition-density/NTO/orbital fragment evidence on that molecule suffices; no hidden N-methyl reference or separate full-versus-truncated calculation is required. If an approximation is used, explicit retained-core/tail mapping and quantitative property-specific transfer evidence must establish this same experimental-molecule claim. Source use of a truncation or atom count alone is insufficient. Physical definition: Experimental PBNA is the full neutral singlet N-hexyl C34H42B2N2 molecule (80 atoms), with dilute 10^-5 M DCM observations at room temperature. Direct full-molecule electronic-state and relaxation evidence is eligible without a separate N-methyl control. Any chosen approximation must explicitly map retained core and changed substituents and justify the specific transferred optical property. The private 50-atom source-model gas orbital energies do not constrain AR full-molecule results. State/geometry/solvent definitions must match the claimed observable.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "verified_full80_absorption"
+          ],
+          "key_point_id": "model_transfer_absorption",
+          "key_point_type": "result",
+          "scored": false,
+          "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+        },
+        {
+          "statement": "Experimental PBNA emission has supported relaxed chromophore character",
+          "expected": "Establish that the relaxed emitting state of experimental N-hexyl PBNA remains predominantly on the retained conjugated BN-anthracene/B-phenyl framework, with the relaxation/solvent response and any tail contribution explicitly resolved. A direct full-80-atom relaxed-state calculation with actual state and geometry evidence is sufficient, without reconstructing the author N-methyl model. If using a truncation, quantitative relaxation-sensitive transfer evidence is required; absorption-only agreement cannot establish the emitting state or its response. This property-specific experimental-state claim is separate from merely predicting blue emission. Physical definition: Experimental PBNA is the full neutral singlet N-hexyl C34H42B2N2 molecule (80 atoms), with dilute 10^-5 M DCM observations at room temperature. Direct full-molecule electronic-state and relaxation evidence is eligible without a separate N-methyl control. Any chosen approximation must explicitly map retained core and changed substituents and justify the specific transferred optical property. The private 50-atom source-model gas orbital energies do not constrain AR full-molecule results. State/geometry/solvent definitions must match the claimed observable.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "verified_full80_relaxation",
+            "verified_full80_emitting_character"
+          ],
+          "key_point_id": "model_transfer_emission",
+          "key_point_type": "result",
+          "scored": false,
+          "role": "Unscored source/validation evidence; no independent workflow, structure or intermediate-node points."
+        }
+      ]
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_94e7481ded3b6a75",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabrication of scientific evidence, including reference values falsely presented as newly computed, invalidates the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Ordinary failure, missing evidence or scientific error affects only the relevant leaves."
+        }
+      ],
+      "scope": "Fabrication and unauthorized hidden-answer access are global integrity failures. Scientific errors or missing evidence fail only dependent final results."
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_94e7481ded3b6a75",
+      "scoring_policy": "paper_science_v3",
+      "items": [
+        {
+          "conclusion_id": "absorption_account",
+          "claim_role": "final",
+          "statement": "Molecular explanation of solution absorption",
+          "expected": "Explain the supplied near-UV PBNA absorption by actual computed solution transitions and their physical state character within the declared molecular model. Establish a predominantly scaffold-local aromatic excitation account with limited core/B-phenyl charge transfer, or a scientifically established equivalent description; quantify relevant transition energies/wavelengths and intensities with matched geometry and DCM conventions. Frontier localization is supporting evidence, not a required pair of separately scored nodes. Distinguish the 321/375/392 nm experimental bands, the 404 nm onset, orbital gaps and vertical electronic roots; do not assign one root to every fine-structured feature. A copied observed spectrum, a HOMO-LUMO gap alone or an unsupported state assignment fails. This item assesses the optical account within the explicitly identified model; applicability to the full experimental identity is assessed separately.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "native_frontier_mapping",
+            "verified_full80_absorption"
+          ],
+          "supporting_key_point_ids": [
+            "homo_scaffold",
+            "lumo_scaffold",
+            "solution_absorption_character",
+            "relaxed_emission",
+            "model_transfer_absorption",
+            "model_transfer_emission"
+          ]
+        },
+        {
+          "conclusion_id": "emission_account",
+          "claim_role": "final",
+          "statement": "Molecular explanation of fluorescence and relaxation",
+          "expected": "Explain the supplied PBNA fluorescence and its photon-energy relation to absorption using actual relaxed excited-state/emission or equivalent vibronic evidence in a declared model. Quantify the relevant transition and show what state, structural relaxation and solvent response support the account. Keep vertical emission, equilibrium endpoint E00 and measured peak maxima distinct. A valid equivalent explanation passes without a required author geometry or fixed motion/control grid. No unreported exact computed emission target is imposed. A ground-state gap, a raw oscillator strength or the copied 409/427 nm observation alone does not establish this result or a photophysical rate. This item assesses the model-scoped emission account; transfer to experimental PBNA is separate.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "native_frontier_mapping",
+            "verified_full80_relaxation",
+            "native_optical_transfer",
+            "native_full80_equilibrium_gap"
+          ],
+          "supporting_key_point_ids": [
+            "homo_scaffold",
+            "lumo_scaffold",
+            "solution_absorption_character",
+            "relaxed_emission",
+            "model_transfer_absorption",
+            "model_transfer_emission"
+          ]
+        },
+        {
+          "conclusion_id": "absorption_applicability",
+          "claim_role": "final",
+          "statement": "Applicability of the absorption account to experimental PBNA",
+          "expected": "Establish the applicability of the absorption account to full neutral-singlet N-hexyl PBNA, C34H42B2N2 (80 atoms), in dilute DCM. Direct full-molecule transition/state evidence can show that the retained conjugated framework rather than the N-alkyl tails carries the relevant absorption, without a separate N-methyl control. An approximate model requires explicit atom/substituent mapping and quantitative property-specific evidence for this transfer. Quantify the effect or limit of changed groups, not just their atom count. Source adoption of truncation, a reasonable model spectrum by itself or a generic limitations paragraph cannot establish this experimental-identity claim.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "native_frontier_mapping",
+            "verified_full80_absorption"
+          ],
+          "supporting_key_point_ids": [
+            "homo_scaffold",
+            "lumo_scaffold",
+            "solution_absorption_character",
+            "relaxed_emission",
+            "model_transfer_absorption",
+            "model_transfer_emission"
+          ]
+        },
+        {
+          "conclusion_id": "emission_applicability",
+          "claim_role": "final",
+          "statement": "Applicability of the relaxed-emission account to experimental PBNA",
+          "expected": "Establish the applicability of the relaxed-emission account to full N-hexyl PBNA under the stated solution conditions. Resolve the emitting-state character and relaxation/solvent response of the retained chromophore, including any contribution of the actual or changed N substituents. Direct full-molecule evidence is eligible without a prescribed truncated control; an approximation needs relaxation-sensitive transfer evidence. Agreement only for vertical absorption is insufficient. State which observed optical features can be interpreted and which remain unassigned from this evidence; do not extend the result to AIE, crystal packing, two-photon cross sections or rates. A generic caveat or source model label alone fails.",
+          "evidence_ids": [
+            "main_p2_3_5_6_7",
+            "supplementary_001_p4_6_19_20",
+            "native_frontier_mapping",
+            "verified_full80_emitting_character",
+            "native_optical_transfer",
+            "native_full80_equilibrium_gap"
+          ],
+          "supporting_key_point_ids": [
+            "homo_scaffold",
+            "lumo_scaffold",
+            "solution_absorption_character",
+            "relaxed_emission",
+            "model_transfer_absorption",
+            "model_transfer_emission"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_94e7481ded3b6a75",
+      "scoring_policy": "paper_science_v3",
+      "reason": "逐命题复用：吸收解释由真实80原子DCM TD S1/S2=3.4122/3.8949 eV及态特征支持；发射解释由234正模的S1、cLR垂直发射424.781160 nm与E00=409.2456 nm分别支持；两种模型适用性由50/80映射与吸收/发射不同敏感性支持。PR保留气相50原子HOMO/LUMO最终量原窗。未新计算或新V3验收。",
+      "physical_definition": "Experimental PBNA is the full neutral singlet N-hexyl C34H42B2N2 molecule (80 atoms), with dilute 10^-5 M DCM observations at room temperature. Direct full-molecule electronic-state and relaxation evidence is eligible without a separate N-methyl control. Any chosen approximation must explicitly map retained core and changed substituents and justify the specific transferred optical property. The private 50-atom source-model gas orbital energies do not constrain AR full-molecule results. State/geometry/solvent definitions must match the claimed observable.",
+      "scientific_limitations": "Author source-model E/ZPE/G/S were reproduced at printed precision using genuine frequency output; independently optimized50-atom and80-atom states are valid. Frontier residuals+0.06018/+0.06928eV remain. Actual50/80 S1 values3.4243/3.4122eV and cLR emission2.9698303/2.9187782eV are verification findings, not source numeric targets. Full80 E00=3.0295791eV (409.2456nm) and cLR emission424.7812nm are distinct observables. Exact experimental fine structure, rates and AIE are not reproduced.",
+      "tolerance_basis": "The common final questions are absorption explanation, emission/relaxation explanation, absorption applicability and emission applicability. AR weights are 35/35/15/15. PR preserves its pre-existing extra final source-model HOMO/LUMO eigenvalues at 5/5 with unchanged targets -5.62/-1.71 eV and ±0.25 eV; common PR weights are 30/30/15/15. This explicit baseline exception is not imposed on AR. Frontier-localization nodes and duplicate all-in-one optical/transfer syntheses are retained only as unscored evidence. No optical tolerance is invented.",
+      "evidence_gaps": [
+        "50-atom gas frontier eigenvalues and 80-atom solution optical transitions are different quantities and identities; the PR-only baseline exception remains explicit.",
+        "Exact vibronic peak assignment, full line shapes, AIE, rates and aggregates are not verified or required.",
+        "G09 author calculations were realized with G16 and source-default controls; cLR vertical emission, LR roots and E00 must remain distinct."
+      ],
+      "historical_qualification_before_v3": {
+        "paper_id": "paper_94e7481ded3b6a75",
+        "scoring_policy": "paper_science_v2",
+        "status": "CURRENT_FROZEN_SCOPE_STRICT_VERIFICATION_PRESERVED",
+        "formal_scoring_permitted": true,
+        "release_ready": false,
+        "blocked_rule_ids": [],
+        "reserved_points": 0,
+        "current_scope_verified": true,
+        "verification_acceptance": "Existing independently strict V2 frozen-scope acceptance retained; scoring migration is not new chemical validation.",
+        "reason": "Authorized final-copy scoring-only migration, 2026-10-19; publication/expert calibration remains separate from runtime scoring.",
+        "physical_definition": "Experimental PBNA is the full neutral singlet N-hexyl C34H42B2N2 molecule (80 atoms), with dilute 10^-5 M DCM observations at room temperature. Direct full-molecule electronic-state and relaxation evidence is eligible without a separate N-methyl control. Any chosen approximation must explicitly map retained core and changed substituents and justify the specific transferred optical property. The private 50-atom source-model gas orbital energies do not constrain AR full-molecule results. State/geometry/solvent definitions must match the claimed observable.",
+        "scientific_limitations": "Author source-model E/ZPE/G/S were reproduced at printed precision using genuine frequency output; independently optimized50-atom and80-atom states are valid. Frontier residuals+0.06018/+0.06928eV remain. Actual50/80 S1 values3.4243/3.4122eV and cLR emission2.9698303/2.9187782eV are verification findings, not source numeric targets. Full80 E00=3.0295791eV (409.2456nm) and cLR emission424.7812nm are distinct observables. Exact experimental fine structure, rates and AIE are not reproduced.",
+        "tolerance_policy": {
+          "status": "provisional_benchmark_policy",
+          "basis": "AR has no numeric rule for the undisclosed 50-atom gas surrogate. Its -5.62/-1.71 eV source values and historical ±0.25 eV reproduction window remain in private history and PR. AR optical/state conclusions require concrete same-object electronic and relaxation evidence, without imposing a verifier-derived optical target or an exact experimental band window.",
+          "not_author_error_bars": true
+        },
+        "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "coordinator_review": {
+          "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+          "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+          "review_key": "v2_paper_94e7481ded3b6a75",
+          "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+          "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+          "publication_readiness_unchanged": true
+        },
+        "repair_round3": {
+          "date": "2026-10-19",
+          "round": "repair_round3",
+          "mode": "autonomous_research",
+          "status": "scoring_contract_repaired_without_new_chemical_acceptance",
+          "changes": [
+            "Confirmed clarification rather than blanket prior rejection: the old rules already allowed demonstrably equivalent full-model evidence. Remove AR-only hidden surrogate HOMO/LUMO scalar targets (5+5) and assign 5 additional points to each existing core-localization result. No author N-methyl model is mandatory.",
+            "Both modes now state the direct full-80-atom route explicitly for absorption/emission adequacy, alongside justified approximation transfer. PR disclosed surrogate numerical reproduction remains. Source observations, 50/80 verification and accepted limitations are preserved."
+          ],
+          "history_preserved": true,
+          "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_04/paper_94e7481ded3b6a75.md"
+        }
+      },
+      "status": "V3_FINAL_RESULTS_AUTHORED_EXISTING_EVIDENCE_REVIEWED",
+      "acceptance": "NOT_REVALIDATED_FOR_V3",
+      "formal_scoring_permitted": true,
+      "current_scope_verified": false,
+      "release_ready": false,
+      "new_computation": false,
+      "new_blind_run": false,
+      "tolerance_policy": {
+        "status": "provisional_benchmark_policy",
+        "basis": "AR has no numeric rule for the undisclosed 50-atom gas surrogate. Its -5.62/-1.71 eV source values and historical ±0.25 eV reproduction window remain in private history and PR. AR optical/state conclusions require concrete same-object electronic and relaxation evidence, without imposing a verifier-derived optical target or an exact experimental band window.",
+        "not_author_error_bars": true
+      },
+      "status_note": "The V3 rubric may evaluate submissions. That permission is distinct from reference scientific acceptance: earlier acceptance and migration records are historical only; no V3 scientific revalidation or blind evaluation was performed."
+    }
+  }
+}

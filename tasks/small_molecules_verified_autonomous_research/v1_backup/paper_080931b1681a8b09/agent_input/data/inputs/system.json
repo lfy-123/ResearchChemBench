@@ -1,0 +1,25 @@
+{
+  "scientific_question": "For benzothiazole and (1-methyl-1H-imidazol-2-yl)(3-phenylbicyclo[1.1.0]butan-1-yl)methanone under the specified Ni(OTf)2 and chiral PyBOX conditions in chloroform, why does the cycloadduct with the constitutional structure specified below form, and which enantiomeric preference is expected? Develop and test a computational explanation of the observed product formation and enantioselectivity.",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Reactants: benzothiazole (benzo[d]thiazole) and (1-methyl-1H-imidazol-2-yl)(3-phenylbicyclo[1.1.0]butan-1-yl)methanone. The bicyclobutane bridgeheads bear phenyl and C(=O)–(1-methyl-1H-imidazol-2-yl), respectively."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Catalyst precursors: nickel(II) triflate, Ni(OTf)2, and 2,6-bis[(4S)-4-tert-butyl-4,5-dihydro-1,3-oxazol-2-yl]pyridine, a tert-butyl PyBOX ligand, CAS 185346-17-2. Both oxazoline C4 stereocenters are S. The pyridine C4 position is unsubstituted."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "condition",
+      "content": "Benzothiazole 0.15 mmol, the specified bicyclobutane 0.10 mmol, Ni(OTf)2 10 mol%, the specified chiral ligand 12 mol%, CHCl3 2 mL, 25 °C, nitrogen, 12 h."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "observation",
+      "content": "For this catalyst/ligand pair, the cycloadduct with constitutional name (1-methyl-1H-imidazol-2-yl)(1-phenyl-1,2-dihydro-1,3-methanobenzo[d]pyrrolo[2,1-b]thiazol-3(3aH)-yl)methanone is obtained in 75% NMR yield with 92.5:7.5 er. To specify its constitutional graph without assigning the major enantiomer: the phenyl-bearing and acyl-bearing quaternary carbon atoms are connected through two separate CH2 bridges, with no direct bond between those quaternary carbons. The phenyl-bearing quaternary carbon is bonded to the benzothiazole N, and the acyl-bearing quaternary carbon is bonded to the benzothiazole C2 carbon. That C2 carbon is now a saturated CH bonded to S, N and the acyl-bearing quaternary carbon; the fused aryl–S and aryl–N connections are retained. The major enantiomer’s absolute configuration at this saturated CH is to be predicted."
+    }
+  ]
+}

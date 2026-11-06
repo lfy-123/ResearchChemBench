@@ -1,0 +1,99 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Numerical targets and existing tolerances are not adjustable. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate.",
+  "rules": [
+    {
+      "rule_id": "r_benzyl_barrier",
+      "reference_id": "benzyl_barrier",
+      "type": "numeric",
+      "expected": "Identify the benzyl-tethered aryl closure by connectivity and forming-bond/negative-mode evidence, corresponding to source TS2. Compute G(TS)-G(uncyclized radical minimum), 298.15 K/1 atm, implicit DMSO, charge0 doublet. Validate the minimum and relevant first-order saddle; source -0.05 is on a different plot zero and is not this barrier.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      },
+      "target": 13.08,
+      "tolerance": 1.5,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_sulfonyl_barrier",
+      "reference_id": "sulfonyl_barrier",
+      "type": "numeric",
+      "expected": "Identify the arenesulfonyl aryl closure by connectivity and forming-bond/negative-mode evidence, corresponding to source TS2-prime. Use the same radical-reference definition and valid saddle evidence. Arbitrary candidate numbers or closest energies do not determine identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      },
+      "target": 19.25,
+      "tolerance": 1.5,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_cyclization_conclusion",
+      "reference_id": "cyclization_conclusion",
+      "type": "semantic",
+      "expected": "The final answer selects the benzyl-tethered aryl closure as lower-barrier than the arenesulfonyl alternative using the two mapped, comparable calculated channels and their difference. A reversed ranking, undecided selection or mere listing of both does not recover the conclusion. No downstream oxidation/aromatization or catalyst cycle is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "benzyl_barrier",
+      "kind": "intermediate",
+      "max_score": 35,
+      "description": "苄基连接芳环闭合势垒",
+      "rule_ids": [
+        "r_benzyl_barrier"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p34_36_37_38"
+      ]
+    },
+    {
+      "id": "sulfonyl_barrier",
+      "kind": "intermediate",
+      "max_score": 35,
+      "description": "芳磺酰侧芳环闭合势垒",
+      "rule_ids": [
+        "r_sulfonyl_barrier"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p34_36_40"
+      ]
+    },
+    {
+      "id": "cyclization_conclusion",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "最终：苄基侧环化更有利",
+      "rule_ids": [
+        "r_cyclization_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p36_38_40"
+      ]
+    }
+  ]
+}

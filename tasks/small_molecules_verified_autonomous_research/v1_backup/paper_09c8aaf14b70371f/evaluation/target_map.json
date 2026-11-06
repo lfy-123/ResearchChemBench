@@ -1,0 +1,81 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "scope_version": "chalcone-series-redox-20261012",
+  "retired_or_rewritten": [
+    {
+      "old_id": "gas_path",
+      "action": "移出新主题并保留历史，旧气相TS尚未认证不由改题抹成PASS。"
+    },
+    {
+      "old_id": "solution_path",
+      "action": "移出新主题并保留历史。"
+    },
+    {
+      "old_id": "endpoint_stability",
+      "action": "分子3的E结构/最低点可复用，E/Z差只作旧证据，不占新核心分。"
+    },
+    {
+      "old_id": "thermal_implication",
+      "action": "移出，热异构化不是当前系列还原问题。"
+    },
+    {
+      "old_id": "evidence_validity",
+      "action": "保留为身份、态、参照和原生记录有效性；不要求无关IRC。"
+    },
+    {
+      "old_id": "answer",
+      "action": "重写为作者系列关系、偏离与介质边界的综合结论，不独立重复计分。"
+    }
+  ],
+  "active": [
+    {
+      "id": "series_relationship",
+      "rule_id": "rule_series_relationship",
+      "source_evidence_ids": [
+        "author_method",
+        "author_conformers",
+        "author_lumo",
+        "author_series",
+        "exp_cv_series"
+      ]
+    },
+    {
+      "id": "electron_addition_region",
+      "rule_id": "rule_electron_addition_region",
+      "source_evidence_ids": [
+        "author_method",
+        "author_conformers",
+        "author_distributions",
+        "si_coordinates"
+      ]
+    },
+    {
+      "id": "solvent_relationship",
+      "rule_id": "rule_solvent_relationship",
+      "source_evidence_ids": [
+        "author_method",
+        "author_lumo",
+        "author_solvent",
+        "exp_cv_series",
+        "exp_cv_dcm3"
+      ]
+    }
+  ],
+  "blocked_definition": [
+    "compound_2_property_conformer"
+  ],
+  "interpretation": "Retirement is a scope change, not a scientific PASS; historical numeric windows are preserved in qualification.json.",
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Five-compound bounded findings are supported by the 2026-10-15 acceptance. Exact author compound-2 conformer/scalar attribution remains held; no official release certification.",
+  "active_compounds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "blocked_definition_scope": "Only exact compound-2 author property-conformer/scalar attribution, not blanket exclusion of bounded relationship or spatial findings."
+}

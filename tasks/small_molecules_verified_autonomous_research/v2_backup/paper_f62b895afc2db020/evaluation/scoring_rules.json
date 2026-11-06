@@ -1,0 +1,217 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_12",
+  "source_paper_id": "paper_f62b895afc2db020",
+  "scoring_policy": "paper_science_v2",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; arbitrary thresholds such as 60 points are not used. The original rules assess recovery of bounded conclusions from the literature and do not establish a uniquely true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances. First review comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not unilaterally change tolerances. Source numbers without targets are context only, not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_sensitized_triplet",
+      "reference_id": "sensitized_triplet",
+      "type": "semantic",
+      "expected": "Actual calculations support an alkene-associated triplet/open-shell excited state of this substrate whose energy is compatible with TXO sensitization conditions and which can serve as the reactive starting point for skeletal rearrangement. Compare compatible excitation-energy definitions, electronic states and solvents. The paper's 52.2 is a Gibbs energy difference between states, not a vertical electronic excitation energy; TXO 65.5 is a literature reference, not an actual calculation from this verification. Neither number has a scoring tolerance. The lamp wavelength alone or repetition of the authors' mechanism does not earn credit. An additional calculation of the carbonyl triplet at 75.6 to exclude a Norrish pathway is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_addition_connectivity",
+      "reference_id": "addition_connectivity",
+      "type": "semantic",
+      "expected": "Calculated structures/pathways of this substrate support intramolecular C–C addition of the alkene moiety to the carbonyl carbon to form the corresponding bicyclic skeletal intermediate, described by the authors as triplet 5-exo-trig addition. Actual local connectivity/reaction-mode evidence for this bond-forming event and a compatible electronic state is required; the product observation cannot replace it. Equivalent methods and labels are allowed; a full IRC, specific software or the exact value 9.7 is not mandatory.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_ring_opening",
+      "reference_id": "ring_opening",
+      "type": "semantic",
+      "expected": "Actual structures/local pathways support cleavage of a C–C bond of the original ring after addition, yielding a ring-expanded open-shell intermediate leading to the target [5.1.0] skeleton, corresponding to the authors' eight-membered-ring diradical 3B. Assess this bond-cleavage and ring-expansion structural event independently of the preceding bond-formation item. The source local barrier of 3.0 and downhill reaction free energy of −13.6 are nonmandatory context. Do not mislabel a cumulative profile height as a local barrier; no thermochemical numerical threshold is added to this structural item.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_cis_preference",
+      "reference_id": "cis_preference",
+      "type": "semantic",
+      "expected": "For cis/trans comparisons with the same target-product connectivity graph, the same conditions and compatible physical quantities, calculations support a lower free energy for the cis product, with the C1 methoxycarbonyl and C7 phenyl groups on the same face, than for trans. The two relative configurations must actually be distinguished; do not infer the result backward from the known cis observation. The paper's 23.5 is a Gibbs energy difference, whereas the approximately 3.7 difference at the crossing points is an electronic energy difference; they must not be mixed. Crossing points may provide additional relevant evidence, but a new MECP trajectory or crossing-point numerical threshold is not mandatory. The product stability difference itself is neither a room-temperature isomerization rate nor a precise dr.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_transformation_answer",
+      "reference_id": "transformation_answer",
+      "type": "semantic",
+      "expected": "Finally, use bond-forming/bond-breaking events and electronic-state changes supported by actual calculations to explain conversion of the given substrate to the given cyclopropane-fused [5.1.0] product through a bounded photosensitized open-shell addition–ring-expansion–ring-closure pathway. Integrate the intermediate local results with the correct target connectivity and DMSO/TXO irradiation conditions. Merely listing intermediates or restating the product does not earn credit. Equivalent nomenclature and equivalent physical explanations supported by actual evidence are acceptable; an arbitrary different mechanism is not automatically equivalent to the paper's result. Proof of a unique mechanism, ISC rates, all competing channels or the 99% yield is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_stereochemistry_answer",
+      "reference_id": "stereochemistry_answer",
+      "type": "semantic",
+      "expected": "Finally, explicitly connect the calculated preference for cis over trans in this system to the observed same-face relationship of the C1 methoxycarbonyl/C7 phenyl groups, providing a bounded energetic/structural explanation. Distinguish the thermodynamic product preference from possible selectivity factors involving ring closure/crossing. Merely stating that cis is more stable without applying the evidence to the given stereochemical result is insufficient. The lower cis crossing point may be incorporated but need not be the sole cause. Without a valid rate/kinetic model, do not directly equate the energy difference with precise selectivity or a room-temperature isomerization rate, or treat the 99% isolated yield as dr. Thermal experiments on other products 22/27 are not direct kinetic evidence for this product.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations and normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "sensitized_triplet",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "The sensitization conditions can supply the energy for the alkene triplet",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107"
+      ],
+      "rule_ids": [
+        "r_sensitized_triplet"
+      ]
+    },
+    {
+      "id": "addition_connectivity",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "C–C addition from the alkene to the carbonyl forms a bicyclic intermediate",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_addition_connectivity"
+      ]
+    },
+    {
+      "id": "ring_opening",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "C–C cleavage of the original ring yields a ring-expanded open-shell skeleton",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_ring_opening"
+      ]
+    },
+    {
+      "id": "cis_preference",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "Energetic preference for cis over trans in the target product",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_cis_preference"
+      ]
+    },
+    {
+      "id": "transformation_answer",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Final: addition, ring expansion and ring closure explain the target skeleton",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_transformation_answer"
+      ]
+    },
+    {
+      "id": "stereochemistry_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final: the cis preference explains the observed relative stereochemistry",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ],
+      "rule_ids": [
+        "r_stereochemistry_answer"
+      ]
+    }
+  ],
+  "scope_changes": [],
+  "reference_issues": [
+    "Stability of the cis product alone does not establish formation selectivity or the ISC rate; only the bounded skeletal and explanatory propositions are assessed."
+  ],
+  "source_location": "Main text p6–8 Fig.3; SI p105–121",
+  "source_files": [
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_12/main.pdf",
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_12/supplementary_001.pdf"
+  ],
+  "paper_id": "paper_f62b895afc2db020",
+  "expert_scoring_policy": "scientific_results_only_binary_items",
+  "expert_rules_file": "expert_scoring_rules.json",
+  "required_for_whole_case_success_item_ids": [
+    "sensitized_triplet",
+    "addition_connectivity",
+    "ring_opening",
+    "cis_preference",
+    "transformation_answer",
+    "stereochemistry_answer"
+  ],
+  "scientific_requirements": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; arbitrary thresholds such as 60 points are not used. The original rules assess recovery of bounded conclusions from the literature and do not establish a uniquely true mechanism.\nRetain the existing numerical targets/tolerances. First review comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not unilaterally change tolerances. Source numbers without targets are context only, not implicit thresholds.\nA chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.\nEvery scientific item retains its expert-authored weight and all-or-nothing rule. No research-process points are awarded.\nThe weighted score reports partial scientific achievement. Use expert_scoring_rules.json and score_case.py for the explicit pass/fail/needs_review whole-case adjudication; no score threshold replaces that decision."
+}

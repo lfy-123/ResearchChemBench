@@ -1,0 +1,213 @@
+{
+  "guidance_markdown": "## Author-provided scientific guidance\n\nFor this same scientific objective, execute and assess the reported chiral computational baseline described here. The authors used benzothiazole and the supplied phenyl/acyl-imidazole bicyclobutane with Ni(OTf)2 and the exact (S)-L6 tert-butyl PyBOX ligand. These source labels below identify the baseline models, not additional chemical inputs or additional scientific goals. Treat author results as model-conditioned comparators, and report fidelity, ambiguities and scientifically justified substitutions in your investigation records and readable report.\n\nThe authors report Gaussian 16, Revision C.01, for the chiral calculations and CYLview for structure visualization. They optimized geometries and calculated vibrational frequencies using B3LYP with Grimme dispersion and Becke–Johnson damping, 6-31G(d,p) for H, C, N, O, S and F, and the SDD effective-core-potential basis for Ni. They calculated larger-basis single-point energies using cc-pVTZ for nonmetals and SDD for Ni. PCM chloroform was included in both geometry optimization and single-point calculations.\n\nThe stabilities of wave functions were also tested. The unrestricted methods were applied to all the nickel species.\n\nThe authors compared BCB-bound chiral catalyst coordination models IM5A, IM5B and IM5C. Their favored IM5A binds the acyl-imidazole substrate bidentately and has one inner-sphere triflate and a second triflate counteranion; the alternative drawings show O-only and N-only substrate coordination. The coordination comparison displays IM5A=-15.8, IM5B=-7.4 and IM5C=-11.2 kcal/mol relative to its stated IM4 reference. This is a limited comparison of author models, not an exhaustive solution-speciation result, and its explicit-counteranion bookkeeping differs from the released-OTf reaction-profile convention.\n\nThe reported chiral mechanistic account begins with association of BCB 5a and the Ni–(S)-L6 precursor model IM4 to form substrate-bound IM5 while releasing an OTf anion. Benzothiazole then reacts through a nucleophilic addition/ring-opening event to give enolate IM6. The authors propose subsequent dearomative C–C ring closure through competing TS3R and TS3S to IM7R and IM7S, followed by product release with incoming BCB giving back a substrate-bound catalyst model. They identify this ring-closing competition as stereodetermining. Assess this disclosed account with appropriate evidence rather than treating it as uniquely proven.\n\nThe reported IM4/5a-to-IM5 association with released OTf is exergonic by 4.7 kcal/mol. The chiral reaction profile places IM5 at -4.7, IM6 at +2.3, TS3R at 12.5 and TS3S at 14.7 kcal/mol on one plotted scale. The matched R-forming transition structure is therefore reported 2.2 kcal/mol lower than the S-forming one, and the authors assign the major product R, in qualitative agreement with experiment. This model-dependent gap is not an exact reproduction of the measured 92.5:7.5 er.\n\nThe reported chiral stationary-point table distinguishes lower-basis free energies G, larger-basis solvent single-point energies E_sol, and corrected free energies G_c. It lists one imaginary frequency for each ring-closing transition structure: 242.04i cm-1 for TS3R and 200.59i cm-1 for TS3S; the other listed species have zero imaginary frequencies. These reported structures and frequencies are baseline validation context, not a requirement to reproduce an identical geometry or frequency. The table supplies no separate transition-state record for the preceding chiral nucleophilic addition/ring-opening event, so the reported sequence does not by itself validate a complete chiral kinetic cycle.\n\nTo explain the enantiomeric energy difference, the authors performed independent gradient model analysis based on Hirshfeld partitioning, IGMH, on TS3R and TS3S. They interpreted multiple stronger C–H···π contacts between ligand and substrate in the lower-energy R-forming structure as the principal origin of enantioselectivity. Evaluate this reported interpretation and distinguish qualitative interaction features from demonstrated energetic causality; a justified alternative explanation or substitute analysis can address the same scientific outcome, without a separate descriptor score.\n\nPreserve the source limitation that the chiral prose calls IM6 formation endothermic by 2.3 kcal/mol whereas the reaction plot shows IM5=-4.7 and IM6=+2.3 on a common scale. These are not the same local energy statement, and the shared evaluation does not impose a local IM5-to-IM6 numerical target or silently select one record. Association energies also depend on fragment, counterion and standard-state conventions. Report the conventions you use, and do not demand exact energy equality between different models or an exact experimental er from a model-specific transition-state gap.\n\nThe selected calculation report does not fully specify the chiral spin-multiplicity choice, computational thermal temperature, full standard-state/ion-pair treatment, the explicit G_c correction formula or IGMH plotting settings. The chiral methods state Gaussian Revision C.01 while the common software citation lists A.03. The printed IM5C coordinate listing continues from S188 through the two final phenyl hydrogen rows at the top of S192 and is complete for the documented molecular graph; its substrate and ligand connectivity agree with the defined identities. These author-optimized coordinates are not supplied here. Build starting geometries from the neutral identities and record assumptions and justified substitutions instead of inventing unreported author parameters or claiming exact geometric replication.\n\nThe authors also investigated a separate achiral Ni(ClO4)2/CH2Cl2 model of the same organic transformation, including substrate activation, a nucleophilic pathway and a direct BCB-cleavage alternative. Its spin, association and barrier values are not references for the supplied chiral Ni(OTf)2/CHCl3 case, and reproduction of that different catalyst model is not a further goal. Likewise, the optimized L11 experiment is a different ligand case and must not replace the supplied L6 observation. The scientific question, starting identities, observations and outcome requirements are retained. Current private scoring is paper_science_v2: scientific results only, with no process or protocol-fidelity points.\n",
+  "statements": [
+    {
+      "protocol_id": "AP01",
+      "statement": "For this same scientific objective, execute and assess the reported chiral computational baseline described here. The authors used benzothiazole and the supplied phenyl/acyl-imidazole bicyclobutane with Ni(OTf)2 and the exact (S)-L6 tert-butyl PyBOX ligand. These source labels below identify the baseline models, not additional chemical inputs or additional scientific goals. Treat author results as model-conditioned comparators, and report fidelity, ambiguities and scientifically justified substitutions in your investigation records and readable report.",
+      "evidence_ids": [
+        "ev_doc_a64d71a5fd6f_000571_a9aa4005ae39",
+        "ev_doc_a64d71a5fd6f_000562_b8fb3e6311ac",
+        "ev_doc_43245255c197_000042_786d8da47cda"
+      ]
+    },
+    {
+      "protocol_id": "AP02",
+      "statement": "The authors report Gaussian 16, Revision C.01, for the chiral calculations and CYLview for structure visualization. They optimized geometries and calculated vibrational frequencies using B3LYP with Grimme dispersion and Becke–Johnson damping, 6-31G(d,p) for H, C, N, O, S and F, and the SDD effective-core-potential basis for Ni. They calculated larger-basis single-point energies using cc-pVTZ for nonmetals and SDD for Ni. PCM chloroform was included in both geometry optimization and single-point calculations.",
+      "evidence_ids": [
+        "ev_doc_a64d71a5fd6f_000562_b8fb3e6311ac"
+      ]
+    },
+    {
+      "protocol_id": "AP03",
+      "statement": "The stabilities of wave functions were also tested. The unrestricted methods were applied to all the nickel species.",
+      "evidence_ids": [
+        "ev_doc_a64d71a5fd6f_000560_1c8438912093"
+      ]
+    },
+    {
+      "protocol_id": "AP04",
+      "statement": "The authors compared BCB-bound chiral catalyst coordination models IM5A, IM5B and IM5C. Their favored IM5A binds the acyl-imidazole substrate bidentately and has one inner-sphere triflate and a second triflate counteranion; the alternative drawings show O-only and N-only substrate coordination. The coordination comparison displays IM5A=-15.8, IM5B=-7.4 and IM5C=-11.2 kcal/mol relative to its stated IM4 reference. This is a limited comparison of author models, not an exhaustive solution-speciation result, and its explicit-counteranion bookkeeping differs from the released-OTf reaction-profile convention.",
+      "evidence_ids": [
+        "ev_doc_a64d71a5fd6f_000568_31c4646066da",
+        "ev_doc_a64d71a5fd6f_000570_b172e1d9ad4c",
+        "ev_doc_a64d71a5fd6f_000575_91bec808f928",
+        "ev_doc_a64d71a5fd6f_000571_a9aa4005ae39"
+      ]
+    },
+    {
+      "protocol_id": "AP05",
+      "statement": "The reported chiral mechanistic account begins with association of BCB 5a and the Ni–(S)-L6 precursor model IM4 to form substrate-bound IM5 while releasing an OTf anion. Benzothiazole then reacts through a nucleophilic addition/ring-opening event to give enolate IM6. The authors propose subsequent dearomative C–C ring closure through competing TS3R and TS3S to IM7R and IM7S, followed by product release with incoming BCB giving back a substrate-bound catalyst model. They identify this ring-closing competition as stereodetermining. Assess this disclosed account with appropriate evidence rather than treating it as uniquely proven.",
+      "evidence_ids": [
+        "ev_doc_a64d71a5fd6f_000571_a9aa4005ae39",
+        "ev_doc_a64d71a5fd6f_000573_ee33dd77e500",
+        "ev_doc_43245255c197_000064_680e1810b1a6"
+      ]
+    },
+    {
+      "protocol_id": "AP06",
+      "statement": "The reported IM4/5a-to-IM5 association with released OTf is exergonic by 4.7 kcal/mol. The chiral reaction profile places IM5 at -4.7, IM6 at +2.3, TS3R at 12.5 and TS3S at 14.7 kcal/mol on one plotted scale. The matched R-forming transition structure is therefore reported 2.2 kcal/mol lower than the S-forming one, and the authors assign the major product R, in qualitative agreement with experiment. This model-dependent gap is not an exact reproduction of the measured 92.5:7.5 er.",
+      "evidence_ids": [
+        "ev_doc_a64d71a5fd6f_000571_a9aa4005ae39",
+        "ev_doc_a64d71a5fd6f_000573_ee33dd77e500",
+        "ev_doc_43245255c197_000064_680e1810b1a6",
+        "ev_doc_a64d71a5fd6f_000575_91bec808f928",
+        "ev_rescue_20261018_g03_p12_si129_figure_S4_chiral",
+        "ev_doc_43245255c197_000042_786d8da47cda"
+      ]
+    },
+    {
+      "protocol_id": "AP07",
+      "statement": "The reported chiral stationary-point table distinguishes lower-basis free energies G, larger-basis solvent single-point energies E_sol, and corrected free energies G_c. It lists one imaginary frequency for each ring-closing transition structure: 242.04i cm-1 for TS3R and 200.59i cm-1 for TS3S; the other listed species have zero imaginary frequencies. These reported structures and frequencies are baseline validation context, not a requirement to reproduce an identical geometry or frequency. The table supplies no separate transition-state record for the preceding chiral nucleophilic addition/ring-opening event, so the reported sequence does not by itself validate a complete chiral kinetic cycle.",
+      "evidence_ids": [
+        "ev_doc_a64d71a5fd6f_000575_91bec808f928",
+        "ev_doc_a64d71a5fd6f_000571_a9aa4005ae39",
+        "ev_doc_a64d71a5fd6f_000573_ee33dd77e500"
+      ]
+    },
+    {
+      "protocol_id": "AP08",
+      "statement": "To explain the enantiomeric energy difference, the authors performed independent gradient model analysis based on Hirshfeld partitioning, IGMH, on TS3R and TS3S. They interpreted multiple stronger C–H···π contacts between ligand and substrate in the lower-energy R-forming structure as the principal origin of enantioselectivity. Evaluate this reported interpretation and distinguish qualitative interaction features from demonstrated energetic causality; a justified alternative explanation or substitute analysis can address the same scientific outcome, without a separate descriptor score.",
+      "evidence_ids": [
+        "ev_doc_43245255c197_000064_680e1810b1a6"
+      ]
+    },
+    {
+      "protocol_id": "AP09",
+      "statement": "Preserve the source limitation that the chiral prose calls IM6 formation endothermic by 2.3 kcal/mol whereas the reaction plot shows IM5=-4.7 and IM6=+2.3 on a common scale. These are not the same local energy statement, and the shared evaluation does not impose a local IM5-to-IM6 numerical target or silently select one record. Association energies also depend on fragment, counterion and standard-state conventions. Report the conventions you use, and do not demand exact energy equality between different models or an exact experimental er from a model-specific transition-state gap.",
+      "evidence_ids": [
+        "ev_doc_a64d71a5fd6f_000571_a9aa4005ae39",
+        "ev_doc_a64d71a5fd6f_000573_ee33dd77e500",
+        "ev_rescue_20261018_g03_p12_si129_figure_S4_chiral",
+        "ev_doc_a64d71a5fd6f_000568_31c4646066da",
+        "ev_doc_43245255c197_000064_680e1810b1a6"
+      ]
+    },
+    {
+      "protocol_id": "AP10",
+      "statement": "The selected calculation report does not fully specify the chiral spin-multiplicity choice, computational thermal temperature, full standard-state/ion-pair treatment, the explicit G_c correction formula or IGMH plotting settings. The chiral methods state Gaussian Revision C.01 while the common software citation lists A.03. The printed IM5C coordinate listing continues from S188 through the two final phenyl hydrogen rows at the top of S192 and is complete for the documented molecular graph; its substrate and ligand connectivity agree with the defined identities. These author-optimized coordinates are not supplied here. Build starting geometries from the neutral identities and record assumptions and justified substitutions instead of inventing unreported author parameters or claiming exact geometric replication.",
+      "evidence_ids": [
+        "ev_doc_a64d71a5fd6f_000562_b8fb3e6311ac",
+        "ev_doc_a64d71a5fd6f_000560_1c8438912093",
+        "ev_doc_a64d71a5fd6f_000575_91bec808f928",
+        "ev_doc_a64d71a5fd6f_000702_70abe69d59ee",
+        "layout-doc_a64d71a5fd6f-p191-b24",
+        "layout-doc_a64d71a5fd6f-p191-b25",
+        "layout-doc_a64d71a5fd6f-p188-b0",
+        "layout-doc_a64d71a5fd6f-p188-b2",
+        "layout-doc_a64d71a5fd6f-p188-b3",
+        "layout-doc_a64d71a5fd6f-p188-b4",
+        "layout-doc_a64d71a5fd6f-p188-b5",
+        "layout-doc_a64d71a5fd6f-p188-b6",
+        "layout-doc_a64d71a5fd6f-p188-b7",
+        "layout-doc_a64d71a5fd6f-p188-b8",
+        "layout-doc_a64d71a5fd6f-p188-b9",
+        "layout-doc_a64d71a5fd6f-p188-b10",
+        "layout-doc_a64d71a5fd6f-p188-b11",
+        "layout-doc_a64d71a5fd6f-p188-b12",
+        "layout-doc_a64d71a5fd6f-p188-b13",
+        "layout-doc_a64d71a5fd6f-p188-b14",
+        "layout-doc_a64d71a5fd6f-p188-b15",
+        "layout-doc_a64d71a5fd6f-p188-b16",
+        "layout-doc_a64d71a5fd6f-p188-b17",
+        "layout-doc_a64d71a5fd6f-p188-b18",
+        "layout-doc_a64d71a5fd6f-p188-b19",
+        "layout-doc_a64d71a5fd6f-p188-b20",
+        "layout-doc_a64d71a5fd6f-p188-b21",
+        "layout-doc_a64d71a5fd6f-p188-b22",
+        "layout-doc_a64d71a5fd6f-p188-b23",
+        "layout-doc_a64d71a5fd6f-p188-b24",
+        "layout-doc_a64d71a5fd6f-p188-b25",
+        "layout-doc_a64d71a5fd6f-p189-b0",
+        "layout-doc_a64d71a5fd6f-p189-b1",
+        "layout-doc_a64d71a5fd6f-p189-b2",
+        "layout-doc_a64d71a5fd6f-p189-b3",
+        "layout-doc_a64d71a5fd6f-p189-b4",
+        "layout-doc_a64d71a5fd6f-p189-b5",
+        "layout-doc_a64d71a5fd6f-p189-b6",
+        "layout-doc_a64d71a5fd6f-p189-b7",
+        "layout-doc_a64d71a5fd6f-p189-b8",
+        "layout-doc_a64d71a5fd6f-p189-b9",
+        "layout-doc_a64d71a5fd6f-p189-b10",
+        "layout-doc_a64d71a5fd6f-p189-b11",
+        "layout-doc_a64d71a5fd6f-p189-b12",
+        "layout-doc_a64d71a5fd6f-p189-b13",
+        "layout-doc_a64d71a5fd6f-p189-b14",
+        "layout-doc_a64d71a5fd6f-p189-b15",
+        "layout-doc_a64d71a5fd6f-p189-b16",
+        "layout-doc_a64d71a5fd6f-p189-b17",
+        "layout-doc_a64d71a5fd6f-p189-b18",
+        "layout-doc_a64d71a5fd6f-p189-b19",
+        "layout-doc_a64d71a5fd6f-p189-b20",
+        "layout-doc_a64d71a5fd6f-p189-b21",
+        "layout-doc_a64d71a5fd6f-p189-b22",
+        "layout-doc_a64d71a5fd6f-p189-b23",
+        "layout-doc_a64d71a5fd6f-p189-b24",
+        "layout-doc_a64d71a5fd6f-p189-b25",
+        "layout-doc_a64d71a5fd6f-p190-b0",
+        "layout-doc_a64d71a5fd6f-p190-b1",
+        "layout-doc_a64d71a5fd6f-p190-b2",
+        "layout-doc_a64d71a5fd6f-p190-b3",
+        "layout-doc_a64d71a5fd6f-p190-b4",
+        "layout-doc_a64d71a5fd6f-p190-b5",
+        "layout-doc_a64d71a5fd6f-p190-b6",
+        "layout-doc_a64d71a5fd6f-p190-b7",
+        "layout-doc_a64d71a5fd6f-p190-b8",
+        "layout-doc_a64d71a5fd6f-p190-b9",
+        "layout-doc_a64d71a5fd6f-p190-b10",
+        "layout-doc_a64d71a5fd6f-p190-b11",
+        "layout-doc_a64d71a5fd6f-p190-b12",
+        "layout-doc_a64d71a5fd6f-p190-b13",
+        "layout-doc_a64d71a5fd6f-p190-b14",
+        "layout-doc_a64d71a5fd6f-p190-b15",
+        "layout-doc_a64d71a5fd6f-p190-b16",
+        "layout-doc_a64d71a5fd6f-p190-b17",
+        "layout-doc_a64d71a5fd6f-p190-b18",
+        "layout-doc_a64d71a5fd6f-p190-b19",
+        "layout-doc_a64d71a5fd6f-p190-b20",
+        "layout-doc_a64d71a5fd6f-p190-b21",
+        "layout-doc_a64d71a5fd6f-p190-b22",
+        "layout-doc_a64d71a5fd6f-p190-b23",
+        "layout-doc_a64d71a5fd6f-p190-b24",
+        "layout-doc_a64d71a5fd6f-p190-b25",
+        "layout-doc_a64d71a5fd6f-p191-b0",
+        "layout-doc_a64d71a5fd6f-p191-b1",
+        "layout-doc_a64d71a5fd6f-p191-b2",
+        "layout-doc_a64d71a5fd6f-p191-b3",
+        "layout-doc_a64d71a5fd6f-p191-b4",
+        "layout-doc_a64d71a5fd6f-p191-b5",
+        "layout-doc_a64d71a5fd6f-p191-b6",
+        "layout-doc_a64d71a5fd6f-p191-b7",
+        "layout-doc_a64d71a5fd6f-p191-b8",
+        "layout-doc_a64d71a5fd6f-p191-b9",
+        "layout-doc_a64d71a5fd6f-p191-b10",
+        "layout-doc_a64d71a5fd6f-p191-b11",
+        "layout-doc_a64d71a5fd6f-p191-b12",
+        "layout-doc_a64d71a5fd6f-p191-b13",
+        "layout-doc_a64d71a5fd6f-p191-b14",
+        "layout-doc_a64d71a5fd6f-p191-b15",
+        "layout-doc_a64d71a5fd6f-p191-b16",
+        "layout-doc_a64d71a5fd6f-p191-b17",
+        "layout-doc_a64d71a5fd6f-p191-b18",
+        "layout-doc_a64d71a5fd6f-p191-b19",
+        "layout-doc_a64d71a5fd6f-p191-b20",
+        "layout-doc_a64d71a5fd6f-p191-b21",
+        "layout-doc_a64d71a5fd6f-p191-b22",
+        "layout-doc_a64d71a5fd6f-p191-b23",
+        "layout-doc_a64d71a5fd6f-p192-b1",
+        "layout-doc_a64d71a5fd6f-p192-b2",
+        "pdf-page-doc_a64d71a5fd6f-p192"
+      ]
+    },
+    {
+      "protocol_id": "AP11",
+      "statement": "The authors also investigated a separate achiral Ni(ClO4)2/CH2Cl2 model of the same organic transformation, including substrate activation, a nucleophilic pathway and a direct BCB-cleavage alternative. Its spin, association and barrier values are not references for the supplied chiral Ni(OTf)2/CHCl3 case, and reproduction of that different catalyst model is not a further goal. Likewise, the optimized L11 experiment is a different ligand case and must not replace the supplied L6 observation. The scientific question, starting identities, observations and outcome requirements are retained. Current private scoring is paper_science_v2: scientific results only, with no process or protocol-fidelity points.",
+      "evidence_ids": [
+        "ev_doc_43245255c197_000057_eba0e7a20e72",
+        "ev_doc_43245255c197_000062_5cfc51c4acf4",
+        "layout-doc_43245255c197-p6-b10",
+        "ev_doc_43245255c197_000042_786d8da47cda",
+        "ev_doc_a64d71a5fd6f_000571_a9aa4005ae39"
+      ]
+    }
+  ]
+}

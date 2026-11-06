@@ -383,6 +383,23 @@ for _field_path, _description, _impact in (
 
 # Structure and system-construction hidden defaults.
 _register_parameter(
+    "internal_statistics", "rank_conformers_from_results", "inputs.scores",
+    description="Finite energies or free energies in the same order as the input conformers; supply one number or {'value': number} per conformer.",
+    type="array", minItems=1,
+    impact="The supplied values and their order determine the ranking and Boltzmann weights; scores are never calculated or matched by name.",
+)
+_register_parameter(
+    "internal_statistics", "rank_conformers_from_results", "action_settings.score_unit",
+    description="Common unit of all supplied conformer scores.", type="string",
+    allowed_values=["hartree", "kcal_mol", "kj_mol", "ev"],
+    impact="The unit controls conversion of score differences before Boltzmann weighting.",
+)
+_register_parameter(
+    "internal_statistics", "rank_conformers_from_results", "action_settings.temperature_kelvin",
+    description="Positive, finite temperature in kelvin for Boltzmann weighting.", type="number", exclusiveMinimum=0,
+    impact="Temperature changes weights without changing score order.",
+)
+_register_parameter(
     "pymatgen", "enumerate_surface_slabs", "action_settings.symmetrize",
     description="Whether pymatgen attempts to symmetrize generated slab terminations.", default=False,
     type="boolean", impact="Enabling symmetrization can reduce asymmetric artifacts but may alter terminations or reject slabs.",
@@ -615,7 +632,7 @@ _register_parameter(
 _register_parameter(
     "pyscf", "calculate_atomic_charges", "method_spec.population_analysis",
     description="PySCF population-analysis definition.", default="mulliken",
-    type="string", impact="Changing the population definition changes reported atomic charges without changing the wavefunction.",
+    type="string", allowed_values=["mulliken"], impact="The current typed PySCF adapter computes Mulliken charges; unsupported definitions are rejected before SCF.",
 )
 _register_parameter(
     "pyscf", "calculate_orbitals", "action_settings.include_coefficients",
@@ -698,6 +715,11 @@ _ORCA_STANDARD_ACTIONS = (
     "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals",
     "calculate_bond_orders", "calculate_excited_states",
 )
+_register_parameter(
+    "orca", (*_ORCA_STANDARD_ACTIONS, "calculate_correlated_electron_density"), "method_spec.method",
+    description="A single ORCA method keyword, not an input line. Set other options through documented typed fields; use native ORCA input for options not exposed here.",
+    impact="Changing the method changes the electronic-structure approximation.",
+)
 for _field_path, _description, _impact in (
     (
         "method_spec.basis",
@@ -706,11 +728,19 @@ for _field_path, _description, _impact in (
     ),
     ("method_spec.dispersion", "Optional ORCA dispersion-correction keyword.", "Adding or changing dispersion alters energies and gradients and can change optimized structures."),
     ("method_spec.solvation_model", "Optional ORCA implicit-solvation model.", "Enabling solvation changes the Hamiltonian/environment and resulting energies, densities, and structures."),
-    ("method_spec.solvent", "Solvent name used when an ORCA solvation model is selected.", "Changing solvent changes dielectric/solvation parameters and computed properties."),
+    ("method_spec.solvent", "ORCA solvent name; commas in names such as 1,4-dioxane are accepted.", "Changing solvent changes dielectric/solvation parameters and computed properties."),
     ("method_spec.charge", "Optional ORCA molecular charge override.", "Changing charge changes electron count and electronic state."),
     ("method_spec.multiplicity", "Optional ORCA spin multiplicity override.", "Changing multiplicity changes electronic state and reference occupation."),
 ):
     _register_parameter("orca", _ORCA_STANDARD_ACTIONS, _field_path, description=_description, default=None, impact=_impact)
+for _field_path, _description, _impact in (
+    ("method_spec.excited_state_method", "TDA or TDDFT for vertical excitations in the ORCA Action.",
+     "TDA changes the response approximation; no method is substituted."),
+    ("action_settings.spin_symmetry", "Excited-state manifold; the current ORCA Action exposes singlet roots only. This is distinct from ground-state multiplicity.",
+     "Selects the excited-state spin manifold; unsupported manifolds are rejected before execution."),
+):
+    _register_parameter("orca", "calculate_excited_states", _field_path,
+                        description=_description, type="string", impact=_impact)
 _ORCA_DENSITY_ACTION = "calculate_correlated_electron_density"
 for _field_path, _description, _impact, _extra in (
     (
@@ -766,15 +796,59 @@ _register_parameter(
     ),
 )
 
-_GAUSSIAN_ACTIONS = ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment")
+_GAUSSIAN_ACTIONS = ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment", "calculate_excited_states")
 for _field_path, _description, _impact in (
-    ("method_spec.dispersion", "Optional Gaussian empirical-dispersion route keyword.", "Changing dispersion changes energy and gradients."),
+    ("method_spec.dispersion", "Optional complete Gaussian keyword: EmpiricalDispersion=GD2, EmpiricalDispersion=GD3 or EmpiricalDispersion=GD3BJ.", "Changing dispersion changes energy and gradients."),
     ("method_spec.solvation_model", "Optional Gaussian implicit-solvation model.", "Enabling or changing solvation changes the computed environment and properties."),
     ("method_spec.solvent", "Gaussian solvent name used by the solvation model.", "Changing solvent changes solvation parameters and results."),
     ("method_spec.charge", "Optional molecular charge override.", "Changing charge changes electron count and electronic state."),
     ("method_spec.multiplicity", "Optional spin multiplicity override.", "Changing multiplicity changes electronic state."),
 ):
     _register_parameter("gaussian", _GAUSSIAN_ACTIONS, _field_path, description=_description, default=None, impact=_impact)
+
+for _field_path, _description, _impact, _constraints in (
+    ("method_spec.method", "Supported Gaussian restricted DFT functional for vertical excitations; unrestricted, open-shell and correlated references are not supported by this typed Action.",
+     "Changing the functional changes excitation energies, intensities and state ordering.", {}),
+    ("method_spec.basis", "Self-contained Gaussian built-in orbital basis; Gen/GenECP and checkpoint bases require a native job.",
+     "Basis size and diffuse functions affect excitation energies, intensities and cost.", {}),
+    ("method_spec.excited_state_method", "tddft uses Gaussian TD; tda uses Gaussian TDA. No method is substituted.",
+     "The Tamm-Dancoff approximation changes the response equations and computed excitations.", {}),
+    ("action_settings.number_of_states", "Number of vertical roots in the selected singlet or triplet manifold.",
+     "More roots increase spectral coverage, memory use and computational work.", {"type": "integer", "minimum": 1}),
+    ("action_settings.spin_symmetry", "Excited-state singlet or triplet manifold, from a closed-shell singlet ground state.",
+     "Changing the manifold changes state identity; it does not change ground-state multiplicity.", {}),
+    ("action_settings.scf_convergence", "Gaussian SCF convergence keyword: Loose, Tight or VeryTight.",
+     "Tighter ground-state convergence increases work and can improve response accuracy.", {}),
+):
+    _register_parameter("gaussian", "calculate_excited_states", _field_path,
+                        description=_description, impact=_impact, **_constraints)
+_register_parameter(
+    "gaussian", "calculate_excited_states", "method_spec.dispersion",
+    description="Optional EmpiricalDispersion=GD2, EmpiricalDispersion=GD3 or EmpiricalDispersion=GD3BJ keyword; no other route directive is accepted here.",
+    default=None,
+    impact="Adds the explicitly selected dispersion correction; Gaussian rejects incompatible functional/correction combinations.",
+)
+_register_parameter(
+    "gaussian", "calculate_excited_states", "method_spec.solvent",
+    description="Gaussian solvent name; requires an explicit pcm/cpcm/smd solvation_model.",
+    default=None, impact="Changing solvent changes the computed environment and excitation properties.",
+)
+_register_parameter(
+    "gaussian", "calculate_excited_states", "action_settings.td_convergence",
+    description="Optional Gaussian TD/TDA Conver=N exponent (4..12). Null omits the keyword and uses Gaussian's single-point default N=4; this is not ORCA etol/rtol.",
+    default=None, type="integer | null", minimum=4, maximum=12,
+    impact="Higher N tightens Gaussian's excited-state energy and wavefunction convergence and increases solver work.",
+)
+_register_fixed(
+    "gaussian", "calculate_excited_states", "backend_runtime.reference_and_output",
+    description="Restricted closed-shell DFT reference; vertical single-point roots; Gaussian #P output. Printed orbital coefficients retain native values and are not normalized probabilities; small unprinted terms remain unavailable.",
+    reason="This typed adapter validates these state and output conventions; other Gaussian workflows remain available as native jobs.",
+)
+_register_fixed(
+    "gaussian", "calculate_excited_states", "backend_runtime.solvent_response",
+    description="Gaussian's native vertical TD/TDA solvent-response defaults are retained when SCRF is selected; no EqSolv, state-specific response or excited-state geometry optimization is added.",
+    reason="The atomic Action computes vertical excitations only and does not silently select another solvation workflow.",
+)
 
 _GAMESS_ACTIONS = ("calculate_energy", "optimize_geometry", "calculate_dipole_moment")
 for _field_path, _default, _description, _impact in (
@@ -1080,6 +1154,18 @@ for _field_path, _description, _impact in (
     ("method_spec.solvent", "Solvent name required when solvation_model is selected.", "Changing solvent changes implicit-solvation parameters and barriers."),
 ):
     _register_parameter("pysisyphus", _PYSISYPHUS_ACTIONS, _field_path, description=_description, default=None, impact=_impact)
+_register_parameter(
+    "pysisyphus",
+    "scan_reaction_coordinates",
+    "action_settings.atom_indices",
+    description=(
+        "Zero-based atom indices in the supplied structure: two for bond, three for angle, "
+        "four for dihedral. XYZ row 1 is index 0. Ordered angle/dihedral atoms define the "
+        "coordinate; equivalent native reversed primitives are resolved consistently."
+    ),
+    type="array",
+    impact="Selects the actual atoms constrained and scanned; changing indices changes the scientific coordinate.",
+)
 _register_parameter(
     "pysisyphus",
     "scan_reaction_coordinates",

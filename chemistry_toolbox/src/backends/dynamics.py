@@ -13,6 +13,7 @@ from typing import Any
 
 from .common import (
     command_artifacts,
+    external_failure,
     module_version,
     output_directory,
     partial_success,
@@ -1294,9 +1295,29 @@ def _plumed(request: dict[str, Any]) -> dict[str, Any]:
     if not completed["available"]:
         return unavailable(completed["stderr"], install="conda install -c conda-forge plumed")
     if completed["returncode"] != 0:
-        raise RuntimeError(f"PLUMED failed: {completed['stderr'][-2000:]}")
+        raise external_failure(completed, directory, "PLUMED")
     data_path = directory / "collective_variables.dat"
-    result = {"data_path": relative_workspace_path(data_path), "collective_variables": labels}
+    valid_rows = invalid_rows = 0
+    if data_path.is_file():
+        with data_path.open(encoding="utf-8", errors="replace") as stream:
+            for line in stream:
+                if not line.strip() or line.lstrip().startswith("#"):
+                    continue
+                try:
+                    row = [float(v) for v in line.split()]
+                    valid = len(row) == len(labels) + 1 and all(math.isfinite(v) for v in row)
+                except ValueError:
+                    valid = False
+                valid_rows += int(valid)
+                invalid_rows += int(not valid)
+    if not valid_rows:
+        raise external_failure(completed, directory, "PLUMED",
+                               message="PLUMED completed without parseable data in collective_variables.dat")
+    result = {"data_path": relative_workspace_path(data_path), "collective_variables": labels,
+              "data_row_count": valid_rows, "unparsed_row_count": invalid_rows}
+    if invalid_rows:
+        return partial_success(result, artifact_files=command_artifacts(directory), provenance={"command": completed["command"]},
+                               warnings=["Some PLUMED data rows were invalid; inspect the saved data file."])
     return success(result, artifact_files=command_artifacts(directory), provenance={"command": completed["command"]})
 
 

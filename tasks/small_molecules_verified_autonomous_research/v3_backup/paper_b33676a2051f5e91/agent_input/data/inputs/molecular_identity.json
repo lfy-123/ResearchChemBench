@@ -1,0 +1,152 @@
+{
+  "schema_version": "public-molecular-inventory-1",
+  "objects": [
+    {
+      "object_id": "substrate",
+      "name": "sec-butylbenzene",
+      "smiles": "CCC(C)c1ccccc1",
+      "formula": "C10H14",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "starting material",
+      "stereochemistry": "Experimental stereochemistry is unspecified. The supplied conformer represents an arbitrary enantiomer.",
+      "geometry_files": [
+        "sec_butylbenzene.xyz",
+        "sec_butylbenzene.sdf"
+      ],
+      "geometry_status": "Unoptimized distance-geometry conformer generated from the molecular graph; not a certified minimum."
+    },
+    {
+      "object_id": "bicl3",
+      "name": "bismuth trichloride",
+      "smiles": "Cl[Bi](Cl)Cl",
+      "formula": "BiCl3",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "added catalyst",
+      "identity_scope": "Graph of the added neutral reagent. Solution speciation is unspecified."
+    },
+    {
+      "object_id": "dioxygen",
+      "name": "dioxygen",
+      "smiles": "[O][O]",
+      "formula": "O2",
+      "charge": 0,
+      "multiplicity": 3,
+      "role": "gas feed, ground electronic state"
+    },
+    {
+      "object_id": "acetonitrile",
+      "name": "acetonitrile",
+      "smiles": "CC#N",
+      "formula": "C2H3N",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "solvent"
+    },
+    {
+      "object_id": "benzene",
+      "name": "benzene",
+      "smiles": "c1ccccc1",
+      "formula": "C6H6",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "solvent"
+    },
+    {
+      "object_id": "acetophenone",
+      "name": "acetophenone",
+      "smiles": "CC(=O)c1ccccc1",
+      "formula": "C8H8O",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "observed product"
+    },
+    {
+      "object_id": "mesitylene",
+      "name": "mesitylene",
+      "smiles": "Cc1cc(C)cc(C)c1",
+      "formula": "C9H12",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "NMR internal standard, not a reaction ingredient"
+    },
+    {
+      "object_id": "tempo",
+      "name": "TEMPO",
+      "smiles": "CC1(C)CCCC(C)(C)N1[O]",
+      "formula": "C9H18NO",
+      "charge": 0,
+      "multiplicity": 2,
+      "role": "control additive"
+    },
+    {
+      "object_id": "dpe",
+      "name": "1,1-diphenylethylene",
+      "smiles": "C=C(c1ccccc1)c1ccccc1",
+      "formula": "C14H12",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "control additive"
+    },
+    {
+      "object_id": "bht",
+      "name": "butylated hydroxytoluene (BHT)",
+      "smiles": "Cc1cc(C(C)(C)C)c(O)c(C(C)(C)C)c1",
+      "formula": "C15H24O",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "control additive"
+    },
+    {
+      "object_id": "dha",
+      "name": "9,10-dihydroanthracene",
+      "smiles": "c1ccc2c(c1)Cc1ccccc1C2",
+      "formula": "C14H12",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "control additive"
+    },
+    {
+      "object_id": "sodium_azide",
+      "name": "sodium azide",
+      "smiles": "[Na+].[N-]=[N+]=[N-]",
+      "formula": "N3Na",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "control additive, ion inventory",
+      "fragment_charges": [
+        1,
+        -1
+      ]
+    },
+    {
+      "object_id": "dabco",
+      "name": "DABCO",
+      "smiles": "C1CN2CCN1CC2",
+      "formula": "C6H12N2",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "control additive"
+    },
+    {
+      "object_id": "benzoquinone",
+      "name": "p-benzoquinone",
+      "smiles": "O=C1C=CC(=O)C=C1",
+      "formula": "C6H4O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "control additive"
+    }
+  ],
+  "solid_materials": [
+    {
+      "object_id": "molecular_sieves",
+      "name": "3 angstrom molecular sieves",
+      "role": "experimental solid additive",
+      "mass": null,
+      "identity_scope": "Porous solid; no single molecular graph or loading is specified in the supplied experimental record."
+    }
+  ],
+  "modeling_note": "Control additives occur only in their stated experiments."
+}

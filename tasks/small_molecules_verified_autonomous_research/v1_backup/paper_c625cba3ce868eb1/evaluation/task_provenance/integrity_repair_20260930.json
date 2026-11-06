@@ -1,0 +1,33 @@
+{
+  "at_utc": "2026-09-30T04:00:55.046786+00:00",
+  "paper_id": "paper_c625cba3ce868eb1",
+  "mode": "autonomous_research",
+  "finding_ids": [
+    "B4-I08"
+  ],
+  "classification": "coordinator-confirmed correction/clarification; not scientific final acceptance",
+  "source_references": [
+    {
+      "path": "tasks/upgrade_tasks/upgrade_version2/autonomous_research/paper_c625cba3ce868eb1/agent_input/data/inputs/systems.json",
+      "sha256": "20e4b9ec6a200ccac19f311062856897d85aa564224dee4e63bbc6df2333196e",
+      "locator": "species[id=compound_4_R], map_namespace=compound_4_R, atoms[map_id=22].element=H"
+    }
+  ],
+  "clarifications": {
+    "kp_identity": "Atom identifiers are local to the declared object and map_namespace. Evaluate identity, closure topology and reacting atoms after applying an explicit chemically valid bijective remapping; a changed numeric label alone is not a chemical error."
+  },
+  "native_evidence_records": [
+    {
+      "path": "tasks/upgrade_tasks/upgrade_version2/autonomous_research/paper_c625cba3ce868eb1/evaluation/task_provenance/existing_evidence_reuse.json",
+      "sha256": "a7c6de0cab021f8c62a5b0b8a22d12c5eaa6df9b54458f07ca218a1d76b8f2bb"
+    }
+  ],
+  "reuse_and_limits": "Previously recorded source minima/MEP and local models can be reused only under their actual graph and namespace. This repair validates label invariance, not new pathways or selectivity.",
+  "remaining_validation": "Future graph-to-artifact binding must apply the supplied bijection and retain stereochemistry. Chemical selectivity/pathway calibration is unchanged and remains unvalidated by this textual repair.",
+  "partial_full_policy": "Assess completion against the original public scientific question, not a self-narrowed addressed_scope. Missing necessary investigation, a failed calculation, copied public source values or a statement of source ambiguity earns no credit for the missing work and cannot yield whole-task full credit. Preserve credit for independently valid completed parts and accept sufficiently supported non-author conclusions without a fixed route or extra method matrix.",
+  "judge_calibration_status": "pending_not_run",
+  "runtime_isolation_status": "pending_not_tested",
+  "new_scientific_calculations": 0,
+  "AR_public_change": false,
+  "history_modified": false
+}

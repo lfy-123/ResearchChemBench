@@ -45,6 +45,7 @@ Execute Gaussian 16 input and convert checkpoint files with formchk. The native 
 - `calculate_hessian`.
 - `optimize_geometry`.
 - `calculate_dipole_moment`.
+- `calculate_excited_states`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

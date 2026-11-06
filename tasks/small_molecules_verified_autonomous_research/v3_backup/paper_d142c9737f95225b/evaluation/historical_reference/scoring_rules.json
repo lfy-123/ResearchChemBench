@@ -1,0 +1,587 @@
+{
+  "paper_id": "paper_d142c9737f95225b",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or computation outside the public scope is required. Numeric targets and tolerances are fixed, absolute and inclusive; the host computes agreement and the Judge must not adjust them. A contextual source number without an authored numeric rule creates no numerical gate. Qualitative items are independent of numeric-window passes and need their own actual computational support. An unsupported or failed item loses only its own points. Final conclusions require explicit supported inference or selection. Genuine unresolved essential physical identity/reference ambiguity requires needs_review; publication review pending alone does not block this version.",
+  "rules": [
+    {
+      "rule_id": "r_active_nn",
+      "reference_id": "active_nn",
+      "type": "semantic",
+      "expected": "实际计算结构支持完整中性NN-Mn(I)(CO)3酰胺型候选，硫臂游离，保留给定配体连接及CO库存；说明并支持所用电子态。不能仅凭画图或提出假设得分；不要求证明真实溶液布居或前体活化势垒。等价且有证据支持的候选映射可接受。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_active_nns",
+      "reference_id": "active_nns",
+      "type": "semantic",
+      "expected": "实际计算结构支持完整中性NNS-Mn(I)(CO)2酰胺型候选，硫参与配位；与NN三羰基保持完整配体身份，显式说明失去CO和电子态。不能仅凭候选标签得分；不要求真实布居或额外前体活化计算。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_oxidation_connection",
+      "reference_id": "oxidation_connection",
+      "type": "semantic",
+      "expected": "实际驻点和相关振动/反应连接支持异丙醇O–H与C–H氢转移，形成丙酮及相应胺-氢化物；质子、氢化物、原子及电荷配平。要求真实反应态连接，不以任务执行成功或任意负频代替；无需复刻验证者IRC步骤，不设来源冲突绝对势垒窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_reduction_connection",
+      "reference_id": "reduction_connection",
+      "type": "semantic",
+      "expected": "实际驻点及相关振动/反应连接支持由匹配胺-氢化物向苯乙酮转移Mn–H氢化物至碳和N–H质子至氧，形成正确1-苯乙醇；结构/原子映射支持所称产物面。与氧化半反应区分，不能用氧化势垒替代；不设冲突绝对势垒窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_rest_Mn1_Me",
+      "reference_id": "rest_Mn1_Me",
+      "type": "semantic",
+      "expected": "对Mn1-Me（Mn1为NN三羰基，Mn2为NNS二羰基），实际自由能支持N质子化Mn异丙氧基静息态低于匹配amido+iPrOH，故同一氧化TS相对该静息态的有效势垒高于其相对分离反应物的纵坐标。必须使用同一TS、配平粒子/电荷及一致热项；独立评价稳定化符号和零点改变，不要求来源冲突数值命中。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_rest_Mn1_tBu",
+      "reference_id": "rest_Mn1_tBu",
+      "type": "semantic",
+      "expected": "对Mn1-tBu（Mn1为NN三羰基，Mn2为NNS二羰基），实际自由能支持N质子化Mn异丙氧基静息态低于匹配amido+iPrOH，故同一氧化TS相对该静息态的有效势垒高于其相对分离反应物的纵坐标。必须使用同一TS、配平粒子/电荷及一致热项；独立评价稳定化符号和零点改变，不要求来源冲突数值命中。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_rest_Mn2_Me",
+      "reference_id": "rest_Mn2_Me",
+      "type": "semantic",
+      "expected": "对Mn2-Me（Mn1为NN三羰基，Mn2为NNS二羰基），实际自由能支持N质子化Mn异丙氧基静息态低于匹配amido+iPrOH，故同一氧化TS相对该静息态的有效势垒高于其相对分离反应物的纵坐标。必须使用同一TS、配平粒子/电荷及一致热项；独立评价稳定化符号和零点改变，不要求来源冲突数值命中。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_rest_Mn2_tBu",
+      "reference_id": "rest_Mn2_tBu",
+      "type": "semantic",
+      "expected": "对Mn2-tBu（Mn1为NN三羰基，Mn2为NNS二羰基），实际自由能支持N质子化Mn异丙氧基静息态低于匹配amido+iPrOH，故同一氧化TS相对该静息态的有效势垒高于其相对分离反应物的纵坐标。必须使用同一TS、配平粒子/电荷及一致热项；独立评价稳定化符号和零点改变，不要求来源冲突数值命中。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_oxidation_order_Me",
+      "reference_id": "oxidation_order_Me",
+      "type": "semantic",
+      "expected": "在相同Me取代、异丙醇介质、298.15 K及一致1 atm/透明换算条件下，匹配amido+iPrOH参照的实际计算支持NN三羰基氧化势垒低于NNS二羰基。判断家族顺序，不要求Me/tBu内部顺序或绝对势垒命中；不能比较不相容零点。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_oxidation_order_tBu",
+      "reference_id": "oxidation_order_tBu",
+      "type": "semantic",
+      "expected": "在相同tBu取代、异丙醇介质、298.15 K及一致1 atm/透明换算条件下，匹配amido+iPrOH参照的实际计算支持NN三羰基氧化势垒低于NNS二羰基。判断家族顺序，不要求Me/tBu内部顺序或绝对势垒命中；不能比较不相容零点。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_reduction_order_Me",
+      "reference_id": "reduction_order_Me",
+      "type": "semantic",
+      "expected": "在匹配Me取代、相同底物面和已映射催化剂构型下，实际计算支持NNS二羰基S通道还原势垒低于NN三羰基；分别使用对应amine-hydride+acetophenone的参照并保持相同热力学条件。不要求来源冲突的R通道跨家族顺序或数值窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_reduction_order_tBu",
+      "reference_id": "reduction_order_tBu",
+      "type": "semantic",
+      "expected": "在匹配tBu取代、相同底物面和已映射催化剂构型下，实际计算支持NNS二羰基S通道还原势垒低于NN三羰基；分别使用对应amine-hydride+acetophenone的参照并保持相同热力学条件。不要求来源冲突的R通道跨家族顺序或数值窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_stereo_Mn1_Me",
+      "reference_id": "stereo_Mn1_Me",
+      "type": "semantic",
+      "expected": "对Mn1-Me的同一催化剂手性构型、组成及热力学条件，配对真实计算支持映射到作者构型时S面还原TS低于R面。镜像催化剂必须相应反转产物面映射；若构型未映射或方向反转则不通过。该定性差异不要求正文或SI的冲突ΔΔG数值命中，也不代表宏观ee。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_stereo_Mn1_tBu",
+      "reference_id": "stereo_Mn1_tBu",
+      "type": "semantic",
+      "expected": "对Mn1-tBu的同一催化剂手性构型、组成及热力学条件，配对真实计算支持映射到作者构型时S面还原TS低于R面。镜像催化剂必须相应反转产物面映射；若构型未映射或方向反转则不通过。该定性差异不要求正文或SI的冲突ΔΔG数值命中，也不代表宏观ee。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_stereo_Mn2_Me",
+      "reference_id": "stereo_Mn2_Me",
+      "type": "semantic",
+      "expected": "对Mn2-Me的同一催化剂手性构型、组成及热力学条件，配对真实计算支持映射到作者构型时S面还原TS低于R面。镜像催化剂必须相应反转产物面映射；若构型未映射或方向反转则不通过。该定性差异不要求正文或SI的冲突ΔΔG数值命中，也不代表宏观ee。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_stereo_Mn2_tBu",
+      "reference_id": "stereo_Mn2_tBu",
+      "type": "semantic",
+      "expected": "对Mn2-tBu的同一催化剂手性构型、组成及热力学条件，配对真实计算支持映射到作者构型时S面还原TS低于R面。镜像催化剂必须相应反转产物面映射；若构型未映射或方向反转则不通过。该定性差异不要求正文或SI的冲突ΔΔG数值命中，也不代表宏观ee。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_cycle_hydrogen_ledger",
+      "reference_id": "cycle_hydrogen_ledger",
+      "type": "semantic",
+      "expected": "实际氧化和还原态共同支持净反应acetophenone+iPrOH→1-phenylethanol+acetone，并通过相容amido/amine-hydride状态闭合氢、原子和电荷账本。此项新增科学信息是两个局部过程能组成同一转移氢化循环；仅分别列出两条无关路线或示意图不通过，不要求完整真实溶液物种平衡。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_activity_conclusion",
+      "reference_id": "activity_conclusion",
+      "type": "semantic",
+      "expected": "最终综合实际反应态、家族比较及静息态结果，解释NN三羰基有利于醇氧化而NNS二羰基可有利于S通道酮还原；有效氧化势垒的比较支持在这些候选模型中醇氧化为较慢半循环。必须明确作出受计算支持的选择/解释，不能只列候选或趋势；不得由此断言唯一真实活性种、实际布居或精确速率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    },
+    {
+      "rule_id": "r_stereo_conclusion",
+      "reference_id": "stereo_conclusion",
+      "type": "semantic",
+      "expected": "最终由实际配对结构/能量与镜像关系推断：固定催化剂构型可产生S/R差异，其镜像对应相反产物映射；无手性配体、单构型结果不能确立实验宏观ee。须以实际映射和比较支持这一系综解释，泛泛写“有局限”不足；不要求额外求真实构型布居或全部镜像反应网络。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md",
+          "research/"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "active_nn",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "NN三羰基候选的实际配位结构",
+      "rule_ids": [
+        "r_active_nn"
+      ],
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD"
+      ]
+    },
+    {
+      "id": "active_nns",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "NNS二羰基候选的实际配位结构",
+      "rule_ids": [
+        "r_active_nns"
+      ],
+      "evidence_ids": [
+        "E_PRECURSOR",
+        "E_METHOD"
+      ]
+    },
+    {
+      "id": "oxidation_connection",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "异丙醇氧化的氢转移连接",
+      "rule_ids": [
+        "r_oxidation_connection"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "reduction_connection",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "苯乙酮还原的氢转移连接",
+      "rule_ids": [
+        "r_reduction_connection"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "rest_Mn1_Me",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "Mn1-Me静息态稳定化",
+      "rule_ids": [
+        "r_rest_Mn1_Me"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "rest_Mn1_tBu",
+      "kind": "intermediate",
+      "max_score": 2,
+      "description": "Mn1-tBu静息态稳定化",
+      "rule_ids": [
+        "r_rest_Mn1_tBu"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "rest_Mn2_Me",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "Mn2-Me静息态稳定化",
+      "rule_ids": [
+        "r_rest_Mn2_Me"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "rest_Mn2_tBu",
+      "kind": "intermediate",
+      "max_score": 2,
+      "description": "Mn2-tBu静息态稳定化",
+      "rule_ids": [
+        "r_rest_Mn2_tBu"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "oxidation_order_Me",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Me取代下NN/NNS氧化比较",
+      "rule_ids": [
+        "r_oxidation_order_Me"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "oxidation_order_tBu",
+      "kind": "intermediate",
+      "max_score": 7,
+      "description": "tBu取代下NN/NNS氧化比较",
+      "rule_ids": [
+        "r_oxidation_order_tBu"
+      ],
+      "evidence_ids": [
+        "E_OX",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "reduction_order_Me",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "Me取代下S通道NN/NNS还原比较",
+      "rule_ids": [
+        "r_reduction_order_Me"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "reduction_order_tBu",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "tBu取代下S通道NN/NNS还原比较",
+      "rule_ids": [
+        "r_reduction_order_tBu"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_Mn1_Me",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "Mn1-Me固定构型的S/R偏向",
+      "rule_ids": [
+        "r_stereo_Mn1_Me"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_Mn1_tBu",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "Mn1-tBu固定构型的S/R偏向",
+      "rule_ids": [
+        "r_stereo_Mn1_tBu"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_Mn2_Me",
+      "kind": "intermediate",
+      "max_score": 2,
+      "description": "Mn2-Me固定构型的S/R偏向",
+      "rule_ids": [
+        "r_stereo_Mn2_Me"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_Mn2_tBu",
+      "kind": "intermediate",
+      "max_score": 2,
+      "description": "Mn2-tBu固定构型的S/R偏向",
+      "rule_ids": [
+        "r_stereo_Mn2_tBu"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "cycle_hydrogen_ledger",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "两半反应闭合的有机转化",
+      "rule_ids": [
+        "r_cycle_hydrogen_ledger"
+      ],
+      "evidence_ids": [
+        "E_CYCLE",
+        "E_OX",
+        "E_RED"
+      ]
+    },
+    {
+      "id": "activity_conclusion",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：配位环境对两半反应的相反影响",
+      "rule_ids": [
+        "r_activity_conclusion"
+      ],
+      "evidence_ids": [
+        "E_CYCLE",
+        "E_OX",
+        "E_RED",
+        "E_SI"
+      ]
+    },
+    {
+      "id": "stereo_conclusion",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：构型条件下的偏向及系综含义",
+      "rule_ids": [
+        "r_stereo_conclusion"
+      ],
+      "evidence_ids": [
+        "E_RED",
+        "E_CYCLE",
+        "E_SI"
+      ]
+    }
+  ]
+}

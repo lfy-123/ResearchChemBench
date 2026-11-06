@@ -1,0 +1,186 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "current_scoring_authority": "Only scoring_rules.json awards points. Supporting items and historical records carry no numerical or independent points gates.",
+  "items": [
+    {
+      "key_point_id": "support_orientation_structure_stability",
+      "key_point_type": "scientific_evidence",
+      "statement": "Structural and energetic effect of the two Hap orientations",
+      "expected": "Establish the structural and energetic difference between the S4 and C2h orientations of neutral-singlet gas-phase Ir2(Hap)4, retaining all 54 atoms and matched Ir identities. Determine both Ir-Ir distances and G(C2h)-G(S4) at 298.15 K under one standard-state and thermal/low-frequency convention. The reference S4 structure has a shorter Ir-Ir contact and lower Gibbs energy than C2h. Interpret the two structures and relative stability from actual relaxed geometries, energy components and stationary-character evidence; electronic DeltaE is not DeltaG. The source distances 2.599/2.724 A and 9.7 kcal/mol are context, not numerical gates. A physically established model-sensitive difference can pass when the same orientations and states are tracked, any changed stationary character is demonstrated, and the revised structural/energetic inference is bounded accordingly. This result does not itself identify the orbital cause or prove an equilibrium conformer population.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_ligand_pi_mechanism",
+      "key_point_type": "scientific_evidence",
+      "statement": "Metal–iminoxolene mixing and occupations enable net Ir–Ir π bonding",
+      "expected": "Actual electronic evidence supports metal–iminoxolene mixing that leaves available metal dπ acceptor character and enables a net positive Ir–Ir π contribution. In a symmetry-adapted description the low occupied 1e manifold is π bonding, while empty 4e carries substantial metal/ligand π-antibonding character; occupied 2e/3e also have weak antibonding contributions. These assignments support a net mechanism rather than treating all occupied metal orbitals as bonding. Equivalent density/orbital representations pass without mandatory labels or partition values. A formal oxidation state or short distance alone fails.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_orientation_mechanism",
+      "key_point_type": "scientific_evidence",
+      "statement": "Relative coordination-unit orientation changes intermetal donor–acceptor overlap",
+      "expected": "The S4 orientation permits filled metal dπ on one center to overlap with empty metal–iminoxolene π* character on the other. The C2h deformation suppresses this interaction, consistent with its longer Ir–Ir distance and higher energy. Establish this orientation-dependent physical account with spatial/electronic evidence plus the comparable structural-energy result, not just the two distances or numerical ordering. The optimized structures also differ in ligand distortion, so their full energy gap is not a uniquely isolated π-overlap energy. Established physically equivalent explanations pass.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_model_applicability",
+      "key_point_type": "scientific_evidence",
+      "statement": "Stationary character and model truncation bound the equilibrium and experimental interpretation",
+      "expected": "The S4 Hap structure is a local minimum and the C2h comparison is a first-order saddle, so their Gibbs difference is not an equilibrium ratio of two metastable conformers. Use actual curvature/state evidence to establish that applicability conclusion; completion of a frequency calculation alone is not the result. The Hap model supports a qualitative ligand-assisted molecular Ir–Ir bonding account, but does not quantitatively certify the full Egan crystal distance, SOC response, or a unique physical bond order. A Mayer index, orbital population or MOS-based estimate is definition-dependent; it cannot be asserted as exact experimental bond order 2.34. No new full-Egan or SOC calculation is demanded. If a justified model establishes different stationary character for the same candidate orientations, assess its actual curvature and the resulting conformer inference explicitly rather than imposing the source saddle label; the Hap-to-Egan and definition-dependent bond-order limits still apply.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "key_point_id": "evidence_s4_irir_distance",
+      "key_point_type": "result",
+      "statement": "Recover the Ir–Ir distance of the correctly mapped S4 Hap gas-phase structure.",
+      "expected": "Recover the Ir–Ir distance of the correctly mapped S4 Hap gas-phase structure. Physical definition: Neutral singlet 54-atom C24H20Ir2N4O4 Hap model with two Ir and four iminoxolene N/O units, isolated gas-phase molecule. Compare the S4-like local minimum with the corresponding C2h-constrained first-order saddle at the same composition/electronic state. DeltaG=G(C2h)-G(S4) under matched 298.15 K molecular thermal conventions; this is not a stable-isomer population ratio. A different electronic-structure method must preserve this molecular object, stationary-state character and orbital/density correspondence. Program, functional and basis labels are provenance rather than pass conditions. Full experimental C88H104Ir2N4O12 Egan crystal is a different object; its 2.5584 Å distance is not the Hap theoretical target.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "claim_role": "supporting_evidence",
+      "scored": false
+    },
+    {
+      "key_point_id": "evidence_c2h_irir_distance",
+      "key_point_type": "result",
+      "statement": "Recover the Ir–Ir distance of the correctly mapped C2h Hap constrained stationary structure; identify it as a saddle rather than a stable conformer.",
+      "expected": "Recover the Ir–Ir distance of the correctly mapped C2h Hap constrained stationary structure; identify it as a saddle rather than a stable conformer. Physical definition: Neutral singlet 54-atom C24H20Ir2N4O4 Hap model with two Ir and four iminoxolene N/O units, isolated gas-phase molecule. Compare the S4-like local minimum with the corresponding C2h-constrained first-order saddle at the same composition/electronic state. DeltaG=G(C2h)-G(S4) under matched 298.15 K molecular thermal conventions; this is not a stable-isomer population ratio. A different electronic-structure method must preserve this molecular object, stationary-state character and orbital/density correspondence. Program, functional and basis labels are provenance rather than pass conditions. Full experimental C88H104Ir2N4O12 Egan crystal is a different object; its 2.5584 Å distance is not the Hap theoretical target.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "claim_role": "supporting_evidence",
+      "scored": false
+    },
+    {
+      "key_point_id": "evidence_c2h_relative_g",
+      "key_point_type": "result",
+      "statement": "Recover G(C2h)-G(S4) with matched molecular Gibbs references, excluding imaginary-mode treatment from a fictitious stable-isomer population interpretation.",
+      "expected": "Recover G(C2h)-G(S4) with matched molecular Gibbs references, excluding imaginary-mode treatment from a fictitious stable-isomer population interpretation. Physical definition: Neutral singlet 54-atom C24H20Ir2N4O4 Hap model with two Ir and four iminoxolene N/O units, isolated gas-phase molecule. Compare the S4-like local minimum with the corresponding C2h-constrained first-order saddle at the same composition/electronic state. DeltaG=G(C2h)-G(S4) under matched 298.15 K molecular thermal conventions; this is not a stable-isomer population ratio. A different electronic-structure method must preserve this molecular object, stationary-state character and orbital/density correspondence. Program, functional and basis labels are provenance rather than pass conditions. Full experimental C88H104Ir2N4O12 Egan crystal is a different object; its 2.5584 Å distance is not the Hap theoretical target.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "claim_role": "supporting_evidence",
+      "scored": false
+    },
+    {
+      "key_point_id": "evidence_s4_minimum",
+      "key_point_type": "result",
+      "statement": "Establish the S4-like Hap structure as a local minimum using valid optimized geometry, positive vibrational curvature and a defensible electronic solution.",
+      "expected": "Establish the S4-like Hap structure as a local minimum using valid optimized geometry, positive vibrational curvature and a defensible electronic solution. Physical definition: Neutral singlet 54-atom C24H20Ir2N4O4 Hap model with two Ir and four iminoxolene N/O units, isolated gas-phase molecule. Compare the S4-like local minimum with the corresponding C2h-constrained first-order saddle at the same composition/electronic state. DeltaG=G(C2h)-G(S4) under matched 298.15 K molecular thermal conventions; this is not a stable-isomer population ratio. A different electronic-structure method must preserve this molecular object, stationary-state character and orbital/density correspondence. Program, functional and basis labels are provenance rather than pass conditions. Full experimental C88H104Ir2N4O12 Egan crystal is a different object; its 2.5584 Å distance is not the Hap theoretical target.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "claim_role": "supporting_evidence",
+      "scored": false
+    },
+    {
+      "key_point_id": "evidence_c2h_saddle",
+      "key_point_type": "result",
+      "statement": "Establish the source C2h-like Hap structure as a first-order saddle with one relevant imaginary deformation mode. Constrained convergence or the longer distance alone is insufficient; calling this a metastable minimum fails this leaf.",
+      "expected": "Establish the source C2h-like Hap structure as a first-order saddle with one relevant imaginary deformation mode. Constrained convergence or the longer distance alone is insufficient; calling this a metastable minimum fails this leaf. Physical definition: Neutral singlet 54-atom C24H20Ir2N4O4 Hap model with two Ir and four iminoxolene N/O units, isolated gas-phase molecule. Compare the S4-like local minimum with the corresponding C2h-constrained first-order saddle at the same composition/electronic state. DeltaG=G(C2h)-G(S4) under matched 298.15 K molecular thermal conventions; this is not a stable-isomer population ratio. A different electronic-structure method must preserve this molecular object, stationary-state character and orbital/density correspondence. Program, functional and basis labels are provenance rather than pass conditions. Full experimental C88H104Ir2N4O12 Egan crystal is a different object; its 2.5584 Å distance is not the Hap theoretical target.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "claim_role": "supporting_evidence",
+      "scored": false
+    },
+    {
+      "key_point_id": "evidence_occupied_pi_bonding",
+      "key_point_type": "result",
+      "statement": "Show from actual orbital/density analysis that the low occupied E-symmetry manifold has Ir–Ir pi-bonding overlap with metal/iminoxolene mixing, rather than assigning bonding from distance alone. Equivalent spatial/orbital labels are allowed.",
+      "expected": "Show from actual orbital/density analysis that the low occupied E-symmetry manifold has Ir–Ir pi-bonding overlap with metal/iminoxolene mixing, rather than assigning bonding from distance alone. Equivalent spatial/orbital labels are allowed. Physical definition: Neutral singlet 54-atom C24H20Ir2N4O4 Hap model with two Ir and four iminoxolene N/O units, isolated gas-phase molecule. Compare the S4-like local minimum with the corresponding C2h-constrained first-order saddle at the same composition/electronic state. DeltaG=G(C2h)-G(S4) under matched 298.15 K molecular thermal conventions; this is not a stable-isomer population ratio. A different electronic-structure method must preserve this molecular object, stationary-state character and orbital/density correspondence. Program, functional and basis labels are provenance rather than pass conditions. Full experimental C88H104Ir2N4O12 Egan crystal is a different object; its 2.5584 Å distance is not the Hap theoretical target.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "claim_role": "supporting_evidence",
+      "scored": false
+    },
+    {
+      "key_point_id": "evidence_vacant_pi_antibonding",
+      "key_point_type": "result",
+      "statement": "Show that the high empty E-symmetry manifold carries substantial Ir/iminoxolene pi-antibonding character, leaving relevant metal d-pi character unoccupied; an empirical oxidation-state label does not establish this electronic finding.",
+      "expected": "Show that the high empty E-symmetry manifold carries substantial Ir/iminoxolene pi-antibonding character, leaving relevant metal d-pi character unoccupied; an empirical oxidation-state label does not establish this electronic finding. Physical definition: Neutral singlet 54-atom C24H20Ir2N4O4 Hap model with two Ir and four iminoxolene N/O units, isolated gas-phase molecule. Compare the S4-like local minimum with the corresponding C2h-constrained first-order saddle at the same composition/electronic state. DeltaG=G(C2h)-G(S4) under matched 298.15 K molecular thermal conventions; this is not a stable-isomer population ratio. A different electronic-structure method must preserve this molecular object, stationary-state character and orbital/density correspondence. Program, functional and basis labels are provenance rather than pass conditions. Full experimental C88H104Ir2N4O12 Egan crystal is a different object; its 2.5584 Å distance is not the Hap theoretical target.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "claim_role": "supporting_evidence",
+      "scored": false
+    },
+    {
+      "key_point_id": "evidence_ligand_enabled_bonding_explanation",
+      "key_point_type": "result",
+      "statement": "Conclude that iminoxolene redox-active metal–ligand mixing creates available pi-type acceptor character and the S4 orientation permits filled/empty intermetal overlap, explaining a net pi contribution and shortened Ir–Ir bond relative to the C2h deformation. Integrate computed spatial/orbital and structure-energy evidence; keep the inference at Hap-model level and do not turn a distance or Mayer index into an exact experimental bond order.",
+      "expected": "Conclude that iminoxolene redox-active metal–ligand mixing creates available pi-type acceptor character and the S4 orientation permits filled/empty intermetal overlap, explaining a net pi contribution and shortened Ir–Ir bond relative to the C2h deformation. Integrate computed spatial/orbital and structure-energy evidence; keep the inference at Hap-model level and do not turn a distance or Mayer index into an exact experimental bond order. Physical definition: Neutral singlet 54-atom C24H20Ir2N4O4 Hap model with two Ir and four iminoxolene N/O units, isolated gas-phase molecule. Compare the S4-like local minimum with the corresponding C2h-constrained first-order saddle at the same composition/electronic state. DeltaG=G(C2h)-G(S4) under matched 298.15 K molecular thermal conventions; this is not a stable-isomer population ratio. A different electronic-structure method must preserve this molecular object, stationary-state character and orbital/density correspondence. Program, functional and basis labels are provenance rather than pass conditions. Full experimental C88H104Ir2N4O12 Egan crystal is a different object; its 2.5584 Å distance is not the Hap theoretical target.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history"
+      ],
+      "claim_role": "supporting_evidence",
+      "scored": false
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "paper_id": "paper_87f5566528287b60",
+  "items": [
+    {
+      "failure_id": "fabricated_evidence",
+      "statement": "伪造计算执行或数值证据。",
+      "trigger": "有明确证据确认伪造计算执行、日志或结果，或将复制的私有参考值冒称独立实算；普通误判、收敛失败或缺失本身不等于伪造。",
+      "assessment": "确认伪造时按invalid_submission处理，提交无效；诚实失败只使受影响科学项失分，其他独立有效项保留。",
+      "evidence_ids": [
+        "V2_MAIN"
+      ]
+    },
+    {
+      "failure_id": "hidden_answer_leakage",
+      "statement": "将未公开的答案或私有参考冒充独立发现。",
+      "trigger": "确认提交依赖未经公开提供的evaluator答案或隐藏原生参考，并冒称自主计算结果。",
+      "assessment": "确认未经授权使用隐藏答案时按invalid_submission处理；公开PR指导本身不构成泄漏。物种/单位错误、普通缺项只影响对应项，不自动全题清零。",
+      "evidence_ids": [
+        "V2_MAIN"
+      ]
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "ordinary_failure_policy": "Missing or unsupported conclusions fail only the affected independent items. Established equivalents pass; no need_review or whole-case zeroing for ordinary local errors.",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_tx_compatibility",
+      "r_ir_dfppy_compatibility",
+      "r_standard_ir_boundary",
+      "r_fac_ir_mismatch",
+      "r_mes_acr_mismatch",
+      "r_yield_nonmonotonicity"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

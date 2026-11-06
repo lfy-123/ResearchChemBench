@@ -1,0 +1,127 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked managed computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or new computation outside the public scope is required. Numerical targets and existing tolerances are not adjustable. A number in source context without a tolerance does not create a new numerical gate. Do not invent tolerances or treat sign/order alone as a quantitative magnitude match. Unresolved essential reference comparability requires needs_review. Assess independent items separately; a failed numerical item does not automatically erase an independently supported qualitative conclusion. Conclusion points require an explicit supported final inference or selection, not merely computing or listing a matching candidate.",
+  "rules": [
+    {
+      "rule_id": "r_barrier_33",
+      "reference_id": "barrier_33",
+      "type": "numeric",
+      "expected": "Recover the chemically assigned [3,3] channel Gibbs barrier relative to validated 3a at 298.15 K in the isolated-molecule boundary. Require a stationary saddle with exactly one relevant imaginary mode and displacement/connectivity validation; no source-coordinate copying or arbitrary candidate label.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      },
+      "target": 23.5,
+      "tolerance": 3.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_barrier_55",
+      "reference_id": "barrier_55",
+      "type": "numeric",
+      "expected": "Recover the chemically assigned [5,5] channel Gibbs barrier relative to the same 3a reference at 298.15 K, with a valid first-order saddle and channel-specific displacement/connectivity evidence. Do not substitute barriers for other polycyclic substrates in this paper.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      },
+      "target": 26.2,
+      "tolerance": 3.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_channel_structures",
+      "reference_id": "channel_structures",
+      "type": "semantic",
+      "expected": "Correctly construct distinct molecular structural models for both the [3,3] and [5,5] rearrangement channels of the supplied 3a. Require recoverable geometries and an unambiguous atom mapping that establish the channel-specific bond-breaking/forming pattern and connectivity, with the correct atom inventory and electronic state. Both channel assignments must be supported by actual computed structural evidence; names, file labels or two submitted jobs alone do not establish them. This item assesses structural identity separately from numerical barrier agreement: a correct channel model can pass even when its barrier misses tolerance. It does not replace the stationary-saddle and relevant-mode requirements of the two barrier items, and does not impose mandatory full IRC calculations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    },
+    {
+      "rule_id": "r_rearrangement_conclusion",
+      "reference_id": "rearrangement_conclusion",
+      "type": "semantic",
+      "expected": "The final comparison supported by the submitted two-channel computations identifies [3,3] as lower-barrier than [5,5] for 3a. Both numbers falling inside their independent ±3 windows does not by itself establish the correct ordering. Explain the comparison within the tested molecular mechanism; no negative-barrier result for another substrate is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Match physical result identity and submitted evidence; apply the authored result-specific comparison"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "barrier_33",
+      "kind": "intermediate",
+      "max_score": 25,
+      "description": "[3,3] 通道活化自由能",
+      "rule_ids": [
+        "r_barrier_33"
+      ],
+      "evidence_ids": [
+        "main_p4_14",
+        "supplementary_001_p6"
+      ]
+    },
+    {
+      "id": "barrier_55",
+      "kind": "intermediate",
+      "max_score": 25,
+      "description": "[5,5] 通道活化自由能",
+      "rule_ids": [
+        "r_barrier_55"
+      ],
+      "evidence_ids": [
+        "main_p4_14",
+        "supplementary_001_p6"
+      ]
+    },
+    {
+      "id": "channel_structures",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "[3,3] 与 [5,5] 两通道的正确分子结构",
+      "rule_ids": [
+        "r_channel_structures"
+      ],
+      "evidence_ids": [
+        "main_p4_14",
+        "supplementary_001_p6"
+      ]
+    },
+    {
+      "id": "rearrangement_conclusion",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "最终：[3,3] 比 [5,5] 势垒更低",
+      "rule_ids": [
+        "r_rearrangement_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p4_14",
+        "supplementary_001_p6"
+      ]
+    }
+  ]
+}

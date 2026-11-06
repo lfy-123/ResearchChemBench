@@ -1,0 +1,46 @@
+{
+  "paper_id": "paper_f62b895afc2db020",
+  "items": [
+    {
+      "key_point_id": "sensitized_triplet",
+      "key_point_type": "result",
+      "statement": "烯烃三重态可由敏化条件提供能量",
+      "expected": "实际计算支持本底物存在与烯烃相关的三重态/开壳层激发态，其能量与TXO敏化条件相容，能够作为骨架重排的反应性起点；以相容的激发能定义、电子态及溶剂作比较。论文52.2为Gibbs态间差而非垂直电子激发能，TXO65.5为文献参照而非本次验证实算；两数字均无评分容差。不能仅凭灯波长或复述作者机理得分，也不要求额外计算羰基三重态75.6来排除Norrish路线。",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107"
+      ]
+    },
+    {
+      "key_point_id": "addition_connectivity",
+      "key_point_type": "result",
+      "statement": "烯烃至羰基的C–C加成形成双环中间体",
+      "expected": "本底物的计算结构/路径支持烯烃部分与羰基碳发生分子内C–C加成、形成对应双环骨架中间体；在作者表述中为三重态5-exo-trig加成。需要该成键事件和相容电子态的实际局部连接/反应模式证据，不能以产物观察代替。允许等价方法和标签，不强制全IRC、特定软件或9.7精确数值。",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p105_106_107",
+        "si_p108_121"
+      ]
+    },
+    {
+      "key_point_id": "ring_opening",
+      "key_point_type": "result",
+      "statement": "原环C–C断裂给出扩环开壳层骨架",
+      "expected": "实际结构/局部路径支持加成后原环C–C键断裂，得到通往目标[5.1.0]骨架的扩环开壳层中间体；对应作者八元环双自由基3B。独立于前一成键项评价该断键及扩环的结构事件。来源局部势垒3.0和下坡反应自由能−13.6为非强制上下文；不能把累计图高度误称局部势垒，本结构项不附加热化学数值门槛。",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ]
+    },
+    {
+      "key_point_id": "cis_preference",
+      "key_point_type": "result",
+      "statement": "目标产物cis相对trans的能量偏好",
+      "expected": "对同一目标产物连接图、相同条件和相容物理量的cis/trans比较，计算支持C1甲氧羰基与C7苯基同侧的cis产物自由能低于trans。必须实际区分两种相对构型，不能由已知cis观察反推。论文23.5为Gibbs差；交叉点约3.7为电子差，两者不可混用。交叉点可作为额外相关证据，但不强制新增MECP轨迹或交叉数值门槛；产物稳定性差本身不是室温异构化速率或精确dr。",
+      "evidence_ids": [
+        "main_p6_7_8",
+        "si_p108_121"
+      ]
+    }
+  ]
+}

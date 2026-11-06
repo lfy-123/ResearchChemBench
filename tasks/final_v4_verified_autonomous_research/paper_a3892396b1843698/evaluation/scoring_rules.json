@@ -1,0 +1,245 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "scoring_policy": "paper_science_v3",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_boat_branch_competition",
+      "reference_id": "boat_branch_competition",
+      "type": "semantic",
+      "expected": "Determine the static kinetic preference between double-boat [3,3] and double-boat [5,5] rearrangement of full neutral-singlet C11H14 3a from actual Gibbs activation energies relative to the same lowest reactant conformer established in the investigation. Include relevant conformational preparation and establish the bond changes and connected endpoint identities needed for a valid comparison. The reference favors the [3,3] branch over [5,5]; explain which product channel that favors in the finite static model, without claiming a measured ratio or dynamic branching. Source barriers 23.5 and 26.2 kcal/mol are evidence, not targets. A method-sensitive changed or unresolved ordering can pass only when actual comparable route evidence and quantified sensitivity establish that conclusion within the same question; a missing route, different reactant zeros or an unsupported method disclaimer fails. This item does not score whether either mechanism is concerted or the source of the boat/chair difference.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_boat_chair_activation",
+      "reference_id": "boat_chair_activation",
+      "type": "semantic",
+      "expected": "Establish how changing double-boat to double-chair organization changes the forward activation demand for each of the [3,3] and [5,5] channels. Use all four actual Gibbs activation energies with common full-molecule identity, electronic state, reactant zero, temperature, standard state and thermochemical convention. The reference shows a substantial chair penalty within each rearrangement class; this comparison is distinct from choosing between the two boat product channels. Quantify the two within-class differences and assess their resolution without matching author barriers or a fixed penalty. A supported method-sensitive alternative or unresolved difference can pass if genuine matched structures/routes and sensitivity evidence explain it; copied numbers, mismatched reactant conformers or an unevaluated class fail. The physical geometric explanation for this observed activation effect is scored separately, and no isolated strain-energy decomposition is required here.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_boat33_mechanism",
+      "reference_id": "boat33_mechanism",
+      "type": "semantic",
+      "expected": "Actual mapped connection and electronic evidence support a concerted, predominantly closed-shell singlet rearrangement to the product with the 3b reference stereograph (break mapped bond 1–2 and form 10–13, allowing a consistent remapping and symmetry equivalence). A source label is not required. The fixed-geometry stability evidence supports the tested state, not an exhaustive all-spin proof. An established physically equivalent mechanism passes directly. Neither a single imaginary frequency nor a restricted-input label alone proves this final mechanism.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_boat55_mechanism",
+      "reference_id": "boat55_mechanism",
+      "type": "semantic",
+      "expected": "Actual mapped connection and electronic evidence support a concerted, predominantly closed-shell singlet rearrangement to the product with the 3c reference stereograph (break mapped bond 1–2 and form 16–20, allowing a consistent remapping and symmetry equivalence). A source label is not required. The fixed-geometry stability evidence supports the tested state, not an exhaustive all-spin proof. An established physically equivalent mechanism passes directly. Neither a single imaginary frequency nor a restricted-input label alone proves this final mechanism.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_geometric_organization",
+      "reference_id": "geometric_organization",
+      "type": "semantic",
+      "expected": "Quantitative geometries and energetic comparisons support favorable organization of cyclopropane-linked polyenes for double-boat rearrangement and greater chair distortion/preparation. Explain the comparison using relevant bond/angle/torsional changes and reactant preparation; neither a picture nor one ring angle alone establishes a strain-energy decomposition. A supported equivalent physical explanation passes.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_forward_reverse_scope",
+      "reference_id": "forward_reverse_scope",
+      "type": "semantic",
+      "expected": "The final answer distinguishes the four common-reactant forward barriers from local reverse barriers and TS-minus-separately-optimized-product heights. Establish the actual mapped endpoint stereochemistry and conformer identity for the submitted paths, and use those identities and consistent energy references to decide which reverse claims follow. The existing verifier chair55 E3Z1 versus source global3c E2Z2 mismatch, and the chair33 higher-energy local conformer versus source3d, illustrate this distinction; reproducing those particular local endpoints is not required. A different adequately established connection or conformer is accepted when its identity and reference support the reverse inference. Do not infer a complete connection to a different product from energy subtraction, or rates/trajectory branching from finite static results. Source labels are not required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.scientific_response"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "boat_branch_competition",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Competition between the two double-boat rearrangements",
+      "rule_ids": [
+        "r_boat_branch_competition"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "boat_chair_activation",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Effect of boat versus chair organization on activation",
+      "rule_ids": [
+        "r_boat_chair_activation"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "boat33_mechanism",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Product identity and electronic mechanism of the double-boat [3,3] rearrangement",
+      "rule_ids": [
+        "r_boat33_mechanism"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "verified_boat33_closed_shell",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "boat55_mechanism",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Product identity and electronic mechanism of the double-boat [5,5] rearrangement",
+      "rule_ids": [
+        "r_boat55_mechanism"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "verified_boat55_closed_shell",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "geometric_organization",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Molecular organization explains the boat/chair barrier differences",
+      "rule_ids": [
+        "r_geometric_organization"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "forward_reverse_scope",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Product identity and energy reference determine the supported reverse-path conclusions",
+      "rule_ids": [
+        "r_forward_reverse_scope"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

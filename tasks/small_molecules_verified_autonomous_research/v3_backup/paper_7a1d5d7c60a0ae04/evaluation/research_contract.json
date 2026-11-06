@@ -1,0 +1,430 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_catalyst_function",
+      "r_d4_kinetic_control",
+      "r_catalyst_selectivity_contrast",
+      "r_ring_size_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required selectivity pathways start from the supplied cyclic oxocarbenium and borohydride species. Diketone-to-cation formation, H2 activation and regeneration are not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Starting from the supplied cyclic oxocarbenium ions and triarylborohydride anions, explain catalyst-dependent cis/trans formation selectivity in the local reduction stage of hydrogenative reductive cycloetherification of D4 (1,4-diphenylbutane-1,4-dione) and D5 (1,5-diphenylpentane-1,5-dione), and its relation to product stability across ring sizes. Account for the supplied triarylborane performance comparisons using molecular evidence. This is an explanation task; the measured ratios and yields are supplied observations.",
+  "active_rule_ids": [
+    "r_catalyst_function",
+    "r_d4_kinetic_control",
+    "r_catalyst_selectivity_contrast",
+    "r_ring_size_relationship"
+  ],
+  "current_outcome_ids": [
+    "catalyst_function",
+    "d4_kinetic_control",
+    "catalyst_selectivity_contrast",
+    "ring_size_relationship"
+  ],
+  "historical_record": {
+    "decision": "pass",
+    "rationale": "The paper is eligible: it reports a small-molecule homogeneous organic reaction, borane-catalyzed hydrogenative reductive cycloetherification of diketones, and the authors performed DFT calculations directly on the stereochemical outcome of the corresponding cyclic ether-forming reaction. The public question is revised to ask about the observed/predictable cis/trans behavior of the identified 2,5-diphenyl tetrahydrofuran system under the reported conditions, without disclosing the authors' selected intermediates, transition states, or mechanistic explanation. The author-computed references are retained as private evaluation references.",
+    "domain": {
+      "small_molecule": true,
+      "homogeneous": true,
+      "organic_reaction": true,
+      "evidence_ids": [
+        "ev_doc_e52a848cf7ef_000008_e171f02cb7d5",
+        "ev_doc_e52a848cf7ef_000011_b3485a30e04d",
+        "ev_doc_e52a848cf7ef_000012_2df0ac96b5e3",
+        "ev_doc_e52a848cf7ef_000034_c3a8a1c39701",
+        "ev_doc_e52a848cf7ef_000042_6572e7eb8eac",
+        "ev_doc_e52a848cf7ef_000044_b7f71f06ec71",
+        "ev_doc_e52a848cf7ef_000060_0a57f7b529f7",
+        "ev_doc_e52a848cf7ef_000084_66b883ab8ba0",
+        "ev_doc_e52a848cf7ef_000086_6e5b86cedbab"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000008_e171f02cb7d5",
+          "quote": "ABSTRACT: Cyclic ethers, particularly cis-α,α′-disubstituted tetrahydrofurans (THFs) and tetrahydropyrans (THPs), are prevalent motifs in bioactive compounds. However, eficient stereoselective methods for accessing such motifs remain limited. Herein, we report a direct catalytic approach to cis-2,5- and cis-2,6- disubstituted THFs and THPs via reductive cycloetherification of 1,4- and 1,5-diketones. The transformation uses a simple triarylborane catalyst and dihydrogen as a clean reductant, producing water as the sole byproduct. A broad range of products"
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000011_b3485a30e04d",
+          "quote": "were obtained in high yields (up to 97%) and with high cis-selectivity (up to >20:1 dr). The method enabled streamlined access to medicinally relevant scafolds and was scalable to gram quantities. Mechanistic studies support oxocarbenium ion reduction as the stereodetermining step, while density functional theory calculations suggest that weak, noncovalent interactions between the catalyst and substrate contribute to the observed diastereoselectivity. This work introduces a borane-catalyzed hydrogenative cyclization strategy that may inspire future metal-free syntheses of stereodefined heterocycles."
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000012_2df0ac96b5e3",
+          "quote": "KEYWORDS: boranes, frustrated Lewis pairs, homogeneous catalysis, hydrogenation, oxygen heterocycles"
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000034_c3a8a1c39701",
+          "quote": "A flame-dried 4 mL glass vial (screw cap with PTFE/silicone septum) equipped with a magnetic stirring bar was charged with 4 Å molecular sieves (∼150 mg/mmol substrate), borane catalyst (0.02 mmol, 10 mol %), diketone substrate (0.2 mmol), and CPME (0.6 mL) under an atmosphere of argon. The mixture was stirred for 2 min, and then, the vial was pierced with a needle and placed in an autoclave. The system was sealed and purged three times with nitrogen (6 bar) and four times with hydrogen (3 bar) and then pressurized to 100 bar with hydrogen gas. The reaction mixture was heated to 80 °C and stirred for 18 h. After the reaction completed, the autoclave was allowed to cool to room temperature and slowly depressurized. The reaction mixture was filtered through a short silica plug and eluted with ethyl acetate. The filtrate was concentrated under reduced pressure, and the crude product was purified by flash column chromatography on silica gel to give the desired cyclic ether product."
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000042_6572e7eb8eac",
+          "quote": "We initiated our studies using commercially available ^ { 1 , 4 - } diketone 1a as a model substrate to investigate its reductive cyclization to the THF product 2a (Table 1, see the Supporting Information for full details). Using tris-(pentafluorophenyl)borane (B1)�the prototypical FLP Lewis acid component<sup>47</sup>�in i \\mathrm { P r } _ { 2 } \\mathrm { O } as the Lewis basic solvent,<sup>40</sup> 2a was obtained in 66% yield with a 6:1 cis:trans diastereomeric ratio (entry 1). The cis-configuration was confirmed by the NOE analysis. Despite this promising result, a significant 31% of undesired furan side product 3a also formed, likely due to nonreductive Paal−Knorr-type cyclization catalyzed by the strongly Lewis acidic borane.<sup>46</sup> We thus hypothesized that reducing the Lewis acidity of the catalyst could help suppress this side pathway.<sup>41,48</sup> To assess Lewis acidity, we calculated the fluoride ion afinity (FIA) of the boranes�a common measure to quantify Lewis acidity<sup>49</sup> obtaining a value of 467 kJ/mol for B1. Notably, Soos’́ catalyst B2, which is ∼12% less Lewis acidic \\left( \\mathrm { F I A } = 4 0 9 ~ \\mathrm { k J / m o l } \\right) suppressed furan formation and improved diastereoselectivity (11:1 dr), likely due to its increased steric bulk from orthochlorine substituents.<sup>42</sup> However, this came at the expense of activity, afording only 30% of the product (entry 2)."
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000044_b7f71f06ec71",
+          "quote": "The best overall performance was achieved with catalyst \\mathbf { B } 3 , ^ { 5 0 } which has intermediate Lewis acidity (FIA = 423 kJ/ mol). It delivered 2a in 48% yield with 11:1 dr and only a trace formation of furan (entry 3). These results corroborate our initial hypothesis that balancing the borane’s Lewis acidity is key to catalytic performance, with B3 providing the best compromise between reactivity and product selectivity. Using B3, we next evaluated a range of ether solvents (Table 1, entries 3 \\substack { - 6 } ) . We found no clear correlation between solvent Lewis basicity<sup>51</sup> and reaction outcome. Both more coordinating diethyl ether (entry 4) and less coordinating methyl tertbutyl ether (entry 5) outperformed i \\mathrm { P r } _ { 2 } \\mathrm { O } . In contrast, THF completely suppressed the product formation (entry 6). Notably, cyclopentyl methyl ether (CPME)�an industrially attractive solvent<sup>52</sup>�further improved the reaction, afording 78% of 2a (entry 7). Finally, raising the temperature to 80 ^ \\circ \\mathrm { C } furnished 2a in 93% yield (86% isolated) with a 10:1 dr (entry 8). While MTBE gave a comparable outcome (entry 9), we occasionally observed significant solvent loss due to its higher volatility, which resulted in poor mass balance. To avoid this issue, we continued the studies using CPME as the solvent."
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000060_0a57f7b529f7",
+          "quote": "Diferent alkyl substituents were well-tolerated, with bulkier groups generally afording higher diastereoselectivity but a somewhat reduced reactivity. For primary alkyl substrates (2m−p), 20 mol % B3 was used to ensure high yields. A bicyclic octahydrobenzofuran scafold (2q) bearing three stereocenters was obtained with excellent all-cis selectivity. In addition, a double reductive cyclization furnished bis-THFs 2r and 2r′ in good combined yield with high cis-selectivity. This transformation forges two rings and four stereocenters in a single operation, illustrating the method’s capacity for rapid buildup of molecular complexity. Beyond aryl systems, the method also provided access to dialkyl-substituted THFs such as 2s, a five-membered analog of (±)-cis-lauthisan,<sup>55</sup> and 2t, both obtained in high yield and selectivity despite the nonstabilized nature of their corresponding oxocarbenium intermediates. Substrates bearing secondary (Cy in 2v, N-Cbz piperidine in 2w) and even tertiary (tBu in 2x) alkyl groups were also well-tolerated. For these sterically demanding substrates, the less bulky catalyst B1 provided higher yields. A similar trend was observed for diaryl substrates: diphenyl product 2y formed in 31% yield and 20:1 dr with B3, versus 94% yield and 10:1 dr with B1. Using catalyst B1, arenes bearing para- (2z and 2aa), meta- (2ab), and ortho-substituents (2ac and 2ad) also reacted with high yields and diastereoselectivity. The structure of 2ad was unambiguously confirmed by X-ray crystal structure analysis, validating the cis-stereochemistry. Additionally, a 1,3-dihydroisobenzofuran fused-ring system (2ae) was also obtained as a single cisisomer, confirmed by X-ray crystal structure analysis."
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000084_66b883ab8ba0",
+          "quote": "To gain a deeper understanding of the origin of diastereoselectivity, we carried out DFT calculations using the THF derivative 2y (Figure 1). This compound, bearing"
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000086_6e5b86cedbab",
+          "quote": "identical 2,5-diPh substituents, was chosen to simplify the analysis. All free energies were computed at 8 0 ~ ^ { \\circ } \\mathrm { C } to match experimental conditions. The transition state leading to the cis product ( \\mathrm { T S } _ { c i s } ) was predicted to be 2.1 kcal/mol lower in energy than the one leading to the trans product ( \\mathrm { T S } _ { t r a n s } ) which is in excellent agreement with experiments ( \\Delta \\Delta G ^ { \\ddagger } = 2 . 1 kcal/mol; 20:1 dr, both calculated and observed). The barrier for reduction from the oxocarbenium intermediate Int-1y to \\mathrm { T S } _ { c i s } is relatively low \\left( \\Delta G ^ { \\ddagger } = 5 . 1 \\mathrm { ~ k c a l / m o l } \\right) , consistent with a facile process. The cis and trans products are nearly isoenergetic \\left( \\Delta \\Delta G = 0 . 3 \\mathrm { k c a l / m o l } \\right) , indicating that stereoselectivity is kinetically controlled by the catalyst. In contrast, for the six-membered THP product 2af, both kinetics and thermodynamics favor the cis isomer \\left( \\Delta \\Delta G = 2 . 6 \\right. kcal/mol; \\Delta \\Delta G ^ { \\ddagger } \\ = \\ 4 . 1 kcal/mol; details in the SI). This comparison further validates the stereochemical model and underscores the importance of catalyst control, especially for THFs where the thermodynamic bias is minimal."
+        }
+      ]
+    },
+    "scientific_question": "For the borane-catalyzed hydrogenative reductive cycloetherification of a 1,4-diketone bearing two phenyl substituents to the corresponding 2,5-diphenyl tetrahydrofuran, what cis/trans stereochemical outcome is expected under the reported hydrogenation conditions, and how can that outcome be rationalized computationally for the identified reaction system?",
+    "computation_relevance": "The question is grounded in the authors' DFT study of the same 2,5-diphenyl tetrahydrofuran-forming system. They reported solution-phase Gibbs free-energy differences between cis- and trans-forming pathways at 353.15 K, compared those values with experimental cis/trans ratios, and discussed the stereochemical origin of the selectivity. These results can serve as private references for evaluating a new computational analysis of the same reaction behavior.",
+    "author_computation": {
+      "performed_by_authors": true,
+      "results_reported": true,
+      "non_routine": true,
+      "evidence_ids": [
+        "ev_doc_e400803ba27b_000533_a41da9334969",
+        "ev_doc_e400803ba27b_000534_686429c67785",
+        "ev_doc_e400803ba27b_000535_3582afcf2831",
+        "ev_doc_e400803ba27b_000536_f842fafb0bdc",
+        "ev_doc_e400803ba27b_000549_09fd471ef201",
+        "ev_doc_e400803ba27b_000560_7515d8729e81",
+        "ev_doc_e400803ba27b_000561_1dce5f675c56",
+        "ev_doc_e400803ba27b_000562_6690e00525bd",
+        "ev_doc_e52a848cf7ef_000084_66b883ab8ba0",
+        "ev_doc_e52a848cf7ef_000086_6e5b86cedbab",
+        "ev_doc_e52a848cf7ef_000087_6ee43ef3eb56"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_e400803ba27b_000533_a41da9334969",
+          "quote": "The energetically most favorable structures were subjected to quantum chemical calculations. All DFT calculations were conducted using ORCA version 6.0.1.<sup>[48,49]</sup> Electronic structure calculations were carried out using the range-separated hybrid exchange-correlation functional ωB97X-D3 with dispersion correction.<sup>[50–53]</sup> The def2-TZVP basis set was employed for both geometry optimizations and single-point energy calculations.<sup>[54,55]</sup>"
+        },
+        {
+          "evidence_id": "ev_doc_e400803ba27b_000534_686429c67785",
+          "quote": "Solvent effects were considered by computing solvation free energies at the ωB97X-D3/def2- TZVP level using gas-phase optimized geometries and applying the CPCM solvation model (solvent = diethyl ether).<sup>[56]</sup>"
+        },
+        {
+          "evidence_id": "ev_doc_e400803ba27b_000535_3582afcf2831",
+          "quote": "Thermochemical data were computed using the ideal gas–rigid rotor–harmonic oscillator model at the experimental temperature of the catalytic hydrogenation reactions (T = 353.15 K)."
+        },
+        {
+          "evidence_id": "ev_doc_e400803ba27b_000536_f842fafb0bdc",
+          "quote": "The reported energies in the manuscript correspond to solution-phase Gibbs free energies, unless otherwise stated, obtained from ωB97X-D3/def2-TZVP electronic energies combined with all other contributions calculated at the same level of theory. Ground-state structures were confirmed by the absence of imaginary frequencies in frequency calculations, whereas all reported transition states exhibit exactly one imaginary frequency corresponding to the appropriate reaction coordinate."
+        },
+        {
+          "evidence_id": "ev_doc_e400803ba27b_000549_09fd471ef201",
+          "quote": "For the DFT calculations, the symmetrical 1,4-diphenylbutane-1,4-dione (1y) was selected as the model substrate. The symmetry of 1y ensures equivalent reactivity of both carbonyl groups, thereby reducing the number of possible intermediates and conformers that must be considered. This allows for a more straightforward computational analysis without compromising the validity of the conclusions. The energy diagram for the reduction of the 2y-oxonium ion is shown below, with key findings discussed in the manuscript."
+        },
+        {
+          "evidence_id": "ev_doc_e400803ba27b_000560_7515d8729e81",
+          "quote": "Table S5. Comparison of energetic differences of cis/trans products according to ring size (ΔΔG) and energies of transition states (ΔΔG<sup>‡</sup>) with different borane catalysts.\nEntry | Product | Ring size | Cat. | $\\Delta \\Delta G ^ { \\ddagger } 3 5 3 \\mathsf { K } ,$ kcal/mol | ∆∆G353K, kcal/mol | $_ { c i s : t r a n s _ { e x p } }$ | $\\scriptstyle { c i s : t r a n s _ { c a l c } }$\n1 | 2y | 5 | B3 | 2.1 | -0.3 | 20:1 | ~20:1\n2 | 2y | 5 | B1 | 0.7 | -0.3 | 10:1 | ~3:1\n3 | 2af | 6 | B1 | 4.1 | 2.6 | >20:1 | ~341:1"
+        },
+        {
+          "evidence_id": "ev_doc_e400803ba27b_000561_1dce5f675c56",
+          "quote": "\\Delta \\Delta \\mathbf { G } ^ { \\ddagger } and ΔΔG are reported as \\Delta \\mathrm { G } ( \\mathrm { t r a n s } ) – ΔG(cis). Calculated cis:trans ratios ( \\mathrm { c i s : t r a n s } _ { c a l c } ) were obtained based on the Boltzmann distribution as: cis/trans = exp(– - \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } / \\mathrm { R T } ) at \\mathrm { T } = 3 5 3 . 1 5 K.<sup>[62]</sup>"
+        },
+        {
+          "evidence_id": "ev_doc_e400803ba27b_000562_6690e00525bd",
+          "quote": "Comparison of entries 1 and 2 shows the influence of the catalyst on the selectivity of the 5- membered oxonium ion reduction towards product 2y. With the less sterically demanding catalyst B1, the energy difference between the diastereomeric transition states ( \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } = 0 . 7 kcal/mol) is considerably smaller than with the bulkier catalyst B3 ( \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } = 2 . 1 kcal/mol). For B3, the computed \\Delta \\Delta \\mathrm { G ^ { \\ddagger } } value matches the experimental cis/trans ratio (20:1). The slight discrepancy between cis: t r a n s \\exp and c i s { : } t r a n s _ { \\mathrm { c a l c } } for B1 (entry 2) likely stems from limitations in conformational sampling: for simplicity as we considered only the lowest-energy conformer of each transition state rather than an ensemble of low-lying conformers. Nevertheless, the trend between theory and experiment is consistent, supporting the mechanistic model and the hypothesis that bulkier catalysts provide enhanced stereoselectivity."
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000084_66b883ab8ba0",
+          "quote": "To gain a deeper understanding of the origin of diastereoselectivity, we carried out DFT calculations using the THF derivative 2y (Figure 1). This compound, bearing"
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000086_6e5b86cedbab",
+          "quote": "identical 2,5-diPh substituents, was chosen to simplify the analysis. All free energies were computed at 8 0 ~ ^ { \\circ } \\mathrm { C } to match experimental conditions. The transition state leading to the cis product ( \\mathrm { T S } _ { c i s } ) was predicted to be 2.1 kcal/mol lower in energy than the one leading to the trans product ( \\mathrm { T S } _ { t r a n s } ) which is in excellent agreement with experiments ( \\Delta \\Delta G ^ { \\ddagger } = 2 . 1 kcal/mol; 20:1 dr, both calculated and observed). The barrier for reduction from the oxocarbenium intermediate Int-1y to \\mathrm { T S } _ { c i s } is relatively low \\left( \\Delta G ^ { \\ddagger } = 5 . 1 \\mathrm { ~ k c a l / m o l } \\right) , consistent with a facile process. The cis and trans products are nearly isoenergetic \\left( \\Delta \\Delta G = 0 . 3 \\mathrm { k c a l / m o l } \\right) , indicating that stereoselectivity is kinetically controlled by the catalyst. In contrast, for the six-membered THP product 2af, both kinetics and thermodynamics favor the cis isomer \\left( \\Delta \\Delta G = 2 . 6 \\right. kcal/mol; \\Delta \\Delta G ^ { \\ddagger } \\ = \\ 4 . 1 kcal/mol; details in the SI). This comparison further validates the stereochemical model and underscores the importance of catalyst control, especially for THFs where the thermodynamic bias is minimal."
+        },
+        {
+          "evidence_id": "ev_doc_e52a848cf7ef_000087_6ee43ef3eb56",
+          "quote": "Noncovalent interaction (NCI) analysis<sup>63</sup> revealed multiple weak van der Waals interactions between the catalyst and substrate 1y (key interactions are highlighted in Figure 1; full details are provided in the SI). Both \\mathrm { T } \\dot { \\mathrm { S } } _ { c i s } and \\mathrm { T S } _ { t r a n s } exhibit ofset arene−perfluoroarene π−π stacking (centroid separations { \\sim } 3 . 6 \\mathrm { \\AA } ) , which may assist in orienting the oxocarbenium intermediate. However, because high selectivity was also observed for products lacking aromatic groups \\left( \\mathrm { e } . \\mathrm { g } _ { \\cdot } , \\ 2 \\mathrm { s } \\right) , this interaction alone cannot account for stereocontrol. A more general and consistent feature is a weak C−H···aryl edge interaction between the α-hydrogen of the substrate and an aryl ring of the catalyst, present in \\mathrm { T S } _ { c i s } ~ ( \\mathrm { H } { \\cdots } \\mathrm { C s p } ^ { 2 } = 2 . 6 5 ~ \\mathring { \\mathrm { A } } ) but absent in \\mathrm { T S } _ { t r a n s ^ { \\ast } } \\mathrm { A } similar interaction was identified for \\mathrm { T S } _ { c i s } with catalyst B1 (see the SI), supporting its broader relevance.<sup>64,65</sup> These findings suggest that, in addition to steric efects, subtle noncovalent interactions may also play a role in stereocontrol."
+        }
+      ]
+    },
+    "computational_references": [
+      {
+        "reference_id": "CR1",
+        "result": "For the 5-membered 2,5-diphenyl tetrahydrofuran product 2y with catalyst B3, the computed cis/trans activation free-energy difference favors the cis-forming pathway.",
+        "observable": "DeltaDeltaG_double_dagger_353K",
+        "value": 2.1,
+        "unit": "kcal/mol",
+        "method": "omegaB97X-D3/def2-TZVP/CPCM(diethyl ether), 353.15 K",
+        "model_system": "symmetrical 1,4-diphenylbutane-1,4-dione model substrate 1y; 2y-oxonium ion reduction",
+        "conditions": "solution-phase Gibbs free energies; diethyl ether solvation model; 353.15 K",
+        "comparison_scope": "cis/trans transition-state energy difference; DeltaDeltaG reported as G(trans) - G(cis)",
+        "uncertainty": "No numerical uncertainty reported; authors note conformational-sampling limitations for some comparisons, though the B3 2y result matched experiment closely.",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_e400803ba27b_000560_7515d8729e81",
+          "ev_doc_e400803ba27b_000561_1dce5f675c56",
+          "ev_doc_e400803ba27b_000562_6690e00525bd",
+          "ev_doc_e52a848cf7ef_000086_6e5b86cedbab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000560_7515d8729e81",
+            "quote": "Table S5. Comparison of energetic differences of cis/trans products according to ring size (ΔΔG) and energies of transition states (ΔΔG<sup>‡</sup>) with different borane catalysts.\nEntry | Product | Ring size | Cat. | $\\Delta \\Delta G ^ { \\ddagger } 3 5 3 \\mathsf { K } ,$ kcal/mol | ∆∆G353K, kcal/mol | $_ { c i s : t r a n s _ { e x p } }$ | $\\scriptstyle { c i s : t r a n s _ { c a l c } }$\n1 | 2y | 5 | B3 | 2.1 | -0.3 | 20:1 | ~20:1\n2 | 2y | 5 | B1 | 0.7 | -0.3 | 10:1 | ~3:1\n3 | 2af | 6 | B1 | 4.1 | 2.6 | >20:1 | ~341:1"
+          },
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000561_1dce5f675c56",
+            "quote": "\\Delta \\Delta \\mathbf { G } ^ { \\ddagger } and ΔΔG are reported as \\Delta \\mathrm { G } ( \\mathrm { t r a n s } ) – ΔG(cis). Calculated cis:trans ratios ( \\mathrm { c i s : t r a n s } _ { c a l c } ) were obtained based on the Boltzmann distribution as: cis/trans = exp(– - \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } / \\mathrm { R T } ) at \\mathrm { T } = 3 5 3 . 1 5 K.<sup>[62]</sup>"
+          },
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000562_6690e00525bd",
+            "quote": "Comparison of entries 1 and 2 shows the influence of the catalyst on the selectivity of the 5- membered oxonium ion reduction towards product 2y. With the less sterically demanding catalyst B1, the energy difference between the diastereomeric transition states ( \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } = 0 . 7 kcal/mol) is considerably smaller than with the bulkier catalyst B3 ( \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } = 2 . 1 kcal/mol). For B3, the computed \\Delta \\Delta \\mathrm { G ^ { \\ddagger } } value matches the experimental cis/trans ratio (20:1). The slight discrepancy between cis: t r a n s \\exp and c i s { : } t r a n s _ { \\mathrm { c a l c } } for B1 (entry 2) likely stems from limitations in conformational sampling: for simplicity as we considered only the lowest-energy conformer of each transition state rather than an ensemble of low-lying conformers. Nevertheless, the trend between theory and experiment is consistent, supporting the mechanistic model and the hypothesis that bulkier catalysts provide enhanced stereoselectivity."
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000086_6e5b86cedbab",
+            "quote": "identical 2,5-diPh substituents, was chosen to simplify the analysis. All free energies were computed at 8 0 ~ ^ { \\circ } \\mathrm { C } to match experimental conditions. The transition state leading to the cis product ( \\mathrm { T S } _ { c i s } ) was predicted to be 2.1 kcal/mol lower in energy than the one leading to the trans product ( \\mathrm { T S } _ { t r a n s } ) which is in excellent agreement with experiments ( \\Delta \\Delta G ^ { \\ddagger } = 2 . 1 kcal/mol; 20:1 dr, both calculated and observed). The barrier for reduction from the oxocarbenium intermediate Int-1y to \\mathrm { T S } _ { c i s } is relatively low \\left( \\Delta G ^ { \\ddagger } = 5 . 1 \\mathrm { ~ k c a l / m o l } \\right) , consistent with a facile process. The cis and trans products are nearly isoenergetic \\left( \\Delta \\Delta G = 0 . 3 \\mathrm { k c a l / m o l } \\right) , indicating that stereoselectivity is kinetically controlled by the catalyst. In contrast, for the six-membered THP product 2af, both kinetics and thermodynamics favor the cis isomer \\left( \\Delta \\Delta G = 2 . 6 \\right. kcal/mol; \\Delta \\Delta G ^ { \\ddagger } \\ = \\ 4 . 1 kcal/mol; details in the SI). This comparison further validates the stereochemical model and underscores the importance of catalyst control, especially for THFs where the thermodynamic bias is minimal."
+          }
+        ]
+      },
+      {
+        "reference_id": "CR2",
+        "result": "For the same 5-membered 2,5-diphenyl tetrahydrofuran product 2y with catalyst B3, the computed cis/trans product free-energy difference indicates the products are nearly isoenergetic.",
+        "observable": "DeltaDeltaG_353K",
+        "value": -0.3,
+        "unit": "kcal/mol",
+        "method": "omegaB97X-D3/def2-TZVP/CPCM(diethyl ether), 353.15 K",
+        "model_system": "symmetrical 1,4-diphenylbutane-1,4-dione model substrate 1y; 2y-oxonium ion reduction",
+        "conditions": "solution-phase Gibbs free energies; diethyl ether solvation model; 353.15 K",
+        "comparison_scope": "cis/trans product thermodynamic free-energy difference; DeltaDeltaG reported as G(trans) - G(cis)",
+        "uncertainty": "No numerical uncertainty reported.",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_e400803ba27b_000560_7515d8729e81",
+          "ev_doc_e400803ba27b_000561_1dce5f675c56",
+          "ev_doc_e400803ba27b_000563_c5959e335e7d",
+          "ev_doc_e52a848cf7ef_000086_6e5b86cedbab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000560_7515d8729e81",
+            "quote": "Table S5. Comparison of energetic differences of cis/trans products according to ring size (ΔΔG) and energies of transition states (ΔΔG<sup>‡</sup>) with different borane catalysts.\nEntry | Product | Ring size | Cat. | $\\Delta \\Delta G ^ { \\ddagger } 3 5 3 \\mathsf { K } ,$ kcal/mol | ∆∆G353K, kcal/mol | $_ { c i s : t r a n s _ { e x p } }$ | $\\scriptstyle { c i s : t r a n s _ { c a l c } }$\n1 | 2y | 5 | B3 | 2.1 | -0.3 | 20:1 | ~20:1\n2 | 2y | 5 | B1 | 0.7 | -0.3 | 10:1 | ~3:1\n3 | 2af | 6 | B1 | 4.1 | 2.6 | >20:1 | ~341:1"
+          },
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000561_1dce5f675c56",
+            "quote": "\\Delta \\Delta \\mathbf { G } ^ { \\ddagger } and ΔΔG are reported as \\Delta \\mathrm { G } ( \\mathrm { t r a n s } ) – ΔG(cis). Calculated cis:trans ratios ( \\mathrm { c i s : t r a n s } _ { c a l c } ) were obtained based on the Boltzmann distribution as: cis/trans = exp(– - \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } / \\mathrm { R T } ) at \\mathrm { T } = 3 5 3 . 1 5 K.<sup>[62]</sup>"
+          },
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000563_c5959e335e7d",
+            "quote": "A comparison between entries 2 and 3 highlights the influence of the product’s ring size. For the six-membered tetrahydropyran product 2af (entry 3), both kinetic and thermodynamic factors favor formation of the cis-isomer ( \\Delta \\Delta \\mathrm { G ^ { \\ddagger } } = 4 . 1 kcal/mol, \\Delta \\Delta \\mathrm { G } = 2 . 6 kcal/mol). In contrast, for the analogous five-membered tetrahydrofuran product 2y (entry 2), the cis and trans isomers are nearly isoenergetic ( \\Delta \\Delta \\mathrm { G } = - 0 . 3 kcal/mol), indicating that stereoselectivity for these substrates is governed primarily by the kinetics of the reduction step (i.e., ΔΔG<sup>‡</sup>)."
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000086_6e5b86cedbab",
+            "quote": "identical 2,5-diPh substituents, was chosen to simplify the analysis. All free energies were computed at 8 0 ~ ^ { \\circ } \\mathrm { C } to match experimental conditions. The transition state leading to the cis product ( \\mathrm { T S } _ { c i s } ) was predicted to be 2.1 kcal/mol lower in energy than the one leading to the trans product ( \\mathrm { T S } _ { t r a n s } ) which is in excellent agreement with experiments ( \\Delta \\Delta G ^ { \\ddagger } = 2 . 1 kcal/mol; 20:1 dr, both calculated and observed). The barrier for reduction from the oxocarbenium intermediate Int-1y to \\mathrm { T S } _ { c i s } is relatively low \\left( \\Delta G ^ { \\ddagger } = 5 . 1 \\mathrm { ~ k c a l / m o l } \\right) , consistent with a facile process. The cis and trans products are nearly isoenergetic \\left( \\Delta \\Delta G = 0 . 3 \\mathrm { k c a l / m o l } \\right) , indicating that stereoselectivity is kinetically controlled by the catalyst. In contrast, for the six-membered THP product 2af, both kinetics and thermodynamics favor the cis isomer \\left( \\Delta \\Delta G = 2 . 6 \\right. kcal/mol; \\Delta \\Delta G ^ { \\ddagger } \\ = \\ 4 . 1 kcal/mol; details in the SI). This comparison further validates the stereochemical model and underscores the importance of catalyst control, especially for THFs where the thermodynamic bias is minimal."
+          }
+        ]
+      },
+      {
+        "reference_id": "CR3",
+        "result": "For the 5-membered 2,5-diphenyl tetrahydrofuran product 2y with catalyst B1, the computed cis/trans activation free-energy difference is smaller than with B3.",
+        "observable": "DeltaDeltaG_double_dagger_353K",
+        "value": 0.7,
+        "unit": "kcal/mol",
+        "method": "omegaB97X-D3/def2-TZVP/CPCM(diethyl ether), 353.15 K",
+        "model_system": "symmetrical 1,4-diphenylbutane-1,4-dione model substrate 1y; 2y-oxonium ion reduction",
+        "conditions": "solution-phase Gibbs free energies; diethyl ether solvation model; 353.15 K",
+        "comparison_scope": "cis/trans transition-state energy difference; DeltaDeltaG reported as G(trans) - G(cis)",
+        "uncertainty": "Authors attribute discrepancy between calculated and experimental selectivity for B1 partly to limited conformational sampling.",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_e400803ba27b_000560_7515d8729e81",
+          "ev_doc_e400803ba27b_000561_1dce5f675c56",
+          "ev_doc_e400803ba27b_000562_6690e00525bd"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000560_7515d8729e81",
+            "quote": "Table S5. Comparison of energetic differences of cis/trans products according to ring size (ΔΔG) and energies of transition states (ΔΔG<sup>‡</sup>) with different borane catalysts.\nEntry | Product | Ring size | Cat. | $\\Delta \\Delta G ^ { \\ddagger } 3 5 3 \\mathsf { K } ,$ kcal/mol | ∆∆G353K, kcal/mol | $_ { c i s : t r a n s _ { e x p } }$ | $\\scriptstyle { c i s : t r a n s _ { c a l c } }$\n1 | 2y | 5 | B3 | 2.1 | -0.3 | 20:1 | ~20:1\n2 | 2y | 5 | B1 | 0.7 | -0.3 | 10:1 | ~3:1\n3 | 2af | 6 | B1 | 4.1 | 2.6 | >20:1 | ~341:1"
+          },
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000561_1dce5f675c56",
+            "quote": "\\Delta \\Delta \\mathbf { G } ^ { \\ddagger } and ΔΔG are reported as \\Delta \\mathrm { G } ( \\mathrm { t r a n s } ) – ΔG(cis). Calculated cis:trans ratios ( \\mathrm { c i s : t r a n s } _ { c a l c } ) were obtained based on the Boltzmann distribution as: cis/trans = exp(– - \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } / \\mathrm { R T } ) at \\mathrm { T } = 3 5 3 . 1 5 K.<sup>[62]</sup>"
+          },
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000562_6690e00525bd",
+            "quote": "Comparison of entries 1 and 2 shows the influence of the catalyst on the selectivity of the 5- membered oxonium ion reduction towards product 2y. With the less sterically demanding catalyst B1, the energy difference between the diastereomeric transition states ( \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } = 0 . 7 kcal/mol) is considerably smaller than with the bulkier catalyst B3 ( \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } = 2 . 1 kcal/mol). For B3, the computed \\Delta \\Delta \\mathrm { G ^ { \\ddagger } } value matches the experimental cis/trans ratio (20:1). The slight discrepancy between cis: t r a n s \\exp and c i s { : } t r a n s _ { \\mathrm { c a l c } } for B1 (entry 2) likely stems from limitations in conformational sampling: for simplicity as we considered only the lowest-energy conformer of each transition state rather than an ensemble of low-lying conformers. Nevertheless, the trend between theory and experiment is consistent, supporting the mechanistic model and the hypothesis that bulkier catalysts provide enhanced stereoselectivity."
+          }
+        ]
+      },
+      {
+        "reference_id": "CR4",
+        "result": "For the 6-membered 2,6-diphenyl tetrahydropyran product 2af with catalyst B1, the computed cis/trans activation free-energy difference strongly favors the cis-forming pathway.",
+        "observable": "DeltaDeltaG_double_dagger_353K",
+        "value": 4.1,
+        "unit": "kcal/mol",
+        "method": "omegaB97X-D3/def2-TZVP/CPCM(diethyl ether), 353.15 K",
+        "model_system": "six-membered tetrahydropyran product 2af; oxocarbenium ion reduction",
+        "conditions": "solution-phase Gibbs free energies; diethyl ether solvation model; 353.15 K",
+        "comparison_scope": "cis/trans transition-state energy difference; DeltaDeltaG reported as G(trans) - G(cis)",
+        "uncertainty": "No numerical uncertainty reported.",
+        "epistemic_status": "author_computed",
+        "evidence_ids": [
+          "ev_doc_e400803ba27b_000560_7515d8729e81",
+          "ev_doc_e400803ba27b_000561_1dce5f675c56",
+          "ev_doc_e400803ba27b_000563_c5959e335e7d",
+          "ev_doc_e400803ba27b_000564_78b0f32cdfcf",
+          "ev_doc_e52a848cf7ef_000086_6e5b86cedbab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000560_7515d8729e81",
+            "quote": "Table S5. Comparison of energetic differences of cis/trans products according to ring size (ΔΔG) and energies of transition states (ΔΔG<sup>‡</sup>) with different borane catalysts.\nEntry | Product | Ring size | Cat. | $\\Delta \\Delta G ^ { \\ddagger } 3 5 3 \\mathsf { K } ,$ kcal/mol | ∆∆G353K, kcal/mol | $_ { c i s : t r a n s _ { e x p } }$ | $\\scriptstyle { c i s : t r a n s _ { c a l c } }$\n1 | 2y | 5 | B3 | 2.1 | -0.3 | 20:1 | ~20:1\n2 | 2y | 5 | B1 | 0.7 | -0.3 | 10:1 | ~3:1\n3 | 2af | 6 | B1 | 4.1 | 2.6 | >20:1 | ~341:1"
+          },
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000561_1dce5f675c56",
+            "quote": "\\Delta \\Delta \\mathbf { G } ^ { \\ddagger } and ΔΔG are reported as \\Delta \\mathrm { G } ( \\mathrm { t r a n s } ) – ΔG(cis). Calculated cis:trans ratios ( \\mathrm { c i s : t r a n s } _ { c a l c } ) were obtained based on the Boltzmann distribution as: cis/trans = exp(– - \\Delta \\Delta \\mathrm { G } ^ { \\ddagger } / \\mathrm { R T } ) at \\mathrm { T } = 3 5 3 . 1 5 K.<sup>[62]</sup>"
+          },
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000563_c5959e335e7d",
+            "quote": "A comparison between entries 2 and 3 highlights the influence of the product’s ring size. For the six-membered tetrahydropyran product 2af (entry 3), both kinetic and thermodynamic factors favor formation of the cis-isomer ( \\Delta \\Delta \\mathrm { G ^ { \\ddagger } } = 4 . 1 kcal/mol, \\Delta \\Delta \\mathrm { G } = 2 . 6 kcal/mol). In contrast, for the analogous five-membered tetrahydrofuran product 2y (entry 2), the cis and trans isomers are nearly isoenergetic ( \\Delta \\Delta \\mathrm { G } = - 0 . 3 kcal/mol), indicating that stereoselectivity for these substrates is governed primarily by the kinetics of the reduction step (i.e., ΔΔG<sup>‡</sup>)."
+          },
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000564_78b0f32cdfcf",
+            "quote": "The transition-state geometries computed for the reduction of the 2af-oxonium ion by the borohydride derived from catalyst B1 (illustrated below) are consistent with these energetic trends: the \\mathrm { T S } _ { c i s } adopts a favorable chair-like conformation, whereas the \\mathrm { T S } _ { t r a n s } ends in a less favorable boat-like geometry, providing a structural rationale for the computed energy differences."
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000086_6e5b86cedbab",
+            "quote": "identical 2,5-diPh substituents, was chosen to simplify the analysis. All free energies were computed at 8 0 ~ ^ { \\circ } \\mathrm { C } to match experimental conditions. The transition state leading to the cis product ( \\mathrm { T S } _ { c i s } ) was predicted to be 2.1 kcal/mol lower in energy than the one leading to the trans product ( \\mathrm { T S } _ { t r a n s } ) which is in excellent agreement with experiments ( \\Delta \\Delta G ^ { \\ddagger } = 2 . 1 kcal/mol; 20:1 dr, both calculated and observed). The barrier for reduction from the oxocarbenium intermediate Int-1y to \\mathrm { T S } _ { c i s } is relatively low \\left( \\Delta G ^ { \\ddagger } = 5 . 1 \\mathrm { ~ k c a l / m o l } \\right) , consistent with a facile process. The cis and trans products are nearly isoenergetic \\left( \\Delta \\Delta G = 0 . 3 \\mathrm { k c a l / m o l } \\right) , indicating that stereoselectivity is kinetically controlled by the catalyst. In contrast, for the six-membered THP product 2af, both kinetics and thermodynamics favor the cis isomer \\left( \\Delta \\Delta G = 2 . 6 \\right. kcal/mol; \\Delta \\Delta G ^ { \\ddagger } \\ = \\ 4 . 1 kcal/mol; details in the SI). This comparison further validates the stereochemical model and underscores the importance of catalyst control, especially for THFs where the thermodynamic bias is minimal."
+          }
+        ]
+      }
+    ],
+    "public_inputs": [
+      {
+        "input_id": "PI1",
+        "kind": "identity",
+        "content": "The reaction system is the borane-catalyzed hydrogenative reductive cycloetherification of a 1,4-diketone bearing two phenyl substituents to the corresponding 2,5-diphenyl tetrahydrofuran.",
+        "evidence_ids": [
+          "ev_doc_e52a848cf7ef_000008_e171f02cb7d5",
+          "ev_doc_e52a848cf7ef_000011_b3485a30e04d",
+          "ev_doc_e52a848cf7ef_000034_c3a8a1c39701",
+          "ev_doc_e52a848cf7ef_000060_0a57f7b529f7",
+          "ev_doc_e52a848cf7ef_000084_66b883ab8ba0",
+          "ev_doc_e52a848cf7ef_000086_6e5b86cedbab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000008_e171f02cb7d5",
+            "quote": "ABSTRACT: Cyclic ethers, particularly cis-α,α′-disubstituted tetrahydrofurans (THFs) and tetrahydropyrans (THPs), are prevalent motifs in bioactive compounds. However, eficient stereoselective methods for accessing such motifs remain limited. Herein, we report a direct catalytic approach to cis-2,5- and cis-2,6- disubstituted THFs and THPs via reductive cycloetherification of 1,4- and 1,5-diketones. The transformation uses a simple triarylborane catalyst and dihydrogen as a clean reductant, producing water as the sole byproduct. A broad range of products"
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000011_b3485a30e04d",
+            "quote": "were obtained in high yields (up to 97%) and with high cis-selectivity (up to >20:1 dr). The method enabled streamlined access to medicinally relevant scafolds and was scalable to gram quantities. Mechanistic studies support oxocarbenium ion reduction as the stereodetermining step, while density functional theory calculations suggest that weak, noncovalent interactions between the catalyst and substrate contribute to the observed diastereoselectivity. This work introduces a borane-catalyzed hydrogenative cyclization strategy that may inspire future metal-free syntheses of stereodefined heterocycles."
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000034_c3a8a1c39701",
+            "quote": "A flame-dried 4 mL glass vial (screw cap with PTFE/silicone septum) equipped with a magnetic stirring bar was charged with 4 Å molecular sieves (∼150 mg/mmol substrate), borane catalyst (0.02 mmol, 10 mol %), diketone substrate (0.2 mmol), and CPME (0.6 mL) under an atmosphere of argon. The mixture was stirred for 2 min, and then, the vial was pierced with a needle and placed in an autoclave. The system was sealed and purged three times with nitrogen (6 bar) and four times with hydrogen (3 bar) and then pressurized to 100 bar with hydrogen gas. The reaction mixture was heated to 80 °C and stirred for 18 h. After the reaction completed, the autoclave was allowed to cool to room temperature and slowly depressurized. The reaction mixture was filtered through a short silica plug and eluted with ethyl acetate. The filtrate was concentrated under reduced pressure, and the crude product was purified by flash column chromatography on silica gel to give the desired cyclic ether product."
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000060_0a57f7b529f7",
+            "quote": "Diferent alkyl substituents were well-tolerated, with bulkier groups generally afording higher diastereoselectivity but a somewhat reduced reactivity. For primary alkyl substrates (2m−p), 20 mol % B3 was used to ensure high yields. A bicyclic octahydrobenzofuran scafold (2q) bearing three stereocenters was obtained with excellent all-cis selectivity. In addition, a double reductive cyclization furnished bis-THFs 2r and 2r′ in good combined yield with high cis-selectivity. This transformation forges two rings and four stereocenters in a single operation, illustrating the method’s capacity for rapid buildup of molecular complexity. Beyond aryl systems, the method also provided access to dialkyl-substituted THFs such as 2s, a five-membered analog of (±)-cis-lauthisan,<sup>55</sup> and 2t, both obtained in high yield and selectivity despite the nonstabilized nature of their corresponding oxocarbenium intermediates. Substrates bearing secondary (Cy in 2v, N-Cbz piperidine in 2w) and even tertiary (tBu in 2x) alkyl groups were also well-tolerated. For these sterically demanding substrates, the less bulky catalyst B1 provided higher yields. A similar trend was observed for diaryl substrates: diphenyl product 2y formed in 31% yield and 20:1 dr with B3, versus 94% yield and 10:1 dr with B1. Using catalyst B1, arenes bearing para- (2z and 2aa), meta- (2ab), and ortho-substituents (2ac and 2ad) also reacted with high yields and diastereoselectivity. The structure of 2ad was unambiguously confirmed by X-ray crystal structure analysis, validating the cis-stereochemistry. Additionally, a 1,3-dihydroisobenzofuran fused-ring system (2ae) was also obtained as a single cisisomer, confirmed by X-ray crystal structure analysis."
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000084_66b883ab8ba0",
+            "quote": "To gain a deeper understanding of the origin of diastereoselectivity, we carried out DFT calculations using the THF derivative 2y (Figure 1). This compound, bearing"
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000086_6e5b86cedbab",
+            "quote": "identical 2,5-diPh substituents, was chosen to simplify the analysis. All free energies were computed at 8 0 ~ ^ { \\circ } \\mathrm { C } to match experimental conditions. The transition state leading to the cis product ( \\mathrm { T S } _ { c i s } ) was predicted to be 2.1 kcal/mol lower in energy than the one leading to the trans product ( \\mathrm { T S } _ { t r a n s } ) which is in excellent agreement with experiments ( \\Delta \\Delta G ^ { \\ddagger } = 2 . 1 kcal/mol; 20:1 dr, both calculated and observed). The barrier for reduction from the oxocarbenium intermediate Int-1y to \\mathrm { T S } _ { c i s } is relatively low \\left( \\Delta G ^ { \\ddagger } = 5 . 1 \\mathrm { ~ k c a l / m o l } \\right) , consistent with a facile process. The cis and trans products are nearly isoenergetic \\left( \\Delta \\Delta G = 0 . 3 \\mathrm { k c a l / m o l } \\right) , indicating that stereoselectivity is kinetically controlled by the catalyst. In contrast, for the six-membered THP product 2af, both kinetics and thermodynamics favor the cis isomer \\left( \\Delta \\Delta G = 2 . 6 \\right. kcal/mol; \\Delta \\Delta G ^ { \\ddagger } \\ = \\ 4 . 1 kcal/mol; details in the SI). This comparison further validates the stereochemical model and underscores the importance of catalyst control, especially for THFs where the thermodynamic bias is minimal."
+          }
+        ]
+      },
+      {
+        "input_id": "PI2",
+        "kind": "condition",
+        "content": "Reported hydrogenation conditions use 10 mol % borane catalyst, 4 A molecular sieves, CPME solvent, 100 bar H2, 80 C, and 18 h.",
+        "evidence_ids": [
+          "ev_doc_e52a848cf7ef_000034_c3a8a1c39701",
+          "ev_doc_e52a848cf7ef_000044_b7f71f06ec71",
+          "ev_doc_e52a848cf7ef_000052_7f090019274c"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000034_c3a8a1c39701",
+            "quote": "A flame-dried 4 mL glass vial (screw cap with PTFE/silicone septum) equipped with a magnetic stirring bar was charged with 4 Å molecular sieves (∼150 mg/mmol substrate), borane catalyst (0.02 mmol, 10 mol %), diketone substrate (0.2 mmol), and CPME (0.6 mL) under an atmosphere of argon. The mixture was stirred for 2 min, and then, the vial was pierced with a needle and placed in an autoclave. The system was sealed and purged three times with nitrogen (6 bar) and four times with hydrogen (3 bar) and then pressurized to 100 bar with hydrogen gas. The reaction mixture was heated to 80 °C and stirred for 18 h. After the reaction completed, the autoclave was allowed to cool to room temperature and slowly depressurized. The reaction mixture was filtered through a short silica plug and eluted with ethyl acetate. The filtrate was concentrated under reduced pressure, and the crude product was purified by flash column chromatography on silica gel to give the desired cyclic ether product."
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000044_b7f71f06ec71",
+            "quote": "The best overall performance was achieved with catalyst \\mathbf { B } 3 , ^ { 5 0 } which has intermediate Lewis acidity (FIA = 423 kJ/ mol). It delivered 2a in 48% yield with 11:1 dr and only a trace formation of furan (entry 3). These results corroborate our initial hypothesis that balancing the borane’s Lewis acidity is key to catalytic performance, with B3 providing the best compromise between reactivity and product selectivity. Using B3, we next evaluated a range of ether solvents (Table 1, entries 3 \\substack { - 6 } ) . We found no clear correlation between solvent Lewis basicity<sup>51</sup> and reaction outcome. Both more coordinating diethyl ether (entry 4) and less coordinating methyl tertbutyl ether (entry 5) outperformed i \\mathrm { P r } _ { 2 } \\mathrm { O } . In contrast, THF completely suppressed the product formation (entry 6). Notably, cyclopentyl methyl ether (CPME)�an industrially attractive solvent<sup>52</sup>�further improved the reaction, afording 78% of 2a (entry 7). Finally, raising the temperature to 80 ^ \\circ \\mathrm { C } furnished 2a in 93% yield (86% isolated) with a 10:1 dr (entry 8). While MTBE gave a comparable outcome (entry 9), we occasionally observed significant solvent loss due to its higher volatility, which resulted in poor mass balance. To avoid this issue, we continued the studies using CPME as the solvent."
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000052_7f090019274c",
+            "quote": "Reaction conditions: 1 (0.2 mmol), 10 mol % B3 or B1, 4 Å MS (300 mg), 0.6 mL of CPME, 100 bar H , 18 h. Isolated yields are given. Diastereomeric ratios (dr) were determined by <sup>1</sup>H NMR spectroscopy. <sup>a</sup>3:1 CPME:1,2-DCE as a solvent. <sup>b</sup>20 mol % B3 used as a catalyst. <sup>c</sup>All minor diastereomers are combined in a single number. <sup>d</sup>20 mol % B1 used as a catalyst. <sup>e</sup>10 mol % B3 used as a catalyst. <sup>f</sup>Conditions: 1.3 equiv of TBAF in THF, rt, 2 h. <sup>g</sup>Determined by crude <sup>1</sup>H NMR using 1,3,5-trimethoxybenzene as an internal standard. <sup>h</sup>10 mol % B1 used as a catalyst. In X-ray structures, disorder was removed for clarity."
+          }
+        ]
+      },
+      {
+        "input_id": "PI3",
+        "kind": "observation",
+        "content": "For the 2,5-diphenyl tetrahydrofuran product 2y, the experimental cis/trans ratio was 20:1 with catalyst B3 and 10:1 with catalyst B1.",
+        "evidence_ids": [
+          "ev_doc_e400803ba27b_000560_7515d8729e81",
+          "ev_doc_e52a848cf7ef_000060_0a57f7b529f7",
+          "ev_doc_e52a848cf7ef_000086_6e5b86cedbab"
+        ],
+        "source_quotes": [
+          {
+            "evidence_id": "ev_doc_e400803ba27b_000560_7515d8729e81",
+            "quote": "Table S5. Comparison of energetic differences of cis/trans products according to ring size (ΔΔG) and energies of transition states (ΔΔG<sup>‡</sup>) with different borane catalysts.\nEntry | Product | Ring size | Cat. | $\\Delta \\Delta G ^ { \\ddagger } 3 5 3 \\mathsf { K } ,$ kcal/mol | ∆∆G353K, kcal/mol | $_ { c i s : t r a n s _ { e x p } }$ | $\\scriptstyle { c i s : t r a n s _ { c a l c } }$\n1 | 2y | 5 | B3 | 2.1 | -0.3 | 20:1 | ~20:1\n2 | 2y | 5 | B1 | 0.7 | -0.3 | 10:1 | ~3:1\n3 | 2af | 6 | B1 | 4.1 | 2.6 | >20:1 | ~341:1"
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000060_0a57f7b529f7",
+            "quote": "Diferent alkyl substituents were well-tolerated, with bulkier groups generally afording higher diastereoselectivity but a somewhat reduced reactivity. For primary alkyl substrates (2m−p), 20 mol % B3 was used to ensure high yields. A bicyclic octahydrobenzofuran scafold (2q) bearing three stereocenters was obtained with excellent all-cis selectivity. In addition, a double reductive cyclization furnished bis-THFs 2r and 2r′ in good combined yield with high cis-selectivity. This transformation forges two rings and four stereocenters in a single operation, illustrating the method’s capacity for rapid buildup of molecular complexity. Beyond aryl systems, the method also provided access to dialkyl-substituted THFs such as 2s, a five-membered analog of (±)-cis-lauthisan,<sup>55</sup> and 2t, both obtained in high yield and selectivity despite the nonstabilized nature of their corresponding oxocarbenium intermediates. Substrates bearing secondary (Cy in 2v, N-Cbz piperidine in 2w) and even tertiary (tBu in 2x) alkyl groups were also well-tolerated. For these sterically demanding substrates, the less bulky catalyst B1 provided higher yields. A similar trend was observed for diaryl substrates: diphenyl product 2y formed in 31% yield and 20:1 dr with B3, versus 94% yield and 10:1 dr with B1. Using catalyst B1, arenes bearing para- (2z and 2aa), meta- (2ab), and ortho-substituents (2ac and 2ad) also reacted with high yields and diastereoselectivity. The structure of 2ad was unambiguously confirmed by X-ray crystal structure analysis, validating the cis-stereochemistry. Additionally, a 1,3-dihydroisobenzofuran fused-ring system (2ae) was also obtained as a single cisisomer, confirmed by X-ray crystal structure analysis."
+          },
+          {
+            "evidence_id": "ev_doc_e52a848cf7ef_000086_6e5b86cedbab",
+            "quote": "identical 2,5-diPh substituents, was chosen to simplify the analysis. All free energies were computed at 8 0 ~ ^ { \\circ } \\mathrm { C } to match experimental conditions. The transition state leading to the cis product ( \\mathrm { T S } _ { c i s } ) was predicted to be 2.1 kcal/mol lower in energy than the one leading to the trans product ( \\mathrm { T S } _ { t r a n s } ) which is in excellent agreement with experiments ( \\Delta \\Delta G ^ { \\ddagger } = 2 . 1 kcal/mol; 20:1 dr, both calculated and observed). The barrier for reduction from the oxocarbenium intermediate Int-1y to \\mathrm { T S } _ { c i s } is relatively low \\left( \\Delta G ^ { \\ddagger } = 5 . 1 \\mathrm { ~ k c a l / m o l } \\right) , consistent with a facile process. The cis and trans products are nearly isoenergetic \\left( \\Delta \\Delta G = 0 . 3 \\mathrm { k c a l / m o l } \\right) , indicating that stereoselectivity is kinetically controlled by the catalyst. In contrast, for the six-membered THP product 2af, both kinetics and thermodynamics favor the cis isomer \\left( \\Delta \\Delta G = 2 . 6 \\right. kcal/mol; \\Delta \\Delta G ^ { \\ddagger } \\ = \\ 4 . 1 kcal/mol; details in the SI). This comparison further validates the stereochemical model and underscores the importance of catalyst control, especially for THFs where the thermodynamic bias is minimal."
+          }
+        ]
+      }
+    ],
+    "missing_critical_inputs": [],
+    "reference_limitations": [
+      "The DFT model uses a symmetric 1,4-diphenylbutane-1,4-dione substrate rather than every experimental substrate in the paper.",
+      "The reported calculations use diethyl ether as the CPCM solvent model, while the optimized experimental conditions use CPME.",
+      "No numerical uncertainty or error bars are reported for the computed free-energy differences.",
+      "The authors note that limited conformational sampling can affect calculated selectivity, especially in the B1 comparison for 2y.",
+      "The public question should be interpreted as a comparison of cis- and trans-forming pathways for the identified model system, not as a requirement to reproduce the entire catalytic network."
+    ],
+    "evidence_requests": [],
+    "schema_version": "author-computation-research/v5-20261014",
+    "task_archetype": "author_computation_grounded_research",
+    "record_role": "Private historical source/reference material; source-route statements do not create additional public tasks or scored intermediate requirements.",
+    "active_evaluation": "Only scoring_rules.json defines the V3 final outcomes and weights. Historical contract decisions are source-qualification records, not current scientific acceptance.",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "scoring_requirements": "Only independent final conclusions in scoring_rules.json receive binary weights totaling 100. Actual claim-specific evidence is necessary, with no separate process or intermediate points."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "public_inputs": [
+    "data/inputs/borane_A.sdf",
+    "data/inputs/borane_B.sdf",
+    "data/inputs/borane_C.sdf",
+    "data/inputs/borohydride_A.sdf",
+    "data/inputs/borohydride_B.sdf",
+    "data/inputs/local_reduction_structures.json",
+    "data/inputs/oxocarbenium_D4.sdf",
+    "data/inputs/oxocarbenium_D5.sdf",
+    "data/inputs/system.json",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "required_results": "s\n\n1. Give a computed molecular account of the three catalysts' relevant behavior and explain what it establishes about the performance screen. Report quantitative comparisons with their physical definitions; distinguish affinity, activation and endpoint conversion.\n2. Explain D4 cis enrichment for both A and B using competing formation calculations and independent product stability. Report the formation and product free-energy differences.\n3. Quantify how the A-to-B substitution changes D4 stereochemical discrimination and assess the strength and robustness of the calculated contrast.\n4. With A fixed, explain the D4/D5 ring-size effect on formation preference and product stability, reporting both types of free-energy differences and their physical origin.\n\nChoose your own hypotheses and competing hydride-delivery geometries within this local starting boundary. Verify states, reaction connectivity and numerical definitions to the extent needed for the claims. No specific intermediate sequence, descriptor, transition-state count or exhaustive conformer search is prescribed. Separate formation barriers from product free energies, and disclose low-frequency and conformational sensitivity where material. Repeating the observations does not supply computational evidence.\n\n#"
+}

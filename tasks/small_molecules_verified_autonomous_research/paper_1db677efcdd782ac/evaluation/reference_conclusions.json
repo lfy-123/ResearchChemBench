@@ -1,0 +1,169 @@
+{
+  "paper_id": "paper_1db677efcdd782ac",
+  "scoring_policy": "paper_science_v3",
+  "items": [
+    {
+      "conclusion_id": "h_opening_tendency",
+      "statement": "H 模型开环在能量上不利",
+      "expected": "正确 H 框架的 +1 双重态开/闭比较支持开环在电子能上不利、闭环态保持竞争力的结论。判断来自相应真实计算与分子身份，不能只报任意正号或引用环保留的实验。无需复现作者 ΔE 数字；本项不评价速率或另列的跨底物势垒排序。",
+      "required_numerical_evidence": [
+        {
+          "id": "h_reaction",
+          "description": "H 的开/闭态电子能及开环 ΔE。",
+          "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for H."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- H 的开/闭态电子能及开环 ΔE。",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "cis_me_opening_tendency",
+      "statement": "cis-Me 开环较有利且不应夸大不可逆性",
+      "expected": "对实际 +1 双重态 cis-Me 开/闭结果作有界解释，支持开环可获稳定化或接近热中性，不能据小能差宣称强烈不可逆。主要参考支持轻度有利开环，但正文/SI 数值及方法/构象差异使接近零的符号不能作硬门；计算支持且诚实说明近简并/方法敏感的答案可以通过。完全没有开态比较，或强称普遍强烈不利却无适用依据，不能通过。",
+      "required_numerical_evidence": [
+        {
+          "id": "cis_me_reaction",
+          "description": "cis-Me 的开/闭态电子能及开环 ΔE，包括近简并/方法敏感结果的实际数值。",
+          "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for cis-Me, including the actual values when near-degenerate or method-sensitive."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- cis-Me 的开/闭态电子能及开环 ΔE，包括近简并/方法敏感结果的实际数值。",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "trans_me_opening_tendency",
+      "statement": "trans-Me 闭环态保持竞争力",
+      "expected": "对正确 trans-Me 的开/闭计算支持闭环态仍具竞争力，不能把开环概括为稳健、强烈下坡且不可逆。主要 M06-2X 参考为吸能开环，但其他来源方法可变号；允许有实际支持的近热中性/方法依赖解释，不强求 ΔE>0。须讨论自身模型的开/闭稳定性，不能只重复 cis-Me 的答案或混用泛函制造排序。",
+      "required_numerical_evidence": [
+        {
+          "id": "trans_me_reaction",
+          "description": "trans-Me 的开/闭态电子能及开环 ΔE。",
+          "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for trans-Me."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- trans-Me 的开/闭态电子能及开环 ΔE。",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "methyl_interconversion",
+      "statement": "Me 的闭环构型稳定性与互变解释",
+      "expected": "用共同参照下的 cis/trans 开闭态与已研究开环化学，解释较稳定的闭环 trans-Me 如何与 cis 出发的开环/重闭合相容。必须包含正确构型与实际稳定性证据，不能只引用观察到 trans。参考支持 trans 闭环低于 cis 闭环；无需独立新算完整 cis→trans 势垒。若只验证了局部开环和态稳定性，结论应限定为互变机制相容性，不宣称已求得连续互变路径、速率或平衡比例。",
+      "required_numerical_evidence": [
+        {
+          "id": "cis_me_reaction",
+          "description": "cis-Me 的开/闭态电子能及开环 ΔE，包括近简并/方法敏感结果的实际数值。",
+          "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for cis-Me, including the actual values when near-degenerate or method-sensitive."
+        },
+        {
+          "id": "trans_me_reaction",
+          "description": "trans-Me 的开/闭态电子能及开环 ΔE。",
+          "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for trans-Me."
+        },
+        {
+          "id": "me_common_reference",
+          "description": "cis/trans-Me 开态和闭态在共同零点下的电子能差；不另要求完整互变速率。",
+          "public_requirement": "Common-reference electronic-energy differences among cis/trans-Me open and closed states; a new complete interconversion-rate calculation is not required."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- cis-Me 的开/闭态电子能及开环 ΔE，包括近简并/方法敏感结果的实际数值。\n- trans-Me 的开/闭态电子能及开环 ΔE。\n- cis/trans-Me 开态和闭态在共同零点下的电子能差；不另要求完整互变速率。",
+      "evidence_ids": [
+        "V2_MAIN_STEREO",
+        "V2_SI_RING",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "phenyl_ring_fate",
+      "statement": "Ph 模型局部偏向开环",
+      "expected": "实际结构变化和局部能量/稳定性测试支持所研究 Ph 分支偏向开环，测试未建立稳定闭环陷阱。可用闭环起点松弛、闭合方向剖面或等效测试；仅有一个开环最低点不足以回答闭环稳定性。不能把有限局部测试外推为全势能面绝无闭环最低点，不规定扫描点数或作者结构。",
+      "required_numerical_evidence": [
+        {
+          "id": "ph_local_test",
+          "description": "Ph 闭环起点松弛、闭合方向剖面或等效局部稳定性测试的实际能量和几何结果。",
+          "public_requirement": "Actual energies and geometries from a Ph closed-ring-start relaxation, a ring-closing profile or an equivalent local stability test."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- Ph 闭环起点松弛、闭合方向剖面或等效局部稳定性测试的实际能量和几何结果。",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_PHENYL",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "opening_accessibility_and_scope",
+      "statement": "开环可达性差异及推广边界",
+      "expected": "同定义的实际开环过程比较支持 cis-Me 比 H 和 trans-Me 更易开环，并把这个动力学差异与系列开/闭态及 Ph 的局部行为联系起来，否定所有底物都统一快速不可逆开环的推广。前面各项的反应能量符号不能替代这里的形成/开环活化比较。不要求作者势垒数值、绝对速率或完整光循环；单纯泛泛声明“底物不同”不足。",
+      "required_numerical_evidence": [
+        {
+          "id": "h_reaction",
+          "description": "H 的开/闭态电子能及开环 ΔE。",
+          "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for H."
+        },
+        {
+          "id": "cis_me_reaction",
+          "description": "cis-Me 的开/闭态电子能及开环 ΔE，包括近简并/方法敏感结果的实际数值。",
+          "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for cis-Me, including the actual values when near-degenerate or method-sensitive."
+        },
+        {
+          "id": "trans_me_reaction",
+          "description": "trans-Me 的开/闭态电子能及开环 ΔE。",
+          "public_requirement": "Computed ring-opened/ring-closed electronic energies and ring-opening ΔE for trans-Me."
+        },
+        {
+          "id": "ph_local_test",
+          "description": "Ph 闭环起点松弛、闭合方向剖面或等效局部稳定性测试的实际能量和几何结果。",
+          "public_requirement": "Actual energies and geometries from a Ph closed-ring-start relaxation, a ring-closing profile or an equivalent local stability test."
+        },
+        {
+          "id": "opening_barriers",
+          "description": "H、cis-Me、trans-Me 的实际局部开环电子能势垒 ΔE‡ 及跨底物差值。",
+          "public_requirement": "Computed local ring-opening electronic-energy barriers ΔE‡ for H, cis-Me and trans-Me, and their cross-substrate differences."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- H 的开/闭态电子能及开环 ΔE。\n- cis-Me 的开/闭态电子能及开环 ΔE，包括近简并/方法敏感结果的实际数值。\n- trans-Me 的开/闭态电子能及开环 ΔE。\n- Ph 闭环起点松弛、闭合方向剖面或等效局部稳定性测试的实际能量和几何结果。\n- H、cis-Me、trans-Me 的实际局部开环电子能势垒 ΔE‡ 及跨底物差值。",
+      "evidence_ids": [
+        "V2_MAIN_RING",
+        "V2_SI_RING",
+        "V2_SI_PHENYL",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    }
+  ]
+}

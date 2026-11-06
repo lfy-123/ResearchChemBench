@@ -51,6 +51,21 @@ def create_server(
 mcp = create_server()
 
 
+class AuthenticatedMCP:
+    """Scope HTTP access to the controller's per-run capability."""
+    def __init__(self, app, token):
+        self.app, self.authorization = app, ('Bearer ' + token).encode()
+
+    async def __call__(self, scope, receive, send):
+        if scope['type'] == 'http':
+            authorized = dict(scope['headers']).get(b'authorization') == self.authorization
+            if not authorized or scope['path'] == '/health':
+                await send({'type': 'http.response.start', 'status': 200 if authorized else 401, 'headers': []})
+                await send({'type': 'http.response.body', 'body': b'ready' if authorized else b'unauthorized'})
+                return
+        await self.app(scope, receive, send)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--wait-only", action="store_true")
@@ -61,6 +76,7 @@ def main() -> int:
     )
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=9010)
+    parser.add_argument("--listen-fd", type=int)
     parser.add_argument(
         "--profile",
         default=None,
@@ -85,7 +101,8 @@ def main() -> int:
     if args.transport == "streamable_http":
         import uvicorn
 
-        uvicorn.run(server.streamable_http_app(), host=args.host, port=args.port)
+        app = AuthenticatedMCP(server.streamable_http_app(), os.environ['RCB_MCP_AUTH_TOKEN'])
+        uvicorn.run(app, host=args.host, port=args.port, fd=args.listen_fd)
     else:
         server.run(transport="stdio")
     return 0

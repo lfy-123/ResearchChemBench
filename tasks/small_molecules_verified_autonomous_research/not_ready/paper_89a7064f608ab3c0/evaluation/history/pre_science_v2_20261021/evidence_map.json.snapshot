@@ -1,0 +1,77 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "evidence": [
+    {
+      "evidence_id": "main",
+      "source": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+      "locator": "PDF p7 Scheme8B-D",
+      "evidence_type": "author_calculation_and_bounded_mechanistic_interpretation",
+      "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6"
+    },
+    {
+      "evidence_id": "supplementary_001",
+      "source": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+      "locator": "PDF S80 section9.3; S81 SchemesS6/S7; S82-102 coordinates",
+      "evidence_type": "author_calculation",
+      "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae"
+    },
+    {
+      "evidence_id": "screen_source",
+      "source": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+      "locator": "PDF p3 Scheme4 entries1,3,6 and PC A/B structures",
+      "evidence_type": "author_experiment",
+      "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+      "public_objects": [
+        "neutral_2a",
+        "product_3a",
+        "PC_A",
+        "PC_B"
+      ],
+      "public_files": [
+        "agent_input/data/inputs/reaction_inventory.json",
+        "agent_input/data/inputs/catalyst_screen.csv",
+        "agent_input/data/inputs/photocatalysts.sdf"
+      ],
+      "exclusions": "No extraction of ambiguous 4a/4a-prime column, Mes-Acr wavelength footnote, TA assignment or isotope-name discrepancies."
+    },
+    {
+      "evidence_id": "redox_source",
+      "source": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+      "locator": "PDF S67-72 section9.1; S76 SchemeS5",
+      "evidence_type": "author_calculation",
+      "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+      "values": {
+        "oxidation_V_vs_SCE_MeCN": 1.1,
+        "reduction_V_vs_SCE_MeCN": -2.69
+      },
+      "numeric_status": "manual scientific comparison; new tolerances uncalibrated"
+    },
+    {
+      "evidence_id": "triplet_source",
+      "source": "papers/paper_89a7064f608ab3c0/documents/supplementary_001.pdf",
+      "locator": "PDF S76-80 section9.2 and SchemeS5; compare main p3-5",
+      "evidence_type": "author_calculation_source_conflict",
+      "sha256": "b4bd8e258a5f0726108123397b605b3a0c760b1d75bf05bee3b9963c5a38ebae",
+      "documentary_values": {
+        "main_kcal_mol": 73.9,
+        "SI_kcal_mol": 74.1
+      },
+      "scoring_boundary": "Neither exact value is an active numeric target. Source-robust ordering above catalyst energies may be assessed from valid submitted computations. Definition/energy assembly must be reviewed before exact-value validation."
+    },
+    {
+      "evidence_id": "pc_reagent_metadata",
+      "source": "https://www.tcichemicals.com/CA/en/product/topics/visible_light_photoredox_catalysts_redox_potentials",
+      "locator": "Metal Complex Catalysts: D4887/D5817 and heading V vs SCE in CH3CN; accessed2026-10-12",
+      "evidence_type": "official_reagent_documentation",
+      "matches_source": "Main Scheme4 A(+0.66/-0.96), B(+1.21/-0.89) V; official reagent record supplies SCE/MeCN metadata, not a new benchmark computed reference."
+    },
+    {
+      "evidence_id": "pc_triplet_properties",
+      "source": "papers/paper_89a7064f608ab3c0/documents/main.pdf",
+      "locator": "PDF p3 Scheme4: A59.8 and B61.8 kcal/mol",
+      "evidence_type": "reported_reagent_properties",
+      "sha256": "487133ae63ec965b1782154b4792c995d39e66c09f9641738b0666364d23dcc6",
+      "limitation": "Source does not specify measurement solvent/temperature; carried as contextual literature reagent energies, not freshly measured reaction results."
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_catalyst_function",
+      "r_d4_kinetic_control",
+      "r_catalyst_selectivity_contrast",
+      "r_ring_size_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required selectivity pathways start from the supplied cyclic oxocarbenium and borohydride species. Diketone-to-cation formation, H2 activation and regeneration are not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Starting from the supplied cyclic oxocarbenium ions and triarylborohydride anions, explain catalyst-dependent cis/trans formation selectivity in the local reduction stage of hydrogenative reductive cycloetherification of D4 (1,4-diphenylbutane-1,4-dione) and D5 (1,5-diphenylpentane-1,5-dione), and its relation to product stability across ring sizes. Account for the supplied triarylborane performance comparisons using molecular evidence. This is an explanation task; the measured ratios and yields are supplied observations.",
+  "active_rule_ids": [
+    "r_catalyst_function",
+    "r_d4_kinetic_control",
+    "r_catalyst_selectivity_contrast",
+    "r_ring_size_relationship"
+  ],
+  "current_outcome_ids": [
+    "catalyst_function",
+    "d4_kinetic_control",
+    "catalyst_selectivity_contrast",
+    "ring_size_relationship"
+  ],
+  "historical_record": {
+    "scientific_question": "For hydrogenative reductive cycloetherification of 1,4-diphenylbutane-1,4-dione and 1,5-diphenylpentane-1,5-dione, what evidence-supported molecular account explains catalyst-dependent cis/trans formation selectivity and its relation to product stability across ring sizes, while accounting for the supplied reaction-performance comparisons among the specified triarylboranes?",
+    "inputs": [
+      {
+        "input_id": "PI1",
+        "kind": "identity",
+        "content": "All starting molecules and the triarylboranes below are neutral molecular species. Ph denotes unsubstituted phenyl. Catalyst A is tris(pentafluorophenyl)borane, B(C6F5)3. Catalyst B is bis(pentafluorophenyl)(2,6-dichlorophenyl)borane, B(C6F5)2(C6H3Cl2), with both chlorines ortho to the B-C bond. Catalyst C is bis(2,3,5,6-tetrafluorophenyl)(2,6-dichlorophenyl)borane, B(C6HF4)2(C6H3Cl2): each tetrafluorophenyl ring has its remaining hydrogen para to B, and the dichlorophenyl ring has both chlorines ortho to B. The stereochemical comparison uses diketone D4, 1,4-diphenylbutane-1,4-dione, Ph-C(=O)-CH2-CH2-C(=O)-Ph, forming 2,5-diphenyltetrahydrofuran, whose closed ring is O-CH(Ph)-CH2-CH2-CH(Ph)-O; and diketone D5, 1,5-diphenylpentane-1,5-dione, Ph-C(=O)-CH2-CH2-CH2-C(=O)-Ph, forming 2,6-diphenyltetrahydropyran, whose closed ring is O-CH(Ph)-CH2-CH2-CH2-CH(Ph)-O. In these ring descriptions the initial and final O are the same atom, not two oxygen atoms. For each product, cis and trans mean the two phenyl substituents lie on the same or opposite ring faces, respectively; no particular absolute enantiomer is specified. A catalyst-performance context uses diketone K4, 1-phenylpentane-1,4-dione, Ph-C(=O)-CH2-CH2-C(=O)-CH3; its observed products are 2-methyl-5-phenyltetrahydrofuran and aromatic 2-methyl-5-phenylfuran. K4 is context for interpreting catalyst function, not an additional reaction-pathway discovery target. CPME is cyclopentyl methyl ether, CH3-O-cyclopentyl; diisopropyl ether is (CH3)2CH-O-CH(CH3)2."
+      },
+      {
+        "input_id": "PI2",
+        "kind": "condition",
+        "content": "The D4 and D5 hydrogenative cyclizations use 10 mol % of the indicated borane catalyst, 4 angstrom molecular sieves, CPME solvent, 100 bar H2, 80 C and 18 h. The reaction-scale context is 0.2 mmol diketone in 0.6 mL CPME. The K4 catalyst-performance comparison instead uses 10 mol % catalyst, 4 angstrom molecular sieves, diisopropyl ether, 100 bar H2, 50 C and 18 h, at 0.1 mmol substrate in 0.3 mL solvent. These are distinct comparison conditions, not interchangeable observations. H2 is the reducing agent; water is a reaction byproduct. A molecular-sieve mass is not specified here. Endpoint yields are not elementary rate constants."
+      },
+      {
+        "input_id": "PI3",
+        "kind": "observation",
+        "content": "For the D4 cyclic ether, Catalyst A gives 94% isolated yield and a 10:1 experimental cis:trans ratio; Catalyst B gives 31% isolated yield and a 20:1 experimental cis:trans ratio. For the D5 cyclic ether, Catalyst A gives 84% isolated yield and an experimental cis:trans ratio greater than 20:1. In the K4 comparison, Catalyst A gives 66% cyclic ether, a 6:1 cis:trans ratio and 31% aromatic furan; Catalyst B gives 48% cyclic ether, an 11:1 cis:trans ratio and 2% furan; Catalyst C gives 30% cyclic ether, an 11:1 cis:trans ratio and less than 1% furan. The K4 yields and ratios are endpoint 1H NMR measurements, whereas the D4/D5 yields are isolated yields. The greater-than-20:1 observation is a lower bound, not an exact ratio. No D4 or D5 selectivity comparison using Catalyst C, nor D5 using Catalyst B, is supplied or requested."
+      }
+    ],
+    "changes": [
+      {
+        "subject_id": "scientific_question",
+        "change_type": "source_correction",
+        "reason": "Stage05 phrases only the five-membered selectivity subcomparison. Restore the connected author-performed scientific investigation: catalyst function/performance supported by the B1/B2/B3 affinity study, five-membered cis/trans competition with B1/B3, product stability, and five-/six-membered competition with B1. These are the same source chemical systems and actual computations, including CR1-CR4; the 1a screen is neutral context for catalyst function, not a new reaction barrier, catalytic-network or kinetic goal. The complete calculation-to-purpose and requested-outcome mapping is in workflow_review. No reference record, author result or experimental condition is changed.",
+        "evidence_ids": [
+          "ev_doc_e52a848cf7ef_000042_6572e7eb8eac",
+          "ev_doc_e52a848cf7ef_000044_b7f71f06ec71",
+          "ev_doc_e52a848cf7ef_000078_91ea32c8f750",
+          "ev_doc_e52a848cf7ef_000084_66b883ab8ba0",
+          "ev_doc_e52a848cf7ef_000086_6e5b86cedbab",
+          "ev_doc_e52a848cf7ef_000087_6ee43ef3eb56",
+          "ev_doc_e400803ba27b_000541_43085f90c907",
+          "ev_doc_e400803ba27b_000545_59441920e1b8",
+          "ev_doc_e400803ba27b_000549_09fd471ef201",
+          "ev_doc_e400803ba27b_000560_7515d8729e81",
+          "ev_doc_e400803ba27b_000562_6690e00525bd",
+          "ev_doc_e400803ba27b_000563_c5959e335e7d",
+          "ev_doc_e400803ba27b_000564_78b0f32cdfcf"
+        ]
+      },
+      {
+        "subject_id": "PI1",
+        "change_type": "identity_clarification",
+        "reason": "Replace the underspecified two-phenyl diketone identity with graph-explicit 1y/2y identities and supply the already referenced 1af/2af ring-size partner. The 1af precursor graph follows the reported 1,5-diketone precursor, generic reaction connectivity, explicit 2,6-diphenyl product and coordinate graph. Specify the actual B1/B2/B3 catalyst graphs used in the connected computations and the 1a/2a/3a context drawn in the original catalyst screen. Original-PDF coordinate inspection confirms C16H14O2 for 1y, C16H16O O/C4 rings for cis/trans-2y, C17H18O O/C5 rings for cis/trans-2af, matching relative stereochemistry; B2 has two 2,3,5,6-tetrafluorophenyl groups, not a second dichlorophenyl replacement. All author labels become neutral local labels. No optimized geometry or correction history is supplied. Independent atom-resolved inspection also checks the continuation pages through S76 and S88 and the complete B1/B2 gas-coordinate records on S88-S91; the final public connectivity and relative stereochemistry are unchanged.",
+        "evidence_ids": [
+          "pdf-page-doc_e52a848cf7ef-p3",
+          "pdf-page-doc_e52a848cf7ef-p4",
+          "pdf-page-doc_e400803ba27b-p38",
+          "pdf-page-doc_e400803ba27b-p41",
+          "pdf-page-doc_e400803ba27b-p65",
+          "pdf-page-doc_e400803ba27b-p66",
+          "pdf-page-doc_e400803ba27b-p74",
+          "pdf-page-doc_e400803ba27b-p75",
+          "pdf-page-doc_e400803ba27b-p86",
+          "pdf-page-doc_e400803ba27b-p87",
+          "ev_doc_e400803ba27b_000387_47e12b4ae8bd",
+          "ev_doc_e400803ba27b_000388_30f7691e003f",
+          "ev_doc_e400803ba27b_000436_71716dfde215",
+          "ev_doc_e400803ba27b_000437_c039f76d0dd8",
+          "ev_doc_e400803ba27b_000549_09fd471ef201",
+          "ev_doc_e400803ba27b_000574_28ef24d82261",
+          "ev_doc_e400803ba27b_000586_0794494663bc",
+          "ev_doc_e400803ba27b_000683_f8341eea8f9a",
+          "pdf-page-doc_e400803ba27b-p64",
+          "pdf-page-doc_e400803ba27b-p76",
+          "pdf-page-doc_e400803ba27b-p88",
+          "pdf-page-doc_e400803ba27b-p89",
+          "pdf-page-doc_e400803ba27b-p90",
+          "pdf-page-doc_e400803ba27b-p91"
+        ]
+      },
+      {
+        "subject_id": "PI2",
+        "change_type": "neutral_rewording",
+        "reason": "Preserve the frozen 10 mol %, sieves, CPME, 100 bar H2, 80 C and 18 h conditions for the D4/D5 comparisons. Label the independently reported 50 C diisopropyl-ether 1a catalyst screen and its scale separately, so it cannot be mistaken for the 80 C selectivity series. Add neutral solvent/reductant/byproduct identity and measurement boundaries. Sieve use but not a mass is retained: the general procedure and scope caption give different mass conventions, which are not resolved by inventing a loading. No conditions are silently changed and no computational solvent or recipe is exposed.",
+        "evidence_ids": [
+          "ev_doc_e52a848cf7ef_000008_e171f02cb7d5",
+          "ev_doc_e52a848cf7ef_000034_c3a8a1c39701",
+          "ev_doc_e52a848cf7ef_000043_86f07a968f4b",
+          "ev_doc_e52a848cf7ef_000052_7f090019274c",
+          "pdf-page-doc_e52a848cf7ef-p3",
+          "pdf-page-doc_e52a848cf7ef-p4"
+        ]
+      },
+      {
+        "subject_id": "PI3",
+        "change_type": "source_correction",
+        "reason": "Keep the frozen experimental 20:1 B3 and 10:1 B1 diphenyl-THF observations, using neutral catalyst/product names. Expose only necessary observed yields, the already-computed six-membered counterpart experimental lower bound, and catalyst-screen observations that motivated the connected affinity study. These are experimental starting facts, not computed answers. Distinguish isolated yields from NMR endpoints, and do not convert >20:1 into an exact ratio or extrapolate unreported catalyst/substrate combinations. Independent Stage07 inspection of original Table 1, entry 3, corrects the K4/Catalyst B furan endpoint from the candidate transcription of less than 1% to the printed 2%. Catalyst C retains less than 1%. This changes neither the system, conditions, question nor any author-computed reference.",
+        "evidence_ids": [
+          "ev_doc_e52a848cf7ef_000042_6572e7eb8eac",
+          "ev_doc_e52a848cf7ef_000043_86f07a968f4b",
+          "ev_doc_e52a848cf7ef_000044_b7f71f06ec71",
+          "ev_doc_e52a848cf7ef_000052_7f090019274c",
+          "ev_doc_e52a848cf7ef_000060_0a57f7b529f7",
+          "ev_doc_e400803ba27b_000387_47e12b4ae8bd",
+          "ev_doc_e400803ba27b_000388_30f7691e003f",
+          "ev_doc_e400803ba27b_000436_71716dfde215",
+          "ev_doc_e400803ba27b_000437_c039f76d0dd8",
+          "ev_doc_e400803ba27b_000560_7515d8729e81",
+          "pdf-page-doc_e52a848cf7ef-p3",
+          "pdf-page-doc_e52a848cf7ef-p4",
+          "pdf-page-doc_e400803ba27b-p38",
+          "pdf-page-doc_e400803ba27b-p41"
+        ]
+      }
+    ],
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "scoring_requirements": "Only independent final scientific conclusions in scoring_rules.json receive binary full-or-zero weights summing to 100. All required outcomes must pass. No intermediate or process points; claim-specific real computational evidence remains mandatory."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "public_inputs": [
+    "data/inputs/borane_A.sdf",
+    "data/inputs/borane_B.sdf",
+    "data/inputs/borane_C.sdf",
+    "data/inputs/borohydride_A.sdf",
+    "data/inputs/borohydride_B.sdf",
+    "data/inputs/local_reduction_structures.json",
+    "data/inputs/oxocarbenium_D4.sdf",
+    "data/inputs/oxocarbenium_D5.sdf",
+    "data/inputs/system.json",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "required_results": "s\n\n1. Give a computed molecular account of the three catalysts' relevant behavior and explain what it establishes about the performance screen. Report quantitative comparisons with their physical definitions; distinguish affinity, activation and endpoint conversion.\n2. Explain D4 cis enrichment for both A and B using competing formation calculations and independent product stability. Report the formation and product free-energy differences.\n3. Quantify how the A-to-B substitution changes D4 stereochemical discrimination and assess the strength and robustness of the calculated contrast.\n4. With A fixed, explain the D4/D5 ring-size effect on formation preference and product stability, reporting both types of free-energy differences and their physical origin.\n\nChoose your own hypotheses and competing hydride-delivery geometries within this local starting boundary. Verify states, reaction connectivity and numerical definitions to the extent needed for the claims. No specific intermediate sequence, descriptor, transition-state count or exhaustive conformer search is prescribed. Separate formation barriers from product free energies, and disclose low-frequency and conformational sensitivity where material. Repeating the observations does not supply computational evidence.\n\n#"
+}

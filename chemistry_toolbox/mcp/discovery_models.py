@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from chemistry_toolbox.src.models import ActionRequest, ResourceLimits
 
@@ -178,11 +178,10 @@ class ActionBatchRequest(BaseModel):
     component_backends: dict[str, str] = Field(default_factory=dict)
     method_spec: dict = Field(default_factory=dict)
     action_settings: dict = Field(default_factory=dict)
-    items: list[ActionBatchItem] = Field(min_length=1, max_length=32)
+    items: list[ActionBatchItem] = Field(min_length=1)
     max_concurrency: int | None = Field(
         default=None,
         ge=1,
-        le=32,
         description=(
             "Optional upper bound. Omit to derive safe parallelism from the active "
             "CPU, memory, and GPU budget."
@@ -218,7 +217,8 @@ class ExecutionEventWaitRequest(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    batch_ids: list[str] = Field(min_length=1, max_length=64)
+    batch_ids: list[str] = Field(default_factory=list, max_length=64)
+    response_cursor: str | None = Field(default=None, max_length=16000)
     after_sequences: dict[str, int] = Field(default_factory=dict)
     timeout_seconds: float = Field(
         default=0.0,
@@ -229,6 +229,14 @@ class ExecutionEventWaitRequest(BaseModel):
             "heartbeat, and polling settings determine when the wait returns."
         ),
     )
+
+    @model_validator(mode="after")
+    def validate_page_or_batches(self):
+        if bool(self.batch_ids) == bool(self.response_cursor):
+            raise ValueError("provide batch_ids or response_cursor, exclusively")
+        if self.response_cursor and self.after_sequences:
+            raise ValueError("response_cursor already identifies the event checkpoint")
+        return self
 
     @field_validator("batch_ids")
     @classmethod

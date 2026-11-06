@@ -1,0 +1,25 @@
+{
+  "case_id": "case_10",
+  "source_locator": "Main text p4–5 Scheme 4/5; SI from p97 onward",
+  "numeric_rules": [
+    {
+      "rule_id": "r_initiation_energy",
+      "target": 18.9,
+      "tolerance": 1.0,
+      "unit": "kcal/mol",
+      "definition": "Using initial complex 1 in Fig.S1 as zero, the target relative G of TS1 is 18.9 kcal/mol with an absolute tolerance of 1.0 kcal/mol; include all spectator material and maintain 383.15 K. Do not directly compare results using separated-reactant zeroes, isomeric phosphines or different chemical compositions."
+    },
+    {
+      "rule_id": "r_reaction_free_energy",
+      "target": -24.7,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "definition": "Using Fig.S1 complex 1 and matched spectator material as the initial reference, the balanced endpoint of product 9, PEt3 and ethanol has a target relative G of −24.7 kcal/mol with an absolute tolerance of 2.0 kcal/mol. Maintain 383.15 K and compatible solvent and standard state; do not use separated-reactant values or authors' energies to fill gaps in local calculations."
+    }
+  ],
+  "notes": [
+    "The existing product free-energy residual is approximately −7.087. The rules primarily assess scientific propositions; no additional exact numerical thresholds were introduced. Stoichiometric balance, geometries and thermal corrections must be reviewed before quantitative comparison."
+  ],
+  "whole_case_success": "all required scientific items pass after evidence qualification",
+  "is_new_quantum_validation": false
+}

@@ -1,0 +1,128 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_regioselectivity_explanation",
+      "r_comparison_causal_attribution"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Which electronic-structure properties and molecular structure–property relationships explain the observed local ring selectivity of hydroperoxide (R,E)-4 under the supplied nonenzymatic NBS conditions? Use the observed cyclization of compound 7 under enzyme conditions as comparative context, and assess what this comparison can establish.",
+  "active_rule_ids": [
+    "r_local_regioselectivity_explanation",
+    "r_comparison_causal_attribution"
+  ],
+  "current_outcome_ids": [
+    "local_regioselectivity_explanation",
+    "comparison_causal_attribution"
+  ],
+  "historical_record": {
+    "paper_id": "paper_c625cba3ce868eb1",
+    "scoring_policy": "paper_science_v3",
+    "status": "FINAL_RESULTS_V3_EVIDENCE_REVIEW",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "current_scope_verified": false,
+    "reason": "Final-result criteria are active; historical acceptance is not inherited. See final_result_coverage.json for item-specific native evidence and remaining limits.",
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "evidence_requirement": "Every conclusion requires genuine traceable computations with identity, electronic state, reference and validity checks; source tables are not local reproduction. No new quantum jobs were run in this migration.",
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_local_regioselectivity_explanation",
+        "r_comparison_causal_attribution"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    },
+    "outcome_evidence_coverage": [
+      {
+        "scientific_requirement": "必需结果第一段：局部位点性质、竞争环拓扑及六元偏好的分子解释",
+        "rule_id": "r_local_regioselectivity_explanation",
+        "conclusion_id": "local_regioselectivity_explanation",
+        "independence": "评价(R,E)-4本身局部六/七元形成解释，电子描述符及环图仅为支持。",
+        "source_locator": "正文PDF3–5、7；SI PDF30–32 Fig.S50及4/7坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_c625cba3ce868eb1/scope_upgrade_20261011T081201Z_g04/reuse_analysis.json"
+        ],
+        "existing_support": "水相/密MK及DCM同密度对比均有明显4位点差；DCM差−0.483009 e；六元闭环路径21-18-15-9-6-4。",
+        "limits": [
+          "来源水相MK与实验DCM条件不同；局部对比不能被描述为唯一微观机制或势垒。",
+          "7不是仅去除OOH的匹配对照；骨架/支化及酶条件也不同，酶贡献和Thorpe–Ingold效应未被单独量化。",
+          "18%为3/4混合底物收率；正文473 mM与0.284 mmol/6 mL矛盾保留，未设新温度或浓度目标。"
+        ],
+        "evidence_ids": [
+          "main_p3_4_5_7",
+          "main_p3_4",
+          "supplementary_001_p30_31_32"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果第二段：结构/实验比较对选择性起源的因果评估",
+        "rule_id": "r_comparison_causal_attribution",
+        "conclusion_id": "comparison_causal_attribution",
+        "independence": "评价不同结构和跨条件观察能隔离何种原因，不重复奖励第一项局部环偏好。",
+        "source_locator": "正文PDF3–5、7；SI PDF30–32 Fig.S50及4/7坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_c625cba3ce868eb1/scope_upgrade_20261011T081201Z_g04/reuse_analysis.json"
+        ],
+        "existing_support": "4与7图/支化不同；7仅酶条件，混合6/7环；NBS产物谱相符支持局部贡献但不隔离唯一OOH效应。",
+        "limits": [
+          "来源水相MK与实验DCM条件不同；局部对比不能被描述为唯一微观机制或势垒。",
+          "7不是仅去除OOH的匹配对照；骨架/支化及酶条件也不同，酶贡献和Thorpe–Ingold效应未被单独量化。",
+          "18%为3/4混合底物收率；正文473 mM与0.284 mmol/6 mL矛盾保留，未设新温度或浓度目标。"
+        ],
+        "evidence_ids": [
+          "main_p3_4_5_7",
+          "main_p3_4",
+          "supplementary_001_p30"
+        ],
+        "no_new_computation": true
+      }
+    ],
+    "objective_issue_flags": [
+      {
+        "issue": "来源水相MK与实验DCM条件不同；局部对比不能被描述为唯一微观机制或势垒。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "7不是仅去除OOH的匹配对照；骨架/支化及酶条件也不同，酶贡献和Thorpe–Ingold效应未被单独量化。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "18%为3/4混合底物收率；正文473 mM与0.284 mmol/6 mL矛盾保留，未设新温度或浓度目标。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      }
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "local_regioselectivity_explanation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "comparison_causal_attribution": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

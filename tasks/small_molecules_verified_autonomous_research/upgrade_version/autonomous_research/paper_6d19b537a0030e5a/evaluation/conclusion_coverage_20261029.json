@@ -1,0 +1,87 @@
+{
+  "paper_id": "paper_6d19b537a0030e5a",
+  "scoring_revision": "conclusion_only_20261029",
+  "scientific_scope_changed": false,
+  "scope_note": "The same public scientific questions, inputs, identities and conditions are retained. Final propositions and their evidential boundaries are clarified without extending scope.",
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1：氢化及催化剂返回",
+      "rule_id": "r_bifunctional_hydrogenation",
+      "conclusion_id": "bifunctional_hydrogenation",
+      "weight": 25,
+      "independence": "成键/供氢/返回的化学解释，不重复控速判断。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+      "existing_support_or_gap": "16 states/32 raw frequency-SP logs; connected source graphs and actual reaction-mode projections. Singlet product release -4.864416 and triplet-minus-singlet regeneration -2.880494 kcal/mol.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果2：条件周转瓶颈",
+      "rule_id": "r_turnover_control",
+      "conclusion_id": "turnover_control",
+      "weight": 20,
+      "independence": "比较不同转化困难程度，单独可行路线不能自动推出。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+      "existing_support_or_gap": "H2 conditional span25.628660 versus precursor13.613683 and S/R delivery14.014603/16.246240 kcal/mol.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果3：主产物绝对构型",
+      "rule_id": "r_primary_enantiomer",
+      "conclusion_id": "primary_enantiomer",
+      "weight": 15,
+      "independence": "实际形成竞争加CIP，不以解释接触替代构型证据。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+      "existing_support_or_gap": "Native formation gap R-S2.231637 kcal/mol; explicit graph/CIP maps S/R in native_recomputed.json.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果4：催化剂组织原因",
+      "rule_id": "r_organization_origin",
+      "conclusion_id": "organization_origin",
+      "weight": 20,
+      "independence": "结构/相互作用对偏好的解释，不重复S标签。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+      "existing_support_or_gap": "Native contacts b1/b2/b3=2.968940/3.397866/1.785660 Angstrom and comparative hydrogen-delivery structures; no independent NCI field or energy decomposition.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果5：SiMe3/tBu效应",
+      "rule_id": "r_substitution_effect",
+      "conclusion_id": "substitution_effect",
+      "weight": 20,
+      "independence": "同催化剂匹配取代比较，不由主底物偏好自动推出。",
+      "source_location": "See evidence_map.json and original source PDFs.",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+      "existing_support_or_gap": "Same-C_A tBu gap1.389369 versus silyl2.231637, reduction0.842268 kcal/mol; contact2.353229 to2.614163 Angstrom.",
+      "historical_status_promoted": false
+    }
+  ],
+  "task_input_changes": [],
+  "new_computation": false,
+  "record_role": "Historical dated record; superseded for current scope and scoring by expert_round1_20261103. See round1_review.json and scoring_rules.json.",
+  "superseded_by": "expert_round1_20261103"
+}

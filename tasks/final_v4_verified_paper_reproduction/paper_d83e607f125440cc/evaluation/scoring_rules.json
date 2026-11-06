@@ -1,0 +1,233 @@
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_SMe_harder_than_OMe",
+      "reference_id": "SMe_harder_than_OMe",
+      "type": "semantic",
+      "expected": "Establish that productive benzylic dehydrogenation is energetically less favorable for SMe than for OMe in a chemically defined common molecular comparison. The reference result is De(SMe)>De(OMe) for gas-phase electronic benzylic H-atom loss from the full doublet radical cation to a singlet cation plus neutral doublet H, with matched endpoints and no thermal terms. A different route is acceptable only if actual calculations establish the same comparative molecular energetic impediment under explicit balanced states and conditions; matching experimental conversion labels is insufficient. This is a relative energetic conclusion, not a rate/barrier/yield assertion or a requirement to reproduce the author endpoint sequence. A reversed, mixed-reference or unsupported comparison fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.records"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_SMe_harder_than_Cl",
+      "reference_id": "SMe_harder_than_Cl",
+      "type": "semantic",
+      "expected": "Establish that productive benzylic dehydrogenation is energetically less favorable for SMe than for Cl in a chemically defined common molecular comparison. The reference result is De(SMe)>De(Cl) for gas-phase electronic benzylic H-atom loss from the full doublet radical cation to a singlet cation plus neutral doublet H, with matched endpoints and no thermal terms. A different route is acceptable only if actual calculations establish the same comparative molecular energetic impediment under explicit balanced states and conditions; matching experimental conversion labels is insufficient. This is a relative energetic conclusion, not a rate/barrier/yield assertion or a requirement to reproduce the author endpoint sequence. A reversed, mixed-reference or unsupported comparison fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.records"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_SMe_harder_than_Me",
+      "reference_id": "SMe_harder_than_Me",
+      "type": "semantic",
+      "expected": "Establish that productive benzylic dehydrogenation is energetically less favorable for SMe than for Me in a chemically defined common molecular comparison. The reference result is De(SMe)>De(Me) for gas-phase electronic benzylic H-atom loss from the full doublet radical cation to a singlet cation plus neutral doublet H, with matched endpoints and no thermal terms. A different route is acceptable only if actual calculations establish the same comparative molecular energetic impediment under explicit balanced states and conditions; matching experimental conversion labels is insufficient. This is a relative energetic conclusion, not a rate/barrier/yield assertion or a requirement to reproduce the author endpoint sequence. A reversed, mixed-reference or unsupported comparison fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.records"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_SMe_harder_than_H",
+      "reference_id": "SMe_harder_than_H",
+      "type": "semantic",
+      "expected": "Establish that productive benzylic dehydrogenation is energetically less favorable for SMe than for H in a chemically defined common molecular comparison. The reference result is De(SMe)>De(H) for gas-phase electronic benzylic H-atom loss from the full doublet radical cation to a singlet cation plus neutral doublet H, with matched endpoints and no thermal terms. A different route is acceptable only if actual calculations establish the same comparative molecular energetic impediment under explicit balanced states and conditions; matching experimental conversion labels is insufficient. This is a relative energetic conclusion, not a rate/barrier/yield assertion or a requirement to reproduce the author endpoint sequence. A reversed, mixed-reference or unsupported comparison fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.records"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_sulfur_localized_radical",
+      "reference_id": "sulfur_localized_radical",
+      "type": "semantic",
+      "expected": "Explain the distinctive electronic response of the SMe alcohol: appreciable oxidized/radical character resides on sulfur rather than being confined to the benzylic alcohol region. Support the spatial/electronic interpretation on a chemically identified full molecule and relate it to the comparison series; the reference uses spin-density mapping of the radical cation. An equivalent density/orbital treatment can establish the same physical conclusion without the Hirshfeld partition or exact three source atom populations. A single unmapped population number, charge confused with spin, or a claim of sulfur oxidation under argon without reaction evidence fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.records"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_oxidation_interpretation",
+      "reference_id": "oxidation_interpretation",
+      "type": "semantic",
+      "expected": "Assess whether the computed molecular explanation is sufficient for the supplied low SMe conversion under argon. The electronic and energetic evidence supports a molecular impediment consistent with the observation, but does not uniquely establish the catalytic cause, hydrogen acceptor, rate-controlling step or conversion. Explain the specific missing causal link between the isolated/continuum molecular comparison and catalyst/electrode solution kinetics; distinguish electronic endothermicity from activation free energy and recognize that an oxygen-mediated sulfoxide proposal cannot explain the stated argon experiment without separate evidence. This applicability conclusion must use the actual computed model and its consequences, not repeat the separately scored localization/orderings or recite generic caveats.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.claims",
+          "$.records"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "SMe_harder_than_OMe",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "Relative molecular energetic impediment: SMe versus OMe",
+      "rule_ids": [
+        "r_SMe_harder_than_OMe"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "SMe_harder_than_Cl",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "Relative molecular energetic impediment: SMe versus Cl",
+      "rule_ids": [
+        "r_SMe_harder_than_Cl"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "SMe_harder_than_Me",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "Relative molecular energetic impediment: SMe versus Me",
+      "rule_ids": [
+        "r_SMe_harder_than_Me"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "SMe_harder_than_H",
+      "kind": "conclusion",
+      "max_score": 8,
+      "description": "Relative molecular energetic impediment: SMe versus H",
+      "rule_ids": [
+        "r_SMe_harder_than_H"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "sulfur_localized_radical",
+      "kind": "conclusion",
+      "max_score": 32,
+      "description": "Sulfur-associated radical distribution",
+      "rule_ids": [
+        "r_sulfur_localized_radical"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_spin"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "oxidation_interpretation",
+      "kind": "conclusion",
+      "max_score": 36,
+      "description": "Final molecular oxidation contrast",
+      "rule_ids": [
+        "r_oxidation_interpretation"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_de",
+        "native_spin"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

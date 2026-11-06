@@ -1,0 +1,180 @@
+{
+  "paper_id": "paper_628af8d0bf0a1bfe",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_response_4a",
+      "reference_id": "response_4a",
+      "type": "semantic",
+      "expected": "State a final magnetic-criterion assignment for the central pentalene of full isolated neutral-singlet 4a (64 atoms, C36H14F12S2): genuine response calculations establish paratropic response, supporting magnetic antiaromatic character within this molecule. Report the computed measure and its physical sign/frame. Positive molecular-normal NICS or a physically interpreted current route can establish this result. This is a final property assignment, not credit for completing shielding calculations; a bare scalar without interpretation or an arbitrary laboratory zz component fails. It does not prove all energetic or reactivity definitions of antiaromaticity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_response_4c",
+      "reference_id": "response_4c",
+      "type": "semantic",
+      "expected": "State a final magnetic-criterion assignment for the central pentalene of full isolated neutral-singlet 4c (60 atoms, C34H22O2S2): genuine response calculations establish paratropic response, supporting magnetic antiaromatic character within this molecule. Report the computed measure and its physical sign/frame. A comparable NICS or current route is eligible. This is a final property assignment, not a calculation-completion point; copied values or unsupported universal antiaromaticity assertions fail.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_pair_contrast",
+      "reference_id": "pair_contrast",
+      "type": "semantic",
+      "expected": "Comparable full-pair calculations establish stronger central paratropic response for 4a than 4c. Report a signed quantitative contrast under the chosen response definition and assess it against relevant geometry/frame/method sensitivity. The native source-route contrast is about +4 ppm for NICS(1.7)zz, but no scalar tolerance or compulsory NICS diagnostic is imposed. A reversed or unresolved ordering does not meet this deterministic contrast; it fails this item rather than obtaining automatic review. Do not count the two absolute magnetic assignments again as an integrated family-answer item.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_central_attribution",
+      "reference_id": "central_attribution",
+      "type": "semantic",
+      "expected": "Conclude from spatially or electronically resolved response evidence how the paratropic assignment is attributable to the central pentalene rather than merely to the whole molecule or its peripheral rings. Identify what peripheral contribution remains inseparable at the actual resolution. A justified local assignment with bounded contamination passes without a universal current-topology proof. A molecular scalar alone or a generic caution fails. This item evaluates physical localization, not the repeated response sign or relative ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_substituent_interpretation",
+      "reference_id": "substituent_interpretation",
+      "type": "semantic",
+      "expected": "An actual electronic or structural comparison supports an electronic-substitution contribution to the difference: electron withdrawal at the substituted sites can strengthen central paratropic response relative to electron donation. Explain the central electronic response and separate an evidence-supported association from a unique causal decomposition; a genuine geometry-controlled comparison can support a bounded account even when residual peripheral/relaxation effects remain. Equivalent supported explanations pass. Merely naming CF3/OMe or the topological charge rule, repeating the ordering, or requiring the author 4f NBO route fails to establish this explanation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "response_4a",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Magnetic antiaromatic character of full 4a",
+      "rule_ids": [
+        "r_response_4a"
+      ],
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "response_4c",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Magnetic antiaromatic character of full 4c",
+      "rule_ids": [
+        "r_response_4c"
+      ],
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "pair_contrast",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Direction and resolved strength of the central magnetic-response contrast",
+      "rule_ids": [
+        "r_pair_contrast"
+      ],
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "central_attribution",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Localization of the magnetic conclusion to central pentalene",
+      "rule_ids": [
+        "r_central_attribution"
+      ],
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "substituent_interpretation",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Bounded electronic explanation of the substituent dependence",
+      "rule_ids": [
+        "r_substituent_interpretation"
+      ],
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "paper_id": "paper_ea6fdc38b4a7f8c7",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。 本批为解释/比较型题目，全部采用定性科学结果项。来源数值保留为可比性上下文，没有新设精确能量窗口；不使用验证值替换作者值。合理替代模型或路径可按相同科学命题的证据评价，不能仅因未选作者软件、描述符或机理标签扣分。",
+  "rules": [
+    {
+      "rule_id": "r_carbonyl_electronic_contrast",
+      "reference_id": "carbonyl_electronic_contrast",
+      "type": "semantic",
+      "expected": "对所给酮/酯/Weinreb酰胺与醛/酸体系的实际分子比较支持与亲核捕获相关的局部电子差异。作者参考为S1/S3/S5的C3正电性相对S7/S8较高；允许定义相容、支持同一分子反应性差异的其他电子证据。不能只排列实验收率或把电荷直接当活化能。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_sidechain_geometry",
+      "reference_id": "sidechain_geometry",
+      "type": "semantic",
+      "expected": "实际结构比较支持甲基Weinreb酰胺的近接组织与丁基S6最低构象的远离组织存在差别，并保持同一分子身份和正确原子映射。作者S5近接、S6-c1远离为参考；不强设统一几何截断，也不以替换底物或未经优化的示意图得分。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_sidechain_spin",
+      "reference_id": "sidechain_spin",
+      "type": "semantic",
+      "expected": "实际电子分析支持近接组织的自旋更沿底物骨架离域，而S6远离构象相对更集中在含氮中心；必须将分布对应到有效构型，而非只列总S²或说是自由基。可接受物理等价的电子分布分析；不要求特定NBO版本或未定义的负键能列。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_s6_conformer_penalty",
+      "reference_id": "s6_conformer_penalty",
+      "type": "semantic",
+      "expected": "对同一S6身份的两个有效构象比较，得到近接c2相对远离c1不利的溶液G差。作者+2.5 kcal/mol为上下文，重点是可比定义与方向；不得以跨分子绝对能差或约束扫描未优化帧代替构象G，也不能将该差当HAT势垒。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_carbonyl_answer",
+      "reference_id": "carbonyl_answer",
+      "type": "semantic",
+      "expected": "最终把实际羰基体系电子结果与取代及电化学观察联系，支持有范围的亲核捕获相容性解释。近接结构单独不是充分条件，电化学可逆性也不等于必然高产；无需给出所有体系单调产率定律。只复述观察或列一组电荷而未回答比较不得分。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_sidechain_answer",
+      "reference_id": "sidechain_answer",
+      "type": "semantic",
+      "expected": "最终综合S5/S6结构、自旋及S6构象代价，说明丁基侧链如何改变有利电子组织及可能反应命运，为甲基/丁基不同反应表现提供计算支持。作者HAT为可能解释，不能把未计算HAT势垒或具体分解产物说成已证明；其他证据充分的相容解释可接受。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_primary_secondary_answer",
+      "reference_id": "primary_secondary_answer",
+      "type": "semantic",
+      "expected": "由实际初级/次级分子电子比较得到初级C3相对更负、次级更正的局部极性差异或等价亲核捕获证据，并用其解释相似电化学持续性不必导致相同取代表现。来源S19与正文S14编号按真实初级图识别；保留DCM/MeCN条件混杂，不推导匹配条件定量收率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "carbonyl_electronic_contrast",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "可反应与较差羰基体系存在局部电子差异",
+      "rule_ids": [
+        "r_carbonyl_electronic_contrast"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "sidechain_geometry",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "丁基侧链改变近接与远离构象",
+      "rule_ids": [
+        "r_sidechain_geometry"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "sidechain_spin",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "侧链相关构象差异伴随自旋分布变化",
+      "rule_ids": [
+        "r_sidechain_spin"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "s6_conformer_penalty",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "S6近接构象相对远离构象需付出自由能",
+      "rule_ids": [
+        "r_s6_conformer_penalty"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "carbonyl_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：电子差异解释羰基类别的反应性差别",
+      "rule_ids": [
+        "r_carbonyl_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "sidechain_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：构象与电子组织解释侧链影响",
+      "rule_ids": [
+        "r_sidechain_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "primary_secondary_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：初级/次级极性差异与捕获表现相联系",
+      "rule_ids": [
+        "r_primary_secondary_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

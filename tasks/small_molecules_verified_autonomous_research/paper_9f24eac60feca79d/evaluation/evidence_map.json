@@ -1,0 +1,149 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "evidence": [
+    {
+      "evidence_id": "e_conditions",
+      "source": "main.pdf PDF pages [7]; Figure3 and mechanistic-investigation text",
+      "source_document": "papers/paper_9f24eac60feca79d/documents/main.pdf",
+      "source_sha256": "b3d769ddd824f5431a63271617f65acabaad7b76f056a51ba8e3bbaf0cc8f211",
+      "pdf_pages_1based": [
+        7
+      ],
+      "locator": "Figure3 and mechanistic-investigation text",
+      "evidence_class": "experiment",
+      "claim": "Thermal enamine cyclization, toluene80°C/N2; scope starts at the supplied N-allyl enamine.",
+      "render_directory": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/source_review/paper_9f24eac60feca79d"
+    },
+    {
+      "evidence_id": "e_profile",
+      "source": "main.pdf PDF pages [7, 8]; Figure4a and accompanying discussion",
+      "source_document": "papers/paper_9f24eac60feca79d/documents/main.pdf",
+      "source_sha256": "b3d769ddd824f5431a63271617f65acabaad7b76f056a51ba8e3bbaf0cc8f211",
+      "pdf_pages_1based": [
+        7,
+        8
+      ],
+      "locator": "Figure4a and accompanying discussion",
+      "evidence_class": "author_computation",
+      "claim": "Starting-enamine-referenced free-energy heights31.0 (crossed [2+2], OSS) and37.1 (lowest aza-Claisen trans-imine route, CSS); preferred cycloaddition.",
+      "render_directory": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/source_review/paper_9f24eac60feca79d"
+    },
+    {
+      "evidence_id": "e_method",
+      "source": "supplementary_001.pdf PDF pages [23, 24, 25, 26]; printed S22–S25; methods and Supplementary Figures3–5",
+      "source_document": "papers/paper_9f24eac60feca79d/documents/supplementary_001.pdf",
+      "source_sha256": "1107ddcf7791cc067d30086364f61ab4969ab33aa503d775274f5da2f31f8b99",
+      "pdf_pages_1based": [
+        23,
+        24,
+        25,
+        26
+      ],
+      "locator": "printed S22–S25; methods and Supplementary Figures3–5",
+      "evidence_class": "author_computation",
+      "claim": "M06-2X/def2-SVP then def2-TZVP SMD toluene, stability/frequency/IRC and1M correction; state and path details.",
+      "render_directory": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/source_review/paper_9f24eac60feca79d"
+    },
+    {
+      "evidence_id": "e_distinct_system",
+      "source": "main.pdf PDF pages [9]; Figure5",
+      "source_document": "papers/paper_9f24eac60feca79d/documents/main.pdf",
+      "source_sha256": "b3d769ddd824f5431a63271617f65acabaad7b76f056a51ba8e3bbaf0cc8f211",
+      "pdf_pages_1based": [
+        9
+      ],
+      "locator": "Figure5",
+      "evidence_class": "context_only_not_scored",
+      "claim": "Figure5 concerns a homoallyl-alcohol-derived oxabicyclo[3.1.1] system, not current N-allyl enamine. Its36.0 barrier and kinetic/thermodynamic product switch are not current targets.",
+      "render_directory": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_06/source_review/paper_9f24eac60feca79d"
+    },
+    {
+      "evidence_id": "V2_MAIN",
+      "source": {
+        "path": "papers/paper_9f24eac60feca79d/documents/main.pdf",
+        "sha256": "b3d769ddd824f5431a63271617f65acabaad7b76f056a51ba8e3bbaf0cc8f211",
+        "pdf_pages_1based": [
+          7,
+          8
+        ]
+      },
+      "description": "2026-10-25直接核对的原论文/补充材料；PDF页序从1开始。完整来源、验证与评分对应见verified_computation_reference.md。"
+    },
+    {
+      "evidence_id": "V2_SI",
+      "source": {
+        "path": "papers/paper_9f24eac60feca79d/documents/supplementary_001.pdf",
+        "sha256": "1107ddcf7791cc067d30086364f61ab4969ab33aa503d775274f5da2f31f8b99",
+        "pdf_pages_1based": [
+          23,
+          24,
+          25,
+          26
+        ]
+      },
+      "description": "2026-10-25直接核对的原论文/补充材料；PDF页序从1开始。完整来源、验证与评分对应见verified_computation_reference.md。"
+    },
+    {
+      "evidence_id": "V3_EXISTING_NATIVE_EVIDENCE",
+      "source": {
+        "paths": [
+          "docs/verification/small_molecules_autonomous_research/job_followup_20261025T1206Z/old_9f24/parent_9f24_audit/audit.json"
+        ]
+      },
+      "description": "Existing native computation and audited arithmetic, mapped per final outcome in reference_qualification.json. Source values are not local computed values."
+    }
+  ],
+  "public_input_source_locators": [
+    "main pp7–8 Figures3–4 (substrate and net outcomes)",
+    "SI PDF p23 (printed S22): thermochemical reporting boundary"
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_cycloaddition_formation",
+      "r_imine_formation",
+      "r_product_competition_interpretation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "This is a product-family prediction task. Candidate structures are public but their experimental preference is withheld. A guessed winning product without calculations earns no credit.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "final_result_bindings": [
+    {
+      "conclusion_id": "cycloaddition_formation",
+      "rule_id": "r_cycloaddition_formation",
+      "evidence_ids": [
+        "e_profile",
+        "e_method",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scientific_requirement": "Electronic and activation explanation of thermal bicyclic formation"
+    },
+    {
+      "conclusion_id": "imine_formation",
+      "rule_id": "r_imine_formation",
+      "evidence_ids": [
+        "e_profile",
+        "e_method",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scientific_requirement": "Formation chemistry and activation of the competing imine family"
+    },
+    {
+      "conclusion_id": "product_competition_interpretation",
+      "rule_id": "r_product_competition_interpretation",
+      "evidence_ids": [
+        "e_profile",
+        "e_method",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scientific_requirement": "Computed prediction of competition between the two supplied product families"
+    }
+  ]
+}

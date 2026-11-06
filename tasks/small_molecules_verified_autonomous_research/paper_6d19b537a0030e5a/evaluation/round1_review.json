@@ -1,0 +1,51 @@
+{
+  "paper_id": "paper_6d19b537a0030e5a",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "缩减比较并补起始态",
+  "changes_zh": "删除SiMe3/tBu对比和20分扩展项；C_A起始前催化剂补为中性单重态（作者计算边界），后续态仍需论证；四项30/25/20/25。",
+  "source_locator": "正文 Fig. 6；author_SI.pdf S83–S84",
+  "scientific_scope_changed": true,
+  "active_rule_ids": [
+    "r_bifunctional_hydrogenation",
+    "r_turnover_control",
+    "r_primary_enantiomer",
+    "r_organization_origin"
+  ],
+  "active_outcome_ids": [
+    "bifunctional_hydrogenation",
+    "turnover_control",
+    "primary_enantiomer",
+    "organization_origin"
+  ],
+  "removed_outcome_ids": [
+    "substitution_effect"
+  ],
+  "public_file_sha256": {
+    "data/inputs/system.json": "6887a86398b50bf2a5654a5557c2b8a6f482c616a8cc42f87bc6061b0d5372c2",
+    "submission_guide.md": "d876b3275b9a11321cf6c3ba435c0dca67e26cc7212a5de840d0703002dc4eff",
+    "submission_schema.json": "1883e4b24c5bff7ca094dd79235a9cab6d899be889ebb39efbd6da1d34aa1128",
+    "task.md": "c3f8301235d51e882c1f84a8b7d7b947a03ae12ba2575d337df82d323e6da139"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_bifunctional_hydrogenation",
+      "r_turnover_control",
+      "r_primary_enantiomer",
+      "r_organization_origin"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only the acylsilane substrate is scored. Starting neutral tricarbonyl C_A has supplied multiplicity 1; subsequent spin states require justification. SiMe3/tBu substitution is outside the active task.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "paper_id": "paper_1bcf80caf9e64d55",
+  "scoring_policy": "paper_science_v3",
+  "items": [
+    {
+      "conclusion_id": "catalytic_formation_mechanism",
+      "statement": "膦催化成环与再生机制",
+      "expected": "实际连接证据支持膦亲核活化、骨架成环、酚来源亲核组分并入及催化剂再生的化学解释；足以回答同一问题的等效路线可接受，不要求作者节点名称。须从反应物到给定产物的化学账本自洽，只有净放能或几个无连接最低点不足。本项不要求穷尽全部候选路线。",
+      "required_numerical_evidence": [
+        {
+          "id": "main_path",
+          "description": "所提完整形成路线的关键相连态 Gibbs 能量、各关键转化局部活化量及统一参照下的活化需求。",
+          "public_requirement": "Computed key-state Gibbs energies, local activation energies and common-reference activation requirements along the proposed connected product-formation route."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 所提完整形成路线的关键相连态 Gibbs 能量、各关键转化局部活化量及统一参照下的活化需求。",
+      "evidence_ids": [
+        "pe_main",
+        "pe_a",
+        "pe_b",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "supported_cyclization_branch",
+      "statement": "有据的相关成环分支解释",
+      "expected": "实际计算的反应连接与能量支持一条能解释所研究骨架构建的相关化学分支，并交代与催化中间体/后续产物的关系。可以是直接环化，也可以是化学合理的其他分支；未建立直接分支时，整个分支组至多取得本项10分。仅提出假设、提交作业、得到无连接最低点或无关反应不通过。此项不是自动保底分，不要求完整催化循环或其他分支已经计算。",
+      "required_numerical_evidence": [
+        {
+          "id": "single_branch",
+          "description": "至少一条相关成环分支的实际相连态/剖面能量及适用局部活化量；不要求第二分支或全催化路线。",
+          "public_requirement": "Computed connected-state/profile energies and applicable local activation requirements for at least one relevant cyclization branch; this individual result does not require a second branch or the whole catalytic route."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 至少一条相关成环分支的实际相连态/剖面能量及适用局部活化量；不要求第二分支或全催化路线。",
+      "evidence_ids": [
+        "pe_a",
+        "pe_b",
+        "pe_main",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "direct_cyclization_branch",
+      "statement": "有据的直接环化分支",
+      "expected": "同时满足以下条件：存在有实际反应连接和能量支持、与题定骨架构建相关的成环分支；该分支确实直接构建目标环骨架，且解释其与前体/后续产物的关系，不能把先迁移后环化路线改名直接环化。只需本分支的充分局部证据，不要求其他竞争分支或完整催化循环。满足可与相关分支项合计20分；没有真实直接环化证据则本项fail。",
+      "required_numerical_evidence": [
+        {
+          "id": "direct_branch",
+          "description": "直接环化分支的相连态/剖面能量及适用局部活化量，确认实际成环连接；不要求已算其他分支。",
+          "public_requirement": "Computed connected-state/profile energies and applicable local activation requirements for a direct ring-forming branch, with its chemical connectivity established independently of whether another branch is available."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 直接环化分支的相连态/剖面能量及适用局部活化量，确认实际成环连接；不要求已算其他分支。",
+      "evidence_ids": [
+        "pe_a",
+        "pe_b",
+        "pe_main",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "direct_branch_competition",
+      "statement": "直接环化与实质竞争分支的比较",
+      "expected": "同时具备：真实相关成环分支；已建立的直接环化连接和能量；至少一条化学合理且实质不同的竞争分支；在匹配组成、前体与条件下作实际可比形成计算，论证直接环化相对该竞争者的优选或竞争可达性及依据。只需能支持本项结论的局部竞争证据，不要求完成所有后继节点。竞争者不限定作者醇协助迁移路线，但不能是同一路径的微小构象变化、错误连接或任意无关高能模型。不得只因算了两个数就通过，也不要求精确差值。若比较明确排除直接环化却仍无据声称优选，则本项fail。满足三项合计30分；其余两项逐项独立核查。",
+      "required_numerical_evidence": [
+        {
+          "id": "direct_branch",
+          "description": "直接环化分支的相连态/剖面能量及适用局部活化量，确认实际成环连接；不要求已算其他分支。",
+          "public_requirement": "Computed connected-state/profile energies and applicable local activation requirements for a direct ring-forming branch, with its chemical connectivity established independently of whether another branch is available."
+        },
+        {
+          "id": "branch_comparison",
+          "description": "相关实质竞争分支的可比活化量和差值。",
+          "public_requirement": "Computed comparable activation energies and differences for the substantive competing branches."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 直接环化分支的相连态/剖面能量及适用局部活化量，确认实际成环连接；不要求已算其他分支。\n- 相关实质竞争分支的可比活化量和差值。",
+      "evidence_ids": [
+        "pe_a",
+        "pe_b",
+        "pe_main",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "kinetic_bottleneck",
+      "statement": "初始膦加成是主要活化困难",
+      "expected": "真实且可比的活化信息支持初始膦向炔烃加成为所研究主要路线的关键动力学困难，并区分参考态高度与各步局部需求。等效路径/静息态模型须解释控制步骤的物理对应关系。不能只有一个 TS 就断言它全程控制，不能用终点放能代替活化比较；不要求作者势垒数值或完整速率方程。",
+      "required_numerical_evidence": [
+        {
+          "id": "main_path",
+          "description": "所提完整形成路线的关键相连态 Gibbs 能量、各关键转化局部活化量及统一参照下的活化需求。",
+          "public_requirement": "Computed key-state Gibbs energies, local activation energies and common-reference activation requirements along the proposed connected product-formation route."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 所提完整形成路线的关键相连态 Gibbs 能量、各关键转化局部活化量及统一参照下的活化需求。",
+      "evidence_ids": [
+        "pe_a",
+        "pe_b",
+        "pe_main",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "net_thermodynamic_direction",
+      "statement": "配平净转化热力学有利",
+      "expected": "实际端点计算与完整催化剂/副产物库存支持净转化放能，按公开的缔合起点加游离酚以及分离终态定义报告，或明确用一致缔合/标准态关系说明等价参照。不能从不配平差值得出方向，也不能因放能就宣称形成机制正确。不要求 -24.7 或任何误差范围；此项独立于未完成的机理分支。",
+      "required_numerical_evidence": [
+        {
+          "id": "net_thermochemistry",
+          "description": "按公开缔合起点约定和完整产物/催化剂/副产物账本计算的净 ΔG；若换参照，提供实际缔合自由能及一致标准态换算。",
+          "public_requirement": "Computed net ΔG using the public pre-reaction-association convention and complete product/catalyst/coproduct inventory; provide computed association energy and consistent standard-state conversion when relating alternative references."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 按公开缔合起点约定和完整产物/催化剂/副产物账本计算的净 ΔG；若换参照，提供实际缔合自由能及一致标准态换算。",
+      "evidence_ids": [
+        "pe_a",
+        "pe_reference_inventory",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,347 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_9132719dbf91c978",
+      "scoring_policy": "paper_science_v3",
+      "mode": "final_results_100",
+      "scientific_requirements": "Only independent final scientific propositions earn points, each all-or-zero. Evidence and object validity are conditions of the affected proposition, never independent workflow scores. Numeric windows are unchanged and binary. Review is unresolved, earns no points and cannot excuse missing calculation, wrong identity/reference/unit or a failed numeric window. Adequately established equivalent interpretations pass directly. AR selects methods independently; PR assesses the disclosed author baseline, with scientifically justified substitutions. Copying disclosed targets is not reproduction.",
+      "rules": [
+        {
+          "rule_id": "r_terminal_barrier",
+          "reference_id": "terminal_barrier",
+          "type": "numeric",
+          "expected": "For H-H bond formation from the full neutral singlet Pd/XantPhos dihydride in DMAc at 298.15 K, the Gibbs activation free energy relative to the relaxed dihydride is 0.9 kcal/mol within inclusive ±0.5 kcal/mol. Use matched solution electronic energies and thermal corrections; preserve the full 77-atom inventory and demonstrate that the claimed barrier connects the dihydride to H2 formation. This is not an electronic-only barrier, a dissociation free energy or a whole-cycle rate barrier. Author labels TS6/INT-G identify the same physical comparison, not required agent names.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Match the stated final proposition, molecular identity, observable, state, reference, environment and units to genuine submitted native outputs or executed analysis. Source text and supplied observations alone earn no credit. No structure, workflow or method-completion points. Apply the unchanged inclusive hard numerical window; missing evidence, wrong reference or out-of-window values fail."
+          },
+          "target": 0.9,
+          "tolerance": 0.5,
+          "unit": "kcal/mol"
+        },
+        {
+          "rule_id": "r_release_reference_sensitivity",
+          "reference_id": "release_reference_sensitivity",
+          "type": "semantic",
+          "expected": "An actual atom-balanced thermodynamic result separates molecular H-H formation from release of one equivalent of H2(g) from the explicitly identified Pd/H2-containing reactant into the stated released Pd species. From genuine calculated molecular free energies, report the release free energy at declared temperature, solute activities and H2 pressure and establish the quantitative pressure relation: at otherwise fixed conditions in the ideal dilute-gas regime, DeltaG_release(p2)-DeltaG_release(p1)=RT ln(p2/p1), or RT ln(f2/f1) using H2 fugacity for a justified nonideal model. Lower H2 pressure must make release more favorable; increasing it must make release less favorable. Any gas/solution standard-state conversion must preserve the same chemical potential, with the H2 stoichiometric coefficient and convention applied once. A single barrier, arbitrary near-zero value, generic statement of pressure sensitivity, or unchanged-pressure comparison with inconsistent standard states fails. No universal near-zero release value or sign is required: the verifier 1-atm value is not a paper target. Physical definition: Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Match the stated final proposition, molecular identity, observable, state, reference, environment and units to genuine submitted native outputs or executed analysis. Source text and supplied observations alone earn no credit. No structure, workflow or method-completion points. An established physically equivalent explanation passes directly. Missing or unsupported evidence fails; only the specific unresolved scientific conflicts listed in the rubric may need review."
+          }
+        },
+        {
+          "rule_id": "r_pd_availability",
+          "reference_id": "pd_availability",
+          "type": "semantic",
+          "expected": "From genuinely calculated balanced molecular thermodynamics, identify an accessible full-ligand Pd-containing candidate after H2 loss and assess its availability in DMAc under stated solvent activities and gas conditions. Interpret any explicit solvent association consistently; an arbitrary single-DMAc route is not mandatory. Explain why accessibility is conditional on the represented species and references rather than proof of a unique catalytically active state or its regeneration rate. A physically established equivalent recovery model passes directly.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Match the stated final proposition, molecular identity, observable, state, reference, environment and units to genuine submitted native outputs or executed analysis. Source text and supplied observations alone earn no credit. No structure, workflow or method-completion points. An established physically equivalent explanation passes directly. Missing or unsupported evidence fails; only the specific unresolved scientific conflicts listed in the rubric may need review."
+          }
+        },
+        {
+          "rule_id": "r_gas_experiment_inference",
+          "reference_id": "gas_experiment_inference",
+          "type": "semantic",
+          "expected": "Use the computed local H2-forming/releasing model to explain compatibility with transferable hydrogenating gas in the irradiated experiment, while distinguishing this consistency from identification of the specific Pd intermediate. The receiver hydrogenation and dark control do not uniquely identify donor-chamber Pd speciation, local rates, the upstream photocycle or full catalyst turnover. Tie this inference to the actual calculated local model and the supplied experiment; simply repeating 96% or listing generic caveats does not pass.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.scientific_response"
+            ],
+            "comparison": "Match the stated final proposition, molecular identity, observable, state, reference, environment and units to genuine submitted native outputs or executed analysis. Source text and supplied observations alone earn no credit. No structure, workflow or method-completion points. An established physically equivalent explanation passes directly. Missing or unsupported evidence fails; only the specific unresolved scientific conflicts listed in the rubric may need review."
+          }
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "terminal_barrier",
+          "kind": "conclusion",
+          "max_score": 30,
+          "description": "Composite terminal H2-forming free-energy barrier",
+          "rule_ids": [
+            "r_terminal_barrier"
+          ],
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "release_reference_sensitivity",
+          "kind": "conclusion",
+          "max_score": 30,
+          "description": "H2 release is reference-sensitive",
+          "rule_ids": [
+            "r_release_reference_sensitivity"
+          ],
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53",
+            "verified_release_species"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "pd_availability",
+          "kind": "conclusion",
+          "max_score": 25,
+          "description": "Conditional availability of a Pd recovery candidate after H2 loss",
+          "rule_ids": [
+            "r_pd_availability"
+          ],
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53",
+            "verified_release_species"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Computed, balanced alternative Pd speciation supports a different availability conclusion in DMAc and the conflict with the reference recovery model cannot be resolved from the submitted evidence."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "gas_experiment_inference",
+          "kind": "conclusion",
+          "max_score": 15,
+          "description": "What the two-chamber observation establishes about the local model",
+          "rule_ids": [
+            "r_gas_experiment_inference"
+          ],
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53",
+            "verified_release_species"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        }
+      ]
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_9132719dbf91c978",
+      "items": [
+        {
+          "statement": "Full-ligand Pd dihydride molecular state",
+          "expected": "Computed full-ligand structure supports a molecular Pd dihydride with two distinct Pd-H hydrides and the stated P coordination, rather than substituting a truncated ligand or calling a supplied starting geometry a minimum. Establish the actual molecular stationary state within the neutral singlet source composition. Physical definition: Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53"
+          ],
+          "key_point_id": "support_dihydride_structure",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting"
+        },
+        {
+          "statement": "Connected reductive H-H formation",
+          "expected": "Valid molecular evidence establishes a low-energy connection from the dihydride to H-H formation with corresponding Pd-H changes. A claimed saddle needs the reaction-relevant unstable mode and connection evidence; a single imaginary frequency or short H-H distance alone is insufficient. Equivalent connected paths are eligible. Physical definition: Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53"
+          ],
+          "key_point_id": "support_h2_forming_connection",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting"
+        },
+        {
+          "statement": "Composite terminal H2-forming free-energy barrier",
+          "expected": "For the same source terminal process compare G(TS6)-G(INT-G), composite solution electronic energies plus compatible thermal corrections, with the printed 0.9 kcal/mol target. This is neither an electronic-only barrier nor a whole-cycle barrier. Physical definition: Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53"
+          ],
+          "key_point_id": "support_terminal_barrier",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting"
+        },
+        {
+          "statement": "H2 release is reference-sensitive",
+          "expected": "An actual atom-balanced thermodynamic result separates molecular H-H formation from release of one equivalent of H2(g) from the explicitly identified Pd/H2-containing reactant into the stated released Pd species. From genuine calculated molecular free energies, report the release free energy at declared temperature, solute activities and H2 pressure and establish the quantitative pressure relation: at otherwise fixed conditions in the ideal dilute-gas regime, DeltaG_release(p2)-DeltaG_release(p1)=RT ln(p2/p1), or RT ln(f2/f1) using H2 fugacity for a justified nonideal model. Lower H2 pressure must make release more favorable; increasing it must make release less favorable. Any gas/solution standard-state conversion must preserve the same chemical potential, with the H2 stoichiometric coefficient and convention applied once. A single barrier, arbitrary near-zero value, generic statement of pressure sensitivity, or unchanged-pressure comparison with inconsistent standard states fails. No universal near-zero release value or sign is required: the verifier 1-atm value is not a paper target. Physical definition: Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53",
+            "verified_release_species"
+          ],
+          "key_point_id": "support_release_reference_sensitivity",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting"
+        },
+        {
+          "statement": "Conditional Pd availability after H2 loss",
+          "expected": "Computed released/solvent-coordinated Pd evidence supports a physically accessible Pd-containing recovery candidate and tests its thermodynamic availability under declared DMAc conditions. A solvent association free energy alone cannot demonstrate a kinetic regeneration rate or unique catalytic species; no obligatory one-DMAc sequence is imposed. Physical definition: Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53",
+            "verified_release_species"
+          ],
+          "key_point_id": "support_pd_recovery_evidence",
+          "key_point_type": "result",
+          "scored": false,
+          "claim_role": "supporting"
+        }
+      ],
+      "role": "Non-scoring contextual evidence; final numeric targets and final scientific criteria reside in reference_conclusions and scoring_rules."
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_9132719dbf91c978",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabrication of scientific evidence, including reference values falsely presented as newly computed, invalidates the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Ordinary failure, missing evidence or scientific error affects only the relevant leaves."
+        }
+      ]
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_9132719dbf91c978",
+      "items": [
+        {
+          "conclusion_id": "terminal_barrier",
+          "statement": "Composite terminal H2-forming free-energy barrier",
+          "expected": "For H-H bond formation from the full neutral singlet Pd/XantPhos dihydride in DMAc at 298.15 K, the Gibbs activation free energy relative to the relaxed dihydride is 0.9 kcal/mol within inclusive ±0.5 kcal/mol. Use matched solution electronic energies and thermal corrections; preserve the full 77-atom inventory and demonstrate that the claimed barrier connects the dihydride to H2 formation. This is not an electronic-only barrier, a dissociation free energy or a whole-cycle rate barrier. Author labels TS6/INT-G identify the same physical comparison, not required agent names.",
+          "claim_role": "final",
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53"
+          ],
+          "supporting_key_point_ids": [
+            "support_terminal_barrier"
+          ]
+        },
+        {
+          "conclusion_id": "release_reference_sensitivity",
+          "statement": "H2 release is reference-sensitive",
+          "expected": "An actual atom-balanced thermodynamic result separates molecular H-H formation from release of one equivalent of H2(g) from the explicitly identified Pd/H2-containing reactant into the stated released Pd species. From genuine calculated molecular free energies, report the release free energy at declared temperature, solute activities and H2 pressure and establish the quantitative pressure relation: at otherwise fixed conditions in the ideal dilute-gas regime, DeltaG_release(p2)-DeltaG_release(p1)=RT ln(p2/p1), or RT ln(f2/f1) using H2 fugacity for a justified nonideal model. Lower H2 pressure must make release more favorable; increasing it must make release less favorable. Any gas/solution standard-state conversion must preserve the same chemical potential, with the H2 stoichiometric coefficient and convention applied once. A single barrier, arbitrary near-zero value, generic statement of pressure sensitivity, or unchanged-pressure comparison with inconsistent standard states fails. No universal near-zero release value or sign is required: the verifier 1-atm value is not a paper target. Physical definition: Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+          "claim_role": "final",
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53",
+            "verified_release_species"
+          ],
+          "supporting_key_point_ids": [
+            "support_release_reference_sensitivity"
+          ]
+        },
+        {
+          "conclusion_id": "pd_availability",
+          "statement": "Conditional availability of a Pd recovery candidate after H2 loss",
+          "expected": "From genuinely calculated balanced molecular thermodynamics, identify an accessible full-ligand Pd-containing candidate after H2 loss and assess its availability in DMAc under stated solvent activities and gas conditions. Interpret any explicit solvent association consistently; an arbitrary single-DMAc route is not mandatory. Explain why accessibility is conditional on the represented species and references rather than proof of a unique catalytically active state or its regeneration rate. A physically established equivalent recovery model passes directly.",
+          "claim_role": "final",
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53",
+            "verified_release_species"
+          ],
+          "supporting_key_point_ids": [
+            "support_pd_recovery_evidence"
+          ]
+        },
+        {
+          "conclusion_id": "gas_experiment_inference",
+          "statement": "What the two-chamber observation establishes about the local model",
+          "expected": "Use the computed local H2-forming/releasing model to explain compatibility with transferable hydrogenating gas in the irradiated experiment, while distinguishing this consistency from identification of the specific Pd intermediate. The receiver hydrogenation and dark control do not uniquely identify donor-chamber Pd speciation, local rates, the upstream photocycle or full catalyst turnover. Tie this inference to the actual calculated local model and the supplied experiment; simply repeating 96% or listing generic caveats does not pass.",
+          "claim_role": "final",
+          "evidence_ids": [
+            "main_p4",
+            "supplementary_001_p10_11_12_50_51_52_53",
+            "verified_release_species"
+          ],
+          "supporting_key_point_ids": [
+            "support_dihydride_structure",
+            "support_h2_forming_connection",
+            "support_terminal_barrier",
+            "support_release_reference_sensitivity",
+            "support_pd_recovery_evidence"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_9132719dbf91c978",
+      "scoring_policy": "paper_science_v3",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "reason": "2026-10-28 final-result redesign; historical acceptance is not a new V3 full pass.",
+      "physical_definition": "Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+      "scientific_limitations": "INT-G thermal correction differs by about 0.000287 Eh (fixed-geometry control about 0.000278 Eh). Verified composite barrier 0.764432 versus source reconstruction 0.883282/printed 0.9 kcal/mol. Release +0.011582 and DMAc capture +0.402490/+0.658922 kcal/mol are verifier results, not paper targets, and their signs are reference-sensitive. No unique photocycle, local release rate, kinetic catalyst regeneration or yield is established.",
+      "tolerance_policy": {
+        "status": "provisional_benchmark_policy",
+        "basis": "The sole numeric target is author printed 0.9 kcal/mol, inclusive ±0.5 kcal/mol. This provisional sub-kcal window reflects the source one-decimal precision and sensitivity of a composite low barrier, remains narrower than the retired ±2 window, and is not residual-plus-epsilon. It is not transferred to near-zero release/capture quantities. Author reconstruction 0.883282 and verified 0.764432 remain separate; no exact thermal-component target is scored.",
+        "not_author_error_bars": true
+      },
+      "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+      "coordinator_review": {
+        "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+        "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+        "review_key": "v2_paper_9132719dbf91c978",
+        "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+        "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+        "publication_readiness_unchanged": true
+      },
+      "repair_round3": {
+        "date": "2026-10-19",
+        "round": "repair_round3",
+        "mode": "autonomous_research",
+        "status": "scoring_contract_repaired_without_new_chemical_acceptance",
+        "changes": [
+          "Confirmed: the former universal near-thermoneutral requirement incorrectly elevated verifier +0.011582 kcal/mol at 1 atm into a paper result. Replaced with the concrete atom-balanced release/chemical-potential relation at the submitted pressure; source 0.9 kcal/mol formation barrier unchanged."
+        ],
+        "history_preserved": true,
+        "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_04/paper_9132719dbf91c978.md"
+      },
+      "historical_verification_acceptance": "Existing independently strict V2 frozen-scope acceptance retained; scoring migration is not new chemical validation.",
+      "historical_status": "CURRENT_FROZEN_SCOPE_STRICT_VERIFICATION_PRESERVED",
+      "historical_current_scope_verified": true,
+      "status": "V3_CONTRACT_MIGRATED_EVIDENCE_REUSED_NOT_REVALIDATED",
+      "current_scope_verified": false,
+      "v3_scope": "保持局部Pd/XantPhos氢演化和恢复问题；4条最终命题30/30/25/15，保留0.9±0.5势垒窗。二氢化物结构/连通性转为势垒的证据条件，移除低势垒结论与数值的重复分；释放条件、Pd可用性与气体实验含义分别评分。",
+      "v3_evidence_gaps": [
+        "INT-G热项相差0.000287 Eh（固定源坐标控制约0.000278），原文逐分量并非完全复现。",
+        "释放/捕获近零值的符号对标准态、气压、低频处理敏感；不设置新数值目标。",
+        "局部物种及实验相容性不能认证真实光循环、恢复速率或周转。"
+      ]
+    }
+  }
+}

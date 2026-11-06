@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "items": [
+    {
+      "id": "fabricated_evidence",
+      "description": "Fabricated evidence or copied reference results presented as independently computed invalidate the submission."
+    },
+    {
+      "id": "hidden_answer_leakage",
+      "description": "Demonstrated unauthorized use of hidden evaluator answers invalidates the submission. Ordinary failed or incomplete computations only lose the affected scientific items."
+    }
+  ],
+  "ordinary_failure_policy": "Missing or unsupported final conclusions fail only the affected items; supported independent outcomes retain their points. Return pass/fail for every item and record demonstrated reference defects separately in objective_issue_flags. No pending scientific-review status.",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_axial_activity_contrast",
+      "r_linker_accessibility_contrast",
+      "r_framework_electronic_explanation",
+      "r_background_contrast"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required molecular explanation concerns catalyst-level structure–activity relationships at initial activation; hypotheses and quantitative molecular comparisons are selected independently. A complete cycle, yield-time model or resolved C/E crossing mechanism is not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required chemistry begins at supplied Int-3. Int-2 is contextual only; no benzylic activation, peroxide cleavage or upstream radical generation is required. Both product drawings are inputs, not discoveries.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Starting from the supplied oxygen-centered radical Int-3 derived from sec-butylbenzene, what local chemistry explains acetophenone formation, and which of the two supplied carbon–carbon beta-scission channels is kinetically favored? This is a local explanation task; product structures are supplied and must be supported by independently calculated formation evidence.",
+  "active_rule_ids": [
+    "r_local_cleavage_chemistry",
+    "r_cleavage_selectivity"
+  ],
+  "current_outcome_ids": [
+    "local_cleavage_chemistry",
+    "cleavage_selectivity"
+  ],
+  "historical_record": {
+    "paper_id": "paper_b33676a2051f5e91",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity",
+      "r_local_activation"
+    ],
+    "scope": "Local cleavage chemistry and accessibility of acetophenone formation; Kinetic preference between acetophenone- and propiophenone-forming local cleavages; Accessibility and limits of a reagent-derived local benzylic activation route. Public molecular inputs and scientific scope are unchanged.",
+    "verification_status": "EXISTING_LOCAL_EVIDENCE_REVIEWED_NO_AUTOMATIC_V3_PASS",
+    "native_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+    "new_quantum_jobs": 0,
+    "release_ready": false,
+    "limitations": "Unresolved source singlet-oxygen states/capture definitions and uncomputed connecting peroxide chemistry remain outside the approved local scope. Local barriers use connected basins; no yield/branch ratio or polymer prediction is verified.",
+    "qualification_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+    "historical_records": {},
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_local_cleavage_chemistry",
+        "r_cleavage_selectivity",
+        "r_local_activation"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    },
+    "outcome_evidence_coverage": [
+      {
+        "scientific_requirement": "必需结果1与2：裂解产物/共产品、前体连接和苯乙酮局部活化",
+        "rule_id": "r_local_cleavage_chemistry",
+        "conclusion_id": "local_cleavage_chemistry",
+        "independence": "确认局部裂解化学及苯乙酮形成可达性，不要求已判两通道谁优先。",
+        "source_locator": "正文PDF6–8 Fig.7；SI PDF23方法、25–29 HAT、33–37裂解与坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json"
+        ],
+        "existing_support": "C10H13O双重态映射至C8H8O+C2H5或C9H10O+CH3；苯乙酮局部G‡10.050192–10.149338，真实连接盆地比来源构象更低。",
+        "limits": [
+          "连接反应物盆地比来源Int3低约1.15–1.25 kcal/mol，不能为贴近作者任意换零点。",
+          "有限IRC产品端点确立连接而非无限分离热力学；局部偏好不等于产率/分支比。",
+          "HAT与裂解之间氧转化未算；来源单线态O2和捕获数值冲突仍留在原已排除范围。"
+        ],
+        "evidence_ids": [
+          "main_p7_8",
+          "supplementary_001_p33_35_36_37",
+          "supplementary_001_p33_34_35",
+          "main_p8",
+          "supplementary_001_p33_35"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果3：竞争裂解势垒及共同参照差、局部形成偏好",
+        "rule_id": "r_cleavage_selectivity",
+        "conclusion_id": "cleavage_selectivity",
+        "independence": "比较两个局部形成通道的动力学偏好；同一产物映射本身不足。",
+        "source_locator": "正文PDF6–8 Fig.7；SI PDF23方法、25–29 HAT、33–37裂解与坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json"
+        ],
+        "existing_support": "竞争通道14.549435–14.648581，共同参照差4.499243；来源13.39/9.07和差4.32保留。",
+        "limits": [
+          "连接反应物盆地比来源Int3低约1.15–1.25 kcal/mol，不能为贴近作者任意换零点。",
+          "有限IRC产品端点确立连接而非无限分离热力学；局部偏好不等于产率/分支比。",
+          "HAT与裂解之间氧转化未算；来源单线态O2和捕获数值冲突仍留在原已排除范围。"
+        ],
+        "evidence_ids": [
+          "main_p8",
+          "supplementary_001_p33_34_35"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果4：试剂来源苄位活化及其与裂解解释的连接范围",
+        "rule_id": "r_local_activation",
+        "conclusion_id": "local_activation",
+        "independence": "苄位HAT的可达性与后续烷氧裂解可分别被支持，不强造未算的中间氧化连接。",
+        "source_locator": "正文PDF6–8 Fig.7；SI PDF23方法、25–29 HAT、33–37裂解与坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json"
+        ],
+        "existing_support": "Cl-HAT TS/IRC两支66/79点；分离参照G‡3.239204；未计算HAT至烷氧前体的氧转化。",
+        "limits": [
+          "连接反应物盆地比来源Int3低约1.15–1.25 kcal/mol，不能为贴近作者任意换零点。",
+          "有限IRC产品端点确立连接而非无限分离热力学；局部偏好不等于产率/分支比。",
+          "HAT与裂解之间氧转化未算；来源单线态O2和捕获数值冲突仍留在原已排除范围。"
+        ],
+        "evidence_ids": [
+          "main_p6_7",
+          "supplementary_001_p25_26_27_28_29"
+        ],
+        "no_new_computation": true
+      }
+    ],
+    "objective_issue_flags": [
+      {
+        "issue": "连接反应物盆地比来源Int3低约1.15–1.25 kcal/mol，不能为贴近作者任意换零点。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "有限IRC产品端点确立连接而非无限分离热力学；局部偏好不等于产率/分支比。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "HAT与裂解之间氧转化未算；来源单线态O2和捕获数值冲突仍留在原已排除范围。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      }
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "local_cleavage_chemistry": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "cleavage_selectivity": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "release_ready": false
+}

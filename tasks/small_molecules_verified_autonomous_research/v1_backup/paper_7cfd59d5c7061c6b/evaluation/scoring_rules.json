@@ -1,0 +1,247 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。",
+  "rules": [
+    {
+      "rule_id": "r_oo_activation",
+      "reference_id": "oo_activation",
+      "type": "semantic",
+      "expected": "完整12-TMC/Fe过氧与DMA有限模型的实际路径/结构和电子态证据支持O–O键断裂后仍结合在Fe上的活性氧中心，对应来源FeIV(oxo)(oxyl)/FeIII(dioxyl)描述。需要相关反应模及有效局部连接，不能以起始过氧结构或虚频数量本身代替。接受物理等价的态描述，不强制精确Mulliken原子自旋数。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    },
+    {
+      "rule_id": "r_dma_hat",
+      "reference_id": "dma_hat",
+      "type": "semantic",
+      "expected": "实际反应模和局部端点证据支持活化Fe/O中心从DMA的N-甲基C–H夺氢，出现对应C–H断裂和O–H形成，原子/质子账本守恒。主张的TS须有相称的鞍点与连接证据；有限IRC加恢复后的有效端点可接受，不要求复刻完整IRC搜索。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    },
+    {
+      "rule_id": "r_radical_intermediate",
+      "reference_id": "radical_intermediate",
+      "type": "semantic",
+      "expected": "HAT后有效结构和电子/自旋结果支持DMA碳自由基与FeIII(oxyl)(OH)结合态体系的化学身份，区别于完整闭壳层DMA或已经释放甲醛的产物。此项评价电子与物种性质，不重复奖励H转移本身。来源IM2b −10.1仅作上下文；不同构象不可冒称同一最低点，不强制精确原子自旋分配。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    },
+    {
+      "rule_id": "r_rebound_product",
+      "reference_id": "rebound_product",
+      "type": "semantic",
+      "expected": "实际局部路径及无约束有效端点支持OH与DMA自由基碳成键，得到保留N–C连接的结合态氧化底物，能量相对所用HAT后起点下降。需实际区分底物自由基消失与C–O形成；有限扫描/端点可支持这一定性结果，但未认证鞍点不能称严格零势垒。允许明确披露HAT端点与反弹起点的构象差，不强制补算构象互变动力学；不得据此声称已经释放N-甲基苯胺/甲醛。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    },
+    {
+      "rule_id": "r_oo_barrier",
+      "reference_id": "oo_barrier",
+      "type": "numeric",
+      "expected": "E(TS1b)−E(共同六重态RC)=13.1 kcal/mol，绝对容差2.0，边界包含。完整67原子、总电荷+1、高自旋物理模型，CPCM(TFE)相容电子能；不加D3/ZPE/RRHO项，也不能用实验213 K活化自由能替代。需实际有效的O–O反应鞍点及参照身份；允许物理等价方法和透明单位换算。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      },
+      "target": 13.1,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_hat_height",
+      "reference_id": "hat_height",
+      "type": "numeric",
+      "expected": "E(TS2b)−E(共同六重态RC)=9.2 kcal/mol，绝对容差2.0，边界包含。采用与O–O活化相同完整模型、电子态和CPCM(TFE)电子能定义。9.2是共同RC高度，不是TS2b−IM1的局部11.4势垒；需实际相关HAT鞍点与连接证据，不能通过换零点或加入热项获得匹配。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      },
+      "target": 9.2,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_preferred_initiation",
+      "reference_id": "preferred_initiation",
+      "type": "semantic",
+      "expected": "最终用实际、可比的直接HAT与先O–O断裂路径证据选择后者作为本完整高自旋模型更有利的初始氧化机制。直接HAT势垒应高于已建立的活化路径；需把竞争比较用于机制判断，而非只列出一条可行路线。来源27.6对13.1/9.2是上下文，不要求新增精确数值窗口；两已评分数值窗口的命中不代替竞争方向。电子高度不能单独证明实验环境无关的唯一控速步或精确速率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    },
+    {
+      "rule_id": "r_initial_oxidation_answer",
+      "reference_id": "initial_oxidation_answer",
+      "type": "semantic",
+      "expected": "最终将O–O活化、DMA夺氢及自由基/OH反弹的实际结果整合为初始底物氧化的化学解释，明确已得到结合态氧化底物而非完成最终脱甲基和甲醛释放。需真正应用中间发现回答氧化如何发生；仅列局限性或重复实验终产物不能得分。不同构象的局部证据不冒称已证明单一全局最低连续轨迹，未求解的最终释放不作为本题额外要求。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与执行证据；仅评价本项科学命题，满足全部条件得满分，否则0。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "oo_activation",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "O–O活化得到结合态活性Fe/O中心",
+      "rule_ids": [
+        "r_oo_activation"
+      ],
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "id": "dma_hat",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "O–O活化后从DMA转移氢原子",
+      "rule_ids": [
+        "r_dma_hat"
+      ],
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "id": "radical_intermediate",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "HAT后的底物自由基与Fe/OH物种",
+      "rule_ids": [
+        "r_radical_intermediate"
+      ],
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "id": "rebound_product",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "OH反弹形成结合态氧化底物",
+      "rule_ids": [
+        "r_rebound_product"
+      ],
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "id": "oo_barrier",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "O–O活化相对共同RC的电子势垒",
+      "rule_ids": [
+        "r_oo_barrier"
+      ],
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "id": "hat_height",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "活化后HAT过渡态相对共同RC的电子高度",
+      "rule_ids": [
+        "r_hat_height"
+      ],
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "id": "preferred_initiation",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "最终：先O–O活化优于完整peroxo直接夺氢",
+      "rule_ids": [
+        "r_preferred_initiation"
+      ],
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    },
+    {
+      "id": "initial_oxidation_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：有限初始氧化与结合态产物解释",
+      "rule_ids": [
+        "r_initial_oxidation_answer"
+      ],
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ]
+    }
+  ]
+}

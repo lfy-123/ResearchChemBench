@@ -1,0 +1,87 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "scope_version": "substrate-local-author-results-20261012",
+  "mapping": [
+    {
+      "original_id": "product_fate",
+      "current_id": "product_fate",
+      "rule_ids": [
+        "rule_product_fate"
+      ],
+      "action": "RETAIN_WITH_SCOPE_UPDATE",
+      "previous_points": 30,
+      "current_points": 20,
+      "scientific_finding": "A derived local molecular model establishes acetophenone and ethyl-radical formation."
+    },
+    {
+      "original_id": "preferred_barrier",
+      "current_id": "preferred_barrier",
+      "rule_ids": [
+        "ar_r4"
+      ],
+      "action": "RETAIN_WITH_SCOPE_UPDATE",
+      "previous_points": 35,
+      "current_points": 25,
+      "scientific_finding": "The acetophenone-forming local barrier is recovered on its correctly connected reactant reference."
+    },
+    {
+      "original_id": "competing_fate",
+      "current_id": "competing_fate",
+      "rule_ids": [
+        "rule_competing_fate"
+      ],
+      "action": "RETAIN_WITH_SCOPE_UPDATE",
+      "previous_points": 20,
+      "current_points": 20,
+      "scientific_finding": "The distinct propiophenone/methyl-radical cleavage is computationally identified and quantified."
+    },
+    {
+      "original_id": "selectivity",
+      "current_id": "selectivity",
+      "rule_ids": [
+        "rule_selectivity"
+      ],
+      "action": "RETAIN_WITH_SCOPE_UPDATE",
+      "previous_points": 15,
+      "current_points": 15,
+      "scientific_finding": "Comparable connected local barriers favor the acetophenone/ethyl branch."
+    },
+    {
+      "original_id": null,
+      "current_id": "hat_chlorine",
+      "rule_ids": [
+        "rule_hat_chlorine"
+      ],
+      "action": "ADD_AUTHOR_RESULT",
+      "previous_points": 0,
+      "current_points": 20,
+      "scientific_finding": "Chlorine-mediated benzylic hydrogen abstraction is a locally accessible substrate transformation."
+    },
+    {
+      "original_id": "evidence_validity",
+      "current_id": "evidence_validity",
+      "rule_ids": [
+        "rule_evidence_validity"
+      ],
+      "action": "RETAIN_UNWEIGHTED_CONDITION"
+    },
+    {
+      "original_id": "answer",
+      "current_id": "answer",
+      "rule_ids": [
+        "rule_answer"
+      ],
+      "action": "REWRITE_UNWEIGHTED_SYNTHESIS"
+    }
+  ],
+  "blocked_ids_absent_from_active_scoring": [
+    "hat_singlet_oxygen",
+    "oxygen_capture_competition"
+  ],
+  "allocation_rationale": "Transfer 10 points from product identification and 10 from the ethyl barrier to the new, distinct chlorine-HAT finding. Retain competing channel/order allocations. Total 100; no score for inactive singlet-HAT, reporting validity or repeated synthesis.",
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Current bounded scientific coverage is accepted. Exact-source, scoring and release qualifications remain separate; this does not certify every result in the paper."
+}

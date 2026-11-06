@@ -1,0 +1,186 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "scoring_policy": "paper_science_v3",
+  "items": [
+    {
+      "conclusion_id": "productive_path_a",
+      "statement": "初始氮构型 A 到产物的生产性路径",
+      "expected": "将题给两种初始氮构型一一映射为 A/B（A/B 可按提交者一致声明，不以名称指定优势），实际相连反应证据支持构型 A 从所定义的生产性起点经过所需关键化学转化到指定烯基化产物的完整路径，并保留产物 E 烯烃及氮构型映射。须说明配位、质子、组成、电荷与参照的变化；单个 C–H 活化 TS 或只有产物最低点不能证明整段生产性路线。允许有据的等效路线，不强制作者节点/中间体数或补齐催化剂再生、氧化剂周转和完整催化网络。两构型路径必须真实不同，不能将同一路径重标两次；另一构型未完成不影响本项独立判断。",
+      "required_numerical_evidence": [
+        {
+          "id": "productive_profile_a",
+          "description": "初始氮构型 A 的生产性起点到指定产物相连路径的关键态 Gibbs 能量、各必要转化活化量及成分/参照账本；不要求催化剂完整周转。",
+          "public_requirement": "Computed key-state Gibbs energies and activation requirements along a connected productive route from initial nitrogen configuration A to the specified product, with component/reference bookkeeping; complete catalyst turnover is not required."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 初始氮构型 A 的生产性起点到指定产物相连路径的关键态 Gibbs 能量、各必要转化活化量及成分/参照账本；不要求催化剂完整周转。",
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_COORD",
+        "E_SYSTEM",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "productive_path_b",
+      "statement": "初始氮构型 B 到产物的生产性路径",
+      "expected": "将题给两种初始氮构型一一映射为 A/B（A/B 可按提交者一致声明，不以名称指定优势），实际相连反应证据支持构型 B 从所定义的生产性起点经过所需关键化学转化到指定烯基化产物的完整路径，并保留产物 E 烯烃及氮构型映射。须说明配位、质子、组成、电荷与参照的变化；单个 C–H 活化 TS 或只有产物最低点不能证明整段生产性路线。允许有据的等效路线，不强制作者节点/中间体数或补齐催化剂再生、氧化剂周转和完整催化网络。两构型路径必须真实不同，不能将同一路径重标两次；另一构型未完成不影响本项独立判断。",
+      "required_numerical_evidence": [
+        {
+          "id": "productive_profile_b",
+          "description": "初始氮构型 B 的生产性起点到指定产物相连路径的关键态 Gibbs 能量、各必要转化活化量及成分/参照账本；不要求催化剂完整周转。",
+          "public_requirement": "Computed key-state Gibbs energies and activation requirements along a connected productive route from initial nitrogen configuration B to the specified product, with component/reference bookkeeping; complete catalyst turnover is not required."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 初始氮构型 B 的生产性起点到指定产物相连路径的关键态 Gibbs 能量、各必要转化活化量及成分/参照账本；不要求催化剂完整周转。",
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_COORD",
+        "E_SYSTEM",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "productive_selectivity_step",
+      "statement": "区分两构型的关键生产性转化",
+      "expected": "在题定催化条件下，对真实对应的两初始氮构型作共同物理参照的形成比较，定位产生选择性区分的关键转化，支持与参考低能 TS20-a 分支等价的构型偏好，并映射到产物富集方向。作者标签不是必要条件。必须展示本次实际活化差及其有界选择性解释；不设“较大”的数值阈值、不要求命中精确 ee 或势垒差。若计算本身不支持构型区分，不能凭题给高 ee 反推通过。只算孤立反转不支持本项；无须先完成两条生产性路径全程，也不得据局部选择性宣称整体速率控制或完整 DKR。",
+      "required_numerical_evidence": [
+        {
+          "id": "productive_barriers",
+          "description": "两生产性构型的 Gibbs 活化量、共同参照及差值，绑定真实构型映射。",
+          "public_requirement": "Computed Gibbs activation energies for both productive configurations and their difference on a common reference, linked to the actual configuration mapping."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 两生产性构型的 Gibbs 活化量、共同参照及差值，绑定真实构型映射。",
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_COORD",
+        "E_SYSTEM",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "substrate_configuration_persistence",
+      "statement": "孤立 S 的构型保持",
+      "expected": "对完整中性孤立 S 在 MeCN、353.15 K 的实际反转化学与能量尺度作解释，支持其对快速自发反转有显著阻力、具有有限时间尺度构型保持的结论，同时允许更长时间热反转。须有连接两构型的真实反转证据；仅报正势垒或两份最低点不足。无需匹配 31.82 或任何容差；时间尺度可作有假设的解释，不能暗设新的固定势垒/半衰期门槛。",
+      "required_numerical_evidence": [
+        {
+          "id": "s_inversion",
+          "description": "孤立 S 在题定 MeCN/353.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+          "public_requirement": "Computed inversion Gibbs barrier and state energies for isolated S in the specified MeCN/353.15 K model, with evidence connecting the configurations."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 孤立 S 在题定 MeCN/353.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "product_configuration_persistence",
+      "statement": "孤立 P 的构型保持",
+      "expected": "在 n-octane、398.15 K 的 P 反转模型中，实际两构型连接及能量尺度支持显著构型保持、非迅速无条件消旋的结论，并保留 P 的 E 烯烃身份。不能用 S、催化络合物或其他温度的计算替代。无需匹配 33.99、原 ±3 窗口或指定泛函；有计算支持的稳定性解释才得分，不能只因势垒为正即判稳定。",
+      "required_numerical_evidence": [
+        {
+          "id": "p_inversion",
+          "description": "孤立 P 在题定 n-octane/398.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+          "public_requirement": "Computed inversion Gibbs barrier and state energies for isolated P in the specified n-octane/398.15 K model, with evidence connecting the configurations."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 孤立 P 在题定 n-octane/398.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "conditioned_inversion_comparison",
+      "statement": "各自题定条件下的 P/S 反转活化比较",
+      "expected": "实际 S、P 反转结果及一致的局部势垒定义支持：在各自题定模型下，P 的反转 Gibbs 活化需求高于 S。明确 S 为 MeCN/353.15 K、P 为 n-octane/398.15 K；这只是两个规定模型所得活化需求的比较，不是相同条件下的内禀难度或速率排序。须给出可审计的两值、定义和比较，说明条件混杂限制；不设差值阈值，不需要新增共同溶剂/温度计算。只说“均稳定”、只列局限或把异条件势垒直接变成反转速率优劣，均不足。本次有效证据不支持上述条件限定关系则本项 fail，并记录理由；不得以隐藏数值窗口替代科学判定。",
+      "required_numerical_evidence": [
+        {
+          "id": "s_inversion",
+          "description": "孤立 S 在题定 MeCN/353.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+          "public_requirement": "Computed inversion Gibbs barrier and state energies for isolated S in the specified MeCN/353.15 K model, with evidence connecting the configurations."
+        },
+        {
+          "id": "p_inversion",
+          "description": "孤立 P 在题定 n-octane/398.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+          "public_requirement": "Computed inversion Gibbs barrier and state energies for isolated P in the specified n-octane/398.15 K model, with evidence connecting the configurations."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 孤立 S 在题定 MeCN/353.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。\n- 孤立 P 在题定 n-octane/398.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "enrichment_and_retention",
+      "statement": "富集、保持与 DKR 推论的界限",
+      "expected": "把实际生产性构型偏好用于解释富集，把实际孤立 S/P 的保持结论用于解释富集后可能保留，明确这些是不同物理作用。孤立反转不能证明催化条件下 S 的快速再平衡，也不能直接导出定量 DKR 或终点 ee；P 的 n-octane 模型与 MeCN 加热观察须区分。应用本次实际计算作这一综合推论才能通过，泛泛列局限或重复两项稳定性文字不足；不要求补做催化反转/完整动力学网络。",
+      "required_numerical_evidence": [
+        {
+          "id": "productive_barriers",
+          "description": "两生产性构型的 Gibbs 活化量、共同参照及差值，绑定真实构型映射。",
+          "public_requirement": "Computed Gibbs activation energies for both productive configurations and their difference on a common reference, linked to the actual configuration mapping."
+        },
+        {
+          "id": "s_inversion",
+          "description": "孤立 S 在题定 MeCN/353.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+          "public_requirement": "Computed inversion Gibbs barrier and state energies for isolated S in the specified MeCN/353.15 K model, with evidence connecting the configurations."
+        },
+        {
+          "id": "p_inversion",
+          "description": "孤立 P 在题定 n-octane/398.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+          "public_requirement": "Computed inversion Gibbs barrier and state energies for isolated P in the specified n-octane/398.15 K model, with evidence connecting the configurations."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 两生产性构型的 Gibbs 活化量、共同参照及差值，绑定真实构型映射。\n- 孤立 S 在题定 MeCN/353.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。\n- 孤立 P 在题定 n-octane/398.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+      "evidence_ids": [
+        "E_INV",
+        "E_OBS",
+        "E_METHOD",
+        "E_COORD",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "at_utc": "2026-09-30T05:46:20.775887+00:00",
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "scope": "Coordinator-confirmed content repair; no scientific computation or live judge.",
+  "source_read_scope": "Physical PDF pp2-3 methods (p3 continuation: d_norm -0.18 to 1.4, a.u.), p4 sections 3.2-3.3 (-0.676 to 1.415, angstrom; intra S(7)/inter R2^2(9)), pp5-6 Figs2-5 shape-index/curvedness; all four SI checkCIF pages contain no coordinate loop.",
+  "source_guidance_clarification": "Source interpretation and ambiguities: the methods continuation on physical PDF p3 gives a d_norm display range of -0.18 to 1.4 and labels it a.u.; p4 gives -0.676 to 1.415 and labels it angstrom. d_norm is a normalized distance quantity; the two ranges and the dimensional labels are inconsistent as reported. Record the definition and display settings actually used, and do not treat either printed interval as a certified numerical target or tolerance. In section 3.2, the S(7) C6-H6...O3 motif is intramolecular, whereas the C8-H8...O3 and C12-H12B...O2 contacts form the intermolecular R2^2(9) motif. Verify source labels and symmetry operations against authenticated coordinates before using them. The red/blue triangles on the shape-index surface and flat curvedness regions (pp4-6, Figs2-5) are the authors' evidence for a pi-packing interpretation; they do not measure stabilization energies or establish an energetic ordering. These are disclosed source claims to assess, not required outcomes.",
+  "completion_boundary": "Completion and coverage: the full question concerns interactions in the authenticated observed crystal. An isolated monomer, a cell-only model or a report of the missing CIF covers only a prerequisite or limited molecular property, not the packing question. Reducing addressed_scope does not convert that partial evidence into whole-task completion or full credit for unaddressed criteria. Credit independently valid parts according to what they establish. An adequately investigated, evidence-supported inability to distinguish interactions can be a scientific conclusion; unavailable coordinates or failed calculations cannot establish it. While the mandatory authenticated CIF remains absent, this task is blocked and ineligible for complete capability ranking; this is an operator instruction, not a claim of enforced scheduling.",
+  "artifact_readback": [
+    {
+      "path": "papers/paper_5ea491c741fbd8d4/documents/main.pdf",
+      "sha256": "7621bdebf4659fb6c1e67f15c6ceda8dccbb4442eec850819fd613db4bc8ba6a",
+      "bytes": 11620664,
+      "read_at_utc": "2026-09-30T05:46:20.775887+00:00",
+      "role": "paper_5ea491c741fbd8d4:source_main",
+      "read_scope": "Physical PDF pp2-3 methods (p3 continuation: d_norm -0.18 to 1.4, a.u.), p4 sections 3.2-3.3 (-0.676 to 1.415, angstrom; intra S(7)/inter R2^2(9)), pp5-6 Figs2-5 shape-index/curvedness; all four SI checkCIF pages contain no coordinate loop."
+    },
+    {
+      "path": "papers/paper_5ea491c741fbd8d4/documents/supplementary_001.pdf",
+      "sha256": "4d381cbbbbade30dc691faf5ca339844b62b609a221568ee0f9a7983b29299a5",
+      "bytes": 74592,
+      "read_at_utc": "2026-09-30T05:46:20.775887+00:00",
+      "role": "paper_5ea491c741fbd8d4:source_si",
+      "read_scope": "All4pages; checkCIF/PLATON alerts and drawing, no fractional-coordinate loop"
+    }
+  ],
+  "scientific_status": "blocked_missing_authenticated_cif",
+  "whole_current_v2_scientific_question_covered": false,
+  "new_scientific_calculations_performed": false,
+  "runtime_gate_hash_enforcement_and_isolation": "Not implemented or certified by this package repair."
+}

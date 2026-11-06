@@ -1,0 +1,21 @@
+# Current final-conclusion evaluation — 2026-10-29
+
+Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.
+
+- r_contact_reorganization (25): Local oxygen-contact reorganization
+- r_charge_separated_electrostatics (25): Spatial electrostatic separation in the PA-derived species
+- r_epoxide_association_role (25): Bounded local contribution to epoxide association
+- r_chain_end_association_role (25): Bounded local interaction with oxygen-containing chain ends
+
+## Historical source and route record — non-scoring
+
+Source numbers, former windows, review wording and acceptance below are preserved provenance only. Current binary final-conclusion rules above and scoring_rules.json supersede previous scoring language; historical scientific acceptance is not upgraded.
+
+# Private source baseline and V3 final-result scope
+
+The authors propose that PA reacts with the Lewis base to generate an intramolecular phosphonium/carboxylate zwitterion, interacting with Et3B and influencing both epoxide activation and chain-end association (main pp9–10). Their DFT comparison concerns free(Et2N)3P, the PO adduct and the PA adduct, not a full polymer propagation/backbiting network. SI pp4–5 specifies Gaussian16 B3LYP/6-31G(d) with D3(BJ), with ADCH populations from Multiwfn using vibrational-analysis wavefunctions. The source does not explicitly specify a continuum solvent for these molecular calculations. Main p10 reports PO-adduct O···P1.828 Å versus PA-adduct2.651 Å and differing O···H contacts/populations; those local observations support an interpretation but do not directly prove suppressed backbiting. Reproduce and assess the local molecular baseline or justify controlled substitutions. NMR probe results use TFPO/C6D6 and sodium ethoxide/CDCl3, with preparation details inSI p4. Source polymer kinetics and dilution behavior are a separate scale. The fixed PA-containing two-PO/one-CO2 oligomer, no-PA chain pair, two-Et3B path inventory and tenfold-PO test inV1 were benchmark additions.
+
+The shared scientific question is: How does adding phthalic anhydride change the local molecular interactions in the (Et2N)3P/Et3B system, and what can those changes establish about epoxide activation and chain-end stabilization during CO2/propylene-oxide copolymerization?
+
+
+Current scoring: paper_science_v3 / final_results_100; 9 final propositions, 100 points. Author intermediate structures and native outputs are supporting evidence, not independently scored workflow items.

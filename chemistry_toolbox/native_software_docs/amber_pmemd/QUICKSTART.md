@@ -14,7 +14,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 1. Call `inspect_software` and confirm the executable, installed version, runtime, and documentation topics.
 2. Author the smallest scientifically meaningful input for the selected task and installed version.
 3. Put every source file under the evaluation workspace and map it to the exact job-local target expected by the input deck.
-4. Set explicit CPU, total memory, GPU, and walltime limits. Keep all software-internal parallel settings within those limits.
+4. Set explicit CPU, total memory, and GPU limits. The evaluator controls walltime; keep software-internal parallel settings within the requested resources.
 5. Call `validate_native_job`; repair every error before submitting.
 6. Call `submit_native_job`, then supervise all independent job IDs with `wait_execution_jobs`; use focused inspection or full collection only when needed.
 7. Check process, software, convergence, artifact, and scientific-validation axes independently.
@@ -91,7 +91,7 @@ Serial pmemd uses one core; the configured PMEMD OpenMPI launcher is used for pm
 ## Collection checklist
 - `request_status=accepted` confirms only that the interface accepted the request.
 - `process_status=completed` confirms only process exit code zero.
-- `software_status=normal` requires a recognized normal end and no fatal message when a parser exists.
+- `software_status=normal_termination` requires a recognized normal end and no fatal message when a parser exists.
 - `convergence_status` must match the requested task type; an SCF marker alone cannot validate an optimization or frequency job.
 - `artifact_status=valid` requires all declared results to exist and parse.
 - The Judger, not the execution layer, evaluates whether the results support the requested scientific conclusion.

@@ -1,0 +1,70 @@
+{
+  "paper_id": "paper_43d74f8a469d9ad3",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "gas S1为3.3556/3.4573 eV、f为0.1978/0.3736；计算溶液波长较实验短50.77–59.60 nm，但相对溶剂蓝移成立。",
+  "accepted_limitations": "必须按结构映射SI compound2/4；固定几何溶剂TD不能称各溶剂独立优化。原硬窗设计争议本轮取消；绝对光谱残差并未消失。",
+  "objective_issue_flags": [
+    "必须按结构映射SI compound2/4；固定几何溶剂TD不能称各溶剂独立优化。原硬窗设计争议本轮取消；绝对光谱残差并未消失。"
+  ],
+  "current_rules": [
+    "r_dye1_electronic_character",
+    "r_dye2_electronic_character",
+    "r_structural_absorption_explanation",
+    "r_dye1_solvent_explanation",
+    "r_dye2_solvent_explanation",
+    "r_relative_vs_absolute_optical_account"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_43d74f8a469d9ad3",
+    "scoring_policy": "paper_science_v3",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "accepted_limitations": "Source/SI numbering conflicts are resolved by complete graphs; experimental labels stay unchanged. The published gas-phase baseline and additional PCM results do not quantitatively reproduce absolute solution bands. Low S1 correspondence is supported; equal brightness rank of higher roots is not equal state identity. CHCl3/MeOH changes polarity, specific solvation and viscosity simultaneously; source viscosity explanation alone is not isolated. Photobleaching, hydrolysis, cell staining and biological efficacy are excluded. Strict acceptance is bounded relative molecular response, not an assertion that absolute experimental peaks agree.",
+    "tolerance_basis": "The pre-existing mode scopes are retained explicitly: AR has no hard gas-phase E/f outcomes; PR retains dye1/dye2 gas S1 energies 3.3556/3.4573 eV with inclusive ±0.05 eV and oscillator strengths 0.1978/0.3736 with inclusive ±0.05. These four PR-only outcomes total 30 points; the six shared final propositions have AR weights 20/20/20/15/15/10 and PR weights 12/12/16/10/10/10. No target, tolerance or unit has changed. These provisional windows are not author error bars or calibrated across all physically valid methods.",
+    "authority": [
+      "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+      "tasks/v2_paper_reproduction/paper_43d74f8a469d9ad3/evaluation/verified_computation_reference.md"
+    ],
+    "historical_before_v3": {
+      "status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+      "acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+      "reason": "Authorized 2026-10-19 scientific-scoring migration preserves existing independent strict acceptance. This is not new chemistry validation, a blind agent experiment or publication approval.",
+      "coordinator_review": {
+        "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+        "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+        "review_key": "v2_paper_43d74f8a469d9ad3",
+        "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+        "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+        "publication_readiness_unchanged": true
+      },
+      "repair_round3": {
+        "date": "2026-10-19",
+        "mode_scope": "AR remains open-method for public identities; PR author-baseline provenance retained.",
+        "historical_chemical_acceptance_changed": false,
+        "new_computations": false,
+        "review_report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_02/paper_43d74f8a469d9ad3.md"
+      },
+      "current_scope_verified": true,
+      "tolerance_basis": "Gas-phase S1 energies share inclusive±0.050eV, smaller than the0.1017eV source separation, as a provisional comparable-state window. Oscillator strengths share±0.050 dimensionless, sufficiently below the0.1758 difference and requiring state identity. These are not tolerances for experiment and cannot absorb the50–60nm source-baseline solution discrepancies. No numerical target for continuum solvent shifts is invented from validator values; their sign and state consistency are semantic claims supported by source solution trends. Higher-root values are source context, not20 hidden numeric gates."
+    },
+    "evaluation_mode": "final_results_100",
+    "status": "V3_DESIGN_CHECKED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+    "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+    "reason": "Final-results redesign dated 2026-10-28. Historical acceptance is retained separately; no new scientific computation or blind evaluation was performed.",
+    "evidence_reuse_summary": "Existing native gas calculations reproduce graph-bound dye1/dye2 S1 = 3.3556/3.4573 eV and f = 0.1978/0.3736. Native solution S1 energies are CHCl3 3.4024/3.4653 eV and MeOH 3.4582/3.5100 eV. Common-core state analysis supports correspondence and solvent shifts, but absolute modeled wavelengths differ from measured long bands by 50.77–59.60 nm. This supports a bounded relative-response explanation and a quantitative limitation assessment, not absolute spectral reconstruction. Historical strict acceptance was confined to that bounded scope.",
+    "evidence_gaps": [
+      "AR/PR原范围不同：PR存在4项气相硬数值（30分），本版保留并透明记录，父级需裁定统一策略。",
+      "连续介质固定几何计算未消除绝对实验带50–60 nm偏差，未独立分离特异溶剂化/黏度效应。"
+    ],
+    "required_new_validation": "本轮不新增验证。已有证据足够核收相对模型结论与残差限制；若要求绝对实验峰重建或跨模式相同最终量，应另行授权模型/合同工作。"
+  }
+}

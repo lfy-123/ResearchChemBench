@@ -1,0 +1,107 @@
+{
+  "paper_id": "paper_1bcf80caf9e64d55",
+  "items": [
+    {
+      "statement": "PEt3 addition and the zwitterion",
+      "expected": "Genuine connected calculations support nucleophilic addition of PEt3 to the alkyne β-C, forming zwitterionic intermediate 2 with a P–C bond. Verify that PEt3 is C6H15P; C7H17P is not equivalent. This item assesses bond and charge rearrangement independently of a numerical match for TS1.",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "phosphine_addition",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Free-energy height of initial addition",
+      "expected": "Using initial complex 1 in Fig.S1 as zero, the target relative G of TS1 is 18.9 kcal/mol with an absolute tolerance of 1.0 kcal/mol; include all spectator material and maintain 383.15 K. Do not directly compare results using separated-reactant zeroes, isomeric phosphines or different chemical compositions.",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "initiation_energy",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Intramolecular cyclization",
+      "expected": "Genuine connectivity and reaction modes of intermediate 2 support intramolecular attack on the ester carbonyl to construct five-membered-ring intermediate 3; preserve the complete side chain and atom mapping. The source common-reference heights of 8.2 for TS2 and 1.9 kcal/mol for 3 provide background only; do not treat 8.2 as a local activation energy.",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "cyclization",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Alkoxide departure and nucleophile generation",
+      "expected": "Genuine connected calculations support alkoxide departure after cyclization and proton transfer involving 4-fluorophenol, producing a nucleophile capable of subsequent addition while conserving the ethanol equivalent and all atoms/charges. Associations of different fragments must be explicit; disconnected scalar nodes cannot substitute for chemical connectivity.",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "alkoxide_proton_transfer",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Nucleophile incorporation into the product skeleton",
+      "expected": "Computed TS4 and its connected endpoints support formation of the product's required C–O connectivity by the 4-fluorophenoxide nucleophile, preserving the five-membered ring and E-cinnamyl side chain. Source values of 2.8 for TS4 and −8.3 for 7 are background common-reference heights; no additional numerical threshold is imposed.",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "nucleophile_incorporation",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "PEt3 regeneration",
+      "expected": "Actual subsequent connectivity supports C–P cleavage and release of the correct neutral PEt3 as a recyclable catalyst; simply writing PEt3 on both sides of the reaction equation is insufficient. Maintain balanced spectator material such as ethanol. The source common-reference height of −0.9 for TS5 provides background only.",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "phosphine_regeneration",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Complete cyclopentenone product",
+      "expected": "The actual endpoint graph is the observed aryloxycyclopentenone and retains the E-cinnamyl side chain, with atom origins traceable to the substrate/4-fluorophenol and ethanol coproduct. Do not substitute a simplified product that deletes the side chain or changes the phosphine; merely repeating the supplied product graph does not pass.",
+      "evidence_ids": [
+        "pe_main",
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "product_structure",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Total free energy of the balanced products",
+      "expected": "Using Fig.S1 complex 1 and matched spectator material as the initial reference, the balanced endpoint of product 9, PEt3 and ethanol has a target relative G of −24.7 kcal/mol with an absolute tolerance of 2.0 kcal/mol. Maintain 383.15 K and compatible solvent and standard state; do not use separated-reactant values or authors' energies to fill gaps in local calculations.",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "reaction_free_energy",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "The initial step is the highest saddle point on the investigated profile",
+      "expected": "With the same complete material inventory and complex 1 as zero, actual comparison of the relevant saddle points along route A supports that initial phosphine addition is the highest and subsequent key saddle points are lower. A single TS1 number cannot establish the ordering of the entire profile; do not claim that concentration-dependent microkinetics have been established.",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "initial_step_order",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Comparison of direct cyclization and migration branches",
+      "expected": "Comparison from the common zwitterionic branch point with a consistent material reference provides actual competing-pathway evidence that the bottleneck of B's alcohol-assisted sequential 1,3-migrations lies higher than the cyclization route after branch A. Enumerating every B node is unnecessary; uncomputed later B states must not be described as independently established.",
+      "evidence_ids": [
+        "pe_a",
+        "pe_b"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "migration_competition",
+      "key_point_type": "result"
+    }
+  ]
+}

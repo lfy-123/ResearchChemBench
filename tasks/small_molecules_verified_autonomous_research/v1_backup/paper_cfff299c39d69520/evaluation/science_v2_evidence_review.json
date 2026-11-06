@@ -1,0 +1,324 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "date_utc": "2026-10-21",
+  "scoring_policy": "paper_science_v2",
+  "rules": [
+    {
+      "rule_id": "r_active_species_identity",
+      "reference_id": "active_species_identity",
+      "kind": "intermediate",
+      "max_score": 12,
+      "physical_definition": "乙醇、298.15 K Gibbs能；中性ZnII双prolinate为Int1，保留L配体手性，各独立离子按显式电荷计账；作者组分含单原子Br−平动项，所有反应须守恒原子与电荷。",
+      "source_evidence": [
+        {
+          "evidence_id": "zn_species",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/main.pdf",
+            "sha256": "7017e4a89f5f3ea7750bed67e76387001a787f173edc728b790b560a17ac6eec",
+            "pdf_pages_1based": [
+              2,
+              3,
+              4
+            ]
+          },
+          "locator": "Schemes4–6，PDF页等于印刷页",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者Int1为中性ZnII双prolinate；本地有效最低点及配体图/手性核验支持。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z",
+      "scoring_condition": "真实计算支持中性Zn(II)双prolinate活性物种，配体去质子化、N/O配位且L构型保留。须以实际分子图和电荷/组成支持Zn形式+2，不以任意原子电荷替代氧化态。",
+      "weight_and_tolerance_rationale": "区分真正活性物种与Zn0或中性proline配位标签。"
+    },
+    {
+      "rule_id": "r_catalyst_formation",
+      "reference_id": "catalyst_formation",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "乙醇、298.15 K Gibbs能；中性ZnII双prolinate为Int1，保留L配体手性，各独立离子按显式电荷计账；作者组分含单原子Br−平动项，所有反应须守恒原子与电荷。",
+      "source_evidence": [
+        {
+          "evidence_id": "zn_species",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/main.pdf",
+            "sha256": "7017e4a89f5f3ea7750bed67e76387001a787f173edc728b790b560a17ac6eec",
+            "pdf_pages_1based": [
+              2,
+              3,
+              4
+            ]
+          },
+          "locator": "Schemes4–6，PDF页等于印刷页",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "zn_components",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/supplementary_001.pdf",
+            "sha256": "0ab838a163615f7ad3971cae041910fd29f3e1b1cbbf50d5890ba29b68d8ec22",
+            "pdf_pages_1based": [
+              2
+            ]
+          },
+          "locator": "Table1各组分EE与EE+Gcorr",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者图−98.5，SI算术−98.515222371；实际−98.533420146，较SI−0.018197775 kcal/mol。作者其他平衡候选Zn0+46.3、阳离子+95.6为背景，不新增逐一复算要求。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z",
+      "scoring_condition": "实际平衡形成反应ZnEt2+2 L-proline→中性ZnII双prolinate+2乙烷的G为下坡，支持从所给前体形成活性物种。作者−98.5仅作背景；不能把不同组成的形成能当TS势垒，或用Zn0优化失败证明其普适不可能。",
+      "weight_and_tolerance_rationale": "形成热力学独立于中性最低点身份，不强制新竞争计算。"
+    },
+    {
+      "rule_id": "r_alkynyl_intermediate",
+      "reference_id": "alkynyl_intermediate",
+      "kind": "intermediate",
+      "max_score": 10,
+      "physical_definition": "乙醇、298.15 K Gibbs能；中性ZnII双prolinate为Int1，保留L配体手性，各独立离子按显式电荷计账；作者组分含单原子Br−平动项，所有反应须守恒原子与电荷。",
+      "source_evidence": [
+        {
+          "evidence_id": "zn_network",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/main.pdf",
+            "sha256": "7017e4a89f5f3ea7750bed67e76387001a787f173edc728b790b560a17ac6eec",
+            "pdf_pages_1based": [
+              3,
+              4,
+              5
+            ]
+          },
+          "locator": "Scheme3、Figures1/2、Table1及结论，PDF页等于印刷页",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "zn_components",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/supplementary_001.pdf",
+            "sha256": "0ab838a163615f7ad3971cae041910fd29f3e1b1cbbf50d5890ba29b68d8ec22",
+            "pdf_pages_1based": [
+              2
+            ]
+          },
+          "locator": "Table1各组分EE与EE+Gcorr",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者正文Int2+9.6；SI平衡算术+4.078811581；实际+5.476275180，分别差−4.123724820/+1.397463599。来源冲突待专家审查，不能选近者替换目标。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z",
+      "scoring_condition": "实际物种及配平反应支持末端炔在ZnII/prolinate与碳酸盐作用下形成alkynylZn中间体Int2，并明确Cs-prolinate/CsHCO3储库。该步骤小幅上坡；只评分结构、配平与正号，不对来源冲突的Int2高度设置精确窗口。",
+      "weight_and_tolerance_rationale": "关键活化中间体独立于成键TS；稳健正号不解决精确来源冲突。"
+    },
+    {
+      "rule_id": "r_coupling_connection",
+      "reference_id": "coupling_connection",
+      "kind": "intermediate",
+      "max_score": 14,
+      "physical_definition": "乙醇、298.15 K Gibbs能；中性ZnII双prolinate为Int1，保留L配体手性，各独立离子按显式电荷计账；作者组分含单原子Br−平动项，所有反应须守恒原子与电荷。",
+      "source_evidence": [
+        {
+          "evidence_id": "zn_network",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/main.pdf",
+            "sha256": "7017e4a89f5f3ea7750bed67e76387001a787f173edc728b790b560a17ac6eec",
+            "pdf_pages_1based": [
+              3,
+              4,
+              5
+            ]
+          },
+          "locator": "Scheme3、Figures1/2、Table1及结论，PDF页等于印刷页",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "zn_ts",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/supplementary_001.pdf",
+            "sha256": "0ab838a163615f7ad3971cae041910fd29f3e1b1cbbf50d5890ba29b68d8ec22",
+            "pdf_pages_1based": [
+              4,
+              5,
+              6
+            ]
+          },
+          "locator": "47原子TS及相邻坐标",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "正文Table1 TS Zn–C2.07/C–C1.97/C–Br1.93 Å；源TS直接独立Freq唯一−443.7185 cm−1，47原子135模、默认力达标，作者路线及独立有效端点共同支持。无新Opt/独立IRC；假想位移未达标，不宣称四项优化收敛。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z",
+      "scoring_condition": "真实相关鞍点/反应模及实际连接证据支持alkynylZn与alkynyl bromide形成Csp–Csp、断Csp–Br并释放Zn–C，得到正确不对称1,3-二炔。只评分键变/相连身份，不用29.2数值命中替代连接。",
+      "weight_and_tolerance_rationale": "偶联键变是核心科学发现，权重高且独立于跨度。"
+    },
+    {
+      "rule_id": "r_regeneration",
+      "reference_id": "regeneration",
+      "kind": "intermediate",
+      "max_score": 10,
+      "physical_definition": "乙醇、298.15 K Gibbs能；中性ZnII双prolinate为Int1，保留L配体手性，各独立离子按显式电荷计账；作者组分含单原子Br−平动项，所有反应须守恒原子与电荷。",
+      "source_evidence": [
+        {
+          "evidence_id": "zn_network",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/main.pdf",
+            "sha256": "7017e4a89f5f3ea7750bed67e76387001a787f173edc728b790b560a17ac6eec",
+            "pdf_pages_1based": [
+              3,
+              4,
+              5
+            ]
+          },
+          "locator": "Scheme3、Figures1/2、Table1及结论，PDF页等于印刷页",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "zn_components",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/supplementary_001.pdf",
+            "sha256": "0ab838a163615f7ad3971cae041910fd29f3e1b1cbbf50d5890ba29b68d8ec22",
+            "pdf_pages_1based": [
+              2
+            ]
+          },
+          "locator": "Table1各组分EE与EE+Gcorr",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者SI再生ΔG−33.129990193；实际−33.110290830，差+0.019699363；完整循环原子与电荷残差0。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z",
+      "scoring_condition": "实际产物后物种及匹配储库支持Int3经Cs-prolinate再生中性Int1，同时形成CsBr，并将CsHCO3计入完整配平网络。需真实物种/热力学支持，不仅书写循环；不强制作者未提供的独立再生鞍点。",
+      "weight_and_tolerance_rationale": "再生与偶联是独立环节，不人为增加新TS计算。"
+    },
+    {
+      "rule_id": "r_turnover_span",
+      "reference_id": "turnover_span",
+      "kind": "intermediate",
+      "max_score": 20,
+      "physical_definition": "乙醇、298.15 K Gibbs能；中性ZnII双prolinate为Int1，保留L配体手性，各独立离子按显式电荷计账；作者组分含单原子Br−平动项，所有反应须守恒原子与电荷。",
+      "source_evidence": [
+        {
+          "evidence_id": "zn_network",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/main.pdf",
+            "sha256": "7017e4a89f5f3ea7750bed67e76387001a787f173edc728b790b560a17ac6eec",
+            "pdf_pages_1based": [
+              3,
+              4,
+              5
+            ]
+          },
+          "locator": "Scheme3、Figures1/2、Table1及结论，PDF页等于印刷页",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "zn_components",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/supplementary_001.pdf",
+            "sha256": "0ab838a163615f7ad3971cae041910fd29f3e1b1cbbf50d5890ba29b68d8ec22",
+            "pdf_pages_1based": [
+              2
+            ]
+          },
+          "locator": "Table1各组分EE与EE+Gcorr",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者29.2；实际30.132377435，差+0.932377435，在原±1.0窗口内。实际局部TS−Int2−R2=24.656102255，不是所评分量。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z",
+      "scoring_condition": "G(TS)+G(Cs-prolinate)+G(CsHCO3)−[G(Int1)+G(R1)+G(R2)+G(Cs2CO3)]，目标29.2 kcal/mol、绝对容差1.0 kcal/mol。采用匹配组成、同温度/溶剂/标准态及自身TS热项；不能用TS−Int2−R2局部势垒或未配平高度代替。",
+      "weight_and_tolerance_rationale": "保留原±1.0，核心定量信息占20分；不因近边界扩大。"
+    },
+    {
+      "rule_id": "r_mechanism_conclusion",
+      "reference_id": "mechanism_conclusion",
+      "kind": "conclusion",
+      "max_score": 14,
+      "physical_definition": "乙醇、298.15 K Gibbs能；中性ZnII双prolinate为Int1，保留L配体手性，各独立离子按显式电荷计账；作者组分含单原子Br−平动项，所有反应须守恒原子与电荷。",
+      "source_evidence": [
+        {
+          "evidence_id": "zn_species",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/main.pdf",
+            "sha256": "7017e4a89f5f3ea7750bed67e76387001a787f173edc728b790b560a17ac6eec",
+            "pdf_pages_1based": [
+              2,
+              3,
+              4
+            ]
+          },
+          "locator": "Schemes4–6，PDF页等于印刷页",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "zn_network",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/main.pdf",
+            "sha256": "7017e4a89f5f3ea7750bed67e76387001a787f173edc728b790b560a17ac6eec",
+            "pdf_pages_1based": [
+              3,
+              4,
+              5
+            ]
+          },
+          "locator": "Scheme3、Figures1/2、Table1及结论，PDF页等于印刷页",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者正文3–5页支持redox-neutral机制；实际15份日志/组分及原子电荷平衡支持当前范围，非全局唯一性证明。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z",
+      "scoring_condition": "最终明确选择从中性ZnII/prolinate形成、末端炔活化、取代型偶联到再生的配平分子机制，并综合物种/键变/储库证据说明Zn沿该路线保持形式+2。不能只罗列候选或把成键称Pd式Zn0/ZnII氧化还原循环；也不排除全部未经研究的自由基机制。",
+      "weight_and_tolerance_rationale": "明确机制选择与跨步骤氧化态解释，不重复单一结构得分。"
+    },
+    {
+      "rule_id": "r_temperature_conclusion",
+      "reference_id": "temperature_conclusion",
+      "kind": "conclusion",
+      "max_score": 12,
+      "physical_definition": "乙醇、298.15 K Gibbs能；中性ZnII双prolinate为Int1，保留L配体手性，各独立离子按显式电荷计账；作者组分含单原子Br−平动项，所有反应须守恒原子与电荷。 温度比较298.15/398.15 K；常ΔG近似。",
+      "source_evidence": [
+        {
+          "evidence_id": "zn_network",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/main.pdf",
+            "sha256": "7017e4a89f5f3ea7750bed67e76387001a787f173edc728b790b560a17ac6eec",
+            "pdf_pages_1based": [
+              3,
+              4,
+              5
+            ]
+          },
+          "locator": "Scheme3、Figures1/2、Table1及结论，PDF页等于印刷页",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "zn_eyring",
+          "source": {
+            "path": "papers/paper_cfff299c39d69520/documents/supplementary_001.pdf",
+            "sha256": "0ab838a163615f7ad3971cae041910fd29f3e1b1cbbf50d5890ba29b68d8ec22",
+            "pdf_pages_1based": [
+              13
+            ]
+          },
+          "locator": "固定ΔG的Eyring温度比较",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者ΔG29.2示例2.4e−9/7.9e−4 s−1；本地ΔG30.132377435给5.08248533e−10/2.39409564e−4 s−1，约471048倍，125°C半衰期48.25 min；非精确动力学复现。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z",
+      "scoring_condition": "用真实恢复的有效跨度及显式动力学近似推断398.15 K比298.15 K显著更快，足以解释实验加热的可达性。可采用作者恒定ΔG Eyring近似或合理等价方法；须正确说明它不是实测速率或重算的高温自由能。复制29.2代入而无独立跨度证据不通过；本项不要求跨度精确窗口通过或作者速率数值命中。",
+      "weight_and_tolerance_rationale": "从独立能量推导实验温度解释，和数值精确性分别计分。"
+    }
+  ],
+  "publication_review_pending": [
+    "Int2正文9.6与SI平衡算术4.078811581的冲突未解决；不设精确Int2数值项。",
+    "源TS独立Freq、默认力与正确反应模及端点支持，未作新Opt/独立IRC；位移诊断未通过。",
+    "跨度在原±1.0内但其他来源数值/示例速率并未全复现；Gaussian09→16及未报告设置保留。"
+  ]
+}

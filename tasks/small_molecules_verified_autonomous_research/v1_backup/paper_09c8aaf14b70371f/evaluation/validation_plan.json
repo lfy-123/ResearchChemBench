@@ -1,0 +1,504 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "scope_version": "chalcone-series-redox-20261012",
+  "updated_utc": "2026-10-12T19:14:22.572664+00:00",
+  "previous_evidence_reusable": [
+    {
+      "id": "compound3_E_gas",
+      "native_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_3/paper_09c8aaf14b70371f/artifacts/gaussian/chalcone_E_b3lyp_opt_freq_retry2/stdout.log",
+      "sha256": "37a41dbd616f7cdcc8b7a0a16f8879a2c9a4b14dd2dba02eac14f344ac2e974b",
+      "charge": 0,
+      "multiplicity": 1,
+      "formula": "C15H12O",
+      "frequency_count": 78,
+      "imaginary_count": 0,
+      "accepted_scope": "E minimum geometry, identity and frequency evidence in the documented environment",
+      "audit_source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_09c8aaf14b70371f/remaining24_20261012T134810Z_group_A/endpoint_identity_audit.json",
+      "completed_reuse_check": "Current bounded native orbital/fchk/cube evidence checked and accepted on 2026-10-15."
+    },
+    {
+      "id": "compound3_E_acetonitrile",
+      "native_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_3/paper_09c8aaf14b70371f/provenance/qzcli_hpc/chalcone_E_author_IEFPCM_acetonitrile_optfreq_20260915/20260915T095707480436Z_hpc-job-2004465-cluster-slurmd-0/gaussian.log",
+      "sha256": "366f18241fc3a113045b314d4130186cdcdced0dd7ba87ac6de52a6411d36724",
+      "charge": 0,
+      "multiplicity": 1,
+      "formula": "C15H12O",
+      "frequency_count": 78,
+      "imaginary_count": 0,
+      "accepted_scope": "E minimum geometry, identity and frequency evidence in the documented environment",
+      "audit_source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_09c8aaf14b70371f/remaining24_20261012T134810Z_group_A/endpoint_identity_audit.json",
+      "completed_reuse_check": "Current bounded native orbital/fchk/cube evidence checked and accepted on 2026-10-15."
+    }
+  ],
+  "removed_requirements": [
+    "gas_path",
+    "solution_path",
+    "endpoint_stability as a scored result",
+    "thermal_implication",
+    "all thermal TS/IRC searches"
+  ],
+  "retired_numeric_rules_unchanged": [
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "gas_path",
+      "target": 1.43,
+      "unit": "eV",
+      "tolerance": 0.15
+    },
+    {
+      "rule_id": "ar_r8",
+      "reference_id": "gas_path",
+      "target": 92.5,
+      "unit": "degrees",
+      "tolerance": 2.0
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "solution_path",
+      "target": 1.42,
+      "unit": "eV",
+      "tolerance": 0.15
+    },
+    {
+      "rule_id": "ar_r9",
+      "reference_id": "solution_path",
+      "target": 92.5,
+      "unit": "degrees",
+      "tolerance": 2.0
+    },
+    {
+      "rule_id": "ar_r10",
+      "reference_id": "endpoint_stability",
+      "target": 0.23,
+      "unit": "eV",
+      "tolerance": 0.15
+    },
+    {
+      "rule_id": "ar_r11",
+      "reference_id": "endpoint_stability",
+      "target": 0.27,
+      "unit": "eV",
+      "tolerance": 0.15
+    }
+  ],
+  "targets": [
+    {
+      "id": "definition_audit",
+      "score_ids": [
+        "series_relationship",
+        "electron_addition_region",
+        "solvent_relationship"
+      ],
+      "source": "Table 1; Tables 5-7; Figs.11-12; SI physical pp.24-27",
+      "quantity": "Identity and attribution of already reported structures/conformers to property results",
+      "method": "Source and geometry audit only; no new property reference",
+      "model": "Five intact molecular skeletons; source representative E structures, neutral 0/1 and reported electron-added anions -1/2",
+      "reference": "Explicit figure/table/SI conformer correspondence; distinguish E1 versus E2 of compound 2",
+      "existing_evidence": "All five public molecular graphs match RDKit reconstruction from SI coordinates; see scratch/structure_identity_audit.json in implementation workdir.",
+      "missing_evidence": "No missing current bounded computation. Unique author Table 6 E1/E2 property-conformer assignment remains unresolved only for exact scalar use.",
+      "can_compute_immediately": false,
+      "can_audit_immediately": true,
+      "prerequisites": "Existing bounded result accepted; do not submit duplicate QC. Retain exact-source attribution limitations.",
+      "native_success_markers": [
+        "Documented graph/conformer map tied to source pages, not a new energy match"
+      ],
+      "status": "VERIFIED_BOUNDED_FINDINGS_EXACT_SOURCE_ATTRIBUTION_HELD",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "neutral_series",
+      "score_ids": [
+        "series_relationship",
+        "solvent_relationship"
+      ],
+      "source": "main.pdf physical p.2 section 2.3; p.7 Table 4; p.14 Fig.13",
+      "quantity": "Neutral lowest-unoccupied Kohn-Sham orbital eigenvalue in eV and cross-compound comparisons",
+      "method": {
+        "software": "Gaussian 16",
+        "functional": "B3LYP",
+        "basis": "6-311+G(2df,2p)",
+        "solvent_model": "IEF-PCM",
+        "author_locator": "main.pdf physical p.2 section 2.3",
+        "geometry_frequency": "Author optimization and frequency treatment; 298 K stated in methods, 298.15 K in population discussion. No thermochemical population matching in this core.",
+        "not_specified": [
+          "exact Gaussian route keywords",
+          "SCF/grid settings",
+          "unrestricted versus restricted-open-shell implementation for reduced species"
+        ]
+      },
+      "model": [
+        {
+          "compound_id": "chalcone_1",
+          "formula": "C16H14O3",
+          "solvent": "acetonitrile",
+          "charge": 0,
+          "multiplicity": 1,
+          "author_lumo_eV": -2.537
+        },
+        {
+          "compound_id": "chalcone_1",
+          "formula": "C16H14O3",
+          "solvent": "dmso",
+          "charge": 0,
+          "multiplicity": 1,
+          "author_lumo_eV": -2.54
+        },
+        {
+          "compound_id": "chalcone_3",
+          "formula": "C15H12O",
+          "solvent": "acetonitrile",
+          "charge": 0,
+          "multiplicity": 1,
+          "author_lumo_eV": -2.538
+        },
+        {
+          "compound_id": "chalcone_3",
+          "formula": "C15H12O",
+          "solvent": "dmso",
+          "charge": 0,
+          "multiplicity": 1,
+          "author_lumo_eV": -2.54
+        },
+        {
+          "compound_id": "chalcone_4",
+          "formula": "C16H12F3NO",
+          "solvent": "acetonitrile",
+          "charge": 0,
+          "multiplicity": 1,
+          "author_lumo_eV": -2.47
+        },
+        {
+          "compound_id": "chalcone_4",
+          "formula": "C16H12F3NO",
+          "solvent": "dmso",
+          "charge": 0,
+          "multiplicity": 1,
+          "author_lumo_eV": -2.473
+        },
+        {
+          "compound_id": "chalcone_5",
+          "formula": "C20H17NO2",
+          "solvent": "acetonitrile",
+          "charge": 0,
+          "multiplicity": 1,
+          "author_lumo_eV": -2.293
+        },
+        {
+          "compound_id": "chalcone_5",
+          "formula": "C20H17NO2",
+          "solvent": "dmso",
+          "charge": 0,
+          "multiplicity": 1,
+          "author_lumo_eV": -2.298
+        }
+      ],
+      "reference": "Same method and solvent, identified lowest-E author conformer; raw orbital eigenvalue, not E-minimum-shifted energy or electron affinity.",
+      "existing_evidence": [
+        {
+          "id": "compound3_E_gas",
+          "native_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_3/paper_09c8aaf14b70371f/artifacts/gaussian/chalcone_E_b3lyp_opt_freq_retry2/stdout.log",
+          "sha256": "37a41dbd616f7cdcc8b7a0a16f8879a2c9a4b14dd2dba02eac14f344ac2e974b",
+          "charge": 0,
+          "multiplicity": 1,
+          "formula": "C15H12O",
+          "frequency_count": 78,
+          "imaginary_count": 0,
+          "accepted_scope": "E minimum geometry, identity and frequency evidence in the documented environment",
+          "audit_source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_09c8aaf14b70371f/remaining24_20261012T134810Z_group_A/endpoint_identity_audit.json",
+          "completed_reuse_check": "Current bounded native orbital/fchk/cube evidence checked and accepted on 2026-10-15."
+        },
+        {
+          "id": "compound3_E_acetonitrile",
+          "native_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_3/paper_09c8aaf14b70371f/provenance/qzcli_hpc/chalcone_E_author_IEFPCM_acetonitrile_optfreq_20260915/20260915T095707480436Z_hpc-job-2004465-cluster-slurmd-0/gaussian.log",
+          "sha256": "366f18241fc3a113045b314d4130186cdcdced0dd7ba87ac6de52a6411d36724",
+          "charge": 0,
+          "multiplicity": 1,
+          "formula": "C15H12O",
+          "frequency_count": 78,
+          "imaginary_count": 0,
+          "accepted_scope": "E minimum geometry, identity and frequency evidence in the documented environment",
+          "audit_source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_09c8aaf14b70371f/remaining24_20261012T134810Z_group_A/endpoint_identity_audit.json",
+          "completed_reuse_check": "Current bounded native orbital/fchk/cube evidence checked and accepted on 2026-10-15."
+        }
+      ],
+      "missing_evidence": "No missing current bounded computation; reuse 2026-10-15 accepted evidence.",
+      "can_compute_immediately": false,
+      "prerequisites": "Existing bounded result accepted; do not submit duplicate QC. Retain exact-source attribution limitations.",
+      "native_success_markers": [
+        "Original input, native output and hashes retained; no platform-status substitution",
+        "Correct formula, atom mapping, electron count, solvent and explicit state",
+        "SCF/optimization completed; final geometry is the intended reported conformer",
+        "Complete 3N-6 vibrational modes without imaginary modes for a claimed minimum",
+        "Final orbital occupations/eigenvalues tied to the optimized structure and extraction location; no new tolerance"
+      ],
+      "status": "VERIFIED_CURRENT_SCOPE_EXISTING_EVIDENCE",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "neutral_dcm3",
+      "score_ids": [
+        "solvent_relationship"
+      ],
+      "source": "main.pdf p.2 section 2.3; physical p.14 Fig.14 and stated -2.508 eV",
+      "quantity": "Compound-3 neutral DCM LUMO eigenvalue and change to ACN/DMSO",
+      "method": {
+        "software": "Gaussian 16",
+        "functional": "B3LYP",
+        "basis": "6-311+G(2df,2p)",
+        "solvent_model": "IEF-PCM",
+        "author_locator": "main.pdf physical p.2 section 2.3",
+        "geometry_frequency": "Author optimization and frequency treatment; 298 K stated in methods, 298.15 K in population discussion. No thermochemical population matching in this core.",
+        "not_specified": [
+          "exact Gaussian route keywords",
+          "SCF/grid settings",
+          "unrestricted versus restricted-open-shell implementation for reduced species"
+        ]
+      },
+      "model": {
+        "compound_id": "chalcone_3",
+        "formula": "C15H12O",
+        "configuration": "E",
+        "charge": 0,
+        "multiplicity": 1,
+        "solvent": "dichloromethane"
+      },
+      "reference": {
+        "dichloromethane_eV": -2.508,
+        "acetonitrile_eV": -2.538,
+        "dmso_eV": -2.54,
+        "mode": "source context; no calibrated numerical window"
+      },
+      "existing_evidence": "Validated 3 E starting geometry in gas/ACN; no current DCM property verification.",
+      "missing_evidence": "No missing current bounded computation; reuse 2026-10-15 accepted evidence.",
+      "can_compute_immediately": false,
+      "prerequisites": "Existing bounded result accepted; do not submit duplicate QC. Retain exact-source attribution limitations.",
+      "native_success_markers": [
+        "Original input, native output and hashes retained; no platform-status substitution",
+        "Correct formula, atom mapping, electron count, solvent and explicit state",
+        "SCF/optimization completed; final geometry is the intended reported conformer",
+        "Complete 3N-6 vibrational modes without imaginary modes for a claimed minimum",
+        "A source-comparable orbital value from the final DCM structure, with raw unit conversion"
+      ],
+      "status": "VERIFIED_CURRENT_SCOPE_EXISTING_EVIDENCE",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "neutral_and_reduced_distributions",
+      "score_ids": [
+        "electron_addition_region"
+      ],
+      "source": "main.pdf p.2 section 2.3; physical pp.12-13 Figs.11-12 (gas, ACN, DMSO; no DCM)",
+      "quantity": "Qualitative neutral LUMO topology and optimized one-electron-anion spin-density topology",
+      "method": {
+        "software": "Gaussian 16",
+        "functional": "B3LYP",
+        "basis": "6-311+G(2df,2p)",
+        "solvent_model": "IEF-PCM",
+        "author_locator": "main.pdf physical p.2 section 2.3",
+        "geometry_frequency": "Author optimization and frequency treatment; 298 K stated in methods, 298.15 K in population discussion. No thermochemical population matching in this core.",
+        "not_specified": [
+          "exact Gaussian route keywords",
+          "SCF/grid settings",
+          "unrestricted versus restricted-open-shell implementation for reduced species"
+        ]
+      },
+      "model": [
+        {
+          "compound_id": "chalcone_1",
+          "formula": "C16H14O3",
+          "solvents": [
+            "acetonitrile",
+            "dmso"
+          ],
+          "neutral": {
+            "charge": 0,
+            "multiplicity": 1
+          },
+          "one_electron_anion": {
+            "charge": -1,
+            "multiplicity": 2
+          },
+          "balance": "M + electron -> M radical anion; no proton or atom addition"
+        },
+        {
+          "compound_id": "chalcone_3",
+          "formula": "C15H12O",
+          "solvents": [
+            "acetonitrile",
+            "dmso"
+          ],
+          "neutral": {
+            "charge": 0,
+            "multiplicity": 1
+          },
+          "one_electron_anion": {
+            "charge": -1,
+            "multiplicity": 2
+          },
+          "balance": "M + electron -> M radical anion; no proton or atom addition"
+        },
+        {
+          "compound_id": "chalcone_4",
+          "formula": "C16H12F3NO",
+          "solvents": [
+            "acetonitrile",
+            "dmso"
+          ],
+          "neutral": {
+            "charge": 0,
+            "multiplicity": 1
+          },
+          "one_electron_anion": {
+            "charge": -1,
+            "multiplicity": 2
+          },
+          "balance": "M + electron -> M radical anion; no proton or atom addition"
+        },
+        {
+          "compound_id": "chalcone_5",
+          "formula": "C20H17NO2",
+          "solvents": [
+            "acetonitrile",
+            "dmso"
+          ],
+          "neutral": {
+            "charge": 0,
+            "multiplicity": 1
+          },
+          "one_electron_anion": {
+            "charge": -1,
+            "multiplicity": 2
+          },
+          "balance": "M + electron -> M radical anion; no proton or atom addition"
+        }
+      ],
+      "reference": "Fig.11 contour printed 0.06 e Angstrom^-3; Fig.12 0.006 e Angstrom^-3. Preserve stated plotting conventions; inspect topology, not colors or invented atomic percentages.",
+      "existing_evidence": "Neutral 3 geometry/frequency support only; no certified current spatial reference replay.",
+      "missing_evidence": "No missing current bounded computation; reuse 2026-10-15 accepted evidence.",
+      "can_compute_immediately": false,
+      "prerequisites": "Existing bounded result accepted; do not submit duplicate QC. Retain exact-source attribution limitations.",
+      "native_success_markers": [
+        "Original input, native output and hashes retained; no platform-status substitution",
+        "Correct formula, atom mapping, electron count, solvent and explicit state",
+        "SCF/optimization completed; final geometry is the intended reported conformer",
+        "Complete 3N-6 vibrational modes without imaginary modes for a claimed minimum",
+        "Open-shell electron count/state diagnostics retained",
+        "Grid/visualization artifacts traceable to native wavefunction; record isovalue and orbital identity"
+      ],
+      "status": "VERIFIED_CURRENT_SCOPE_EXISTING_EVIDENCE",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "compound2_properties",
+      "score_ids": [
+        "series_relationship",
+        "electron_addition_region",
+        "solvent_relationship"
+      ],
+      "source": "main.pdf Table 6 E1/E2; Table 4 row 2; Figs.11-13 row/point 2; SI pp.24-25",
+      "quantity": "Bounded compound-2 relationship and neutral/anion spatial comparison; exact author-conformer scalar assignment remains held.",
+      "method": {
+        "software": "Gaussian 16",
+        "functional": "B3LYP",
+        "basis": "6-311+G(2df,2p)",
+        "solvent_model": "IEF-PCM",
+        "author_locator": "main.pdf physical p.2 section 2.3",
+        "geometry_frequency": "Author optimization and frequency treatment; 298 K stated in methods, 298.15 K in population discussion. No thermochemical population matching in this core.",
+        "not_specified": [
+          "exact Gaussian route keywords",
+          "SCF/grid settings",
+          "unrestricted versus restricted-open-shell implementation for reduced species"
+        ]
+      },
+      "model": {
+        "compound_id": "chalcone_2",
+        "formula": "C16H14O4",
+        "solvents": [
+          "acetonitrile",
+          "dmso"
+        ],
+        "neutral_charge_multiplicity": [
+          0,
+          1
+        ],
+        "anion_charge_multiplicity": [
+          -1,
+          2
+        ]
+      },
+      "reference": {
+        "acetonitrile_lumo_eV": -2.493,
+        "dmso_lumo_eV": -2.496,
+        "status": "SOURCE_CONTEXT_OUTSIDE_ACTIVE_RULES"
+      },
+      "existing_evidence": "Eight accepted A/B, ACN/DMSO, neutral/anion log/fchk cases and spatial evidence; both identified candidates support the bounded findings.",
+      "missing_evidence": "No missing current bounded computation. Unique author Table 6 E1/E2 property-conformer assignment remains unresolved only for exact scalar use.",
+      "can_compute_immediately": false,
+      "prerequisites": "Existing bounded result accepted; do not submit duplicate QC. Retain exact-source attribution limitations.",
+      "native_success_markers": [
+        "Native input/output/wavefunction provenance; complete E graph, correct states and validated minima.",
+        "Explicit model identity without falsely claiming a unique Table 6 E1/E2 assignment; no exact-scalar gate or mandatory A/B labels."
+      ],
+      "status": "VERIFIED_BOUNDED_FINDINGS_EXACT_SOURCE_ATTRIBUTION_HELD",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    },
+    {
+      "id": "relationship_analysis",
+      "score_ids": [
+        "series_relationship",
+        "solvent_relationship"
+      ],
+      "source": "main.pdf p.7 Table 4; p.14 Figs.13-14",
+      "quantity": "Cross-series 3-5 relationship, departures of 1 and 2, and bounded solvent comparison.",
+      "method": "Analyze the verified author-comparable molecular results and separately identified measured Epc; no additional quantum method or absolute-potential cycle.",
+      "model": "Neutral-state comparisons above; experimental Epc in V versus Fc/Fc+, computed eigenvalues in eV.",
+      "reference": "3-5 relationship does not transfer to 1/2; compound 3 DCM-to-ACN/DMSO comparison supports the larger solvent change. No universal micro-shift or absolute-potential claim.",
+      "existing_evidence": "Current five-compound quantitative/spatial comparison accepted on 2026-10-15.",
+      "missing_evidence": "No missing current bounded computation; reuse 2026-10-15 accepted evidence.",
+      "can_compute_immediately": false,
+      "prerequisites": "Existing bounded result accepted; do not submit duplicate QC. Retain exact-source attribution limitations.",
+      "native_success_markers": [
+        "Every computed point links to validated native evidence",
+        "No forced exact R-squared, invented thresholds or unique OH-causation claim"
+      ],
+      "status": "VERIFIED_CURRENT_SCOPE_EXISTING_EVIDENCE",
+      "verification_status_record": "evaluation/current_verification_status.json"
+    }
+  ],
+  "author_method": {
+    "software": "Gaussian 16",
+    "functional": "B3LYP",
+    "basis": "6-311+G(2df,2p)",
+    "solvent_model": "IEF-PCM",
+    "author_locator": "main.pdf physical p.2 section 2.3",
+    "geometry_frequency": "Author optimization and frequency treatment; 298 K stated in methods, 298.15 K in population discussion. No thermochemical population matching in this core.",
+    "not_specified": [
+      "exact Gaussian route keywords",
+      "SCF/grid settings",
+      "unrestricted versus restricted-open-shell implementation for reduced species"
+    ]
+  },
+  "blocked_targets": [
+    "compound2_exact_author_property_conformer_scalar"
+  ],
+  "no_new_reference_policy": [
+    "absolute_redox_potential_cycle",
+    "electron_transfer_kinetics",
+    "anion_followup_paths",
+    "causal_substituent_energy_decomposition",
+    "td_absorption_or_photodynamics",
+    "computed_nmr",
+    "dcm_anion_spin_reference",
+    "thermal_TS_for_other_chalcones",
+    "synthesis_mechanism"
+  ],
+  "no_recompute_policy": "Do not rerun accepted compound-3 E minima/frequencies. First extract existing orbitals/checkpoints. Request only missing author-scope results, with traceable reasons.",
+  "scientifically_verified": true,
+  "release_ready": false,
+  "quantum_jobs_submitted_this_round": false,
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Five-compound bounded findings are supported by the 2026-10-15 acceptance. Exact author compound-2 conformer/scalar attribution remains held; no official release certification."
+}

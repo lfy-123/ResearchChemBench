@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_80441aced6051d86",
+  "evidence": [
+    {
+      "evidence_id": "source_scope_main",
+      "source": {
+        "path": "papers/paper_80441aced6051d86/documents/main.pdf",
+        "sha256": "b374267591176e59788c82cdd29c55adb2342d866624e6f30ad6f6cbfebed5ba",
+        "pdf_pages_1based": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "scope": "Main pp2–5: scope, source method, NMR and Fig4; main p2 states both host emission colours. PDF pp5-6/Fig6 explicitly disclose host optical G1 concentration0.02mM.",
+      "supports_final_conclusion_ids": [
+        "free_association_change",
+        "cb7_inclusion",
+        "cb8_inclusion",
+        "packing_contrast",
+        "association_optical_synthesis"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "source_si_docx",
+      "source": {
+        "path": "tasks/upgrade_tasks/coordination_20260927/batch5/source_review/paper_80441aced6051d86.publisher_si.docx",
+        "sha256": "ea6d654dd5c29fc7a7e246e7508e7114fcaaf4a99f1297997f09a4d82a5b790a",
+        "locator": "Table S1 (host spectral rows labelled0.50mM); SectionB FigsS6-S9; SectionD TableS2 and Cartesian blocks; original DOCX, no PDF pagination"
+      },
+      "scope": "Official SI SectionB FigsS6–S9 (NMR/NOESY), SectionD TableS2 and Cartesian geometry blocks. Non-PDF locator retained. Table S1 optical concentration conflict retained; no invented PDF page.",
+      "supports_final_conclusion_ids": [
+        "free_association_change",
+        "cb7_inclusion",
+        "cb8_inclusion",
+        "packing_contrast",
+        "association_optical_synthesis"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "verified_frozen_v2",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_80441aced6051d86/evaluation/verified_computation_reference.md",
+        "sha256": "7b8993af4c1dca2b2632db076b2eda7ac07dcddd7188c184cf42a4abeaeb1014"
+      },
+      "scope": "Historical frozen-scope computational evidence; not author publication data or a new chemistry validation.",
+      "supports_final_conclusion_ids": [
+        "free_association_change",
+        "cb7_inclusion",
+        "cb8_inclusion",
+        "packing_contrast",
+        "association_optical_synthesis"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "native_structures",
+      "source": {
+        "path": "docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json",
+        "sha256": "3bf43737b08cae4062acd068ef4bfbe2964103468251a347d46635f40abe72be"
+      },
+      "evidence_type": "existing_computation_record",
+      "supports_final_conclusion_ids": [
+        "free_association_change",
+        "cb7_inclusion",
+        "cb8_inclusion",
+        "packing_contrast",
+        "association_optical_synthesis"
+      ],
+      "scored_independently": false
+    }
+  ],
+  "scoring_applicability_20261029": "Only current semantic pass/fail final conclusions are scored. Source/native scalars, old windows and method nodes are unscored evidence; historical scientific classifications are unchanged.",
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "必需结果：自由G1与自由对结构变化",
+      "rule_id": "r_free_association_change",
+      "conclusion_id": "free_association_change",
+      "weight": 20,
+      "independence": "自由缔合的构象/堆积比较，不由主客体计量推出。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    },
+    {
+      "scientific_requirement": "必需结果：CB7包结拓扑",
+      "rule_id": "r_cb7_inclusion",
+      "conclusion_id": "cb7_inclusion",
+      "weight": 20,
+      "independence": "一客体萘位于腔内的结构命题。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    },
+    {
+      "scientific_requirement": "必需结果：CB8包结拓扑",
+      "rule_id": "r_cb8_inclusion",
+      "conclusion_id": "cb8_inclusion",
+      "weight": 20,
+      "independence": "双客体萘位于腔内的结构命题，不能用CB7替代。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    },
+    {
+      "scientific_requirement": "必需结果：自由对/CB8客体对比较",
+      "rule_id": "r_packing_contrast",
+      "conclusion_id": "packing_contrast",
+      "weight": 20,
+      "independence": "同原子定义下的相对紧密/错位，不重复腔内拓扑。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    },
+    {
+      "scientific_requirement": "必需结果：分子环境与光学联系",
+      "rule_id": "r_association_optical_synthesis",
+      "conclusion_id": "association_optical_synthesis",
+      "weight": 20,
+      "independence": "结构和同分支光谱共同约束纯稀释解释，不重复几何方向。",
+      "source_location": "正文pp2–6包结/光谱图；SI DOCX §§B/C/D TablesS1/S2（不是PDF）；source_scope_main/source_si_docx/native_structures。",
+      "source_evidence_ids": [
+        "source_scope_main",
+        "source_si_docx",
+        "verified_frozen_v2",
+        "native_structures"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/progress_supervised_20261011T1319Z/coordinator_review/paper_80441aced6051d86/ROOT_NATIVE_READBACK.json"
+      ],
+      "existing_support_or_gap": "完整G1/自由对/CB7·G1/CB8·G1₂分别64/128/190/272原子、+2/+4/+2/+4，均有极小点证据；CB8客体环心3.774727 Å对源3.774138；匹配原子集显示更紧密少错移。",
+      "scientific_limitations": "作者0.02/0.50 mM标注冲突保留，只在明确同分支解释445蓝移/526红移；自由464/490不拼成新浓度实验。几何不证明H/J耦合符号、CT主导或完整发射动力学。"
+    }
+  ]
+}

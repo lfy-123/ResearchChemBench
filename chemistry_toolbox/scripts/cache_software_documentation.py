@@ -5,6 +5,7 @@ The tracked YAML stores reviewed official sources and candidate capabilities.
 This script combines it with the current public catalog and requested-software
 inventory, then writes per-software metadata under .software_cache.  Optional
 downloads are bounded and retain URL, retrieval time, size, and SHA-256.
+PDF text preparation requires the project's ``documentation`` dependency extra.
 """
 
 from __future__ import annotations
@@ -229,6 +230,33 @@ def _local_document_records(values: list[str]) -> list[dict[str, Any]]:
     return records
 
 
+def _cached_pdf_text_records(downloads: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Extract versioned PDF snapshots once during cache preparation, not search."""
+    records = []
+    for item in downloads:
+        source = ROOT / item["path"]
+        if source.suffix.lower() != ".pdf" or not source.is_file():
+            continue
+        import fitz
+        digest = hashlib.sha256(source.read_bytes()).hexdigest()
+        target = source.with_suffix(".pdf.txt")
+        header = f"PDF text cache v1 | Source PDF: {item['path']} | SHA-256: {digest} | URL: {item.get('url', '')}\n"
+        current = ""
+        if target.is_file():
+            with target.open(encoding="utf-8") as stream:
+                current = stream.readline()
+        if current != header:
+            with fitz.open(source) as document:
+                text = "\f".join(f"PDF page {i + 1}\n" + page.get_text().replace("\f", " ") for i, page in enumerate(document))
+            temporary = target.with_suffix(".tmp")
+            temporary.write_text(header + text, encoding="utf-8")
+            temporary.replace(target)
+        record = _local_document_records([str(target)])[0]
+        record.update(source_pdf=item["path"], source_sha256=digest)
+        records.append(record)
+    return records
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--download", action="store_true", help="Download bounded official HTML/PDF snapshots")
@@ -286,7 +314,7 @@ def main() -> int:
             "official_sources": list(record.get("official_sources") or []),
             "local_documents": _local_document_records(
                 list(record.get("local_documents") or [])
-            ),
+            ) + _cached_pdf_text_records(downloads),
             "downloads": downloads,
             "download_errors": errors,
             "notes": requested_item.get("notes") if requested_item else None,

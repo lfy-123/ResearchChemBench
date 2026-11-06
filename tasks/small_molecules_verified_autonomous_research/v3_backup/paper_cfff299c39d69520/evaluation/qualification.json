@@ -1,0 +1,250 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_active_catalyst",
+      "r_coupling_chemistry",
+      "r_balanced_profile",
+      "r_path_activation",
+      "r_temperature_effect"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required model is a finite product-forming pathway through diyne release. No catalyst regeneration, full-cycle closure, steady-state turnover or complete catalytic energy span is required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "What molecular catalyst, bond-forming chemistry and finite product-formation free-energy profile explain the Zn/proline-promoted coupling of the specified terminal alkyne and alkynyl bromide, and what can the supported activation energetics establish about the effect of heating to 125 °C?",
+  "active_rule_ids": [
+    "r_active_catalyst",
+    "r_coupling_chemistry",
+    "r_balanced_profile",
+    "r_path_activation",
+    "r_temperature_effect"
+  ],
+  "current_outcome_ids": [
+    "active_catalyst",
+    "coupling_chemistry",
+    "balanced_profile",
+    "path_activation",
+    "temperature_effect"
+  ],
+  "historical_record": {
+    "paper_id": "paper_cfff299c39d69520",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_active_catalyst",
+      "r_coupling_chemistry",
+      "r_balanced_profile",
+      "r_turnover_span",
+      "r_temperature_effect"
+    ],
+    "scope": "Chemically accessible active zinc species from the supplied precatalyst; Bond-forming chemistry and zinc oxidation-state behavior; Thermodynamic feasibility and closure of the balanced catalytic free-energy network; Kinetic bottleneck controlling the balanced catalytic turnover; Kinetic explanation for operation at125°C. Public molecular inputs and scientific scope are unchanged.",
+    "verification_status": "EXISTING_QUALIFIED_SOURCE_ROUTE_EVIDENCE_NO_AUTOMATIC_V3_PASS",
+    "new_quantum_jobs": 0,
+    "release_ready": false,
+    "limitations": "The controlling span30.132377435 is inside29.2±1.0 but sourceTS has only independent nativeFreq/forces/mode with matched endpoints, no new Opt/IRC and failed displacement diagnostic. Source Int2 main/SI conflict and G09/G16 differences remain.",
+    "qualification_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+    "historical_qualification": {
+      "paper_id": "paper_cfff299c39d69520",
+      "scoring_policy": "paper_science_v2",
+      "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "current_scope_verified": true,
+      "strict_numerical_whole_task_pass": false,
+      "reason": "2026-10-21按用户授权迁移科学结果V2；明确来源且物理可比的规则可运行。2026-10-20父级暂定定性验收不等于数值全过；出版专家复审独立待定。",
+      "unresolved_boundaries": [
+        "Int2正文9.6与SI平衡算术4.078811581的冲突未解决；不设精确Int2数值项。",
+        "源TS独立Freq、默认力与正确反应模及端点支持，未作新Opt/独立IRC；位移诊断未通过。",
+        "跨度在原±1.0内但其他来源数值/示例速率并未全复现；Gaussian09→16及未报告设置保留。"
+      ],
+      "unblock_conditions": [],
+      "source_ambiguity_policy": "真正不能确定物理身份/参照的提交项需needs_review；不通过扩大容差处理。已明确排除的来源冲突背景量不冻结其他独立规则。",
+      "tolerance_policy": {
+        "version": "20261021_provisional",
+        "numeric_rules": [
+          {
+            "rule_id": "r_turnover_span",
+            "target": 29.2,
+            "tolerance": 1.0,
+            "unit": "kcal/mol"
+          }
+        ],
+        "rationale": "仅保留来源已有的控制跨度29.2±1.0 kcal/mol；该窗适用于配平共同参照的跨度，不适用于Int2局部高度、局部TS差或示例速率。实际跨度30.132在包含边界内，来源Int2正文/SI冲突不通过扩大窗口处理。"
+      }
+    },
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_active_catalyst",
+        "r_coupling_chemistry",
+        "r_balanced_profile",
+        "r_turnover_span",
+        "r_temperature_effect"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    },
+    "outcome_evidence_coverage": [
+      {
+        "scientific_requirement": "必需结果1：活性锌物种与从前体可达性",
+        "rule_id": "r_active_catalyst",
+        "conclusion_id": "active_catalyst",
+        "independence": "活性物种配平形成不同于其后偶联机制成立。",
+        "source_locator": "正文PDF2–4 Schemes4–6、Fig.2/Table1；SI PDF2能量、4–6 TS坐标、13 Eyring",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/balanced_numerical_analysis.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/source_TS_qualification.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/author_route_connection.json"
+        ],
+        "existing_support": "ZnEt2+2ProH→中性ZnII双脯氨酸根+2ethane，原生−98.533420。",
+        "limits": [
+          "来源Int2正文9.6与SI组装4.078812 kcal/mol冲突保留，不选更贴本地5.476275的值。",
+          "TS默认残余力通过但位移诊断不通过；来源几何/模式和匹配最低点支持连接，未做新优化或独立IRC。",
+          "fixed-ΔG高温速率为近似；不能称已计算398K自由能或实验速率。"
+        ],
+        "evidence_ids": [
+          "zn_species",
+          "zn_components"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果2：成键、产物映射及锌氧化态行为",
+        "rule_id": "r_coupling_chemistry",
+        "conclusion_id": "coupling_chemistry",
+        "independence": "成键/氧化态关系不由循环净能量或速率预测自动确立。",
+        "source_locator": "正文PDF2–4 Schemes4–6、Fig.2/Table1；SI PDF2能量、4–6 TS坐标、13 Eyring",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/balanced_numerical_analysis.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/source_TS_qualification.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/author_route_connection.json"
+        ],
+        "existing_support": "47原子TS唯一虚频−443.7185及三键变化模式、来源/最低点映射；没有独立IRC。",
+        "limits": [
+          "来源Int2正文9.6与SI组装4.078812 kcal/mol冲突保留，不选更贴本地5.476275的值。",
+          "TS默认残余力通过但位移诊断不通过；来源几何/模式和匹配最低点支持连接，未做新优化或独立IRC。",
+          "fixed-ΔG高温速率为近似；不能称已计算398K自由能或实验速率。"
+        ],
+        "evidence_ids": [
+          "zn_species",
+          "zn_network",
+          "zn_ts"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果3：配平自由能网络、释放和再生热力学",
+        "rule_id": "r_balanced_profile",
+        "conclusion_id": "balanced_profile",
+        "independence": "热力学循环闭合不同于识别动力学瓶颈。",
+        "source_locator": "正文PDF2–4 Schemes4–6、Fig.2/Table1；SI PDF2能量、4–6 TS坐标、13 Eyring",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/balanced_numerical_analysis.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/source_TS_qualification.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/author_route_connection.json"
+        ],
+        "existing_support": "配平网络0→5.476275→30.132377→−36.722101→−69.832392，账本原子/电荷平衡。",
+        "limits": [
+          "来源Int2正文9.6与SI组装4.078812 kcal/mol冲突保留，不选更贴本地5.476275的值。",
+          "TS默认残余力通过但位移诊断不通过；来源几何/模式和匹配最低点支持连接，未做新优化或独立IRC。",
+          "fixed-ΔG高温速率为近似；不能称已计算398K自由能或实验速率。"
+        ],
+        "evidence_ids": [
+          "zn_network",
+          "zn_components"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果4：共同参照控制性span及局部势垒区别",
+        "rule_id": "r_turnover_span",
+        "conclusion_id": "turnover_span",
+        "independence": "整体活化控制不同于局部键变化或净反应有利，也不同于温度推断。",
+        "source_locator": "正文PDF2–4 Schemes4–6、Fig.2/Table1；SI PDF2能量、4–6 TS坐标、13 Eyring",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/balanced_numerical_analysis.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/source_TS_qualification.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/author_route_connection.json"
+        ],
+        "existing_support": "整体30.132377与局部24.656102 kcal/mol不同；共同参照包含Cs-prolinate/CsHCO3等库。",
+        "limits": [
+          "来源Int2正文9.6与SI组装4.078812 kcal/mol冲突保留，不选更贴本地5.476275的值。",
+          "TS默认残余力通过但位移诊断不通过；来源几何/模式和匹配最低点支持连接，未做新优化或独立IRC。",
+          "fixed-ΔG高温速率为近似；不能称已计算398K自由能或实验速率。"
+        ],
+        "evidence_ids": [
+          "zn_network",
+          "zn_components"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果5：温度对速率/时间尺度的影响",
+        "rule_id": "r_temperature_effect",
+        "conclusion_id": "temperature_effect",
+        "independence": "温度尺度推断需要物理速率模型，不以瓶颈名称或贴合span数值自动通过。",
+        "source_locator": "正文PDF2–4 Schemes4–6、Fig.2/Table1；SI PDF2能量、4–6 TS坐标、13 Eyring",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/balanced_numerical_analysis.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/source_TS_qualification.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_cfff299c39d69520/closeout_followup_20261020T1530Z/author_route_connection.json"
+        ],
+        "existing_support": "fixed-ΔG Eyring k298=5.0825e−10、k398=2.3941e−4 s−1，约471048倍；未重算398K热化学。",
+        "limits": [
+          "来源Int2正文9.6与SI组装4.078812 kcal/mol冲突保留，不选更贴本地5.476275的值。",
+          "TS默认残余力通过但位移诊断不通过；来源几何/模式和匹配最低点支持连接，未做新优化或独立IRC。",
+          "fixed-ΔG高温速率为近似；不能称已计算398K自由能或实验速率。"
+        ],
+        "evidence_ids": [
+          "zn_network",
+          "zn_eyring"
+        ],
+        "no_new_computation": true
+      }
+    ],
+    "objective_issue_flags": [
+      {
+        "issue": "来源Int2正文9.6与SI组装4.078812 kcal/mol冲突保留，不选更贴本地5.476275的值。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "TS默认残余力通过但位移诊断不通过；来源几何/模式和匹配最低点支持连接，未做新优化或独立IRC。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "fixed-ΔG高温速率为近似；不能称已计算398K自由能或实验速率。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      }
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "active_catalyst": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "coupling_chemistry": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "balanced_profile": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "path_activation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "temperature_effect": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "release_ready": false
+}

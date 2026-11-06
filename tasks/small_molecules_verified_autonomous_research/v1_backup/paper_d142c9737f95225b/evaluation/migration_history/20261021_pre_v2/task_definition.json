@@ -1,0 +1,35 @@
+{
+  "paper_id": "paper_d142c9737f95225b",
+  "task_type": "autonomous_research",
+  "scientific_question": "How can the ligand environment of the specified manganese precatalysts affect plausible active forms and the accessibility of isopropanol oxidation and acetophenone reduction, and what stereochemical preference can be supported for an explicitly defined catalyst configuration?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "The sulfur-containing precatalysts are cationic [Mn(HL_R)(CO)3]+ bromide salts, R = methyl or tert-butyl. The neutral ligand HL_R is (1-methyl-1H-imidazol-2-yl)-CH2-NH-CH2-CH2-S-R. Imidazole N1 is methylated; C2 between the two ring nitrogens carries CH2-NH; N3, the side-chain amine N and thioether S coordinate Mn. All three CO ligands bind through carbon. The formal metal state is Mn(I), complex charge +1, with external Br−. Ligand-only SMILES: Cn1ccnc1CNCCSC (R=Me), Cn1ccnc1CNCCSC(C)(C)C (R=tBu). No catalyst absolute configuration or stereochemical enrichment is supplied."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "A sulfur-free comparison precursor is neutral [Mn(HL_0)Br(CO)3]. HL_0 is (1-methyl-1H-imidazol-2-yl)-CH2-NH-CH2-CH3, ligand-only SMILES Cn1ccnc1CNCC. Imidazole N3 and amine N bind Mn; bromide is coordinated; all CO ligands are carbon-bound. It is a distinct experimental control, not a sulfur-arm active species."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "identity",
+      "content": "Acetophenone is Ph-C(=O)-CH3, isopropanol (CH3)2CHOH, acetone (CH3)2C=O and 1-phenylethanol Ph-CH(OH)-CH3. R/S labels refer to the alcohol stereocenter. The reaction is acetophenone + isopropanol → 1-phenylethanol + acetone."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "Isopropanol serves as solvent and hydrogen donor. Basic conditions use potassium tert-butoxide; the article reports an optimal precursor-to-base ratio of 1:4. The reaction has room-temperature activity; comparable performance is reported after 20 min at 80 °C. For thermodynamic comparisons use 298.15 K and 1 atm with explicit solution/standard-state conventions. No active-species population or spin state is supplied."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "The NNS precursor family and sulfur-free NN precursor catalyze ketone transfer hydrogenation under mild conditions; the sulfur-free system has slightly better performance under the reported comparison. Acetophenone is the benchmark substrate. These facts do not measure the activity of an isolated active form, a bulk product ee, or a particular active-species concentration."
+    }
+  ],
+  "scope": "Use `data/inputs/system.json` for the complete precursor/ligand graphs, base treatment and reaction observations. Propose chemically plausible active-form hypotheses from these starting facts and investigate how they influence the two transfer-hydrogenation half-reactions. No active form or population is supplied as fact. The assessed scientific scope is the reaction energetics of defensible candidate forms and stereochemical outcomes conditional on a specified catalyst configuration. A calculation of precursor activation barriers, proof of actual solution populations, full catalyst speciation, a bulk enantiomeric excess or an experimental rate is not required. The sulfur-free precursor is experimental context. Molecular-H2 hydrogenation, isotope effects and complete precursor equilibria are outside the required core.",
+  "scientific_core_shared": true,
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

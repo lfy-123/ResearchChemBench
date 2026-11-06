@@ -1,0 +1,146 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_nonmonotonic_response",
+      "reference_id": "nonmonotonic_response",
+      "type": "semantic",
+      "expected": "Use the actual comparable static isotropic beta_HRS responses of complete gas-phase neutral-singlet helicenes 1, 3, 5 and 7 to establish that extension 1→5 increases the response whereas 5→7 decreases it. Quantify the signed changes and substantiate their resolution using the response tensors and the declared derivative, orientation-average and unit conventions. This establishes a nonmonotonic physical size/extension relationship, not four successful scalar calculations or a pair of unexplained signs. beta_total, a selected Cartesian component, finite-frequency response or copied source magnitudes cannot establish this result. The source HRS magnitudes are comparison evidence, with no matching windows.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_three_seven_similarity",
+      "reference_id": "three_seven_similarity",
+      "type": "semantic",
+      "expected": "A quantitative comparison derives from actual comparable response values that the absolute3-versus7 HRS difference is smaller than both the1-to5 increase and the5-to7 decrease, and therefore identifies3/7 as similar-magnitude responses despite different full structures. It must show these relative contrasts and account for numerical resolution before asserting a fine3/7 ordering; merely listing limits earns zero. Physical comparison: Complete gas-phase neutral-singlet helicenes 1/3/5/7 (48/56/72/76 atoms), static omega=0. Source baseline is B3LYP/6-31G(d) ground-state geometries followed by CAM-B3LYP/6-31+G(d) response. HRS is the rotationally averaged tensor invariant in main Eqs15–18, not beta_total. Physically comparable alternative methods are permitted.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_tensor_character_comparison",
+      "reference_id": "tensor_character_comparison",
+      "type": "semantic",
+      "expected": "Establish the physical character of each actual static response and the contrast across all four helicenes: 1 is dipolar-dominated, 3 and 7 are strongly octupolar-dominated, and 5 is dipolar-dominated with a substantial octupolar contribution in the supported reference description. Use calculated tensor, polarization or an equivalent physically justified decomposition with defined rotation/derivative conventions. The conclusion is the comparison of molecular response character, not completion of DR, J1/J3 or rho analyses; no specific descriptor, exact ratio, software or author tensor representation is mandatory. Supported equivalent decompositions pass. Shape names or beta_HRS magnitudes alone do not determine response character.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_structure_response_interpretation",
+      "reference_id": "structure_response_interpretation",
+      "type": "semantic",
+      "expected": "Give an evidence-based physical interpretation of why response magnitude is not determined by carbon count alone: connect the actual molecular structural differences to changes in response anisotropy and the balance of irreducible dipolar/octupolar response. State what the computed tensor and structural evidence distinguishes and whether it isolates a unique causal geometry or charge-transfer descriptor. The added conclusion is the physically justified attribution and its limitations; repeating the scalar ordering or tensor class already scored elsewhere does not pass. No prescribed torsion intervention, density metric, minimum count or exclusive charge-transfer mechanism is required. Well-supported equivalent explanations pass; the four-molecule gas/static comparison cannot by itself establish bulk performance or universal behavior of all pi extensions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "nonmonotonic_response",
+      "description": "Nonmonotonic static HRS response under structural extension",
+      "max_score": 30,
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_nonmonotonic_response"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "three_seven_similarity",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Relative similarity of compounds 3 and 7",
+      "rule_ids": [
+        "r_three_seven_similarity"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "tensor_character_comparison",
+      "description": "Dipolar and octupolar character across the four responses",
+      "max_score": 25,
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_tensor_character_comparison"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "structure_response_interpretation",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "What the molecular comparison establishes about structure and response",
+      "rule_ids": [
+        "r_structure_response_interpretation"
+      ],
+      "evidence_ids": [
+        "paper_main_main",
+        "paper_si_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

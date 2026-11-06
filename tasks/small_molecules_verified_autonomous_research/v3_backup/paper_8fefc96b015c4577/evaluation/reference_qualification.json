@@ -1,0 +1,21 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "case_id": "case_02",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "existing_verification_reference_reused": true,
+  "new_quantum_validation_performed": false,
+  "new_agent_run_performed": false,
+  "scientific_acceptance_reassessed_this_migration": false,
+  "scoring_definition_reviewed": true,
+  "numerical_evidence_policy": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。",
+  "verification_support": "正文 Scheme 3c 与 SI B/TS2/TS2′ 坐标；历史验证支持两类真实邻位成环及相对竞争。另核对了当前输入 atom_id 的成环图。",
+  "reference_issues": [
+    "输入 C10 为自由基中心；苄基芳环 C14 为 ipso，C15/C19 为邻位；磺酰芳环邻位为 C24/C29。对称等价映射可接受。",
+    "C10–C14 是五元 ipso 连接，不能当作作者苄基邻位六元环；作者坐标行号不等于输入 atom_id。",
+    "只研究给定 R，排除上游光催化及后续氧化/芳构化；单个子比较正确而最终选错通道，不能获得最终竞争分。"
+  ],
+  "human_review_resolution": "人工意见为保留；科学命题和权重不变，沿用逐项实际数值证据、无论文数值门槛、pass/fail规则。",
+  "note": "Reference definitions and scoring have been audited; this is not new quantum validation, a blind agent run, strict numeric reproduction or publication approval. Native logs and historical verification remain unchanged.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail."
+}

@@ -1,0 +1,40 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "scientific_class": "B",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Use (R)-4 only for the minimum path matrix, with its full C10H20O3 graph. Primary stage is the source nonenzymatic NBS/Et3N control in DCM (main p7): this supplies an identified brominating reagent and proton acceptor without presuming an enzyme-generated free Br+ species. Model one NBS and one Et3N per substrate in a neutral singlet cluster at 298.15 K/1 M; Et3N is a local proton-relay model, not a claim that the experimental loading was one equivalent. Initial alkene maps2/4, alcohol O21; six-membered closure forms O21–C4, seven-membered closure O21–C2. The actual hydroperoxide oxygens are O23/O24, not row22 (H). The two physically available closures are SIX/SEVEN, correcting the planning document five/six label. Enzymatic aqueous selectivity is contextual, not a required QM/MM result.",
+  "panels": {
+    "closure_paths": {
+      "requirement": "Correct graph-derived ring sizes and chemically identified NBS control.",
+      "required_cells": [
+        "six_membered",
+        "seven_membered"
+      ]
+    },
+    "active_reagent_ledger": {
+      "requirement": "No naked bromide substituted for an electrophilic brominating reagent.",
+      "required_cells": [
+        "brominating_reagent",
+        "proton_acceptor",
+        "alcohol_O_map",
+        "alkene_maps",
+        "hydroperoxide_O_maps",
+        "balanced_equations_file",
+        "evidence_files"
+      ]
+    },
+    "regioselectivity_test": {
+      "requirement": "Regioselectivity from connected paths, with source/model boundaries explicit.",
+      "required_cells": [
+        "comparison",
+        "conformer_population_file",
+        "charge_asymmetry",
+        "explanation",
+        "evidence_files"
+      ]
+    }
+  },
+  "optional_not_required": "酶 QM/MM 和完整生物催化环境非默认范围。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

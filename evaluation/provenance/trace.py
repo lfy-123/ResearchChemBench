@@ -27,6 +27,24 @@ INTERPRETER_SHELL_PATTERN = re.compile(
 )
 
 
+def call_origin_metrics(events):
+    """Keep endpoint work distinct from a model's explicit tool request.
+
+    Old traces have no attribution. They remain unknown, not retroactively
+    classified from tool names, counts, or successful execution.
+    """
+    origins = {key: {"calls": 0, "tools": {}} for key in ("client", "adapter_internal", "unknown")}
+    for event in events:
+        provenance = event.get("call_provenance")
+        origin = provenance.get("origin") if isinstance(provenance, dict) else None
+        bucket = origins[origin if isinstance(origin, str) and origin in origins else "unknown"]
+        bucket["calls"] += 1
+        name = str(event.get("tool", "unknown"))
+        bucket["tools"][name] = bucket["tools"].get(name, 0) + 1
+    return {"tool_call_origins": origins,
+            "tool_call_attribution": "partial" if origins["unknown"]["calls"] else "complete"}
+
+
 def canonical_tool_trace_metadata(workspace: Path) -> dict[str, Any] | None:
     path = workspace / "_tool_trace.jsonl"
     if not path.is_file():
@@ -240,9 +258,12 @@ def process_metrics(
         if not specification.data_action
     }
     event_results = [_event_result(event, workspace=workspace) for event in events]
+    errors = [
+        error if isinstance(error, dict) else {"message": error}
+        for error in (result.get("error") for result in event_results)
+    ]
     error_codes = [
-        str((result.get("error") or {}).get("code") or "")
-        for result in event_results
+        str(error.get("code") or "") for error in errors
     ]
     result_statuses = [str(result.get("status") or "").casefold() for result in event_results]
     job_context_metrics = _job_context_metrics(events, workspace=workspace)
@@ -261,6 +282,7 @@ def process_metrics(
     supervision_results = wait_results + action_wait_results
     return {
         "tool_call_count": len(events),
+        **call_origin_metrics(events),
         "successful_tool_calls": sum(
             event.get("status") in SUCCESSFUL_TOOL_STATUSES for event in events
         ),
@@ -348,9 +370,9 @@ def process_metrics(
                 "unstaged_workspace_relative_path",
             }
             or "calculation_intent_mismatch" in str(
-                (result.get("error") or {}).get("message") or ""
+                error.get("message") or ""
             )
-            for code, result in zip(error_codes, event_results)
+            for code, error in zip(error_codes, errors)
         ),
         "policy_rejection_count": sum(
             code in {

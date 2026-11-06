@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "items": [
+    {
+      "key_point_id": "KP_TS_GAP",
+      "statement": "The two modeled enantiomer-specific C-H activation transition states have a defined free-energy separation.",
+      "expected": {
+        "quantity": "stereochemical C-H-activation TS free-energy separation",
+        "value": 8.6,
+        "unit": "kcal/mol",
+        "definition": "G(TS20-b)-G(TS20-a) for the identical-composition Pd/L-pGlu/S C-H-activation models, mapped to the author a/b structures. Common-reference profile separation, not [G(TS20-b)-G(19-b)]-[G(TS20-a)-G(19-a)]. Common spectator species cancel exactly.",
+        "conditions": "SMD acetonitrile, thermal correction 363.15 K; full public S and L-pGlu. Use the same total charge, spin and particle/proton inventory in both TSs. The source does not explicitly state charge/multiplicity; neutral closed-shell Pd(II)/doubly deprotonated L-pGlu plus neutral S is a graph-based reconstruction, not a reported input. Declare and validate it."
+      },
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_COORD"
+      ],
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "KP_INV_S",
+      "statement": "The isolated substrate has a configurational-inversion free-energy barrier at the stated substrate conditions.",
+      "expected": {
+        "quantity": "S inversion free-energy barrier",
+        "value": 31.82,
+        "unit": "kcal/mol",
+        "definition": "G(S inversion saddle)-G(the connected isolated S/1b ground-state minimum), same neutral molecular formula and particle number, no Pd or ligand. Zero is the S minimum at its own conditions.",
+        "conditions": "SMD acetonitrile; 353.15 K; charge 0, singlet closed-shell reconstruction from the neutral graph. Source input charge/multiplicity was not explicitly printed."
+      },
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "KP_INV_P",
+      "statement": "The isolated product has a configurational-inversion free-energy barrier at the stated product conditions.",
+      "expected": {
+        "quantity": "P inversion free-energy barrier",
+        "value": 33.99,
+        "unit": "kcal/mol",
+        "definition": "G(P inversion saddle)-G(the connected isolated P/3ba ground-state minimum), same neutral E-alkenylated formula and particle number, no Pd or ligand. Zero is the P minimum at its own conditions.",
+        "conditions": "SMD n-octane; 398.15 K; charge 0, singlet closed-shell reconstruction from the neutral graph. Source input charge/multiplicity was not explicitly printed."
+      },
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "key_point_type": "result"
+    }
+  ]
+}

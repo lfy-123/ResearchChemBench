@@ -1,0 +1,45 @@
+{
+  "paper_id": "paper_86a0b654270a8ce7",
+  "role": "Unscored evidence for independent final scientific conclusions. Original numerical and historical reference records are preserved in historical_scoring_20261029.json and verified_computation_reference.md.",
+  "items": [
+    {
+      "key_point_id": "support_relative_gibbs",
+      "key_point_type": "scientific_evidence",
+      "statement": "Model-resolved thermodynamic preference of the two isomers",
+      "expected": "Determine the relative thermodynamic preference of the two complete 130-atom neutral-singlet C60H63IrN4O2 coordination isomers in THF at 339 K from actual comparable Gibbs free energies, with DeltaG=G2−G1 and graph-based donor mapping. Interpret the strength and resolution of the preference, rather than reporting an unexplained sign or matching the source −2.84 kJ/mol. The reference model weakly favors isomer 2. A supported weak preference or a quantitatively demonstrated near-degenerate/model-sensitive ordering passes when its limits and actual energies are retained; an unsupported robust reversal does not. Use compatible thermal, conformer and standard-state conventions; raw electronic energies alone do not establish this Gibbs conclusion. A fixed-geometry sensitivity with borrowed thermal terms must not be described as fully relaxed alternative minima.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_scope_main",
+        "source_scope_supplementary_001",
+        "verified_frozen_v2"
+      ]
+    },
+    {
+      "key_point_id": "support_relative_stability_synthesis",
+      "key_point_type": "scientific_evidence",
+      "statement": "Physical explanation of the small Gibbs difference",
+      "expected": "Explain the small model-level stability difference using actual graph-mapped structures and energetic evidence. Relate the NHC-phenyl/salen-naphthyl contact contrast, or a supported equivalent molecular interaction, to the energetic account, and identify a concrete co-varying contribution or demonstrated thermal/model sensitivity that prevents assigning the full Gibbs difference uniquely to stacking. Electronic and thermal terms may favor different isomers; retain their actual definitions. The inference can explain a bounded weak preference or unresolved model-sensitive ordering established in the thermodynamic item. A contact picture, repeated ordering or generic caveat alone fails. No named contact intervention, exclusive decomposition or crystal-distance target is required.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_scope_main",
+        "source_scope_supplementary_001",
+        "verified_frozen_v2"
+      ]
+    },
+    {
+      "key_point_id": "support_population_yield_limit",
+      "key_point_type": "scientific_evidence",
+      "statement": "Conditional equilibrium populations and synthetic-yield limits",
+      "expected": "Use the computed Gibbs difference or physically justified range at 339 K to derive and interpret the conditional equilibrium ratio [2]/[1]=exp(−(G2−G1)/RT) for the matched full isomers in THF. Preserve uncertainty or model sensitivity rather than choosing a sign to match the source. Identify the missing equilibration/interconversion evidence that prevents interpreting that ratio as the isolated synthetic-yield ratio. No exact ratio or yield is a target. Merely stating that yields are not populations, omitting the actual thermodynamic implication, or using inconsistent signs fails. The pair energy does not establish kinetic rates, emission efficiency or device performance.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "source_scope_main",
+        "source_scope_supplementary_001",
+        "verified_frozen_v2"
+      ]
+    }
+  ]
+}

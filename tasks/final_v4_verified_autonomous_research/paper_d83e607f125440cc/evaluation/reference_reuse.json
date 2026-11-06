@@ -1,0 +1,59 @@
+{
+  "usable": "The exact bound V1 report contains five gas electronic comparisons, mapped spin, curvature, finite gas conformers/common CPCM and a retrospective Cl cross-check. It establishes one feasible molecular route and supports auditing channel bookkeeping and numerical limitations.",
+  "not_usable": "No blind AR performance, no complete mechanism, activation barrier/yield prediction, global conformational guarantee, general functional error interval or acceptance of a different V2 route.",
+  "binding": {
+    "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_d83e607f125440cc/evaluation/phase1_reference_binding.json",
+    "sha256": "635bf0b066af8892849f4ccf344faac508044a85d62cc2b9588a7933f7a6f6b2",
+    "evidence": {
+      "report/scientific_acceptance.json": {
+        "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/scientific_acceptance.json",
+        "sha256": "49e18b9121831ce3124bf46b69e5d920702a010602026d9665de3019bc79c814"
+      },
+      "report/results.json": {
+        "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/results.json",
+        "sha256": "70060d9972a807edf7043f6c36b6b4e4a8ac360e6486c5a29a9524ac5e264ab8"
+      },
+      "report/verification_report.md": {
+        "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/verification_report.md",
+        "sha256": "86f9eb89a015d957bb92e9f7474860d8c474028d2b9d54c85492556202f40b53"
+      },
+      "report/validation/contract_checks.json": {
+        "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/validation/contract_checks.json",
+        "sha256": "57ba85d278458a69502dcdcb0e863b8674d5d6435ec53c1d530619333e21c91c"
+      },
+      "report/resource_summary.json": {
+        "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/resource_summary.json",
+        "sha256": "1e21130c422d68be48c9af1977e93abbd5bda22450df07dfdc054d8daa890b4a"
+      },
+      "evaluator_mapping.json": {
+        "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/evaluator_mapping.json",
+        "sha256": "9fd729d8a1f3a65b13b5ea35ab6b0f95f09989194048ddb89addedc211ae4973"
+      },
+      "task_snapshot/manifest.json": {
+        "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/task_snapshot/manifest.json",
+        "sha256": "0fcbbd7ffd7acb6183344d4e0037218da4ad37430e46594a7983bc70be4cb936"
+      }
+    },
+    "role": "author_informed_V1_reference_not_V2_acceptance"
+  },
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_SMe_harder_than_OMe",
+      "r_SMe_harder_than_Cl",
+      "r_SMe_harder_than_Me",
+      "r_SMe_harder_than_H",
+      "r_sulfur_localized_radical",
+      "r_oxidation_interpretation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  }
+}

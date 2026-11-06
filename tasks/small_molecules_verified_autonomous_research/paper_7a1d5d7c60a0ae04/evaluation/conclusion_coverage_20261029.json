@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_7a1d5d7c60a0ae04",
+  "scoring_revision": "conclusion_only_20261029",
+  "scientific_scope_changed": false,
+  "scope_note": "The same public scientific questions, inputs, identities and conditions are retained. Final propositions and their evidential boundaries are clarified without extending scope.",
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1：三硼烷功能与筛选关系",
+      "rule_id": "r_catalyst_function",
+      "conclusion_id": "catalyst_function",
+      "weight": 25,
+      "independence": "酸性/相互作用与性能边界，不重复立体选择性。",
+      "source_location": "Main pp. 2–3 and 7; SI S55–S64, Tables S4/S5, structures and reaction modes S62–S63",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_7a1d_audit/native_recomputed.json",
+      "existing_support_or_gap": "Native FIA A/B/C=467.227544/422.524396/409.296603 and HIA=516.171498/476.465751/464.085838 kJ/mol with source atomic-E convention.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果2：D4形成与产物稳定性",
+      "rule_id": "r_d4_kinetic_control",
+      "conclusion_id": "d4_kinetic_control",
+      "weight": 25,
+      "independence": "两催化剂cis形成控制，不奖励微小产物差符号。",
+      "source_location": "Main pp. 2–3 and 7; SI S55–S64, Tables S4/S5, structures and reaction modes S62–S63",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_7a1d_audit/native_recomputed.json",
+      "existing_support_or_gap": "Pure-RRHO D4 TS trans-cis A=1.967453/B=2.056267; product=-0.206072 kcal/mol.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果3：A→B区分变化及稳健性",
+      "rule_id": "r_catalyst_selectivity_contrast",
+      "conclusion_id": "catalyst_selectivity_contrast",
+      "weight": 20,
+      "independence": "催化剂内能差再比较及可靠性，不重复两者各自偏cis。",
+      "source_location": "Main pp. 2–3 and 7; SI S55–S64, Tables S4/S5, structures and reaction modes S62–S63",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_7a1d_audit/native_recomputed.json",
+      "existing_support_or_gap": "Pure-RRHO (B gap)-(A gap)=0.088814 kcal/mol; source counterpart 1.391483.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果4：固定A的D4/D5环大小效应",
+      "rule_id": "r_ring_size_relationship",
+      "conclusion_id": "ring_size_relationship",
+      "weight": 30,
+      "independence": "跨环尺寸的形成/稳定性关系，不新增D5/B或D4/C。",
+      "source_location": "Main pp. 2–3 and 7; SI S55–S64, Tables S4/S5, structures and reaction modes S62–S63",
+      "source_evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_7a1d_audit/native_recomputed.json",
+      "existing_support_or_gap": "Pure-RRHO D5 formation=4.389786, product=5.517269 kcal/mol; product-source deviation +2.918602; cis soft mode 0.514759 cm-1.",
+      "historical_status_promoted": false
+    }
+  ],
+  "task_input_changes": [],
+  "new_computation": false,
+  "record_role": "Historical dated record; superseded for current scope and scoring by expert_round1_20261103. See round1_review.json and scoring_rules.json.",
+  "superseded_by": "expert_round1_20261103"
+}

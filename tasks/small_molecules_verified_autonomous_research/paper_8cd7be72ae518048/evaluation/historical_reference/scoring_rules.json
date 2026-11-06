@@ -1,0 +1,357 @@
+{
+  "paper_id": "paper_8cd7be72ae518048",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。 本批为解释/比较型题目，全部采用定性科学结果项。来源数值保留为可比性上下文，没有新设精确能量窗口；不使用验证值替换作者值。合理替代模型或路径可按相同科学命题的证据评价，不能仅因未选作者软件、描述符或机理标签扣分。 对本题，作者苯氧基/阳离子及单氧化物模型是参考答案，科学等价、物理可比且有证据支持的替代解释按同一命题评价；不要求特定作者物种标签、完整催化循环、全部构象或NPA/IGMH。未解决的命题不自动获得该项科学分。",
+  "rules": [
+    {
+      "rule_id": "r_beta_connectivity",
+      "reference_id": "beta_connectivity",
+      "type": "semantic",
+      "expected": "在声明的β条件候选模型中，实际结构与反应连接证据区分通向主底物α和β的芳基成键位置，保留指定环烯骨架及正确电荷/电子态。作者苯氧基插入模型为参考；有证据支持的等价形成路线可接受。仅标签、单虚频个数或产物观察不足；不额外要求完整释放循环或全IRC。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_alpha_connectivity",
+      "reference_id": "alpha_connectivity",
+      "type": "semantic",
+      "expected": "在声明的α条件候选模型中，实际结构与反应连接证据区分主底物α和β形成通道，保持配体、组成及电荷/电子态定义一致。作者阳离子插入模型为参考；接受可支持同一科学结果的等价路线。不能只重复题面α产物，或把不同体系的成键位置当同一对照。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_beta_competition",
+      "reference_id": "beta_competition",
+      "type": "semantic",
+      "expected": "同组成、同条件及同参照的实际竞争能量支持β形成比α有利。作者苯氧基模型以IMO1′为零的α/β为22.7/18.4 kcal/mol，作为科学上下文而非硬数值窗；不将两个模型的绝对总能直接相减，也不以产率代替计算竞争。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_alpha_competition",
+      "reference_id": "alpha_competition",
+      "type": "semantic",
+      "expected": "物理可比的实际竞争能量支持α形成比β有利。作者阳离子模型以IM3为零，图/SI为17.5/18.8 kcal/mol，正文α另写17.1；两个α来源值均保留，均支持α较低。不以选择最接近验证的来源值为评分依据；需要实际相对能量支持方向。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_access_topology",
+      "reference_id": "access_topology",
+      "type": "semantic",
+      "expected": "实际结构证据显示所研究配位环境如何允许主烯烃进入可反应位点，并区分进入前后配位连接。作者母体双膦与单氧化物在中性碘模型中的配位臂打开/烯烃结合为参考；接受相同科学作用的已支持替代解释。仅说配体更易离去或展示孤立几何不足。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_access_cost",
+      "reference_id": "access_cost",
+      "type": "semantic",
+      "expected": "在组成/电荷配平、游离烯烃参照一致的比较中，计算支持所声明环境差异改变主底物进入可反应状态的成本。作者中性碘母体与单氧化物的结合G为+15.2/+9.2 kcal/mol，支持后者成本更低。需相容参考下的实际比较；此量是结合平衡自由能，不是氧化、交换活化或总周转势垒。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_styrene_access",
+      "reference_id": "styrene_access",
+      "type": "semantic",
+      "expected": "相同催化模型与标准态、各自游离底物参照的实际比较支持苯乙烯较易进入所研究可反应状态。作者单氧化物中性碘模型为+6.8对主底物+9.2 kcal/mol；接受物理等价支持。不能比较不同分子组成的裸总能或替换主底物身份。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_styrene_regio_competition",
+      "reference_id": "styrene_regio_competition",
+      "type": "semantic",
+      "expected": "在正确苯乙烯分子图、相容电荷/自旋和同一前体参照下，实际α/β形成竞争支持α较有利。作者阳离子模型以SIM3为零为11.3/16.0 kcal/mol，作为来源上下文，不设精确窗口。需要两个通道的可比证据，单一苯乙烯能量或实验类比不足。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_styrene_substrate_cost",
+      "reference_id": "styrene_substrate_cost",
+      "type": "semantic",
+      "expected": "在匹配催化模型中，各底物使用自身一致前体参照的实际比较支持苯乙烯α形成较主环烯容易。作者阳离子苯乙烯α为11.3、主环烯图/SI为17.5 kcal/mol，保留主文17.1冲突。不能比较不同组成的裸总能，也不据此声称实验速率已复现。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_selectivity_answer",
+      "reference_id": "selectivity_answer",
+      "type": "semantic",
+      "expected": "最终明确采用由有效结构、连接及竞争能量共同支持的条件相关解释，将β条件的β优势与α条件的α优势联系到两种产物连接。作者苯氧基/阳离子切换是假设性参考；接受有相应计算证据的替代解释。只列两组数值、重复观察或未选择结论不足。不要求精确45:1、7:1或产率，不将条件与物种的假设对应说成已计算完整物种分布。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_access_answer",
+      "reference_id": "access_answer",
+      "type": "semantic",
+      "expected": "最终综合进入位点的结构/自由能结果与状态内区域竞争，解释配位环境改变为何可同时影响反应容易程度与选择性，明确两者的不同物理作用。作者单氧化降低结合成本为参考；需有计算支持的联系，不能只重复两项排序。不同组成、电荷或配体模型的进入成本与插入势垒不能直接相加为全循环势垒；不要求计算氧化/电离速率或完整网络。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_substrate_answer",
+      "reference_id": "substrate_answer",
+      "type": "semantic",
+      "expected": "最终把苯乙烯的匹配结合和插入比较联系到主环烯的反应困难，给出模型支持的底物依赖性解释，同时保持主反应身份。只有一个局部数字或另一个底物的独立解释不足；不能据此声称已复现实验苯乙烯产率、精确周转率或普遍底物规律。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理对象、参照及可定位的实际原生计算；全部条件成立得该项满分，否则0。独立项分别判断，不临时按比例给分，不奖励过程。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "beta_connectivity",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "β条件候选的两种区域成键连接",
+      "rule_ids": [
+        "r_beta_connectivity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "alpha_connectivity",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "α条件候选的两种区域成键连接",
+      "rule_ids": [
+        "r_alpha_connectivity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "beta_competition",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "β条件候选内的区域竞争能量",
+      "rule_ids": [
+        "r_beta_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "alpha_competition",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "α条件候选内的区域竞争能量",
+      "rule_ids": [
+        "r_alpha_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "access_topology",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "反应位点开放与烯烃结合的结构结果",
+      "rule_ids": [
+        "r_access_topology"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "access_cost",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "配位环境改变进入可反应状态的自由能成本",
+      "rule_ids": [
+        "r_access_cost"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "styrene_access",
+      "kind": "intermediate",
+      "max_score": 6,
+      "description": "苯乙烯与主底物的匹配进入成本比较",
+      "rule_ids": [
+        "r_styrene_access"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "styrene_regio_competition",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "苯乙烯模型内的区域竞争",
+      "rule_ids": [
+        "r_styrene_regio_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "styrene_substrate_cost",
+      "kind": "intermediate",
+      "max_score": 3,
+      "description": "苯乙烯与主底物的匹配插入成本比较",
+      "rule_ids": [
+        "r_styrene_substrate_cost"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "selectivity_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：条件切换与α/β选择性反转的解释",
+      "rule_ids": [
+        "r_selectivity_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "access_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：区分进入成本与状态内竞争并解释反应性",
+      "rule_ids": [
+        "r_access_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "substrate_answer",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：用苯乙烯对照解释有限的底物依赖性",
+      "rule_ids": [
+        "r_substrate_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

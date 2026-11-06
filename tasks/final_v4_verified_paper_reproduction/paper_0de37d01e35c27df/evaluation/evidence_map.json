@@ -1,0 +1,185 @@
+{
+  "paper_id": "paper_0de37d01e35c27df",
+  "evidence": [
+    {
+      "evidence_id": "main_response",
+      "source": {
+        "path": "papers/paper_0de37d01e35c27df/documents/main.pdf",
+        "sha256": "0e7674491acb0b2565ea4dbec1dc37cad1a408c963344f839db245d3b7f85177",
+        "pdf_pages_1based": [
+          4
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "contraction_nor",
+        "contraction_dtco",
+        "first_oxidation_bonding_nor",
+        "first_oxidation_bonding_dtco",
+        "framework_explanation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "main_spin",
+      "source": {
+        "path": "papers/paper_0de37d01e35c27df/documents/main.pdf",
+        "sha256": "0e7674491acb0b2565ea4dbec1dc37cad1a408c963344f839db245d3b7f85177",
+        "pdf_pages_1based": [
+          4,
+          5
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "first_oxidation_bonding_nor",
+        "first_oxidation_bonding_dtco",
+        "framework_explanation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "main_orbitals",
+      "source": {
+        "path": "papers/paper_0de37d01e35c27df/documents/main.pdf",
+        "sha256": "0e7674491acb0b2565ea4dbec1dc37cad1a408c963344f839db245d3b7f85177",
+        "pdf_pages_1based": [
+          3,
+          4
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "framework_explanation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "si_orbitals",
+      "source": {
+        "path": "papers/paper_0de37d01e35c27df/documents/supplementary_001.pdf",
+        "sha256": "5db011e6236dc4acc437de3264214f79e39ea967de00ab8459a83934f55623a1",
+        "pdf_pages_1based": [
+          3
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "first_oxidation_bonding_nor",
+        "first_oxidation_bonding_dtco"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "si_structures",
+      "source": {
+        "path": "papers/paper_0de37d01e35c27df/documents/supplementary_001.pdf",
+        "sha256": "5db011e6236dc4acc437de3264214f79e39ea967de00ab8459a83934f55623a1",
+        "pdf_pages_1based": [
+          10,
+          11,
+          15,
+          16,
+          17
+        ]
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "contraction_nor",
+        "contraction_dtco",
+        "framework_explanation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "second_native_twist",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_0de37d01e35c27df/analysis/native_reuse_verification.json",
+        "sha256": "ed57869dfde483a0220dd11a5974adaff89a4f2daee8f004d75ae28537b7f8da"
+      },
+      "scope": "Actual twist minimum distances, sulfur populations/spin, fixed-geometry open-shell stability and frontier-occupation evidence; no all-conformer trend.",
+      "supports_final_conclusion_ids": [],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "second_native_1",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_0de37d01e35c27df/analysis/native_reuse_verification.json",
+        "sha256": "ed57869dfde483a0220dd11a5974adaff89a4f2daee8f004d75ae28537b7f8da"
+      },
+      "scope": "Existing source-specific evidence read in the second expert review; limitations are recorded in the report.",
+      "supports_final_conclusion_ids": [
+        "contraction_nor",
+        "contraction_dtco",
+        "first_oxidation_bonding_nor",
+        "first_oxidation_bonding_dtco",
+        "framework_explanation"
+      ],
+      "scored_independently": false
+    }
+  ],
+  "current_policy": "paper_science_v3",
+  "scope_note": "Same two complete isolated molecules, neutral singlets and first-oxidation doublets; molecular structural/electronic response only. Shared electronic and comparative final propositions carry identical weights; the inherited 20-point structure block is qualitative contraction in AR and four source-basin endpoint windows in PR.",
+  "final_rule_evidence": [
+    {
+      "rule_id": "r_ss_nor_n",
+      "evidence_ids": [
+        "main_response",
+        "si_structures",
+        "second_native_1"
+      ]
+    },
+    {
+      "rule_id": "r_ss_nor_r",
+      "evidence_ids": [
+        "main_response",
+        "si_structures",
+        "second_native_1"
+      ]
+    },
+    {
+      "rule_id": "r_ss_dtco_n",
+      "evidence_ids": [
+        "main_response",
+        "si_structures",
+        "second_native_1"
+      ]
+    },
+    {
+      "rule_id": "r_ss_dtco_r",
+      "evidence_ids": [
+        "main_response",
+        "si_structures",
+        "second_native_1"
+      ]
+    },
+    {
+      "rule_id": "r_first_oxidation_bonding_nor",
+      "evidence_ids": [
+        "main_response",
+        "main_spin",
+        "si_orbitals",
+        "second_native_1"
+      ]
+    },
+    {
+      "rule_id": "r_first_oxidation_bonding_dtco",
+      "evidence_ids": [
+        "main_response",
+        "main_spin",
+        "si_orbitals",
+        "second_native_1"
+      ]
+    },
+    {
+      "rule_id": "r_framework_explanation",
+      "evidence_ids": [
+        "main_response",
+        "main_orbitals",
+        "main_spin",
+        "si_structures",
+        "second_native_1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,700 @@
+# paper_2a71ffa4b0a90809 验证报告
+
+<!-- feasible-scope-20260928 -->
+> 2026-10-11 最新执行范围：**CLOSED_NOT_QUALIFIED**。8个主状态原生日志与输入/fchk重新核验；固定主势垒29.99558036965 kcal/mol，低于未改动31±1下界0.00441963035。正式NOT_QUALIFIED、verification_terminal=true。 本篇已完成有界终审；独立端点仅保留为敏感性结果，不能替换主结果制造通过。不再新增重复扫描。 见[逐篇审查](provenance/feasible_scope_disposition_20260928.json)及[当前汇总](../FEASIBLE_VALIDATION_SCOPE_20260928.md)。
+<!-- /feasible-scope-20260928 -->
+
+<!-- terminal-review-20260929 -->
+## 2026-09-29 当前终审：NOT_QUALIFIED（验证已收尾）
+
+8个主状态的原始输入、日志和fchk逐项重放。固定主势垒 **29.99558036965 kcal/mol**，按原 **31±1** 条件低于下界 **0.00441963035 kcal/mol**，不通过；独立端点30.0006004454仅作敏感性对照，未事后替换主值。受限热化学和六个来源点残差的限制保留，不宣称论文被反证。正式 `verification_terminal=true`，不再等待重复扫描。
+
+[终审原生证据](provenance/terminal_review_20260929/review.json) · [当前结果](report/results.json) · [正式资格](provenance/evaluation_task_qualification.json)
+
+<!-- /terminal-review-20260929 -->
+
+## 历史记录（以下旧状态、待办及重复追加不代表当前结论）
+
+
+> **2026-09-27 当前复核：计算链完成；PENDING_REAUDIT，PR任务保持 hold。** 修正后的连续 SMD18 主势垒为 **29.995580370 kcal/mol**，未通过原 31±1 数值规则；原文全曲线另有 6 点残差未解决。全部八点热化学及两个端点对照已完成，原生曲率、RRHO 和 schema 检查通过，但不能据此宣称论文结果一致。最新权威记录见 [本轮验收报告](provenance/smd18_resume_20260927/CLOSEOUT.md) 与 [最终原生证据](provenance/smd18_repair_20260927/final_review.json)。公开输入、评分、任务位置未变。**本页以下均为历史记录，包含已过期的运行状态、旧任务路径与旧资格判断。**
+
+> **当前状态：`IN_PROGRESS`。** 本节只记录已经发生的审计和计算，不构成
+> `PASS`、`CONDITIONAL`、`FAIL` 或 `BLOCKED`。只有全部关键中间过程、最终端点和
+> 适用的频率/TS/IRC/激发态/谱学/热化学证据完成并经科学判读后才写最终结论。
+
+## 1. 身份与模式
+
+- DOI：`10.1021/acs.joc.5c02704`
+- 标题：Data-Integrated Elucidation of Structure–Activity Relationships toward the Rational Design of Perfluoroiodoarene-Based Halogen-Bond Donor Catalysts
+- paper_id：`paper_2a71ffa4b0a90809`
+- difficulty：`medium`
+- 选定模式：`paper_reproduction`
+- 任务目录：`tasks/paper_reproduction/paper_2a71ffa4b0a90809`
+- 任务包校验：`passed`
+- package SHA-256：`4fafa3287228bb9aedfcfc8ab39cf03f6dee30c04655296a3deb8c752f19d108`
+- submission schema：`tasks/paper_reproduction/paper_2a71ffa4b0a90809/agent_input/submission_schema.json`
+
+## 2. Agent 可见公开输入
+
+- `agent_input/data/inputs/1a_syn.xyz`
+
+坐标/连接性/补氢/构象只有在任务包身份和允许工具无法推导时才计入缺失；正文/SI
+恢复的不可推导事实必须在最终报告另列来源、页码、变换和任务包最小补充项。
+
+## 3. 验证人员恢复的论文路线（待逐项科学核验）
+
+| 步骤 | 目的 | 方法/软件 | 参数 | 必需输出 |
+|---:|---|---|---|---|
+| 1 | Obtain solution conformers | DFT in Gaussian | SMD(THF)/M06-2X-D3/6-311+G(d,p)-SDD(I), 193.15 K | Optimized geometries and E/H/G |
+| 2 | Follow rotation | ModRedundant constrained scan | 69.0° to 0°; same solvent/model context | Gibbs profile relative to ground state |
+| 3 | Extract barrier | energy-profile analysis | maximum relative to ground state | rotational barrier |
+
+本表来自 verifier-only `paper_route.md`，用于复现与诊断，不代表被评估 agent 原本可见，
+也不将其中的私有参考数值用于反向规划作业。
+
+## 4. 已实际提交的 Gaussian 作业
+
+- 作业数：8
+- 机械状态计数：`{'failed': 6, 'running': 2}`
+- 首个实际开始时间：`2026-08-29T16:02:23.632937+00:00`
+- 当前最后自然终止时间：`2026-08-29T18:36:33.888440+00:00`
+- 已提交作业是否全部 terminal：`False`
+
+| case | job_id | 状态 | started_at | finished_at | duration_s | walltime |
+|---|---|---|---|---|---:|---|
+| `1a_dihedral_scan_ordered2` | `job_570cb88a67a045218b6d08255b494a2c` | `failed` | 2026-08-29T18:35:46.078866+00:00 | 2026-08-29T18:36:33.888440+00:00 | 47.809678 | null（无界） |
+| `1a_dihedral_scan_ordered` | `job_7cd212a4611e4112bcfe06c6d95e19b8` | `failed` | 2026-08-29T18:21:14.616113+00:00 | 2026-08-29T18:21:57.190292+00:00 | 42.574229 | null（无界） |
+| `1a_dihedral_scan_plain_m06` | `job_04d78d6b1cac4c7db0c1e771cf78d1e7` | `running` | 2026-08-29T18:37:35.874340+00:00 |  |  | null（无界） |
+| `1a_dihedral_scan` | `job_76a032872c29493087cc495c47aa3899` | `failed` | 2026-08-29T17:19:09.206625+00:00 | 2026-08-29T17:19:44.757845+00:00 | 35.551247 | null（无界） |
+| `1a_syn_optfreq_retry1` | `job_0ee606e14dc442958de3443340182fe6` | `failed` | 2026-08-29T16:24:05.072161+00:00 | 2026-08-29T16:24:07.384720+00:00 | 2.312596 | null（无界） |
+| `1a_syn_optfreq_retry2` | `job_6b74279c9ebd4c1393cb73e0e219a975` | `failed` | 2026-08-29T16:30:25.839282+00:00 | 2026-08-29T16:30:39.749575+00:00 | 13.910327 | null（无界） |
+| `1a_syn_optfreq` | `job_836d4524e8e348d98bb4b49adebf146d` | `failed` | 2026-08-29T16:02:23.632937+00:00 | 2026-08-29T16:02:26.334633+00:00 | 2.701724 | null（无界） |
+| `coverage_1a_syn` | `job_fbdcfda302d0476a8dd4860c0cf8bffc` | `running` | 2026-08-29T17:04:01.081122+00:00 |  |  | null（无界） |
+
+所有表中正式 Gaussian 作业均应使用 `resource_limits.walltime_seconds: null`；作业成功
+只表示进程层证据，不能自动替代体系身份、连接性、优化、频率、TS/IRC、态跟踪或论文
+结论验证。原始输入、stdout/stderr、checkpoint、解析文件和哈希位于本论文的
+`artifacts/gaussian_batch/`、`native_workspace_batch/` 和 `provenance/`。
+
+## 5. 待完成的科学收口
+
+- 逐项核对正文/SI 事实、任务可见字段和工具可推导字段；
+- 等待正常运行作业自然终止，解析并确认任务匹配的科学收敛；
+- 对真实错误按结构、charge/multiplicity、route、资源和数值收敛顺序修复；
+- 补齐所有关键中间体、最终端点及适用的 TS/IRC/TD-DFT/NMR/热化学分析；
+- 最后填写完整实际耗时、双轴结论、schema-valid `report/results.json` 和所有产物 SHA-256。
+
+
+## 6. 先前追加的计算证据
+
+## 12. 通用 Gaussian 批计算证据（1a_syn_optfreq，job_836d4524e8e348d98bb4b49adebf146d）
+
+通过通用 group_1 native helper 提交 `job_836d4524e8e348d98bb4b49adebf146d`，输入和原始输出归档于 `artifacts/gaussian_batch/1a_syn_optfreq/`。该 helper 不含论文/答案常量，仅记录机械证据。
+
+- 状态：`failed`，return code `1`；Gaussian 正常终止：`False`；优化完成：`False`。
+- 作业开始：`2026-08-29T16:02:23.632937+00:00`；结束：`2026-08-29T16:02:26.334633+00:00`；监督器记录耗时：`2.701724` s；评估 walltime：`None`（无界：`True`）。
+- SCF 能量（最后一次）：`None` Eh；频率数：`0`；虚频数：`0`；最低频率：`None` cm⁻¹。
+- 激发态条目数：`0`；自旋湮灭诊断条目数：`0`。
+- Alpha HOMO/LUMO：`None` / `None` Eh，gap：`None` eV（若 stdout 提供 eigenvalue blocks）。
+- stdout SHA-256：`e0f1d6ced7ab648ee6270942181a60134ff24531a5698f3b23a73c3b38391661`。
+
+
+## 12. 通用 Gaussian 批计算证据（1a_dihedral_scan_ordered，job_7cd212a4611e4112bcfe06c6d95e19b8）
+
+通过通用 group_1 native helper 提交 `job_7cd212a4611e4112bcfe06c6d95e19b8`，输入和原始输出归档于 `artifacts/gaussian_batch/1a_dihedral_scan_ordered/`。该 helper 不含论文/答案常量，仅记录机械证据。
+
+- 状态：`failed`，return code `1`；Gaussian 正常终止：`False`；优化完成：`False`。
+- 作业开始：`2026-08-29T18:21:14.616113+00:00`；结束：`2026-08-29T18:21:57.190292+00:00`；监督器记录耗时：`42.574229` s；评估 walltime：`None`（无界：`True`）。
+- SCF 能量（最后一次）：`None` Eh；频率数：`0`；虚频数：`0`；最低频率：`None` cm⁻¹。
+- 激发态条目数：`0`；自旋湮灭诊断条目数：`0`。
+- Alpha HOMO/LUMO：`None` / `None` Eh，gap：`None` eV（若 stdout 提供 eigenvalue blocks）。
+- stdout SHA-256：`eff979aa4df570a4a9e553472752ede422ca4fd973d812da0db034e1720b819c`。
+
+
+## 12. 通用 Gaussian 批计算证据（1a_dihedral_scan，job_76a032872c29493087cc495c47aa3899）
+
+通过通用 group_1 native helper 提交 `job_76a032872c29493087cc495c47aa3899`，输入和原始输出归档于 `artifacts/gaussian_batch/1a_dihedral_scan/`。该 helper 不含论文/答案常量，仅记录机械证据。
+
+- 状态：`failed`，return code `1`；Gaussian 正常终止：`False`；优化完成：`False`。
+- 作业开始：`2026-08-29T17:19:09.206625+00:00`；结束：`2026-08-29T17:19:44.757845+00:00`；监督器记录耗时：`35.551247` s；评估 walltime：`None`（无界：`True`）。
+- SCF 能量（最后一次）：`None` Eh；频率数：`0`；虚频数：`0`；最低频率：`None` cm⁻¹。
+- 激发态条目数：`0`；自旋湮灭诊断条目数：`0`。
+- Alpha HOMO/LUMO：`None` / `None` Eh，gap：`None` eV（若 stdout 提供 eigenvalue blocks）。
+- stdout SHA-256：`31c90c6fa40363f4916ae17149355ba5d3318c3bb5e013619e8a1e04780c1e51`。
+
+
+## 12. 通用 Gaussian 批计算证据（1a_syn_optfreq_retry1，job_0ee606e14dc442958de3443340182fe6）
+
+通过通用 group_1 native helper 提交 `job_0ee606e14dc442958de3443340182fe6`，输入和原始输出归档于 `artifacts/gaussian_batch/1a_syn_optfreq_retry1/`。该 helper 不含论文/答案常量，仅记录机械证据。
+
+- 状态：`failed`，return code `1`；Gaussian 正常终止：`False`；优化完成：`False`。
+- 作业开始：`2026-08-29T16:24:05.072161+00:00`；结束：`2026-08-29T16:24:07.384720+00:00`；监督器记录耗时：`2.312596` s；评估 walltime：`None`（无界：`True`）。
+- SCF 能量（最后一次）：`None` Eh；频率数：`0`；虚频数：`0`；最低频率：`None` cm⁻¹。
+- 激发态条目数：`0`；自旋湮灭诊断条目数：`0`。
+- Alpha HOMO/LUMO：`None` / `None` Eh，gap：`None` eV（若 stdout 提供 eigenvalue blocks）。
+- stdout SHA-256：`902b55d432a872c436dc13d1445fc4ec9dd3008e8b48566ee7d664176046082c`。
+
+
+## 12. 通用 Gaussian 批计算证据（1a_syn_optfreq_retry2，job_6b74279c9ebd4c1393cb73e0e219a975）
+
+通过通用 group_1 native helper 提交 `job_6b74279c9ebd4c1393cb73e0e219a975`，输入和原始输出归档于 `artifacts/gaussian_batch/1a_syn_optfreq_retry2/`。该 helper 不含论文/答案常量，仅记录机械证据。
+
+- 状态：`failed`，return code `1`；Gaussian 正常终止：`False`；优化完成：`False`。
+- 作业开始：`2026-08-29T16:30:25.839282+00:00`；结束：`2026-08-29T16:30:39.749575+00:00`；监督器记录耗时：`13.910327` s；评估 walltime：`None`（无界：`True`）。
+- SCF 能量（最后一次）：`None` Eh；频率数：`0`；虚频数：`0`；最低频率：`None` cm⁻¹。
+- 激发态条目数：`0`；自旋湮灭诊断条目数：`0`。
+- Alpha HOMO/LUMO：`None` / `None` Eh，gap：`None` eV（若 stdout 提供 eigenvalue blocks）。
+- stdout SHA-256：`e395c997f3b6ed3e94f368eff43dcf242ce852458b3e84634dbf1b24d102d121`。
+
+
+## 12. 通用 Gaussian 批计算证据（1a_dihedral_scan_ordered2，job_570cb88a67a045218b6d08255b494a2c）
+
+通过通用 group_1 native helper 提交 `job_570cb88a67a045218b6d08255b494a2c`，输入和原始输出归档于 `artifacts/gaussian_batch/1a_dihedral_scan_ordered2/`。该 helper 不含论文/答案常量，仅记录机械证据。
+
+- 状态：`failed`，return code `1`；Gaussian 正常终止：`False`；优化完成：`False`。
+- 作业开始：`2026-08-29T18:35:46.078866+00:00`；结束：`2026-08-29T18:36:33.888440+00:00`；监督器记录耗时：`47.809678` s；评估 walltime：`None`（无界：`True`）。
+- SCF 能量（最后一次）：`None` Eh；频率数：`0`；虚频数：`0`；最低频率：`None` cm⁻¹。
+- 激发态条目数：`0`；自旋湮灭诊断条目数：`0`。
+- Alpha HOMO/LUMO：`None` / `None` Eh，gap：`None` eV（若 stdout 提供 eigenvalue blocks）。
+- stdout SHA-256：`d2c256a4731fbc76c0572ac37bd46a0bf614bf4462558b511a2b3b12837739ef`。
+
+## Native calculation ledger
+
+Snapshot: `2026-09-03T13:19:54Z`. This is an execution/provenance record, not a scientific PASS claim.
+
+| case | job_id | status | walltime | duration (s) |
+|---|---|---|---|---:|
+| `1a_dihedral_scan_ordered2__resource_retry` | `job_49db2c765294421bb98987ffb89f8ceb` | `failed` | unbounded (`null`) | 17.076 |
+| `1a_dihedral_scan_ordered2` | `job_570cb88a67a045218b6d08255b494a2c` | `failed` | unbounded (`null`) | 47.810 |
+| `1a_dihedral_scan_ordered__resource_retry` | `job_4035b9e2f6cf41d38005c4807b836470` | `failed` | unbounded (`null`) | 16.587 |
+| `1a_dihedral_scan_ordered` | `job_7cd212a4611e4112bcfe06c6d95e19b8` | `failed` | unbounded (`null`) | 42.574 |
+| `1a_dihedral_scan_plain_m06__segfault_retry1` | `job_c4bdf686c88e4b2c8fd18ea9110d597d` | `running` | unbounded (`null`) |  |
+| `1a_dihedral_scan_plain_m06` | `job_04d78d6b1cac4c7db0c1e771cf78d1e7` | `success` | unbounded (`null`) | 87525.432 |
+| `1a_dihedral_scan` | `job_76a032872c29493087cc495c47aa3899` | `failed` | unbounded (`null`) | 35.551 |
+| `1a_syn_optfreq_retry1__resource_retry` | `job_02a57dd3ccd7419fa0d450025b796953` | `failed` | unbounded (`null`) | 5.377 |
+| `1a_syn_optfreq_retry1` | `job_0ee606e14dc442958de3443340182fe6` | `failed` | unbounded (`null`) | 2.313 |
+| `1a_syn_optfreq_retry2__resource_retry` | `job_5f405f3f50104aef8f0b10cb12ab3f5a` | `failed` | unbounded (`null`) | 15.754 |
+| `1a_syn_optfreq_retry2` | `job_6b74279c9ebd4c1393cb73e0e219a975` | `failed` | unbounded (`null`) | 13.910 |
+| `1a_syn_optfreq` | `job_836d4524e8e348d98bb4b49adebf146d` | `failed` | unbounded (`null`) | 2.702 |
+| `coverage_1a_syn` | `job_fbdcfda302d0476a8dd4860c0cf8bffc` | `success` | unbounded (`null`) | 87753.920 |
+
+完整 input route、charge/multiplicity、资源、stdout/stderr、checkpoint、collection、SHA-256 和 submission/validation 路径见本论文 `provenance/calculation_record_index.json` 及对应的 `provenance/*_submission.json`、`provenance/*_validation.json`。本节不覆盖或替代上面的科学结论。
+
+## evaluator 范围审计（2026-09-04）
+
+本任务只要求公开 1a-syn 的受约束 F–C–C–I 旋转剖面、峰值相对 Gibbs 能和刚性解释，
+不要求复现论文中 evaluator 未使用的其他后续分析。`1a_dihedral_scan_plain_m06*` 虽有
+历史命名偏差，但已核对其 Gaussian 输入实际为 `M062X/GenECP`（C/F:
+6-311+G(d,p)，I: SDD）、`Opt=(Tight,MaxCycles=300,ModRedundant) Freq`、
+`SCRF=(SMD,Solvent=THF)`、中性 singlet，并定义了 69°→0° 的 F–C–C–I 约束扫描；
+因此它是 evaluator 的 **core** 作者路线计算，不是 plain-M06 诊断探针。正在运行的
+`...__segfault_retry1` 保留为核心重试，必须在正常终止后提取至少五个扫描态、相对 Gibbs
+峰值和限制说明，再逐条与 evaluator 对照。旧的 `M062X/GenECP EmpiricalDispersion=GD3BJ`
+扫描失败记录仍保留为历史失败证据，不能以 wrapper 状态替代科学闭环。
+
+## 2026-09-08 route repair
+
+失败日志确认 `EmpiricalDispersion=GD3BJ` 在本机 M062X 上触发 Link-301 的 S8 参数错误。
+正文/SI 明确为 M06-2X-D3，因此仅将阻尼关键字改为 Gaussian 的 `EmpiricalDispersion=GD3`
+（零阻尼 D3），保留 1a-syn 坐标、I-SDD、C/F 6-311+G(d,p)、SMD(THF)、193.15 K 目标和
+69°→0° ModRedundant 扫描。独立本地 SP/SCF MaxCycle=1 门测试未出现 S8 错误，但因有限
+25 s 诊断时限未完成收敛，故不视为验证通过。完整无界生产作业已提交至 CPU资源-2：
+`hpc-job-e1ab2f2c-ae1f-4349-8a3f-df8b1a90c1a3`（20 CPU/100 GiB，priority 3；提交时
+priority-6 RUNNING 已超过 2000 核）。待其正常终止后提取扫描剖面并与 evaluator 关键点对照。
+# 2026-09-10 target-dihedral audit
+
+The production scan was not evaluator-valid despite Gaussian normal termination. The explicit F–C–C–I indices in the input are (22,2,3,23), but the supplied 1a-syn XYZ measures 1.862°, and the ModRedundant scan `D 22 2 3 23 S 10 -17.814` traverses approximately 1.862° to −176.278°. This does not implement the evaluator-required 69°→0° profile. The scan is retained as provenance but is excluded from scientific qualification. A valid 69° starting conformer or corrected SI-supported atom mapping must be established before any local stability gate or HPC resubmission.
+# 2026-09-10 SI-coordinate repair gate
+
+The SI S-129 `1a-syn` block was recovered to `provenance/si_1a_syn_s129.xyz` and the local Gaussian route gate was rerun using that structure. The exact author route (M06-2X/GenECP, GD3, SMD(THF), neutral singlet) was accepted without the previous S8 route error; the short MaxCycle=1 gate timed out after 25.09 s, so it is only a route/startup stability result and not a converged scientific calculation. Production submission remains gated on recovering the Figure S52 atom definition and a converged local optimization/scan seed.
+# 2026-09-10 SI local optimization gate result
+
+The SI-coordinate short Cartesian optimization gate was run for 180.08 s with the corrected author route and did not complete an optimization (`timed_out=true`, `optimization_completed=false`). The route was accepted, but this is not a stable local production seed. No HPC submission was made. The SI structure remains the correct repair direction; the next attempt requires a numerical convergence strategy that does not alter the author model/solvent/basis protocol.
+
+## 2026-09-14 当前计算恢复审查
+
+- 资格：`PENDING_REAUDIT`；不是平台SUCCEEDED推导的结果。
+- 当前后续：已修 SI S129 自由供体、F27-C10-C13-I28 轴、GD3、193.15K；8点测试队列→高优6→Gibbs/profile与近最大值敏感性。
+- 新恢复队列：8项；活动HPC：0项；本地Gaussian：0项。计数为本条时间快照。
+- 原始日志索引和审查深度见 `provenance/current_recovery_review_20260914.json`。本次仅清单审查的论文不能宣称已经重新完成整条来源科学审计。
+
+### 本地稳定测试 1a_s129_gd3_193K_start_constrained_optfreq_20260914（2026-09-14）
+
+- 状态 `failed`；SCF 8 次、梯度 8 次；用时 1425.021 s。
+- 证据：`provenance/local_stage_tests_20260914/1a_s129_gd3_193K_start_constrained_optfreq_20260914/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### 本地稳定测试 1a_s129_gd3_193K_60deg_constrained_optfreq_20260914（2026-09-14）
+
+- 状态 `failed`；SCF 8 次、梯度 8 次；用时 1403.299 s。
+- 证据：`provenance/local_stage_tests_20260914/1a_s129_gd3_193K_60deg_constrained_optfreq_20260914/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### 本地稳定测试 1a_s129_gd3_193K_50deg_constrained_optfreq_20260914（2026-09-14）
+
+- 状态 `failed`；SCF 8 次、梯度 8 次；用时 1578.706 s。
+- 证据：`provenance/local_stage_tests_20260914/1a_s129_gd3_193K_50deg_constrained_optfreq_20260914/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### 本地稳定测试 1a_s129_gd3_193K_40deg_constrained_optfreq_20260914（2026-09-14）
+
+- 状态 `failed`；SCF 8 次、梯度 8 次；用时 1631.707 s。
+- 证据：`provenance/local_stage_tests_20260914/1a_s129_gd3_193K_40deg_constrained_optfreq_20260914/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### 本地稳定测试 1a_s129_gd3_193K_30deg_constrained_optfreq_20260914（2026-09-14）
+
+- 状态 `failed`；SCF 8 次、梯度 8 次；用时 1734.687 s。
+- 证据：`provenance/local_stage_tests_20260914/1a_s129_gd3_193K_30deg_constrained_optfreq_20260914/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### 本地稳定测试 1a_s129_gd3_193K_20deg_constrained_optfreq_20260914（2026-09-14）
+
+- 状态 `failed`；SCF 8 次、梯度 8 次；用时 1763.322 s。
+- 证据：`provenance/local_stage_tests_20260914/1a_s129_gd3_193K_20deg_constrained_optfreq_20260914/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### 本地稳定测试 1a_s129_gd3_193K_10deg_constrained_optfreq_20260914（2026-09-14）
+
+- 状态 `failed`；SCF 8 次、梯度 8 次；用时 1745.283 s。
+- 证据：`provenance/local_stage_tests_20260914/1a_s129_gd3_193K_10deg_constrained_optfreq_20260914/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### 本地稳定测试 1a_s129_gd3_193K_00deg_constrained_optfreq_20260914（2026-09-14）
+
+- 状态 `failed`；SCF 8 次、梯度 8 次；用时 1679.281 s。
+- 证据：`provenance/local_stage_tests_20260914/1a_s129_gd3_193K_00deg_constrained_optfreq_20260914/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### 稳定性误判修正：1a_s129_gd3_193K_start_constrained_optfreq_20260914（2026-09-15）
+
+已核原始日志：8 次完整梯度/优化步及显式步数上限退出。修正解析器对 link 9999 双行信息的误判，保留原始日志和旧判定于 `provenance/local_stage_tests_20260914/1a_s129_gd3_193K_start_constrained_optfreq_20260914/limit_parser_review_20260915.json`。仅认定本地运行稳定，尚未优化收敛，也不是科学 PASS；正式 Opt/Freq 输入不变，等待高优 6 提交。
+
+### 稳定性误判修正：1a_s129_gd3_193K_60deg_constrained_optfreq_20260914（2026-09-15）
+
+已核原始日志：8 次完整梯度/优化步及显式步数上限退出。修正解析器对 link 9999 双行信息的误判，保留原始日志和旧判定于 `provenance/local_stage_tests_20260914/1a_s129_gd3_193K_60deg_constrained_optfreq_20260914/limit_parser_review_20260915.json`。仅认定本地运行稳定，尚未优化收敛，也不是科学 PASS；正式 Opt/Freq 输入不变，等待高优 6 提交。
+
+### 稳定性误判修正：1a_s129_gd3_193K_50deg_constrained_optfreq_20260914（2026-09-15）
+
+已核原始日志：8 次完整梯度/优化步及显式步数上限退出。修正解析器对 link 9999 双行信息的误判，保留原始日志和旧判定于 `provenance/local_stage_tests_20260914/1a_s129_gd3_193K_50deg_constrained_optfreq_20260914/limit_parser_review_20260915.json`。仅认定本地运行稳定，尚未优化收敛，也不是科学 PASS；正式 Opt/Freq 输入不变，等待高优 6 提交。
+
+### 稳定性误判修正：1a_s129_gd3_193K_40deg_constrained_optfreq_20260914（2026-09-15）
+
+已核原始日志：8 次完整梯度/优化步及显式步数上限退出。修正解析器对 link 9999 双行信息的误判，保留原始日志和旧判定于 `provenance/local_stage_tests_20260914/1a_s129_gd3_193K_40deg_constrained_optfreq_20260914/limit_parser_review_20260915.json`。仅认定本地运行稳定，尚未优化收敛，也不是科学 PASS；正式 Opt/Freq 输入不变，等待高优 6 提交。
+
+### 稳定性误判修正：1a_s129_gd3_193K_30deg_constrained_optfreq_20260914（2026-09-15）
+
+已核原始日志：8 次完整梯度/优化步及显式步数上限退出。修正解析器对 link 9999 双行信息的误判，保留原始日志和旧判定于 `provenance/local_stage_tests_20260914/1a_s129_gd3_193K_30deg_constrained_optfreq_20260914/limit_parser_review_20260915.json`。仅认定本地运行稳定，尚未优化收敛，也不是科学 PASS；正式 Opt/Freq 输入不变，等待高优 6 提交。
+
+### 稳定性误判修正：1a_s129_gd3_193K_20deg_constrained_optfreq_20260914（2026-09-15）
+
+已核原始日志：8 次完整梯度/优化步及显式步数上限退出。修正解析器对 link 9999 双行信息的误判，保留原始日志和旧判定于 `provenance/local_stage_tests_20260914/1a_s129_gd3_193K_20deg_constrained_optfreq_20260914/limit_parser_review_20260915.json`。仅认定本地运行稳定，尚未优化收敛，也不是科学 PASS；正式 Opt/Freq 输入不变，等待高优 6 提交。
+
+### 稳定性误判修正：1a_s129_gd3_193K_10deg_constrained_optfreq_20260914（2026-09-15）
+
+已核原始日志：8 次完整梯度/优化步及显式步数上限退出。修正解析器对 link 9999 双行信息的误判，保留原始日志和旧判定于 `provenance/local_stage_tests_20260914/1a_s129_gd3_193K_10deg_constrained_optfreq_20260914/limit_parser_review_20260915.json`。仅认定本地运行稳定，尚未优化收敛，也不是科学 PASS；正式 Opt/Freq 输入不变，等待高优 6 提交。
+
+### 稳定性误判修正：1a_s129_gd3_193K_00deg_constrained_optfreq_20260914（2026-09-15）
+
+已核原始日志：8 次完整梯度/优化步及显式步数上限退出。修正解析器对 link 9999 双行信息的误判，保留原始日志和旧判定于 `provenance/local_stage_tests_20260914/1a_s129_gd3_193K_00deg_constrained_optfreq_20260914/limit_parser_review_20260915.json`。仅认定本地运行稳定，尚未优化收敛，也不是科学 PASS；正式 Opt/Freq 输入不变，等待高优 6 提交。
+
+### HPC 提交记录：1a_s129_gd3_193K_start_constrained_optfreq_20260914（2026-09-15T06:23:19.596200+00:00）
+
+- Job ID：`hpc-job-35cf9539-5e5f-4783-ad10-1a8d6332f97d`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_start_constrained_optfreq_20260914_hpc20_p6/input.com`；SHA-256 `432931bb3a2d092d62c2653a6106686b1c6d67a26e69a94f4b0322ed855182a0`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_start_constrained_optfreq_20260914_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_start_constrained_optfreq_20260914_hpc_priority6_submission.json`。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_60deg_constrained_optfreq_20260914（2026-09-15T06:23:22.667078+00:00）
+
+- Job ID：`hpc-job-f2eda582-99c3-42c5-8586-188fd4c4edec`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_60deg_constrained_optfreq_20260914_hpc20_p6/input.com`；SHA-256 `a1cd2ff89a56f6f96eb7088a51efc5b322df9683515544ce3cec30d677dd84e0`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_60deg_constrained_optfreq_20260914_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_60deg_constrained_optfreq_20260914_hpc_priority6_submission.json`。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_50deg_constrained_optfreq_20260914（2026-09-15T06:23:26.328236+00:00）
+
+- Job ID：`hpc-job-082bf8dc-2bd1-42f5-890f-52a6cc6d3185`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_50deg_constrained_optfreq_20260914_hpc20_p6/input.com`；SHA-256 `3a7ff7be6818655b0fa4e5ba232a775e9d3cab0576cfef142855b8d8ea0784dc`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_50deg_constrained_optfreq_20260914_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_50deg_constrained_optfreq_20260914_hpc_priority6_submission.json`。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_40deg_constrained_optfreq_20260914（2026-09-15T06:23:29.707583+00:00）
+
+- Job ID：`hpc-job-8b695fa1-7127-4a64-a98e-0f270a2fc953`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_40deg_constrained_optfreq_20260914_hpc20_p6/input.com`；SHA-256 `d2c4c4d643f0ede090ea6df47c91ac48b049e02a5f53127eb9ee394a4983016b`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_40deg_constrained_optfreq_20260914_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_40deg_constrained_optfreq_20260914_hpc_priority6_submission.json`。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_30deg_constrained_optfreq_20260914（2026-09-15T06:23:33.028034+00:00）
+
+- Job ID：`hpc-job-81c1b3e9-7a57-43e6-8c54-de8be25c26a2`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_30deg_constrained_optfreq_20260914_hpc20_p6/input.com`；SHA-256 `6f5cac7b8c3a5f732633c19e4ce93d033ef9ba7eaf8307afda1b18ddcd39e54c`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_30deg_constrained_optfreq_20260914_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_30deg_constrained_optfreq_20260914_hpc_priority6_submission.json`。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_20deg_constrained_optfreq_20260914（2026-09-15T06:23:36.160785+00:00）
+
+- Job ID：`hpc-job-2ff16fae-80de-494e-bd10-495c621f7b73`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_20deg_constrained_optfreq_20260914_hpc20_p6/input.com`；SHA-256 `311fe2cc88e40a0fe6cbb3b6722ed1b43622fcda40de4ce91c04944383c37b45`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_20deg_constrained_optfreq_20260914_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_20deg_constrained_optfreq_20260914_hpc_priority6_submission.json`。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_10deg_constrained_optfreq_20260914（2026-09-15T06:23:39.421527+00:00）
+
+- Job ID：`hpc-job-5dfe09f6-9d80-4fe3-b52d-c8c6316be5fc`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_10deg_constrained_optfreq_20260914_hpc20_p6/input.com`；SHA-256 `b553c773de41d0bdea7564038bbf23f6cbb48221373af55c347b3e912f59b102`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_10deg_constrained_optfreq_20260914_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_10deg_constrained_optfreq_20260914_hpc_priority6_submission.json`。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_00deg_constrained_optfreq_20260914（2026-09-15T06:23:42.769126+00:00）
+
+- Job ID：`hpc-job-86393ac5-6488-4bab-b896-43e858f04f39`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_00deg_constrained_optfreq_20260914_hpc20_p6/input.com`；SHA-256 `2f0f30fb313d69dde77099c4c958032f0b6d6fc2d9a912b307927b1e92182db9`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_00deg_constrained_optfreq_20260914_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_00deg_constrained_optfreq_20260914_hpc_priority6_submission.json`。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+## 2026-09-15 作业与下一步计算快照
+
+- 资格：`PENDING_REAUDIT`；HPC活动8项；已登记恢复case阶段：`{'HPC_RUNNING': 8}`。
+- 8个作者M062X-GD3/SMD(THF)/193.15K约束点已通过8步稳定门测并提交HPC，等待正常Opt/Freq后组装Gibbs扫描和最大值附近验证。
+
+14份门测中本论文8份被旧解析器误报失败：Gaussian在计划8步上限同时打印link9999 request和l9999.exe两行，原解析器只接受后一种。已保留旧manifest并按真实8SCF/8梯度日志重新核验为stable_iteration_probe，不是收敛或PASS。正式8项高优6 ID及输入哈希在本论文各submission记录。路线仍为SI自由供体1a-syn、F27-C10-C13-I28、M062X-GD3(非BJ)、SMDTHF、193.15K。
+
+逐case输入/输出/ID与审查深度见 `provenance/current_recovery_review_20260915.json`。待本地测试不称为已提交HPC；正常终止不自动等于论文资格通过。
+
+## 2026-09-16 完成扫描的真实结果
+
+[八点作者扫描与5°细化](SCAN_PROFILE_PROGRESS_20260916.md)；数值略超原容差，未升级资格。
+
+### 本地稳定测试 1a_s129_gd3_193K_05deg_refinement_optfreq_20260916（2026-09-14）
+
+- 状态 `stable_iteration_probe`；SCF 8 次、梯度 8 次；用时 2668.096 s。
+- 证据：`provenance/local_stage_tests_20260914/1a_s129_gd3_193K_05deg_refinement_optfreq_20260916/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_gd3_193K_05deg_refinement_optfreq_20260916（2026-09-16T11:43:09.061555+00:00）
+
+- Job ID：`hpc-job-72231ed5-dfd2-4589-bd5a-0933e7b0888f`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_05deg_refinement_optfreq_20260916_hpc20_p6/input.com`；SHA-256 `5fc2c885d54ed7ee502ee70ce2bf0a53a62650fdecbb08430bea19d4405ef1e3`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_05deg_refinement_optfreq_20260916_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_05deg_refinement_optfreq_20260916_hpc_priority6_submission.json`。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_sequential_gd3_193K_scan_optfreq_20260923（2026-09-23T13:20:36.737100+00:00）
+
+- Job ID：`hpc-job-0652baf4-cf11-4144-9d02-2ead9759912c`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_sequential_gd3_193K_scan_optfreq_20260923_hpc20_p6/input.com`；SHA-256 `68d5f180e48240ffa157b835e4fc6b7f042c02a23e5094f556d979441683d770`。
+- 输出：`hpc_runs/1a_s129_sequential_gd3_193K_scan_optfreq_20260923_hpc20_p6`；详情：`provenance/1a_s129_sequential_gd3_193K_scan_optfreq_20260923_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_sequential_gd3_193K_scan_optfreq_20260923（2026-09-23 UTC）
+
+- 状态 `stable_iteration_probe`；SCF 53 次、梯度 53 次；用时 8419.154 s。
+- 证据：`hpc_runs/1a_s129_sequential_gd3_193K_scan_optfreq_20260923_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_sequential_endpoint_freq_diskrepair_20260925（2026-09-25T02:43:29.763189+00:00）
+
+- Job ID：`hpc-job-904e1b89-5bc1-4acf-9e31-e16e72822d15`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_sequential_endpoint_freq_diskrepair_20260925_hpc20_p6/input.com`；SHA-256 `e1b4470996cac69ae42b11b6774ba71cdfc7bfb50c278e6fbac5c595a9ca21a0`。
+- 输出：`hpc_runs/1a_s129_sequential_endpoint_freq_diskrepair_20260925_hpc20_p6`；详情：`provenance/1a_s129_sequential_endpoint_freq_diskrepair_20260925_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_sequential_endpoint_freq_diskrepair_20260925（2026-09-25 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1580.178 s。
+- 证据：`hpc_runs/1a_s129_sequential_endpoint_freq_diskrepair_20260925_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_sequential_p02_freq_20260925（2026-09-25T03:29:01.712870+00:00）
+
+- Job ID：`hpc-job-4d672cc1-f135-4871-8c93-c82bc20c9004`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_sequential_p02_freq_20260925_hpc20_p6/input.com`；SHA-256 `cf9fb6886e72c518c03ebabf7265d03078aecacfad7cd6b1c1dee9b6311107ee`。
+- 输出：`hpc_runs/1a_s129_sequential_p02_freq_20260925_hpc20_p6`；详情：`provenance/1a_s129_sequential_p02_freq_20260925_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_sequential_p06_freq_20260925（2026-09-25T03:29:10.279563+00:00）
+
+- Job ID：`hpc-job-4ea23d2e-5ebb-4ed7-852d-7bb5ec651656`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_sequential_p06_freq_20260925_hpc20_p6/input.com`；SHA-256 `98d88ea327b9f6d80f9bac767c6e07679a4deb49c8fb569f3a198f1747ca9841`。
+- 输出：`hpc_runs/1a_s129_sequential_p06_freq_20260925_hpc20_p6`；详情：`provenance/1a_s129_sequential_p06_freq_20260925_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_sequential_p10_freq_20260925（2026-09-25T03:29:18.846189+00:00）
+
+- Job ID：`hpc-job-507f1a2c-e6df-4f9f-ad69-10b3cc499dcd`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_sequential_p10_freq_20260925_hpc20_p6/input.com`；SHA-256 `233e4c2caf94427f1c103a453790155c8fdfb4bdba47cb5cd8689aa37ee1ab14`。
+- 输出：`hpc_runs/1a_s129_sequential_p10_freq_20260925_hpc20_p6`；详情：`provenance/1a_s129_sequential_p10_freq_20260925_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_sequential_p13_freq_20260925（2026-09-25T03:29:27.385664+00:00）
+
+- Job ID：`hpc-job-96f0de86-267c-4a29-8a16-b44bf865e2c8`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_sequential_p13_freq_20260925_hpc20_p6/input.com`；SHA-256 `92ac909770ddd4ff92d8021f4454707b664ee39a70c7ef6de407156d1e00ca1d`。
+- 输出：`hpc_runs/1a_s129_sequential_p13_freq_20260925_hpc20_p6`；详情：`provenance/1a_s129_sequential_p13_freq_20260925_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_sequential_p06_freq_20260925（2026-09-25 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1564.019 s。
+- 证据：`hpc_runs/1a_s129_sequential_p06_freq_20260925_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_sequential_p02_freq_20260925（2026-09-25 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1600.781 s。
+- 证据：`hpc_runs/1a_s129_sequential_p02_freq_20260925_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_sequential_p10_freq_20260925（2026-09-25 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1568.023 s。
+- 证据：`hpc_runs/1a_s129_sequential_p10_freq_20260925_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_sequential_p13_freq_20260925（2026-09-25 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1811.695 s。
+- 证据：`hpc_runs/1a_s129_sequential_p13_freq_20260925_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+
+2026-09-25：[连续受限剖面严格收尾](CONTINUOUS_PROFILE_STRICT_CLOSURE_20260925.md)，原有限扫描任务QUALIFIED；边缘数值/热化学敏感性明确披露。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd_syn_sp_20260927（2026-09-27T07:01:20.941982+00:00）
+
+- Job ID：`hpc-job-9056b71c-8b54-4671-80a0-4eb3c10d71b5`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd_syn_sp_20260927_hpc20_p6/input.com`；SHA-256 `e638f50b983eef342efd9fb2aa8090f3c4d71173b861f0fe0027abc6a879cadc`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd_syn_sp_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd_syn_sp_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_syn_sp_20260927（2026-09-27T07:01:30.693486+00:00）
+
+- Job ID：`hpc-job-cd3978ad-1e73-4879-a8f2-2353aaf83d26`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_syn_sp_20260927_hpc20_p6/input.com`；SHA-256 `42367c2d73ed0ab689d2f9728c29d6badc80fc91e044bc154f5598eb72e52462`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_syn_sp_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_syn_sp_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd_zero_sp_20260927（2026-09-27T07:01:40.275764+00:00）
+
+- Job ID：`hpc-job-bf2320e0-8894-4356-af48-72f18047f0b2`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd_zero_sp_20260927_hpc20_p6/input.com`；SHA-256 `820dac490acd13975cfbd63dc058ee7716ad01db4b1b1dec37d8983e63427503`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd_zero_sp_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd_zero_sp_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_zero_sp_20260927（2026-09-27T07:01:50.156034+00:00）
+
+- Job ID：`hpc-job-34127cf9-ab5b-4609-a359-01782bcbe767`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_zero_sp_20260927_hpc20_p6/input.com`；SHA-256 `1e08d6de42edfec0fc7331322db503f9907e4e3fdd037ef410e07b0c5a8f3e53`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_zero_sp_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_zero_sp_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_si_syn_sp_20260927（2026-09-27T07:01:59.859783+00:00）
+
+- Job ID：`hpc-job-243973a5-a439-4f60-b8ed-fab267b406d4`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_si_syn_sp_20260927_hpc20_p6/input.com`；SHA-256 `4de47c8967d47e918fe232a6a1debe0374de7263eea2d0e671d7872de3534409`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_si_syn_sp_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_si_syn_sp_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_syn_sp_20260927（2026-09-27 UTC）
+
+- 状态 `failed`；SCF 0 次、梯度 0 次；用时 0.634 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_syn_sp_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_zero_sp_20260927（2026-09-27 UTC）
+
+- 状态 `failed`；SCF 0 次、梯度 0 次；用时 0.81 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_zero_sp_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_si_syn_sp_20260927（2026-09-27 UTC）
+
+- 状态 `failed`；SCF 0 次、梯度 0 次；用时 0.531 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_si_syn_sp_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_syn_sp_pcmfix1_20260927（2026-09-27T07:07:17.913603+00:00）
+
+- Job ID：`hpc-job-6bc7dcc1-251c-4100-9462-5fccd213c4d9`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_syn_sp_pcmfix1_20260927_hpc20_p6/input.com`；SHA-256 `7effaf45d342582050f6468b86ffc45b629b5ebbc61a18109b5d0a5c0dc5e66f`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_syn_sp_pcmfix1_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_syn_sp_pcmfix1_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_zero_sp_pcmfix1_20260927（2026-09-27T07:07:27.802589+00:00）
+
+- Job ID：`hpc-job-1e5d8777-d41d-489b-8304-8b5d7791b39c`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_zero_sp_pcmfix1_20260927_hpc20_p6/input.com`；SHA-256 `1691844a25bf359c53252cd4c8eca0ba25ef733e210e64bd4edfe454e19df954`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_zero_sp_pcmfix1_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_zero_sp_pcmfix1_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_si_syn_sp_pcmfix1_20260927（2026-09-27T07:07:37.590537+00:00）
+
+- Job ID：`hpc-job-f784c577-0997-45a9-9dbf-10dcddf20d41`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_si_syn_sp_pcmfix1_20260927_hpc20_p6/input.com`；SHA-256 `6d6dd49b96a99dc47efbc9c94f558371fca28e801446b5bf5f1ef752becc1be2`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_si_syn_sp_pcmfix1_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_si_syn_sp_pcmfix1_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd_syn_sp_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 0 次；用时 123.578 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd_syn_sp_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd_zero_sp_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 0 次；用时 124.088 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd_zero_sp_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_syn_sp_pcmfix1_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 0 次；用时 118.105 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_syn_sp_pcmfix1_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_si_syn_sp_pcmfix1_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 0 次；用时 124.314 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_si_syn_sp_pcmfix1_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_zero_sp_pcmfix1_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 0 次；用时 159.151 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_zero_sp_pcmfix1_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_start_optfreq_20260927（2026-09-27T07:16:24.161769+00:00）
+
+- Job ID：`hpc-job-c016ecdd-685d-4938-9d7d-b19708ded57f`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_start_optfreq_20260927_hpc20_p6/input.com`；SHA-256 `12e1ce3d64cffabd3471b2709bdc27a44b341e64b46d437ef258f489bb0baabb`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_start_optfreq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_start_optfreq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_zero_control_optfreq_20260927（2026-09-27T07:16:34.114575+00:00）
+
+- Job ID：`hpc-job-aead688b-953f-416b-ae81-b18a927e860e`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_zero_control_optfreq_20260927_hpc20_p6/input.com`；SHA-256 `add0a5a9580c237c34d4e8b42498efd3e0de79cb7733a8173c4bdabe90a08540`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_zero_control_optfreq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_zero_control_optfreq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_start_optfreq_20260927（2026-09-27 UTC）
+
+- 状态 `stable_iteration_probe`；SCF 8 次、梯度 8 次；用时 763.363 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_start_optfreq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_scan60to0_20260927（2026-09-27T07:57:58.376319+00:00）
+
+- Job ID：`hpc-job-60bbf0e7-6113-4718-9d69-b2b3c81220d5`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_scan60to0_20260927_hpc20_p6/input.com`；SHA-256 `856bd4950ed9f084407b2fe3270f014a966a0d45c657a52c1f8668b82782d2e9`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_scan60to0_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_scan60to0_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_zero_control_optfreq_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 6 次、梯度 6 次；用时 3707.481 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_zero_control_optfreq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_scanp00_freq_20260927（2026-09-27T09:02:42.772648+00:00）
+
+- Job ID：`hpc-job-87b099b8-007a-4695-a2de-58e913125778`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_scanp00_freq_20260927_hpc20_p6/input.com`；SHA-256 `f316f49deb811cac441d6e6ffbe4c18f247eddeebd44aa5e953f30fc118d4950`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_scanp00_freq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_scanp00_freq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_scanp01_freq_20260927（2026-09-27T09:11:35.893047+00:00）
+
+- Job ID：`hpc-job-0932ba83-0118-4ed0-a8f6-04a6f6fec8e8`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_scanp01_freq_20260927_hpc20_p6/input.com`；SHA-256 `ea45f15a6cff5aea0aa83fa4153789633f4d2375c238ea25b52f24828d72c0be`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_scanp01_freq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_scanp01_freq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_scan60to0_20260927（2026-09-27 UTC）
+
+- 状态 `stable_iteration_probe`；SCF 20 次、梯度 20 次；用时 5304.533 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_scan60to0_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_scanp00_freq_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1954.806 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_scanp00_freq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_scanp01_freq_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1686.737 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_scanp01_freq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_scanp02_freq_20260927（2026-09-27T11:05:58.255031+00:00）
+
+- Job ID：`hpc-job-7d75ab04-ff19-45ea-b6a7-518c4a044f57`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_scanp02_freq_20260927_hpc20_p6/input.com`；SHA-256 `cfaeaf6b147f39f7dfa28baa0a3fa9d5f9241a659443123b4cf96194ea99663e`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_scanp02_freq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_scanp02_freq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_zero_altpucker_optfreq_20260927（2026-09-27T11:24:06.549960+00:00）
+
+- Job ID：`hpc-job-6a28220f-9636-4809-aadb-13796f30be13`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_zero_altpucker_optfreq_20260927_hpc20_p6/input.com`；SHA-256 `67bc4f4d73608ab41c6a40c77954b8912aeb3d1db6b2851df0e3f6142912afdf`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_zero_altpucker_optfreq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_zero_altpucker_optfreq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_scanp02_freq_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1631.493 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_scanp02_freq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_scanp03_freq_20260927（2026-09-27T11:38:46.234178+00:00）
+
+- Job ID：`hpc-job-d7dfdb97-bb8e-48b0-9274-9afbd5d487af`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_scanp03_freq_20260927_hpc20_p6/input.com`；SHA-256 `c08f256e8217f0dd730ea37918b1b6a6c730b58e2b73dd75384a1694ab38e493`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_scanp03_freq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_scanp03_freq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_scanp04_freq_20260927（2026-09-27T12:11:38.694804+00:00）
+
+- Job ID：`hpc-job-b7e2dbfa-f055-4d44-84d1-150a70e6e323`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_scanp04_freq_20260927_hpc20_p6/input.com`；SHA-256 `42e8011e5f6ab2ef56a6c10c19744a3e965fb5619c7ed07fd79b259670324240`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_scanp04_freq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_scanp04_freq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_zero_altpucker_optfreq_20260927（2026-09-27 UTC）
+
+- 状态 `stable_iteration_probe`；SCF 8 次、梯度 8 次；用时 2650.396 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_zero_altpucker_optfreq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_scanp03_freq_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1872.644 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_scanp03_freq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_scanp05_freq_20260927（2026-09-27T12:33:41.886516+00:00）
+
+- Job ID：`hpc-job-bf20527b-0fbc-4ef7-9213-df1947299e5c`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_scanp05_freq_20260927_hpc20_p6/input.com`；SHA-256 `0a1129f5a84e422e8e9b7218bbc3c6f6754d1b88ebc3f21fd555a4b1fd02f877`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_scanp05_freq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_scanp05_freq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_scanp04_freq_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1569.054 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_scanp04_freq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC 提交记录：1a_s129_gd3_193K_smd18_scanp06_freq_20260927（2026-09-27T12:55:46.672999+00:00）
+
+- Job ID：`hpc-job-43f7e704-5ac2-4391-a365-4f0454edaf10`；CPU资源-2，高优 `6`，20 CPU / 100 GiB；无 walltime。
+- 科学输入：`hpc_runs/1a_s129_gd3_193K_smd18_scanp06_freq_20260927_hpc20_p6/input.com`；SHA-256 `4d3e06427044b25fb5962a4ceea0b99be702e84437b751817a35eeafd0d65f76`。
+- 输出：`hpc_runs/1a_s129_gd3_193K_smd18_scanp06_freq_20260927_hpc20_p6`；详情：`provenance/1a_s129_gd3_193K_smd18_scanp06_freq_20260927_hpc_priority6_submission.json`。
+- 稳定性检查位置：本次HPC作业内；通过后接续生产，失败返回非零。
+- 本条只表示提交成功；必须再核 Gaussian 终止、科学端点及 evaluator，不能视为资格通过。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_scanp05_freq_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 1928.829 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_scanp05_freq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。
+
+### HPC稳定测试 1a_s129_gd3_193K_smd18_scanp06_freq_20260927（2026-09-27 UTC）
+
+- 状态 `complete`；SCF 1 次、梯度 1 次；用时 2230.952 s。
+- 证据：`hpc_runs/1a_s129_gd3_193K_smd18_scanp06_freq_20260927_hpc20_p6/stability_test/stability.json`。这是运行稳定性记录，不是资格 PASS。

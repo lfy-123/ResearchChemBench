@@ -1,0 +1,340 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "systems",
+      "observables",
+      "comparisons",
+      "methods",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "enum": [
+          "completed",
+          "partial",
+          "unresolved"
+        ],
+        "description": "Completion describes an executed, evidence-backed answer to the scoped question. An investigation with no models, operations, results or evidence is incomplete. Completion does not imply agreement with an expected mechanism or scientific full credit."
+      },
+      "systems": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "identity",
+            "structure",
+            "charge",
+            "multiplicity"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "identity": {
+              "type": "string"
+            },
+            "structure": {
+              "type": "string"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "atom_mapping": {
+              "type": "string"
+            },
+            "composition": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object"
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "artifact",
+                  "description"
+                ],
+                "properties": {
+                  "artifact": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "observables": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "quantity",
+            "object_ids",
+            "definition",
+            "status",
+            "evidence"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "string"
+            },
+            "object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "definition": {
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "computed",
+                "partial",
+                "unresolved"
+              ]
+            },
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "unit": {
+              "type": "string"
+            },
+            "reference_state": {
+              "type": "string"
+            },
+            "temperature_K": {
+              "type": "number"
+            },
+            "stoichiometry": {
+              "type": "string"
+            },
+            "uncertainty": {
+              "type": "string"
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "artifact",
+                  "description"
+                ],
+                "properties": {
+                  "artifact": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "limitations": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "computed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "value",
+                  "unit",
+                  "reference_state"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "evidence": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "comparisons": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "question",
+            "object_ids",
+            "observable_ids",
+            "finding"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "question": {
+              "type": "string"
+            },
+            "object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "observable_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "finding": {
+              "type": "string"
+            },
+            "limitations": {
+              "type": "string"
+            },
+            "statistical_convention": {
+              "type": "string"
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "artifact",
+                  "description"
+                ],
+                "properties": {
+                  "artifact": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "methods": {
+        "type": "object"
+      },
+      "conclusion": {
+        "type": "object",
+        "required": [
+          "answer",
+          "observable_ids"
+        ],
+        "properties": {
+          "answer": {
+            "type": "string"
+          },
+          "observable_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "investigation_record": {
+        "type": "string"
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "completed"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "systems": {
+              "minItems": 1
+            },
+            "methods": {
+              "minProperties": 1
+            },
+            "observables": {
+              "minItems": 1,
+              "contains": {
+                "required": [
+                  "status",
+                  "object_ids",
+                  "evidence"
+                ],
+                "properties": {
+                  "status": {
+                    "const": "computed"
+                  },
+                  "object_ids": {
+                    "minItems": 1
+                  },
+                  "evidence": {
+                    "minItems": 1
+                  }
+                }
+              }
+            },
+            "conclusion": {
+              "properties": {
+                "answer": {
+                  "minLength": 1
+                },
+                "observable_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

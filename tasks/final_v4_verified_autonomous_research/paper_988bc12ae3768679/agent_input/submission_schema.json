@@ -1,0 +1,784 @@
+{
+  "contract_version": "open-research.batch5.v2",
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_988bc12ae3768679"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "research_question": {
+        "type": "string",
+        "minLength": 1
+      },
+      "objects": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "identity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "formula_or_composition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "multiplicity": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "electronic_state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "conditions": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "changes_and_atom_mapping": {
+              "type": "string",
+              "minLength": 1
+            },
+            "structure_artifact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "id",
+            "identity",
+            "formula_or_composition",
+            "charge",
+            "multiplicity",
+            "electronic_state",
+            "conditions",
+            "source_object_ids",
+            "changes_and_atom_mapping",
+            "structure_artifact_ids"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "methods": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "software_version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "approximations": {
+              "type": "string",
+              "minLength": 1
+            },
+            "applicability": {
+              "type": "string",
+              "minLength": 1
+            },
+            "numerical_settings": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "description",
+            "software_version",
+            "approximations",
+            "applicability",
+            "numerical_settings"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "enum": [
+                "proposed",
+                "revised",
+                "retained",
+                "rejected",
+                "withdrawn",
+                "unresolved"
+              ]
+            },
+            "record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "assessment": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "proposition",
+            "status",
+            "record_ids",
+            "assessment"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "decisions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "stage": {
+              "enum": [
+                "initial_design",
+                "analysis",
+                "revision",
+                "stopping"
+              ]
+            },
+            "purpose_or_prediction": {
+              "type": "string",
+              "minLength": 1
+            },
+            "available_evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "action_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "observed_outcome": {
+              "type": "string",
+              "minLength": 1
+            },
+            "next_decision": {
+              "type": "string",
+              "minLength": 1
+            },
+            "trace_locator": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "stage",
+            "purpose_or_prediction",
+            "available_evidence_ids",
+            "action_record_ids",
+            "observed_outcome",
+            "next_decision",
+            "trace_locator"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "method_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "purpose": {
+              "type": "string",
+              "minLength": 1
+            },
+            "outcome": {
+              "enum": [
+                "completed",
+                "failed",
+                "collapsed",
+                "inconclusive"
+              ]
+            },
+            "validation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "artifact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "limitations": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "object_ids",
+            "method_id",
+            "purpose",
+            "outcome",
+            "validation",
+            "artifact_ids",
+            "limitations"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "quantities": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "definition_and_reference": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uncertainty": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "unit": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "value",
+                "unit",
+                "basis"
+              ],
+              "additionalProperties": false
+            },
+            "artifact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "interpretation": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "object_ids",
+            "record_ids",
+            "value",
+            "unit",
+            "definition_and_reference",
+            "uncertainty",
+            "artifact_ids",
+            "interpretation"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "claims": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "statement": {
+              "type": "string",
+              "minLength": 1
+            },
+            "assessment": {
+              "enum": [
+                "supported",
+                "refuted",
+                "unresolved",
+                "withdrawn"
+              ]
+            },
+            "object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "quantity_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "artifact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "validity_requirements": {
+              "type": "string",
+              "minLength": 1
+            },
+            "limits": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "statement",
+            "assessment",
+            "object_ids",
+            "quantity_ids",
+            "record_ids",
+            "artifact_ids",
+            "validity_requirements",
+            "limits"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "artifacts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|data|code)/(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)[^\\\\\\x00]+$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "kind": {
+              "enum": [
+                "native_input",
+                "native_output",
+                "structure",
+                "data",
+                "analysis_code",
+                "analysis_output",
+                "diagnostic",
+                "other"
+              ]
+            },
+            "origin": {
+              "enum": [
+                "new_calculation",
+                "public_measurement",
+                "derived_analysis",
+                "failed_attempt",
+                "external_reference"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "path",
+            "sha256",
+            "kind",
+            "origin",
+            "description"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assessment": {
+            "enum": [
+              "supported",
+              "refuted",
+              "unresolved",
+              "partial",
+              "failed"
+            ]
+          },
+          "claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "remaining_questions": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "answer",
+          "assessment",
+          "claim_ids",
+          "scope",
+          "remaining_questions"
+        ],
+        "additionalProperties": false
+      },
+      "resources": {
+        "type": "object",
+        "properties": {
+          "engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_seconds": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "allocated_core_hours": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "engine_starts",
+          "wall_seconds",
+          "allocated_core_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 0
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "missing_inputs_or_failed_steps": {
+            "type": "string",
+            "minLength": 1
+          },
+          "attempt_record_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "release_condition": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "missing_inputs_or_failed_steps",
+          "attempt_record_ids",
+          "evidence_ids",
+          "release_condition"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "research_question",
+      "objects",
+      "methods",
+      "hypotheses",
+      "decisions",
+      "calculation_records",
+      "quantities",
+      "claims",
+      "artifacts",
+      "conclusion",
+      "resources",
+      "limitations"
+    ],
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "objects": {
+              "minItems": 1
+            },
+            "methods": {
+              "minItems": 1
+            },
+            "calculation_records": {
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "outcome": {
+                    "const": "completed"
+                  }
+                },
+                "required": [
+                  "outcome"
+                ]
+              }
+            },
+            "quantities": {
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            },
+            "claims": {
+              "minItems": 1,
+              "items": {
+                "properties": {
+                  "artifact_ids": {
+                    "minItems": 1
+                  },
+                  "record_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            },
+            "artifacts": {
+              "minItems": 1
+            },
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "unresolved"
+                  ]
+                },
+                "claim_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        },
+        "else": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "enum": [
+                    "partial",
+                    "failed",
+                    "unresolved"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "validation_boundary": "Schema validates reporting shape only. Scientific evidence, references, artifact hashes, scope and claims are evaluated separately. A truthful partial or failure submission is admissible, not scientific completion."
+}

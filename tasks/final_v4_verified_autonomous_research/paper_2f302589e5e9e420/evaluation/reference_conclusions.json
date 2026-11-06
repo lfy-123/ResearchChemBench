@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "items": [
+    {
+      "conclusion_id": "polarity_effect",
+      "statement": "Sign, magnitude and scope of the molecular polarity effect",
+      "expected": "For full neutral-singlet EPI1/EPI2, quantify the sign and magnitude of the permanent-polarity difference for a declared matched molecular comparison, with units and numerical/conformational resolution. Individual-structure results use full vector magnitudes; population results use justified weights at a common temperature/environment and distinguish mean magnitude from mean squared moment. A source-like pair can show a decrease, whereas an explicitly bounded sampled population can show an increase; either passes when the actual calculation establishes that physical result and its limits. A zero isotropic laboratory-frame vector average, unmatched structures/conditions, or an unsupported sign fails. No private source-conformer value or prescribed sampling count is required in AR.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_polarity",
+        "si_geometry",
+        "native_dipole_audit",
+        "native_bounded_population"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_polarity_effect"
+      ]
+    },
+    {
+      "conclusion_id": "molecular_mechanism",
+      "statement": "Physical origin and scope of the substitution effect",
+      "expected": "Explain the physical origin and configuration dependence of the computed substitution effect using actual molecular structure and electronic/vector evidence. The source-compatible explanation associates an OH···ortho-OMe interaction and local electrostatic redistribution with vector cancellation and reduced net dipole; these are supporting evidence, not independently mandatory author nodes. A different well-supported structural/electronic explanation of the measured computational effect passes directly, including a bounded ensemble reversal. Mere polar-group counting, an imposed contact, relabeling ESP as electron density, or listing signs without explaining the physical relation fails. Do not assert universal occupancy or unique causation from one pair.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_polarity",
+        "si_geometry",
+        "native_dipole_audit",
+        "native_bounded_population"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_molecular_mechanism"
+      ]
+    },
+    {
+      "conclusion_id": "dielectric_relevance",
+      "statement": "Molecular contribution to interpretation of bulk dielectric behavior",
+      "expected": "Use the computed orientation-invariant permanent-moment response to decide whether this molecular comparison supports, opposes or cannot establish a reduced orientational-polarization contribution under otherwise matched temperature/density conditions. Connect the response to the relevant squared moment or fluctuation statistic. Explain the resulting compatibility or tension with the supplied bulk dielectric observation, including the specific unresolved role of population/network correlations and frequency response. A source-compatible decrease is supportive, not a quantitative resin dielectric constant; a supported population increase limits that source generalization. Repeating the observed lower dielectric constant or a generic disclaimer fails.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_polarity",
+        "main_context",
+        "native_dipole_audit",
+        "native_bounded_population"
+      ],
+      "supporting_key_point_ids": [
+        "evidence_dielectric_relevance"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "scoring_revision": "conclusion_only_20261029",
+  "scientific_scope_changed": false,
+  "scope_note": "The same public scientific questions, inputs, identities and conditions are retained. Final propositions and their evidential boundaries are clarified without extending scope.",
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1：3–5结构—还原关系",
+      "rule_id": "r_series_3_5",
+      "conclusion_id": "series_3_5",
+      "weight": 25,
+      "independence": "限定非羟基子系列关系，不重复评价羟基外推或分子原因。",
+      "source_location": "相关论文位置：正文 PDF 第 2 页方法、第 7 页 Table 4、第 10 页 Table 6、第 12–15 页电子解释与 Fig. 13/14；SI 第 1–3 页化学身份、第 24–27 页坐标。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_09c8aaf14b70371f/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p7_14",
+        "supplementary_001_p1_2_3_4"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "existing_support_or_gap": "Existing neutral calculations cover the comparison; source absolute scalar attribution is not certified.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果2：含羟基1/2适用性",
+      "rule_id": "r_hydroxy_departure",
+      "conclusion_id": "hydroxy_departure",
+      "weight": 20,
+      "independence": "检验关系在新增成员的适用域，3–5正确不保证此项正确。",
+      "source_location": "相关论文位置：正文 PDF 第 2 页方法、第 7 页 Table 4、第 10 页 Table 6、第 12–15 页电子解释与 Fig. 13/14；SI 第 1–3 页化学身份、第 24–27 页坐标。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_09c8aaf14b70371f/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p7_10_14"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "existing_support_or_gap": "Existing neutral-LUMO calculations support departure for that descriptor; they do not test or exclude a different independently established descriptor. Exact source conformer/scalar attribution remains uncertified.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果3：全五分子ACN/DMSO尺度",
+      "rule_id": "r_acn_dmso",
+      "conclusion_id": "acn_dmso",
+      "weight": 15,
+      "independence": "同分子在两相近介质的比较，与跨分子及DCM对照不同。",
+      "source_location": "相关论文位置：正文 PDF 第 2 页方法、第 7 页 Table 4、第 10 页 Table 6、第 12–15 页电子解释与 Fig. 13/14；SI 第 1–3 页化学身份、第 24–27 页坐标。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_09c8aaf14b70371f/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p7_12"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "existing_support_or_gap": "Existing neutral calculations cover the comparison; source absolute scalar attribution is not certified.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果3：3的DCM对照",
+      "rule_id": "r_dcm_comparison",
+      "conclusion_id": "dcm_comparison",
+      "weight": 10,
+      "independence": "单独的较低极性介质比较，不以ACN/DMSO小差自动推出。",
+      "source_location": "相关论文位置：正文 PDF 第 2 页方法、第 7 页 Table 4、第 10 页 Table 6、第 12–15 页电子解释与 Fig. 13/14；SI 第 1–3 页化学身份、第 24–27 页坐标。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_09c8aaf14b70371f/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p14"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "existing_support_or_gap": "Existing neutral calculations cover the comparison; source absolute scalar attribution is not certified.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果4：分子解释及边界",
+      "rule_id": "r_bounded_relationship",
+      "conclusion_id": "bounded_relationship",
+      "weight": 30,
+      "independence": "解释计算关系的物理原因，不能重复比较方向得分。",
+      "source_location": "相关论文位置：正文 PDF 第 2 页方法、第 7 页 Table 4、第 10 页 Table 6、第 12–15 页电子解释与 Fig. 13/14；SI 第 1–3 页化学身份、第 24–27 页坐标。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_09c8aaf14b70371f/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p12_13_14_15"
+      ],
+      "native_reference": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+      "existing_support_or_gap": "Descriptor-based interpretation supported; unique microscopic cause of peak potentials remains unresolved.",
+      "historical_status_promoted": false
+    }
+  ],
+  "task_input_changes": [],
+  "new_computation": false,
+  "record_role": "Historical dated record; superseded for current scope and scoring by expert_round1_20261103. See round1_review.json and scoring_rules.json.",
+  "superseded_by": "expert_round1_20261103"
+}

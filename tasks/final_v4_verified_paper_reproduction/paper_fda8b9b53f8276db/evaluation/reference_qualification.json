@@ -1,0 +1,185 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "scoring_policy": "paper_science_v3",
+  "status": "V3_EVIDENCE_REUSE_REVIEW_NO_NEW_COMPUTATION",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "physical_definition": "Free quinoxaline ligand 1 only: neutral singlet C15H13N3, 31 atoms, isolated gas-phase molecule. The cis-oriented local basin and experimentally trans-oriented CCDC2433822 crystal are distinct physical descriptions; neither the source nor a recreated cis basin establishes the global gas-phase minimum. Map the six bonds through supplied CIF/graph identities and resolve the disclosed legacy C12H12N2O acquisition metadata using refined atom identities and formula_sum/moiety. Methods qualify through the intact graph, corresponding local cis basin, stationary-state evidence and mapped geometric observable, not a functional/basis/program name. No Re, Cl or CO complex is in this scope.",
+  "retained_scientific_limitations": "CIF legacy formula and source angle/label conflicts remain disclosed. Crystal ESD is not a universal DFT tolerance. Both computed cis and trans are local gas-phase basins; verification trans lies lower, so no global cis winner is claimed. No lattice free energy, crystal population, exclusive lattice causality, Re-complex or biological conclusion follows.",
+  "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+  "coordinator_review": {
+    "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+    "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+    "review_key": "v2_paper_fda8b9b53f8276db",
+    "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+    "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+    "publication_readiness_unchanged": true
+  },
+  "repair_round3": {
+    "date": "2026-10-19",
+    "scope": "Scoring-contract repair and read-only scientific re-audit; no new chemical verification.",
+    "acceptance_status_unchanged": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+    "source_method_provenance": "Main physical p4 and SI10–15: source free-ligand cis local structure uses B3LYP/6-311+G(2d,p). Historical cis/trans local basins and lower trans remain unchanged. Source code/method is not a semantic eligibility gate.",
+    "method_eligibility": "Use the concrete object/state/observable equivalence criteria in current rules, not a source software switch. Numeric reference values/tolerances are unchanged; method uncertainty beyond these preliminary windows remains a calibration limit.",
+    "dependency_policy": "Relevant key-point links are evidence references, not a demand to pass all numeric windows or unrelated ligand branches.",
+    "changes": [
+      "Removed method implementation from mandatory physical definitions.",
+      "Synchronized independent scientific leaves and evidence references.",
+      "Replaced only obsolete public scoring prose where present."
+    ]
+  },
+  "historical_acceptance_status": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+  "evaluation_mode": "final_results_100",
+  "criterion_date": "2026-10-28",
+  "acceptance_basis": "Historical computations reused proposition by proposition as documented in the 2026-10-28 prefix and modification report. Previous PASS or qualified acceptance is not a new V3 whole-case validation.",
+  "scientific_scope": "Same free neutral singlet ligand and local molecular-versus-crystal structure question; no Re, biological, global conformer or lattice scope. Six final cis-basin bond properties retain their original targets and ±0.01 A windows. Public same-side candidate identity makes the pre-existing reference basin explicit without disclosing its stability or crystal orientation. No separate optimization-completion points.",
+  "historical_reason": "Authorized scoring-only migration 2026-10-19. Existing acceptance category is preserved, not upgraded. Runtime scoring is permitted; publication calibration is separate.",
+  "historical_non_scoring_tolerance_policy": {
+    "status": "provisional_benchmark_policy",
+    "basis": "All six mapped source theoretical bonds use a fixed ±0.01 angstrom preliminary benchmark window. This common local covalent-geometry class resolves the 1.31–1.49 angstrom pattern and is looser than 0.001 angstrom printed precision for modest numerics/model sensitivity; it is not fitted to current residuals or derived from crystal ESD. The integrated local-geometry conclusion requires actual mapped residual analysis, not numerical-window overlap alone. No exact angle or cis/trans energy target is imposed because the source does not establish a unique phase selection.",
+    "not_author_error_bars": true
+  },
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_core_correspondence",
+      "r_orientation_contrast",
+      "r_phase_model_interpretation"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_reason": "2026-10-28 final-proposition rewrite with existing native evidence mapped to its actual scope. Contract checks do not establish a new scientific PASS; historical acceptance and unresolved differences remain recorded separately.",
+  "historical_non_scoring_evidence_reuse_note": "Six final bond rules reuse native cis_gas lengths 1.4893836346/1.4256919932/1.3393508724/1.3161615032/1.3099111402/1.3989213292 A, all within original source windows. The orientation outcome reuses the 36.652415-degree molecular torsion versus -155.187862-degree experimental torsion, intact mapped graph, four converged Tight criteria and 87 positive modes (minimum41.5141 cm^-1); local-minimum validity is evidence, not a separate score. Local correspondence reuses signed residuals and RMSE0.0041514785 A; the 0.001 A marginal ESD is not the 0.0005 A rounding bound and covariance is absent. Phase interpretation is bounded by gas/crystal model differences and the existing trans control, lower by22.8426608 kJ/mol electronic energy and22.6606874 kJ/mol raw298.15K/1atm G: cis is not a proven global winner. Gaussian16 substitutes03; author grid unknown. Source/native reflection-equivalent heavy-atom RMSD0.0022304239 A supersedes an unreflected0.6209 A mapping; fixed-source-coordinate force/curvature diagnostics are not reoptimizations. Two angle differences beyond printed rounding remain context, not new numerical targets. Historical bounded acceptance does not establish a new V3 PASS.",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "六键、残差统计与局部成键解释",
+      "rule_id": "r_local_core_correspondence",
+      "conclusion_id": "local_core_correspondence",
+      "independence": "局部键框架不同于环间取向及相选择，六量只作该物理结论证据。",
+      "source_locator": "正文p4 §2.4与p10 §4.4；SIp8 S1、pp10–13 S2/S3、pp14–15 S11；CCDC2433822",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_fda8b9b53f8276db/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/analysis/native_reuse_verification.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_source_derivative_readback_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_S2_angles_S3_mapping_archive_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_exact_S3_FineFreq_UltraFineForce_strict_a1/stdout.log"
+      ],
+      "existing_support": "完整cis无约束87正模、扭转36.652415°；晶体−155.187862°；六键RMSE0.00415148 Å，全部残差超0.001Å边际ESD。已有trans低22.84266kJ/mol电子能。",
+      "limits": [
+        "六个作者键长硬窗已取消，所选cis候选/六键/晶体比较范围保持，未恢复为任意分子或扩大为全局搜索。若候选在合法模型中不稳定，可按实际证据和明确比较范围判定。",
+        "CIF旧formula字段C12H12N2O与精修C15H13N3冲突、源角度/标签不一致保留。0.001Å实验ESD不是模型误差容差；小RMSE不等于统计一致。",
+        "已有trans气相更低，不能称cis全局最稳。无晶格自由能或人口；相/模型限制不证明唯一堆积因果。可选MeCN旧检查点缺口不作为气相必需验证。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "native_ligand_readback"
+      ],
+      "previous_rule_ids": [
+        "r_local_core_correspondence",
+        "r_bond_c1_c2",
+        "r_bond_c2_c3",
+        "r_bond_n1_c1",
+        "r_bond_n2_c2",
+        "r_bond_n3_c3",
+        "r_bond_c1_c10"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "所选分子候选与晶体的取向",
+      "rule_id": "r_orientation_contrast",
+      "conclusion_id": "orientation_contrast",
+      "independence": "取向可改变而局部键框架仍保留；候选稳定性按实际模型限定。",
+      "source_locator": "正文p4 §2.4与p10 §4.4；SIp8 S1、pp10–13 S2/S3、pp14–15 S11；CCDC2433822",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_fda8b9b53f8276db/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/analysis/native_reuse_verification.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_source_derivative_readback_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_S2_angles_S3_mapping_archive_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_exact_S3_FineFreq_UltraFineForce_strict_a1/stdout.log"
+      ],
+      "existing_support": "完整cis无约束87正模、扭转36.652415°；晶体−155.187862°；六键RMSE0.00415148 Å，全部残差超0.001Å边际ESD。已有trans低22.84266kJ/mol电子能。",
+      "limits": [
+        "六个作者键长硬窗已取消，所选cis候选/六键/晶体比较范围保持，未恢复为任意分子或扩大为全局搜索。若候选在合法模型中不稳定，可按实际证据和明确比较范围判定。",
+        "CIF旧formula字段C12H12N2O与精修C15H13N3冲突、源角度/标签不一致保留。0.001Å实验ESD不是模型误差容差；小RMSE不等于统计一致。",
+        "已有trans气相更低，不能称cis全局最稳。无晶格自由能或人口；相/模型限制不证明唯一堆积因果。可选MeCN旧检查点缺口不作为气相必需验证。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "native_ligand_readback"
+      ],
+      "previous_rule_ids": [
+        "r_orientation_contrast"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "局部结构、构象偏好与物相推断的界限",
+      "rule_id": "r_phase_model_interpretation",
+      "conclusion_id": "phase_model_interpretation",
+      "independence": "评价证据能识别的物理层次，不再奖励键长或取向本身。",
+      "source_locator": "正文p4 §2.4与p10 §4.4；SIp8 S1、pp10–13 S2/S3、pp14–15 S11；CCDC2433822",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_fda8b9b53f8276db/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/analysis/native_reuse_verification.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_source_derivative_readback_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/input.com",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_S2_angles_S3_mapping_archive_strict_a1/RESULT.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_fda8b9b53f8276db/outputs/ligand_exact_S3_FineFreq_UltraFineForce_strict_a1/stdout.log"
+      ],
+      "existing_support": "完整cis无约束87正模、扭转36.652415°；晶体−155.187862°；六键RMSE0.00415148 Å，全部残差超0.001Å边际ESD。已有trans低22.84266kJ/mol电子能。",
+      "limits": [
+        "六个作者键长硬窗已取消，所选cis候选/六键/晶体比较范围保持，未恢复为任意分子或扩大为全局搜索。若候选在合法模型中不稳定，可按实际证据和明确比较范围判定。",
+        "CIF旧formula字段C12H12N2O与精修C15H13N3冲突、源角度/标签不一致保留。0.001Å实验ESD不是模型误差容差；小RMSE不等于统计一致。",
+        "已有trans气相更低，不能称cis全局最稳。无晶格自由能或人口；相/模型限制不证明唯一堆积因果。可选MeCN旧检查点缺口不作为气相必需验证。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "native_ligand_readback"
+      ],
+      "previous_rule_ids": [
+        "r_phase_model_interpretation"
+      ],
+      "no_new_computation": true
+    }
+  ],
+  "objective_issue_flags": [
+    {
+      "issue": "六个作者键长硬窗已取消，所选cis候选/六键/晶体比较范围保持，未恢复为任意分子或扩大为全局搜索。若候选在合法模型中不稳定，可按实际证据和明确比较范围判定。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "CIF旧formula字段C12H12N2O与精修C15H13N3冲突、源角度/标签不一致保留。0.001Å实验ESD不是模型误差容差；小RMSE不等于统计一致。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "已有trans气相更低，不能称cis全局最稳。无晶格自由能或人口；相/模型限制不证明唯一堆积因果。可选MeCN旧检查点缺口不作为气相必需验证。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    }
+  ]
+}

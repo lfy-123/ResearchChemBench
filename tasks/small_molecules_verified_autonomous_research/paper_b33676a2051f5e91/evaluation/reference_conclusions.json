@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "items": [
+    {
+      "conclusion_id": "local_cleavage_chemistry",
+      "statement": "Local cleavage chemistry and accessibility of acetophenone formation",
+      "expected": "Explain the local accessibility of acetophenone plus ethyl radical from the supplied oxygen-centered C10H13O doublet Int-3 with mapped bond changes, correct composition/charge/spin and actual connected-route activation Gibbs-energy evidence in MeCN at 298.15 K and 1 atm. Use a physically connected precursor basin rather than a conveniently chosen higher-energy conformer. The product structures are supplied and earn no independent identification credit. A drawing or isolated saddle fails. Source 9.07 kcal/mol is historical context, not a target. This item concerns local acetophenone formation; ranking against the other cleavage is separate. No Int-2 formation, peroxide-bond cleavage, benzylic HAT, radical generation or full oxidation route is required.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_local_cleavage_chemistry"
+      ],
+      "evidence_ids": [
+        "main_p7_8",
+        "supplementary_001_p33_35_36_37",
+        "supplementary_001_p33_34_35",
+        "main_p8",
+        "supplementary_001_p33_35"
+      ]
+    },
+    {
+      "conclusion_id": "cleavage_selectivity",
+      "statement": "Local accessibility of propiophenone formation and kinetic preference between the competing cleavages",
+      "expected": "Establish and explain the local accessibility of propiophenone plus methyl radical from the supplied Int-3, using actual calculations with mapped bond changes and reaction-path connection evidence between Int-3 and the specified product fragments. A barrier scalar or isolated saddle without this connection evidence is insufficient. Report the competing local activation Gibbs free energy and the common-reference barrier difference, and conclude that acetophenone plus ethyl radical formation is favored. Source competing barrier 13.39 and methyl-minus-ethyl difference 4.32 kcal/mol are context without hard matching windows. Use matching energy definitions, composition, charge/spin and conformer references. Product stability alone does not establish formation accessibility or preference. Interpret the conclusion as local competition, not the supplied 63% yield, a measured branching ratio or full-network flux. No upstream activation, peroxide cleavage or particular path-validation algorithm is required.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_cleavage_selectivity"
+      ],
+      "evidence_ids": [
+        "main_p8",
+        "supplementary_001_p33_34_35"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required chemistry begins at supplied Int-3. Int-2 is contextual only; no benzylic activation, peroxide cleavage or upstream radical generation is required. Both product drawings are inputs, not discoveries.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

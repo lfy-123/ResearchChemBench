@@ -1,0 +1,35 @@
+{
+  "scientific_question": "How does the homogeneous Ir(III)-catalyzed annulation of 3-(phenanthren-4-yl)-1H-indazole with diphenylacetylene form the specified diaza[6]helicene, and how does the specified axially chiral nitrile–phosphine oxide ligand influence helicity selection and the relative kinetic difficulty of the connected product-forming chemistry?",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "3-(phenanthren-4-yl)-1H-indazole, C21H14N2; indazole C3 is attached to phenanthrene C4 and the starting tautomer has N1-H. The substrate graph is in data/identities.json."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Diphenylacetylene, C14H10; its connectivity is in data/identities.json."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "identity",
+      "content": "2'-(Diphenylphosphoryl)-[1,1'-binaphthalene]-2-carbonitrile, C33H22NOP. Use the specific axial enantiomer defined by the graph and oriented-volume sign in data/identities.json, not an unspecified racemate."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "Substrate 0.10 mmol, diphenylacetylene 0.20 mmol (2.0 equivalents), [CpIrCl2]2 precursor dimer (5 mol% of dimer), the specified chiral ligand (20 mol%), AgOTf (2.5 equivalents), and H2O (10 equivalents) in dichloromethane (1.0 mL), under Ar at 50 °C for 36 h. All loadings are relative to substrate. Cp is the 1-tert-butyl-2,3,4,5-tetramethylcyclopentadienyl ligand specified in data/identities.json; do not substitute pentamethylcyclopentadienyl."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "The annulation affords the product specified in PI6 in 82% isolated yield and 91% enantiomeric excess under the conditions in PI4. These are isolated-product endpoint observations, not an elementary rate measurement."
+    },
+    {
+      "input_id": "PI6",
+      "kind": "observation",
+      "content": "The observed product is (M)-5,6-diphenylindazolo[3,2-a]naphtho[2,1-h]isoquinoline, C35H22N2. Its M helical configuration is assigned by single-crystal X-ray diffraction. The product connectivity is in data/identities.json."
+    }
+  ]
+}

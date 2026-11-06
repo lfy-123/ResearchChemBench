@@ -1,0 +1,57 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "items": [
+    {
+      "statement": "最终：R5简单加成可解释，但独占位点及二次加成预测不稳健",
+      "expected": "最终将PI1的初始阴离子、质子化端点和局部成环可达性结合，解释简单加成相对成环的偏好，同时用实际模型敏感性证据说明简单产物最低位点会改序，不能可靠预测独占δ选择性。MeSH二次加成略有利也不足以确定实际产物分布；结论应体现模型的有限预测能力，不能制造强选择性或声称精确实验复现。单写通用局限性而无具体比较不得分。作者MeSH计算与EtSH实验不完全相符作为私有参考限制保留，不要求预测题面未给出的EtSH实验分布。",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK"
+      ],
+      "conclusion_id": "r5_selectivity_limits",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "r5_anion_sites",
+        "r5_simple_products",
+        "r5_alpha_access",
+        "r5_gamma_local",
+        "r5_second_addition"
+      ]
+    },
+    {
+      "statement": "最终：R6的γ成环连通性与稳定终点共同解释环化偏好",
+      "expected": "最终选择证据支持的PI2经β′加成及γ成环通向低能环化产物的解释，并将其与PI1来源附近成环受限的结果联系。选择须同时依据可达性与热力学，说明α环终点也稳定却受较高成环势垒限制，因此不能只按终点最低能决定通道。解释须限定于实际路径范围及两环终点内部排序的模型敏感性；R6初始阴离子正文与图/SI存在歧义，不能据此要求唯一初始排序或完整动力学。",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_R6",
+        "V2_SI_NETWORK"
+      ],
+      "conclusion_id": "r6_cyclization_answer",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "r5_alpha_access",
+        "r5_gamma_local",
+        "r6_product_stability",
+        "r6_alpha_access",
+        "r6_gamma_access"
+      ]
+    },
+    {
+      "statement": "最终：Sulf的α产物偏好在所检验模型下比R5更稳健",
+      "expected": "最终明确选择PI3的α加成质子化产物连接，并以初始阴离子、产物竞争及实际模型敏感性比较支持该偏好在所检验模型下保持，区别于PI1简单产物会改序的弱选择性。必须保留有限构象/方法范围，不声称由砜吸电子强度单独证明因果、全部路径无势垒或实验精确产物分布。",
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SULF",
+        "V2_SI_NETWORK",
+        "V2_SI_IDENTITY"
+      ],
+      "conclusion_id": "sulf_robust_answer",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "r5_simple_products",
+        "sulf_anion_sites",
+        "sulf_products"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "paper_id": "paper_221aafe4bd916a11",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。",
+  "rules": [
+    {
+      "rule_id": "r_hydride_connection",
+      "reference_id": "hydride_connection",
+      "type": "semantic",
+      "expected": "计算支持2a的P–H键断裂及CO2碳–H键生成，局部连接通向甲酸根化学身份。正确的单重态单阳离子2a与中性单重态CO2总电荷为+1；有限局部路径可支持该转移，不要求证明所有备选机理不存在，也不能把有限IRC末端称为优化后的分离产物。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_pp_product",
+      "reference_id": "pp_product",
+      "type": "semantic",
+      "expected": "实际产物结构/电子证据支持去氢后的双膦框架形成稳定化P–P相互作用或键，物种为双膦二阳离子，与甲酸根共同维持总电荷+1。只含两个P原子或仅展示起始结构不能得分。此项评价产物中的P–P稳定化，不重复奖励氢转移连接。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_activation",
+      "reference_id": "activation",
+      "type": "numeric",
+      "expected": "G(TS)−G(2a in–out)−G(CO2)目标21.8 kcal/mol，绝对容差3.0 kcal/mol，边界包含。使用乙腈、298.15 K任务条件，保留作者298 K的定义差异；源口径1 atm、分离反应物参照，单重态TS总电荷+1。透明标准态换算允许，不能用缔合复合物作零点或拟合偏移；TS必须对应P–H到CO2碳的真实转移。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      },
+      "target": 21.8,
+      "tolerance": 3.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_capture_unfavorable",
+      "reference_id": "capture_unfavorable",
+      "type": "semantic",
+      "expected": "在完整2a骨架且P–H保留的有效P–CO2共价捕获结构中，相对相同分离2a+CO2参照的缔合Gibbs自由能为正。非共价相遇、P–N断裂重排或非驻点不能替代该物种。只评价实际支持的有限捕获构象/模型，不要求排尽全构象；论文+15.0仅作上下文，不新增数值窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_reduction_exergonic",
+      "reference_id": "reduction_exergonic",
+      "type": "semantic",
+      "expected": "同一乙腈条件、温度和标准态下，独立有效双膦二阳离子与甲酸根的G之和低于分离2a+CO2，净还原反应Gibbs自由能为负。不能以P–O缔合端点替代分离产物；论文−3.0仅作上下文，不新增数值窗口。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_reduction_answer",
+      "reference_id": "reduction_answer",
+      "type": "semantic",
+      "expected": "最终明确选择2a可向CO2直接提供氢负离子并生成甲酸根的有限化学计量还原解释，将局部转移连接、P–P稳定化与活化自由能联系起来，说明乙腈中存在适度可达的计算路线。无需命中21.8数值窗口才可得到本定性结论，但需真实势垒/路径支持；不得由此声称催化再生、确定实验速率或全球唯一机理。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    },
+    {
+      "rule_id": "r_competition_answer",
+      "reference_id": "competition_answer",
+      "type": "semantic",
+      "expected": "最终由完整共价捕获吸能与分离还原产物有利的比较，判断在实际研究的有限模型中CO2的还原比简单捕获更有利；直接转移无需预先积累该稳定结合中间体。明确该解释只覆盖有证据的构象与路线，不能把单一吸能捕获构象升级为所有捕获构象均不稳定或完整动力学分支比。该项评价跨物种的竞争解释，不再要求两个上下文数值精确匹配。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对物理身份和实际计算证据；只评价本项命题，独立二元计分。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "hydride_connection",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "P–H至CO2碳的局部氢负离子转移",
+      "evidence_ids": [
+        "main_p3_4",
+        "si_p1_2_19_20_65_66"
+      ],
+      "rule_ids": [
+        "r_hydride_connection"
+      ]
+    },
+    {
+      "id": "pp_product",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "还原后的双膦二阳离子P–P稳定化",
+      "evidence_ids": [
+        "main_p3_4",
+        "si_p1_2_19_20_65_66"
+      ],
+      "rule_ids": [
+        "r_pp_product"
+      ]
+    },
+    {
+      "id": "activation",
+      "kind": "intermediate",
+      "max_score": 20,
+      "description": "直接转移Gibbs活化自由能",
+      "evidence_ids": [
+        "main_p3_4",
+        "si_p1_2_19_20_65_66"
+      ],
+      "rule_ids": [
+        "r_activation"
+      ]
+    },
+    {
+      "id": "capture_unfavorable",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "限定共价CO2捕获吸能",
+      "evidence_ids": [
+        "si_p7"
+      ],
+      "rule_ids": [
+        "r_capture_unfavorable"
+      ]
+    },
+    {
+      "id": "reduction_exergonic",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "分离还原产物热力学有利",
+      "evidence_ids": [
+        "main_p3_4",
+        "si_p1_2_19_20_65_66"
+      ],
+      "rule_ids": [
+        "r_reduction_exergonic"
+      ]
+    },
+    {
+      "id": "reduction_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：有限计量还原及其可达性",
+      "evidence_ids": [
+        "main_p3_4"
+      ],
+      "rule_ids": [
+        "r_reduction_answer"
+      ]
+    },
+    {
+      "id": "competition_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：还原优于所研究的简单CO2捕获",
+      "evidence_ids": [
+        "main_p3_4",
+        "si_p7"
+      ],
+      "rule_ids": [
+        "r_competition_answer"
+      ]
+    }
+  ]
+}

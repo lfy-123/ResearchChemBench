@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_7516a3cbacb70032",
+  "items": [
+    {
+      "conclusion_id": "formation_explanation",
+      "claim_role": "final",
+      "statement": "Energetic and molecular explanation of helicene annulation",
+      "expected": "Explain with computed energetics and molecular connectivity why the supplied partners can form the specified annulated helicene skeleton under the stated molecular model. Relate catalytic activation and bond formation to feasibility, rather than merely listing intermediate structures. The source CMD/insertion/C-N closure pathway is supporting context; a validated equivalent route to the same skeleton passes without reproducing its labels or event inventory. Distinguish the computed Ir-bound, N-H-retaining endpoint from the neutral released product; account for composition changes without claiming uncomputed release/regeneration energetics. A supplied product graph alone does not answer this question.",
+      "supporting_key_point_ids": [
+        "ch_activation",
+        "alkyne_insertion",
+        "ring_closure"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "ligand_promotion",
+      "claim_role": "final",
+      "statement": "The specified ligand facilitates substrate activation relative to the ligand-free model",
+      "expected": "Conclude and quantitatively support that the specified chiral ligand lowers the molecular difficulty of substrate activation relative to a controlled ligand-free model. Compare each activation free energy against its own chemically balanced precursor and explain a supported physical role of the ligand; the source nitrile coordination and phosphine-oxide-assisted deprotonation is one accepted account. Source 16.4 versus 22.5 kcal/mol is context, not a hard window. Cross-formula total-energy subtraction, endpoint yield alone or an unsupported descriptor fails. No experimental rate law is inferred.",
+      "supporting_key_point_ids": [
+        "ligand_comparison",
+        "ch_activation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "helicity_explanation",
+      "claim_role": "final",
+      "statement": "Computed stereochemical competition explains the observed M helicity",
+      "expected": "Explain the already disclosed M preference with actual competing formation calculations for the same supplied ligand enantiomer and a molecular account of stereochemical discrimination. Report the free-energy difference and show how the selection connects to the product helicity. The source lower M-directed C-H-activation route (16.4 versus 18.1 kcal/mol) and favorable interaction geometry are reference evidence, not mandatory structures or hard numbers. A physically equivalent supported stereoselective account passes. Repeating M or back-calculating from the given 91% ee is insufficient; single-conformer barrier differences do not establish the measured endpoint ee.",
+      "supporting_key_point_ids": [
+        "helicity_competition",
+        "ch_activation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "kinetic_distinction",
+      "claim_role": "final",
+      "statement": "Stereochemical selection and the greatest local chemical difficulty occur at different stages",
+      "expected": "Use actual comparable local activation free energies to identify the most difficult tested product-forming transformation and distinguish it from the stage setting helicity. The source local ordering is alkyne insertion < C-H activation < C-N closure/reductive elimination, so stereochemical selection is earlier than the largest local barrier. Report the ordering and numerical barriers with local references. Source 11.9/16.4/25.6 kcal/mol are context; 14.1 uses a different III+ reference and is not the IV-local insertion barrier. Do not elevate a finite local-barrier comparison to a proven global turnover law. An equivalent route must support the same final distinction with actual energy and connection evidence.",
+      "supporting_key_point_ids": [
+        "step_difficulty",
+        "helicity_competition",
+        "ring_closure"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_formation_explanation",
+      "r_ligand_promotion",
+      "r_helicity_explanation",
+      "r_kinetic_distinction"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

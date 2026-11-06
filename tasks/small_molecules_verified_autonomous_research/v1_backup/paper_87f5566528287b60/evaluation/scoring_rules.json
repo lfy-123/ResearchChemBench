@@ -1,0 +1,241 @@
+{
+  "paper_id": "paper_87f5566528287b60",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价公开任务范围内的科学结果。每个叶子项满足全部条件得满分，否则为0，不即兴按比例给分。中间发现与最终解释独立评价；最终项要求明确采用且有计算支持的综合结论，不能仅列出候选。先核分子连接、原子库存、电荷/自旋、物理量、单位、参照、温度、溶剂与标准态。结果须有可定位的实际计算及原生产物支持；题面给定观察、复制论文数字、正常退出或正确措辞本身不能得分。最低点、过渡态及连接的证据要求以实际主张为准，允许科学等价的连接检验和计算方法；不强制复刻验证者软件、搜索轨迹、构象数量或全IRC。普通失败及缺失只影响对应项，不清零独立有效结果；伪造或隐藏答案泄漏按有效性规则处理。不奖励过程、调用数、效率、资源投入或失败诊断。定量项按固定目标和包含边界的绝对容差判断，Judge不得临时调整；定量不通过不自动否定独立定性项，定性方向不能代替定量命中。无容差的上下文数字不是额外门槛。真实物理不可比且无法澄清时需复核。所有规则仅在evaluator侧，不向agent泄漏作者机理或数值。 本批为解释/比较型题目，全部采用定性科学结果项。来源数值保留为可比性上下文，没有新设精确能量窗口；不使用验证值替换作者值。合理替代模型或路径可按相同科学命题的证据评价，不能仅因未选作者软件、描述符或机理标签扣分。",
+  "rules": [
+    {
+      "rule_id": "r_substrate_activation",
+      "reference_id": "substrate_activation",
+      "type": "semantic",
+      "expected": "对完整硫亚胺底物的实际分子计算得到与有效光敏化相容的激发或电子响应尺度，物种、电子态和能量定义明确。作者参考为绝热G(T1)−G(S0)=62.0 kcal/mol；该值是上下文，无隐藏精确窗口。可用支持同一分子相容性命题的其他适当电子过程证据，不强制作者描述符；单纯报告底物结构或实验产率不得分。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_tx_compatibility",
+      "reference_id": "tx_compatibility",
+      "type": "semantic",
+      "expected": "用底物实算结果及可追溯的催化剂性质，建立thioxanthone能够提供与底物激活需求相容的分子能量条件。作者ET=65.5 kcal/mol是参考；不能以66%产率本身替代分子证据，也不能把不同照射/负载条件当成匹配实验。支持同一相容性判断的等价分子解释可接受。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_ir_dfppy_compatibility",
+      "reference_id": "ir_dfppy_compatibility",
+      "type": "semantic",
+      "expected": "实际分子证据支持Ir(dFppy)3与底物激活相容；作者ET=63.5 kcal/mol高于底物约62的需求，是可接受参考解释。需连接实算底物量与催化剂性质，而不是把61%产率当计算结果；允许支持相同相容性结论的等价电子过程证据。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_standard_ir_boundary",
+      "reference_id": "standard_ir_boundary",
+      "type": "semantic",
+      "expected": "实际可比计算表明Ir[dF(CF3)ppy]2(dtbbpy)PF6与底物处于接近激活能量匹配的情形。作者ET=61.8与底物62.0接近；不要求ET−底物能隙为某个固定符号，也不因微小负差就断言反应不可能。其他能支持该催化剂分子相容性的计算解释同样接受；仅称其产率最高不得分。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_fac_ir_mismatch",
+      "reference_id": "fac_ir_mismatch",
+      "type": "semantic",
+      "expected": "与有效组进行同定义的分子比较，实际证据支持fac-Ir(ppy)3对该底物的激活相容性较差。作者ET=58.1低于底物约62的能隙是参考依据；允许其他有计算支持的相同分子失配解释。仅复述trace或将其视作严格零反应不得分。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_mes_acr_mismatch",
+      "reference_id": "mes_acr_mismatch",
+      "type": "semantic",
+      "expected": "在正确催化剂及底物身份下，实际分子证据支持Mes-Acr+ClO4−与有效组相比激活相容性较差。作者ET=44.7显著低于底物激发需求是参考，不强制特定描述符；不能从trace直接推导计算失配或精确失活速率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_productivity_explanation",
+      "reference_id": "productivity_explanation",
+      "type": "semantic",
+      "expected": "基于生成的分子证据，明确将三个有效和两个痕量催化剂的差异归结为有物理依据的底物/催化剂相容性差别。作者能量可及性解释为参考答案；有实际证据支持的替代物理解释可获同等分。必须将比较结果用于回答生产性差异，只有单态能量、实验表格或未经计算的机理名称不得分；不要求证明排他的唯一全机理。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    },
+    {
+      "rule_id": "r_yield_nonmonotonicity",
+      "reference_id": "yield_nonmonotonicity",
+      "type": "semantic",
+      "expected": "基于分子比较与实验观察，得到有效组内更高供能不必然对应更高产率、接近共振仍可具有最高观察产率的科学结论，从而限定单一能量因素能够解释生产性分组但不能独自定量预测产率。需有具体比较支撑；只写局限性套话不计分，不额外要求速率计算。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "核对实际分子/电子态、参照、单位与可定位的原生执行证据；仅评价本项科学命题。满足全部条件得满分，否则0；不临时给比例分，不奖励过程。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "substrate_activation",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "底物的分子激发响应与光敏化能量尺度相容",
+      "rule_ids": [
+        "r_substrate_activation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "tx_compatibility",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Thioxanthone与底物的分子相容性",
+      "rule_ids": [
+        "r_tx_compatibility"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ir_dfppy_compatibility",
+      "kind": "intermediate",
+      "max_score": 8,
+      "description": "Ir(dFppy)3与底物的分子相容性",
+      "rule_ids": [
+        "r_ir_dfppy_compatibility"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "standard_ir_boundary",
+      "kind": "intermediate",
+      "max_score": 9,
+      "description": "标准Ir催化剂位于能量近共振区",
+      "rule_ids": [
+        "r_standard_ir_boundary"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "fac_ir_mismatch",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "fac-Ir(ppy)3的激活相容性较差",
+      "rule_ids": [
+        "r_fac_ir_mismatch"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "mes_acr_mismatch",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Mes-Acr+的激活相容性较差",
+      "rule_ids": [
+        "r_mes_acr_mismatch"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "productivity_explanation",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "最终：分子相容性解释有效与痕量分组",
+      "rule_ids": [
+        "r_productivity_explanation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "yield_nonmonotonicity",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：能量可及性与定量产率控制相区分",
+      "rule_ids": [
+        "r_yield_nonmonotonicity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

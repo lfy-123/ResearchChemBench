@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "task_type": "autonomous_research",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T17:05:16.100394+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_8d8940710de08f7f.json",
+  "plan_sha256": "5e1c02ea93e8eeb99dcc504410c331bad8c7b97abf808ce4fd20ef9a23067323",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_8d8940710de08f7f",
+  "v1_package_content_sha256": "46785fce1669f71f314b0562e1e3461852edf38d953ae53e7e024e29742c30a0",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "3d028bac8c43372cefa7eb3b76a0cd63609070265871d54baf2707eb26694b80",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_8d8940710de08f7f/documents/main.pdf",
+      "sha256": "a69619c718ff7d48e4dd23ce129bb8ea5a7cb58e4fcb0114ab68587d688fe9bc",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        5,
+        7,
+        8,
+        9,
+        10
+      ],
+      "sections_figures_tables": "PDF p5 computational protocol; pp7–8 distinguish molecular/protolytic and material observations; pp9–10 conformational discussion, Fig.7–8 torsion results and Table4."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_8d8940710de08f7f/documents/supplementary_001.pdf",
+      "sha256": "d903b517aab2dfd6c2a223020cb7d93ae6d66dc85eb489ab86c4aa854561bd13",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        8,
+        9,
+        10
+      ],
+      "sections_figures_tables": "PDF pp8–10 TableS8 is explicitly in-vacuo electronic/Gibbs energy and coordinate evidence; it is not a methanol free-energy table."
+    }
+  ],
+  "historical_class": "加强B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "source_conformer_evidence_and_legacy_neutral_context_only_reference_pending",
+  "scope_changes": [
+    "Remove named V+/V−/Z starting ranges and mandatory basin count.",
+    "Remove required D3 on/off switch, fixed/relaxed contact-control pair and specified qRRHO comparisons.",
+    "Retain physical energy/ensemble definitions and fair handling of collapsed or nearly degenerate structures."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:05.322832+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

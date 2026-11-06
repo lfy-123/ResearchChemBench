@@ -312,10 +312,10 @@ profiles:
     description: Molecular quantum chemistry and ASE calculation tools, including typed ORCA 6.1.1 correlated-density generation and density export; Psi4 remains isolated.
     environment: .envs/general-modern-openmpi5
     conda_packages: [ase, openbabel]
-    pip_packages: [pyscf, tblite==0.4.0, mace-torch==0.3.16]
+    pip_packages: [pyscf, mcfun==0.2.6, tblite==0.4.0, mace-torch==0.3.16]
     use_project_model_cache: true
     health_checks:
-      modules: [ase, mace, mace.calculators, pyscf, tblite, torch]
+      modules: [ase, mace, mace.calculators, pyscf, mcfun, tblite, torch]
       commands: [orca, mpirun, fcclasses3]
       external_commands:
         - .software_cache/installations/orca/6.1.1/orca
@@ -548,6 +548,7 @@ profiles:
       OMPI_MCA_btl: self,vader,tcp
     cache_paths:
       - .software_cache/installations/pyfrag/2019
+      - .software_cache/sources/pyfrag/2019/source
       - .software_cache/installations/orca/6.1.1
       - .software_cache/shared/mpi/openmpi/4.1.8-fortran
     smoke_commands:
@@ -718,6 +719,11 @@ profiles:
     environment: .envs/general-modern-openmpi5
     conda_packages: [dftbplus, siesta]
     pip_packages: []
+    # The configured GNU-built SIESTA/TBtrans requires the GNU LP64 MKL interface.
+    # Managed saved-HSX replay and DFTB+ regression: tbtrans_runtime/REPORT.md
+    # under docs/v2_completion_execution_20260930T1255Z/shared_fixes/.
+    environment_variables:
+      MKL_INTERFACE_LAYER: "GNU,LP64"
     health_checks:
       commands: [dftb+, siesta]
       external_commands:

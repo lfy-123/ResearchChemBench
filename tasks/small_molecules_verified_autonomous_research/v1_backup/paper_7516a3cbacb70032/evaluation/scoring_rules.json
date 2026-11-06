@@ -1,0 +1,270 @@
+{
+  "paper_id": "paper_7516a3cbacb70032",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "只评价当前任务范围内的科学发现与最终结论，总分100。各叶子项满足全部条件得满分，否则0，不临时给部分分。真实、可定位且物理身份/参照/单位相容的计算证据是结果成立前提，不是单独过程奖励。普通失败只影响有关项；不按假设数、工具序列、计算次数、资源投入、失败诊断或写作完整度给分。作者结果是参照，不以验证值替换目标；未设numeric规则的上下文数字不形成隐藏硬阈值，必须有对应科学方向/关系的实际证据。允许物理可比的替代方法和等价解释，不强制复刻搜索流程。未解决或与该项科学结果矛盾的内容不得仅因合理讨论获得该项分。最终结论必须在最终交付中明确采用；定量与独立定性分别计分，数值落窗不替代正确方向。公开材料及历史协议中的旧研究质量分或60/40分配不参与本轮评分，现行唯一计分清单为scientific_rubric。",
+  "rules": [
+    {
+      "rule_id": "r_ch_activation",
+      "reference_id": "ch_activation",
+      "type": "semantic",
+      "expected": "实际结构与反应模式支持指定底物的C–H断裂和环金属化，保持底物骨架与给定配体对映体。作者参考为配体P=O辅助的CMD；接受支持相同成键结果的等价解释。仅单虚频、物种标签或猜测结构不足；不要求完整前体活化网络。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_alkyne_insertion",
+      "reference_id": "alkyne_insertion",
+      "type": "semantic",
+      "expected": "计算支持二苯乙炔并入已活化底物，形成通向指定螺烯骨架的新C–C键；须有实际结构和反应连接证据。作者IV→TSIV→V为参考，不把作者图示标签当作独立计算。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_ring_closure",
+      "reference_id": "ring_closure",
+      "type": "semantic",
+      "expected": "实际结构及连接证据支持后续C–N成键，并核对形成指定产物的重原子骨架。作者V→TSV→VI为参考；VI仍是含Ir、保留N–H的结合模型，不能冒称已计算中性游离产物释放或去质子势垒。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_helicity_competition",
+      "reference_id": "helicity_competition",
+      "type": "semantic",
+      "expected": "在相同前体、配体对映体、组成、电子态和热化学定义下，实际竞争自由能支持通向M螺旋构型的路径低于P。作者局部值16.4/18.1 kcal/mol及差1.7作为参照，不是硬数值窗；不能从已知91% ee倒推出计算证据。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_ligand_comparison",
+      "reference_id": "ligand_comparison",
+      "type": "semantic",
+      "expected": "有/无指定手性配体各用自身配平前体的实际活化自由能比较，支持配体模型的C–H活化更容易。参考有配体M为16.4、无配体为22.5 kcal/mol；不得直接相减两种组成的总电子能或宣称实验速率已复现。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_step_difficulty",
+      "reference_id": "step_difficulty",
+      "type": "semantic",
+      "expected": "可比局部前体参照的实际能量支持插入<C–H活化<还原消除。作者IV→TSIV为11.9、M活化16.4、V→TSV为25.6 kcal/mol；图中14.1以III(M)+为参照，不能混作IV局部势垒。判断排序而非硬数值匹配。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_formation_answer",
+      "reference_id": "formation_answer",
+      "type": "semantic",
+      "expected": "最终采用有实际证据支持的相连反应解释，将底物活化、炔烃并入和成环连接到指定螺烯骨架，保持组成/电荷配平及模型边界。作者CMD—插入—消除为参考；支持相同骨架的等价路线可接受。孤立能量或仅展示产物不足；不要求计算全部配位交换或催化剂再生。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_helicity_answer",
+      "reference_id": "helicity_answer",
+      "type": "semantic",
+      "expected": "最终结合相同配体对映体的M/P竞争及配体活化作用，解释M偏好如何在成产物过程中建立。作者活化阶段选择是参考；须有计算支持的分子联系，不能只重述M实验观察，不把单构型两TS差自动等同91%终点ee。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    },
+    {
+      "rule_id": "r_kinetic_answer",
+      "reference_id": "kinetic_answer",
+      "type": "semantic",
+      "expected": "最终区分建立螺旋偏好的步骤与所比较步骤中局部势垒最高的成环/消除步骤，并解释选择性与化学进程困难可以由不同阶段控制。须以已计算连接和能量为依据；不能将该有限比较升级为完整周转律或已证明的实验全局限速。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "按实际物理对象、电子态、参照及可定位的计算产物匹配，不按作者标签或数组次序。全部科学条件成立得本项满分，否则0；不计过程分。最终项还需最终交付明确选择。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "ch_activation",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "底物C–H活化的反应连接",
+      "rule_ids": [
+        "r_ch_activation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "alkyne_insertion",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "炔烃并入与C–C成键",
+      "rule_ids": [
+        "r_alkyne_insertion"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ring_closure",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "后续C–N成环与指定骨架",
+      "rule_ids": [
+        "r_ring_closure"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "helicity_competition",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "M/P竞争方向",
+      "rule_ids": [
+        "r_helicity_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "ligand_comparison",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "配体降低局部活化困难",
+      "rule_ids": [
+        "r_ligand_comparison"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "step_difficulty",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "成产物步骤的局部困难排序",
+      "rule_ids": [
+        "r_step_difficulty"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "formation_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：连接的螺烯形成解释",
+      "rule_ids": [
+        "r_formation_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "helicity_answer",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：配体与螺旋选择的关系",
+      "rule_ids": [
+        "r_helicity_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "id": "kinetic_answer",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：立体选择与较困难步骤的区分",
+      "rule_ids": [
+        "r_kinetic_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

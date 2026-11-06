@@ -1,0 +1,306 @@
+{
+  "paper_id": "paper_48278ec4f02de3d9",
+  "scoring_policy": "paper_science_v2",
+  "scientific_requirements": "Score only task-scoped paper scientific findings, never research process, tool counts, cost, formatting or failure explanations. Every item is binary: full assigned points for a supported match, otherwise zero for an incorrect or absent result. Identify molecules, connectivity, atom inventory, charge/spin, observable, units, reference state and conditions before comparing. Require genuine linked computations and native artifacts; supplied observations, copied paper values and normal termination alone are insufficient. Validate minima and transition states as required by the unchanged public task. Alternative software, methods and candidate labels are permitted when the physical result is comparable. No historical verification trajectory, fixed hypothesis count or computation outside the public scope is required. Numeric targets and tolerances are fixed, absolute and inclusive; the host computes agreement and the Judge must not adjust them. A contextual source number without an authored numeric rule creates no numerical gate. Qualitative items are independent of numeric-window passes and need their own actual computational support. An unsupported or failed item loses only its own points. Final conclusions require explicit supported inference or selection. Genuine unresolved essential physical identity/reference ambiguity requires needs_review; publication review pending alone does not block this version.",
+  "rules": [
+    {
+      "rule_id": "r_direct_insertion",
+      "reference_id": "direct_insertion",
+      "type": "numeric",
+      "expected": "完整氧连接1t/Rh模型，G(TS2)−G(INT3)，相同组成的局部势垒，不是55.3剖面高度。298.15 K热项、均三甲苯溶剂、正确中性单重态及自身原生热项；真实相关鞍点/连接合格后，40.8±2.0 kcal/mol。单个标量通过不认证全网络。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      },
+      "target": 40.8,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_direct_alternative",
+      "reference_id": "direct_alternative",
+      "type": "numeric",
+      "expected": "G(TS2′)+G(游离CO)−G(1t)−0.5G(Rh二聚体)，完整氧连接模型、组成和CO储库配平；298.15 K、均三甲苯、其他溶质1 M、CO 6.2 mM。36.4±2.0 kcal/mol；局部TS2′−INT3′的13.7不是本量。必须使用真实相关反应态与自身热项，不能以二聚体打印溶剂差冒充RRHO。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      },
+      "target": 36.4,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_oxidative_profile",
+      "reference_id": "oxidative_profile",
+      "type": "numeric",
+      "expected": "G(TS-OC)−G(1t)−0.5G(Rh二聚体)，保留两个羰基配体，因此本态不加释放CO修正；不是相对24.3结合态的局部势垒。完整氧连接模型，298.15 K、均三甲苯、1 M标准态、自身热项及相关鞍点/连接合格后按44.6±2.0 kcal/mol比较。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      },
+      "target": 44.6,
+      "tolerance": 2.0,
+      "unit": "kcal/mol"
+    },
+    {
+      "rule_id": "r_co_insertion_connection",
+      "reference_id": "co_insertion_connection",
+      "type": "semantic",
+      "expected": "实际结构、相关模式及路径/端点或等价证据支持环丙烷打开后CO插入先于酮参与，形成与后续酮配位相容的酰基/有机骨架。守恒完整1t、Rh与CO库存；来源标签或低能标量不足。不要求完整双向IRC或固定TS数，但有限轨迹必须与有效独立端点共同支持所声称连接。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      }
+    },
+    {
+      "rule_id": "r_ketone_closure_connection",
+      "reference_id": "ketone_closure_connection",
+      "type": "semantic",
+      "expected": "实际证据将CO插入后结构经有据的配位/构象衔接连接到酮参与的C–C成键、再C–O成键/还原消除。必须有真实键变、正确原子映射及可审查端点；仅用作者命名或把受限扫描峰冒充自由能TS不通过。不要求每个配位交换势垒、快速构象平衡或来源全部局部能量复现。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      }
+    },
+    {
+      "rule_id": "r_lactone_structure",
+      "reference_id": "lactone_structure",
+      "type": "semantic",
+      "expected": "实际计算的成环端点/产物具有所给氧连接底物+CO对应的C10H14O3稠合内酯连接关系，并支持CO进入产物和正确C–C/C–O成键。不能仅复制实验产物图或用其他底物系列产物替代；该结构项独立于反应自由能数值。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      }
+    },
+    {
+      "rule_id": "r_carbonylation_order",
+      "reference_id": "carbonylation_order",
+      "type": "semantic",
+      "expected": "在配平共同分离反应物及CO储库的实际自由能剖面上，CO插入TS3高于随后metallo-ene和还原消除化学TS。区分剖面高度和各自局部势垒；31.2/24.9及23.0/18.9仅为来源上下文，不设新数值窗口。此项保留现行CO插入控制的必要比较，不断言未知配位交换均低或整个真实催化网络全局决速。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      }
+    },
+    {
+      "rule_id": "r_product_conclusion",
+      "reference_id": "product_conclusion",
+      "type": "semantic",
+      "expected": "最终根据实际连接、正确产物、配平共同参考的竞争剖面选择CO先插入的内酯路线，并解释其相对直接酮插入、直接成环及氧化环化更有利。需联系CO插入后中间体稳定化与总体能量代价，说明直接通道受能量/配位及所形成受张力骨架影响；不能把差异简单归因于普遍更高的直接metallo-ene局部势垒，也不要求“羰基化η3→η1局部更容易”这一非必要且验证反向的解释。不能由静态剖面推出精确产率或真实实验速率。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      }
+    },
+    {
+      "rule_id": "r_co_branch_conclusion",
+      "reference_id": "co_branch_conclusion",
+      "type": "semantic",
+      "expected": "最终以额外实际β-H/二烯竞争通道及CO结合/配平储库比较，解释CO充分时有利于羰基化内酯、缺CO时二烯分支相对更可达。图/SI共同参考中β-H TS高于CO插入TS约2.4，正文相反措辞须按物理定义区分；独立判断该方向，不要求2.4精确窗口。不能仅重复前三个高直接路线数字或照抄实验；家族压力观察不能当成1t的独立定量产率，未知构象平衡及微观动力学不作已验证声明。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      }
+    },
+    {
+      "rule_id": "r_excess_co_conclusion",
+      "reference_id": "excess_co_conclusion",
+      "type": "semantic",
+      "expected": "最终将实际CO结合/配位竞争或等价物种比较与CO化学势联系，支持过量CO占据Rh、妨碍底物配位而可能抑制转化的解释，并明确为有限证据支持的物种分布判断。不能只重复“高CO抑制”的实验背景，不能声称抑制常数、完整动力学模型或最佳CO压力已被算出。此必要结论从旧分支总项拆出独立计分，未因验证局限而删除。",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "先匹配物理对象、状态、条件、能量零点及真实关联证据，再独立评价本项；不按数字接近程度挑选对象。通过results.json内的原始产物引用读取report/下支持计算与结构，不要求额外的report.md或research/交付物。"
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "direct_insertion",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "直接酮插入局部势垒",
+      "rule_ids": [
+        "r_direct_insertion"
+      ],
+      "evidence_ids": [
+        "rh_direct",
+        "rh_method",
+        "rh_identity"
+      ]
+    },
+    {
+      "id": "direct_alternative",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "直接metallo-ene总体剖面",
+      "rule_ids": [
+        "r_direct_alternative"
+      ],
+      "evidence_ids": [
+        "rh_direct",
+        "rh_method",
+        "rh_identity"
+      ]
+    },
+    {
+      "id": "oxidative_profile",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "氧化环化总体剖面",
+      "rule_ids": [
+        "r_oxidative_profile"
+      ],
+      "evidence_ids": [
+        "rh_direct",
+        "rh_method",
+        "rh_identity"
+      ]
+    },
+    {
+      "id": "co_insertion_connection",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "CO先插入的真实化学连接",
+      "rule_ids": [
+        "r_co_insertion_connection"
+      ],
+      "evidence_ids": [
+        "rh_carbonylation",
+        "rh_identity",
+        "rh_method"
+      ]
+    },
+    {
+      "id": "ketone_closure_connection",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "酮参与与成环的连接",
+      "rule_ids": [
+        "r_ketone_closure_connection"
+      ],
+      "evidence_ids": [
+        "rh_carbonylation",
+        "rh_method"
+      ]
+    },
+    {
+      "id": "lactone_structure",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "正确稠合内酯的计算结构",
+      "rule_ids": [
+        "r_lactone_structure"
+      ],
+      "evidence_ids": [
+        "rh_carbonylation",
+        "rh_identity",
+        "rh_experiment"
+      ]
+    },
+    {
+      "id": "carbonylation_order",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "羰基化已比较化学步骤的控制顺序",
+      "rule_ids": [
+        "r_carbonylation_order"
+      ],
+      "evidence_ids": [
+        "rh_carbonylation",
+        "rh_method"
+      ]
+    },
+    {
+      "id": "product_conclusion",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "最终：选择羰基化内酯路线",
+      "rule_ids": [
+        "r_product_conclusion"
+      ],
+      "evidence_ids": [
+        "rh_direct",
+        "rh_carbonylation",
+        "rh_experiment"
+      ]
+    },
+    {
+      "id": "co_branch_conclusion",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "最终：CO可用性影响内酯/二烯竞争",
+      "rule_ids": [
+        "r_co_branch_conclusion"
+      ],
+      "evidence_ids": [
+        "rh_CO_competition",
+        "rh_carbonylation",
+        "rh_experiment"
+      ]
+    },
+    {
+      "id": "excess_co_conclusion",
+      "kind": "conclusion",
+      "max_score": 5,
+      "description": "最终：过量CO抑制的有限物种分布解释",
+      "rule_ids": [
+        "r_excess_co_conclusion"
+      ],
+      "evidence_ids": [
+        "rh_CO_competition",
+        "rh_carbonylation",
+        "rh_experiment"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "paper_id": "paper_94e7481ded3b6a75",
+  "scoring_policy": "paper_science_v3",
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "physical_definition": "Experimental PBNA is80-atom C34H42B2N2, neutral singlet, N-hexyl groups; source computational baseline is50-atom N-methyl C24H22B2N2 at gas B3LYP/6-31G(d). DCM dilute10^-5M room-temperature absorption/emission are distinct from gas orbital eigenvalues. Map retained core and changed tails; compare state, geometry, solvent response and transition definition consistently.",
+  "scientific_limitations": "Author source-model E/ZPE/G/S were reproduced at printed precision using genuine frequency output; independently optimized50-atom and80-atom states are valid. Frontier residuals+0.06018/+0.06928eV remain. Actual50/80 S1 values3.4243/3.4122eV and cLR emission2.9698303/2.9187782eV are verification findings, not source numeric targets. Full80 E00=3.0295791eV (409.2456nm) and cLR emission424.7812nm are distinct observables. Exact experimental fine structure, rates and AIE are not reproduced.",
+  "tolerance_basis": "50原子H/L=−5.559821/−1.640723 eV；80原子DCM吸收S1/S2=3.4122/3.8949 eV；cLR发射2.918778 eV（424.781nm），LR端点+ZPE E00=3.029579 eV。50→80吸收ΔE−.0121/Δf−.1186，发射ΔE−.051052。 All former numerical windows are historical only; current scoring uses final semantic conclusions.",
+  "evidence_gaps": "80原子实验分子与50原子作者计算模型必须区分；源版本/数值残差保留。不同电子根、cLR发射、LR端点+ZPE和实验细峰不等价；缺完整FC强度不能精确指认409/427nm。一个S0收敛表Maximum Displacement NO，不能宣称所有阈值均过。PR轨道独立数值窗争议已改为一个10分物理电子结论，未要求AR重算作者缩模。",
+  "historical_qualification_before_v3": {
+    "paper_id": "paper_94e7481ded3b6a75",
+    "scoring_policy": "paper_science_v2",
+    "status": "CURRENT_FROZEN_SCOPE_STRICT_VERIFICATION_PRESERVED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "current_scope_verified": true,
+    "verification_acceptance": "Existing independently strict V2 frozen-scope acceptance retained; scoring migration is not new chemical validation.",
+    "reason": "Authorized final-copy scoring-only migration, 2026-10-19; publication/expert calibration remains separate from runtime scoring.",
+    "physical_definition": "Experimental PBNA is80-atom C34H42B2N2, neutral singlet, N-hexyl groups; source computational baseline is50-atom N-methyl C24H22B2N2 at gas B3LYP/6-31G(d). DCM dilute10^-5M room-temperature absorption/emission are distinct from gas orbital eigenvalues. Map retained core and changed tails; compare state, geometry, solvent response and transition definition consistently.",
+    "scientific_limitations": "Author source-model E/ZPE/G/S were reproduced at printed precision using genuine frequency output; independently optimized50-atom and80-atom states are valid. Frontier residuals+0.06018/+0.06928eV remain. Actual50/80 S1 values3.4243/3.4122eV and cLR emission2.9698303/2.9187782eV are verification findings, not source numeric targets. Full80 E00=3.0295791eV (409.2456nm) and cLR emission424.7812nm are distinct observables. Exact experimental fine structure, rates and AIE are not reproduced.",
+    "tolerance_policy": {
+      "status": "provisional_benchmark_policy",
+      "basis": "Retain the pre-existing ±0.25eV tolerance only for same-definition gas HOMO/LUMO author targets. It does not apply to optical gaps, individual bands, emission, E00 or small model-transfer shifts. Explanatory optical and transfer leaves use concrete state/structure findings without an invented exact band window; author observations and verified response values remain separate.",
+      "not_author_error_bars": true
+    },
+    "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_94e7481ded3b6a75",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "round": "repair_round3",
+      "mode": "paper_reproduction",
+      "status": "scoring_contract_repaired_without_new_chemical_acceptance",
+      "changes": [
+        "Both modes now state the direct full-80-atom route explicitly for absorption/emission adequacy, alongside justified approximation transfer. PR disclosed surrogate numerical reproduction remains. Source observations, 50/80 verification and accepted limitations are preserved."
+      ],
+      "history_preserved": true,
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_04/paper_94e7481ded3b6a75.md"
+    }
+  },
+  "status": "V3_FINAL_RESULTS_AUTHORED_EXISTING_EVIDENCE_REVIEWED",
+  "acceptance": "NOT_REVALIDATED_FOR_V3",
+  "formal_scoring_permitted": true,
+  "current_scope_verified": false,
+  "release_ready": false,
+  "new_computation": false,
+  "new_blind_run": false,
+  "status_note": "The V3 rubric may evaluate submissions. That permission is distinct from reference scientific acceptance: earlier acceptance and migration records are historical only; no V3 scientific revalidation or blind evaluation was performed.",
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "mode_scope_exception": "AR四项35/35/15/15；PR保留50原子N-甲基基态前线电子图景10分，另30/30/15/15评光学及80原子N-己基转用。两本征值仍须实际报告但不匹配源值；不强迫AR计算50原子作者模型。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "PR作者基线：50原子两轨道的物理图景",
+      "rule_id": "r_frontier_electronic_picture",
+      "conclusion_id": "frontier_electronic_picture",
+      "weight": 10,
+      "independence": "基态前线空间与单电子能量性质，不重复光学态或80原子转用。",
+      "source_location": "正文pp2–3身份、pp5–7 Fig3/4 Table1；SI pp4–6及19–20作者N-甲基模型；native_frontier_mapping及80原子吸收/发射证据。",
+      "source_evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W01/papers/paper_94e7481ded3b6a75/cases/w01_PBNA80_native_mode_closure_a02/outputs/analysis_result.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_DCM_TD10_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_S1_DCM_optfreq_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_cLR_state_gate_chain_a01/field_transition/transition_character.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/PBNA_final_mapping_optical_transfer_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/v2_strict_PBNA_full80_transfer_accept_20261002_a01_acceptance.json"
+      ],
+      "existing_support_or_gap": "50原子H/L=−5.559821/−1.640723 eV；80原子DCM吸收S1/S2=3.4122/3.8949 eV；cLR发射2.918778 eV（424.781nm），LR端点+ZPE E00=3.029579 eV。50→80吸收ΔE−.0121/Δf−.1186，发射ΔE−.051052。",
+      "scientific_limitations": "80原子实验分子与50原子作者计算模型必须区分；源版本/数值残差保留。不同电子根、cLR发射、LR端点+ZPE和实验细峰不等价；缺完整FC强度不能精确指认409/427nm。一个S0收敛表Maximum Displacement NO，不能宣称所有阈值均过。PR轨道独立数值窗争议已改为一个10分物理电子结论，未要求AR重算作者缩模。"
+    },
+    {
+      "scientific_requirement": "必需结果1：溶液吸收解释",
+      "rule_id": "r_absorption_account",
+      "conclusion_id": "absorption_account",
+      "weight": 30,
+      "independence": "模型内跃迁能/强度/态性质，不等于实验全身份适用性。",
+      "source_location": "正文pp2–3身份、pp5–7 Fig3/4 Table1；SI pp4–6及19–20作者N-甲基模型；native_frontier_mapping及80原子吸收/发射证据。",
+      "source_evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping",
+        "verified_full80_absorption"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W01/papers/paper_94e7481ded3b6a75/cases/w01_PBNA80_native_mode_closure_a02/outputs/analysis_result.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_DCM_TD10_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_S1_DCM_optfreq_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_cLR_state_gate_chain_a01/field_transition/transition_character.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/PBNA_final_mapping_optical_transfer_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/v2_strict_PBNA_full80_transfer_accept_20261002_a01_acceptance.json"
+      ],
+      "existing_support_or_gap": "50原子H/L=−5.559821/−1.640723 eV；80原子DCM吸收S1/S2=3.4122/3.8949 eV；cLR发射2.918778 eV（424.781nm），LR端点+ZPE E00=3.029579 eV。50→80吸收ΔE−.0121/Δf−.1186，发射ΔE−.051052。",
+      "scientific_limitations": "80原子实验分子与50原子作者计算模型必须区分；源版本/数值残差保留。不同电子根、cLR发射、LR端点+ZPE和实验细峰不等价；缺完整FC强度不能精确指认409/427nm。一个S0收敛表Maximum Displacement NO，不能宣称所有阈值均过。PR轨道独立数值窗争议已改为一个10分物理电子结论，未要求AR重算作者缩模。"
+    },
+    {
+      "scientific_requirement": "必需结果2：松弛发射及与吸收关系",
+      "rule_id": "r_emission_account",
+      "conclusion_id": "emission_account",
+      "weight": 30,
+      "independence": "激发态弛豫与发射，不由S0轨道或垂直吸收推出。",
+      "source_location": "正文pp2–3身份、pp5–7 Fig3/4 Table1；SI pp4–6及19–20作者N-甲基模型；native_frontier_mapping及80原子吸收/发射证据。",
+      "source_evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping",
+        "verified_full80_relaxation",
+        "native_optical_transfer",
+        "native_full80_equilibrium_gap"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W01/papers/paper_94e7481ded3b6a75/cases/w01_PBNA80_native_mode_closure_a02/outputs/analysis_result.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_DCM_TD10_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_S1_DCM_optfreq_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_cLR_state_gate_chain_a01/field_transition/transition_character.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/PBNA_final_mapping_optical_transfer_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/v2_strict_PBNA_full80_transfer_accept_20261002_a01_acceptance.json"
+      ],
+      "existing_support_or_gap": "50原子H/L=−5.559821/−1.640723 eV；80原子DCM吸收S1/S2=3.4122/3.8949 eV；cLR发射2.918778 eV（424.781nm），LR端点+ZPE E00=3.029579 eV。50→80吸收ΔE−.0121/Δf−.1186，发射ΔE−.051052。",
+      "scientific_limitations": "80原子实验分子与50原子作者计算模型必须区分；源版本/数值残差保留。不同电子根、cLR发射、LR端点+ZPE和实验细峰不等价；缺完整FC强度不能精确指认409/427nm。一个S0收敛表Maximum Displacement NO，不能宣称所有阈值均过。PR轨道独立数值窗争议已改为一个10分物理电子结论，未要求AR重算作者缩模。"
+    },
+    {
+      "scientific_requirement": "必需结果3：吸收对80原子N-己基实验分子的转用",
+      "rule_id": "r_absorption_applicability",
+      "conclusion_id": "absorption_applicability",
+      "weight": 15,
+      "independence": "吸收性质特定的模型适用性，不是泛泛截断警示。",
+      "source_location": "正文pp2–3身份、pp5–7 Fig3/4 Table1；SI pp4–6及19–20作者N-甲基模型；native_frontier_mapping及80原子吸收/发射证据。",
+      "source_evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping",
+        "verified_full80_absorption"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W01/papers/paper_94e7481ded3b6a75/cases/w01_PBNA80_native_mode_closure_a02/outputs/analysis_result.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_DCM_TD10_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_S1_DCM_optfreq_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_cLR_state_gate_chain_a01/field_transition/transition_character.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/PBNA_final_mapping_optical_transfer_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/v2_strict_PBNA_full80_transfer_accept_20261002_a01_acceptance.json"
+      ],
+      "existing_support_or_gap": "50原子H/L=−5.559821/−1.640723 eV；80原子DCM吸收S1/S2=3.4122/3.8949 eV；cLR发射2.918778 eV（424.781nm），LR端点+ZPE E00=3.029579 eV。50→80吸收ΔE−.0121/Δf−.1186，发射ΔE−.051052。",
+      "scientific_limitations": "80原子实验分子与50原子作者计算模型必须区分；源版本/数值残差保留。不同电子根、cLR发射、LR端点+ZPE和实验细峰不等价；缺完整FC强度不能精确指认409/427nm。一个S0收敛表Maximum Displacement NO，不能宣称所有阈值均过。PR轨道独立数值窗争议已改为一个10分物理电子结论，未要求AR重算作者缩模。"
+    },
+    {
+      "scientific_requirement": "必需结果4：发射对实验身份的转用",
+      "rule_id": "r_emission_applicability",
+      "conclusion_id": "emission_applicability",
+      "weight": 15,
+      "independence": "弛豫敏感适用性，吸收可转用不自动使发射成立。",
+      "source_location": "正文pp2–3身份、pp5–7 Fig3/4 Table1；SI pp4–6及19–20作者N-甲基模型；native_frontier_mapping及80原子吸收/发射证据。",
+      "source_evidence_ids": [
+        "main_p2_3_5_6_7",
+        "supplementary_001_p4_6_19_20",
+        "native_frontier_mapping",
+        "verified_full80_emitting_character",
+        "native_optical_transfer",
+        "native_full80_equilibrium_gap"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W01/papers/paper_94e7481ded3b6a75/cases/w01_PBNA80_native_mode_closure_a02/outputs/analysis_result.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_DCM_TD10_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_S1_DCM_optfreq_a01/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/outputs/v2_strict_PBNA_full80_cLR_state_gate_chain_a01/field_transition/transition_character.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/PBNA_final_mapping_optical_transfer_20260930.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/v2_execution_20260929/v2_strict_PBNA_full80_transfer_accept_20261002_a01_acceptance.json"
+      ],
+      "existing_support_or_gap": "50原子H/L=−5.559821/−1.640723 eV；80原子DCM吸收S1/S2=3.4122/3.8949 eV；cLR发射2.918778 eV（424.781nm），LR端点+ZPE E00=3.029579 eV。50→80吸收ΔE−.0121/Δf−.1186，发射ΔE−.051052。",
+      "scientific_limitations": "80原子实验分子与50原子作者计算模型必须区分；源版本/数值残差保留。不同电子根、cLR发射、LR端点+ZPE和实验细峰不等价；缺完整FC强度不能精确指认409/427nm。一个S0收敛表Maximum Displacement NO，不能宣称所有阈值均过。PR轨道独立数值窗争议已改为一个10分物理电子结论，未要求AR重算作者缩模。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

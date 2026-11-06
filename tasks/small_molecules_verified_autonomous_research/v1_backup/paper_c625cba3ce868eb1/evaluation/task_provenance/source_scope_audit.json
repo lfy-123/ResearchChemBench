@@ -1,0 +1,80 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "source_documents": [
+    {
+      "path": "papers/paper_c625cba3ce868eb1/documents/main.pdf",
+      "sha256": "44b374957665d941b519f781fe9341f1632c84a6c7b975c4cd231874281e0ef8",
+      "page_count": 9,
+      "pdf_pages_1_based": [
+        3,
+        5,
+        6,
+        7
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_c625cba3ce868eb1/documents/supplementary_001.pdf",
+      "sha256": "19d3e128aae61e6d8f4904d7f5f3cc8cd31230ccb210eb81ba15402de096e4db",
+      "page_count": 32,
+      "pdf_pages_1_based": [
+        30,
+        31,
+        32
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "What molecular evidence can explain the observed halocyclization selectivity of hydroperoxide (R)-4, and what remains uncertain when the source nonenzymatic NBS reaction is used as the chemical model?",
+    "scope": "Investigate the local molecular origin of selectivity for (R)-4 in the source NBS/Et3N chemical halocyclization context. The enzyme, photocatalytic formation of the substrate and full biocatalytic cascade are outside the modeled system. The source comparison compound 7 is available as an additional identified molecule, not a required branch. Choose relevant structures, chemical states and competing processes within this scope.",
+    "facts": "The source reports six-membered tetrahydropyran products from hydroperoxide 4 and similar chromatographic/NMR profiles in its enzyme and NBS experiments. The nonenzymatic procedure uses a 3/4 hydroperoxide mixture (50 mg,0.27 mmol), NBS (51 mg,0.284 mmol) and Et3N (4.2 µL,0.03 mmol) in 6 mL anhydrous DCM, under argon for4 h. The present molecular subproblem selects (R)-4 rather than the whole mixture. The printed NBS concentration 473 mM disagrees with amount/volume (47.3 mM); use the stated amounts and disclose this discrepancy. The substrate identity and stereochemistry are supplied as a graph, not an optimized conformation. No reaction intermediate or barrier is supplied.",
+    "claim_source_map": [
+      {
+        "claim": "Substrate identity, observed products and NBS procedure",
+        "source": "main PDF pp3,5–7; SI PDF pp30–32"
+      },
+      {
+        "claim": "Source comparator7 product yields and environment",
+        "source": "main PDF pp3,6–7"
+      },
+      {
+        "claim": "Author polarization/bromiranium rationale and MEP methods",
+        "source": "main PDF pp3,5,7; SI PDF pp30–32",
+        "visibility": "PR/private"
+      },
+      {
+        "claim": "NBS amount/volume and printed concentration are inconsistent",
+        "source": "main PDF p7 Chemical Halocyclization"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Substrate identity, observed products and NBS procedure",
+      "source": "main PDF pp3,5–7; SI PDF pp30–32"
+    },
+    {
+      "claim": "Source comparator7 product yields and environment",
+      "source": "main PDF pp3,6–7"
+    },
+    {
+      "claim": "Author polarization/bromiranium rationale and MEP methods",
+      "source": "main PDF pp3,5,7; SI PDF pp30–32",
+      "visibility": "PR/private"
+    },
+    {
+      "claim": "NBS amount/volume and printed concentration are inconsistent",
+      "source": "main PDF p7 Chemical Halocyclization"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "NBS chemical-path and selectivity calibration remains pending.",
+    "The source concentration typo and aqueous-computation/DCM-experiment mismatch must remain explicit.",
+    "Expanded uncertainty, semantic judge and runtime isolation remain pending."
+  ]
+}

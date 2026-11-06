@@ -1,0 +1,650 @@
+{
+  "method": "Read native DOCX Table S2 solution Gtot; subtract separated-reactant Gtot with 627.509474 kcal mol−1 hartree−1. Arithmetic only, not a recomputation.",
+  "comparisons": [
+    {
+      "model": "Mn1-Me",
+      "main_figures_kcal_mol": {
+        "oxidation": 11.53,
+        "oxidation_reaction": -0.33,
+        "reduction_S": 10.39,
+        "reduction_R": 11.88,
+        "resting": -4.34,
+        "effective": 15.87,
+        "R_minus_S": 1.49
+      },
+      "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+        "oxidation": 10.527726,
+        "oxidation_reaction": -0.608684,
+        "resting": -2.916037,
+        "effective": 13.443763,
+        "reduction_S": 10.313118,
+        "reduction_R": 12.795546,
+        "R_minus_S": 2.482427
+      },
+      "reference_ledger": {
+        "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+        "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+        "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+      },
+      "status": "source conflict: neither source selected as a unique numeric gold"
+    },
+    {
+      "model": "Mn1-tBu",
+      "main_figures_kcal_mol": {
+        "oxidation": 10.85,
+        "oxidation_reaction": -1.04,
+        "reduction_S": 10.63,
+        "reduction_R": 11.67,
+        "resting": -5.17,
+        "effective": 16.02,
+        "R_minus_S": 1.04
+      },
+      "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+        "oxidation": 10.739825,
+        "oxidation_reaction": 0.067771,
+        "resting": -1.869978,
+        "effective": 12.609803,
+        "reduction_S": 9.142186,
+        "reduction_R": 11.067385,
+        "R_minus_S": 1.925199
+      },
+      "reference_ledger": {
+        "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+        "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+        "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+      },
+      "status": "source conflict: neither source selected as a unique numeric gold"
+    },
+    {
+      "model": "Mn2-Me",
+      "main_figures_kcal_mol": {
+        "oxidation": 15.78,
+        "oxidation_reaction": 6.01,
+        "reduction_S": 8.65,
+        "reduction_R": 10.52,
+        "resting": -4.17,
+        "effective": 19.95,
+        "R_minus_S": 1.87
+      },
+      "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+        "oxidation": 16.552445,
+        "oxidation_reaction": 6.759532,
+        "resting": -1.915159,
+        "effective": 18.467604,
+        "reduction_S": 8.509028,
+        "reduction_R": 11.732545,
+        "R_minus_S": 3.223516
+      },
+      "reference_ledger": {
+        "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+        "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+        "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+      },
+      "status": "source conflict: neither source selected as a unique numeric gold"
+    },
+    {
+      "model": "Mn2-tBu",
+      "main_figures_kcal_mol": {
+        "oxidation": 14.78,
+        "oxidation_reaction": 5.32,
+        "reduction_S": 8.16,
+        "reduction_R": 10.18,
+        "resting": -4.72,
+        "effective": 19.5,
+        "R_minus_S": 2.02
+      },
+      "SI_Table_S2_Gtot_arithmetic_kcal_mol": {
+        "oxidation": 15.680834,
+        "oxidation_reaction": 5.745477,
+        "resting": -4.566386,
+        "effective": 20.247221,
+        "reduction_S": 8.402979,
+        "reduction_R": 11.313368,
+        "R_minus_S": 2.910389
+      },
+      "reference_ledger": {
+        "oxidation": "G(TS2)-G(amido)-G(iPrOH)",
+        "reduction": "G(TS1-S/R)-G(amine-hydride)-G(acetophenone)",
+        "effective": "G(TS2)-G(N-protonated Mn-isopropoxide)"
+      },
+      "status": "source conflict: neither source selected as a unique numeric gold"
+    }
+  ],
+  "raw_source_rows": [
+    {
+      "label": "(KOtBu)4",
+      "gas_phase": "HF=-3332.423731ZPE=0.496724NImag=0Hcorr=0.535871Gcorr=0.419706Htot=-3331.887861Gtot= -3332.004026",
+      "solution": "HF=-3332.4423952Htot= -3331.910645Gtot= -3332.020880"
+    },
+    {
+      "label": "(KOtBu)4(KBr)",
+      "gas_phase": "HF=-5673.4223864ZPE=0.375421NImag=0Hcorr=0.408023Gcorr=0.309332Htot=-5673.014363Gtot= -5673.113054",
+      "solution": "HF=-5673.4479697Htot=-5673.040787Gtot= -5673.142607"
+    },
+    {
+      "label": "Ph-CO-CH3",
+      "gas_phase": "HF=-384.966139ZPE=0.137829NImag=0Hcorr=0.146610Gcorr=0.105067Htot=-384.819529Gtot= -384.861072",
+      "solution": "HF=-384.978283Htot= -384.831918Gtot= -384.874176"
+    },
+    {
+      "label": "Ph-CHOH-CH3",
+      "gas_phase": "HF=-386.1615407ZPE=0.161375NImag=0Hcorr=0.170676Gcorr=0.127953Htot=-385.990865Gtot= -386.033587",
+      "solution": "HF=-386.1749577Htot= -386.004523Gtot= -386.048511"
+    },
+    {
+      "label": "CH3-CHOH-CH3",
+      "gas_phase": "HF=-194.3945237ZPE=0.108283NImag=0Hcorr=0.114652Gcorr=0.080936Htot=-194.279872Gtot= -194.313587",
+      "solution": "HF=-194.4044364Htot= -194.290062Gtot= -194.324024"
+    },
+    {
+      "label": "CH3-CDOD-CH3",
+      "gas_phase": "HF=-194.3945237ZPE= 0.101510NImag=0Hcorr= 0.108126Gcorr= 0.073846Htot= -194.286397Gtot= -194.320678",
+      "solution": "HF=-194.4044364Htot= -194.296554Gtot= -194.331084"
+    },
+    {
+      "label": "CH3-CO-CH3",
+      "gas_phase": "HF=-193.1953106ZPE=0.083629NImag=0Hcorr=0.089151Gcorr=0.057369Htot=-193.106160Gtot= -193.137942",
+      "solution": "HF=-193.2045616Htot= -193.115652Gtot= -193.147557"
+    },
+    {
+      "label": "CO",
+      "gas_phase": "HF=-113.3383397ZPE=0.005030NImag=0Hcorr=0.008334Gcorr=-0.014095Htot=-113.330005Gtot= -113.352435",
+      "solution": "HF=-113.330579Htot= -113.322262Gtot= -113.344692"
+    },
+    {
+      "label": "H2",
+      "gas_phase": "HF=-1.1717115ZPE=0.009886NImag=0Hcorr=0.013190Gcorr=-0.001605Htot=-1.158521Gtot= -1.173317",
+      "solution": "HF=-1.1714367Htot= -1.158298Gtot= -1.173094"
+    },
+    {
+      "label": "tBuOH",
+      "gas_phase": "HF=-233.719318ZPE= 0.135895NImag=0Hcorr=0.143546Gcorr=0.106964Htot= -233.575772Gtot= -233.612354",
+      "solution": "HF=-233.729836Htot= -233.586625Gtot= -233.623413"
+    },
+    {
+      "label": "V-Me-fac",
+      "gas_phase": "HF=-2367.3875558ZPE=0.261519NImag=0Hcorr=0.283165Gcorr=0.211034Htot=-2367.104391Gtot= -2367.176522",
+      "solution": "HF=-2367.4722014Htot= -2367.190363Gtot= -2367.260576"
+    },
+    {
+      "label": "V-Me-mer",
+      "gas_phase": "HF=-2367.3720783ZPE= 0.260987NImag=0Hcorr=0.282706Gcorr= 0.211223Htot=-2367.089372Gtot= -2367.160855",
+      "solution": "HF=-2367.4555563Htot= -2367.175489Gtot= -2367.244912"
+    },
+    {
+      "label": "V-tBu-fac",
+      "gas_phase": "HF=-2485.4406762ZPE=0.345522NImag=0Hcorr=0.371768Gcorr=0.292705Htot=-2485.070360Gtot= -2485.148083",
+      "solution": "HF=-2485.4406762Htot=-2485.070360Gtot= -2485.148083"
+    },
+    {
+      "label": "V-tBu-mer",
+      "gas_phase": "HF=-2485.3397309ZPE=0.345518NImag=0Hcorr=0.370369Gcorr=0.293289Htot=-2484.969362Gtot= -2485.046442",
+      "solution": "HF=-2485.4238728Htot= -2485.054225Gtot= -2485.132574"
+    },
+    {
+      "label": "VII-Me-fac",
+      "gas_phase": "HF=-4941.6739673ZPE= 0.260574NImag=0Hcorr=0.285224Gcorr=0.203518Htot=-4941.388744Gtot= -4941.470449",
+      "solution": "HF=-4941.7072373Htot=-4941.423062Gtot= -4941.502963"
+    },
+    {
+      "label": "VII-Me-mer",
+      "gas_phase": "HF=-4941.6460321ZPE=0.259576NImag=0Hcorr=0.284588Gcorr=0.202080Htot=-4941.361444Gtot= -4941.443952",
+      "solution": "HF=-4941.6844809Htot=-4941.399800Gtot= -4941.482947"
+    },
+    {
+      "label": "VIII-Me-fac",
+      "gas_phase": "HF=-4828.3041618ZPE=0.252626NImag=0Hcorr=0.273986Gcort=0.202434Htot=-4828.030176Gtot= -4828.101728",
+      "solution": "HF=-4828.3418583Htot= -4828.067709Gtot= -4828.139721"
+    },
+    {
+      "label": "VIII-Me-mer",
+      "gas_phase": "HF=-4828.295828ZPE= 0.252330NImag=0Hcorr=0.273847Ccorr=0.201829Htot=-4828.021981Gtot= -4828.093999",
+      "solution": "HF=-4828.335249Htot= -4828.061219Gtot= -4828.134760"
+    },
+    {
+      "label": "VII-tBu-fac",
+      "gas_phase": "HF=-5059.638207ZPE= 0.345192NImag=0Hcorr=0.373789Ccorr=0.283413Htot=-5059.264418Gtot= -5059.354794",
+      "solution": "HF=-5059.6741234Htot=-5059.301577Gtot= -5059.388932"
+    },
+    {
+      "label": "VII-tBu-mer",
+      "gas_phase": "HF=-5059.6102016ZPE=0.344239NImag=0Hcorr=0.373206Gcorr=0.281788Htot=-5059.236996Gtot= -5059.328414",
+      "solution": "HF=-5059.6516739Htot= -5059.279665Gtot= -5059.369122"
+    },
+    {
+      "label": "VIII-tBu-fac",
+      "gas_phase": "HF=-4946.2688224ZPE=0.337423NImag=0Hcorr=0.362658Ccorr=0.283692Htot=-4945.906164Gtot= -4945.985130",
+      "solution": "HF=-4946.3098446Htot= -4945.947327Gtot= -4946.027224"
+    },
+    {
+      "label": "VIII-tBu-mer",
+      "gas_phase": "HF=-4946.2600185ZPE=0.337363NImag=0 Hcorr=0.362596Gcorr=0.283569Htot=-4945.897423Gtot= -4945.976449",
+      "solution": "HF=-4946.301463Htot= -4945.939219Gtot= -4946.019581"
+    },
+    {
+      "label": "VI-OtBu",
+      "gas_phase": "HF=-2163.1888959ZPE=0.355851NImag=0Hcorr=0.382305Gcorr=0.300789Htot=-2162.806591Gtot= -2162.888107",
+      "solution": "HF=-2163.2147373Htot= -2162.833079Gtot= -2162.915409"
+    },
+    {
+      "label": "Mn1",
+      "gas_phase": "HF=-1929.4414277ZPE= 0.216710NImag=0Hcorr=0.235822Gcorr=0.168557Htot=-1929.205606Gtot= -1929.272871",
+      "solution": "HF=-1929.4538699Htot= -1929.218422Gtot= -1929.287679"
+    },
+    {
+      "label": "VI-OCHMe2",
+      "gas_phase": "HF=-2123.8642587ZPE=0.327711NImag=0Hcorr=0.353127Gcorr=0.272501Htot=-2123.511132Gtot= -2123.591757",
+      "solution": "HF=-2123.8898943Htot= -2123.537238Gtot= -2123.617790"
+    },
+    {
+      "label": "VII-Me-OtBu",
+      "gas_phase": "HF=-2600.6912294ZPE= 0.384880NImag=0Hcorr=0.414632Gcorr=0.323774Htot=-2600.276597Gtot= -2600.367456",
+      "solution": "HF=-2600.7227131Htot= -2600.308526Gtot= -2600.400167"
+    },
+    {
+      "label": "Mn1-Me",
+      "gas_phase": "HF=-2366.946282ZPE= 0.245825NImag=0Hcorr=0.268199Gcorr=0.191707Htot=-2366.678083Gtot= -2366.754575",
+      "solution": "HF =-2366.9638173Htot= -2366.696853Gtot= -2366.772747"
+    },
+    {
+      "label": "VII-Me-OCHMe2",
+      "gas_phase": "HF=-2561.3665439ZPE=0.356610NImag=0Hcorr=0.385396Gcorr=0.295100Htot=-2560.981148Gtot= -2561.071444",
+      "solution": "HF=-2561.3976244Htot= -2561.013525Gtot= -2561.101418"
+    },
+    {
+      "label": "VII-tBu-OtBu",
+      "gas_phase": "HF=-2718.6556003ZPE= 0.469414NImag=0Hcorr=0.503126Gcorr=0.403873Htot=-2718.152474Gtot= -2718.251727",
+      "solution": "HF=-2718.689997Htot=-2718.188589Gtot= -2718.285376"
+    },
+    {
+      "label": "Mn1-tBu",
+      "gas_phase": "HF=-2484.9111603ZPE= 0.330490NImag=0Hcorr=0.355840Gcorr=0.273706Htot=-2484.555321Gtot= -2484.637454",
+      "solution": "HF=-2484.9316556Htot= -2484.576461Gtot= -2484.659722"
+    },
+    {
+      "label": "VII-tBu-OCHMe2",
+      "gas_phase": "HF=-2679.3306485ZPE=0.441330NImag=0Hcorr=0.473999Gcorr= 0.374877Htot=-2678.856649Gtot= -2678.955772",
+      "solution": "HF=-2679.3645627Htot= -2678.893130Gtot= -2678.986726"
+    },
+    {
+      "label": "VII-tBu-OCHPhMe-R",
+      "gas_phase": "HF=-2871.1068847ZPE= 0.494859NImag=0Hcorr= 0.530287Gcorr= 0.426442Htot= -2870.576598Gtot= -2870.680443",
+      "solution": "HF=-2871.1435658Htot= -2870.613902Gtot= -2870.719794"
+    },
+    {
+      "label": "VII-tBu-OCHPhMe-S",
+      "gas_phase": "HF=-2871.1085028ZPE= 0.495104NImag=0Hcorr= 0.530104Gcorr= 0.428305Htot= -2870.578399Gtot= -2870.680198",
+      "solution": "HF=-2871.1428738Htot=-2870.614518Gtot= -2870.715011"
+    },
+    {
+      "label": "VIII-Me-OtBu",
+      "gas_phase": "HF=-2487.3201763ZPE= 0.376528NImag=0Hcorr=0.403128Gcorr=0.321514Htot=-2486.917048Gtot= -2486.998662",
+      "solution": "HF=-2487.3522453Htot= -2486.949488Gtot= -2487.033354"
+    },
+    {
+      "label": "Mn2-Me",
+      "gas_phase": "HF=-2253.5757275ZPE= 0.237408NImag=0Hcorr=0.256719Gcorr=0.190089Htot= -2253.319009Gtot= -2253.385638",
+      "solution": "HF=-2253.5967229Htot= -2253.340122Gtot= -2253.408537"
+    },
+    {
+      "label": "VIII-Me-OCHMe2",
+      "gas_phase": "HF=-2447.9981244ZPE=0.348834NImag=0Hcorr=0.374313Gcorr=0.294142Htot=-2447.623812Gtot= -2447.703982",
+      "solution": "HF=-2448.0309218Htot=-2447.657712Gtot=-2447.735613"
+    },
+    {
+      "label": "VIII-tBu-OtBu",
+      "gas_phase": "HF=-2605.2849303ZPE= 0.461679NImag=0Hcorr=0.492011Gcorr=0.403310Htot=-2604.792920Gtot= -2604.881620",
+      "solution": "HF= -2605.3203074Htot= -2604.829894Gtot= -2604.917015"
+    },
+    {
+      "label": "Mn2-tBu",
+      "gas_phase": "HF=-2371.5395391ZPE= 0.322296NImag=0Hcorr=0.345471Gcorr=0.271087Htot=-2371.194068 Gtot= -2371.268453",
+      "solution": "HF=-2371.5638666Htot= -2371.218676Gtot= -2371.294594"
+    },
+    {
+      "label": "VIII-tBu-OCHMe2",
+      "gas_phase": "HF=-2565.9637842ZPE=0.433909NImag=0Hcorr=0.463114Gcorr=0.376603Htot=-2565.500671Gtot= -2565.587181",
+      "solution": "HF=-2566.0004012Htot= -2565.537898Gtot= -2565.625895"
+    },
+    {
+      "label": "TS(Mn1/H2)",
+      "gas_phase": "HF=-1930.5961407ZPE= 0.231637NImag = 1 (-928)Hcorr=0.251061Gcorr=0.184006Htot=-1930.345080Gtot= -1930.412134",
+      "solution": "HF=-1930.6059291Htot= -1930.355576Gtot= -1930.423570"
+    },
+    {
+      "label": "Mn1-H2",
+      "gas_phase": "HF=-1930.627281ZPE= 0.237310NImag=0Hcorr=0.256986Gcorr=0.189174Htot=-1930.370295Gtot= -1930.438107",
+      "solution": "HF=-1930.6525778Htot= -1930.396012Gtot= -1930.464149"
+    },
+    {
+      "label": "TS(Mn1-Me/H2)",
+      "gas_phase": "HF=-2368.1020871ZPE= 0.260662NImag=1 (-974.6511)Hcorr=0.283336Gcorr=0.207307Htot=-2367.818751Gtot= -2367.894780",
+      "solution": "HF=-2368.1171312Htot= -2367.834365Gtot= -2367.911862"
+    },
+    {
+      "label": "Mn1-Me-2H",
+      "gas_phase": "HF=-2368.1314454ZPE= 0.266421NImag=0Hcorr=0.289273Gcorr=0.212950Htot=-2367.842172Gtot= -2367.918495",
+      "solution": "HF=-2368.1618919Htot=-2367.872959Gtot= -2367.950184"
+    },
+    {
+      "label": "TS(Mn1-tBu/H2)",
+      "gas_phase": "HF=-2486.0659114ZPE= 0.345544NImag = 1 (-955.0501)Hcorr=0.371931Gcorr=0.287943Htot=-2485.693980Gtot= -2485.777968",
+      "solution": "HF=-2486.0838886Htot= -2485.712738Gtot= -2485.798192"
+    },
+    {
+      "label": "Mn1-tBu-2H",
+      "gas_phase": "HF=-2486.0953925ZPE= 0.351071 NImag=0Hcorr=0.377762Gcorr=0.292860 Htot=-2485.717631 Gtot= -2485.802532",
+      "solution": "HF=-2486.1287672Htot=-2485.752559Gtot= -2485.836081"
+    },
+    {
+      "label": "Mn1-tBu-2D",
+      "gas_phase": "HF= -2486.0953925ZPE= 0.345428NImag=0Hcorr= 0.372487Gcorr= 0.286997Htot= -2485.722905Gtot= -2485.808395",
+      "solution": "HF=-2486.1287656Htot= -2485.757805Gtot= -2485.841926"
+    },
+    {
+      "label": "TS(Mn2-Me/H2)",
+      "gas_phase": "HF=-2254.7271405ZPE= 0.252117NImag=1 (-1247)Hcorr=0.271687Gcorr=0.204485Htot= -2254.455453Gtot= -2254.522656",
+      "solution": "HF=-2254.7481342Htot= -2254.476693Gtot= -2254.544483"
+    },
+    {
+      "label": "Mn2-Me-2H",
+      "gas_phase": "HF=-2254.7469411ZPE= 0.257762NImag=0Hcorr=0.277421Gcorr=0.210853Htot= -2254.469520Gtot= -2254.536088",
+      "solution": "HF=-2254.7842097Htot= -2254.506575Gtot= -2254.574232"
+    },
+    {
+      "label": "TS(Mn2-tBu/H2)",
+      "gas_phase": "HF=-2372.6922484ZPE=0.336769NImag=1 (-1255)Hcorr=0.360260Gcorr=0.285678Htot=-2372.331988Gtot= -2372.406570",
+      "solution": "HF=-2372.7165521Htot= -2372.356856Gtot= -2372.433621"
+    },
+    {
+      "label": "Mn2-tBu-2H",
+      "gas_phase": "HF=-2372.7127644ZPE=0.342645NImag=0Hcorr=0.366157Gcorr=0.292132Htot=-2372.346607Gtot= -2372.420632",
+      "solution": "HF=-2372.752745Htot= -2372.386720Gtot= -2372.461905"
+    },
+    {
+      "label": "Mn2-tBu-2D",
+      "gas_phase": "HF=-2372.7127644ZPE=0.337085NImag=0Hcorr=0.360975Gcorr=0.286345Htot=-2372.351789Gtot= -2372.426419",
+      "solution": "HF=-2372.7527456Htot=-2372.391887Gtot= -2372.467677"
+    },
+    {
+      "label": "TS1(Mn1)",
+      "gas_phase": "HF=-2123.8380652ZPE= 0.321359NImag= 1 (-1319)Hcorr=0.346340Gcorr=0.267211Htot=-2123.491725Gtot= -2123.570854",
+      "solution": "HF=-2123.8611313Htot=-2123.515430Gtot= -2123.595286"
+    },
+    {
+      "label": "Int1(Mn1)",
+      "gas_phase": "HF=-2123.8404816ZPE= 0.325594NImag= 0Hcorr=0.350711Gcorr=0.271549Htot=-2123.489770Gtot= -2123.568933",
+      "solution": "HF=-2123.8655702Htot= -2123.516275Gtot= -2123.594644"
+    },
+    {
+      "label": "TS2(Mn1)",
+      "gas_phase": "HF=-2123.8369522ZPE= 0.322972NImag= 1 (-417)Hcorr=0.348051Gcorr=0.268709Htot=-2123.488901Gtot= -2123.568243",
+      "solution": "HF=-2123.8594241Htot= -2123.512153Gtot= -2123.593057"
+    },
+    {
+      "label": "TS1(Mn1-Me)",
+      "gas_phase": "HF=-2561.3411519ZPE= 0.350319NImag = 1 (-1325.7517)Hcorr=0.378676Gcorr=0.289947Htot=-2560.962476Gtot= -2561.051205",
+      "solution": "HF=-2561.3694326Htot= -2560.991369Gtot= -2561.083319"
+    },
+    {
+      "label": "Int1(Mn1-Me)",
+      "gas_phase": "HF=-2561.3457259ZPE= 0.354528NImag= 0Hcorr= 0.382863Gcorr= 0.295191Htot=-2560.962863Gtot=-2561.050535",
+      "solution": "HF=-2561.3759038Htot=-2560.994375Gtot=-2561.080481"
+    },
+    {
+      "label": "TS2(Mn1-Me)",
+      "gas_phase": "HF=-2561.3418533ZPE= 0.351959NImag= 1 (-418.21)Hcorr=0.380271Gcorr=0.292341Htot=-2560.961582Gtot=-2561.049512",
+      "solution": "HF=-2561.3695701Htot=-2560.989985Gtot=-2561.079994"
+    },
+    {
+      "label": "TS1(Mn1-tBu)",
+      "gas_phase": "HF=-2679.3063898ZPE=0.435760NImag = 1 (-1292.75)Hcorr=0.467486Gcorr=0.373369Htot=-2678.842980Gtot= -2678.937096",
+      "solution": "HF=-2679.3409625Htot=-2678.874296Gtot=-2678.969313"
+    },
+    {
+      "label": "Int1(Mn1-tBu)",
+      "gas_phase": "HF=-2679.3121332ZPE=0.439783NImag=0 Hcorr=0.471656Gcorr=0.377458Htot=-2678.840477Gtot= -2678.934676",
+      "solution": "HF=-2679.3452724Htot= -2678.875310Gtot= -2678.968494"
+    },
+    {
+      "label": "TS2(Mn1-tBu)",
+      "gas_phase": "HF=-2679.306997ZPE=0.437159NImag= 1 (-402.59)Hcorr=0.469026Gcorr=0.374149Htot=-2678.837971Gtot=-2678.932848",
+      "solution": "HF=-2679.3383088Htot= -2678.870215Gtot= -2678.966631"
+    },
+    {
+      "label": "TS2(Mn1-tBu)-2D",
+      "gas_phase": "HF=-2679.3049013ZPE= 0.430851NImag=1 (-379.55)Hcorr= 0.463333Gcorr= 0.366127Htot= -2678.841568Gtot= -2678.938774",
+      "solution": "HF=-2679.3360215Htot= -2678.873399Gtot= -2678.973684"
+    },
+    {
+      "label": "TS1(Mn2-Me)",
+      "gas_phase": "HF=-2447.9726273ZPE= 0.342734NImag= 1 (-910)Hcorr=0.367754Gcorr=0.289483Htot=-2447.604873Gtot= -2447.683144",
+      "solution": "HF=-2448.0058464Htot= -2447.638363Gtot= -2447.718419"
+    },
+    {
+      "label": "Int1(Mn2-Me)",
+      "gas_phase": "HF=-2447.9728809ZPE= 0.345948NImag=0 Hcorr=0.371241Gcorr=0.292373Htot=-2447.601640Gtot= -2447.680508",
+      "solution": "HF=-2448.008005Htot=-2447.636835Gtot= -2447.717549"
+    },
+    {
+      "label": "TS2(Mn-Me)",
+      "gas_phase": "HF=-2447.9620664ZPE= 0.343427NImag=1 (-302)Hcorr=0.368690Gcorr=0.289641Htot=-2447.593377Gtot= -2447.672426",
+      "solution": "HF=-2447.9946254Htot=-2447.627342Gtot= -2447.706183"
+    },
+    {
+      "label": "TS1(Mn2-tBu)",
+      "gas_phase": "HF=-2565.9384408ZPE= 0.427556NImag=1 (-802)Hcorr=0.456511Gcorr=0.370181Htot=-2565.481930Gtot= -2565.568260",
+      "solution": "HF=-2565.975479Htot= -2565.519316Gtot= -2565.607033"
+    },
+    {
+      "label": "Int1(Mn2-tBu)",
+      "gas_phase": "HF=-2565.9386128ZPE= 0.430555NImag=0Hcorr=0.459809Gcorr=0.372648Htot=-2565.478804Gtot= -2565.565965",
+      "solution": "HF=-2565.9773496Htot=-2565.518722Gtot= -2565.604015"
+    },
+    {
+      "label": "TS2(Mn2-tBu)",
+      "gas_phase": "HF=-2565.9278611ZPE= 0.428235NImag= 1 (-318.0856)Hcorr=0.457366Gcorr=0.370878Htot=-2565.470495Gtot= -2565.556983",
+      "solution": "HF=-2565.9636071Htot= -2565.507909Gtot= -2565.593629"
+    },
+    {
+      "label": "TS2(Mn1)-2D",
+      "gas_phase": "HF=-2565.9278613ZPE=0.422643NImag=0Hcorr=0.452073Gcorr=0.365137Htot=-2565.475789Gtot= -2565.562725",
+      "solution": "HF=-2565.963611Htot=-2565.513146Gtot= -2565.599364"
+    },
+    {
+      "label": "TS1(Mn1-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2315.6099409ZPE= 0.376003NImag= 1 (-404)Hcorr=0.403981Gcorr=0.318190Htot=-2315.205960Gtot= -2315.291751",
+      "solution": "HF=-2315.637308Htot= -2315.234100Gtot= -2315.321839"
+    },
+    {
+      "label": "Int1(Mn1-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2315.6145174ZPE= 0.378343NImag=0Hcorr=0.406441Gcorr=0.320530Htot=-2315.208077Gtot= -2315.293988",
+      "solution": "HF=-2315.6432299Htot=-2315.237296Gtot= -2315.323953"
+    },
+    {
+      "label": "TS2(Mn1-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2315.6122574ZPE= 0.374990NImag = 1 (-1251)Hcorr=0.402616Gcorr=0.318444Htot=-2315.209642Gtot= -2315.293813",
+      "solution": "HF=-2315.6382378Htot=-2315.236246Gtot= -2315.320555"
+    },
+    {
+      "label": "TS1(Mn1-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2315.6074364ZPE= 0.376009NImag= 1 (-387)Hcorr=0.404120Gcorr=0.317479Htot=-2315.203316Gtot= -2315.289958",
+      "solution": "HF=-2315.6345092Htot= -2315.232177Gtot= -2315.317242"
+    },
+    {
+      "label": "Int1(Mn1-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2315.6103832ZPE= 0.378437NImag=0Hcorr=0.406726Gcorr=0.319211Htot=-2315.203657Gtot= -2315.291172",
+      "solution": "HF=-2315.6399937Htot==-2315.234829Gtot= -2315.320544"
+    },
+    {
+      "label": "TS2(Mn1-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2315.6075316ZPE= 0.374138NImag = 1 (-1257)Hcorr=0.402316Gcorr=0.314508Htot=-2315.205216Gtot= -2315.293023",
+      "solution": "HF=-2315.6353412Htot=-2315.234638Gtot= -2315.320222"
+    },
+    {
+      "label": "TS1(Mn1-Me-2H/Acetophenone-S",
+      "gas_phase": "HF=-2752.773030ZPE=0.405126NImag= 1 (-405.99)Hcorr=0.436275Gcorr=0.341815Htot=-2752.678569Gtot= -2752.773030",
+      "solution": "HF=-2753.1474128Htot=-2752.711683Gtot=-2752.807925"
+    },
+    {
+      "label": "Int1(Mn1-Me-2H/Acetophenone-S) ",
+      "gas_phase": "HF=-2753.1197061ZPE= 0.407478 0.407291NImag = 0Hcorr=0.438845 0.438664Gcorr=0.344152 0.343681Htot= -2752.681042Gtot= -2752.776025",
+      "solution": "HF=-2753.1533092Htot=-2752.716916Gtot= -2752.807493"
+    },
+    {
+      "label": "TS2(Mn1-Me-2H/Acetophenone-S) ",
+      "gas_phase": "HF=-2753.117888ZPE=0.403779NImag = 1 (-1269.35)Hcorr=0.434761Gcoor=0.341059Htot=-2752.683127Gtot=-2752.776829",
+      "solution": "HF=-2753.1488328Htot= -2752.717449Gtot=-2752.804727"
+    },
+    {
+      "label": "TS1(Mn1-Me-2H/Acetophenone-R) ",
+      "gas_phase": "HF=-2753.1112279ZPE= 0.404953NImag= 1 (-396.81)Hcorr=0.436284Gcorr=0.340879Htot=-2752.674944Gtot= -2752.770349",
+      "solution": "HF=-2753.1441036Htot=-2752.709517Gtot=-2752.803969"
+    },
+    {
+      "label": "Int1(Mn1-Me-2H/Acetophenone-R) ",
+      "gas_phase": "HF=-2753.1140184ZPE= 0.407387NImag = 0Hcorr=0.438896Gcorr=0.342863Htot=-2752.675122Gtot=-2752.771155",
+      "solution": "HF=-2753.1497221Htot=-2752.711961Gtot=-2752.806155"
+    },
+    {
+      "label": "TS2(Mn1-Me-2H/Acetophenone-R) ",
+      "gas_phase": "HF=-2753.1116752ZPE=0.403304NImag = 1 (-1288.75)Hcorr=0.434700Gcorr=0.338464Htot=-2752.676975Gtot=-2752.773211",
+      "solution": "HF=-2753.1453838Htot= -2752.711088Gtot=-2752.809655"
+    },
+    {
+      "label": "TS1(Mn1-tBu-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2871.081213ZPE= 0.490114NImag=1 (-412)Hcorr=0.524843Gcorr=0.423926Htot=-2870.556371Gtot= -2870.657288",
+      "solution": "HF=-2871.1161102Htot= -2870.592280Gtot= -2870.695688"
+    },
+    {
+      "label": "TS1(Mn1-tBu-2D/Acetophenone-S)",
+      "gas_phase": "HF=-2871.0812139ZPE= 0.484570NImag= 1 (-373.7744)Hcorr= 0.519587Gcorr= 0.418236Htot= -2870.561627Gtot= -2870.662978",
+      "solution": "HF=-2871.1161102Htot= -2870.597476Gtot= -2870.701315"
+    },
+    {
+      "label": "Int1(Mn1-tBu-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2871.0868213ZPE= 0.492649NImag=0Hcorr=0.527507Gcorr=0.426841Htot=-2870.559314Gtot= -2870.659981",
+      "solution": "HF=-2871.1224147Htot= -2870.595591Gtot= -2870.696723"
+    },
+    {
+      "label": "TS2(Mn1-tBu-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2871.084775ZPE= 0.489037NImag= 1 (-1224.9119)Hcorr=0.523589Gcorr=0.423495Htot=-2870.561186Gtot= -2870.661280",
+      "solution": "HF=-2871.1178895Htot=-2870.595115Gtot= -2870.696743"
+    },
+    {
+      "label": "TS1(Mn1-tBu-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2871.0789859ZPE= 0.490053NImag=1 (-412.9373)Hcorr=0.524957Gcorr=0.423391Htot=-2870.554028Gtot= -2870.655595",
+      "solution": "HF=-2871.1139186Htot=-2870.589891Gtot=-2870.692620"
+    },
+    {
+      "label": "TS1(Mn1-tBu-2D/Acetophenone-R)",
+      "gas_phase": "HF=-2871.078986ZPE= 0.484469NImag=1 (-370.5884)Hcorr= 0.519657Gcorr= 0.417664Htot= -2870.559329Gtot= -2870.661322",
+      "solution": "HF=-2871.113924Htot= -2870.595133Gtot= -2870.698280"
+    },
+    {
+      "label": "Int1(Mn1-tBu-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2871.0831399ZPE= 0.492903NImag=0Hcorr=0.527876Gcorr=0.426554Htot=-2870.555264Gtot= -2870.656586",
+      "solution": "HF=-2871.1202609Htot= -2870.593036Gtot= -2870.695145"
+    },
+    {
+      "label": "TS2(Mn1-tBu-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2871.080804ZPE= 0.488879NImag=1 (-1291.2548)Hcorr=0.523632Gcorr=0.422351Htot=-2870.557172Gtot= -2870.658453",
+      "solution": "HF=-2871.1165622Htot= -2870.594719Gtot= -2870.693852"
+    },
+    {
+      "label": "TS1(Mn2-Me-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2639.7362847ZPE= 0.396680NImag= 1 (-286.1347)Hcorr=0.424767Gcorr=0.339787Htot=-2639.311518Gtot= -2639.396498",
+      "solution": "HF=-2639.7725711Htot= -2639.348106Gtot= -2639.434848"
+    },
+    {
+      "label": "Int1(Mn2-Me-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2639.7476653ZPE= 0.399128NImag= 0Hcorr=0.427404Gcorr=0.342014Htot=-2639.320261Gtot= -2639.405651",
+      "solution": "HF=-2639.7851175Htot= -2639.357846Gtot= -2639.444906"
+    },
+    {
+      "label": "TS2(Mn2-Me-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2639.7471396ZPE= 0.395764NIMag= 1 (-1069)Hcorr=0.423761Gcorr=0.338914Htot=-2639.323378Gtot= -2639.408226",
+      "solution": "HF=-2639.782473Htot=-2639.359032Gtot = -2639.445457"
+    },
+    {
+      "label": "TS1(Mn2-Me-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2639.7335322ZPE= 0.396695NImag= 1(-388)Hcorr=0.424914Gcorr=0.339008Htot=-2639.308618Gtot= -2639.394524",
+      "solution": "HF=-2639.7688099Htot=-2639.345218Gtot= -2639.429711"
+    },
+    {
+      "label": "Int1(Mn2-Me-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2639.7448215ZPE= 0.398911NImag=0Hcorr=0.427404Gcorr=0.340218Htot=-2639.317417Gtot= -2639.404604",
+      "solution": "HF=-2639.7838901Htot=-2639.356484Gtot= -2639.444912"
+    },
+    {
+      "label": "TS2(Mn2-Me-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2639.7442046ZPE= 0.395441NImag= 1 (-1120)Hcorr=0.423699Gcorr=0.336935Htot=-2639.320505Gtot= -2639.407269",
+      "solution": "HF=-2639.7806463Htot=-2639.357239Gtot= -2639.445875"
+    },
+    {
+      "label": "TS1(Mn2-tBu-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2757.7021693ZPE= 0.481427NImag= 1 (-278.3974)Hcorr=0.513432Gcorr=0.420757Htot=-2757.188737Gtot= -2757.281412",
+      "solution": "HF=-2757.7415853Htot=-2757.228731Gtot= -2757.322690"
+    },
+    {
+      "label": "TS1(Mn2-tBu-2D/Acetophenone-S)",
+      "gas_phase": "HF=-2757.7021694ZPE= 0.475887NImag= 1 (-258.4367)Hcorr= 0.508200Gcorr= 0.415050Htot= -2757.193969Gtot= -2757.287120",
+      "solution": "HF=-2757.7415893Htot= -2757.233881Gtot= -2757.328309"
+    },
+    {
+      "label": "Int1(Mn2-tBu-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2757.7137957ZPE= 0.484296NImag=0Hcorr=0.516274Gcorr=0.424117Htot=-2757.197522Gtot= -2757.289678",
+      "solution": "HF=-2757.7549155Htot=-2757.238823Gtot= -2757.331720"
+    },
+    {
+      "label": "TS2(Mn2-tBu-2H/Acetophenone-S)",
+      "gas_phase": "HF=-2757.7132855ZPE= 0.480448NImag=1 (-1084)Hcorr=0.512367Gcorr=0.419637Htot=-2757.200919Gtot= -2757.293649",
+      "solution": "HF=-2757.7521907Htot= -2757.240193Gtot= -2757.334300"
+    },
+    {
+      "label": "TS1(Mn2-tBu-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2757.6992719ZPE= 0.481470NImag= 1 (-431)Hcorr=0.513545Gcorr=0.420110Htot=-2757.185727 Gtot= -2757.279162",
+      "solution": "HF=-2757.7377162Htot=-2757.225784Gtot= -2757.318052"
+    },
+    {
+      "label": "TS1(Mn2-tBu-2D/Acetophenone-R)",
+      "gas_phase": "HF=-2757.6992726ZPE= 0.476014NImag= 1 (-377.6128)Hcorr= 0.508375Gcorr= 0.414552Htot= -2757.190897Gtot= -2757.284721",
+      "solution": "HF=-2757.7377181Htot= -2757.230916Gtot= -2757.323587"
+    },
+    {
+      "label": "Int1(Mn2-tBu-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2757.7105941ZPE= 0.483796NImag=0Hcorr=0.516162Gcorr=0.421510Htot=-2757.194432Gtot= -2757.289084",
+      "solution": "HF=-2757.7535468Htot=-2757.238629Gtot= -2757.331104"
+    },
+    {
+      "label": "TS2(Mn2-tBu-2H/Acetophenone-R)",
+      "gas_phase": "HF=-2757.7099484ZPE= 0.480009NImag=1 (-1149)Hcorr=0.512244Gcorr=0.417388Htot=-2757.197705Gtot= -2757.292561",
+      "solution": "HF=-2757.7503195Htot= -2757.238632Gtot= -2757.335411"
+    },
+    {
+      "label": "VIII-tBu-OCHMe2-Int",
+      "gas_phase": "HF=-2565.940815ZPE=0.433390NImag=0Hcorr=0.463597Gcorr=0.371527Htot=-2565.477218Gtot= -2565.569288",
+      "solution": "HF=-2565.9771291Htot=-2565.515252Gtot= -2565.606639"
+    },
+    {
+      "label": "TS3",
+      "gas_phase": "HF=-2565.9186794ZPE=0.428533NImag=1 (-245.9678)Hcorr=0.457998Gcorr=0.369935Htot=-2565.460682Gtot = -2565.548744",
+      "solution": "HF=-2565.9569196Htot= -2565.499477Gtot= -2565.588421"
+    },
+    {
+      "label": "Mn2-tBu-2H-iso",
+      "gas_phase": "HF=-2372.6898056ZPE=0.342627NImag=0Hcorr=0.366872Gcorr=0.289059Htot=-2372.322934Gtot =-2372.400746",
+      "solution": "HF=-2372.7364878Htot=-2372.369584Gtot=-2372.449233"
+    },
+    {
+      "label": "Mn1-tBu-TS-OH/isopropanolTS(O-H)",
+      "gas_phase": "HF=-2679.3236242ZPE= 0.436678NImag=1 (-662.5963)Hcorr= 0.436678Gcorr= 0.436678Htot= -2678.855063Gtot= -2678.949895 ",
+      "solution": "HF=-2679.3504015Htot= -2678.882694Gtot= -2678.978713"
+    },
+    {
+      "label": "Mn2-tBu-TS-OH/isopropanolTS(O-H)",
+      "gas_phase": "HF=-2565.9488067ZPE=0.428100NImag=1 (-888.0357)Hcorr= 0.457136 Gcorr= 0.370820Htot=-2565.491671Gtot= -2565.577986",
+      "solution": "HF=-2565.9796482Htot= -2565.523082Gtot= -2565.611301"
+    }
+  ]
+}

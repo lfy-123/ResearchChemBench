@@ -1,0 +1,138 @@
+{
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "evidence": [
+    {
+      "evidence_id": "source_structure_spectrum",
+      "source": [
+        {
+          "path": "papers/paper_2f0a4f80a37fbccd/documents/main.pdf",
+          "sha256": "76fe828053d735014dabbbcf20749bb2d180992ed7921df2190fc89bacca8438",
+          "pdf_pages_1based": [
+            3,
+            4,
+            7,
+            8
+          ],
+          "locator": "Fig4, Table2, DFT methods and detailed KBr spectrum"
+        },
+        {
+          "path": "papers/paper_2f0a4f80a37fbccd/documents/supplementary_001.pdf",
+          "sha256": "539d338737eddb8491b9e78f2202fc83f3495da450c4dd6c0a55c452b3f5c01e",
+          "pdf_pages_1based": [
+            15,
+            16,
+            29
+          ],
+          "locator": "Tables S10–S11 and FigS12"
+        }
+      ],
+      "scope": "Full eta2 nitrato complex geometry and source spectrum; exact correction factor unspecified.",
+      "supports_final_conclusion_ids": [
+        "coordination_geometry",
+        "nitrate_bonding_vibrations",
+        "observation_1261",
+        "observation_1223",
+        "observation_802",
+        "high_band_comparison",
+        "molecular_scope"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "native_structure_modes",
+      "source": [
+        {
+          "path": "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_2f0a4f80a37fbccd/SOURCE_VS_NATIVE.json",
+          "sha256": "faecc17200820430ff1f71abad632852814f0305d53e7c0158f48f879df908de"
+        },
+        {
+          "path": "docs/strict_author_route_validation_20261001/parallel_blockers_20261005T090259Z/workers/W01/papers/paper_2f0a4f80a37fbccd/cases/w01_Ir_G09_relaxed_20261009_a01/outputs/analysis_result.json",
+          "sha256": "120fa663460f484402d9d791ecf6f609c0f96bc4246367f76dd4220607bfa21a"
+        },
+        {
+          "path": "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_2f0a4f80a37fbccd/NATIVE_ROUTE_FIELDS.json",
+          "sha256": "6bbe71e151b4af239bf55f2a6bfd26f822299c2fa699254fec499d2e80be3f2c"
+        },
+        {
+          "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/IR_DIRECT_NATIVE_READBACK.json",
+          "sha256": "124c8415759c1dbe7d12facb67264b10dd60df86080f9c92c699f397c4fef0f5"
+        }
+      ],
+      "scope": "Full molecule relaxed geometry, 219 positive raw modes, nitrate mode displacement and source comparison.",
+      "supports_final_conclusion_ids": [
+        "coordination_geometry",
+        "nitrate_bonding_vibrations",
+        "observation_1261",
+        "observation_1223",
+        "observation_802",
+        "high_band_comparison",
+        "molecular_scope"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "native_observation_comparison",
+      "source": [
+        {
+          "path": "docs/strict_author_route_validation_20261001/continuous_forward_20261009T071333Z/papers/paper_2f0a4f80a37fbccd/returned_a9805ec3b3ad0fc2/OBSERVATION_MODE_READBACK.json",
+          "sha256": "0e39f8de44f85b0546c12c62f80ea653b11563fce0bf871318771af4c987d97f"
+        },
+        {
+          "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f0a4f80a37fbccd/report/v2_execution_20260929/ir_21_peak_native_audit.json",
+          "sha256": "77a1f039fd292abd53d0e011a86009bc5ee7e0e4f73e1e340d9cc73e23bd96e5"
+        },
+        {
+          "path": "docs/v2_verification/maintenance/closeout_push_20261017T0719Z/papers/paper_2f0a4f80a37fbccd/SOURCE_DEFINITION_RESOLUTION.json",
+          "sha256": "d73336cd39975959ede8adec2c483dda0b103275ce0eb965bc09f21a291cc55c"
+        }
+      ],
+      "scope": "Actual ligand versus nitrate mode character near observations; nearest frequency is not an experimental assignment; source scaling and1561/1532 discrepancy retained.",
+      "supports_final_conclusion_ids": [
+        "observation_1261",
+        "observation_1223",
+        "observation_802",
+        "high_band_comparison",
+        "molecular_scope"
+      ],
+      "scored_independently": false
+    }
+  ],
+  "source_page_convention": "PDF pages are 1-based physical pages; DOCX paragraphs use all w:p XML elements, including empty paragraphs.",
+  "current_acceptance": "V3_SCOPE_MAPPED_TO_EXISTING_EVIDENCE_NOT_NEW_SCIENTIFIC_PASS",
+  "numerical_tolerance_policy": "No numeric leaves. Source/native residuals are disclosed, never converted to fitted acceptance windows.",
+  "final_outcome_bindings": {
+    "coordination_geometry": [
+      "source_structure_spectrum",
+      "native_structure_modes"
+    ],
+    "nitrate_bonding_vibrations": [
+      "source_structure_spectrum",
+      "native_structure_modes"
+    ],
+    "observation_1261": [
+      "source_structure_spectrum",
+      "native_structure_modes",
+      "native_observation_comparison"
+    ],
+    "observation_1223": [
+      "source_structure_spectrum",
+      "native_structure_modes",
+      "native_observation_comparison"
+    ],
+    "observation_802": [
+      "source_structure_spectrum",
+      "native_structure_modes",
+      "native_observation_comparison"
+    ],
+    "high_band_comparison": [
+      "source_structure_spectrum",
+      "native_structure_modes",
+      "native_observation_comparison"
+    ],
+    "molecular_scope": [
+      "source_structure_spectrum",
+      "native_structure_modes",
+      "native_observation_comparison"
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_8769f3cc6d18e26c",
+  "items": [
+    {
+      "failure_id": "fabricated_evidence",
+      "statement": "伪造计算执行或数值证据。",
+      "trigger": "有明确证据确认捏造执行、日志或结果，或将未执行的来源参考冒称独立计算。诚实失败、缺项、数值差异、身份误判本身不等于伪造。",
+      "assessment": "确认伪造按invalid_submission处理；普通错误只使受影响科学项失分。",
+      "evidence_ids": [
+        "V2_SI"
+      ]
+    },
+    {
+      "failure_id": "hidden_answer_leakage",
+      "statement": "将未公开的私有答案冒称自主发现。",
+      "trigger": "确认依赖未获授权的evaluator隐藏答案或原生参考且冒称自主计算；公开指导材料本身不构成泄漏。",
+      "assessment": "确认隐藏答案泄漏按invalid_submission处理；其他独立有效项不因普通失败自动清零。",
+      "evidence_ids": [
+        "V2_MAIN"
+      ]
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "ordinary_failure_policy": "Missing or unsupported conclusions fail only the affected independent items. Established equivalents pass; no need_review or whole-case zeroing for ordinary local errors.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_structural_account",
+      "r_relative_susceptibility",
+      "r_enantioselectivity_reach"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only first-amination substrate structure, two para-site responses and their explanatory reach are scored. Subsequent di-amination and its time trend are outside scope.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

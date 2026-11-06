@@ -1,0 +1,90 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "items": [
+    {
+      "statement": "O–O活化得到结合态活性Fe/O中心",
+      "expected": "完整12-TMC/Fe过氧与DMA有限模型的实际路径/结构和电子态证据支持O–O键断裂后仍结合在Fe上的活性氧中心，对应来源FeIV(oxo)(oxyl)/FeIII(dioxyl)描述。需要相关反应模及有效局部连接，不能以起始过氧结构或虚频数量本身代替。接受物理等价的态描述，不强制精确Mulliken原子自旋数。",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ],
+      "key_point_id": "oo_activation",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "O–O活化后从DMA转移氢原子",
+      "expected": "实际反应模和局部端点证据支持活化Fe/O中心从DMA的N-甲基C–H夺氢，出现对应C–H断裂和O–H形成，原子/质子账本守恒。主张的TS须有相称的鞍点与连接证据；有限IRC加恢复后的有效端点可接受，不要求复刻完整IRC搜索。",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ],
+      "key_point_id": "dma_hat",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "HAT后的底物自由基与Fe/OH物种",
+      "expected": "HAT后有效结构和电子/自旋结果支持DMA碳自由基与FeIII(oxyl)(OH)结合态体系的化学身份，区别于完整闭壳层DMA或已经释放甲醛的产物。此项评价电子与物种性质，不重复奖励H转移本身。来源IM2b −10.1仅作上下文；不同构象不可冒称同一最低点，不强制精确原子自旋分配。",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ],
+      "key_point_id": "radical_intermediate",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "OH反弹形成结合态氧化底物",
+      "expected": "实际局部路径及无约束有效端点支持OH与DMA自由基碳成键，得到保留N–C连接的结合态氧化底物，能量相对所用HAT后起点下降。需实际区分底物自由基消失与C–O形成；有限扫描/端点可支持这一定性结果，但未认证鞍点不能称严格零势垒。允许明确披露HAT端点与反弹起点的构象差，不强制补算构象互变动力学；不得据此声称已经释放N-甲基苯胺/甲醛。",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ],
+      "key_point_id": "rebound_product",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "O–O活化相对共同RC的电子势垒",
+      "expected": "E(TS1b)−E(共同六重态RC)=13.1 kcal/mol，绝对容差2.0，边界包含。完整67原子、总电荷+1、高自旋物理模型，CPCM(TFE)相容电子能；不加D3/ZPE/RRHO项，也不能用实验213 K活化自由能替代。需实际有效的O–O反应鞍点及参照身份；允许物理等价方法和透明单位换算。",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ],
+      "key_point_id": "oo_barrier",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory.",
+      "historical_numeric_context": {
+        "target": 13.1,
+        "tolerance": 2.0,
+        "unit": "kcal/mol",
+        "status": "Unchanged former V2 node window, no longer an active V3 result criterion because the original public task did not require this independent final quantity."
+      }
+    },
+    {
+      "statement": "活化后HAT过渡态相对共同RC的电子高度",
+      "expected": "E(TS2b)−E(共同六重态RC)=9.2 kcal/mol，绝对容差2.0，边界包含。采用与O–O活化相同完整模型、电子态和CPCM(TFE)电子能定义。9.2是共同RC高度，不是TS2b−IM1的局部11.4势垒；需实际相关HAT鞍点与连接证据，不能通过换零点或加入热项获得匹配。",
+      "evidence_ids": [
+        "main",
+        "supplementary_001"
+      ],
+      "key_point_id": "hat_height",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory.",
+      "historical_numeric_context": {
+        "target": 9.2,
+        "tolerance": 2.0,
+        "unit": "kcal/mol",
+        "status": "Unchanged former V2 node window, no longer an active V3 result criterion because the original public task did not require this independent final quantity."
+      }
+    }
+  ],
+  "scoring_applicability_20261029": "Supporting evidence only. No independent points or numeric gates; any retained author values and former tolerances are historical non-scoring context."
+}

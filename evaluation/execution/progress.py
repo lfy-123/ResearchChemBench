@@ -3,13 +3,17 @@
 from __future__ import annotations
 
 import json
+import queue
+import sqlite3
 import sys
 import threading
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, TextIO
 
 from ..provenance.model_io import redact_trace_value
+from .terminal_progress import CONSOLE_INTERVAL_SECONDS, format_terminal_progress
 
 MIN_PROGRESS_CHARS = 80
 DEFAULT_PROGRESS_FILENAME = "_live_progress.log"
@@ -39,7 +43,7 @@ def progress_timestamp() -> str:
 
 
 class LiveProgressReporter:
-    """Write progress to a run-local file and optionally mirror it to stdout."""
+    """Keep detailed file events; print periodic summaries and lifecycle events."""
 
     def __init__(
         self,
@@ -65,6 +69,37 @@ class LiveProgressReporter:
         self._handle: TextIO | None = None
         self._lock = threading.Lock()
         self._file_failed = False
+        self._console_queue = queue.Queue(maxsize=256)
+        self._console_closed = threading.Event()
+        self._console_thread = None
+        if self.enabled and self.console:
+            self._console_thread = threading.Thread(target=self._write_console, daemon=True)
+            self._console_thread.start()
+
+    def _write_console(self) -> None:
+        # A full terminal/pipe must never stop provider events or finalization.
+        last_summary, judging = time.monotonic(), False
+        while not self._console_closed.is_set() or not self._console_queue.empty():
+            kind, line = None, None
+            try:
+                kind, line = self._console_queue.get(timeout=0.1)
+            except queue.Empty:
+                pass
+            try:
+                if line:
+                    print(line, file=self.stream, flush=True)
+                if kind in {"JUDGE_START", "JUDGE_END"}:
+                    judging = kind == "JUDGE_START"
+                if line or time.monotonic() - last_summary >= CONSOLE_INTERVAL_SECONDS:
+                    try:
+                        summary = format_terminal_progress(self.workspace, judging=judging)
+                    except (OSError, ValueError, sqlite3.Error):
+                        summary = "[RCB][PROGRESS] 进度读取暂不可用；详细日志继续保存在文件中。"
+                    print(summary, file=self.stream, flush=True)
+                    last_summary = time.monotonic()
+            except (OSError, ValueError):
+                self.console = False
+                return
 
     def _ensure_handle(self) -> TextIO:
         if self._handle is None:
@@ -86,11 +121,6 @@ class LiveProgressReporter:
         if parts:
             line += " " + " ".join(parts)
         with self._lock:
-            if self.console:
-                try:
-                    print(line, file=self.stream, flush=True)
-                except (OSError, ValueError):
-                    self.console = False
             if not self._file_failed:
                 try:
                     handle = self._ensure_handle()
@@ -104,6 +134,11 @@ class LiveProgressReporter:
                         except OSError:
                             pass
                         self._handle = None
+            if self.console and kind in {"RUN_START", "RUN_END", "ATTEMPT_START", "ATTEMPT_END", "AGENT_ERROR", "JUDGE_START", "JUDGE_END"}:
+                try:
+                    self._console_queue.put_nowait((kind, line))
+                except queue.Full:
+                    self.console = False  # Complete records remain in the file.
 
     def handle_agent_line(self, line: str) -> None:
         """Summarize one Codex, OpenCode, or other Agent JSON stream event."""
@@ -196,6 +231,10 @@ class LiveProgressReporter:
                 except OSError:
                     pass
                 self._handle = None
+        if self._console_thread is not None:
+            self._console_closed.set()
+            self._console_thread.join(timeout=0.2)
+            self._console_thread = None
 
 
 def append_progress_event(

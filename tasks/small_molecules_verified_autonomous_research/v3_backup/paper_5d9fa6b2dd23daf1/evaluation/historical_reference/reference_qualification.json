@@ -1,0 +1,23 @@
+{
+  "paper_id": "paper_5d9fa6b2dd23daf1",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "PROVISIONAL_PASS_QUALITATIVE",
+  "reason": "2026-10-22用户授权按科学分V2整理已验收AR问题；有来源和有效验证支持的有限科学目标可评分，专家出版审查另行进行，不宣称量化计算逐数值严格一致或盲测成绩。",
+  "unblock_conditions": [],
+  "physical_definition": "完整指定E-烯基酸/磺酰胺与AdOH；HFIP、293.15 K、1 atm；G=同几何M06电子能+B3LYP自身热项。局部环化以Ad+和相应底物为参照，净反应以AdOH和相应底物为参照，保留水/质子/电荷配平。",
+  "tolerance_policy": {
+    "numeric_rules": 4,
+    "rationale": "保留原定量规则的±2.0 kcal/mol，未扩大或依残差拟合。只对两局部势垒和两净产物G独立计分；完整曲线高度、醚/离子形成能留作上下文，避免派生量和非核心步骤重复计分。窗内仍须物理身份正确；最终通道排序/放能判断独立评价。"
+  },
+  "publication_review_pending": [
+    "SI溶剂优化/频率叙述与S21气相热项脚注冲突；实际使用HFIP谐频重构，G16 A.03→C.01。",
+    "没有cis竞争、去质子化势垒或完整催化网络；反向超分子未收敛，独立合格片段用于热化学。",
+    "8项旧窗口均通过，最大差1.523006 kcal/mol；不将两产物0.2 kcal/mol差当鲁棒排序。"
+  ]
+}

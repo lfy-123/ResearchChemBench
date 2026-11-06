@@ -1,0 +1,209 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_axial_activity_contrast",
+      "r_linker_accessibility_contrast",
+      "r_framework_electronic_explanation",
+      "r_background_contrast"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required molecular explanation concerns catalyst-level structure–activity relationships at initial activation; hypotheses and quantitative molecular comparisons are selected independently. A complete cycle, yield-time model or resolved C/E crossing mechanism is not required.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How do catalysts A–E promote the initial activation of the isoquinoline Mukaiyama–Mannich reaction, and which molecular differences explain their principal activity contrasts? This is an explanation task: the measured yields are given; the molecular explanation must come from your calculations.",
+  "active_rule_ids": [
+    "r_axial_activity_contrast",
+    "r_linker_accessibility_contrast",
+    "r_framework_electronic_explanation",
+    "r_background_contrast"
+  ],
+  "current_outcome_ids": [
+    "axial_activity_contrast",
+    "linker_accessibility_contrast",
+    "framework_electronic_explanation",
+    "background_contrast"
+  ],
+  "historical_record": {
+    "paper_id": "paper_2a71ffa4b0a90809",
+    "conditions": {
+      "model": "SMD18(THF)/M06-2X-D3/6-311+G(d,p)-SDD(I)",
+      "temperature_K": 193.15,
+      "source": "SI S60,S66",
+      "standard_state": "Source not fully specified; table-native G retained. Gaussian1atm RRHO is an inference requiring verification.",
+      "binding_definition": "G(complex)-G(free donor)-G(Cl−)",
+      "chloride_G_hartree": -460.371527,
+      "source_model_caveat": "Published SMD18 exact Gaussian cavity parameters are not fully specified; reused implementation has an iodine radius 2.74 Å with historical provenance, not newly established author ground truth."
+    },
+    "donor_G_hartree": {
+      "A": -1906.469033,
+      "B": -1906.468789,
+      "C_syn": -1509.499118,
+      "C_anti": -1509.498985,
+      "D_syn": -1354.686268,
+      "D_anti": -1354.686355,
+      "E": -1278.553183
+    },
+    "complex_G_hartree": {
+      "A": -2366.853684,
+      "B": -2366.844396,
+      "C_syn": -1969.880065,
+      "C_anti": -1969.872848,
+      "D_syn": -1815.069159,
+      "D_anti": -1815.061852,
+      "E": -1738.929959
+    },
+    "printed_binding_G_kcal_mol": {
+      "A": -8.2,
+      "B": -2.6,
+      "C_syn": -5.9,
+      "C_anti": -1.5,
+      "D_syn": -7.1,
+      "D_anti": -2.5,
+      "E": -3.3
+    },
+    "new_absolute_tolerance": null,
+    "numeric_acceptance": "NUMERICAL_CALIBRATION_BLOCKED: the 25-point quantitative affinity result remains reserved and unjudged. Do not assign zero or full credit, substitute sign/order-only credit, redistribute points or produce an official total. The seven source values are retained in source_values.json and reference_qualification.json, outside executable numeric rules. Source-supported pressure/cavity comparability review is completed; only the independently justified affinity-magnitude acceptance criterion remains unqualified. This is a manual reference/release restriction; metadata is not an implemented runtime gate.",
+    "rotation": {
+      "A_source_endpoint": 31,
+      "A_original_tolerance": 1,
+      "A_existing_primary": 29.995580369649964,
+      "A_existing_sensitivity_endpoint": 30.0006004454,
+      "A_primary_matches_original_tolerance": false,
+      "C_source_TS_above_anti": 17.9,
+      "D_source_TS_above_anti": 2.2,
+      "unit": "kcal/mol",
+      "source": "C/D: main PDF7 Fig6; A: SI PDF68–69 FigsS52–S54. A±1 is a historical benchmark diagnostic tolerance, not author uncertainty.",
+      "scope": "A is supporting constrained-profile diagnostic; C/D quantitative anchors require qualified path evidence and have no new tolerance."
+    },
+    "binding_G_from_printed_table_kcal_mol": {
+      "A": -8.23543433681468,
+      "B": -2.5602386538765796,
+      "C_syn": -5.911139245137117,
+      "C_anti": -1.4658621312727114,
+      "D_syn": -7.131017662509482,
+      "D_anti": -2.4912126117681748,
+      "E": -3.2937972290566906
+    },
+    "experimental_yield_time_course": {
+      "source": "main.pdf PDF page 5, Figure 5a; values visually transcribed from the printed cells",
+      "time_h": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        12
+      ],
+      "yield_percent_by_public_catalyst": {
+        "A": [
+          20,
+          56,
+          76,
+          86,
+          87,
+          88,
+          87
+        ],
+        "B": [
+          11,
+          31,
+          39,
+          43,
+          47,
+          54,
+          60
+        ],
+        "C": [
+          16,
+          35,
+          43,
+          52,
+          54,
+          57,
+          69
+        ],
+        "D": [
+          13,
+          49,
+          55,
+          61,
+          66,
+          78,
+          86
+        ],
+        "E": [
+          13,
+          34,
+          42,
+          47,
+          49,
+          59,
+          65
+        ],
+        "none": [
+          9,
+          20,
+          29,
+          33,
+          39,
+          53,
+          54
+        ]
+      },
+      "prose_qualification": "The small <=15% increase over background must not be read as an absolute yield <=15%. At 12 h: B 60%, E 65%, background 54%.",
+      "hidden_binding_K_column_omitted_from_public_observations": true,
+      "assay_limit": "General procedure reports isolated yield; time-course assay precision/replicate errors are not specified separately."
+    },
+    "conditional_standard_state_analysis": {
+      "temperature_K": 193.15,
+      "source_table_raw_DeltaG_kcal_mol": {
+        "A": -8.23543433681468,
+        "B": -2.5602386538765796,
+        "C_syn": -5.911139245137117,
+        "C_anti": -1.4658621312727114,
+        "D_syn": -7.131017662509482,
+        "D_anti": -2.4912126117681748,
+        "E": -3.2937972290566906
+      },
+      "one_species_1atm_to_1M_correction_kcal_mol": 1.0605682034744512,
+      "association_delta_n": -1,
+      "conditional_association_correction_kcal_mol": -1.0605682034744512,
+      "formula": "DeltaG(1M)=DeltaG(1atm)+Delta_n*R*T*ln(C0*R_atm*T/p0), C0=1mol/L, p0=1atm, Delta_n=-1",
+      "conditional_1M_DeltaG_kcal_mol": {
+        "A": -9.296002540289132,
+        "B": -3.620806857351031,
+        "C_syn": -6.971707448611569,
+        "C_anti": -2.526430334747163,
+        "D_syn": -8.191585865983933,
+        "D_anti": -3.5517808152426262,
+        "E": -4.354365432531142
+      },
+      "qualification": "Exact unit/standard-state algebra under the 1atm assumption; not a fitted offset, new gold or calibrated tolerance. Reused Gaussian logs explicitly print 1atm. The publication does not explicitly state its pressure convention."
+    },
+    "calibration_status": "NUMERICAL_CALIBRATION_BLOCKED",
+    "scope_version": "core_question_upgrade_20261012T190159Z",
+    "electronic_reference": {
+      "I_ESP_kJ_mol": {
+        "A": 128,
+        "B": 114,
+        "C": 108,
+        "D": 125,
+        "E": 117
+      },
+      "density_isovalue_au": 0.0004,
+      "source": "main PDF7 Fig7",
+      "calibrated_tolerance": null
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

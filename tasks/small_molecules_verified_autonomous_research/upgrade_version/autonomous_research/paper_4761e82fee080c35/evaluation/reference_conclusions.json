@@ -1,0 +1,53 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "items": [
+    {
+      "conclusion_id": "local_activation_model",
+      "statement": "A local activation model compatible with the specified PC2 and component conditions",
+      "expected": "Establish a molecularly calculated, condition-compatible local donor-activation model involving the actual PC2, with explicit donor identities, electronic states and electron/hydrogen bookkeeping. The reference supports donor-to-photoexcited-PC2 electron transfer producing the full-donor radical cation as a plausible local hypothesis; independently supported equivalent accounts pass. Use genuine electronic-state calculations plus the supplied component controls to explain model plausibility. BDE weakening alone, a mechanism sketch or copied control yields cannot establish this item. Distinguish PC2 from PC1 comparison data. Clearly bound any initial ET energetics that were not computed: the task does not demand a new absolute redox target or full cycle, and a plausible model is not proof of initial PC2 ET thermodynamics.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p3_5_6",
+        "main_p3_6",
+        "supplementary_002_p9"
+      ],
+      "supporting_key_point_ids": [
+        "photoactivation_model",
+        "neutral_bde",
+        "oxidized_bde"
+      ]
+    },
+    {
+      "conclusion_id": "reactivity_change",
+      "statement": "Activation changes the donor properties enabling phosphoryl transfer to alcohols",
+      "expected": "Establish quantitatively how activation changes the donor properties relevant to transferring its phosphoryl group to an alcohol. Connect actual comparable electronic-state/property calculations to a chemically balanced donor-activation account and its functional consequence. In the reference, oxidation substantially weakens ring-C4 C-H homolysis, making hydrogen removal and conversion toward a phosphoryl-transfer-capable pyridinium species thermodynamically more plausible. An equivalent scientifically supported molecular account passes. Neither two uninterpreted energies nor simply naming the transfer product suffices. BDE changes do not establish HAT rates, a unique Co/TPI role or the alcohol-substitution barrier. A complete phosphorylation path is not required. Source BDEs 76.1/32.9 kcal/mol are evidence context without matching windows.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "main_p3_5_6",
+        "main_p3_6",
+        "supplementary_002_p9"
+      ],
+      "supporting_key_point_ids": [
+        "photoactivation_model",
+        "neutral_bde",
+        "oxidized_bde"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

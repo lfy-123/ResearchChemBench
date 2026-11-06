@@ -1,0 +1,11 @@
+# Reproducible evidence submission
+
+Use agent-defined IDs for models, operations, artifacts, quantitative results, claims and validations. Record complete molecular identities, charge and electronic state, relevant stereochemistry, method, solvent, temperature, standard state, stoichiometry and the reference defining each result. Link every quantitative claim to actual inputs, native outputs and an extraction location; preserve generated evidence under outputs/ and analysis scripts under code/.
+
+Use complete, partial, bounded_failure or input_blocked truthfully. Partial and failed submissions may have empty result arrays when no physical result was obtained. Do not invent barriers, winners, endpoints or numerical values to fill the schema. For failed or blocked work, provide failure_report with the affected scope, cause and any available evidence; record attempts and surviving results. The schema checks representation, not scientific validity. Missing reference findings receive no corresponding scientific credit.
+
+For claims about minima, saddles, states and mechanistic connections provide the evidence necessary to support those claims. For energy comparisons document a balanced common reference and distinguish electronic energy, enthalpy, free energy, local activation barriers and overall energy spans. Provide uncorrected terms and conversion formulas when conventions differ. Do not treat a scan maximum, a normal program exit or an unconnected imaginary mode as a validated reaction barrier.
+
+Methods and exploration are your choices. No hypothesis count, named intermediate sequence, fixed grid or number of calculations is required. Explain decisions in report/report.md. Process quality and recovered scientific results are scored independently. General scientific/software documentation may be consulted; the target article/SI, private evaluator and archived task solutions are outside the authorized public input.
+
+For the primary bimolecular activation comparison use ΔG‡=G(TS)−G(2a)−G(CO2), in kcal/mol, with separate validated reactants, acetonitrile,298.15K and a consistent1atm harmonic-thermochemistry convention. Report electronic energies and thermal terms separately. Associated-complex or1M barriers may be reported with an explicit conversion to the primary reference. These are reporting definitions, not prescribed mechanisms.

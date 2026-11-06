@@ -634,15 +634,25 @@ def invoke_worker(
         evaluation_resource_budget().memory_mb * 1024 * 1024
     )
     try:
-        completed = subprocess.run(
-            [str(python), "-m", "chemistry_toolbox.src.worker_launcher"],
+        from .sandbox import calculation
+        from .catalog import action_specs
+        workspace = Path(environment.get('RESEARCHCHEMBENCH_WORKSPACE') or environment['RESEARCHCHEM_MCP_WORKSPACE'])
+        command = [str(python), '-m', 'chemistry_toolbox.src.worker_launcher']
+        if os.environ.get('RCB_INSIDE_SANDBOX') == '1':
+            # Composite calculators inherit the enclosing job's boundary and allocation.
+            execute = lambda **kw: subprocess.run(command, cwd=workspace, **kw)
+        else:
+            sandbox = calculation(command, runtime=runtime, cwd=workspace, env=environment,
+                cpu_ids=allocated_cpu_ids, backend_id=payload['backend_id'],
+                network=action_specs()[payload['action_id']].requires_network, writable=[workspace / 'outputs'])
+            execute = sandbox.run
+        completed = execute(
             input=json.dumps(payload, ensure_ascii=False),
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=timeout_seconds,
             check=False,
-            cwd=PROJECT_ROOT,
             env=environment,
         )
     except subprocess.TimeoutExpired as exc:

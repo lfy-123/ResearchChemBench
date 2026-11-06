@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_87f5566528287b60",
+  "task_type": "autonomous_research",
+  "title": "Molecular compatibility in photocatalyst-dependent THF amidation",
+  "category": "Small-molecule homogeneous organic photochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Choose and execute molecular tests for an open explanatory question without a prescribed physical descriptor or computational route.",
+    "Relate a molecular model to qualitative productivity comparisons without confusing isolated yields with rate constants or ignoring irradiation/loading differences.",
+    "Separate supported conclusions from method dependence, limited observations and untested reaction stages."
+  ],
+  "paper": {
+    "title": "Photoinduced C(sp<sup>3</sup>)–H Amidation with Sulfilimines via Energy-Transfer Catalysis",
+    "doi": "10.1002/adsc.70280",
+    "journal": "Advanced Synthesis & Catalysis",
+    "publication_date": "2026-02-02"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "Verified neutral reactant/product/solvent identities, conditions and the five-photocatalyst product-yield comparison."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Canonical structured hypotheses, investigations, execution evidence, conclusions, limitations and reproducibility records."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific account, justified decisions, uncertainty and actual resource use; baseline fidelity only when guidance is supplied."
+    },
+    {
+      "path": "research/",
+      "description": "Actual input/output files, logs and analysis code referenced by the investigation and artifact index."
+    }
+  ]
+}

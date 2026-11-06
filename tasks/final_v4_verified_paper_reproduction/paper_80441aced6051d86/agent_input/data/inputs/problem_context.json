@@ -1,0 +1,20 @@
+{
+  "problem": "What molecular association structures are consistent with the supplied G1/CB[7]/CB[8] observations, and how far can those structures explain the observed changes in optical response?",
+  "facts": [
+    "G1 chloride salt is used experimentally; the modeled chromophore is a dication.",
+    "In water free G1 emission maxima are464nm at0.02mM and490nm at0.50mM. Reported host-associated maxima are445nm forCB7:G1 and526nm forCB8:G1(2). Main-text/Fig6 labels the host spectra G1 0.02mM; SI TableS1 labels them0.50mM. This concentration conflict is unresolved; consult observations.json for the two source-labelled branches.",
+    "NMR integration gives CB7:G1 1:1 and CB8:G1 1:2 at 298 K in D2O; source spectral-summary error bars are unavailable."
+  ],
+  "scope": "Study G1 (C34H28N2, charge +2) and neutral CB[7]/CB[8] hosts in water. Observed host:guest stoichiometries are 1:1 for CB7 and 1:2 for CB8; these specify composition, not the unknown binding geometry. Counterions are chloride in the experiment; declare their treatment in a molecular model. Molecular explanations of optical changes must be distinguished from complete emission kinetics.",
+  "data_files": [
+    "CB7_identity.json",
+    "CB8_identity.json",
+    "g1_monomer_identity.json",
+    "observations.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "Raw titration/spectral traces are not public; numerical peak summaries have no source error bars. No unique binding pose or explicit counterion/water configuration is supplied.",
+    "Host optical concentration is unresolved across source locations: main article pp5-6 and Figure 6 describe G1 0.02 mM, whereas official SI Table S1 labels the 445 nm CB7:G1 and 526 nm CB8:G1(2) rows G1 0.50 mM. These are conflicting labels for the reported host spectra, not two independently measured concentration series. A source-labelled within-branch comparison is allowed; do not treat a mixed-source comparison as concentration matched."
+  ]
+}

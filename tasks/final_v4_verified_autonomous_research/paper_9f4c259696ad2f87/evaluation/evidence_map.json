@@ -1,0 +1,810 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "evidence": [
+    {
+      "evidence_id": "source_adduct",
+      "source": {
+        "path": "papers/paper_9f4c259696ad2f87/documents/main.pdf",
+        "sha256": "592534cc448b295773af43b0783196ac34170f0e847fb7412d873e8a6e98c2ba",
+        "pdf_pages_1based": [
+          9,
+          10,
+          11
+        ],
+        "locator": "Figs6–7, Lewis acid response and bounded species assignment"
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "redshift_pxx1_mono",
+        "redshift_pxx2_mono",
+        "redshift_pxx2_bis",
+        "carbonyl_optical_account",
+        "occupancy_identifiability"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "source_association",
+      "source": {
+        "path": "papers/paper_9f4c259696ad2f87/documents/supplementary_001.pdf",
+        "sha256": "f3436ca99f362b00e082f3bc28926ef30d56c7f4cfffaf92faa92708a24569ad",
+        "pdf_pages_1based": [
+          167
+        ],
+        "locator": "Sequential association free energies and unresolved occupancy"
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "association_step1",
+        "association_step2",
+        "second_association_weaker",
+        "occupancy_identifiability"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "source_td",
+      "source": {
+        "path": "papers/paper_9f4c259696ad2f87/documents/supplementary_001.pdf",
+        "sha256": "f3436ca99f362b00e082f3bc28926ef30d56c7f4cfffaf92faa92708a24569ad",
+        "pdf_pages_1based": [
+          168,
+          169
+        ],
+        "locator": "FigS205,TableS1 energies/f,TableS2 configurations"
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "redshift_pxx1_mono",
+        "redshift_pxx2_mono",
+        "redshift_pxx2_bis",
+        "carbonyl_optical_account",
+        "occupancy_identifiability"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "source_method",
+      "source": {
+        "path": "papers/paper_9f4c259696ad2f87/documents/supplementary_001.pdf",
+        "sha256": "f3436ca99f362b00e082f3bc28926ef30d56c7f4cfffaf92faa92708a24569ad",
+        "pdf_pages_1based": [
+          170
+        ],
+        "locator": "Target-specific CREST/GFNFF and B3LYP-D3BJ opt/TD methods"
+      },
+      "evidence_type": "paper_scientific_result",
+      "supports_final_conclusion_ids": [
+        "association_step1",
+        "association_step2"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "native_five_species",
+      "source": {
+        "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "sha256": "adc3f71fe8531ed400d2dee2bb09d7af40e1fd72c97a96569629e50b2a8d5375"
+      },
+      "evidence_type": "existing_computation_record",
+      "supports_final_conclusion_ids": [
+        "redshift_pxx1_mono",
+        "redshift_pxx2_mono",
+        "redshift_pxx2_bis",
+        "association_step1",
+        "association_step2",
+        "second_association_weaker",
+        "carbonyl_optical_account",
+        "occupancy_identifiability"
+      ],
+      "scored_independently": false,
+      "scope": "Five-species archive supplies the adduct and PXX2 evidence; its old fixed PXX1 entry is superseded by native_updated_pxx1 for the free PXX1 comparison."
+    },
+    {
+      "evidence_id": "native_updated_pxx1",
+      "source": {
+        "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "sha256": "379c672e551e8e7624d7a3eaa3b82195014d73e5c99a09c3eb8017da87629661"
+      },
+      "evidence_type": "existing_computation_record",
+      "supports_final_conclusion_ids": [
+        "redshift_pxx1_mono",
+        "carbonyl_optical_account"
+      ],
+      "scored_independently": false
+    }
+  ],
+  "verification_artifacts": [
+    {
+      "path": "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_9f4c259696ad2f87/ROUTE_ALIGNMENT.json",
+      "sha256": "8ca70a31f2d808d5cdc5887ca10a67e154963d46cfc20371f63e20df41c2374c",
+      "bytes": 17246
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+      "sha256": "adc3f71fe8531ed400d2dee2bb09d7af40e1fd72c97a96569629e50b2a8d5375",
+      "bytes": 424544
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+      "sha256": "379c672e551e8e7624d7a3eaa3b82195014d73e5c99a09c3eb8017da87629661",
+      "bytes": 263335
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/NATIVE_TD20.json",
+      "sha256": "ccf488c1ca279c2cb11e700acd49cb96779bc372148efe2cd225525447bade06",
+      "bytes": 2909
+    }
+  ],
+  "native_input_output_artifacts": [
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+      "sha256": "2865b725be7655ab4343cb029a82e18a7cf32a9b74812268cccdf93cd2587a0d",
+      "bytes": 10944463,
+      "expected_sha256": "2865b725be7655ab4343cb029a82e18a7cf32a9b74812268cccdf93cd2587a0d",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/stdout.log",
+      "sha256": "30e75305ce81a6704a4dbd7905c3e9db7ac27accaea52f023061ba728f68f6e1",
+      "bytes": 6860898,
+      "expected_sha256": "30e75305ce81a6704a4dbd7905c3e9db7ac27accaea52f023061ba728f68f6e1",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+      "sha256": "496324c4392ad2d98d8bfd882e5b119a12fb866423e6e74491ccb6e4eb138770",
+      "bytes": 8615638,
+      "expected_sha256": "496324c4392ad2d98d8bfd882e5b119a12fb866423e6e74491ccb6e4eb138770",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+      "sha256": "9567233cc0ec144a70c40c9f2661f53810b46e1a036df4b1a9790d229be962c5",
+      "bytes": 7215883,
+      "expected_sha256": "9567233cc0ec144a70c40c9f2661f53810b46e1a036df4b1a9790d229be962c5",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/stdout.log",
+      "sha256": "68fdddfcbefa003e5a22ad9650c4a3c3bcf335ec8ca81c5ab15adefa51009bff",
+      "bytes": 4964173,
+      "expected_sha256": "68fdddfcbefa003e5a22ad9650c4a3c3bcf335ec8ca81c5ab15adefa51009bff",
+      "hash_matches_expected": true,
+      "artifact_type": "native_output",
+      "normal_termination_marker": true
+    }
+  ],
+  "source_native_conflicts": [
+    "General SIpp5–6 uses GaussianA.03/UFF/B3LYP/6-31G(d)/64states; targetSIp170 gives the section-specific CREST/D3BJ/TD20/6-311G(d) route and target revisionC.01. Private reproduction evidence preserves this distinction without altering public guidance.",
+    "Source PCM response flag is unspecified. Native nonequilibrium is the accepted baseline; equilibrium numeric proximity cannot authenticate author response.",
+    "Source describes nearly similar Ka but unequal sourceG already cautions against exact equality; scoring requires favorable signs, second weaker and bounded occupancy.",
+    "Mono/bis spectral overlap is linewidth-dependent; native diagnostics do not prove instrument resolution or guaranteed coexistence.",
+    "Optional mono excited-density CPHF failure is preserved; ground-state density/orbital and completed optical evidence remain separately usable."
+  ],
+  "supplemental_verification_artifacts": [
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/run_status.json",
+      "sha256": "6c0a151f342ab4d7fd89836b786728f6af8374ca6291a4f42f4942f44a3112fc",
+      "bytes": 5055
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/inputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/input.com",
+      "sha256": "b282f21fc5aa8ba4cdd2738438aa092d74f1845ef5fcce96c9933f36375d293b",
+      "bytes": 499,
+      "artifact_type": "input",
+      "normal_termination_marker": null,
+      "input_route_excerpt": [
+        "#p B3LYP/6-311G(d) 5D 7F EmpiricalDispersion=GD3BJ SCRF=(PCM,Solvent=Dichloromethane) Geom=AllCheck Guess=Read TD=(NStates=20) IOp(9/40=4) SCF=(VeryTight,XQC,MaxCycle=512) Integral=UltraFine NoSymm"
+      ]
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/run_status.json",
+      "sha256": "97db288364d6fd0db6b323bce30eeea9c869514895ea7ec90924e804e50f9d73",
+      "bytes": 1438
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/inputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/input.com",
+      "sha256": "5309068c62c43d8d88f8db0571211c9b86c019c01f64a2657c5c5e19afcfcabf",
+      "bytes": 512,
+      "artifact_type": "input",
+      "normal_termination_marker": null,
+      "input_route_excerpt": [
+        "#p B3LYP/6-311G(d) 5D 7F EmpiricalDispersion=GD3BJ SCRF=(PCM,Solvent=Dichloromethane) Geom=AllCheck Guess=Read TD=(NStates=20) IOp(9/40=4) SCF=(VeryTight,XQC,MaxCycle=512) Integral=UltraFine NoSymm"
+      ]
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/run_status.json",
+      "sha256": "51538df0a44ddbad39d46da9174bc7f176c6f311d0a3adc2ee367a6a7c59b22f",
+      "bytes": 5047
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/inputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/input.com",
+      "sha256": "899a15d779d88afad9756252813043b7b6f2565db3feb12a70851a1becb1b9a8",
+      "bytes": 512,
+      "artifact_type": "input",
+      "normal_termination_marker": null,
+      "input_route_excerpt": [
+        "#p B3LYP/6-311G(d) 5D 7F EmpiricalDispersion=GD3BJ SCRF=(PCM,Solvent=Dichloromethane) Geom=AllCheck Guess=Read TD=(NStates=20) IOp(9/40=4) SCF=(VeryTight,XQC,MaxCycle=512) Integral=UltraFine NoSymm"
+      ]
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/run_status.json",
+      "sha256": "8fba3446abb40d2fe936c515b43ec42238404e63ca1c9b9e35bb01e4b664764f",
+      "bytes": 5056
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/inputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/input.com",
+      "sha256": "852c2fd2fab5d3bde48c89136595c6af1a90f5dfc4595b3f7a0d9f369210f225",
+      "bytes": 501,
+      "artifact_type": "input",
+      "normal_termination_marker": null,
+      "input_route_excerpt": [
+        "#p B3LYP/6-311G(d) 5D 7F EmpiricalDispersion=GD3BJ SCRF=(PCM,Solvent=Dichloromethane) Geom=AllCheck Guess=Read TD=(NStates=20) IOp(9/40=4) SCF=(VeryTight,XQC,MaxCycle=512) Integral=UltraFine NoSymm"
+      ]
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/run_status.json",
+      "sha256": "248e537a3e62e01496bcb072a5328f6fda2a85e004fdd163c22bb01ac02cc7c9",
+      "bytes": 5043
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/inputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/input.com",
+      "sha256": "228e3adaebaf1a190f446957efe179ac52b2520e80d6d2a683531834ff0d9467",
+      "bytes": 493,
+      "artifact_type": "input",
+      "normal_termination_marker": null,
+      "input_route_excerpt": [
+        "#p B3LYP/6-311G(d) 5D 7F EmpiricalDispersion=GD3BJ SCRF=(PCM,Solvent=Dichloromethane) Geom=AllCheck Guess=Read TD=(NStates=20) IOp(9/40=4) SCF=(VeryTight,XQC,MaxCycle=512) Integral=UltraFine NoSymm"
+      ]
+    },
+    {
+      "path": "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/workers/G3/G3_4297df1060365c8b/COMPACT_SCIENTIFIC_RESULT.json",
+      "sha256": "be4dafa35cf7aff2edcab446cdd26e1ca81962be8a8d4db8c6904ea323f6b705",
+      "bytes": 441024
+    },
+    {
+      "path": "docs/strict_author_route_validation_20261001/supervised_continue_20261011T0932Z/workers/G3/G3_4297df1060365c8b/SCIENTIFIC_REVIEW.json",
+      "sha256": "1db0d2c847b04dbdd756f768e5e42a4d12bfbd58cd28f9a22dca80ac65ae0ef0",
+      "bytes": 50301
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_redshift_pxx1_mono",
+      "r_redshift_pxx2_mono",
+      "r_redshift_pxx2_bis",
+      "r_association_step1",
+      "r_association_step2",
+      "r_second_association_weaker",
+      "r_carbonyl_optical_account",
+      "r_occupancy_identifiability"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_rule_verification_map": [
+    {
+      "rule_id": "r_redshift_pxx1_mono",
+      "reference_id": "redshift_pxx1_mono",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "Noneq pxx1_monoS1=1.8373<pxx1S1=2.2664eV, same response definition.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json; updatedPXX1 RESULT.json",
+      "source_evidence_ids": [
+        "source_adduct",
+        "source_td"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_redshift_pxx2_mono",
+      "reference_id": "redshift_pxx2_mono",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "Noneq pxx2_monoS1=1.8762<pxx2S1=2.2253eV, same response definition.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json; updatedPXX1 RESULT.json",
+      "source_evidence_ids": [
+        "source_adduct",
+        "source_td"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_redshift_pxx2_bis",
+      "reference_id": "redshift_pxx2_bis",
+      "role": "intermediate",
+      "points": 10,
+      "actual_verification_support": "Noneq pxx2_bisS1=1.9543<pxx2S1=2.2253eV, same response definition.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json; updatedPXX1 RESULT.json",
+      "source_evidence_ids": [
+        "source_adduct",
+        "source_td"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_s1_character_pxx1",
+      "reference_id": "s1_character_pxx1",
+      "role": "intermediate",
+      "points": 4,
+      "actual_verification_support": "S1 H→L dominated approximately97–99%, explicit native configuration convention; all20roots retained.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json/source_TableS2_all100_state_bindings; updatedPXX1 RESULT.json",
+      "source_evidence_ids": [
+        "source_td",
+        "source_adduct"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_s1_character_pxx1_mono",
+      "reference_id": "s1_character_pxx1_mono",
+      "role": "intermediate",
+      "points": 4,
+      "actual_verification_support": "S1 H→L dominated approximately97–99%, explicit native configuration convention; all20roots retained.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json/source_TableS2_all100_state_bindings; updatedPXX1 RESULT.json",
+      "source_evidence_ids": [
+        "source_td",
+        "source_adduct"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_s1_character_pxx2",
+      "reference_id": "s1_character_pxx2",
+      "role": "intermediate",
+      "points": 4,
+      "actual_verification_support": "S1 H→L dominated approximately97–99%, explicit native configuration convention; all20roots retained.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json/source_TableS2_all100_state_bindings; updatedPXX1 RESULT.json",
+      "source_evidence_ids": [
+        "source_td",
+        "source_adduct"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_s1_character_pxx2_mono",
+      "reference_id": "s1_character_pxx2_mono",
+      "role": "intermediate",
+      "points": 4,
+      "actual_verification_support": "S1 H→L dominated approximately97–99%, explicit native configuration convention; all20roots retained.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json/source_TableS2_all100_state_bindings; updatedPXX1 RESULT.json",
+      "source_evidence_ids": [
+        "source_td",
+        "source_adduct"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_s1_character_pxx2_bis",
+      "reference_id": "s1_character_pxx2_bis",
+      "role": "intermediate",
+      "points": 4,
+      "actual_verification_support": "S1 H→L dominated approximately97–99%, explicit native configuration convention; all20roots retained.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json/source_TableS2_all100_state_bindings; updatedPXX1 RESULT.json",
+      "source_evidence_ids": [
+        "source_td",
+        "source_adduct"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_association_step1",
+      "reference_id": "association_step1",
+      "role": "intermediate",
+      "points": 6,
+      "actual_verification_support": "PXX2mono−PXX2−acid: nativeG−12.1354057192kcal/mol1atm;−14.0297341647at1M.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json/binding_G_reused",
+      "source_evidence_ids": [
+        "source_association",
+        "source_method"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_association_step2",
+      "reference_id": "association_step2",
+      "role": "intermediate",
+      "points": 6,
+      "actual_verification_support": "PXX2bis−PXX2mono−acid: nativeG−9.9711255427kcal/mol1atm;−11.8654539882at1M.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json/binding_G_reused",
+      "source_evidence_ids": [
+        "source_association",
+        "source_method"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_second_association_weaker",
+      "reference_id": "second_association_weaker",
+      "role": "intermediate",
+      "points": 8,
+      "actual_verification_support": "−9.9711>−12.1354kcal/mol under1atm; same ordering at1M.",
+      "locator_within_full_paths_in_evidence_manifest": "PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json/binding_G_reused",
+      "source_evidence_ids": [
+        "source_association"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_carbonyl_optical_account",
+      "reference_id": "carbonyl_optical_account",
+      "role": "conclusion",
+      "points": 15,
+      "actual_verification_support": "Full carbonyl-associated local minima, valid optical H→L evidence and all adduct redshifts support coordination/electronic interpretation; optional relaxed-density failure not used as successful result.",
+      "locator_within_full_paths_in_evidence_manifest": "ROUTE_ALIGNMENT.json; SCIENTIFIC_REVIEW.json; five-species RESULT.json",
+      "source_evidence_ids": [
+        "source_adduct",
+        "source_td"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    },
+    {
+      "rule_id": "r_occupancy_identifiability",
+      "reference_id": "occupancy_identifiability",
+      "role": "conclusion",
+      "points": 15,
+      "actual_verification_support": "Mono/bis noneqS1gap .0781eV versus source .072; overlap .098895/.320676/.539589 for diagnosticFWHM.05/.10/.20; favorable sequentialG does not establish unique occupancy/equalKa.",
+      "locator_within_full_paths_in_evidence_manifest": "five-species RESULT.json; COMPACT_SCIENTIFIC_RESULT.json; INDEPENDENT_OPTICAL_REVIEW.json",
+      "source_evidence_ids": [
+        "source_adduct",
+        "source_association",
+        "source_td"
+      ],
+      "numerical_scoring_tolerance": null,
+      "rationale": "Qualitative physical result; no calibrated transferable numerical window. Values remain contextual evidence, never residual-fitted targets."
+    }
+  ],
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "PXX1单酸的主低能吸收变化",
+      "rule_id": "r_redshift_pxx1_mono",
+      "conclusion_id": "redshift_pxx1_mono",
+      "independence": "该分子的跃迁变化可单独成立，不依赖PXX2或缔合G。",
+      "source_locator": "正文pp9–11 Fig6/7；SIpp167–170 FigS205/TablesS1/S2及专项方法",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_9f4c259696ad2f87/ROUTE_ALIGNMENT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/NATIVE_TD20.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_TD20_matched_Stable_G_gate_20261005_a1/SECOND_BINDING_G.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_checkpoint_OptRestart_explicit_B3LYP_restore_20261004_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_carbonyl_last80_CalcFC_step5_optfreq_20261002_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_D3BJ_optfreq_TD20_v2a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/acid_source_D3BJ_optfreq_v2a1/stdout.log"
+      ],
+      "existing_support": "五体系nonequilibrium TD20真实读回支持三种加合物红移；两步G为−12.1354/−9.9711 kcal/mol（1atm）；mono/bis差0.0781 eV，展宽依赖明确；CT机理仍需物理电子证据而非H→L名称。",
+      "limits": [
+        "历史ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION保持：S1偏高0.0533–0.0853 eV、强度偏差及源PCM响应/系综不明均保留；不以更近的平衡响应结果抹除偏差。",
+        "可选mono弛豫激发态密度CPHF失败仍在；主组态不独立证明实空间CT，电子起源项须按实际可用电子证据判定。",
+        "两步源G−12.7/−10.1与标准态不确定性保留；展宽诊断不等于实测分辨率，不证明共存、相等Ka或完整人口。"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_td",
+        "native_five_species",
+        "native_updated_pxx1"
+      ],
+      "previous_rule_ids": [
+        "r_redshift_pxx1_mono"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "PXX2单酸的主低能吸收变化",
+      "rule_id": "r_redshift_pxx2_mono",
+      "conclusion_id": "redshift_pxx2_mono",
+      "independence": "单酸组成的光学物性不由双酸结果替代。",
+      "source_locator": "正文pp9–11 Fig6/7；SIpp167–170 FigS205/TablesS1/S2及专项方法",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_9f4c259696ad2f87/ROUTE_ALIGNMENT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/NATIVE_TD20.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_TD20_matched_Stable_G_gate_20261005_a1/SECOND_BINDING_G.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_checkpoint_OptRestart_explicit_B3LYP_restore_20261004_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_carbonyl_last80_CalcFC_step5_optfreq_20261002_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_D3BJ_optfreq_TD20_v2a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/acid_source_D3BJ_optfreq_v2a1/stdout.log"
+      ],
+      "existing_support": "五体系nonequilibrium TD20真实读回支持三种加合物红移；两步G为−12.1354/−9.9711 kcal/mol（1atm）；mono/bis差0.0781 eV，展宽依赖明确；CT机理仍需物理电子证据而非H→L名称。",
+      "limits": [
+        "历史ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION保持：S1偏高0.0533–0.0853 eV、强度偏差及源PCM响应/系综不明均保留；不以更近的平衡响应结果抹除偏差。",
+        "可选mono弛豫激发态密度CPHF失败仍在；主组态不独立证明实空间CT，电子起源项须按实际可用电子证据判定。",
+        "两步源G−12.7/−10.1与标准态不确定性保留；展宽诊断不等于实测分辨率，不证明共存、相等Ka或完整人口。"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_td",
+        "native_five_species"
+      ],
+      "previous_rule_ids": [
+        "r_redshift_pxx2_mono"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "PXX2双酸的主低能吸收变化",
+      "rule_id": "r_redshift_pxx2_bis",
+      "conclusion_id": "redshift_pxx2_bis",
+      "independence": "双酸组成可独立计算，不能由单酸红移推断。",
+      "source_locator": "正文pp9–11 Fig6/7；SIpp167–170 FigS205/TablesS1/S2及专项方法",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_9f4c259696ad2f87/ROUTE_ALIGNMENT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/NATIVE_TD20.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_TD20_matched_Stable_G_gate_20261005_a1/SECOND_BINDING_G.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_checkpoint_OptRestart_explicit_B3LYP_restore_20261004_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_carbonyl_last80_CalcFC_step5_optfreq_20261002_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_D3BJ_optfreq_TD20_v2a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/acid_source_D3BJ_optfreq_v2a1/stdout.log"
+      ],
+      "existing_support": "五体系nonequilibrium TD20真实读回支持三种加合物红移；两步G为−12.1354/−9.9711 kcal/mol（1atm）；mono/bis差0.0781 eV，展宽依赖明确；CT机理仍需物理电子证据而非H→L名称。",
+      "limits": [
+        "历史ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION保持：S1偏高0.0533–0.0853 eV、强度偏差及源PCM响应/系综不明均保留；不以更近的平衡响应结果抹除偏差。",
+        "可选mono弛豫激发态密度CPHF失败仍在；主组态不独立证明实空间CT，电子起源项须按实际可用电子证据判定。",
+        "两步源G−12.7/−10.1与标准态不确定性保留；展宽诊断不等于实测分辨率，不证明共存、相等Ka或完整人口。"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_td",
+        "native_five_species"
+      ],
+      "previous_rule_ids": [
+        "r_redshift_pxx2_bis"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "PXX2第一步缔合热力学",
+      "rule_id": "r_association_step1",
+      "conclusion_id": "association_step1",
+      "independence": "第一步的绝对有利性不要求第二步结果。",
+      "source_locator": "正文pp9–11 Fig6/7；SIpp167–170 FigS205/TablesS1/S2及专项方法",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_9f4c259696ad2f87/ROUTE_ALIGNMENT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/NATIVE_TD20.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_TD20_matched_Stable_G_gate_20261005_a1/SECOND_BINDING_G.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_checkpoint_OptRestart_explicit_B3LYP_restore_20261004_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_carbonyl_last80_CalcFC_step5_optfreq_20261002_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_D3BJ_optfreq_TD20_v2a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/acid_source_D3BJ_optfreq_v2a1/stdout.log"
+      ],
+      "existing_support": "五体系nonequilibrium TD20真实读回支持三种加合物红移；两步G为−12.1354/−9.9711 kcal/mol（1atm）；mono/bis差0.0781 eV，展宽依赖明确；CT机理仍需物理电子证据而非H→L名称。",
+      "limits": [
+        "历史ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION保持：S1偏高0.0533–0.0853 eV、强度偏差及源PCM响应/系综不明均保留；不以更近的平衡响应结果抹除偏差。",
+        "可选mono弛豫激发态密度CPHF失败仍在；主组态不独立证明实空间CT，电子起源项须按实际可用电子证据判定。",
+        "两步源G−12.7/−10.1与标准态不确定性保留；展宽诊断不等于实测分辨率，不证明共存、相等Ka或完整人口。"
+      ],
+      "evidence_ids": [
+        "source_association",
+        "source_method",
+        "native_five_species"
+      ],
+      "previous_rule_ids": [
+        "r_association_step1"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "PXX2第二步缔合热力学",
+      "rule_id": "r_association_step2",
+      "conclusion_id": "association_step2",
+      "independence": "第二步有利性不由第一步外推。",
+      "source_locator": "正文pp9–11 Fig6/7；SIpp167–170 FigS205/TablesS1/S2及专项方法",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_9f4c259696ad2f87/ROUTE_ALIGNMENT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/NATIVE_TD20.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_TD20_matched_Stable_G_gate_20261005_a1/SECOND_BINDING_G.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_checkpoint_OptRestart_explicit_B3LYP_restore_20261004_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_carbonyl_last80_CalcFC_step5_optfreq_20261002_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_D3BJ_optfreq_TD20_v2a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/acid_source_D3BJ_optfreq_v2a1/stdout.log"
+      ],
+      "existing_support": "五体系nonequilibrium TD20真实读回支持三种加合物红移；两步G为−12.1354/−9.9711 kcal/mol（1atm）；mono/bis差0.0781 eV，展宽依赖明确；CT机理仍需物理电子证据而非H→L名称。",
+      "limits": [
+        "历史ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION保持：S1偏高0.0533–0.0853 eV、强度偏差及源PCM响应/系综不明均保留；不以更近的平衡响应结果抹除偏差。",
+        "可选mono弛豫激发态密度CPHF失败仍在；主组态不独立证明实空间CT，电子起源项须按实际可用电子证据判定。",
+        "两步源G−12.7/−10.1与标准态不确定性保留；展宽诊断不等于实测分辨率，不证明共存、相等Ka或完整人口。"
+      ],
+      "evidence_ids": [
+        "source_association",
+        "source_method",
+        "native_five_species"
+      ],
+      "previous_rule_ids": [
+        "r_association_step2"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "两步缔合相对强弱",
+      "rule_id": "r_second_association_weaker",
+      "conclusion_id": "second_association_weaker",
+      "independence": "相对差独立于两步是否都小于零。",
+      "source_locator": "正文pp9–11 Fig6/7；SIpp167–170 FigS205/TablesS1/S2及专项方法",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_9f4c259696ad2f87/ROUTE_ALIGNMENT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/NATIVE_TD20.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_TD20_matched_Stable_G_gate_20261005_a1/SECOND_BINDING_G.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_checkpoint_OptRestart_explicit_B3LYP_restore_20261004_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_carbonyl_last80_CalcFC_step5_optfreq_20261002_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_D3BJ_optfreq_TD20_v2a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/acid_source_D3BJ_optfreq_v2a1/stdout.log"
+      ],
+      "existing_support": "五体系nonequilibrium TD20真实读回支持三种加合物红移；两步G为−12.1354/−9.9711 kcal/mol（1atm）；mono/bis差0.0781 eV，展宽依赖明确；CT机理仍需物理电子证据而非H→L名称。",
+      "limits": [
+        "历史ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION保持：S1偏高0.0533–0.0853 eV、强度偏差及源PCM响应/系综不明均保留；不以更近的平衡响应结果抹除偏差。",
+        "可选mono弛豫激发态密度CPHF失败仍在；主组态不独立证明实空间CT，电子起源项须按实际可用电子证据判定。",
+        "两步源G−12.7/−10.1与标准态不确定性保留；展宽诊断不等于实测分辨率，不证明共存、相等Ka或完整人口。"
+      ],
+      "evidence_ids": [
+        "source_association",
+        "native_five_species"
+      ],
+      "previous_rule_ids": [
+        "r_second_association_weaker"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "Lewis酸结合引起光学变化的电子原因",
+      "rule_id": "r_carbonyl_optical_account",
+      "conclusion_id": "carbonyl_optical_account",
+      "independence": "解释密度/受体性质变化而非重复三个红移。",
+      "source_locator": "正文pp9–11 Fig6/7；SIpp167–170 FigS205/TablesS1/S2及专项方法",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_9f4c259696ad2f87/ROUTE_ALIGNMENT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/NATIVE_TD20.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_TD20_matched_Stable_G_gate_20261005_a1/SECOND_BINDING_G.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_checkpoint_OptRestart_explicit_B3LYP_restore_20261004_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_carbonyl_last80_CalcFC_step5_optfreq_20261002_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_D3BJ_optfreq_TD20_v2a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/acid_source_D3BJ_optfreq_v2a1/stdout.log"
+      ],
+      "existing_support": "五体系nonequilibrium TD20真实读回支持三种加合物红移；两步G为−12.1354/−9.9711 kcal/mol（1atm）；mono/bis差0.0781 eV，展宽依赖明确；CT机理仍需物理电子证据而非H→L名称。",
+      "limits": [
+        "历史ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION保持：S1偏高0.0533–0.0853 eV、强度偏差及源PCM响应/系综不明均保留；不以更近的平衡响应结果抹除偏差。",
+        "可选mono弛豫激发态密度CPHF失败仍在；主组态不独立证明实空间CT，电子起源项须按实际可用电子证据判定。",
+        "两步源G−12.7/−10.1与标准态不确定性保留；展宽诊断不等于实测分辨率，不证明共存、相等Ka或完整人口。"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_td",
+        "native_five_species",
+        "native_updated_pxx1"
+      ],
+      "previous_rule_ids": [
+        "r_carbonyl_optical_account"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "现有光学和缔合证据能否唯一确定占据",
+      "rule_id": "r_occupancy_identifiability",
+      "conclusion_id": "occupancy_identifiability",
+      "independence": "考察不同组成能否被观测区分，不重复吸收位移或G符号。",
+      "source_locator": "正文pp9–11 Fig6/7；SIpp167–170 FigS205/TablesS1/S2及专项方法",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/strict_author_route_validation_20261001/align_current_library_20261012T0330Z/papers/paper_9f4c259696ad2f87/ROUTE_ALIGNMENT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/NATIVE_TD20.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX1_new_source_minimum_default5D_TD20_join_20261007_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid1_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_acid2_source_default5D_TD20_same_geometry_20261006_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_default5D_TD20_gatewording_repair_20261006_a2/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX_five_default5D_TD20_source_state_G_join_20261006_a1/RESULT.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_TD20_matched_Stable_G_gate_20261005_a1/SECOND_BINDING_G.json",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_bisacid_checkpoint_OptRestart_explicit_B3LYP_restore_20261004_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_carbonyl_last80_CalcFC_step5_optfreq_20261002_a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/PXX2_source_D3BJ_optfreq_TD20_v2a1/stdout.log",
+        "docs/upgrade_tasks_verification/group_3/v2_execution_20260929/papers/paper_9f4c259696ad2f87/outputs/acid_source_D3BJ_optfreq_v2a1/stdout.log"
+      ],
+      "existing_support": "五体系nonequilibrium TD20真实读回支持三种加合物红移；两步G为−12.1354/−9.9711 kcal/mol（1atm）；mono/bis差0.0781 eV，展宽依赖明确；CT机理仍需物理电子证据而非H→L名称。",
+      "limits": [
+        "历史ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION保持：S1偏高0.0533–0.0853 eV、强度偏差及源PCM响应/系综不明均保留；不以更近的平衡响应结果抹除偏差。",
+        "可选mono弛豫激发态密度CPHF失败仍在；主组态不独立证明实空间CT，电子起源项须按实际可用电子证据判定。",
+        "两步源G−12.7/−10.1与标准态不确定性保留；展宽诊断不等于实测分辨率，不证明共存、相等Ka或完整人口。"
+      ],
+      "evidence_ids": [
+        "source_adduct",
+        "source_association",
+        "source_td",
+        "native_five_species"
+      ],
+      "previous_rule_ids": [
+        "r_occupancy_identifiability"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

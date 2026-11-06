@@ -1,0 +1,57 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "role": "Unscored evidence for independent final scientific conclusions. Original numerical and historical reference records are preserved in historical_scoring_20261029.json and verified_computation_reference.md.",
+  "items": [
+    {
+      "key_point_id": "support_terminal_h2_formation",
+      "key_point_type": "scientific_evidence",
+      "statement": "Local chemical accessibility of H–H bond formation",
+      "expected": "Establish an energetically accessible local conversion from the complete neutral-singlet Pd/XantPhos dihydride to molecular H2 formation in DMAc at 298.15 K. Actual mapped structures, Pd–H/H–H bonding changes and physically connected activation evidence must support the low-barrier interpretation relative to the relaxed dihydride. Use comparable solution electronic energies and thermal corrections for the full 77-atom inventory. A claimed saddle needs reaction-relevant motion and connection evidence; one imaginary frequency, a short H–H distance or a completed TS search alone fails. A supported equivalent connected formation account passes without author node names or a specific IRC implementation. This result concerns H–H formation, not gas dissociation, unique catalyst recovery or the full-cycle rate. The printed 0.9 kcal/mol and old tolerance are unscored historical evidence.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p10_11_12_50_51_52_53"
+      ]
+    },
+    {
+      "key_point_id": "support_release_reference_sensitivity",
+      "key_point_type": "scientific_evidence",
+      "statement": "H2 release is reference-sensitive",
+      "expected": "An actual atom-balanced thermodynamic result separates molecular H-H formation from release of one equivalent of H2(g) from the explicitly identified Pd/H2-containing reactant into the stated released Pd species. From genuine calculated molecular free energies, report the release free energy at declared temperature, solute activities and H2 pressure and establish the quantitative pressure relation: at otherwise fixed conditions in the ideal dilute-gas regime, DeltaG_release(p2)-DeltaG_release(p1)=RT ln(p2/p1), or RT ln(f2/f1) using H2 fugacity for a justified nonideal model. Lower H2 pressure must make release more favorable; increasing it must make release less favorable. Any gas/solution standard-state conversion must preserve the same chemical potential, with the H2 stoichiometric coefficient and convention applied once. A single barrier, arbitrary near-zero value, generic statement of pressure sensitivity, or unchanged-pressure comparison with inconsistent standard states fails. No universal near-zero release value or sign is required: the verifier 1-atm value is not a paper target. Physical definition: Full XantPhos/Pd/2H neutral singlet local source model (77 atoms), DMAc; distinguish dihydride, molecular H2-containing state, released 75-atom Pd/XantPhos plus H2, and any explicitly balanced solvent-bound species. Source PBE0-D3BJ/def2-SVP geometry/frequencies and MN15/def2-TZVP SMD(DMAc) single points; physically comparable alternatives permitted. Composite G and matched temperature/standard state, explicitly reporting H2 pressure; verifier baseline 298.15 K, solutes and DMAc 1 M, H2 1 atm.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p10_11_12_50_51_52_53",
+        "verified_release_species"
+      ]
+    },
+    {
+      "key_point_id": "support_pd_availability",
+      "key_point_type": "scientific_evidence",
+      "statement": "Conditional availability of a Pd recovery candidate after H2 loss",
+      "expected": "From genuinely calculated balanced molecular thermodynamics, identify an accessible full-ligand Pd-containing candidate after H2 loss and assess its availability in DMAc under stated solvent activities and gas conditions. Interpret any explicit solvent association consistently; an arbitrary single-DMAc route is not mandatory. Explain why accessibility is conditional on the represented species and references rather than proof of a unique catalytically active state or its regeneration rate. A physically established equivalent recovery model passes directly.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p10_11_12_50_51_52_53",
+        "verified_release_species"
+      ]
+    },
+    {
+      "key_point_id": "support_gas_experiment_inference",
+      "key_point_type": "scientific_evidence",
+      "statement": "What the two-chamber observation establishes about the local model",
+      "expected": "Use the computed local H2-forming/releasing model to explain compatibility with transferable hydrogenating gas in the irradiated experiment, while distinguishing this consistency from identification of the specific Pd intermediate. The receiver hydrogenation and dark control do not uniquely identify donor-chamber Pd speciation, local rates, the upstream photocycle or full catalyst turnover. Tie this inference to the actual calculated local model and the supplied experiment; simply repeating 96% or listing generic caveats does not pass.",
+      "claim_role": "supporting",
+      "scored": false,
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p10_11_12_50_51_52_53",
+        "verified_release_species"
+      ]
+    }
+  ]
+}

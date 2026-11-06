@@ -1,0 +1,148 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_occupied_level_comparison",
+      "reference_id": "occupied_level_comparison",
+      "type": "semantic",
+      "expected": "Compare the actual HOMO eigenvalues of complete neutral-singlet 2BT-TTA, 2BF-TTA and 2(C8Ph)-TTA at physically justified geometries using internally consistent vacuum references. Quantify C8-versus-each-heteroaryl differences and interpret their size and resolution as an occupied-level/donor-energy comparison. The reference geometries nominally place C8 higher, but the C8/BF separation is small: a supported weak ordering or a quantitatively demonstrated near-degenerate/geometry-sensitive ordering passes with its physical limits, whereas an unexplained robust reversal does not. Retain all computed values and distinguish a stationary structure from a demonstrated minimum; a source-like BT saddle is not compulsory. Orbital eigenvalues are not ionization energies or work functions, and overlapping old windows cannot establish a sign. Merely printing three values or copying the reported ordering fails.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_unoccupied_gap_comparison",
+      "reference_id": "unoccupied_gap_comparison",
+      "type": "semantic",
+      "expected": "Use actual matched HOMO/LUMO evidence for all three complete molecules to establish that C8 has a substantially higher LUMO and wider intramolecular frontier separation than either heteroaryl derivative. Quantify and interpret the C8 contrasts with consistent vacuum eigenvalues and physically justified geometry/state definitions. These results describe the accepting frontier level and the occupied-to-unoccupied separation; they do not directly give electron affinities, optical excitation energies or transport gaps. The relative BT/BF LUMO ordering may depend on whether the source-like stationary structure or a stable BT conformer is compared and need not be forced to match the source. Keep actual six eigenvalues and their geometry applicability as comparison evidence, without absolute-value or tolerance gates. Missing C8 comparisons, unsupported reversal or equating the orbital gap to a measured optical/film gap fails.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_molecular_transfer_interpretation",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "reference_id": "molecular_transfer_interpretation",
+      "expected": "Use actual calculated molecular orbital levels to compare donor/acceptor energetic tendencies with an explicitly defined nanotube electronic reference. The supplied nominal occupied-level reference -5.060 eV permits conditional offsets, not a sample-specific interfacial chemical potential. Explain why a HOMO above that level does not by itself prove net electron transfer or enhanced p-type carrier density: donated electrons may fill holes, and work-function shifts may include interface dipoles. The added final conclusion concerns the physical meaning and limits of level alignment, not another score for the three C8 orderings. A scientifically supported calibrated alternative reference is admissible with its scope established; no fixed nanotube or interface calculation is required.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_composite_inference_limit",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "reference_id": "composite_inference_limit",
+      "expected": "Demonstrate using the actual molecular comparison and the supplied film measurements why the isolated molecular descriptors do not uniquely determine composite conductivity, Seebeck coefficient or power factor. Tie the inference to a concrete observed contrast: C8 and BF maxima at the same 10 wt% differ in PF, whereas the BT maximum is at 20 wt%; a maximum-at-different-loading comparison does not isolate molecular electronics. Identify relevant missing coverage/morphology/interface information. This is an evidenced identifiability conclusion, not generic disclaimer credit or repetition of PF observations. No calculated film transport or unique experimental chirality is claimed.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "occupied_level_comparison",
+      "description": "Occupied frontier-level comparison and its resolution",
+      "max_score": 20,
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "verified_bt_stable_frontier",
+        "verified_c8_frontier",
+        "native_molecular_synthesis"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_occupied_level_comparison"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "unoccupied_gap_comparison",
+      "description": "Unoccupied levels and frontier separation across derivatives",
+      "max_score": 30,
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "verified_bt_stable_frontier",
+        "verified_c8_frontier",
+        "native_molecular_synthesis"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_unoccupied_gap_comparison"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "molecular_transfer_interpretation",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Physical interpretation of molecular levels relative to the nanotube reference",
+      "rule_ids": [
+        "r_molecular_transfer_interpretation"
+      ],
+      "evidence_ids": [
+        "main_p3_4_5",
+        "native_molecular_synthesis"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "composite_inference_limit",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Extent of the molecular explanation of measured composite performance",
+      "rule_ids": [
+        "r_composite_inference_limit"
+      ],
+      "evidence_ids": [
+        "main_p3_4_5",
+        "native_molecular_synthesis"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

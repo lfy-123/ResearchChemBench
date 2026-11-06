@@ -1,0 +1,232 @@
+{
+  "paper_id": "paper_628af8d0bf0a1bfe",
+  "evidence": [
+    {
+      "evidence_id": "source_0_main",
+      "source": {
+        "path": "papers/paper_628af8d0bf0a1bfe/documents/main.pdf",
+        "sha256": "327d99aeb6698b39bc1833dec1bb95f244445ee173fb51d060aa17ef6dcf52a1",
+        "pdf_pages_1based": [
+          5,
+          6
+        ]
+      },
+      "scope": "Main pp5–6: Fig5, magnetic response and substitution interpretation."
+    },
+    {
+      "evidence_id": "source_1_supplementary_001",
+      "source": {
+        "path": "papers/paper_628af8d0bf0a1bfe/documents/supplementary_001.pdf",
+        "sha256": "7d4e1b91fc4c4501b692d2b1804669e276daaf77502ac8755e5735dac565aec1",
+        "pdf_pages_1based": [
+          2,
+          4,
+          5,
+          7,
+          8,
+          14,
+          15,
+          51,
+          52,
+          53,
+          54
+        ]
+      },
+      "scope": "SI p14: methods and probes; p15 method assessment; pp51/53: complete identities and geometries."
+    },
+    {
+      "evidence_id": "verified_frozen_v2",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_628af8d0bf0a1bfe/evaluation/verified_computation_reference.md",
+        "sha256": "a32c847b8c16d3eab4735bf12774df637d9a32f14fe02fedd31e1739c3d1ba6c"
+      },
+      "scope": "Historical frozen-scope computational evidence; not author publication data or a new chemistry validation."
+    }
+  ],
+  "final_result_rule_map": [
+    {
+      "rule_id": "r_response_4a",
+      "conclusion_id": "response_4a",
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ]
+    },
+    {
+      "rule_id": "r_response_4c",
+      "conclusion_id": "response_4c",
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ]
+    },
+    {
+      "rule_id": "r_pair_contrast",
+      "conclusion_id": "pair_contrast",
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ]
+    },
+    {
+      "rule_id": "r_central_attribution",
+      "conclusion_id": "central_attribution",
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ]
+    },
+    {
+      "rule_id": "r_substituent_interpretation",
+      "conclusion_id": "substituent_interpretation",
+      "evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ]
+    }
+  ],
+  "current_scoring_policy": "paper_science_v3",
+  "scoring_applicability_20261029": "Only current semantic pass/fail final conclusions are scored. Source/native scalars, old windows and method nodes are unscored evidence; historical scientific classifications are unchanged.",
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "必需结果：4a中央磁性质",
+      "rule_id": "r_response_4a",
+      "conclusion_id": "response_4a",
+      "weight": 20,
+      "independence": "第一分子绝对磁性，不自动证明另一分子或差异。",
+      "source_location": "正文Fig5及取代解释；SI S14计算方法与NICS坐标；source_0_main/source_1_supplementary_001及原生磁响应。",
+      "source_evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_rotated_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/report/v2_execution_20260929/author_4a_full_export_field_repair_acceptance_20261007.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4a_sis11_identity_corrected_optfreq_20260914/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4c_sis13_identity_corrected_optfreq_20260914/stdout.log"
+      ],
+      "existing_support_or_gap": "两环均值4a/4c=23.170170/19.162800 ppm，差+4.00737；主基组及约束共同核心比较同向。只有4a有48行电流/8键独立定位证据；不得冒称4c同样已有电流验证。",
+      "scientific_limitations": "来源环平均约定不唯一；混合18MO不是作者纯π电流。4a定位可支持有界局部归属，4c没有同等独立电流拓扑覆盖。磁反芳香性不等于所有能量/反应性定义；不要求作者4f NBO路线。"
+    },
+    {
+      "scientific_requirement": "必需结果：4c中央磁性质",
+      "rule_id": "r_response_4c",
+      "conclusion_id": "response_4c",
+      "weight": 20,
+      "independence": "第二分子绝对磁性，需自身响应证据。",
+      "source_location": "正文Fig5及取代解释；SI S14计算方法与NICS坐标；source_0_main/source_1_supplementary_001及原生磁响应。",
+      "source_evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_rotated_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/report/v2_execution_20260929/author_4a_full_export_field_repair_acceptance_20261007.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4a_sis11_identity_corrected_optfreq_20260914/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4c_sis13_identity_corrected_optfreq_20260914/stdout.log"
+      ],
+      "existing_support_or_gap": "两环均值4a/4c=23.170170/19.162800 ppm，差+4.00737；主基组及约束共同核心比较同向。只有4a有48行电流/8键独立定位证据；不得冒称4c同样已有电流验证。",
+      "scientific_limitations": "来源环平均约定不唯一；混合18MO不是作者纯π电流。4a定位可支持有界局部归属，4c没有同等独立电流拓扑覆盖。磁反芳香性不等于所有能量/反应性定义；不要求作者4f NBO路线。"
+    },
+    {
+      "scientific_requirement": "必需结果：取代造成的定量差异",
+      "rule_id": "r_pair_contrast",
+      "conclusion_id": "pair_contrast",
+      "weight": 25,
+      "independence": "可分辨相对强度，不是两者同号的重复。",
+      "source_location": "正文Fig5及取代解释；SI S14计算方法与NICS坐标；source_0_main/source_1_supplementary_001及原生磁响应。",
+      "source_evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_rotated_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/report/v2_execution_20260929/author_4a_full_export_field_repair_acceptance_20261007.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4a_sis11_identity_corrected_optfreq_20260914/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4c_sis13_identity_corrected_optfreq_20260914/stdout.log"
+      ],
+      "existing_support_or_gap": "两环均值4a/4c=23.170170/19.162800 ppm，差+4.00737；主基组及约束共同核心比较同向。只有4a有48行电流/8键独立定位证据；不得冒称4c同样已有电流验证。",
+      "scientific_limitations": "来源环平均约定不唯一；混合18MO不是作者纯π电流。4a定位可支持有界局部归属，4c没有同等独立电流拓扑覆盖。磁反芳香性不等于所有能量/反应性定义；不要求作者4f NBO路线。"
+    },
+    {
+      "scientific_requirement": "必需结果：中央与外围的局域归属",
+      "rule_id": "r_central_attribution",
+      "conclusion_id": "central_attribution",
+      "weight": 15,
+      "independence": "响应空间归属，与整体符号和强弱不同。",
+      "source_location": "正文Fig5及取代解释；SI S14计算方法与NICS坐标；source_0_main/source_1_supplementary_001及原生磁响应。",
+      "source_evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_rotated_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/report/v2_execution_20260929/author_4a_full_export_field_repair_acceptance_20261007.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4a_sis11_identity_corrected_optfreq_20260914/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4c_sis13_identity_corrected_optfreq_20260914/stdout.log"
+      ],
+      "existing_support_or_gap": "两环均值4a/4c=23.170170/19.162800 ppm，差+4.00737；主基组及约束共同核心比较同向。只有4a有48行电流/8键独立定位证据；不得冒称4c同样已有电流验证。",
+      "scientific_limitations": "来源环平均约定不唯一；混合18MO不是作者纯π电流。4a定位可支持有界局部归属，4c没有同等独立电流拓扑覆盖。磁反芳香性不等于所有能量/反应性定义；不要求作者4f NBO路线。"
+    },
+    {
+      "scientific_requirement": "必需结果：取代的电子解释",
+      "rule_id": "r_substituent_interpretation",
+      "conclusion_id": "substituent_interpretation",
+      "weight": 20,
+      "independence": "因果范围内的电子/结构解释，不重复排序。",
+      "source_location": "正文Fig5及取代解释；SI S14计算方法与NICS坐标；source_0_main/source_1_supplementary_001及原生磁响应。",
+      "source_evidence_ids": [
+        "source_0_main",
+        "source_1_supplementary_001",
+        "verified_frozen_v2"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4a_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_commoncore_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_basis_sensitivity/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_relaxed_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/outputs/4c_rotated_grid/gaussian.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_1/papers/paper_628af8d0bf0a1bfe/report/v2_execution_20260929/author_4a_full_export_field_repair_acceptance_20261007.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4a_sis11_identity_corrected_optfreq_20260914/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_628af8d0bf0a1bfe/provenance/local_stage_tests_20260914/4c_sis13_identity_corrected_optfreq_20260914/stdout.log"
+      ],
+      "existing_support_or_gap": "两环均值4a/4c=23.170170/19.162800 ppm，差+4.00737；主基组及约束共同核心比较同向。只有4a有48行电流/8键独立定位证据；不得冒称4c同样已有电流验证。",
+      "scientific_limitations": "来源环平均约定不唯一；混合18MO不是作者纯π电流。4a定位可支持有界局部归属，4c没有同等独立电流拓扑覆盖。磁反芳香性不等于所有能量/反应性定义；不要求作者4f NBO路线。"
+    }
+  ]
+}

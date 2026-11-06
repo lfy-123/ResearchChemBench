@@ -1,0 +1,23 @@
+# Current final-conclusion evaluation — 2026-10-29
+
+Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.
+
+- r_regioselective_capture_account (35): Explain the observed benzylic C–Cl connectivity through a computed local regioselectivity account.
+- r_stereochemical_product_account (40): Explain the observed Z alkene geometry through a computed local stereochemical account.
+- r_local_inference_limits (25): Determine what the computed local evidence and supplied controls establish about selectivity under the reaction conditions.
+
+## Historical source and route record — non-scoring
+
+Source numbers, former windows, review wording and acceptance below are preserved provenance only. Current binary final-conclusion rules above and scoring_rules.json supersede previous scoring language; historical scientific acceptance is not upgraded.
+
+# Current V3 final-results scope
+
+局限于6b/PhSO2Cl/Cu(acac)2/4CzIPN在MeCN、313.15 K下的局部氯化区域与Z立体选择性解释。AR独立选择物理模型；PR保留作者四个65原子中间体与源表自由能复现。四个结构及三个排序/几何项不再独立得分。保留原模式差异：AR三个最终命题40/40/20；PR对应28/28/20并保留三个源表数值各8分；两模式均100分。 Final-result weights and review conditions are defined exclusively in evaluation/scoring_rules.json. Source details below are private provenance; they do not prescribe the AR route.
+
+# Private source-route and V3 scope record
+
+The authors propose oxidative quenching of excited4CzIPN byCuII, reduction of sulfonyl chloride byCuI, sulfonyl-radical addition to6b, trapping byCuII(acac)Cl to allyl–CuIII species and reductive elimination (main pp8–9). Their computations compare four allyl–CuIII minima: C1 capture is lower than C3 alternatives and a2.3kcal/mol C1 conformer difference is used to rationalize selectivity. That is intermediate thermodynamics, not calculated C–Cl activation barriers. SI p65 uses Gaussian16, B3LYP-D3(BJ)/6-31G(d,p) withLANL2DZ onCu optimization/frequencies and M06/6-311+G(d,p)-SDD(Cu)/SMD MeCN single points. Its table labels a thermal column G273.15; source experiments are313.15K. Preserve and investigate this temperature-reference issue rather than silently treating old298.15K benchmark values as source conditions. Audit/reproduce the disclosed local rationale and state what further evidence is needed. The old two-route barrier matrix was a benchmark addition.
+
+The shared scientific question is: What molecular account of local C–Cl bond formation can explain the observed chlorosulfonylation selectivity of allenoate6b under the source photo/copper conditions, and what evidence limits that account?
+
+AR does not receive this metadata route through materialize_agent_files. Only final scientific results are scored; no process rubric applies. The shared scientific criteria accept adequate non-author evidence; prior V1 matrices are archived and inactive.

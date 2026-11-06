@@ -1,0 +1,7 @@
+# V3 evidence reuse and validation boundary
+
+The active scope is the scientific question and final results in agent_input/task.md. Score only the independent conclusions in scoring_rules.json. Existing native evidence is reused as described in the new front section of verified_computation_reference.md. Historical protocols and author intermediate values remain evidence context, with no process or structure-completion score.
+
+Five para-substituted benzyl alcohols H/Cl/Me/OMe/SMe; explain the given SMe conversion contrast through molecular electronic response, comparative productive-dehydrogenation energetics and their causal applicability under argon. Main pp3–4 Fig3 and SI S6 pp34–36 support the bounded explanation. Source gas-phase radical-cation H-loss energies and Hirshfeld populations are route evidence, not separate final score items. The original AR question never requested five absolute De values or three exact atom populations; PR retains their source baseline for reproduction without process points.
+
+Existing acceptance is historical: Historical strict gas-phase molecular evidence; V3 causal applicability remains bounded. No new chemistry, blind run or semantic judge calibration was performed. Contract validation certifies structure only. Reassess only the claim-specific gaps recorded in reference_qualification.json; do not infer source-exact agreement from a historical PASS.

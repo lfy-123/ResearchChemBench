@@ -1,0 +1,122 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "evidence": [
+    {
+      "evidence_id": "main_p6",
+      "source": {
+        "path": "papers/paper_4e9774f4128551d3/documents/main.pdf",
+        "sha256": "37a7fad866bff774d010cc6b61af21da2150a78c5bce69c1ff41574648c5b8b4",
+        "pdf_pages_1based": [
+          6
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p71",
+      "source": {
+        "path": "papers/paper_4e9774f4128551d3/documents/supplementary_001.pdf",
+        "sha256": "64fda6d0c684c5c53ad4434788b2fe57bfa21ff63ec78215d47885b4103de76a",
+        "pdf_pages_1based": [
+          71
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p5_6",
+      "source": {
+        "path": "papers/paper_4e9774f4128551d3/documents/main.pdf",
+        "sha256": "37a7fad866bff774d010cc6b61af21da2150a78c5bce69c1ff41574648c5b8b4",
+        "pdf_pages_1based": [
+          5,
+          6
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p20_21_71",
+      "source": {
+        "path": "papers/paper_4e9774f4128551d3/documents/supplementary_001.pdf",
+        "sha256": "64fda6d0c684c5c53ad4434788b2fe57bfa21ff63ec78215d47885b4103de76a",
+        "pdf_pages_1based": [
+          20,
+          21,
+          71
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p21",
+      "source": {
+        "path": "papers/paper_4e9774f4128551d3/documents/supplementary_001.pdf",
+        "sha256": "64fda6d0c684c5c53ad4434788b2fe57bfa21ff63ec78215d47885b4103de76a",
+        "pdf_pages_1based": [
+          21
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p20_21",
+      "source": {
+        "path": "papers/paper_4e9774f4128551d3/documents/supplementary_001.pdf",
+        "sha256": "64fda6d0c684c5c53ad4434788b2fe57bfa21ff63ec78215d47885b4103de76a",
+        "pdf_pages_1based": [
+          20,
+          21
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "source_checked_evidence_scope_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_endpoint_gap",
+      "r_condition_interpretation",
+      "r_recycle_balance"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The recycle_balance outcome may use the supplied experimental single-pass fraction with actually executed, recoverable mass-balance analysis. Endpoint molecular computations remain required for the separate endpoint and operation-interpretation outcomes.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "final_result_bindings": [
+    {
+      "conclusion_id": "endpoint_gap",
+      "rule_id": "r_endpoint_gap",
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_001_p71"
+      ],
+      "scientific_requirement": "Endpoint thermodynamic preference of the mapped cis/trans epimers and its physical scope"
+    },
+    {
+      "conclusion_id": "condition_interpretation",
+      "rule_id": "r_condition_interpretation",
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p20_21_71"
+      ],
+      "scientific_requirement": "Why equilibrium and separate-pot stereochemical outcomes differ"
+    },
+    {
+      "conclusion_id": "recycle_balance",
+      "rule_id": "r_recycle_balance",
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p21"
+      ],
+      "scientific_requirement": "Three-cycle cis recovery and its relation to the observed isolated yield"
+    }
+  ],
+  "historical_scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+}

@@ -10,7 +10,7 @@ WORKSPACE_ENV_NAMES = (
     "RESEARCHCHEM_MCP_WORKSPACE",
     "RESEARCHCHEMBENCH_WORKSPACE",
 )
-OUTPUT_ROOTS = ("outputs", "code", "report", "tool_logs")
+OUTPUT_ROOTS = ("outputs", "code", "report", "research", "tool_logs")
 RESERVED_FILES = {
     "_agent_output.jsonl",
     "_meta.json",
@@ -71,9 +71,11 @@ def resolve_workspace_path(
             raise ValueError(f"Symlink paths are not allowed in chemistry workspace: {value}")
     resolved = candidate.resolve(strict=False)
     try:
-        resolved.relative_to(root)
+        relative = resolved.relative_to(root)
     except ValueError as exc:
         raise ValueError(f"Path escapes chemistry MCP workspace: {value}") from exc
+    if relative.parts and relative.parts[0].startswith(("_score", "_scoring")):
+        raise ValueError(f"Private evaluation files are not tool inputs: {value}")
 
     if must_exist and not resolved.exists():
         raise FileNotFoundError(f"Workspace file does not exist: {resolved}")

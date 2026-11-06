@@ -1,0 +1,23 @@
+{
+  "revision_date": "2026-10-17",
+  "purpose": "Keep source locators and editorial provenance private while public inputs present a self-contained scientific problem. Scientific values, uncertainty, structures, scoring and verification conclusions are unchanged.",
+  "removed_public_fields": [
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/experiments/0/source_locator",
+      "original_value": "Supporting Information physical p.36, Reaction kinetic experiments; main article physical p.3, Figure 1E."
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/experimental_observations.json",
+      "json_pointer": "/experiments/1/source_locator",
+      "original_value": "Supporting Information physical p.13, Table S2 and general screening procedure."
+    }
+  ],
+  "input_wording_before_after": [
+    {
+      "file": "paper_c49993ae88ffa0e3/agent_input/data/inputs/experimental_observations.json",
+      "before": "The water-percentage convention is retained as reported.",
+      "after": "Use the supplied water-percentage convention."
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "paper_id": "paper_5d9fa6b2dd23daf1",
+  "revision": "independent_conclusions_adopted_20261103",
+  "scientific_scope": "酸/HFIP 条件下两类底物的 trans 成环机制、局部活化差别和配平净反应驱动。",
+  "source_location": "Main PDF pp.8–9, Scheme 7 and mechanistic discussion; supplementary_001 PDF/S pp.79–81, section 7.3, Fig.S3, Table S21 and the start of Table S22.",
+  "public_result_requirements": [
+    "Explain the bond-forming chemistry producing each supplied trans product for the acid and sulfonamide substrates.",
+    "Compare their local kinetic accessibility under compatible precursor definitions.",
+    "Determine the thermodynamic driving direction of each balanced net reaction and distinguish it from kinetic accessibility.",
+    "For each substrate, distinguish the computation-supported route connecting electrophilic incorporation to the product from validation of its key local bond-forming transition state.",
+    "For each claimed transition state, establish the chemical event through geometry, reaction-mode and endpoint or equivalent connectivity evidence; report which local events are established even if the full route remains incomplete."
+  ],
+  "required_numerical_evidence": [
+    {
+      "id": "acid_route_profile",
+      "description": "烯酸从题定反应组分经亲电并入/分子内捕获到产物的相连剖面实际能量及适用活化估计；需组成/质子账本，不要求所有TS均精细确认。",
+      "public_requirement": "Computed connected profile energies and applicable activation estimates for acid electrophilic incorporation and intramolecular capture to the given product, with component/proton bookkeeping; detailed saddle validation is a separate result."
+    },
+    {
+      "id": "acid_activation",
+      "description": "酸类形成路线的局部 Gibbs 势垒及其匹配前体/反应态能量。",
+      "public_requirement": "Computed local Gibbs activation energy and matched precursor/reactive-state energies for the acid-derived formation route."
+    },
+    {
+      "id": "sulfonamide_route_profile",
+      "description": "磺酰胺从题定反应组分经亲电并入/分子内捕获到产物的相连剖面实际能量及适用活化估计；需组成/质子账本，不要求所有TS均精细确认。",
+      "public_requirement": "Computed connected profile energies and applicable activation estimates for sulfonamide electrophilic incorporation and intramolecular capture to the given product, with component/proton bookkeeping; detailed saddle validation is a separate result."
+    },
+    {
+      "id": "sulfonamide_activation",
+      "description": "磺酰胺形成路线的局部 Gibbs 势垒及其匹配前体/反应态能量。",
+      "public_requirement": "Computed local Gibbs activation energy and matched precursor/reactive-state energies for the sulfonamide-derived formation route."
+    },
+    {
+      "id": "local_capture_substrate_effect_evidence",
+      "description": "两底物对应捕获的实际活化自由能、前体和参照，及相应连接证据。",
+      "public_requirement": "两底物对应捕获的实际活化自由能、前体和参照，及相应连接证据。"
+    },
+    {
+      "id": "incorporation_substrate_effect_evidence",
+      "description": "两底物金刚烷基并入/耦合转化的实际活化量及匹配库存。",
+      "public_requirement": "两底物金刚烷基并入/耦合转化的实际活化量及匹配库存。"
+    },
+    {
+      "id": "bounded_formation_reactivity_evidence",
+      "description": "足以支撑主要形成需求比较的实际前体/活化能量与参照关系。",
+      "public_requirement": "足以支撑主要形成需求比较的实际前体/活化能量与参照关系。"
+    },
+    {
+      "id": "acid_net",
+      "description": "酸类完整配平组分的 Gibbs 能量账本及净 ΔG。",
+      "public_requirement": "Computed Gibbs energies for the complete balanced acid-reaction inventory and the resulting net ΔG."
+    },
+    {
+      "id": "sulfonamide_net",
+      "description": "磺酰胺完整配平组分的 Gibbs 能量账本及净 ΔG。",
+      "public_requirement": "Computed Gibbs energies for the complete balanced sulfonamide-reaction inventory and the resulting net ΔG."
+    }
+  ],
+  "coverage": [
+    {
+      "scientific_question": "烯酸的有据整体成环路线",
+      "outcome_id": "acid_cyclization_mechanism",
+      "required_numerical_evidence_ids": [
+        "acid_route_profile"
+      ],
+      "old_outcome_ids": [
+        "acid_cyclization_mechanism"
+      ],
+      "points": 15,
+      "criterion": "实际相连反应证据解释烯酸的亲电 adamantyl 化及分子内 O–C 捕获如何得到给定trans 内酯，交代关键键变化、质子与组成账本。可用可靠替代机制，不强制唯一协同/分步次序；路线项不以已经完成所有 TS 精细验证为前提，但必须有相关过程的计算剖面支持，不能只画机制或优化给定产物。只确认局部闭环 TS、却没有证据说明金刚烷基并入与前后步骤的关系，不能取得此整体解释分。无需穷尽 cis 竞争或重建题外上游亲电试剂生成网络。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "烯酸的关键成环过渡态化学",
+      "outcome_id": "acid_transition_state_chemistry",
+      "required_numerical_evidence_ids": [
+        "acid_activation"
+      ],
+      "old_outcome_ids": [
+        "acid_transition_state_chemistry"
+      ],
+      "points": 15,
+      "criterion": "实际关键过渡结构的几何、反应振动模式与端点/等效连接证据确认烯酸通向trans 内酯的局部 O–C 成键及相关烯键/电荷重组；如声称同步形成金刚烷基–碳键或质子转移，也须有对应模式和连接支持。参考正文Scheme 7、SI Fig.S3的TS1-3a为亲电金刚烷基并入和分子内捕获耦合的trans加成化学；按实际键重组和相对构型判断，不按坐标、键长、频率数值匹配；不强制唯一分步/协同顺序或作者TS编号。与给定产物连接相容的可靠替代机制可通过。局部TS正确可独立通过，不强制整体路线已完成；但一个负频、计算正常结束、错误的N/O连接或另一底物TS改名均失败。IRC失败本身不是科学失败，充分的模式/位移端点等可替代连接证明。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "磺酰胺的有据整体成环路线",
+      "outcome_id": "sulfonamide_cyclization_mechanism",
+      "required_numerical_evidence_ids": [
+        "sulfonamide_route_profile"
+      ],
+      "old_outcome_ids": [
+        "sulfonamide_cyclization_mechanism"
+      ],
+      "points": 15,
+      "criterion": "实际相连反应证据解释磺酰胺的亲电 adamantyl 化及分子内 N–C 捕获如何得到给定trans 吡咯烷，交代关键键变化、质子与组成账本。可用可靠替代机制，不强制唯一协同/分步次序；路线项不以已经完成所有 TS 精细验证为前提，但必须有相关过程的计算剖面支持，不能只画机制或优化给定产物。只确认局部闭环 TS、却没有证据说明金刚烷基并入与前后步骤的关系，不能取得此整体解释分。无需穷尽 cis 竞争或重建题外上游亲电试剂生成网络。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "磺酰胺的关键成环过渡态化学",
+      "outcome_id": "sulfonamide_transition_state_chemistry",
+      "required_numerical_evidence_ids": [
+        "sulfonamide_activation"
+      ],
+      "old_outcome_ids": [
+        "sulfonamide_transition_state_chemistry"
+      ],
+      "points": 15,
+      "criterion": "实际关键过渡结构的几何、反应振动模式与端点/等效连接证据确认磺酰胺通向trans 吡咯烷的局部 N–C 成键及相关烯键/电荷重组；如声称同步形成金刚烷基–碳键或质子转移，也须有对应模式和连接支持。参考正文Scheme 7、SI Fig.S3的TS1-3s为亲电金刚烷基并入和分子内捕获耦合的trans加成化学；按实际键重组和相对构型判断，不按坐标、键长、频率数值匹配；不强制唯一分步/协同顺序或作者TS编号。与给定产物连接相容的可靠替代机制可通过。局部TS正确可独立通过，不强制整体路线已完成；但一个负频、计算正常结束、错误的N/O连接或另一底物TS改名均失败。IRC失败本身不是科学失败，充分的模式/位移端点等可替代连接证明。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "分子内O/N捕获的底物效应",
+      "outcome_id": "local_capture_substrate_effect",
+      "required_numerical_evidence_ids": [
+        "local_capture_substrate_effect_evidence"
+      ],
+      "old_outcome_ids": [
+        "substrate_kinetic_difference"
+      ],
+      "points": 10,
+      "criterion": "在化学对应局部前体与同一活化定义下，实际计算支持磺酰胺N捕获比烯酸O捕获更易发生。只对这一局部转化作有界结论；不能用端点放能或不相容前体比较。不以金刚烷基并入已验证为先决条件，但须有可信捕获成键连接。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY",
+        "E_COORD",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "金刚烷基并入阶段的底物效应",
+      "outcome_id": "incorporation_substrate_effect",
+      "required_numerical_evidence_ids": [
+        "incorporation_substrate_effect_evidence"
+      ],
+      "old_outcome_ids": [
+        "substrate_kinetic_difference"
+      ],
+      "points": 10,
+      "criterion": "实际对应的金刚烷基并入/与捕获耦合转化支持磺酰胺通道的较低活化需求；需两底物都具有相关成键证据。仅后继捕获比较不代替本项。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY",
+        "E_COORD",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "底物整体形成反应性的有界解释",
+      "outcome_id": "bounded_formation_reactivity",
+      "required_numerical_evidence_ids": [
+        "bounded_formation_reactivity_evidence"
+      ],
+      "old_outcome_ids": [
+        "substrate_kinetic_difference"
+      ],
+      "points": 10,
+      "criterion": "结合相关局部活化和必要前体可达性，对磺酰胺较易成环给出有证据的形成反应性解释，说明局部势垒与进入前体代价区别。不得用某一低捕获势垒替代尚未求出的困难并入步骤；不要求完整溶液动力学或产率。",
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY",
+        "E_COORD",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "酸类配平净反应具有热力学驱动",
+      "outcome_id": "acid_net_driving_force",
+      "required_numerical_evidence_ids": [
+        "acid_net"
+      ],
+      "old_outcome_ids": [
+        "acid_net_driving_force"
+      ],
+      "points": 5,
+      "criterion": "配平完整分子/离子库存的真实端点能量支持酸类净反应放能，并正确区分该热力学驱动与动力学可达性。不要求复现作者负值或容差；缺失离去组分、质子/水等导致不配平的能量差不能支持结论。该项可以独立于形成机制项通过。",
+      "evidence_ids": [
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY",
+        "existing_native_verification"
+      ]
+    },
+    {
+      "scientific_question": "磺酰胺配平净反应具有热力学驱动",
+      "outcome_id": "sulfonamide_net_driving_force",
+      "required_numerical_evidence_ids": [
+        "sulfonamide_net"
+      ],
+      "old_outcome_ids": [
+        "sulfonamide_net_driving_force"
+      ],
+      "points": 5,
+      "criterion": "实际且库存配平的端点能量支持磺酰胺净反应放能，说明它与较易形成的动力学判断是不同依据。酸类反应能不能替代本项，也不能只优化产物就宣称放能。无需命中论文数值或比较两类反应谁更放能。",
+      "evidence_ids": [
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY",
+        "existing_native_verification"
+      ]
+    }
+  ],
+  "excluded_scope": [
+    "trans 产物已给，不按重画其结构计分；不加全部 cis/1,1/1,2 网络或精确产率。",
+    "两个净反应均须配平质子、离去组分及参考库存，不能用不配平产物总能。",
+    "293.15 K 是计算约定，不能称实验室温被精确报告为该值。",
+    "整体路线与局部TS化学各15；仅局部成环TS可独立通过后者。两底物活化比较须是化学对应的实际局部事件，不能拿不同过程任意相减。"
+  ],
+  "verification_support": "正文 Scheme 7、SI Fig.S3/Table S21/S22；历史验证支持两条连接、磺酰胺较低局部活化需求及两类配平净反应均放能。 正文PDF第8–9页与SI S80图S3已重读；参考为协同亲电trans加成。局部TS与完整路线分项不等于认定任意局部扫描已证明参考全程。"
+}

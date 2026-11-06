@@ -1,0 +1,248 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "scoring_policy": "paper_science_v3",
+  "status": "V3_ADAPTED_EXISTING_EVIDENCE_NOT_REVALIDATED",
+  "formal_scoring_permitted": true,
+  "current_scope_verified": false,
+  "release_ready": false,
+  "retained_limitations": [
+    "SI273.15K label is not certified;298.15K numerical agreement does not prove author typo or private input recovery.",
+    "Main313.15K agreement is a conditional reconstruction,not recovered author temperature proof.",
+    "PanelC4 roles differ; geometry differences do not independently measure strain energy.",
+    "Local outlet is not a source transition state; no full cycle,rate,unique spin/coordination state or exact product ratio certification."
+  ],
+  "historical_acceptance_before_v3": {
+    "paper_id": "paper_db6c4e0558113873",
+    "scoring_policy": "paper_science_v2",
+    "status": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+    "formal_scoring_permitted": true,
+    "current_scope_verified": true,
+    "release_ready": false,
+    "acceptance_class": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+    "reason": "2026-10-19 round3 authorized scoring-contract repairs. Historical scientific acceptance class is unchanged; no new chemical validation or online Judge calibration. Active rules and mode-specific scope supersede earlier scoring migration wording.",
+    "retained_limitations": [
+      "SI273.15K label is not certified;298.15K numerical agreement does not prove author typo or private input recovery.",
+      "Main313.15K agreement is a conditional reconstruction,not recovered author temperature proof.",
+      "PanelC4 roles differ; geometry differences do not independently measure strain energy.",
+      "Local outlet is not a source transition state; no full cycle,rate,unique spin/coordination state or exact product ratio certification."
+    ],
+    "tolerance_policy": {
+      "status": "provisional_source_fidelity_policy_not_cross_method_accuracy",
+      "rationale": "PR retains author TableS1-derived differences with common ±0.05 kcal/mol as a source-column reproduction window, not temperature uncertainty. Author temperature is unresolved. A stated reconstruction must separately support physical comparability; agreement at 298.15 K is not proof of an author typo. Reaction-condition 313.15 K results are not silently compared against an unmatched source column."
+    },
+    "verification_status_record": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_db6c4e0558113873",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "round3_repair": {
+      "date": "2026-10-19",
+      "mode": "paper_reproduction",
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_05/REPORT.md",
+      "changes": [
+        "Kept author Table S1 difference targets and ±0.05 kcal/mol; removed assertion that an author temperature was recovered. Source-column reproduction is distinct from public-temperature comparison.",
+        "Audited every existing leaf for scientific role, source/verification support and physical definitions; retained unproven narrow-window risks as explicit provisional calibration limits rather than inventing wider tolerances."
+      ],
+      "no_new_chemistry": true,
+      "online_judge_calibration_performed": false,
+      "historical_acceptance_unchanged": true,
+      "source_temperature_correction": "Main Fig1 does not establish an author 313.15 K calculation temperature. Its numerical agreement with a 313.15 K verification column is conditional evidence only. This corrects any stronger temperature attribution in previous review prose."
+    }
+  },
+  "scoring_mode": "final_results_100",
+  "evidence_gaps": [
+    "SI的G273.15标签及作者真实热化学温度未澄清；298.15 K数值重建不是作者笔误证明",
+    "局部出口有正曲率和成键身份，但没有支持唯一成键机制/精确选择比的竞争势垒",
+    "四个有限最低点不能认证全构象/自旋/配位系综；几何差异不是独立的应变能分解",
+    "V3语义判分及独立AR盲测未执行；历史严格局部验收不自动继承"
+  ],
+  "final_result_evidence_reuse": {
+    "regioselective_capture_account": "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/results/analysis_summary.json：313.15 K相对C1ss为C3ss10.826133、C1sa2.348304、C3sa6.500419 kcal/mol；C1在两个立体家族均较低。released_outlet_identity_curvature_composite.json提供C–Cl1.903636 Å及C1–Cu断开，支持局部连接，不是势垒。",
+    "stereochemical_product_account": "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/source_geometry_and_reference_review_20260930.json：同角色C2–C3–Cpropyl角121.317488/129.711905°；出口S/酯羰基高优先级取代基同侧、二面角−10.620089°。C1ss较C1sa低2.348304 kcal/mol（313.15 K）。已支持局部热力学/构型关联，不能唯一归因应变或推出产物比。",
+    "local_inference_limits": "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/results/analysis_summary.json及outputs/Cu_released_outlet_identity_curvature_composite_20261002/a01/results/released_outlet_identity_curvature_composite.json：三温排序一致、189正模出口；正文Scheme3的光/铜/自由基控制有参与性而非局部势垒辨识力。支持条件性解释及边界。",
+    "C1_synanti_relative_G": "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/results/analysis_summary.json：298.15 K条件重建=2.2939293511 kcal/mol；与原SI Gsol差值±0.05窗相容。273.15 K不能重建全表，313.15 K是单独反应条件结果；源温度未证实。",
+    "C3_synsyn_relative_G": "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/results/analysis_summary.json：298.15 K条件重建=10.7132844341 kcal/mol；与原SI Gsol差值±0.05窗相容。273.15 K不能重建全表，313.15 K是单独反应条件结果；源温度未证实。",
+    "C3_synanti_relative_G": "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/results/analysis_summary.json：298.15 K条件重建=6.437267971 kcal/mol；与原SI Gsol差值±0.05窗相容。273.15 K不能重建全表，313.15 K是单独反应条件结果；源温度未证实。"
+  },
+  "new_quantum_calculations": 0,
+  "v3_scientific_revalidation_performed": false,
+  "secondary_audit_20261028": {
+    "scope_changed": false,
+    "new_calculations": 0,
+    "verification_status": "局部热力学排序与结构关联有支持；PR只有298.15K条件重建数值窗内，273.15/313.15K三个值均超窗，源温度和动力学唯一性未认证",
+    "confirmed_fixes": [
+      {
+        "file": "两模式submission_schema.json complete.decision_log及guide",
+        "before": "complete要求decision_log.minItems=1",
+        "after": "minItems=0，guide明确可为空",
+        "reason": "决策叙述不是科学结果成立前提，实际结果和证据要求保留。"
+      }
+    ],
+    "expert_issues": [
+      {
+        "issue": "源热化学温度与PR硬窗公平性",
+        "evidence": "SI打印G273.15；298.15K三残差+0.001637/+0.000442/+0.001531，313.15K三残差+0.056012/+0.113291/+0.064682，273.15K亦三项超窗。",
+        "impact": "不能把298窗内称为恢复作者真实协议，也不能混用313反应条件与源表硬窗认证PR全面通过。",
+        "suggestion": "保留源目标、±0.05和所有分支；由专家明确有条件重建的可接受证据标准，优先核实原始作者热化学输入。",
+        "new_computation_needed": "首先澄清来源；现存三温计算已足够显示歧义，不建议重复重算。"
+      },
+      {
+        "issue": "局部热力学解释与动力学选择性的证据差距",
+        "evidence": "四极小值和Z样出口，但无闭合竞争势垒；出口post-frequency预测位移NO；图C4化学角色不同。",
+        "impact": "可支持有界结构／稳定性解释，不支持唯一成键机理、应变能分解或精确选择比。",
+        "suggestion": "按当前有限解释评估，不因无TS要求补全循环；任何更强主张需另设计真正势垒／连通性证据。",
+        "new_computation_needed": "当前有限命题不新增；若升级动力学主张才需新验证。"
+      }
+    ]
+  },
+  "historical_non_scoring_tolerance_policy": {
+    "status": "provisional_source_fidelity_policy_not_cross_method_accuracy",
+    "rationale": "PR retains author TableS1-derived differences with common ±0.05 kcal/mol as a source-column reproduction window, not temperature uncertainty. Author temperature is unresolved. A stated reconstruction must separately support physical comparability; agreement at 298.15 K is not proof of an author typo. Reaction-condition 313.15 K results are not silently compared against an unmatched source column."
+  },
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_regioselective_capture_account",
+      "r_stereochemical_product_account",
+      "r_local_inference_limits"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_reason": "局限于6b/PhSO2Cl/Cu(acac)2/4CzIPN在MeCN、313.15 K下的局部氯化区域与Z立体选择性解释。AR独立选择物理模型；PR保留作者四个65原子中间体与源表自由能复现。四个结构及三个排序/几何项不再独立得分。保留原模式差异：AR三个最终命题40/40/20；PR对应28/28/20并保留三个源表数值各8分；两模式均100分。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "苄位氯相对另一端的解释；PR两C3相对G作为证据",
+      "rule_id": "r_regioselective_capture_account",
+      "conclusion_id": "regioselective_capture_account",
+      "independence": "区域连接偏好不同于同区域内Z/E取向。",
+      "source_locator": "正文pp8–9 Fig1/Scheme4；SIp65 TableS1/方法、pp66–74坐标；四极小点及三温原生重建",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/Cu_released_outlet_identity_curvature_composite_20261002/a01/results/outlet_low_OptFreq.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/Cu_released_outlet_identity_curvature_composite_20261002/a01/results/released_outlet_identity_curvature_composite.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synanti_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synanti_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synsyn_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synsyn_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synanti_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synanti_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synsyn_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synsyn_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/results/analysis_summary.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/source_geometry_and_reference_review_20260930.json"
+      ],
+      "existing_support": "313.15K C3ss−C1ss10.826133、C3sa−C1sa4.152115、C1sa−C1ss2.348304kcal/mol；三温同序。映射Z样出口与几何支持有界解释，无竞争TS闭合。",
+      "limits": [
+        "旧PR三项±0.05硬窗已取消；273.15/298.15/313.15K全部旧残差完整保留。298K接近来源不证明打印G273.15笔误，也不认证作者真实温度。",
+        "panel-local C4左为羰基、右为丙基，不能当同一化学角色；两个角度或2.3kcal/mol不是隔离应变能。出口仍含Cu且post-frequency预测位移NO，不是孤立产物或势垒。",
+        "四极小点和控制只支持有限结构/热力学解释，不证明唯一C–Cl转移路线、精确Z/E、活性Cu态或全光氧化还原循环。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_regioselective_capture_account",
+        "r_C3_synsyn_relative_G",
+        "r_C3_synanti_relative_G"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "Z构型的几何/能量解释；PR C1构象差作为证据",
+      "rule_id": "r_stereochemical_product_account",
+      "conclusion_id": "stereochemical_product_account",
+      "independence": "同一位点的立体结果独立于C1/C3区域偏好。",
+      "source_locator": "正文pp8–9 Fig1/Scheme4；SIp65 TableS1/方法、pp66–74坐标；四极小点及三温原生重建",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/Cu_released_outlet_identity_curvature_composite_20261002/a01/results/outlet_low_OptFreq.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/Cu_released_outlet_identity_curvature_composite_20261002/a01/results/released_outlet_identity_curvature_composite.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synanti_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synanti_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synsyn_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synsyn_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synanti_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synanti_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synsyn_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synsyn_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/results/analysis_summary.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/source_geometry_and_reference_review_20260930.json"
+      ],
+      "existing_support": "313.15K C3ss−C1ss10.826133、C3sa−C1sa4.152115、C1sa−C1ss2.348304kcal/mol；三温同序。映射Z样出口与几何支持有界解释，无竞争TS闭合。",
+      "limits": [
+        "旧PR三项±0.05硬窗已取消；273.15/298.15/313.15K全部旧残差完整保留。298K接近来源不证明打印G273.15笔误，也不认证作者真实温度。",
+        "panel-local C4左为羰基、右为丙基，不能当同一化学角色；两个角度或2.3kcal/mol不是隔离应变能。出口仍含Cu且post-frequency预测位移NO，不是孤立产物或势垒。",
+        "四极小点和控制只支持有限结构/热力学解释，不证明唯一C–Cl转移路线、精确Z/E、活性Cu态或全光氧化还原循环。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_stereochemical_product_account",
+        "r_C1_synanti_relative_G"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "计算/控制对313.15K反应的推断范围",
+      "rule_id": "r_local_inference_limits",
+      "conclusion_id": "local_inference_limits",
+      "independence": "区分热力学和动力学以及来源温度，不再奖励区域/立体排序。",
+      "source_locator": "正文pp8–9 Fig1/Scheme4；SIp65 TableS1/方法、pp66–74坐标；四极小点及三温原生重建",
+      "native_artifacts": [
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/Cu_released_outlet_identity_curvature_composite_20261002/a01/results/outlet_low_OptFreq.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/Cu_released_outlet_identity_curvature_composite_20261002/a01/results/released_outlet_identity_curvature_composite.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synanti_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synanti_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synsyn_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C1_synsyn_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synanti_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synanti_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synsyn_high.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/C3_synsyn_low.log",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/outputs/source_four_minima_thermochemistry/a01/results/analysis_summary.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_db6c4e0558113873/v2_execution_20260929/source_geometry_and_reference_review_20260930.json"
+      ],
+      "existing_support": "313.15K C3ss−C1ss10.826133、C3sa−C1sa4.152115、C1sa−C1ss2.348304kcal/mol；三温同序。映射Z样出口与几何支持有界解释，无竞争TS闭合。",
+      "limits": [
+        "旧PR三项±0.05硬窗已取消；273.15/298.15/313.15K全部旧残差完整保留。298K接近来源不证明打印G273.15笔误，也不认证作者真实温度。",
+        "panel-local C4左为羰基、右为丙基，不能当同一化学角色；两个角度或2.3kcal/mol不是隔离应变能。出口仍含Cu且post-frequency预测位移NO，不是孤立产物或势垒。",
+        "四极小点和控制只支持有限结构/热力学解释，不证明唯一C–Cl转移路线、精确Z/E、活性Cu态或全光氧化还原循环。"
+      ],
+      "evidence_ids": [
+        "main",
+        "si"
+      ],
+      "previous_rule_ids": [
+        "r_local_inference_limits"
+      ],
+      "no_new_computation": true
+    }
+  ],
+  "objective_issue_flags": [
+    {
+      "issue": "旧PR三项±0.05硬窗已取消；273.15/298.15/313.15K全部旧残差完整保留。298K接近来源不证明打印G273.15笔误，也不认证作者真实温度。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "panel-local C4左为羰基、右为丙基，不能当同一化学角色；两个角度或2.3kcal/mol不是隔离应变能。出口仍含Cu且post-frequency预测位移NO，不是孤立产物或势垒。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "四极小点和控制只支持有限结构/热力学解释，不证明唯一C–Cl转移路线、精确Z/E、活性Cu态或全光氧化还原循环。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    }
+  ]
+}

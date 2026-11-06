@@ -1,0 +1,108 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "upgrade_round": "20261011T081201Z",
+  "status": "CURRENT_BOUNDED_SCOPE_VERIFIED",
+  "source_catalog": {
+    "formal_numeric_gold_enabled": false,
+    "source_population": "MEP fitting; B3LYP/CBSB7 C-PCM water; refs 38/39 support MK-family attribution; source grid/radii not fully documented",
+    "source_charges_e": {
+      "R4": {
+        "map2": -0.507,
+        "map4": -0.066
+      },
+      "7": {
+        "map8": -0.311,
+        "map10": -0.262
+      }
+    },
+    "derived_source_differences_e": {
+      "R4": -0.441,
+      "7": -0.049
+    },
+    "derived_source_magnitude_ratio": 9.0,
+    "native_reextraction": {
+      "records": [
+        {
+          "case": "R4_default_density1",
+          "path": "docs/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/outputs/Br_saved_curvature_and_MK_density_control_20261007/a01/native_population/R4_default_density1/gaussian.log",
+          "sha256": "424a376c366a35593af6077548ed19985831c638ce71122b57e352e5cf2337e7",
+          "normal_termination": true,
+          "selector": "last unsummed ESP charges; SI-indexed alkene carbons",
+          "atoms_1based": [
+            2,
+            4
+          ],
+          "charges_e": [
+            -0.533926,
+            -0.049661
+          ],
+          "difference_e": -0.484265
+        },
+        {
+          "case": "7_default_density1",
+          "path": "docs/upgrade_tasks_verification/group_4/papers/paper_c625cba3ce868eb1/v2_execution_20260929/outputs/Br_saved_curvature_and_MK_density_control_20261007/a01/native_population/7_default_density1/gaussian.log",
+          "sha256": "b84648198f5a9e1569f0dbbdd5a1698dc3c30f34ed656e842703a4753398181e",
+          "normal_termination": true,
+          "selector": "last unsummed ESP charges; SI-indexed alkene carbons",
+          "atoms_1based": [
+            8,
+            10
+          ],
+          "charges_e": [
+            -0.313449,
+            -0.258383
+          ],
+          "difference_e": -0.055066000000000004
+        }
+      ],
+      "scope": "Read-only population extraction, no new QC; no new-scope PASS inferred."
+    },
+    "optional_comparator": {
+      "id": "compound_7",
+      "experiment": "CiVCPO/KBr/H2O2 citrate buffer, not NBS/Et3N/DCM",
+      "confounding": "4 and 7 differ in OOH, branching/skeleton and stereochemical environment; cannot isolate a unique substituent cause"
+    },
+    "temperature_status": "NBS paragraph does not explicitly state temperature; room temperature is not a source-certified exact value",
+    "critical_numeric_policy": "No invented exact charge/ratio tolerance, rate or TS reference; source MEP trend is the scientific result."
+  },
+  "source_conflicts_and_minimal_corrections": [
+    {
+      "id": "figure_page_correction",
+      "evidence": "Actual Fig 4 is PDF p5; Scheme 3 p4; text pp3–4. SI Fig S50 p30.",
+      "minimal_correction": "Use actual rendered figure locators; chemistry and approved scope unchanged."
+    },
+    {
+      "id": "NBS_concentration",
+      "evidence": "Main p7 lists 0.284 mmol and 6 mL, hence 47.333... mM, despite printed 473 mM.",
+      "minimal_correction": "Use 47.3 mM from stated amounts, explicitly retain provenance of source typo. Do not treat citation of the printed value as agent misconduct."
+    },
+    {
+      "id": "temperature_unspecified",
+      "evidence": "The Chemical Halocyclization paragraph specifies argon and 4 h but no temperature; room-temperature statements elsewhere concern other procedures.",
+      "minimal_correction": "Leave temperature null / not explicitly stated. An investigator may declare a modeling temperature; do not demand an undisclosed exact temperature."
+    },
+    {
+      "id": "mapped_CIP_priority_artifact",
+      "evidence": "With atom maps removed, RDKit confirms supplied graph and SI coordinates as R,E. Artificial atom-map priorities can make an uncleaned RDKit CIP label appear S.",
+      "minimal_correction": "Keep the chemically correct supplied graph unchanged; document checking of CIP without artificial atom-map labels. Never fail an otherwise equivalent remapping."
+    },
+    {
+      "id": "no_unique_mechanism",
+      "evidence": "Main p4 explicitly limits polarization to reactants and says it does not imply a specific mechanism; Fig S50 is aqueous, chemical experiment is DCM.",
+      "minimal_correction": "Recover source direction and ring-preference explanation with method/environment-aware evidence, not a compulsory bromiranium/TS or invented barrier."
+    }
+  ],
+  "source_visual_review_directory": "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_04/reports/paper_c625cba3ce868eb1/source_review",
+  "old_reference_sha256": "bc92d9e429a4c40580fe4a63fb24c7a626779c6e0ad4d8e5ebdf3141a32a401c",
+  "new_scope_scientific_pass": true,
+  "remaining_issues": [
+    "Water/DCM polarization and topology evidence verified on 2026-10-11T21:34; no current-scope QC gap.",
+    "MEP grid/radii and conformer dependence still limit exact numeric calibration.",
+    "Stronger unique-mechanism, TS, kinetic or yield claims are outside accepted scope."
+  ],
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Current bounded scientific coverage is accepted. Exact-source, scoring and release qualifications remain separate; this does not certify every result in the paper."
+}

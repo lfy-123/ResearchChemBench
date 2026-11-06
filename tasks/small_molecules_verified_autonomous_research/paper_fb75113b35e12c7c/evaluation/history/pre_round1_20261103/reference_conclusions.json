@@ -1,0 +1,107 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "items": [
+    {
+      "conclusion_id": "r5_site_answer",
+      "statement": "PI1 monoaddition has weak, model-dependent site selectivity",
+      "expected": "Identify the compared PI1 protonated monoaddition connectivities and conclude from actual balanced computed energies that a unique strongly preferred site is not robustly resolved. The reference method7 favors the delta-connected neutral product by small gaps, although its lowest initial anion is beta-prime-derived. This distinction is supporting evidence, not an independently scored intermediate inventory. A physically supported equivalent account of weak site selectivity passes. Do not equate anion stability with final neutral selectivity or claim an exclusive measured distribution. Report the computed relative energies with their definitions; no fixed energy window applies. A different PI1 ordering is acceptable as a conditional model result when actual balanced competitor energies and informative sensitivity evidence justify its stated resolution; it must not be presented as a uniquely established experimental distribution.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_r5_site_answer"
+      ],
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "r5_product_class",
+      "statement": "PI1 favors accessible simple addition over the considered cyclized outcomes",
+      "expected": "Use actual accessibility and energetic evidence to explain why PI1 preferentially retains simple-addition connectivity over the competing cyclized class in the tested model. The reference explanation is restricted cyclization caused by a costly alpha-directed closure and local instability of a gamma-cyclic state; an equivalent supported explanation passes without reproducing both author intermediates or their labels. A low-energy final furan alone cannot establish its accessibility, and one reverted optimization cannot prove global nonexistence. Source 35.6 kcal/mol is a local Gibbs barrier used as evidence context, not a hard target.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_r5_product_class"
+      ],
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "r5_second_competition",
+      "statement": "A second MeSH addition to PI1 is weakly thermodynamically competitive",
+      "expected": "Conclude from an actual balanced monoaddition-product + MeSH to double-addition-product comparison that second addition to PI1 can be weakly favorable thermodynamically. Give the incremental reaction free energy and identify the competing connectivity; total double-adduct formation energy is not the second-step increment. The source approximately -2 kcal/mol is contextual, with no hard window. This result does not establish a second-addition rate or exclusive experimental double addition. Because this second-addition driving force is small and model dependent, a substantiated near-thermoneutral or weakly unfavorable result can also pass when its actual incremental free energy and uncertainty establish the extent of thermodynamic competition. Do not enforce the source sign across methods or claim unavoidable double addition.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_r5_second_competition"
+      ],
+      "evidence_ids": [
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "r6_thermodynamic_fate",
+      "statement": "PI2 cyclized endpoints are substantially more stable than simple adducts",
+      "expected": "Determine and report balanced relative free energies for PI2 simple-addition and relevant cyclic product connectivities. Conclude that the cyclic endpoint class is substantially more stable while the alternative cyclic endpoints are close in energy. This is a final thermodynamic comparison, distinct from selecting an accessible formation route. Source cyclic values around -17 to -18 versus simple products around -4 kcal/mol are contextual. No unique initial-anion ranking is required because source prose and diagrams disagree.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_r6_thermodynamic_fate"
+      ],
+      "evidence_ids": [
+        "V2_R6",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "r6_accessible_fate",
+      "statement": "PI2 accessible cyclization selects the gamma-derived furan connectivity",
+      "expected": "Predict and explain the accessible PI2 cyclic product connectivity using actual competing-path evidence: the reference beta-prime addition followed by gamma-directed closure reaches the furan class more readily than alpha-directed closure, even though both final rings are stable. Equivalent supported formation explanations pass; the author sequence is not a mandatory checklist. Explain the contrast with PI1 in terms of calculated accessibility/structural effects, rather than endpoint energy alone. Keep local Gibbs barriers distinct from overall energy heights and constrained electronic-energy scans. Source alpha barrier 27.6 kcal/mol and local finite gamma scans do not impose a hard target or prove a globally barrierless full network.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_r6_accessible_fate"
+      ],
+      "evidence_ids": [
+        "V2_R6",
+        "V2_R5",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "sulf_site_answer",
+      "statement": "PI3 favors alpha-connected protonated addition products",
+      "expected": "Identify the favored alpha-addition neutral product of the specified PI3 appendage isomer and explain its preference using actual balanced comparisons to competing connectivities. Report the compared neutral-product energies. The source alpha anion and neutral preferences support this outcome; they are evidence rather than separate mandatory intermediate results. Source neutral values -10.9/-9.7/-5.4 kcal/mol are contextual. Electronic withdrawal/planarization is a possible interpretation, but a descriptor label alone is insufficient and another supported physical explanation is accepted. No PI3 cyclization or second addition is required.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_sulf_site_answer"
+      ],
+      "evidence_ids": [
+        "V2_SULF",
+        "V2_SI_NETWORK",
+        "V2_SI_IDENTITY",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    },
+    {
+      "conclusion_id": "comparative_robustness",
+      "statement": "Selectivity reliability differs across the three substrates",
+      "expected": "Use actual informative model-sensitivity comparisons to conclude that PI1 simple-product ranking changes or remains unresolved within its small computed gaps, whereas the tested PI3 alpha preference and PI2 cyclic-versus-simple class are more stable conclusions. Distinguish PI2 class-level robustness from the sensitive ordering of its close cyclic endpoints. Quantify the model-dependent differences used for this conclusion. Generic uncertainty statements or repeating the preferred products without a sensitivity investigation fail. Limit inference to tested conformers and methods; do not infer precise EtSH yields from the MeSH model. Quantitative sensitivity analysis of relevant results already generated by the participant is acceptable; no additional computational method, fixed cross-method matrix or rerun is required merely to satisfy this item. A different comparative robustness assessment may pass when actual quantitative sensitivity evidence covers the same PI1 site, PI2 product-class/close-endpoint and PI3 site questions and supports the revised conclusion. Reproducing the reference ordering without testing its stability is insufficient.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_comparative_robustness"
+      ],
+      "evidence_ids": [
+        "V2_R5",
+        "V2_R6",
+        "V2_SULF",
+        "V2_SI_NETWORK",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ]
+    }
+  ]
+}

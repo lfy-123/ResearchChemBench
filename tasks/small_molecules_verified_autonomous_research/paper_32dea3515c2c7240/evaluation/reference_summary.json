@@ -1,0 +1,89 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "case_id": "case_06",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "scientific_scope": "两种氮构型的生产性反应差异，以及孤立 S/P 各自构型稳定性如何支持富集与保持。",
+  "numeric_rules": [],
+  "required_numerical_evidence": [
+    {
+      "id": "productive_barriers",
+      "description": "两生产性构型的 Gibbs 活化量、共同参照及差值，绑定真实构型映射。",
+      "public_requirement": "Computed Gibbs activation energies for both productive configurations and their difference on a common reference, linked to the actual configuration mapping."
+    },
+    {
+      "id": "s_inversion",
+      "description": "孤立 S 在题定 MeCN/353.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+      "public_requirement": "Computed inversion Gibbs barrier and state energies for isolated S in the specified MeCN/353.15 K model, with evidence connecting the configurations."
+    },
+    {
+      "id": "p_inversion",
+      "description": "孤立 P 在题定 n-octane/398.15 K 下的反转 Gibbs 势垒、两构型/反转态能量及连接证据。",
+      "public_requirement": "Computed inversion Gibbs barrier and state energies for isolated P in the specified n-octane/398.15 K model, with evidence connecting the configurations."
+    },
+    {
+      "id": "productive_profile_a",
+      "description": "初始氮构型 A 的生产性起点到指定产物相连路径的关键态 Gibbs 能量、各必要转化活化量及成分/参照账本；不要求催化剂完整周转。",
+      "public_requirement": "Computed key-state Gibbs energies and activation requirements along a connected productive route from initial nitrogen configuration A to the specified product, with component/reference bookkeeping; complete catalyst turnover is not required."
+    },
+    {
+      "id": "productive_profile_b",
+      "description": "初始氮构型 B 的生产性起点到指定产物相连路径的关键态 Gibbs 能量、各必要转化活化量及成分/参照账本；不要求催化剂完整周转。",
+      "public_requirement": "Computed key-state Gibbs energies and activation requirements along a connected productive route from initial nitrogen configuration B to the specified product, with component/reference bookkeeping; complete catalyst turnover is not required."
+    }
+  ],
+  "final_outcomes": [
+    {
+      "id": "productive_path_a",
+      "points": 15,
+      "description": "初始氮构型 A 到产物的生产性路径",
+      "allow_need_review": false
+    },
+    {
+      "id": "productive_path_b",
+      "points": 15,
+      "description": "初始氮构型 B 到产物的生产性路径",
+      "allow_need_review": false
+    },
+    {
+      "id": "productive_selectivity_step",
+      "points": 10,
+      "description": "区分两构型的关键生产性转化",
+      "allow_need_review": false
+    },
+    {
+      "id": "substrate_configuration_persistence",
+      "points": 10,
+      "description": "孤立 S 的构型保持",
+      "allow_need_review": false
+    },
+    {
+      "id": "product_configuration_persistence",
+      "points": 10,
+      "description": "孤立 P 的构型保持",
+      "allow_need_review": false
+    },
+    {
+      "id": "conditioned_inversion_comparison",
+      "points": 20,
+      "description": "各自题定条件下的 P/S 反转活化比较",
+      "allow_need_review": false
+    },
+    {
+      "id": "enrichment_and_retention",
+      "points": 20,
+      "description": "富集、保持与 DKR 推论的界限",
+      "allow_need_review": false
+    }
+  ],
+  "verification_support": "正文 Fig.9、SI S27–28/S10–11 与观察表；历史验证支持生产性构型差异及孤立 S/P 反转，连接带 source-assisted 限定。 SI Fig.S11提供关键生产性阶段之后到产物的参考路径；既有独立计算主要覆盖关键构型竞争与孤立反转，未独立复算新拆出的两条完整到产物路径。本次只修规则，不新增量化验证。",
+  "boundaries": [
+    "催化比较为 MeCN/363.15 K；S 反转为 MeCN/353.15 K；P 为 n-octane/398.15 K。",
+    "原 P 反转数值偏差不再触发失败；但“都有正势垒”不能证明小时尺度稳定。",
+    "不得跨温度/溶剂直接比较反转速率，不要求完整 DKR、精确 ee 或完整催化循环。",
+    "保留人工要求的 P>S 条件限定活化比较，严禁将其表述为同条件内禀反转难度或速率结论；完整生产性路径不等于完整催化循环。"
+  ],
+  "source_locator": "Main PDF pp.7–9 (printed pp.6–8), Fig.7 and Fig.9; supplementary_002 PDF pp.23–29 (S22–S28), sections 9.1/9.2/9.4/10 and Figs.S10/S11.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "is_new_quantum_validation": false
+}

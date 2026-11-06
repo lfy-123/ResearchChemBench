@@ -1,0 +1,147 @@
+{
+  "paper_id": "paper_1bcf80caf9e64d55",
+  "items": [
+    {
+      "key_point_id": "phosphine_addition",
+      "rule_ids": [
+        "r_phosphine_addition"
+      ],
+      "scientific_max_score": 8,
+      "statement": "PEt3加成与两性离子",
+      "expected": "真实相连计算支持PEt3亲核加成到炔β-C，形成含P–C键的两性离子中间体2；核对PEt3为C6H15P，C7H17P不等价。该项判定键与电荷重排，不依赖TS1数值命中。",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "initiation_energy",
+      "rule_ids": [
+        "r_initiation_energy"
+      ],
+      "scientific_max_score": 8,
+      "statement": "初始加成的自由能高度",
+      "expected": "以Fig.S1初始复合物1为零点，TS1相对G目标18.9 kcal/mol、绝对容差1.0 kcal/mol；同时计入所有旁观物料并保持383.15 K。不得将分离反应物零点、异构膦或不同化学组成结果直接比较。",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "cyclization",
+      "rule_ids": [
+        "r_cyclization"
+      ],
+      "scientific_max_score": 8,
+      "statement": "分子内环化",
+      "expected": "中间体2的真实连接与反应模支持向酯羰基分子内进攻、构筑五元环中间体3；须保持完整侧链和原子映射。来源TS2共同高度8.2、3为1.9 kcal/mol仅作背景，不把8.2当局部活化能。",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "alkoxide_proton_transfer",
+      "rule_ids": [
+        "r_alkoxide_proton_transfer"
+      ],
+      "scientific_max_score": 8,
+      "statement": "醇盐离去与亲核体生成",
+      "expected": "真实相连计算支持环化后醇盐离去及与4-氟苯酚相关的质子转移，形成可参与后续加成的亲核体，并守恒乙醇当量及全部原子/电荷。不同片段缔合须明确，不能以断开的标量节点代替化学连接。",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "nucleophile_incorporation",
+      "rule_ids": [
+        "r_nucleophile_incorporation"
+      ],
+      "scientific_max_score": 8,
+      "statement": "亲核体并入产物骨架",
+      "expected": "计算的TS4及相连端点支持4-氟苯氧基亲核体形成产物所需C–O连接，保持五元环与E-cinnamyl侧链。来源TS4 2.8与7 −8.3是共同高度背景，不另设数值阈值。",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "phosphine_regeneration",
+      "rule_ids": [
+        "r_phosphine_regeneration"
+      ],
+      "scientific_max_score": 8,
+      "statement": "PEt3再生",
+      "expected": "实际后续连接支持C–P断裂、释放正确中性PEt3并形成可循环的催化剂；不得只在反应式两侧写PEt3。保持配平乙醇等旁观物料，来源TS5−0.9共同高度仅作背景。",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "product_structure",
+      "rule_ids": [
+        "r_product_structure"
+      ],
+      "scientific_max_score": 8,
+      "statement": "完整环戊烯酮产物",
+      "expected": "实际终点分子图为所观察的芳氧基环戊烯酮且保留E-cinnamyl侧链，原子来源能与底物/4-氟苯酚及乙醇副产物对应。不得用删除侧链或改变膦的简化产物替代；仅复述所给产物图不通过。",
+      "evidence_ids": [
+        "pe_main",
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "reaction_free_energy",
+      "rule_ids": [
+        "r_reaction_free_energy"
+      ],
+      "scientific_max_score": 8,
+      "statement": "配平产物总自由能",
+      "expected": "以Fig.S1复合物1和匹配旁观物料为初始参照，配平产物9、PEt3和乙醇终点相对G目标−24.7 kcal/mol、绝对容差2.0 kcal/mol。保持383.15 K、相容溶剂与标准态，不能用分离反应物值或作者能量填补本地缺失。",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "initial_step_order",
+      "rule_ids": [
+        "r_initial_step_order"
+      ],
+      "scientific_max_score": 6,
+      "statement": "初始步骤为所考察图最高鞍点",
+      "expected": "在同一完整物料及复合物1零点上，实际A路线各相关鞍点比较支持初始膦加成最高，后续关键鞍点较低。不能以单独一个TS1数字证明全图排序；不声称已建立浓度依赖微观动力学。",
+      "evidence_ids": [
+        "pe_a"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "key_point_id": "migration_competition",
+      "rule_ids": [
+        "r_migration_competition"
+      ],
+      "scientific_max_score": 6,
+      "statement": "直接环化与迁移分支的比较",
+      "expected": "从共同两性离子分叉及统一物料参照比较，实际竞争路径证据支持B的醇辅助连续1,3迁移瓶颈高于A分支后环化路线。无需穷举B全部节点；不可把未经计算的后续B状态称独立证实。",
+      "evidence_ids": [
+        "pe_a",
+        "pe_b"
+      ],
+      "claim_role": "intermediate",
+      "key_point_type": "result"
+    }
+  ]
+}

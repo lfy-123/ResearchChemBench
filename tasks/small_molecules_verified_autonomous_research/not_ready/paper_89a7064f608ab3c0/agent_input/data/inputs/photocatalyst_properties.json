@@ -1,0 +1,91 @@
+{
+  "description": "Reference properties of the supplied catalyst salts, available for interpretation; no substrate properties or mechanistic assignments are supplied.",
+  "sources": [
+    {
+      "id": "pc_vendor_reference",
+      "title": "TCI: Redox Potentials of Visible Light Photoredox Catalysts",
+      "url": "https://www.tcichemicals.com/CA/en/product/topics/visible_light_photoredox_catalysts_redox_potentials",
+      "accessed_utc_date": "2026-10-12",
+      "locator": "Metal Complex Catalysts; D4887 and D5817; table heading V vs SCE in CH3CN",
+      "evidence_type": "official reagent documentation compiling literature values; not a new measurement of this reaction"
+    },
+    {
+      "id": "pc_energy_extract",
+      "title": "Catalyst property extract accompanying the experimental screen",
+      "evidence_type": "reported reagent triplet energies; measurement solvent/temperature not specified in the extract"
+    }
+  ],
+  "items": [
+    {
+      "photocatalyst_id": "PC_A",
+      "quantity": "excited_state_reduction_potential",
+      "value": 0.66,
+      "unit": "V",
+      "reference_electrode": "SCE",
+      "solvent": "acetonitrile",
+      "temperature": "not specified by this reagent webpage",
+      "couple_definition": "PC(+1)* + e- -> PC(0)",
+      "source_id": "pc_vendor_reference"
+    },
+    {
+      "photocatalyst_id": "PC_A",
+      "quantity": "excited_state_oxidation_potential",
+      "value": -0.96,
+      "unit": "V",
+      "reference_electrode": "SCE",
+      "solvent": "acetonitrile",
+      "temperature": "not specified by this reagent webpage",
+      "couple_definition": "reduction-potential convention for PC(+2) + e- -> PC(+1)*",
+      "source_id": "pc_vendor_reference"
+    },
+    {
+      "photocatalyst_id": "PC_A",
+      "quantity": "reported_triplet_energy",
+      "value": 59.8,
+      "unit": "kcal/mol",
+      "reference_state": "catalyst ground state",
+      "solvent": null,
+      "temperature": null,
+      "metadata_status": "not specified in supplied source; contextual reagent value",
+      "source_id": "pc_energy_extract"
+    },
+    {
+      "photocatalyst_id": "PC_B",
+      "quantity": "excited_state_reduction_potential",
+      "value": 1.21,
+      "unit": "V",
+      "reference_electrode": "SCE",
+      "solvent": "acetonitrile",
+      "temperature": "not specified by this reagent webpage",
+      "couple_definition": "PC(+1)* + e- -> PC(0)",
+      "source_id": "pc_vendor_reference"
+    },
+    {
+      "photocatalyst_id": "PC_B",
+      "quantity": "excited_state_oxidation_potential",
+      "value": -0.89,
+      "unit": "V",
+      "reference_electrode": "SCE",
+      "solvent": "acetonitrile",
+      "temperature": "not specified by this reagent webpage",
+      "couple_definition": "reduction-potential convention for PC(+2) + e- -> PC(+1)*",
+      "source_id": "pc_vendor_reference"
+    },
+    {
+      "photocatalyst_id": "PC_B",
+      "quantity": "reported_triplet_energy",
+      "value": 61.8,
+      "unit": "kcal/mol",
+      "reference_state": "catalyst ground state",
+      "solvent": null,
+      "temperature": null,
+      "metadata_status": "not specified in supplied source; contextual reagent value",
+      "source_id": "pc_energy_extract"
+    }
+  ],
+  "interpretation_boundaries": [
+    "Catalyst voltages are literature values in acetonitrile; the reaction solvent is dichloromethane. No solvent correction or exact reaction driving force is supplied.",
+    "The vendor uses generic PC labels; the charge-specific couples below refer to the actual +1 coordination cations.",
+    "Photon wavelength and a reagent triplet energy are distinct physical quantities."
+  ]
+}

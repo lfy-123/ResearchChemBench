@@ -12,10 +12,18 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .models import ArtifactRef
-from .recovery_io import file_lock
+from .recovery_io import atomic_json, file_lock
 
 
 _ARTIFACT_ID_PATTERN = re.compile(r"^art_[0-9a-f]{32}$")
+
+
+def _map_strings(value: Any, replace) -> Any:
+    if isinstance(value, dict):
+        return {key: _map_strings(child, replace) for key, child in value.items()}
+    if isinstance(value, list):
+        return [_map_strings(child, replace) for child in value]
+    return replace(value) if isinstance(value, str) else value
 
 
 def workspace_root() -> Path:
@@ -41,9 +49,11 @@ def resolve_workspace_path(value: str | Path, *, must_exist: bool = False) -> Pa
         candidate = root / candidate
     resolved = candidate.resolve(strict=False)
     try:
-        resolved.relative_to(root)
+        relative = resolved.relative_to(root)
     except ValueError as exc:
         raise ValueError(f"Path escapes chemistry workspace: {value}") from exc
+    if relative.parts and relative.parts[0].startswith(("_score", "_scoring")):
+        raise ValueError(f"Private evaluation files are not tool inputs: {value}")
     if must_exist and not resolved.exists():
         raise FileNotFoundError(f"Workspace path does not exist: {resolved}")
     return resolved
@@ -67,6 +77,8 @@ class ArtifactStore:
         self.directory = self.root / "_tool_artifacts" / "objects"
         self.index_path = self.root / "_tool_artifacts" / "index.jsonl"
         self.directory.mkdir(parents=True, exist_ok=True)
+        if not self.index_path.with_suffix('.lock').exists():
+            self.index_path.with_suffix('.lock').touch()
 
     def _append_index(self, reference: ArtifactRef) -> None:
         self.import_reference(reference)
@@ -186,13 +198,115 @@ class ArtifactStore:
         if _sha256(path) != item.sha256:
             raise ValueError(f"Artifact hash mismatch: {item.artifact_id}")
         if item.media_type == "application/json" or path.suffix.lower() == ".json":
-            return json.loads(path.read_text(encoding="utf-8"))
+            value = json.loads(path.read_text(encoding="utf-8"))
+            dependencies = self.dependencies(item, value=value)
+            for dependency in dependencies.values():
+                if _sha256(self._path(dependency.path)) != dependency.sha256:
+                    raise ValueError(f"Artifact dependency hash mismatch: {dependency.artifact_id}")
+            return _map_strings(value, lambda text: dependencies[text].path if text in dependencies else text)
         return {"path": str(path.relative_to(self.root)), "artifact": item.model_dump(mode="json")}
+
+    def dependency_path(self, reference: ArtifactRef) -> Path:
+        return self.root / "_tool_artifacts" / "dependencies" / (reference.artifact_id + ".json")
+
+    def dependencies(self, reference, *, value: Any = None) -> dict[str, ArtifactRef]:
+        """Resolve only file references backed by the producing Artifact index.
+
+        The sidecar is scoped to this workspace; immutable JSON bytes and public
+        ArtifactRef identities never change. Legacy JSON uses its original index.
+        """
+        item = self.resolve(reference)
+        if item.media_type != "application/json" and not item.path.endswith(".json"):
+            return {}
+        sidecar = self.dependency_path(item)
+        if sidecar.exists():
+            data = json.loads(self._path(sidecar).read_text())
+            if data.get("artifact_sha256") != item.sha256:
+                raise ValueError(f"Artifact dependency manifest mismatch: {item.artifact_id}")
+            return {key: ArtifactRef.model_validate(ref) for key, ref in data["paths"].items()}
+        path = self._path(item.path)
+        if value is None:
+            if _sha256(path) != item.sha256:
+                raise ValueError(f"Artifact hash mismatch: {item.artifact_id}")
+            value = json.loads(path.read_text())
+        strings: set[str] = set()
+        _map_strings(value, lambda text: strings.add(text) or text)
+        # Find the nearest *verified* producing index, not a task-name heuristic.
+        for scope in path.parents:
+            if not scope.is_relative_to(self.root):
+                break
+            index = scope / "_tool_artifacts" / "index.jsonl"
+            if not index.is_file():
+                continue
+            self._path(index)
+            with file_lock(index.with_suffix(".lock"), read_only=True):
+                records = [json.loads(line) for line in index.read_text().splitlines() if line.strip()]
+            prefix = scope.relative_to(self.root)
+            refs = []
+            for record in records:
+                record.pop("created_at", None)
+                ref = ArtifactRef.model_validate(record)
+                refs.append(ref)
+            origin = next((ref for ref in refs if ref.artifact_id == item.artifact_id), None)
+            if origin is None or origin.model_copy(update={"path": str(prefix / origin.path)}) != item:
+                continue
+            return {
+                raw: ref.model_copy(update={"path": str(prefix / ref.path)})
+                for ref in refs if ref.artifact_id != item.artifact_id
+                for raw in (ref.path, str(scope / ref.path)) if raw in strings
+            }
+        return {}
+
+    def save_dependencies(self, reference, dependencies=None) -> Path | None:
+        item = self.resolve(reference)
+        dependencies = self.dependencies(item) if dependencies is None else dependencies
+        if not dependencies:
+            return None
+        data = {"artifact_sha256": item.sha256,
+                "paths": {key: ArtifactRef.model_validate(ref).model_dump(mode="json") for key, ref in dependencies.items()}}
+        path = self.dependency_path(item)
+        # Constrain existing parents too, before creating internal metadata.
+        cursor = path
+        while cursor != self.root:
+            if cursor.is_symlink():
+                raise ValueError("Artifact dependency manifest must not be a symlink")
+            cursor = cursor.parent
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with file_lock(path.with_suffix(".lock")):
+            if path.exists():
+                if json.loads(path.read_text()) != data:
+                    raise ValueError(f"Artifact dependency manifest conflict: {item.artifact_id}")
+            else:
+                atomic_json(path, data)
+        return path
+
+    def dependency_closure(self, references: Iterable) -> list[ArtifactRef]:
+        """Validate and deduplicate a transitive set, rejecting dependency cycles."""
+        found: dict[str, ArtifactRef] = {}
+        visiting: set[str] = set()
+        def visit(reference):
+            item = self.resolve(reference)
+            if item.artifact_id in visiting:
+                raise ValueError(f"Cyclic Artifact dependency: {item.artifact_id}")
+            if item.artifact_id in found:
+                if found[item.artifact_id] != item:
+                    raise ValueError(f"Artifact reference conflict: {item.artifact_id}")
+                return
+            if _sha256(self._path(item.path)) != item.sha256:
+                raise ValueError(f"Artifact hash mismatch: {item.artifact_id}")
+            visiting.add(item.artifact_id)
+            for child in self.dependencies(item).values():
+                visit(child)
+            visiting.remove(item.artifact_id)
+            found[item.artifact_id] = item
+        for reference in references:
+            visit(reference)
+        return list(found.values())
 
     def find(self, artifact_id: str) -> ArtifactRef:
         # Readers share the writers' short index lock, so a concurrent export
         # cannot expose a partly appended JSON record to another job.
-        with file_lock(self.index_path.with_suffix(".lock")):
+        with file_lock(self.index_path.with_suffix(".lock"), read_only=True):
             return self._find_unlocked(artifact_id)
 
     def _find_unlocked(self, artifact_id: str) -> ArtifactRef:

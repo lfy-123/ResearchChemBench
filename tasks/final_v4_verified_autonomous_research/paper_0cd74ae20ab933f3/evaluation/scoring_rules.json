@@ -1,0 +1,162 @@
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_coupled_ground_state",
+      "reference_id": "coupled_ground_state",
+      "type": "semantic",
+      "expected": "For each intact neutral H, Me and OMe dimer, actual matched physical singlet/triplet calculations establish a lower coupled singlet and antiferromagnetic molecular exchange. Report the three J values with units under J=E(S)-E(T), or transparently convert another convention, and establish the physical spin-state identity. The values are evidence for the common exchange character, not three author-value targets. A broken-symmetry label or formal Cu(II) count without state evidence does not establish this result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_me_h_effect",
+      "reference_id": "me_h_effect",
+      "type": "semantic",
+      "expected": "Use matched full-molecule spin-state energies to quantify the Me minus H exchange difference and determine whether it is resolved relative to demonstrated numerical, state and relevant structural/model uncertainty. The source-like result is a small negative difference, indicating stronger antiferromagnetic exchange. A bounded conclusion that this small effect is not resolved also passes when actual comparable calculations and a justified uncertainty analysis establish that finding; convergence failure, omitted work or an unsupported uncertainty assertion do not. Report the signed result actually obtained and delimit its model scope. Do not mix methods between members, infer a difference from overlapping absolute-value windows, substitute material-fit ordering, or claim that conditional solver residuals bound total method error.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_ome_me_effect",
+      "reference_id": "ome_me_effect",
+      "type": "semantic",
+      "expected": "Use matched full-molecule spin-state energies to quantify the OMe minus Me exchange difference and determine whether it is resolved relative to demonstrated numerical, state and relevant structural/model uncertainty. The source-like result is a small negative difference, indicating stronger antiferromagnetic exchange. A bounded conclusion that this small effect is not resolved also passes when actual comparable calculations and a justified uncertainty analysis establish that finding; convergence failure, omitted work or an unsupported uncertainty assertion do not. Report the signed result actually obtained and delimit its model scope. Do not mix methods between members, infer a difference from overlapping absolute-value windows, substitute material-fit ordering, or claim that conditional solver residuals bound total method error.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_family_answer",
+      "reference_id": "family_answer",
+      "type": "semantic",
+      "expected": "Use actual spin-resolved orbitals, spin correlations or equivalent many-electron evidence to explain how the axial ligand is associated with exchange through coupled Cu-centered open-shell degrees of freedom. Connect ligand/core electronic structure with the computed substitution response or its demonstrated lack of resolution; distinguish a molecular electronic association from a Hamiltonian factor, root switch or composition change. The source associates more electron-rich axial pyridines with modestly stronger exchange. A supported bounded or physically equivalent explanation passes; a unique separation of geometry and electronics, fixed NTO weights or a particular analysis tool is not required. Repeating exchange values, formal oxidation labels or unsupported causal speculation fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "coupled_ground_state",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Coupled ground state",
+      "rule_ids": [
+        "r_coupled_ground_state"
+      ],
+      "evidence_ids": [
+        "si_exchange",
+        "native_exchange",
+        "native_reanalysis",
+        "native_final_response"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "me_h_effect",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Me versus H differential exchange",
+      "rule_ids": [
+        "r_me_h_effect"
+      ],
+      "evidence_ids": [
+        "si_exchange",
+        "main_exchange",
+        "native_reanalysis",
+        "native_final_response"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "ome_me_effect",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Small OMe versus Me contrast",
+      "rule_ids": [
+        "r_ome_me_effect"
+      ],
+      "evidence_ids": [
+        "si_exchange",
+        "native_reanalysis",
+        "native_final_response"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "family_answer",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Electronic explanation of the molecular substitution dependence",
+      "rule_ids": [
+        "r_family_answer"
+      ],
+      "evidence_ids": [
+        "si_exchange",
+        "main_exchange",
+        "native_reanalysis",
+        "native_final_response",
+        "native_nto"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

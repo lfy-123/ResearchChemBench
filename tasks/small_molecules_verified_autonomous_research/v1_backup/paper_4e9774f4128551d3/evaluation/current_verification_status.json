@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "updated_on": "2026-10-17",
+  "current_scope_verified": true,
+  "scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE",
+  "scope": "Current thermodynamics, bounded condition interpretation and recycling mass balance.",
+  "covered_reference_ids": [
+    "kp_thermodynamics",
+    "kp_condition_dependence",
+    "kp_recycling",
+    "c_stereochemistry"
+  ],
+  "acceptance_date": "2026-10-12",
+  "existing_evidence": {
+    "accepted_on": "2026-10-12",
+    "existing_evidence_path": "tasks/small_molecules_verified_autonomous_research/paper_4e9774f4128551d3/evaluation/verified_computation_reference.md",
+    "sha256_before_repair": "9bf9923f82f45bbad3d9ad4dc7899d96a7ac17ee649d3f459e9a56ff86300783",
+    "current_reference": "evaluation/verified_computation_reference.md"
+  },
+  "acceptance_record": "evaluation/verified_computation_reference.md",
+  "additional_quantum_calculations_required": false,
+  "new_quantum_jobs": 0,
+  "formal_release_certified_by_this_maintenance": false,
+  "remaining_qualification_or_interpretation_limits": [
+    "No direct protonation TS/kinetics or exact one-pass selectivity certification.",
+    "Source solvent-ratio/implementation uncertainty retained."
+  ],
+  "task_sha256": "97912f29fb67422a80f30b1bac8d326b40137e18b91e4952b24d6db79970c848",
+  "historical_status_policy": "Historical pending/failure labels apply to their dated scope. This current summary does not change original results or clear scoring/release qualifications.",
+  "current_contract_hashes": {
+    "agent_input/task.md": "97912f29fb67422a80f30b1bac8d326b40137e18b91e4952b24d6db79970c848",
+    "agent_input/submission_schema.json": "31d4f41443d7750b9c011681058ab79ac44b9b65281746ef374ef0a3f6b017ef",
+    "evaluation/reference_key_points.json": "fa5152622677924ca126f681580b4ccaeaf41a748bfa325de5024c4e74d97f06",
+    "evaluation/reference_conclusions.json": "b53cbb91242b25c79b00f7d5e4c7597d5a609c56f8cf359e067482187fda5bf7",
+    "evaluation/scoring_rules.json": "af280063e0eacfc53e8e98a649ef7b09650beba9a931c9307b40693085ed40cb",
+    "evaluation/critical_failures.json": "26f1b2ca9895de46831c5a446f47d5ac4f4b2afd4136e11f82468ae63e73c047"
+  },
+  "scoring_update_20261020": {
+    "revision": "expert_round1_20261020",
+    "description": "端点自由能差降为 20 分、三轮循环物料衡算增为 30 分；明确用单次比例及其来源论证 70% 累计收率的合理性。条件解释 30 分、最终结论 20 分保留。",
+    "active_rule_ids": [
+      "r_endpoint_gap",
+      "r_condition_interpretation",
+      "r_recycle_balance",
+      "r_stereochemical_conclusion"
+    ],
+    "new_quantum_jobs": 0,
+    "verification_boundary": "Existing acceptance applies to the dated computational scope above. Rule revision is not a new computational verification or formal-release certification."
+  }
+}

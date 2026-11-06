@@ -1,0 +1,71 @@
+{
+  "at_utc": "2026-09-30T04:00:55.046786+00:00",
+  "paper_id": "paper_ef26687d63a37e29",
+  "mode": "autonomous_research",
+  "finding_ids": [
+    "B4-I05",
+    "B4-I06",
+    "B4-I04"
+  ],
+  "classification": "coordinator-confirmed correction/clarification; not scientific final acceptance",
+  "source_references": [
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/supplementary_001.pdf",
+      "physical_page": 35,
+      "sha256": "bc6f2dea0dc2ca97f7ae56c8bdda09c32be5fd0656a670db51c46cf023cebf96"
+    },
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/supplementary_001.pdf",
+      "physical_page": 36,
+      "sha256": "bc6f2dea0dc2ca97f7ae56c8bdda09c32be5fd0656a670db51c46cf023cebf96"
+    },
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/supplementary_001.pdf",
+      "physical_page": 37,
+      "sha256": "bc6f2dea0dc2ca97f7ae56c8bdda09c32be5fd0656a670db51c46cf023cebf96"
+    },
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/supplementary_001.pdf",
+      "physical_page": 38,
+      "sha256": "bc6f2dea0dc2ca97f7ae56c8bdda09c32be5fd0656a670db51c46cf023cebf96"
+    },
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/supplementary_001.pdf",
+      "physical_page": 39,
+      "sha256": "bc6f2dea0dc2ca97f7ae56c8bdda09c32be5fd0656a670db51c46cf023cebf96"
+    },
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/supplementary_001.pdf",
+      "physical_page": 40,
+      "sha256": "bc6f2dea0dc2ca97f7ae56c8bdda09c32be5fd0656a670db51c46cf023cebf96"
+    },
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/main.pdf",
+      "physical_page": 8,
+      "sha256": "bf0ec692ef2eec7d4342ed722884bcabb2137396dcb3fc6c6a867eed7f62b0b8"
+    },
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/main.pdf",
+      "physical_page": 10,
+      "sha256": "bf0ec692ef2eec7d4342ed722884bcabb2137396dcb3fc6c6a867eed7f62b0b8"
+    }
+  ],
+  "clarifications": {
+    "kp_identity": "Source-coordinate limitation: SI physical pp39-40 lists 51 atoms (C14H30N3O3P) for the PA adduct; the complete stoichiometric (Et2N)3P + PA model has 61 atoms (C20H34N3O3P), a C6H4 difference. The complete PA reagent connectivity in systems.json remains valid. Reconstruction must identify retained source atoms, added atoms and the resulting graph; a reconstructed model is not an unchanged source geometry. No missing coordinates are supplied or invented here.",
+    "kp_interactions": "For main physical p8 Figure 6 and p10, distinguish a specified H-site ADCH population, the nearest-contact H and a declared alpha/beta-H family statistic. Define sites from the N-ethyl CH2/CH3 graph and map them explicitly; do not equate a figure-labelled H with a nearest site or family mean without evidence. Report signed electrostatic potential with its units and surface definition separately from electron density; source colour/prose alone is not a density measurement. These local observables do not by themselves establish polymer propagation or backbiting rates."
+  },
+  "native_evidence_records": [
+    {
+      "path": "docs/v2_integrity_audit_20260930/batch4/evidence/native_binding_readback.json",
+      "sha256": "17b2255653b1e54fcaf12a0dc992684532df0086d52255f4316f9ddf550701c9"
+    }
+  ],
+  "reuse_and_limits": "The prior audit rehashed free/PO/PA wavefunction and ESP products (six files). Existing 61-atom reconstructed PA evidence must retain its reconstruction provenance. Site labels, nearest H and family means are distinct; source coordinates remain incomplete.",
+  "remaining_validation": "Retain explicit reconstruction and atom-role mappings; compare the same observable at matched sites. Local ADCH/ESP does not certify polymer-scale kinetics; further pathway work is needed only for asserted kinetic claims.",
+  "partial_full_policy": "Assess completion against the original public scientific question, not a self-narrowed addressed_scope. Missing necessary investigation, a failed calculation, copied public source values or a statement of source ambiguity earns no credit for the missing work and cannot yield whole-task full credit. Preserve credit for independently valid completed parts and accept sufficiently supported non-author conclusions without a fixed route or extra method matrix.",
+  "judge_calibration_status": "pending_not_run",
+  "runtime_isolation_status": "pending_not_tested",
+  "new_scientific_calculations": 0,
+  "AR_public_change": false,
+  "history_modified": false
+}

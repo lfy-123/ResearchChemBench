@@ -10,6 +10,7 @@ from typing import Any
 from .common import (
     atoms_and_coordinates,
     command_artifacts,
+    failed,
     output_directory,
     partial_success,
     relative_workspace_path,
@@ -128,6 +129,10 @@ def _render_gaussian(
             )
             + f",MaxCycles={max_steps})"
         )
+    elif action_id == "calculate_excited_states":
+        from ..gaussian_contract import gaussian_excited_keyword, validate_gaussian_excited_request
+        validate_gaussian_excited_request(structure, method, settings)
+        task_keyword = gaussian_excited_keyword(method, settings)
     else:
         task_keyword = {
             "calculate_energy": "SP",
@@ -140,8 +145,9 @@ def _render_gaussian(
         r"[A-Za-z0-9_-]+",
     )
     route = [f"{method_name}/{basis}", task_keyword, f"SCF={scf_keyword}"]
-    if method.get("dispersion"):
-        route.append(_safe_keyword(method["dispersion"], "Gaussian dispersion"))
+    if method.get("dispersion") is not None:
+        from ..gaussian_contract import validate_gaussian_dispersion
+        route.append(validate_gaussian_dispersion(method["dispersion"]))
     if method.get("solvation_model") is not None:
         model = str(method["solvation_model"]).strip().casefold()
         model_keyword = {"pcm": "PCM", "cpcm": "CPCM", "smd": "SMD"}.get(model)
@@ -308,8 +314,9 @@ def gaussian(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             install="Place the licensed Gaussian 16 distribution in .software_cache/installations/gaussian/g16.",
         )
     if completed["returncode"] != 0 or "Normal termination of Gaussian 16" not in completed["stdout"]:
-        detail = (completed["stderr"] or completed["stdout"])[-4000:]
-        raise RuntimeError(f"Gaussian failed or did not terminate normally: {detail}")
+        from .common import external_failure
+        raise external_failure(completed, directory, "Gaussian", log_names=("job.log", "job.err"),
+                               message="Gaussian failed or did not terminate normally")
     version_match = re.search(r"Gaussian 16, Revision\s+([^,\s]+)", completed["stdout"])
     backend_version = f"16 {version_match.group(1)}" if version_match else "16"
     energy = _parse_gaussian_energy(completed["stdout"])
@@ -318,6 +325,22 @@ def gaussian(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     output_file = relative_workspace_path(output_path)
     if action_id == "calculate_energy":
         result = {"energy": energy, "unit": "hartree", "output_file": output_file}
+    elif action_id == "calculate_excited_states":
+        from .gaussian_excited import parse_gaussian_excited_states
+        try:
+            result, issues = parse_gaussian_excited_states(
+                completed["stdout"], number_of_states=settings["number_of_states"],
+                spin_symmetry=str(settings["spin_symmetry"]).strip().lower(), output_file=output_file,
+            )
+        except ValueError as exc:
+            response = failed(str(exc), code="output_parse_failed")
+            response["error"]["evidence"] = [{"path": output_file}]
+            response.update(backend_version=backend_version, provenance={"command": completed["command"]})
+            return response
+        result.update(excited_state_method=str(method["excited_state_method"]).strip().lower(), ground_state_energy_hartree=energy)
+        if issues:
+            return partial_success(result, artifact_files=command_artifacts(directory), backend_version=backend_version,
+                                   warnings=issues, provenance={"command": completed["command"]})
     elif action_id == "calculate_dipole_moment":
         dipole = _parse_gaussian_dipole(completed["stdout"])
         if dipole is None:

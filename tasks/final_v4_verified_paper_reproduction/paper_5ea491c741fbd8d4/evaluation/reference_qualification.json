@@ -1,0 +1,182 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "accepted_limitations": "Historical strict acceptance is observed-crystal contact/surface interpretation, not lattice energies or biomedical effects. CE25.8/OCC is a documented supported substitute for17.5, not identical software. SourceE/Z, centroid/projection anddnorm range/unit conflicts remain. Contact fraction and shape-index support packing geometry but do not quantify interaction stabilization; source claims of energy causation are bounded accordingly. No monomer HOMO–LUMO or docking work substitutes for crystal evidence.",
+  "tolerance_basis": "已存五面积38.702667/29.111050/13.375977/9.659514/6.171497%；R2²(9)/S(7)映射；环心3.7482107 Å、投影3.3883652 Å、错移及夹角分别可复核。原38.7等±0.5百分点仅历史窗口。 All former numerical windows are historical only; current scoring uses final semantic conclusions.",
+  "authority": [
+    "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+    "tasks/v2_paper_reproduction/paper_5ea491c741fbd8d4/evaluation/verified_computation_reference.md"
+  ],
+  "historical_qualification": {
+    "status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+    "acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+    "reason": "Authorized 2026-10-19 scientific-scoring migration preserves existing independent strict acceptance. This is not new chemistry validation, a blind agent experiment or publication approval.",
+    "scoring_policy": "paper_science_v2",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_5ea491c741fbd8d4",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "mode_scope": "AR remains open-method for public identities; PR author-baseline provenance retained.",
+      "historical_chemical_acceptance_changed": false,
+      "new_computations": false,
+      "review_report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_02/paper_5ea491c741fbd8d4.md"
+    },
+    "current_scope_verified": true
+  },
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "V3_FINAL_RESULTS_EVIDENCE_REUSED_NOT_REVALIDATED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "evidence_gaps": "来源把3.3883(6) Å投影称环心距，须记录参考缺陷；正确范数约3.74821 Å。CE版本、stockholder及氢归一化会影响面积；无相互作用能或晶格自由能排序证据。旧五独立硬窗/解释题的设计争议已按用户本轮原则解决，不再等待裁定。",
+  "new_computations": false,
+  "online_judge_calibration": false,
+  "rule_evidence_reuse": [
+    {
+      "rule_id": "r_hh_fraction",
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "native_surface"
+      ]
+    },
+    {
+      "rule_id": "r_ho_fraction",
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "native_surface"
+      ]
+    },
+    {
+      "rule_id": "r_cc_fraction",
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "native_surface"
+      ]
+    },
+    {
+      "rule_id": "r_hn_fraction",
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "native_surface"
+      ]
+    },
+    {
+      "rule_id": "r_ch_fraction",
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "native_surface"
+      ]
+    },
+    {
+      "rule_id": "r_contact_network",
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "verification_records"
+      ]
+    },
+    {
+      "rule_id": "r_aromatic_packing",
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "verification_records"
+      ]
+    },
+    {
+      "rule_id": "r_surface_contribution_interpretation",
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "native_surface"
+      ]
+    }
+  ],
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "mode_scope_exception": "两模式的最终科学命题相同；AR自主选择方法，PR评估披露基线或有依据的可比替代。作者数值均为证据。",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "必需结果：分子间定向接触网络与分子内接触",
+      "rule_id": "r_contact_network",
+      "conclusion_id": "contact_network",
+      "weight": 30,
+      "independence": "网络连接命题，不由面积占比或环堆积自动推出。",
+      "source_location": "正文§3.2–3.3、晶体接触/堆积图和Hirshfeld分解；沉积CCDC2445596 CIF；evidence_map中的source_main/source_cif/native_surface。",
+      "source_evidence_ids": [
+        "source_main",
+        "source_cif",
+        "verification_records"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_ASCII_precision_topology_audit/attempt_01/precision_audit_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/CH1083_010_R8/native.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/surface_pilot_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/papers/paper_5ea491c741fbd8d4/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json"
+      ],
+      "existing_support_or_gap": "已存五面积38.702667/29.111050/13.375977/9.659514/6.171497%；R2²(9)/S(7)映射；环心3.7482107 Å、投影3.3883652 Å、错移及夹角分别可复核。原38.7等±0.5百分点仅历史窗口。",
+      "scientific_limitations": "来源把3.3883(6) Å投影称环心距，须记录参考缺陷；正确范数约3.74821 Å。CE版本、stockholder及氢归一化会影响面积；无相互作用能或晶格自由能排序证据。旧五独立硬窗/解释题的设计争议已按用户本轮原则解决，不再等待裁定。"
+    },
+    {
+      "scientific_requirement": "必需结果：芳环相对几何与堆积",
+      "rule_id": "r_aromatic_packing",
+      "conclusion_id": "aromatic_packing",
+      "weight": 30,
+      "independence": "芳环取向/位移命题，独立于氢键网络和面积解释。",
+      "source_location": "正文§3.2–3.3、晶体接触/堆积图和Hirshfeld分解；沉积CCDC2445596 CIF；evidence_map中的source_main/source_cif/native_surface。",
+      "source_evidence_ids": [
+        "source_main",
+        "source_cif",
+        "verification_records"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_ASCII_precision_topology_audit/attempt_01/precision_audit_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/CH1083_010_R8/native.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/surface_pilot_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/papers/paper_5ea491c741fbd8d4/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json"
+      ],
+      "existing_support_or_gap": "已存五面积38.702667/29.111050/13.375977/9.659514/6.171497%；R2²(9)/S(7)映射；环心3.7482107 Å、投影3.3883652 Å、错移及夹角分别可复核。原38.7等±0.5百分点仅历史窗口。",
+      "scientific_limitations": "来源把3.3883(6) Å投影称环心距，须记录参考缺陷；正确范数约3.74821 Å。CE版本、stockholder及氢归一化会影响面积；无相互作用能或晶格自由能排序证据。旧五独立硬窗/解释题的设计争议已按用户本轮原则解决，不再等待裁定。"
+    },
+    {
+      "scientific_requirement": "必需结果：五面积及其对堆积贡献的解释",
+      "rule_id": "r_surface_contribution_interpretation",
+      "conclusion_id": "surface_contribution_interpretation",
+      "weight": 40,
+      "independence": "整体几何普遍性及贡献解释，不重复奖励五个标量或网络/芳环几何。",
+      "source_location": "正文§3.2–3.3、晶体接触/堆积图和Hirshfeld分解；沉积CCDC2445596 CIF；evidence_map中的source_main/source_cif/native_surface。",
+      "source_evidence_ids": [
+        "source_main",
+        "source_cif",
+        "native_surface"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_ASCII_precision_topology_audit/attempt_01/precision_audit_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/CH1083_010_R8/native.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/surface_pilot_results.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/papers/paper_5ea491c741fbd8d4/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json"
+      ],
+      "existing_support_or_gap": "已存五面积38.702667/29.111050/13.375977/9.659514/6.171497%；R2²(9)/S(7)映射；环心3.7482107 Å、投影3.3883652 Å、错移及夹角分别可复核。原38.7等±0.5百分点仅历史窗口。",
+      "scientific_limitations": "来源把3.3883(6) Å投影称环心距，须记录参考缺陷；正确范数约3.74821 Å。CE版本、stockholder及氢归一化会影响面积；无相互作用能或晶格自由能排序证据。旧五独立硬窗/解释题的设计争议已按用户本轮原则解决，不再等待裁定。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

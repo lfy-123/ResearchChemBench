@@ -1,0 +1,88 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "mode": "paper_reproduction",
+  "scientific_scope_changed": false,
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果：温度/停留变化的生成—损失解释",
+      "rule_id": "r_generation_loss_account",
+      "conclusion_id": "generation_loss_account",
+      "weight": 30,
+      "independence": "两个温区的测量响应解释，不等于具体参数识别。",
+      "source_location": "正文Table1、微流图/产率网格；SI流量/停留定义及RBF方法；source_1_main/source_2_supplementary_001/native_rbf/native_conditional_rates。",
+      "source_evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/v2_execution_20260929/outputs/source_rbf_complement/a01/results/analysis_summary.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/v2_execution_20260929/outputs/source_rbf_sensitivity/a01/results/analysis_summary.json"
+      ],
+      "existing_support_or_gap": "真实稀释0.033333/0.100→0.025/0.075 M；同管径有效log-yield速率0.413262/0.152054 s−1；产物捕获反例及三坐标RBF差异24.3256/45.6282百分点。",
+      "scientific_limitations": "来源表/图52/87/85冲突保留。产物单通道反例只证明限定测量算子下的非唯一性，不能推全部数据永不识别。RBF坐标未公开，连续极值不可当观察。无新量化或流动实验。"
+    },
+    {
+      "scientific_requirement": "必需结果：有效速率/界限等定量信息",
+      "rule_id": "r_conditional_kinetic_information",
+      "conclusion_id": "conditional_kinetic_information",
+      "weight": 30,
+      "independence": "有限条件下能识别什么，与不能唯一识别的参数不同。",
+      "source_location": "正文Table1、微流图/产率网格；SI流量/停留定义及RBF方法；source_1_main/source_2_supplementary_001/native_rbf/native_conditional_rates。",
+      "source_evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/v2_execution_20260929/outputs/source_rbf_complement/a01/results/analysis_summary.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/v2_execution_20260929/outputs/source_rbf_sensitivity/a01/results/analysis_summary.json"
+      ],
+      "existing_support_or_gap": "真实稀释0.033333/0.100→0.025/0.075 M；同管径有效log-yield速率0.413262/0.152054 s−1；产物捕获反例及三坐标RBF差异24.3256/45.6282百分点。",
+      "scientific_limitations": "来源表/图52/87/85冲突保留。产物单通道反例只证明限定测量算子下的非唯一性，不能推全部数据永不识别。RBF坐标未公开，连续极值不可当观察。无新量化或流动实验。"
+    },
+    {
+      "scientific_requirement": "必需结果：微观可识别性",
+      "rule_id": "r_microscopic_nonuniqueness",
+      "conclusion_id": "microscopic_nonuniqueness",
+      "weight": 25,
+      "independence": "测量算子下参数非唯一性，独立于响应解释是否拟合。",
+      "source_location": "正文Table1、微流图/产率网格；SI流量/停留定义及RBF方法；source_1_main/source_2_supplementary_001/native_rbf/native_conditional_rates。",
+      "source_evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/v2_execution_20260929/outputs/source_rbf_complement/a01/results/analysis_summary.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/v2_execution_20260929/outputs/source_rbf_sensitivity/a01/results/analysis_summary.json"
+      ],
+      "existing_support_or_gap": "真实稀释0.033333/0.100→0.025/0.075 M；同管径有效log-yield速率0.413262/0.152054 s−1；产物捕获反例及三坐标RBF差异24.3256/45.6282百分点。",
+      "scientific_limitations": "来源表/图52/87/85冲突保留。产物单通道反例只证明限定测量算子下的非唯一性，不能推全部数据永不识别。RBF坐标未公开，连续极值不可当观察。无新量化或流动实验。"
+    },
+    {
+      "scientific_requirement": "必需结果：连续最优条件能否确定",
+      "rule_id": "r_continuous_optimum_limit",
+      "conclusion_id": "continuous_optimum_limit",
+      "weight": 15,
+      "independence": "采样与插值的外推界限，不重复微观网络非唯一性。",
+      "source_location": "正文Table1、微流图/产率网格；SI流量/停留定义及RBF方法；source_1_main/source_2_supplementary_001/native_rbf/native_conditional_rates。",
+      "source_evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/v2_execution_20260929/outputs/source_rbf_complement/a01/results/analysis_summary.json",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/v2_execution_20260929/outputs/source_rbf_sensitivity/a01/results/analysis_summary.json"
+      ],
+      "existing_support_or_gap": "真实稀释0.033333/0.100→0.025/0.075 M；同管径有效log-yield速率0.413262/0.152054 s−1；产物捕获反例及三坐标RBF差异24.3256/45.6282百分点。",
+      "scientific_limitations": "来源表/图52/87/85冲突保留。产物单通道反例只证明限定测量算子下的非唯一性，不能推全部数据永不识别。RBF坐标未公开，连续极值不可当观察。无新量化或流动实验。"
+    }
+  ],
+  "new_computation": false
+}

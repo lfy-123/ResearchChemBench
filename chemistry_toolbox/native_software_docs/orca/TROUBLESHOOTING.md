@@ -3,8 +3,8 @@ software_id: orca
 versions: ["6.1.1"]
 topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["ORCA", "orca"]
-inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files"]
-outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files"]
+inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files", "export: input.gbw and optional input.json.conf; input.densities for requested densities"]
+outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files", "export: input.json"]
 last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
@@ -21,6 +21,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 ## Known failures and repairs
 | Symptom | Likely cause | Corrective action |
 |---|---|---|
+| orca_2json missing GBW/configuration/densities | input basename or staged dependencies do not match | stage the existing GBW, at most one explicit configuration, and matching .densities for density requests; MO export alone is not TD density analysis |
 | unrecognized or unexpected keyword | input syntax is malformed or version-specific | reduce to a tested 6.1.1 input and add blocks incrementally |
 | Cannot open input or XYZ file | a referenced file was not staged under the exact name | stage every dependency in the job directory |
 | SCF NOT CONVERGED or optimization failed | electronic or geometric convergence failed | inspect the relevant convergence history and do not treat normal process exit as scientific success |

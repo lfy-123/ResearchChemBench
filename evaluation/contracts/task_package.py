@@ -405,7 +405,10 @@ def validate_evaluation(
                 )
         if any(not field.startswith("$") for field in fields):
             findings.append(f"scoring_rule_binding_field_invalid:{rule_id or 'missing'}")
-    for reference_id in sorted(valid_references - covered):
+    # V3 retains unscored author-route nodes as evidence, not hidden requirements.
+    required_references = (conclusion_ids if documents.get("scoring_rules.json", {}).get("scoring_policy")
+                           == "paper_science_v3" else valid_references)
+    for reference_id in sorted(required_references - covered):
         findings.append(f"reference_without_scoring_rule:{reference_id}")
     return sorted(set(findings)), sorted(set(diagnostics))
 
@@ -464,6 +467,10 @@ def validate_task_package(root: str | Path) -> TaskPackageValidation:
             f"final_verified_{task_info.task_type}",
             f"hold_verified_{task_info.task_type}",
         }
+        if task_info.task_type in {"autonomous_research", "paper_reproduction"}:
+            # V3 is an explicitly staged upgrade, not an automatic release or
+            # enrollment in the default TaskRepository index.
+            valid_parent_names.add(f"v3_{task_info.task_type}")
         if root.parent.name not in valid_parent_names:
             findings.append("task_directory_type_mismatch")
         declared = {item.path for item in task_info.required_deliverables}
@@ -477,12 +484,40 @@ def validate_task_package(root: str | Path) -> TaskPackageValidation:
         )
         findings.extend(eval_findings)
         diagnostics.extend(eval_diagnostics)
-        if task_info.task_type in {"autonomous_research", "paper_reproduction"}:
+        source_papers_disclosed = (
+            task_info.task_type == "paper_reproduction"
+            and root.parent.name == "v3_paper_reproduction"
+        )
+        if (
+            task_info.task_type in {"autonomous_research", "paper_reproduction"}
+            and not source_papers_disclosed
+        ):
             for path in (root / "agent_input").rglob("*"):
                 if path.is_file() and path.suffix.casefold() == ".pdf":
                     findings.append(
                         f"paper_pdf_exposed_to_agent:{path.relative_to(root).as_posix()}"
                     )
+
+    molecules_path = root / "agent_input" / "data" / "molecules.json"
+    if not molecules_path.is_file():
+        molecules_path = root / "agent_input" / "molecules.json"
+    if molecules_path.is_file():
+        try:
+            molecular_input = _json_object(molecules_path)
+            if molecular_input.get("cip_assignment"):
+                from chemistry_toolbox.src.stereochemistry import (
+                    CIP_ALGORITHM, check_initial_geometry, check_molecule_document,
+                )
+                policy = molecular_input["cip_assignment"]
+                if policy.get("algorithm") != CIP_ALGORITHM:
+                    raise ValueError("unsupported CIP assignment algorithm")
+                findings.extend("molecular_identity:" + error for error in check_molecule_document(molecular_input))
+                if policy.get("validate_initial_geometry"):
+                    check_initial_geometry(molecular_input,
+                        (molecules_path.parent / "initial_geometry.xyz").read_text(),
+                        _json_object(molecules_path.parent / "initial_geometry.mapping.json"))
+        except Exception as exc:
+            findings.append(f"molecular_identity_validation_failed:{type(exc).__name__}")
 
     try:
         manifest = PackageManifest.model_validate(

@@ -1,0 +1,57 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "updated_on": "2026-10-17",
+  "current_scope_verified": true,
+  "scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE",
+  "scope": "All twelve current endpoint contrasts under the accepted thermochemical convention.",
+  "covered_reference_ids": [
+    "dry_first_pt",
+    "dry_first_et",
+    "hydrated_first_pt",
+    "hydrated_first_et",
+    "second_dry_pt",
+    "second_dry_et",
+    "second_water_pt",
+    "second_water_et",
+    "cumulative_i_dry",
+    "cumulative_i_water",
+    "cumulative_f_dry",
+    "cumulative_f_water",
+    "dry_first_competition",
+    "dry_second_competition",
+    "first_h_transfer_species",
+    "hydration_conclusion",
+    "deoxygenation_conclusion"
+  ],
+  "acceptance_date": "2026-10-14",
+  "existing_evidence": {
+    "accepted_on": "2026-10-14",
+    "existing_evidence_path": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T020500Z/parent_pq_native_readback.json",
+    "sha256": "b183942f12b76776c3a0c053b424f65555a0fca93646714ce95aa69d9c9f986c",
+    "current_reference": "evaluation/verified_computation_reference.md"
+  },
+  "acceptance_record": "evaluation/verified_computation_reference.md",
+  "additional_quantum_calculations_required": false,
+  "new_quantum_jobs": 0,
+  "formal_release_certified_by_this_maintenance": false,
+  "remaining_qualification_or_interpretation_limits": [
+    "Local1.0/hydratedET1.5/cumulative2.0kcal/mol are user-approved provisional benchmark criteria pending expert publication review.",
+    "Original author YAML and quantified low-frequency thermal residual provenance limits remain."
+  ],
+  "task_sha256": "d829783623ae1bafc86484ef978e050782ebf0c80130f259763df2d489e98fa4",
+  "historical_status_policy": "Historical pending/failure and old scoring restrictions apply only to their dated version. Current V2 scoring permission is reference_qualification.json; scientific provenance and publication review remain separate.",
+  "current_contract_hashes": {
+    "agent_input/task.md": "d829783623ae1bafc86484ef978e050782ebf0c80130f259763df2d489e98fa4",
+    "agent_input/submission_schema.json": "1fc8b2c8670f5448eeed6cec09c84c062f964373827a9a131d7bc44e3fc66338",
+    "evaluation/reference_key_points.json": "7df5cf7c5eb3cb588edc4fb76668d2d2f290a73479af8dcb3add9c8708d28b8c",
+    "evaluation/reference_conclusions.json": "2e617e81d257b5a3eb6b0ab7aba066c9cd87050c87fd4f0616dc0b6d47328d6b",
+    "evaluation/scoring_rules.json": "a40086986aba7e1bd05c2dfba71d638681df8344408cc1fd004c3eb692f16925",
+    "evaluation/critical_failures.json": "ff488c68e74e5153f5397011691b28c6430503ab4503f5ab111a15ddbd744199"
+  },
+  "scoring_policy_update_20261017": {
+    "formal_scoring_permitted": true,
+    "active_reference": "evaluation/reference_qualification.json",
+    "note": "Current provisional V2 supersedes older expert-only numerical gates; historical chemistry/source limitations remain."
+  },
+  "formal_scoring_permitted": true
+}

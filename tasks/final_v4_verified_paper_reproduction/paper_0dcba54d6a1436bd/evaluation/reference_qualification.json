@@ -1,0 +1,74 @@
+{
+  "paper_id": "paper_0dcba54d6a1436bd",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "S1为2.9521/2.5853/2.4342 eV，f为0.4990/0.1927/0.0116；高强态375.88/382.38/379.86 nm。NP/AQ为ICT，PQ主要局域；近邻低态差0.0163 eV。",
+  "accepted_limitations": "NPCZCS图中−5.86/−1.88 eV相减为3.98 eV，与文字3.54 eV冲突。不得以轨道隙替代激发能，也不得强制PQ根编号不变。",
+  "objective_issue_flags": [
+    "NPCZCS图中−5.86/−1.88 eV相减为3.98 eV，与文字3.54 eV冲突。不得以轨道隙替代激发能，也不得强制PQ根编号不变。"
+  ],
+  "current_rules": [
+    "r_s1_character_np",
+    "r_low_bright_np",
+    "r_s1_character_aq",
+    "r_low_bright_aq",
+    "r_s1_character_pq",
+    "r_low_bright_pq",
+    "r_acceptor_excitation_explanation"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_0dcba54d6a1436bd",
+    "scoring_policy": "paper_science_v3",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "accepted_limitations": "Preserve source NPC frontier-gap conflict: Figure5A orbital labels -5.86/-1.88 eV imply 3.98 eV while text/figure print 3.54 eV; neither becomes a numerical gate. Do not claim all source f last digits reproduced (maximum residual0.0004). Main/SI generic ICT language does not override the explicit PQ local-S1 NTO assignment. No universal M06 superiority, fluorescence-yield, solid-state or device inference.",
+    "tolerance_basis": "The common provisional S1 window ±0.05 eV is a fixed small molecular-excitation comparison class, broader than source 0.0001 eV printing or Gaussian default numerical residuals but narrower than the smallest distinct cross-molecule S1 separation (0.1511 eV). It allows modest valid geometry/implementation variation without erasing the scientific discrimination. It is not an experimental-error or universal TDDFT-accuracy claim and is not fitted to the zero current residual. Oscillator strengths and spatial character are scored as concrete qualitative relationships because intensity and partition numbers depend on state mixing and representation. Round3: ±0.05 eV is unchanged and remains uncalibrated across representative physically valid methods or conformers. Source PQ S1/S2 splitting0.0163 eV is smaller than this window, so numeric proximity is not state identification. AR admits justified DCM-relaxed geometries; PR source geometry preparation remains disclosed.",
+    "authority": [
+      "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+      "evaluation/verified_computation_reference.md"
+    ],
+    "historical_before_v3": {
+      "status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+      "acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+      "reason": "Pure-science migration authorized 2026-10-19; existing independent strict acceptance is preserved, not revalidated or upgraded. New scoring criteria are auditable provisional benchmark policy, not publication certification.",
+      "coordinator_review": {
+        "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+        "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+        "review_key": "v2_paper_0dcba54d6a1436bd",
+        "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+        "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+        "publication_readiness_unchanged": true
+      },
+      "repair_round3": {
+        "date": "2026-10-19",
+        "status": "WORKER_REPAIRED_PENDING_INDEPENDENT_COORDINATOR_REVIEW",
+        "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_01/REPORT.md",
+        "notes": [
+          "AR removed hidden gas-optimized geometry eligibility; source targets/windows unchanged.",
+          "PQ low-state character permits demonstrated S1/S2 identity interchange; numeric S1 still means actual lowest singlet, never a conveniently selected root."
+        ],
+        "historical_acceptance_unchanged": true,
+        "new_chemistry_validation": false,
+        "online_judge_calibration": false
+      }
+    },
+    "evaluation_mode": "final_results_100",
+    "status": "V3_DESIGN_CHECKED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+    "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+    "reason": "Final-results redesign dated 2026-10-28. Historical acceptance is retained separately; no new scientific computation or blind evaluation was performed.",
+    "evidence_reuse_summary": "Existing native M06/6-31G(d,p)/PCM(DCM) G09Defaults logs give S1 = 2.9521/2.5853/2.4342 eV and S1 f = 0.4990/0.1927/0.0116. Bright-state f = 0.8848/1.0174/1.0400; the maximum source f residual is 0.0004. Transition-density analyses support NP/AQ ICT and a PQ acceptor-local low state. Gas B3LYP ground-state preparation is the PR baseline, not a hidden AR restriction. The source NPC frontier-gap discrepancy (3.98 eV arithmetic versus 3.54 eV printed) remains non-scored. Historical strict scope acceptance is retained but is not a new V3 validation.",
+    "evidence_gaps": [
+      "原±0.05 eV窗口未在所有可比方法或构象上校准；当前仅核收既有作者基线证据。",
+      "NPC源轨道隙3.98/3.54 eV冲突未解，但不作为最终数值门槛。"
+    ],
+    "required_new_validation": "现有三分子实算可复用，无本次改编新增物理量；若部署开放方法判分，仍需针对替代态解释与硬窗适用性的独立Judge校准。"
+  }
+}

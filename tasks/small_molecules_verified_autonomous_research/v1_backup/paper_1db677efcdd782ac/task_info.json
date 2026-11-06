@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_1db677efcdd782ac",
+  "task_type": "autonomous_research",
+  "title": "Molecular reactivity and product formation in light-driven N-cyclopropyl tetrahydropyridine oxidation",
+  "category": "Small-molecule homogeneous organic reaction chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires a connected molecular account across oxidation accessibility, substituent/stereochemical ring fate, isomerization and isotope-compatible products.",
+    "Agent-chosen models and informative tests must be actually executed and validated, with environment/method limits and competing interpretations separated from observations."
+  ],
+  "paper": {
+    "title": "A Biomimetic Study of the Behavior of N-Cyclopropyl-Based Single Electron Transfer Probes in the Context of Monoamine Oxidase-Catalyzed Oxidations",
+    "doi": "10.1021/acs.joc.5c02528",
+    "journal": "The Journal of Organic Chemistry",
+    "publication_date": "2026-01-10"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "Neutral scientific question, graph-explicit starting identities/stereochemistry and isotope sites, reaction/comparator context and qualitative observations."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured hypotheses, actual investigations, evidence, conclusions, execution/resolution statuses, limitations and artifact index following the shared schema."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable integrated scientific account with evidence, uncertainty, decisions, failures and resource use; when guidance is supplied, protocol fidelity and justified substitutions."
+    },
+    {
+      "path": "research/",
+      "description": "Actual computation inputs, outputs, logs and analysis code referenced by submitted evidence and reproducibility records."
+    }
+  ]
+}

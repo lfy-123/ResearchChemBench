@@ -1,0 +1,90 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "evidence": [
+    {
+      "evidence_id": "source_main",
+      "source": {
+        "path": "papers/paper_3e4cad1d1d650d0c/documents/main.pdf",
+        "sha256": "ea79927bb71341d55d64f9a60c4ef6d5904528fc3f91a1ef221313c29e171094",
+        "pdf_pages_1based": [
+          4,
+          5,
+          6
+        ]
+      },
+      "scope": "Main PDF4–6: Table1 redox/photophysics, Fig3 static versus dynamic quenching and 1a/1e distinction. Product yields are out of task scope.",
+      "supports_final_conclusion_ids": [
+        "redox_substituent_comparison",
+        "lifetime_comparison",
+        "reduction_1a",
+        "reduction_1e",
+        "bounded_preassociation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "source_si",
+      "source": {
+        "path": "papers/paper_3e4cad1d1d650d0c/documents/supplementary_001.pdf",
+        "sha256": "674c2d21b7a260c23cc55a07bb394e8e67f19d18ddf217229fe5080352fe8810",
+        "pdf_pages_1based": [
+          23,
+          24,
+          25,
+          26,
+          29,
+          30,
+          57,
+          58
+        ]
+      },
+      "scope": "SI PDF23–26,30: E00 relation, fluorescence/quenching conditions; PDF57–58: author computational definitions and FigS34 PhCl model association. SI29 specifies1e440nm excitation,530nm emission and tri-exponential fitting; SI26 gives1a43.3ns at375/547nm and20°C.",
+      "supports_final_conclusion_ids": [
+        "redox_substituent_comparison",
+        "lifetime_comparison",
+        "reduction_1a",
+        "reduction_1e",
+        "bounded_preassociation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "verification_reference",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_3e4cad1d1d650d0c/evaluation/verified_computation_reference.md",
+        "sha256": "7d91fcf31b1270259885853c8478ff2be51d180e38c1c5828e82dcd7116f7ccf"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed.",
+      "supports_final_conclusion_ids": [
+        "redox_substituent_comparison",
+        "lifetime_comparison",
+        "reduction_1a",
+        "reduction_1e",
+        "bounded_preassociation"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "verification_records",
+      "source": {
+        "path": "docs/v2_verification/papers/paper_3e4cad1d1d650d0c/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json",
+        "sha256": "9c7b6704e372187299d2ce312f720bdf6821785d54200f4d0347a437f9f79198"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed.",
+      "supports_final_conclusion_ids": [],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "native_readback",
+      "source": {
+        "path": "docs/v2_verification/history/strict_author_route_validation_20261001/coordinator_reviews/paper_3e4cad1d1d650d0c_native_readback_0737Z.json",
+        "sha256": "6b90f0174106d1a3410f65b8cf9bff5b425ed8c4e7d2122a806b7800876ad701"
+      },
+      "evidence_type": "existing_computation_record",
+      "supports_final_conclusion_ids": [
+        "bounded_preassociation"
+      ],
+      "scored_independently": false
+    }
+  ]
+}

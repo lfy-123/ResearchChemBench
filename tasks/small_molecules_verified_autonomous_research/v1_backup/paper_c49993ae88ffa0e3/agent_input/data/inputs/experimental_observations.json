@@ -1,0 +1,183 @@
+{
+  "record_type": "supplied_experimental_observations",
+  "species": [
+    {
+      "id": "H2PQ-CF3",
+      "name": "3,6-bis(trifluoromethyl)phenanthrene-9,10-diol",
+      "smiles": "Oc1c(O)c2ccc(C(F)(F)F)cc2c2cc(C(F)(F)F)ccc12",
+      "formula": "C16H8F6O2",
+      "total_charge": 0,
+      "role": "contextual preformed reagent",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "1b",
+      "name": "methyl isonicotinate N-oxide",
+      "smiles": "COC(=O)c1cc[n+]([O-])cc1",
+      "formula": "C7H7NO3",
+      "total_charge": 0,
+      "role": "contextual substrate",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "2b",
+      "name": "methyl isonicotinate",
+      "smiles": "COC(=O)c1ccncc1",
+      "formula": "C7H7NO2",
+      "total_charge": 0,
+      "role": "observed deoxygenated derivative",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "1d",
+      "name": "4-methoxypyridine N-oxide",
+      "smiles": "COc1cc[n+]([O-])cc1",
+      "formula": "C6H7NO2",
+      "total_charge": 0,
+      "role": "contextual substrate",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "2d",
+      "name": "4-methoxypyridine",
+      "smiles": "COc1ccncc1",
+      "formula": "C6H7NO",
+      "total_charge": 0,
+      "role": "observed deoxygenated derivative",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "1a",
+      "name": "4-phenylpyridine N-oxide",
+      "smiles": "[O-][n+]1ccc(-c2ccccc2)cc1",
+      "formula": "C11H9NO",
+      "total_charge": 0,
+      "role": "water-content experiment substrate",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "2a",
+      "name": "4-phenylpyridine",
+      "smiles": "n1ccc(-c2ccccc2)cc1",
+      "formula": "C11H9N",
+      "total_charge": 0,
+      "role": "water-content experiment product",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "PQ",
+      "name": "phenanthrene-9,10-dione",
+      "smiles": "O=C1c2ccccc2-c2ccccc2C1=O",
+      "formula": "C14H8O2",
+      "total_charge": 0,
+      "role": "catalyst in the contextual water-content experiment",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "alcohol_A",
+      "name": "1-(4-methoxyphenyl)ethan-1-ol",
+      "smiles": "CC(O)c1ccc(OC)cc1",
+      "formula": "C9H12O2",
+      "total_charge": 0,
+      "role": "contextual hydrogen source; stereochemistry not specified here",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "CD3CN",
+      "name": "acetonitrile-d3",
+      "smiles": "[2H]C([2H])([2H])C#N",
+      "formula": "C2H3N",
+      "total_charge": 0,
+      "role": "experimental solvent",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    },
+    {
+      "id": "MeCN",
+      "name": "acetonitrile",
+      "smiles": "CC#N",
+      "formula": "C2H3N",
+      "total_charge": 0,
+      "role": "experimental and model solvent",
+      "representation_note": "Molecular connectivity; no optimized geometry or reactive-state assignment."
+    }
+  ],
+  "shared_species_file": "data/inputs/system.json",
+  "experiments": [
+    {
+      "id": "preformed_reagent_deoxygenation",
+      "preformed_reagent_ids": [
+        "H2PQ",
+        "H2PQ-CF3"
+      ],
+      "substrate_ids": [
+        "1b",
+        "1d"
+      ],
+      "product_mapping": {
+        "1b": "2b",
+        "1d": "2d"
+      },
+      "conditions": {
+        "solvent_id": "CD3CN",
+        "preformed_reagent_concentration_M": 0.01,
+        "substrate_equivalents_per_reagent": 1,
+        "illumination": "blue LEDs",
+        "temperature_K": null,
+        "temperature_note": "Not specified in the cited stoichiometric-kinetics paragraph."
+      },
+      "preparation_note": "Reagent solutions were prepared in situ in an NMR tube before substrate addition; they were not isolated pure reagents. The parent molecular model does not represent all residual preparation components.",
+      "observation": "Deoxygenated product formation under blue irradiation was monitored by 1H NMR for the preformed reagents and substituted substrates.",
+      "scope_note": "No numerical derivative-series kinetic dataset or parent-PyO yield is supplied."
+    },
+    {
+      "id": "water_content_yields",
+      "reactant_ids": [
+        "1a",
+        "alcohol_A"
+      ],
+      "catalyst_id": "PQ",
+      "product_id": "2a",
+      "conditions": {
+        "substrate_amount_mmol": 0.1,
+        "alcohol_equivalents": 1.5,
+        "catalyst_loading_mol_percent": 20,
+        "substrate_concentration_M": 0.05,
+        "solvent_id": "MeCN",
+        "atmosphere": "argon",
+        "irradiation_wavelength_nm": 450,
+        "temperature_K": 303.15,
+        "duration_h": 4,
+        "assay": "1H NMR product yield using 1,3,5-trimethoxybenzene as internal standard"
+      },
+      "measurements": [
+        {
+          "solvent_description": "MeCN over 4 angstrom molecular sieves",
+          "unreacted_substrate_percent": 3,
+          "product_yield_percent": 91
+        },
+        {
+          "solvent_description": "MeCN, ambient",
+          "unreacted_substrate_percent": 3,
+          "product_yield_percent": 93
+        },
+        {
+          "solvent_description": "MeCN/0.1% H2O",
+          "unreacted_substrate_percent": 4,
+          "product_yield_percent": 94
+        },
+        {
+          "solvent_description": "MeCN/0.5% H2O",
+          "unreacted_substrate_percent": 7,
+          "product_yield_percent": 90
+        },
+        {
+          "solvent_description": "MeCN/1.0% H2O",
+          "unreacted_substrate_percent": 30,
+          "product_yield_percent": 65
+        }
+      ],
+      "scope_note": "Endpoint product yields in a catalytic substituted-substrate experiment at the stated water percentages. Water activities and measurement uncertainties are unreported. These experiments differ from the zero/two-water parent molecular models."
+    }
+  ],
+  "use_in_investigation": "Experimental observations concern the named substituted systems. The required computational scope is the parent reduction stage; yield prediction and catalyst/substrate-series prediction are excluded."
+}

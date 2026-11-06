@@ -1,0 +1,476 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_60f4c45810428116_20260918_154216_28147/runs/cli_runs/batch_20260918_154217_e1763b/autonomous_research-paper_60f4c45810428116-codex-20260918_154217-48743d/report/results.json",
+      "sha256": "b2b7cdf52ada1307f32176d7fa2fefcdc77d3a5a5e4bb64fcee2ac671b05633b",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_4/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "aa256fb22d08ef5e30cc2527663a3bb132b9c79a8199efc86f75ef328e625385",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_60f4c45810428116",
+        "packages_frozen": true,
+        "AR": {
+          "mode": "autonomous_research",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_60f4c45810428116",
+          "package_content_sha256": "bdc06facd0c0c6e3b95be9b2a0760cccdd1d3edc1e53bc5a7fe65ec95a3db5f8",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_60f4c45810428116/package_manifest.json",
+            "sha256": "4544c9ea632310df5f70ab50f07a815db16ad972516d46a85117f7a70ca5e23a"
+          },
+          "payload_entries_checked": 29,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_60f4c45810428116",
+            "task_type": "autonomous_research",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false,
+          "blocked_result_contract": {
+            "schema_errors": [],
+            "runtime": {
+              "applicable": true,
+              "contract_sha256": "d7dec3cda0121136b45163be8fd779395b082d93408a8987fa1e11fbdccc8db4",
+              "checked_files": [
+                {
+                  "file": "report/results.json",
+                  "path": "report/results.json",
+                  "exists": true,
+                  "size_bytes": 5349,
+                  "kind": "file",
+                  "allow_empty": false,
+                  "satisfied": true
+                },
+                {
+                  "file": "report/report.md",
+                  "path": "report/report.md",
+                  "exists": true,
+                  "size_bytes": 6099,
+                  "kind": "file",
+                  "allow_empty": false,
+                  "satisfied": true
+                }
+              ],
+              "errors": [],
+              "validation_boundary": "Public output format only; scientific correctness is evaluated separately.",
+              "valid": true,
+              "status": "success",
+              "error_count": 0,
+              "errors_truncated": false
+            }
+          }
+        },
+        "PR": {
+          "mode": "paper_reproduction",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_60f4c45810428116",
+          "package_content_sha256": "adc9900859c818a46712a1e0f3885c2caa251eedfde83c52b5e62ba30ebae96e",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_60f4c45810428116/package_manifest.json",
+            "sha256": "a14c8e8a7d05434e0ae47f79a85c7f46e53d7261d41f3ea1a56ade74c0734f58"
+          },
+          "payload_entries_checked": 29,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_60f4c45810428116",
+            "task_type": "paper_reproduction",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false,
+          "blocked_result_contract": {
+            "schema_errors": [],
+            "runtime": {
+              "applicable": true,
+              "contract_sha256": "d7dec3cda0121136b45163be8fd779395b082d93408a8987fa1e11fbdccc8db4",
+              "checked_files": [
+                {
+                  "file": "report/results.json",
+                  "path": "report/results.json",
+                  "exists": true,
+                  "size_bytes": 5349,
+                  "kind": "file",
+                  "allow_empty": false,
+                  "satisfied": true
+                },
+                {
+                  "file": "report/report.md",
+                  "path": "report/report.md",
+                  "exists": true,
+                  "size_bytes": 6099,
+                  "kind": "file",
+                  "allow_empty": false,
+                  "satisfied": true
+                }
+              ],
+              "errors": [],
+              "validation_boundary": "Public output format only; scientific correctness is evaluated separately.",
+              "valid": true,
+              "status": "success",
+              "error_count": 0,
+              "errors_truncated": false
+            }
+          }
+        },
+        "scientific_disposition": "blocked_with_evidence",
+        "scientifically_validated": false,
+        "completed_scientific_work": "真实两段ODE诊断：8次初值优化和12点参数剖面；局部灵敏度秩6/8。源回淬是1h返回原料，不支持1a不可逆A→Q，已修复22个V1包文件。另逐行重读SI Table S2，修正S2_24原料回收n.d.→trace，S2_23保持trace；26个数值训练观测不变，冻结参数独立重算差小于6.4e−14百分比点。当前29项payload/包、manifest和最终证据重新绑定，科学结论仍为来源/模型阻塞。",
+        "unfinished_validation": "需要与1a匹配且独立约束的生成/损失/捕获参数；不得将自由拟合诊断变成动力学验证。",
+        "input_and_reference_gaps": [
+          "缺与1a匹配的微观反应网络及独立生成/损失/捕获速率约束。",
+          "源1h回淬不能证明1a不可逆A→Q；拟合诊断不构成机制验证。"
+        ],
+        "scientific_evidence": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/outputs/kinetics_diagnostic_v1/diagnostic.json",
+            "sha256": "562166f4cdd175e213067e39f4f14e02041c1ee48f76d9a1ed72833949a6fa32"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/verification_report.md",
+            "sha256": "5f48e03debac84cd4f5d557e173f39f60dd9e45989b78af76e1f07aad7ad07c4"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/task_snapshot/phase1_repaired_binding.json",
+            "sha256": "d9757b5ac62bb6ec58c8aa3b1a42bb93d1e48f83aff6fb162732bc7af095f416"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/tableS2_transcription_repair_20260928/visual_transcription_audit.json",
+            "sha256": "6b5f89dae9abfcf582be053d3936e75ac4f99f489bb5d6020ae6e4db688d3278"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/tableS2_transcription_repair_20260928/numerical_impact_check.json",
+            "sha256": "6d031df43982bf37d38f99e1311834f726725c007d91b8f1c47eb7cf4d7188f3"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/results.json",
+            "sha256": "7499967cf22b7380c9cb13752ea8d110bebedbaf9815b1215e1915d767c25506"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/report.md",
+            "sha256": "5f48e03debac84cd4f5d557e173f39f60dd9e45989b78af76e1f07aad7ad07c4"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/evaluator_mapping.json",
+            "sha256": "86859fb3de0194e6e1305bc1ad61d28f94166aa8e769666a1f06ec8339b50c15"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/outputs/source_gap_audit.json",
+            "sha256": "59803be9e10f4f30d858190f1afc0bb0b508bcc2199a60cc984fa340bd8ba1c8"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/phase1_source_repair_20260928/repair_manifest.json",
+            "sha256": "633773a01d8c4790fbe5f73e2a72372f1abce5bb41d8abbf878521476c8b7911"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/data/kinetic_observations_current.json",
+            "sha256": "9083cdcdafedfd3a531363f8c5895d2e3352709387786a3d264df0615e223a8d"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/tableS2_transcription_repair_20260928/repair_manifest.json",
+            "sha256": "962e74bf08b7edda1d7924e36f4d09f0bf8c4dfc712d4d8cc819d9b5590a7ca8"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/tableS2_transcription_repair_20260928/validation.json",
+            "sha256": "8531c13738e080cf308fad1a7dc4f3afe4812fad0940faaa1963d85e211c6e4d"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/source_table_recheck_20260928/render_provenance.json",
+            "sha256": "549cab3e7baa2bc5ec92731a04556f9272929d8ac628482074349e16df4b784f"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/source_table_recheck_20260928/tableS2_bottom.png",
+            "sha256": "1708ee9d96b1c5cc0de6ec11d467bc8a1ff51f807767f6c6b5a476da4e8fc4a1"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/final_disposition.json",
+            "sha256": "4f8d6a5750dd00e0d6214b8f9a2265c4ab1687510b6506c7ce952b367d252e4d"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/final_binding_validation.json",
+            "sha256": "3be7fa853ef7764188c165fb72c5362739627665a5ee9f13dbf41abe2e0079cb"
+          }
+        ],
+        "working_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/progress_report.md",
+          "sha256": "0235890306d90ba16d993bb082445ffc1d78f39bca4fb55fdc8bb45545eb91ca"
+        },
+        "working_evaluator_mapping": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/progress_evaluator_mapping.json",
+          "sha256": "512d999f124360ffbb25a0479a3a88ad7e20f8780703913aa7df3e40841737c8"
+        },
+        "prepared_inputs_not_automatically_authorized_for_submission": [],
+        "active_jobs": [],
+        "root_package_changes_by_this_verification_group": "60f source/model factual repairs and Table S2_24 trace transcription, with bound manifests.",
+        "historical_accounting_limit": "See legacy/inventory.json; native file counts are not attempts. Detailed job/resource reconciliation still in progress.",
+        "development_vs_science": "This freezes the verifier writer and transfers known gaps; it does not claim all scientific endpoints or original-batch development review complete.",
+        "repair_binding": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/task_snapshot/phase1_repaired_binding.json",
+          "sha256": "d9757b5ac62bb6ec58c8aa3b1a42bb93d1e48f83aff6fb162732bc7af095f416"
+        },
+        "final_blocked_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/final_disposition.json",
+          "sha256": "4f8d6a5750dd00e0d6214b8f9a2265c4ab1687510b6506c7ce952b367d252e4d"
+        }
+      },
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "allowed_use": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/outputs/kinetics_diagnostic_v1/diagnostic.json",
+      "sha256": "562166f4cdd175e213067e39f4f14e02041c1ee48f76d9a1ed72833949a6fa32",
+      "frozen_sha256": "562166f4cdd175e213067e39f4f14e02041c1ee48f76d9a1ed72833949a6fa32",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/verification_report.md",
+      "sha256": "5f48e03debac84cd4f5d557e173f39f60dd9e45989b78af76e1f07aad7ad07c4",
+      "frozen_sha256": "5f48e03debac84cd4f5d557e173f39f60dd9e45989b78af76e1f07aad7ad07c4",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/task_snapshot/phase1_repaired_binding.json",
+      "sha256": "d9757b5ac62bb6ec58c8aa3b1a42bb93d1e48f83aff6fb162732bc7af095f416",
+      "frozen_sha256": "d9757b5ac62bb6ec58c8aa3b1a42bb93d1e48f83aff6fb162732bc7af095f416",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/tableS2_transcription_repair_20260928/visual_transcription_audit.json",
+      "sha256": "6b5f89dae9abfcf582be053d3936e75ac4f99f489bb5d6020ae6e4db688d3278",
+      "frozen_sha256": "6b5f89dae9abfcf582be053d3936e75ac4f99f489bb5d6020ae6e4db688d3278",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/tableS2_transcription_repair_20260928/numerical_impact_check.json",
+      "sha256": "6d031df43982bf37d38f99e1311834f726725c007d91b8f1c47eb7cf4d7188f3",
+      "frozen_sha256": "6d031df43982bf37d38f99e1311834f726725c007d91b8f1c47eb7cf4d7188f3",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/results.json",
+      "sha256": "7499967cf22b7380c9cb13752ea8d110bebedbaf9815b1215e1915d767c25506",
+      "frozen_sha256": "7499967cf22b7380c9cb13752ea8d110bebedbaf9815b1215e1915d767c25506",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/report.md",
+      "sha256": "5f48e03debac84cd4f5d557e173f39f60dd9e45989b78af76e1f07aad7ad07c4",
+      "frozen_sha256": "5f48e03debac84cd4f5d557e173f39f60dd9e45989b78af76e1f07aad7ad07c4",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/evaluator_mapping.json",
+      "sha256": "86859fb3de0194e6e1305bc1ad61d28f94166aa8e769666a1f06ec8339b50c15",
+      "frozen_sha256": "86859fb3de0194e6e1305bc1ad61d28f94166aa8e769666a1f06ec8339b50c15",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/outputs/source_gap_audit.json",
+      "sha256": "59803be9e10f4f30d858190f1afc0bb0b508bcc2199a60cc984fa340bd8ba1c8",
+      "frozen_sha256": "59803be9e10f4f30d858190f1afc0bb0b508bcc2199a60cc984fa340bd8ba1c8",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/phase1_source_repair_20260928/repair_manifest.json",
+      "sha256": "633773a01d8c4790fbe5f73e2a72372f1abce5bb41d8abbf878521476c8b7911",
+      "frozen_sha256": "633773a01d8c4790fbe5f73e2a72372f1abce5bb41d8abbf878521476c8b7911",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/data/kinetic_observations_current.json",
+      "sha256": "9083cdcdafedfd3a531363f8c5895d2e3352709387786a3d264df0615e223a8d",
+      "frozen_sha256": "9083cdcdafedfd3a531363f8c5895d2e3352709387786a3d264df0615e223a8d",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/tableS2_transcription_repair_20260928/repair_manifest.json",
+      "sha256": "962e74bf08b7edda1d7924e36f4d09f0bf8c4dfc712d4d8cc819d9b5590a7ca8",
+      "frozen_sha256": "962e74bf08b7edda1d7924e36f4d09f0bf8c4dfc712d4d8cc819d9b5590a7ca8",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/tableS2_transcription_repair_20260928/validation.json",
+      "sha256": "8531c13738e080cf308fad1a7dc4f3afe4812fad0940faaa1963d85e211c6e4d",
+      "frozen_sha256": "8531c13738e080cf308fad1a7dc4f3afe4812fad0940faaa1963d85e211c6e4d",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/source_table_recheck_20260928/render_provenance.json",
+      "sha256": "549cab3e7baa2bc5ec92731a04556f9272929d8ac628482074349e16df4b784f",
+      "frozen_sha256": "549cab3e7baa2bc5ec92731a04556f9272929d8ac628482074349e16df4b784f",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/provenance/source_table_recheck_20260928/tableS2_bottom.png",
+      "sha256": "1708ee9d96b1c5cc0de6ec11d467bc8a1ff51f807767f6c6b5a476da4e8fc4a1",
+      "frozen_sha256": "1708ee9d96b1c5cc0de6ec11d467bc8a1ff51f807767f6c6b5a476da4e8fc4a1",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/final_disposition.json",
+      "sha256": "4f8d6a5750dd00e0d6214b8f9a2265c4ab1687510b6506c7ce952b367d252e4d",
+      "frozen_sha256": "4f8d6a5750dd00e0d6214b8f9a2265c4ab1687510b6506c7ce952b367d252e4d",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_60f4c45810428116/report/final_binding_validation.json",
+      "sha256": "3be7fa853ef7764188c165fb72c5362739627665a5ee9f13dbf41abe2e0079cb",
+      "frozen_sha256": "3be7fa853ef7764188c165fb72c5362739627665a5ee9f13dbf41abe2e0079cb",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+      "scope": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+      "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "The actual23-observation grid and published conditions support a finite numerical/data investigation without missing molecular input. Historical fitting/multistart/profile artifacts are diagnostic examples whose original five-pool assumptions remain unvalidated. The V2 formulation removes the source/model contradiction by asking what1a data identify; this changes the task definition rather than declaring the old blocked network validated.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Existing kinetic diagnostic used eight starts and twelve profiles; source TableS2 repair identifies S2_23/S2_24 as trace and distinguishes two clogged rows. The old five-pool/back-quench network was a diagnostic assumption.",
+    "allowed": "Reuse verified table transcription and model-identifiability diagnostics as evidence that assumptions must be audited. The diagnostic fit is not a physical rate reference. The new question allows agent-selected models of the same 1a data.",
+    "not_supported": "Back-quench source observation belongs to 1h, not a validated irreversible 1a sink. Constant methanol and dilution approximations need scrutiny. No independent microscopic rates, causal network or blind predictive validation is established."
+  },
+  "new_scientific_calculations_performed": false
+}

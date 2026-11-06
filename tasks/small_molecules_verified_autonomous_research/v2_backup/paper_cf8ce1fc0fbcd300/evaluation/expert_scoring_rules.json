@@ -1,0 +1,178 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_03",
+  "source_paper_id": "paper_cf8ce1fc0fbcd300",
+  "scoring_policy": "scientific_results_only_binary_items",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; no arbitrary threshold such as 60 points is used. The original rules assess recovery of a limited set of literature conclusions and do not establish a uniquely true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances; first review comparability of physical identity, references and conditions. When comparability cannot be determined, mark needs_review and explain why; do not alter tolerances without authorization. Source numbers without assigned targets provide context only and are not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_competing_addition_channels",
+      "reference_id": "competing_addition_channels",
+      "type": "semantic",
+      "expected": "Actual structural and reaction evidence supports three candidate methanol-involving C–O bond-forming channels, mapped to the major, minor and comparator connectivities, respectively. The authors' three TSs for the same cyclopropenium/methanol system serve as the reference; equivalent state representations for the same scientific comparison are acceptable. Any claimed TS must have the target bond-forming mode and appropriate connectivity evidence; three product energies alone cannot replace formation channels.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_major_vs_minor_formation",
+      "reference_id": "major_vs_minor_formation",
+      "type": "semantic",
+      "expected": "Actual calculations with the same composition, the same charge and compatible energy zeros support a more favorable formation channel for major than for minor. The authors' TS1′−TS1=1.3 kcal/mol provides context; the ordering must be correct, and numerical proximity or a higher experimental major yield alone cannot substitute for evidence of competition.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_major_vs_comparator_formation",
+      "reference_id": "major_vs_comparator_formation",
+      "type": "semantic",
+      "expected": "Actual comparable calculations support a lower-energy formation channel leading to major than to comparator. The authors' TS1″−TS1=7.1 kcal/mol provides context only; this relative TS difference must not be called an absolute barrier. Exact numerical agreement is not required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_major_vs_minor_stability",
+      "reference_id": "major_vs_minor_stability",
+      "type": "semantic",
+      "expected": "Among the three specified products, actual valid minima and compatible G comparisons support major being lower in energy than minor. The authors' minor−major=3.2 kcal/mol serves as a reference; comparisons must use the same composition and physical quantity, and charged addition states cannot replace neutral products.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_minor_vs_comparator_stability",
+      "reference_id": "minor_vs_comparator_stability",
+      "type": "semantic",
+      "expected": "Actual neutral-product G comparisons support minor being lower in energy than comparator, which, together with major being the lowest, establishes the ordering major<minor<comparator. The authors' values of 3.2/7.2 kcal/mol relative to major provide context; no credit is awarded without calculations or for reversed ordering.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_selectivity_answer",
+      "reference_id": "selectivity_answer",
+      "type": "semantic",
+      "expected": "The final answer integrates actual formation-channel comparisons and neutral-product stability to establish that major forms more readily and is more stable in the model studied, using both lines of evidence to explain the supplied regioselectivity. Distinguish unfavorable comparator formation/stability from a strictly zero yield. Hydrogen-bonding/steric causation that has not been independently decomposed is not a mandatory answer, and a pathway must not be inferred solely from a low product energy.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    },
+    {
+      "rule_id": "r_redistribution_answer",
+      "reference_id": "redistribution_answer",
+      "type": "semantic",
+      "expected": "Use actual neutral-product G comparisons to determine that the thermodynamic redistribution direction from P3 toward P2 is favorable, and distinguish this from competition in initial formation. Reproducing undisclosed experimental endpoints is not required. Product G alone must not be used to claim that complete exchange kinetics, full equilibrium or rates have been calculated.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "competing_addition_channels",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "Physically comparable C–O formation channels at three positions",
+      "rule_ids": [
+        "r_competing_addition_channels"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "major_vs_minor_formation",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "The major formation channel is lower in energy than the minor channel",
+      "rule_ids": [
+        "r_major_vs_minor_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "major_vs_comparator_formation",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "The major formation channel is lower in energy than the comparator-isomer channel",
+      "rule_ids": [
+        "r_major_vs_comparator_formation"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "major_vs_minor_stability",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "The neutral major product is more stable than minor",
+      "rule_ids": [
+        "r_major_vs_minor_stability"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "minor_vs_comparator_stability",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "The neutral minor product is more stable than comparator",
+      "rule_ids": [
+        "r_minor_vs_comparator_stability"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "selectivity_answer",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Final conclusion: formation competition and stability jointly favor the major isomer",
+      "rule_ids": [
+        "r_selectivity_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ],
+      "required_for_whole_case_success": true
+    },
+    {
+      "id": "redistribution_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final conclusion: redistribution from minor to major is thermodynamically driven",
+      "rule_ids": [
+        "r_redistribution_answer"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ],
+      "required_for_whole_case_success": true
+    }
+  ],
+  "scope_changes": [
+    "Public major/minor product rankings, yields and the directional redistribution observation are removed and replaced by three unranked candidates. Privately, P2=major, P3=minor and P1=comparator. The original scientific propositions and weights are retained; the redistribution item now predicts the thermodynamic direction and does not require restating an experiment that was not supplied."
+  ],
+  "reference_issues": [],
+  "source_location": "Main text p7–8 Fig.4A; SI1 p54–55 Fig.S9; SI2 p43–44",
+  "source_files": [
+    "03_论文原文_仅供评测者/case_03/main.pdf",
+    "03_论文原文_仅供评测者/case_03/supplementary_001.pdf",
+    "03_论文原文_仅供评测者/case_03/supplementary_002.pdf"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_8cd7be72ae518048",
+  "task_type": "autonomous_research",
+  "title": "Condition-dependent reactivity and regioselectivity in Heck arylation",
+  "category": "Small-molecule homogeneous organic reaction chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires investigator-chosen catalyst models and reliable C–C bond-forming competition evidence rather than one descriptor or energy.",
+    "Connects condition-dependent selectivity, productive-state accessibility and an olefin comparison across several chemical/model boundaries.",
+    "Requires justified thermochemical comparisons, chemical connectivity checks and honest treatment of finite sampling and source limitations."
+  ],
+  "paper": {
+    "title": "Catalyst Metamorphosis: In Situ Oxidation of Diphosphines in Palladium-Catalyzed Regioselective and Enantioselective Heck Reactions",
+    "doi": "10.1021/jacs.5c19392",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-12"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "Neutral primary/comparison molecular identities, experimental starting conditions and ordinary observed product outcomes; no author computed structures, energies, intermediates or recipe."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured research record conforming to the unchanged shared result schema."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable scientific report with executed work, evidence-linked judgments, uncertainty, resource use and applicable protocol assessment."
+    },
+    {
+      "path": "research/",
+      "description": "Actual computational inputs, outputs, logs and analysis code referenced by the structured record."
+    }
+  ]
+}

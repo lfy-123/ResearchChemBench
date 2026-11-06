@@ -1,0 +1,264 @@
+{
+  "decision": "pass",
+  "rationale": "The paper reports a homogeneous small-molecule organic reaction: visible-light C(sp3)–H amidation of THF by an acyl sulfilimine using a molecular iridium photocatalyst in solution. The authors performed and reported DFT calculations directly relevant to the reaction phenomenon: the triplet energy of the sulfilimine nitrene precursor, which is used to assess compatibility with molecular photocatalysts. The public question is framed around the observed photocatalyst-dependent reaction behavior and does not require the authors' proposed mechanism, transition states, or a specific computational route.",
+  "domain": {
+    "small_molecule": true,
+    "homogeneous": true,
+    "organic_reaction": true,
+    "evidence_ids": [
+      "ev_doc_62bb736a59d7_000007_b31ff503cfd0",
+      "ev_doc_62bb736a59d7_000021_623189ba8909",
+      "ev_doc_62bb736a59d7_000022_ff42a4d31c1b",
+      "ev_doc_62bb736a59d7_000023_41566a92e22e",
+      "ev_doc_e4d53982d550_000110_84a88b8dcb9b",
+      "ev_doc_e4d53982d550_000293_641e8b0ad104",
+      "ev_doc_e4d53982d550_000297_90e8f699a4af"
+    ],
+    "source_quotes": [
+      {
+        "evidence_id": "ev_doc_62bb736a59d7_000007_b31ff503cfd0",
+        "quote": "Visible light-mediated selective amidation of unactivated \\mathrm { C } ( \\mathrm { s p } ^ { 3 } ) \\mathrm { - H } bonds is presented with acyl sulfilimines as free nitrene precursors via triplet<sup>–</sup>triplet energy transfer pathway. Both intermolecular and intramolecular reactions were achieved under mild, additive-free conditions without metal<sup>–</sup>nitrenoids formed. This protocol offers a widely applicable approach to access various synthetically versatile compounds, including N-acyl hemiaminal ether, benzo[e][1,3]oxazin-4-one, and isoindolin-1-one derivatives in a selective manner."
+      },
+      {
+        "evidence_id": "ev_doc_62bb736a59d7_000021_623189ba8909",
+        "quote": "We began our investigation using dibenzothiophene-based N-benzoyl sulfilimine (1a) as the nitrene precursor, Ir[dF(CF ) \\mathrm { p p y } ] _ { 2 } ( \\mathrm { d t b b p y } ) \\mathrm { P F } _ { 6 } (1 mol%) as the photocatalyst and THF (0.1 M) as the C<sup>–</sup>H donor under blue light emitting diode (LED) irradiation. Excitingly, the desired \\mathrm { C } ( \\mathrm { s p } ^ { 3 } ) – \\mathrm { H } amidation product 2a was obtained selectively in 76% yield after 3 h (Table 1, entry 1). Changing the photocatalyst to \\operatorname { I r } ( \\mathrm { d F p p y } ) _ { 3 } gave a slightly lower yield of 61%, while fac-Ir(ppy) and Mes- \\mathrm { { A c r } ^ { + } \\mathrm { { C l } \\mathrm { { O } _ { 4 } ^ { - } } } } resulted in only a trace amount of 2a (Table 1, entries 2<sup>–</sup>4). Other aromatic ketone-type photocatalysts could also promote this reaction, providing 2a in 19%<sup>–</sup>66% yields (Table 1, entries 5 and ^ { 6 , } also see Table S1). Not surprisingly, no product 2a was formed in the absence of the catalyst or light (Table 1, entries 7 and 8)."
+      },
+      {
+        "evidence_id": "ev_doc_62bb736a59d7_000022_ff42a4d31c1b",
+        "quote": "Entryª | Deviation from std conditionsb | Yield°, %\n1 | None | 76\n2 | Ir(dFppy)₃ as a photocatalyst | 61\n3 | $f a c \\mathrm { - I r ( p p y ) _ { 3 } }$ as a photocatalyst | Trace\n4 | $\\mathrm { M e s { - } A c r ^ { + } C l O _ { 4 } } ^ { - }$ as a photocatalyst | Trace\n$5 ^ { \\mathrm { d } }$ | TXT (10 mol%) as a photocatalyst | 66\n$6 ^ { \\mathrm { d } }$ | DCBP (10 mol%) as a photocatalyst | 47\n7 | No photocatalyst | N.R.\n8 | No light | N.R."
+      },
+      {
+        "evidence_id": "ev_doc_62bb736a59d7_000023_41566a92e22e",
+        "quote": "<sup>a</sup>Reaction conditions: 1a (0.1 mmol) and Ir[dF(CF<sub>3</sub>)ppy]<sub>2</sub>(dtbbpy)PF<sub>6</sub> (1 mol%) in THF (0.1 M) were irradiated with 36 W blue LEDs at room temperature for 3 h under \\mathrm { N } _ { 2 } . <sup>b</sup>TXT (thioxanthen-9-one), DCBP (bis(4-chlorophenyl)methanone). <sup>c</sup>Isolated yield. <sup>d</sup>100 W 370 nm kessil lamp instead of blue LEDs."
+      },
+      {
+        "evidence_id": "ev_doc_e4d53982d550_000110_84a88b8dcb9b",
+        "quote": "Sulfilimine 1 (0.1 mmol, 1.0 equiv.) and \\mathrm { I r ( d F ( C F _ { 3 } ) p p y ) _ { 2 } ( d t b b p y ) P F _ { 6 } } (1.1 mg, 1.0 mol%) were dissolved in THF (1.0 mL, 0.1 M) in a 10 mL dry reaction tube. Plug the test tube with a rubber stopper and bubble the reaction solution with a nitrogen gas balloon for 10 min. The mixture was allowed to stir under 36 W blue LEDs irradiation at room temperature for 3 h and monitored through TLC analysis. The crude product was directly separated and purified on 2 0 0 \\ast 2 0 0 mm thin layer silica gel plate ( \\mathrm { P E } ; \\mathrm { E A } = 2 ; 1 \\sim 1 ; 1 ) to obtain the desired product 2 as a white solid."
+      },
+      {
+        "evidence_id": "ev_doc_e4d53982d550_000293_641e8b0ad104",
+        "quote": "Density functional theory (DFT) calculations were carried out with the Gaussian16 program package. Unrestricted DFT was used to optimize geometries of the lowest triplet state \\left( \\mathrm { T } _ { 1 } \\right) . With the optimized geometries were calculated using PBE0 levels of theory with 6-311g(d) basis set and the IEFPCM model to consider solvent effects (acetonitrile), single point energies were calculated using PBE0 levels of theory with def2-TZVP basis set and the SMD model to consider solvent effects (acetonitrile). Vibrational frequency calculations were performed at the same level as the geometry optimizations to confirm all optimized structures as minima (no imaginary frequency). The singlepoint energies were converted to Gibbs free energies at 298 K in the solvent by the addition of gasphase thermal correction to Gibbs free energy obtained from the frequency analysis. The radii of molecules were obtained by calculating molecular volume. Optimized structures were illustrated using CYLView."
+      },
+      {
+        "evidence_id": "ev_doc_e4d53982d550_000297_90e8f699a4af",
+        "quote": "Table S7. Calculated triplet energies.\n | G(T1) (hartree) | G(S0) (hartree) | $E _ { \\mathrm { T } }$ (kcal/mol)\nsulfilimine 1a | -1258.862640 | -1258.961473 | 62.0"
+      }
+    ]
+  },
+  "scientific_question": "For the visible-light C(sp3)–H amidation of tetrahydrofuran by N-benzoyl dibenzothiophene sulfilimine, what molecular features of the photocatalyst set are most consistent with the observed productive versus nonproductive reaction outcomes under the reported solution-phase conditions?",
+  "computation_relevance": "The authors computed the triplet energy of the sulfilimine substrate using DFT and reported it as 62.0 kcal/mol. They also reported experimental photocatalyst triplet energies and yields for the same THF amidation, allowing the computed substrate triplet energy to serve as a private reference for evaluating which photocatalyst properties are consistent with productive amidation.",
+  "author_computation": {
+    "performed_by_authors": true,
+    "results_reported": true,
+    "non_routine": true,
+    "evidence_ids": [
+      "ev_doc_62bb736a59d7_000052_c117fcdc8383",
+      "ev_doc_e4d53982d550_000291_c5b632e42bb5",
+      "ev_doc_e4d53982d550_000292_796b98a2933e",
+      "ev_doc_e4d53982d550_000293_641e8b0ad104",
+      "ev_doc_e4d53982d550_000294_0a80003178fc",
+      "ev_doc_e4d53982d550_000295_6bef27cc2f0d",
+      "ev_doc_e4d53982d550_000297_90e8f699a4af"
+    ],
+    "source_quotes": [
+      {
+        "evidence_id": "ev_doc_62bb736a59d7_000052_c117fcdc8383",
+        "quote": "wide range of photosensitizers varying in triplet-state energy ( E _ { \\mathrm { T } } ) and redox properties (Scheme 4E). As a result, the reaction is believed to initiate with a triplet<sup>–</sup>triplet energy transfer (EnT) rather than electron transfer since the yield of 2a correlates to E _ { \\mathrm { T } } of photocatalysts but is unrelated to redox characteristics (see Table S6). Moreover, our previous work showed that there is no obvious reduction peak of 1a in the cyclic voltammetry measurements [51]. The E _ { \\mathrm { T } } of 1a was found to be 62.0 kcal/mol by density functional theory calculations (see Table S7), which closely matched that of the photocatalyst. Furthermore, the deuterium kinetic isotope effect (KIE) was performed and the intermolecular competition experiment resulted in a KIE k _ { \\mathrm { H } } / k _ { \\mathrm { D } } of 1.3, suggesting that the hydrogen transfer may not be the rate-determining step (Scheme 4F). In light of these results, a plausible mechanism is proposed in Scheme 4G. Upon visible light irradiation, an EnT process from the excited \\mathrm { I r } [ \\mathrm { d F } ( \\mathrm { C F } _ { 3 } ) \\mathrm { p p y } ] _ { 2 } ( \\mathrm { d t b b p y } ) \\mathrm { P F } _ { 6 } to sulfilimines gives the excited state 1*, which forms a triplet nitrene 1-I on releasing dibenzothiophene. The intermediate 1-I can then engage in HAA process with THF to deliver an α-oxo radical A as well as an amide radical 1-II, followed by radical rebound to furnish the final product."
+      },
+      {
+        "evidence_id": "ev_doc_e4d53982d550_000291_c5b632e42bb5",
+        "quote": "5.8 DFT Calculations"
+      },
+      {
+        "evidence_id": "ev_doc_e4d53982d550_000292_796b98a2933e",
+        "quote": "5.8.1 General"
+      },
+      {
+        "evidence_id": "ev_doc_e4d53982d550_000293_641e8b0ad104",
+        "quote": "Density functional theory (DFT) calculations were carried out with the Gaussian16 program package. Unrestricted DFT was used to optimize geometries of the lowest triplet state \\left( \\mathrm { T } _ { 1 } \\right) . With the optimized geometries were calculated using PBE0 levels of theory with 6-311g(d) basis set and the IEFPCM model to consider solvent effects (acetonitrile), single point energies were calculated using PBE0 levels of theory with def2-TZVP basis set and the SMD model to consider solvent effects (acetonitrile). Vibrational frequency calculations were performed at the same level as the geometry optimizations to confirm all optimized structures as minima (no imaginary frequency). The singlepoint energies were converted to Gibbs free energies at 298 K in the solvent by the addition of gasphase thermal correction to Gibbs free energy obtained from the frequency analysis. The radii of molecules were obtained by calculating molecular volume. Optimized structures were illustrated using CYLView."
+      },
+      {
+        "evidence_id": "ev_doc_e4d53982d550_000294_0a80003178fc",
+        "quote": "5.8.2 Calculation of Triplet Energies"
+      },
+      {
+        "evidence_id": "ev_doc_e4d53982d550_000295_6bef27cc2f0d",
+        "quote": "The triplet energies (E<sub>T</sub>) were calculated through the following equation:"
+      },
+      {
+        "evidence_id": "ev_doc_e4d53982d550_000297_90e8f699a4af",
+        "quote": "Table S7. Calculated triplet energies.\n | G(T1) (hartree) | G(S0) (hartree) | $E _ { \\mathrm { T } }$ (kcal/mol)\nsulfilimine 1a | -1258.862640 | -1258.961473 | 62.0"
+      }
+    ]
+  },
+  "computational_references": [
+    {
+      "reference_id": "CR1",
+      "result": "Computed triplet energy of the sulfilimine substrate used in the THF amidation",
+      "observable": "triplet excitation energy",
+      "value": 62.0,
+      "unit": "kcal/mol",
+      "method": "DFT; T1 and S0 geometry optimization at PBE0/6-311g(d) with IEFPCM acetonitrile; single-point PBE0/def2-TZVP with SMD acetonitrile; Gibbs free energies at 298 K",
+      "model_system": "N-benzoyl dibenzothiophene sulfilimine substrate 1a",
+      "conditions": "Computed in acetonitrile solvent model; compared to room-temperature solution photocatalysis",
+      "comparison_scope": "Reference for evaluating photocatalyst-dependent productive amidation of THF",
+      "uncertainty": "No uncertainty or error estimate reported",
+      "epistemic_status": "author_computed",
+      "evidence_ids": [
+        "ev_doc_e4d53982d550_000293_641e8b0ad104",
+        "ev_doc_e4d53982d550_000297_90e8f699a4af"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_e4d53982d550_000293_641e8b0ad104",
+          "quote": "Density functional theory (DFT) calculations were carried out with the Gaussian16 program package. Unrestricted DFT was used to optimize geometries of the lowest triplet state \\left( \\mathrm { T } _ { 1 } \\right) . With the optimized geometries were calculated using PBE0 levels of theory with 6-311g(d) basis set and the IEFPCM model to consider solvent effects (acetonitrile), single point energies were calculated using PBE0 levels of theory with def2-TZVP basis set and the SMD model to consider solvent effects (acetonitrile). Vibrational frequency calculations were performed at the same level as the geometry optimizations to confirm all optimized structures as minima (no imaginary frequency). The singlepoint energies were converted to Gibbs free energies at 298 K in the solvent by the addition of gasphase thermal correction to Gibbs free energy obtained from the frequency analysis. The radii of molecules were obtained by calculating molecular volume. Optimized structures were illustrated using CYLView."
+        },
+        {
+          "evidence_id": "ev_doc_e4d53982d550_000297_90e8f699a4af",
+          "quote": "Table S7. Calculated triplet energies.\n | G(T1) (hartree) | G(S0) (hartree) | $E _ { \\mathrm { T } }$ (kcal/mol)\nsulfilimine 1a | -1258.862640 | -1258.961473 | 62.0"
+        }
+      ]
+    }
+  ],
+  "public_inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Nitrene precursor: N-benzoyl dibenzothiophene sulfilimine, referred to in the source as sulfilimine 1a.",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000021_623189ba8909",
+        "ev_doc_e4d53982d550_000297_90e8f699a4af"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000021_623189ba8909",
+          "quote": "We began our investigation using dibenzothiophene-based N-benzoyl sulfilimine (1a) as the nitrene precursor, Ir[dF(CF ) \\mathrm { p p y } ] _ { 2 } ( \\mathrm { d t b b p y } ) \\mathrm { P F } _ { 6 } (1 mol%) as the photocatalyst and THF (0.1 M) as the C<sup>–</sup>H donor under blue light emitting diode (LED) irradiation. Excitingly, the desired \\mathrm { C } ( \\mathrm { s p } ^ { 3 } ) – \\mathrm { H } amidation product 2a was obtained selectively in 76% yield after 3 h (Table 1, entry 1). Changing the photocatalyst to \\operatorname { I r } ( \\mathrm { d F p p y } ) _ { 3 } gave a slightly lower yield of 61%, while fac-Ir(ppy) and Mes- \\mathrm { { A c r } ^ { + } \\mathrm { { C l } \\mathrm { { O } _ { 4 } ^ { - } } } } resulted in only a trace amount of 2a (Table 1, entries 2<sup>–</sup>4). Other aromatic ketone-type photocatalysts could also promote this reaction, providing 2a in 19%<sup>–</sup>66% yields (Table 1, entries 5 and ^ { 6 , } also see Table S1). Not surprisingly, no product 2a was formed in the absence of the catalyst or light (Table 1, entries 7 and 8)."
+        },
+        {
+          "evidence_id": "ev_doc_e4d53982d550_000297_90e8f699a4af",
+          "quote": "Table S7. Calculated triplet energies.\n | G(T1) (hartree) | G(S0) (hartree) | $E _ { \\mathrm { T } }$ (kcal/mol)\nsulfilimine 1a | -1258.862640 | -1258.961473 | 62.0"
+        }
+      ]
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "C(sp3)–H donor/solvent: tetrahydrofuran (THF).",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000021_623189ba8909",
+        "ev_doc_62bb736a59d7_000023_41566a92e22e",
+        "ev_doc_e4d53982d550_000110_84a88b8dcb9b"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000021_623189ba8909",
+          "quote": "We began our investigation using dibenzothiophene-based N-benzoyl sulfilimine (1a) as the nitrene precursor, Ir[dF(CF ) \\mathrm { p p y } ] _ { 2 } ( \\mathrm { d t b b p y } ) \\mathrm { P F } _ { 6 } (1 mol%) as the photocatalyst and THF (0.1 M) as the C<sup>–</sup>H donor under blue light emitting diode (LED) irradiation. Excitingly, the desired \\mathrm { C } ( \\mathrm { s p } ^ { 3 } ) – \\mathrm { H } amidation product 2a was obtained selectively in 76% yield after 3 h (Table 1, entry 1). Changing the photocatalyst to \\operatorname { I r } ( \\mathrm { d F p p y } ) _ { 3 } gave a slightly lower yield of 61%, while fac-Ir(ppy) and Mes- \\mathrm { { A c r } ^ { + } \\mathrm { { C l } \\mathrm { { O } _ { 4 } ^ { - } } } } resulted in only a trace amount of 2a (Table 1, entries 2<sup>–</sup>4). Other aromatic ketone-type photocatalysts could also promote this reaction, providing 2a in 19%<sup>–</sup>66% yields (Table 1, entries 5 and ^ { 6 , } also see Table S1). Not surprisingly, no product 2a was formed in the absence of the catalyst or light (Table 1, entries 7 and 8)."
+        },
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000023_41566a92e22e",
+          "quote": "<sup>a</sup>Reaction conditions: 1a (0.1 mmol) and Ir[dF(CF<sub>3</sub>)ppy]<sub>2</sub>(dtbbpy)PF<sub>6</sub> (1 mol%) in THF (0.1 M) were irradiated with 36 W blue LEDs at room temperature for 3 h under \\mathrm { N } _ { 2 } . <sup>b</sup>TXT (thioxanthen-9-one), DCBP (bis(4-chlorophenyl)methanone). <sup>c</sup>Isolated yield. <sup>d</sup>100 W 370 nm kessil lamp instead of blue LEDs."
+        },
+        {
+          "evidence_id": "ev_doc_e4d53982d550_000110_84a88b8dcb9b",
+          "quote": "Sulfilimine 1 (0.1 mmol, 1.0 equiv.) and \\mathrm { I r ( d F ( C F _ { 3 } ) p p y ) _ { 2 } ( d t b b p y ) P F _ { 6 } } (1.1 mg, 1.0 mol%) were dissolved in THF (1.0 mL, 0.1 M) in a 10 mL dry reaction tube. Plug the test tube with a rubber stopper and bubble the reaction solution with a nitrogen gas balloon for 10 min. The mixture was allowed to stir under 36 W blue LEDs irradiation at room temperature for 3 h and monitored through TLC analysis. The crude product was directly separated and purified on 2 0 0 \\ast 2 0 0 mm thin layer silica gel plate ( \\mathrm { P E } ; \\mathrm { E A } = 2 ; 1 \\sim 1 ; 1 ) to obtain the desired product 2 as a white solid."
+        }
+      ]
+    },
+    {
+      "input_id": "PI3",
+      "kind": "identity",
+      "content": "Product: N-(tetrahydrofuran-2-yl)benzamide, referred to in the source as 2a.",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000021_623189ba8909",
+        "ev_doc_e4d53982d550_000125_2497eb7c858f",
+        "ev_doc_e4d53982d550_000126_235f1c4b781e"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000021_623189ba8909",
+          "quote": "We began our investigation using dibenzothiophene-based N-benzoyl sulfilimine (1a) as the nitrene precursor, Ir[dF(CF ) \\mathrm { p p y } ] _ { 2 } ( \\mathrm { d t b b p y } ) \\mathrm { P F } _ { 6 } (1 mol%) as the photocatalyst and THF (0.1 M) as the C<sup>–</sup>H donor under blue light emitting diode (LED) irradiation. Excitingly, the desired \\mathrm { C } ( \\mathrm { s p } ^ { 3 } ) – \\mathrm { H } amidation product 2a was obtained selectively in 76% yield after 3 h (Table 1, entry 1). Changing the photocatalyst to \\operatorname { I r } ( \\mathrm { d F p p y } ) _ { 3 } gave a slightly lower yield of 61%, while fac-Ir(ppy) and Mes- \\mathrm { { A c r } ^ { + } \\mathrm { { C l } \\mathrm { { O } _ { 4 } ^ { - } } } } resulted in only a trace amount of 2a (Table 1, entries 2<sup>–</sup>4). Other aromatic ketone-type photocatalysts could also promote this reaction, providing 2a in 19%<sup>–</sup>66% yields (Table 1, entries 5 and ^ { 6 , } also see Table S1). Not surprisingly, no product 2a was formed in the absence of the catalyst or light (Table 1, entries 7 and 8)."
+        },
+        {
+          "evidence_id": "ev_doc_e4d53982d550_000125_2497eb7c858f",
+          "quote": "N-(tetrahydrofuran-2-yl)benzamide (2a)"
+        },
+        {
+          "evidence_id": "ev_doc_e4d53982d550_000126_235f1c4b781e",
+          "quote": "General procedure C was followed, the crude product was directly separated and purified on 200 * 200 mm thin layer silica gel plate (PE: EA = 2: 1) to obtain the desired product 2a as a white solid (14.5 mg, 76%). Rf = 0.3 (PE: EA = 2: 1). M.p.: 1 4 9 - 1 5 0 ^ { \\circ } \\mathrm { C }"
+        }
+      ]
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "Reported standard reaction conditions: sulfilimine 1a (0.1 mmol) and Ir[dF(CF3)ppy]2(dtbbpy)PF6 (1 mol%) in THF (0.1 M), irradiated with 36 W blue LEDs at room temperature for 3 h under N2.",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000023_41566a92e22e",
+        "ev_doc_e4d53982d550_000110_84a88b8dcb9b"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000023_41566a92e22e",
+          "quote": "<sup>a</sup>Reaction conditions: 1a (0.1 mmol) and Ir[dF(CF<sub>3</sub>)ppy]<sub>2</sub>(dtbbpy)PF<sub>6</sub> (1 mol%) in THF (0.1 M) were irradiated with 36 W blue LEDs at room temperature for 3 h under \\mathrm { N } _ { 2 } . <sup>b</sup>TXT (thioxanthen-9-one), DCBP (bis(4-chlorophenyl)methanone). <sup>c</sup>Isolated yield. <sup>d</sup>100 W 370 nm kessil lamp instead of blue LEDs."
+        },
+        {
+          "evidence_id": "ev_doc_e4d53982d550_000110_84a88b8dcb9b",
+          "quote": "Sulfilimine 1 (0.1 mmol, 1.0 equiv.) and \\mathrm { I r ( d F ( C F _ { 3 } ) p p y ) _ { 2 } ( d t b b p y ) P F _ { 6 } } (1.1 mg, 1.0 mol%) were dissolved in THF (1.0 mL, 0.1 M) in a 10 mL dry reaction tube. Plug the test tube with a rubber stopper and bubble the reaction solution with a nitrogen gas balloon for 10 min. The mixture was allowed to stir under 36 W blue LEDs irradiation at room temperature for 3 h and monitored through TLC analysis. The crude product was directly separated and purified on 2 0 0 \\ast 2 0 0 mm thin layer silica gel plate ( \\mathrm { P E } ; \\mathrm { E A } = 2 ; 1 \\sim 1 ; 1 ) to obtain the desired product 2 as a white solid."
+        }
+      ]
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "Under the standard conditions, the THF C(sp3)–H amidation product was obtained in 76% isolated yield.",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000021_623189ba8909",
+        "ev_doc_62bb736a59d7_000022_ff42a4d31c1b",
+        "ev_doc_62bb736a59d7_000023_41566a92e22e"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000021_623189ba8909",
+          "quote": "We began our investigation using dibenzothiophene-based N-benzoyl sulfilimine (1a) as the nitrene precursor, Ir[dF(CF ) \\mathrm { p p y } ] _ { 2 } ( \\mathrm { d t b b p y } ) \\mathrm { P F } _ { 6 } (1 mol%) as the photocatalyst and THF (0.1 M) as the C<sup>–</sup>H donor under blue light emitting diode (LED) irradiation. Excitingly, the desired \\mathrm { C } ( \\mathrm { s p } ^ { 3 } ) – \\mathrm { H } amidation product 2a was obtained selectively in 76% yield after 3 h (Table 1, entry 1). Changing the photocatalyst to \\operatorname { I r } ( \\mathrm { d F p p y } ) _ { 3 } gave a slightly lower yield of 61%, while fac-Ir(ppy) and Mes- \\mathrm { { A c r } ^ { + } \\mathrm { { C l } \\mathrm { { O } _ { 4 } ^ { - } } } } resulted in only a trace amount of 2a (Table 1, entries 2<sup>–</sup>4). Other aromatic ketone-type photocatalysts could also promote this reaction, providing 2a in 19%<sup>–</sup>66% yields (Table 1, entries 5 and ^ { 6 , } also see Table S1). Not surprisingly, no product 2a was formed in the absence of the catalyst or light (Table 1, entries 7 and 8)."
+        },
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000022_ff42a4d31c1b",
+          "quote": "Entryª | Deviation from std conditionsb | Yield°, %\n1 | None | 76\n2 | Ir(dFppy)₃ as a photocatalyst | 61\n3 | $f a c \\mathrm { - I r ( p p y ) _ { 3 } }$ as a photocatalyst | Trace\n4 | $\\mathrm { M e s { - } A c r ^ { + } C l O _ { 4 } } ^ { - }$ as a photocatalyst | Trace\n$5 ^ { \\mathrm { d } }$ | TXT (10 mol%) as a photocatalyst | 66\n$6 ^ { \\mathrm { d } }$ | DCBP (10 mol%) as a photocatalyst | 47\n7 | No photocatalyst | N.R.\n8 | No light | N.R."
+        },
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000023_41566a92e22e",
+          "quote": "<sup>a</sup>Reaction conditions: 1a (0.1 mmol) and Ir[dF(CF<sub>3</sub>)ppy]<sub>2</sub>(dtbbpy)PF<sub>6</sub> (1 mol%) in THF (0.1 M) were irradiated with 36 W blue LEDs at room temperature for 3 h under \\mathrm { N } _ { 2 } . <sup>b</sup>TXT (thioxanthen-9-one), DCBP (bis(4-chlorophenyl)methanone). <sup>c</sup>Isolated yield. <sup>d</sup>100 W 370 nm kessil lamp instead of blue LEDs."
+        }
+      ]
+    },
+    {
+      "input_id": "PI6",
+      "kind": "observation",
+      "content": "Photocatalyst screening reported yields for the same reaction with molecular photocatalysts having different triplet energies: thioxanthone 65.5 kcal/mol gave 66%, Ir(dFppy)3 63.5 kcal/mol gave 61%, Ir[dF(CF3)ppy]2(dtbbpy)PF6 61.8 kcal/mol gave 76%, fac-Ir(ppy)3 58.1 kcal/mol gave trace, and Mes-Acr+ClO4 44.7 kcal/mol gave trace.",
+      "evidence_ids": [
+        "ev_doc_62bb736a59d7_000047_a0bfea3a8674",
+        "ev_doc_62bb736a59d7_000052_c117fcdc8383"
+      ],
+      "source_quotes": [
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000047_a0bfea3a8674",
+          "quote": "| | \nentry | photocatalyst | $E _ { \\intercal }$ kcal/mol | $E _ { 1 / 2 }$ $( \\mathsf { P C } ^ { * } / \\mathsf { P C } ^ { - } ) N$ | $E _ { 1 / 2 }$ (PC+/PC*)/V | yield (%)\n1 | TXT | 65.5 | +1.18 | -1.12 | 66\n2 | Ir(dFppy)3 | 63.5 | +0.75 | -1.46 | 61\n | 3Ir[dF(CF3)ppy]2(dtbbpy)PF661.8 | | +1.21 | -0.89 | 76\n4 | fac-Ir(ppy)3 | 58.1 | +0.31 | -1.73 | trace\n5 | Mes-Acr+ClO4 | 44.7 | +2.06 | -0.57 | trace"
+        },
+        {
+          "evidence_id": "ev_doc_62bb736a59d7_000052_c117fcdc8383",
+          "quote": "wide range of photosensitizers varying in triplet-state energy ( E _ { \\mathrm { T } } ) and redox properties (Scheme 4E). As a result, the reaction is believed to initiate with a triplet<sup>–</sup>triplet energy transfer (EnT) rather than electron transfer since the yield of 2a correlates to E _ { \\mathrm { T } } of photocatalysts but is unrelated to redox characteristics (see Table S6). Moreover, our previous work showed that there is no obvious reduction peak of 1a in the cyclic voltammetry measurements [51]. The E _ { \\mathrm { T } } of 1a was found to be 62.0 kcal/mol by density functional theory calculations (see Table S7), which closely matched that of the photocatalyst. Furthermore, the deuterium kinetic isotope effect (KIE) was performed and the intermolecular competition experiment resulted in a KIE k _ { \\mathrm { H } } / k _ { \\mathrm { D } } of 1.3, suggesting that the hydrogen transfer may not be the rate-determining step (Scheme 4F). In light of these results, a plausible mechanism is proposed in Scheme 4G. Upon visible light irradiation, an EnT process from the excited \\mathrm { I r } [ \\mathrm { d F } ( \\mathrm { C F } _ { 3 } ) \\mathrm { p p y } ] _ { 2 } ( \\mathrm { d t b b p y } ) \\mathrm { P F } _ { 6 } to sulfilimines gives the excited state 1*, which forms a triplet nitrene 1-I on releasing dibenzothiophene. The intermediate 1-I can then engage in HAA process with THF to deliver an α-oxo radical A as well as an amide radical 1-II, followed by radical rebound to furnish the final product."
+        }
+      ]
+    }
+  ],
+  "missing_critical_inputs": [],
+  "reference_limitations": [
+    "The DFT triplet energy was computed for the isolated sulfilimine substrate, not for the full reacting mixture with THF and photocatalyst.",
+    "The solvent model used for the DFT calculation was acetonitrile, whereas the reported standard reaction used THF as solvent/C–H donor.",
+    "The authors did not report uncertainty estimates, benchmark comparisons, or sensitivity to functional/basis set for the triplet energy.",
+    "The computational reference supports evaluation of photocatalyst-dependent productive amidation but does not by itself establish the full reaction mechanism, selectivity, or rate."
+  ],
+  "evidence_requests": [],
+  "schema_version": "author-computation-research/v5-20261014",
+  "task_archetype": "author_computation_grounded_research"
+}

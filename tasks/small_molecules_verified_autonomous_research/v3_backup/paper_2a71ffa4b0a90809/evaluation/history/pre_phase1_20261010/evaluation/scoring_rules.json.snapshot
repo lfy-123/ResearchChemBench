@@ -1,0 +1,113 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "rules": [
+    {
+      "rule_id": "r_input",
+      "reference_id": "kp_input",
+      "type": "semantic",
+      "expected": "Identity and atom mapping match the supplied XYZ.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_profile",
+      "reference_id": "kp_profile",
+      "type": "condition",
+      "expected": "Profile coverage and state validation satisfy the task contract.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.scan_states",
+          "$.validation"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "r_barrier",
+      "reference_id": "kp_barrier",
+      "type": "numeric",
+      "target": 31.0,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier_result.barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": {
+        "when": {
+          "field": "$.status",
+          "equals": "complete"
+        },
+        "otherwise": "not_applicable_for_bounded_failure"
+      }
+    },
+    {
+      "rule_id": "r_limits",
+      "reference_id": "kp_limits",
+      "type": "semantic",
+      "expected": "Sensitivity and scoped limitations are specific.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "Final conclusion reports barrier and scoped rigidity interpretation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicability": {
+        "when": {
+          "field": "$.status",
+          "equals": "complete"
+        },
+        "otherwise": "not_applicable_for_bounded_failure"
+      }
+    },
+    {
+      "rule_id": "r_limitation",
+      "reference_id": "c_limitation",
+      "type": "semantic",
+      "expected": "Limitations are explicit and task-specific.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

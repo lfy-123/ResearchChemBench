@@ -1,0 +1,123 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "scoring_status": "All items are non-scoring evidence. Only scoring_rules.json defines independently scored final conclusions.",
+  "items": [
+    {
+      "key_point_id": "evidence_dipole_activity_association",
+      "key_point_type": "result",
+      "statement": "Evidence for Within-series association between molecular dipole and activity",
+      "expected": "An actual all-ten matched descriptor/MIC analysis supports a positive within-series association between molecular dipole and activity (higher activity means lower MIC, e.g. −log2 MIC). Preserve assay ties and all ten identities; an equivalent declared direction-sensitive association analysis is allowed. Require recoverable calculated dipoles and analysis, not merely quoting the source. Exact rho, p-value significance, algorithm, permutation count and the maximum-dipole identity are not targets.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "az_main",
+        "az_si",
+        "native_validation",
+        "validation_summary_1"
+      ]
+    },
+    {
+      "key_point_id": "evidence_frontier_activity_association",
+      "key_point_type": "result",
+      "statement": "Evidence for Within-series association between HOMO energy and activity",
+      "expected": "Actual all-ten HOMO/MIC evidence supports a positive within-series association of higher (less negative) HOMO energy with greater activity (lower MIC), with target transformation/sign explicit and ties retained. This is a retrospective descriptor association, not proof of electron-transfer mechanism or external prediction; no specific regression/permutation algorithm is required.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "az_main",
+        "az_si",
+        "native_validation",
+        "validation_summary_1"
+      ]
+    },
+    {
+      "key_point_id": "evidence_gap_activity_association",
+      "key_point_type": "result",
+      "statement": "Evidence for Within-series association between positive frontier gap and activity",
+      "expected": "Actual all-ten positive frontier-gap/MIC evidence supports a negative association between ELUMO−EHOMO and activity (higher activity means lower MIC). Establish this from raw computed ranks/values and MIC ties; overlap with source-value ranges does not establish this association. Do not substitute incorrectly defined chemical potential/electrophilicity. An actual sensitivity analysis may establish that the very small gap ranks do not support a resolved association across the declared valid models; such a bounded negative finding passes if all ten raw gap/MIC pairs, ties and the signed associations actually obtained are analyzed. Switching methods without this evidence or omitting contrary results does not pass.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "az_si",
+        "native_validation",
+        "validation_summary_1",
+        "az_main"
+      ]
+    },
+    {
+      "key_point_id": "evidence_bounded_activity_information",
+      "key_point_type": "result",
+      "statement": "Evidence for Explanatory and predictive information justified by the ten-compound evidence",
+      "expected": "The final answer infers from actual molecular-property results and all-ten assay analysis that these properties provide descriptive within-series information but do not by themselves reliably account for the MIC differences or establish predictive/target-mechanistic control. Substantiate the inference with concrete descriptor-versus-MIC discordance, tied outcomes or an appropriately performed assessment showing imperfect discrimination; link it to the measured series, rather than merely adding a generic small-sample warning. State the supported direction/strength actually obtained and do not claim that a dipole champion, docking or permeability mechanism explains efficacy. This inference is separate from receiving points for the association direction: require demonstrated imperfect discrimination, tied outcomes with different descriptors, or a valid predictive assessment. No prescribed regression, significance threshold or permutation count applies.",
+      "claim_role": "supporting_evidence",
+      "scored": false,
+      "evidence_ids": [
+        "az_main",
+        "az_si",
+        "validation_summary_1"
+      ]
+    }
+  ],
+  "historical_numeric_references": [
+    {
+      "former_rule_id": "r_frontier_gap_az1",
+      "source_reference_value": 4.4268,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_frontier_gap_az2",
+      "source_reference_value": 4.4232,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_frontier_gap_az3",
+      "source_reference_value": 4.427,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_frontier_gap_az4",
+      "source_reference_value": 4.4289,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_frontier_gap_az5",
+      "source_reference_value": 4.4221,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_frontier_gap_az6",
+      "source_reference_value": 4.4256,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_frontier_gap_az7",
+      "source_reference_value": 4.4278,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_frontier_gap_az8",
+      "source_reference_value": 4.4211,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_frontier_gap_az9",
+      "source_reference_value": 4.4202,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    },
+    {
+      "former_rule_id": "r_frontier_gap_az10",
+      "source_reference_value": 4.4175,
+      "unit": "eV",
+      "status": "Historical non-scoring reference value; no individual match or acceptance window applies."
+    }
+  ]
+}

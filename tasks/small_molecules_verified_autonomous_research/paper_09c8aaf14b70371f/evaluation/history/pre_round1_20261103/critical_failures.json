@@ -1,0 +1,15 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "items": [
+    {
+      "id": "fabricated_evidence",
+      "description": "Fabricated evidence or copied reference results presented as independently computed invalidate the submission."
+    },
+    {
+      "id": "hidden_answer_leakage",
+      "description": "Demonstrated unauthorized use of hidden evaluator answers invalidates the submission. Ordinary failed or incomplete computations only lose the affected scientific items."
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "ordinary_failure_policy": "Missing or unsupported final conclusions fail only the affected items; supported independent outcomes retain their points. Return pass/fail for every item and record demonstrated reference defects separately in objective_issue_flags. No pending scientific-review status."
+}

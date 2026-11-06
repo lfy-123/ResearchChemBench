@@ -1,0 +1,26 @@
+{
+  "scientific_question": "For the specified five- and six-membered cyclic-enone electron-deficient [3]dendralenes reacting with methanethiolate in chloroform, determine the favored addition sites and protonated-product connectivities. Explain the competition between simple addition and cyclization for the five- and six-membered cyclic-enone pair, assess whether second thiol addition to the five-membered substrate is competitive, and establish how reliable the predictions are. This is a computational prediction and explanation task; no measured product distribution is supplied.",
+  "inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "Cyclopentenone-bearing substrate: dimethyl (2Z,4E)-3-(5-oxocyclopent-1-en-1-yl)hexa-2,4-dienedioate, molecular formula C13H14O5. Its connectivity is MeO-C(=O)-CH=C(R)-CH=CH-C(=O)-OMe, with R = 5-oxocyclopent-1-en-1-yl (ring connectivity C1=CH-CH2-CH2-C(=O)-1, attached to the dienoate through the first ring carbon). The parent dienoate double bonds are 2Z and 4E. No absolute axial configuration is specified."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "identity",
+      "content": "Cyclohexenone-bearing substrate: dimethyl (2Z,4E)-3-(6-oxocyclohex-1-en-1-yl)hexa-2,4-dienedioate, molecular formula C14H16O5. Its connectivity is MeO-C(=O)-CH=C(R)-CH=CH-C(=O)-OMe, with R = 6-oxocyclohex-1-en-1-yl (ring connectivity C1=CH-CH2-CH2-CH2-C(=O)-1, attached to the dienoate through the first ring carbon). The parent dienoate double bonds are 2Z and 4E. No absolute axial configuration is specified."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "The nucleophilic reaction partner is methanethiolate, CH3S-, with formal charge -1 (SMILES C[S-]). Methanethiol, CH3SH (SMILES CS), is the corresponding neutral thiol. Comparisons involving protonation or different addition stoichiometries must use balanced reactions and explicitly declared proton/thiol reference reservoirs; no particular proton-transfer mechanism or counterion identity is supplied."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "condition",
+      "content": "The comparison boundary is chloroform solution at 298.15 K using a 1 M solution standard-state convention. The standard-state convention is not a specified experimental reactant concentration. State the solvent representation and other model assumptions used in your work."
+    }
+  ],
+  "structure_file": "data/molecular_structures.json"
+}

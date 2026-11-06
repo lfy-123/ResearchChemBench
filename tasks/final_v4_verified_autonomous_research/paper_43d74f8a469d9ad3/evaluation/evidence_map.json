@@ -1,0 +1,110 @@
+{
+  "paper_id": "paper_43d74f8a469d9ad3",
+  "evidence": [
+    {
+      "evidence_id": "source_main",
+      "source": {
+        "path": "papers/paper_43d74f8a469d9ad3/documents/main.pdf",
+        "sha256": "3702c207117b172cf5f60f75a5488e55a7c10fc33cccf97eb8ff0c1a3bc721cb",
+        "pdf_pages_1based": [
+          3,
+          7,
+          8,
+          11
+        ]
+      },
+      "scope": "Main PDF3,7–8,11: chemical graphs,Table4 solution bands,Table6 theory and electronic interpretation. Other dyes/biological behavior remain out of scope.",
+      "supports_final_conclusion_ids": [
+        "dye1_electronic_character",
+        "dye2_electronic_character",
+        "structural_absorption_explanation",
+        "dye1_solvent_explanation",
+        "dye2_solvent_explanation",
+        "relative_vs_absolute_optical_account"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "source_si",
+      "source": {
+        "path": "papers/paper_43d74f8a469d9ad3/documents/supplementary_001.pdf",
+        "sha256": "7b0fafc26a4cfda88dd80c6a1b3d524940e51ec7eb20480383262cb8c4f7d3d5",
+        "pdf_pages_1based": [
+          39,
+          40,
+          43,
+          44
+        ]
+      },
+      "scope": "SI PDF39–40 and43–44: S10/S12 state tables and associated coordinates; full graph mapping, not the conflicting compound number, determines correspondence to public dye1/2.",
+      "supports_final_conclusion_ids": [
+        "dye1_electronic_character",
+        "dye2_electronic_character",
+        "structural_absorption_explanation",
+        "dye1_solvent_explanation",
+        "dye2_solvent_explanation",
+        "relative_vs_absolute_optical_account"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "verification_reference",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_43d74f8a469d9ad3/evaluation/verified_computation_reference.md",
+        "sha256": "3db1ed63ce31424df102dddb92de8a965ae90916d5d9e8a86ee51e858ef551ad"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed.",
+      "supports_final_conclusion_ids": [
+        "dye1_electronic_character",
+        "dye2_electronic_character",
+        "structural_absorption_explanation",
+        "dye1_solvent_explanation",
+        "dye2_solvent_explanation",
+        "relative_vs_absolute_optical_account"
+      ],
+      "scored_independently": false
+    },
+    {
+      "evidence_id": "verification_records",
+      "source": {
+        "path": "docs/v2_verification/papers/paper_43d74f8a469d9ad3/task_archives/autonomous_research/evaluation/verified_computation/reviewed_records.json",
+        "sha256": "7b14509092f70f89975c434c5f1c97f65b7710fb9c49e30228517aa2c5040390"
+      },
+      "scope": "Existing verification provenance; author targets remain in PDF evidence. No new chemical validation claimed.",
+      "supports_final_conclusion_ids": [],
+      "scored_independently": false
+    }
+  ],
+  "final_result_evidence_links": {
+    "dye1_electronic_character": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "dye2_electronic_character": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "structural_absorption_explanation": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "dye1_solvent_explanation": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "dye2_solvent_explanation": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ],
+    "relative_vs_absolute_optical_account": [
+      "source_main",
+      "source_si",
+      "verification_reference"
+    ]
+  }
+}

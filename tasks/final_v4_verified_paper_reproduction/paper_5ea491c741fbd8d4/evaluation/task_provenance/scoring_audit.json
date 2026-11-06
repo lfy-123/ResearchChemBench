@@ -1,0 +1,28 @@
+{
+  "policy": "dual_axis_100.open_research.v1",
+  "scientific_result_weights": {
+    "identity": 20,
+    "quantitative_support": 25,
+    "scientific_interpretation": 25,
+    "uncertainty_limits": 20,
+    "conclusion": 10
+  },
+  "alternative_routes": [
+    "A justified structural/contact analysis can answer geometric packing questions without a forced dimer-energy matrix; its causal/energetic conclusions remain limited.",
+    "A validated molecular or periodic energy/electronic analysis may test stabilization without using the old Hirshfeld-area ranking. No route is currently executable for this source crystal without coordinates."
+  ],
+  "conditional_requirements": [
+    "Authenticated coordinates for source packing claims.",
+    "Energy reference and method adequacy when energy is claimed; reproducible surface/measure when area is claimed.",
+    "Evidence sufficient for unresolved conclusions, not data absence."
+  ],
+  "judge_calibration_status": "pending_real_semantic_judge",
+  "schema_tests": "work/check_v2.py; format and artifact-integrity only",
+  "enforcement_layers": {
+    "host_schema": "Official output_contract checks required report files, JSON structure, declared units/enums and conditional fields.",
+    "author_side_checker": "work/check_v2.py alone checks resolved artifact IDs, file existence, SHA256 and selected arithmetic. These checks are not automatically installed in the host.",
+    "judge_review": "Evidence sufficiency, actual chemistry, cross-record scientific comparability, method adequacy and scope require real artifact/judge review; not run or calibrated in this development.",
+    "runtime_pending": "Host artifact integrity integration, reliable tool-event binding and access isolation require coordinator integration/verification."
+  },
+  "no_reference_matrix_required": true
+}

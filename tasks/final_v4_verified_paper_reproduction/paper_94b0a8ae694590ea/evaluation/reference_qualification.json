@@ -1,0 +1,238 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "physical_definition": "Complete neutral singlet isolated molecules: 2BT C26H12S6 and 2BF C26H12O2S4 (44 atoms each), 2(C8Ph)-TTA C38H44S4 (86 atoms, full alkyl chains). Source Gaussian B3LYP/6-31G(d) orbital eigenvalues at source-like geometries; specify geometry/stationarity. SWCNT XFS22 has unspecified chirality distribution; its quoted level is contextual, not a complete interface model.",
+  "scientific_limitations": "Source-like BT retains -28.5338/-22.0826 cm^-1 modes; a true BT minimum has126 positive modes and roughly0.1eV frontier changes, including reversed BT/BF LUMO ordering. C8/BF valid minima and C8 trend are retained. Source six eigenvalues are -5.04/-2.14,-5.00/-2.08,-4.99/-1.65eV; verified values -5.035300/-2.141307,-5.002650/-2.077005,-4.990102/-1.645259eV. Film transfer, doping sign, transport and device PF are not certified by isolated eigenvalues.",
+  "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+  "historical_qualification": {
+    "status": "CURRENT_FROZEN_SCOPE_STRICT_VERIFICATION_PRESERVED",
+    "reason": "Authorized final-copy scoring-only migration, 2026-10-19; publication/expert calibration remains separate from runtime scoring.",
+    "scoring_policy": "paper_science_v2",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_94b0a8ae694590ea",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "round": "repair_round3",
+      "mode": "paper_reproduction",
+      "status": "scoring_contract_repaired_without_new_chemical_acceptance",
+      "changes": [
+        "PR retains the disclosed author baseline and source-stationary-geometry diagnostic; source-like 2BT is not relabeled a minimum. AR separately removes that hidden geometry gate."
+      ],
+      "history_preserved": true,
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_04/paper_94b0a8ae694590ea.md"
+    },
+    "current_scope_verified": true,
+    "verification_acceptance": "Existing independently strict V2 frozen-scope acceptance retained; scoring migration is not new chemical validation."
+  },
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "V3_FINAL_RESULTS_EVIDENCE_REUSED_NOT_REVALIDATED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+  "reason": "2026-10-29 final-conclusion scoring update only; original scientific scope and historical acceptance are preserved.",
+  "evidence_gaps": "源样式BT两虚频−28.5338/−22.0826，不是稳定最低点；稳定BT改变BT/BF LUMO排序。原+.100608偏差保留但旧±.1不再计分。C8/BF微小HOMO差仅有几何/数值局部证据，不认证跨方法普适。−5.060 eV名义SWCNT参照非样品界面化学势；电子注入可填空穴，不自动证明p型增强或PF。",
+  "new_computations": false,
+  "online_judge_calibration": false,
+  "rule_evidence_reuse": [
+    {
+      "rule_id": "r_2bt_homo",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_2bt_lumo",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_2bf_homo",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_2bf_lumo",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_2c8ph_homo",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_2c8ph_lumo",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_c8_lumo_order",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "verified_bt_stable_frontier",
+        "verified_c8_frontier",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_c8_homo_order",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "verified_bt_stable_frontier",
+        "verified_c8_frontier",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_c8_gap",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "verified_bt_stable_frontier",
+        "verified_c8_frontier",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_molecular_transfer_interpretation",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "native_molecular_synthesis"
+      ]
+    },
+    {
+      "rule_id": "r_composite_inference_limit",
+      "evidence_ids": [
+        "main_p3_4_5",
+        "native_molecular_synthesis"
+      ]
+    }
+  ],
+  "mode_scope_exception": "两模式均保留三完整分子的HOMO/LUMO/能隙与比较；PR六披露本征值作为模型特定证据而不匹配窗口。PR明确区分源样式BT驻点与稳定构象；AR不要求复现源样式鞍点。",
+  "scoring_revision": "conclusion_only_20261029",
+  "active_numeric_rules": 0,
+  "v3_scope": "Independent final conclusions only; 100 points, semantic pass/fail, no numerical matching or pending-review states. Original public scope and historical scientific acceptance remain unchanged.",
+  "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "必需结果1、2：三个HOMO及C8两对差",
+      "rule_id": "r_occupied_level_comparison",
+      "conclusion_id": "occupied_level_comparison",
+      "weight": 20,
+      "independence": "占据能级比较/分辨度，与未占据/能隙及真实界面电荷不同。",
+      "source_location": "正文pp3–5 Fig1六能级及复合PF；SI TablesS1–S3完整坐标；原生BT源样式/稳定BT、BF、完整C8几何与轨道。",
+      "source_evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "verified_bt_stable_frontier",
+        "verified_c8_frontier",
+        "native_molecular_synthesis"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_94b0a8ae694590ea/v2_execution_20260929/report/report.md",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bf/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt_tight_min_retry/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2c8_runtime_retry48g/stdout.log"
+      ],
+      "existing_support_or_gap": "稳定BT/BF/C8 HOMO=−5.126226/−5.002650/−4.990102、LUMO=−2.039392/−2.077005/−1.645259 eV。C8/BF HOMO差+.012547微小；源样式BT有两虚频，稳定LUMO比源高+.100608 eV。C8/BF峰值同10wt%，BT峰值20wt%。",
+      "scientific_limitations": "源样式BT两虚频−28.5338/−22.0826，不是稳定最低点；稳定BT改变BT/BF LUMO排序。原+.100608偏差保留但旧±.1不再计分。C8/BF微小HOMO差仅有几何/数值局部证据，不认证跨方法普适。−5.060 eV名义SWCNT参照非样品界面化学势；电子注入可填空穴，不自动证明p型增强或PF。"
+    },
+    {
+      "scientific_requirement": "必需结果1、2：LUMO/能隙和六本征值物理含义",
+      "rule_id": "r_unoccupied_gap_comparison",
+      "conclusion_id": "unoccupied_gap_comparison",
+      "weight": 30,
+      "independence": "接受能级与内部分离的联合物性比较，不把代数相关描述符逐数重复计分。",
+      "source_location": "正文pp3–5 Fig1六能级及复合PF；SI TablesS1–S3完整坐标；原生BT源样式/稳定BT、BF、完整C8几何与轨道。",
+      "source_evidence_ids": [
+        "main_p3_4_5",
+        "supplementary_001_p10_11_12_13_14_15_16",
+        "verified_bt_stable_frontier",
+        "verified_c8_frontier",
+        "native_molecular_synthesis"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_94b0a8ae694590ea/v2_execution_20260929/report/report.md",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bf/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt_tight_min_retry/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2c8_runtime_retry48g/stdout.log"
+      ],
+      "existing_support_or_gap": "稳定BT/BF/C8 HOMO=−5.126226/−5.002650/−4.990102、LUMO=−2.039392/−2.077005/−1.645259 eV。C8/BF HOMO差+.012547微小；源样式BT有两虚频，稳定LUMO比源高+.100608 eV。C8/BF峰值同10wt%，BT峰值20wt%。",
+      "scientific_limitations": "源样式BT两虚频−28.5338/−22.0826，不是稳定最低点；稳定BT改变BT/BF LUMO排序。原+.100608偏差保留但旧±.1不再计分。C8/BF微小HOMO差仅有几何/数值局部证据，不认证跨方法普适。−5.060 eV名义SWCNT参照非样品界面化学势；电子注入可填空穴，不自动证明p型增强或PF。"
+    },
+    {
+      "scientific_requirement": "必需结果3：与SWCNT名义参照的物理联系",
+      "rule_id": "r_molecular_transfer_interpretation",
+      "conclusion_id": "molecular_transfer_interpretation",
+      "weight": 25,
+      "independence": "条件能级对齐与真实转移/载流子可识别性，不重复分子排序。",
+      "source_location": "正文pp3–5 Fig1六能级及复合PF；SI TablesS1–S3完整坐标；原生BT源样式/稳定BT、BF、完整C8几何与轨道。",
+      "source_evidence_ids": [
+        "main_p3_4_5",
+        "native_molecular_synthesis"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_94b0a8ae694590ea/v2_execution_20260929/report/report.md",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bf/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt_tight_min_retry/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2c8_runtime_retry48g/stdout.log"
+      ],
+      "existing_support_or_gap": "稳定BT/BF/C8 HOMO=−5.126226/−5.002650/−4.990102、LUMO=−2.039392/−2.077005/−1.645259 eV。C8/BF HOMO差+.012547微小；源样式BT有两虚频，稳定LUMO比源高+.100608 eV。C8/BF峰值同10wt%，BT峰值20wt%。",
+      "scientific_limitations": "源样式BT两虚频−28.5338/−22.0826，不是稳定最低点；稳定BT改变BT/BF LUMO排序。原+.100608偏差保留但旧±.1不再计分。C8/BF微小HOMO差仅有几何/数值局部证据，不认证跨方法普适。−5.060 eV名义SWCNT参照非样品界面化学势；电子注入可填空穴，不自动证明p型增强或PF。"
+    },
+    {
+      "scientific_requirement": "必需结果4：复合性能解释及负载局限",
+      "rule_id": "r_composite_inference_limit",
+      "conclusion_id": "composite_inference_limit",
+      "weight": 25,
+      "independence": "实际同/异负载观测约束，独立于真空分子能级趋势。",
+      "source_location": "正文pp3–5 Fig1六能级及复合PF；SI TablesS1–S3完整坐标；原生BT源样式/稳定BT、BF、完整C8几何与轨道。",
+      "source_evidence_ids": [
+        "main_p3_4_5",
+        "native_molecular_synthesis"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/upgrade_tasks_verification/group_5/papers/paper_94b0a8ae694590ea/v2_execution_20260929/report/report.md",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bf/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2bt_tight_min_retry/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/history/verification/group_3/paper_94b0a8ae694590ea/artifacts/gaussian/tta_2c8_runtime_retry48g/stdout.log"
+      ],
+      "existing_support_or_gap": "稳定BT/BF/C8 HOMO=−5.126226/−5.002650/−4.990102、LUMO=−2.039392/−2.077005/−1.645259 eV。C8/BF HOMO差+.012547微小；源样式BT有两虚频，稳定LUMO比源高+.100608 eV。C8/BF峰值同10wt%，BT峰值20wt%。",
+      "scientific_limitations": "源样式BT两虚频−28.5338/−22.0826，不是稳定最低点；稳定BT改变BT/BF LUMO排序。原+.100608偏差保留但旧±.1不再计分。C8/BF微小HOMO差仅有几何/数值局部证据，不认证跨方法普适。−5.060 eV名义SWCNT参照非样品界面化学势；电子注入可填空穴，不自动证明p型增强或PF。"
+    }
+  ],
+  "migration_20261029": "Scoring update and reuse of existing evidence only. No new scientific computation, blind judge calibration or promotion of historical 32/13 classifications."
+}

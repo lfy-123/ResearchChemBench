@@ -1,0 +1,1027 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "scope_version": "core_question_upgrade_20261012T190159Z",
+  "current_strategy": "dual_axis_100.scientific_results.v1",
+  "target_count": 5,
+  "targets": [
+    {
+      "id": "kp_binding_topology",
+      "scoring_rule_ids": [
+        "r_binding_topology"
+      ],
+      "source_pages": [
+        {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/main.pdf",
+          "pdf_pages_1based": [
+            3,
+            7
+          ],
+          "figures": [
+            "Figs3,8"
+          ]
+        },
+        {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+          "pdf_pages_1based": [
+            60,
+            63,
+            64,
+            65
+          ],
+          "figures": [
+            "FigS49"
+          ]
+        }
+      ],
+      "quantity": "Optimized solution donor·Cl− contact topology: A, C-syn and D-syn permit two I···Cl contacts; B and E are effectively one-point donors.",
+      "model": "Seven source conformer donor+Cl− complexes. Every donor constitution retains two iodine atoms.",
+      "charge_states": {
+        "free_donor": [
+          0,
+          1
+        ],
+        "complex": [
+          -1,
+          1
+        ],
+        "chloride": [
+          -1,
+          1
+        ]
+      },
+      "reference": "Matched source conformer structures, not crystal contact distances as a numeric target.",
+      "existing_evidence": {
+        "records": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/analysis/halogen_recomputed.json",
+        "native_components": {
+          "1a_syn": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/hpc_runs/1a_s129_gd3_193K_smd18_start_optfreq_20260927_hpc20_p6/stdout.log",
+            "sha256": "7ed003c2bda7fd43bc9ac8a73c35e26da25abb849222fd57d943b26c803da1a1",
+            "natom": 32,
+            "charge_multiplicity": [
+              0,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 90,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1a_syn_chloride": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1a_syn_chloride/gaussian.log",
+            "sha256": "6f38a224ed7f99f2566effe125d1721a13137df653bce1ac6043b6c5e431d0e2",
+            "natom": 33,
+            "charge_multiplicity": [
+              -1,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 93,
+            "imaginary_cm1": [],
+            "optimization_completed": false,
+            "ends_normally": true
+          },
+          "free_chloride": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/free_chloride/gaussian.log",
+            "sha256": "0bc34b0bbc181a54f5b5e961f592e7e9315b9484b736cd8726a703c3899fc813",
+            "natom": 1,
+            "charge_multiplicity": [
+              -1,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 0,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1a_anti": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1a_anti/gaussian.log",
+            "sha256": "9f0465c3319224bb45ed10d656b5abf1253fc6460b7eac548f9d2ec01613dfa8",
+            "natom": 32,
+            "charge_multiplicity": [
+              0,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 90,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1a_anti_chloride": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1a_anti_chloride/gaussian.log",
+            "sha256": "9996eda35cea76f3604331853753b1fe40437a8c3ae2d4093f86bace9ffb78d7",
+            "natom": 33,
+            "charge_multiplicity": [
+              -1,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 93,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1b_syn": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1b_syn/gaussian.log",
+            "sha256": "25a512f2d6790bea2a0251cc0360bd9d80ba80bf5e3588a25b7e512ba9527977",
+            "natom": 32,
+            "charge_multiplicity": [
+              0,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 90,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1b_syn_chloride": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1b_syn_chloride/gaussian.log",
+            "sha256": "75d2f145b9b48520baa66b3521782789e9470d0653b1b16faa80b0793d69de20",
+            "natom": 33,
+            "charge_multiplicity": [
+              -1,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 93,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1b_anti": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1b_anti/gaussian.log",
+            "sha256": "477bd5b1b1d5331314439488b85e70e86ac680f8b6c82d6b8963a49b172cb2d3",
+            "natom": 32,
+            "charge_multiplicity": [
+              0,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 90,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1b_anti_chloride": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1b_anti_chloride/gaussian.log",
+            "sha256": "ee4578dcfa52c33ed7fe7bbc79c7ff9459b2469f3426f7dcdb4320ef5551de3f",
+            "natom": 33,
+            "charge_multiplicity": [
+              -1,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 93,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1c_syn": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1c_syn/gaussian.log",
+            "sha256": "0064181a389897d03b6ff2405b8df35498c191776e89a7fb531a59875e9e83f7",
+            "natom": 24,
+            "charge_multiplicity": [
+              0,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 66,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1c_syn_chloride": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1c_syn_chloride/gaussian.log",
+            "sha256": "60a5b381b5f6e18775645ad35c528b2a589e37f306aacd23077d238c047e372b",
+            "natom": 25,
+            "charge_multiplicity": [
+              -1,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 69,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1c_anti": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1c_anti/gaussian.log",
+            "sha256": "f026363dee40af0a5525a61946d814324f12a89402ec9a544244d70768f5925e",
+            "natom": 24,
+            "charge_multiplicity": [
+              0,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 66,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1c_anti_chloride": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1c_anti_chloride/gaussian.log",
+            "sha256": "14dbd25f519c87824048fd64f7878a13d2eff7bf8ba97d9ad07752da3696e13c",
+            "natom": 25,
+            "charge_multiplicity": [
+              -1,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 69,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1d": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1d/gaussian.log",
+            "sha256": "5482378d3c19cd8cf9c1883236d80e52331a3b860adeb13a9a2cc490d0fa40b0",
+            "natom": 22,
+            "charge_multiplicity": [
+              0,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 60,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          },
+          "1d_chloride": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1d_chloride/gaussian.log",
+            "sha256": "d9caac7b5dbe68d1a02128eefddc1f8f4fc2bef822157ca252ab264f7144e356",
+            "natom": 23,
+            "charge_multiplicity": [
+              -1,
+              1
+            ],
+            "temperature_K": 193.15,
+            "pressure_atm": 1.0,
+            "frequency_count": 63,
+            "imaginary_cm1": [],
+            "optimization_completed": true,
+            "ends_normally": true
+          }
+        },
+        "status": "SUPPORTED_LOCAL_WITH_METHOD_QUALIFICATION",
+        "record_role": "Historical pre-acceptance snapshot, retained for provenance. Current completed evidence is in evaluation/current_verification_status.json and the latest dated verification reference."
+      },
+      "missing_evidence": [
+        "SMD18 cavity-source comparability review; no new topology calculation needed solely for public wording changes."
+      ],
+      "prerequisites": [
+        "Check existing model identity and method qualifiers before claiming exact author-method recovery."
+      ],
+      "can_compute_immediately": false,
+      "next_action": "Reuse 2026-10-14 acceptance; no current-scope QC gap. The independent 25-point magnitude criterion remains separately blocked.",
+      "native_success_markers": [
+        "Correct constitution, charge, spin and retained conformer identity.",
+        "Completed optimization and the structure’s own minimum Hessian; atomic chloride requires no 3N−6 vibrational modes.",
+        "Native geometry establishes the claimed directional I···Cl contacts."
+      ],
+      "method": {
+        "author_method": "Gaussian 16; M06-2X-D3/6-311+G(d,p) for non-I atoms, SDD(I), SMD18(THF); optimization/frequency and thermal corrections for each structure at 193.15 K.",
+        "method_source": {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+          "pdf_pages_1based": [
+            60,
+            66
+          ]
+        },
+        "method_qualification": "2026-10-14 source review supports SMD18 iodine radius 2.74 A and pressure inferred from source Cl thermochemistry; pressure is not an explicit author statement. Retain raw and 1 M conventions without fitting.",
+        "source_method_manifest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/author_method_manifest.json"
+      },
+      "author_computation_only": true,
+      "formal_tolerance_added": null,
+      "target_id": "kp_binding_topology",
+      "expected": "The relevant local interaction is chloride binding through iodine σ-hole contacts. A, C-syn and D-syn can make two I···Cl contacts within one donor; B and E are effectively one-point donors although every catalyst has two iodine atoms. Establish the solution complex identity and geometry with computed evidence. Free-donor structures or crystal distances alone do not establish solution binding topology.",
+      "kind": "key_point",
+      "source_evidence_ids": [
+        "b_identity",
+        "b_binding",
+        "b_electronic"
+      ],
+      "current_scientific_rubric": [
+        {
+          "id": "kp_binding_topology",
+          "max_score": 20,
+          "description": "Recover the relevant binding species and topology.",
+          "rule_ids": [
+            "r_binding_topology"
+          ]
+        }
+      ],
+      "needs_additional_verification": true,
+      "current_scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE"
+    },
+    {
+      "id": "kp_binding_thermodynamics",
+      "scoring_rule_ids": [
+        "r_binding_thermodynamics"
+      ],
+      "source_pages": [
+        {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+          "pdf_pages_1based": [
+            60,
+            63,
+            64,
+            65,
+            66
+          ],
+          "figures": [
+            "FigS49",
+            "TablesS21–S22"
+          ]
+        }
+      ],
+      "quantity": "G(donor(conf)·Cl−) − G(donor(conf)) − G(Cl−), seven matched conformers, kcal/mol, THF at 193.15 K.",
+      "source_values": {
+        "A": -8.2,
+        "B": -2.6,
+        "C_syn": -5.9,
+        "C_anti": -1.5,
+        "D_syn": -7.1,
+        "D_anti": -2.5,
+        "E": -3.3
+      },
+      "model": "Neutral singlet free donors; anionic singlet complexes and chloride.",
+      "charge_states": {
+        "free_donor": [
+          0,
+          1
+        ],
+        "complex": [
+          -1,
+          1
+        ],
+        "chloride": [
+          -1,
+          1
+        ]
+      },
+      "reference": "Individual source conformer at the same method, temperature and raw convention. Conditional 1 atm→1 M correction for Δn=−1 is recorded separately; no ensemble substitution.",
+      "existing_evidence": {
+        "records": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/analysis/halogen_recomputed.json",
+        "results": [
+          {
+            "case": "1a_syn",
+            "source_kcal_mol": -8.2,
+            "raw_1atm_kcal_mol": -8.209078939798696,
+            "residual_kcal_mol": -0.00907893979869634,
+            "converted_1M_kcal_mol": -9.269647143268656,
+            "formal_tolerance": null,
+            "status": "NUMERICAL_CALIBRATION_BLOCKED"
+          },
+          {
+            "case": "1a_anti",
+            "source_kcal_mol": -2.6,
+            "raw_1atm_kcal_mol": -2.558356125787931,
+            "residual_kcal_mol": 0.041643874212069054,
+            "converted_1M_kcal_mol": -3.618924329257892,
+            "formal_tolerance": null,
+            "status": "NUMERICAL_CALIBRATION_BLOCKED"
+          },
+          {
+            "case": "1b_syn",
+            "source_kcal_mol": -5.9,
+            "raw_1atm_kcal_mol": -5.91113924558884,
+            "residual_kcal_mol": -0.011139245588839941,
+            "converted_1M_kcal_mol": -6.971707449058801,
+            "formal_tolerance": null,
+            "status": "NUMERICAL_CALIBRATION_BLOCKED"
+          },
+          {
+            "case": "1b_anti",
+            "source_kcal_mol": -1.5,
+            "raw_1atm_kcal_mol": -1.455194470316634,
+            "residual_kcal_mol": 0.04480552968336604,
+            "converted_1M_kcal_mol": -2.515762673786595,
+            "formal_tolerance": null,
+            "status": "NUMERICAL_CALIBRATION_BLOCKED"
+          },
+          {
+            "case": "1c_syn",
+            "source_kcal_mol": -7.1,
+            "raw_1atm_kcal_mol": -7.131017663226551,
+            "residual_kcal_mol": -0.031017663226551306,
+            "converted_1M_kcal_mol": -8.191585866696512,
+            "formal_tolerance": null,
+            "status": "NUMERICAL_CALIBRATION_BLOCKED"
+          },
+          {
+            "case": "1c_anti",
+            "source_kcal_mol": -2.5,
+            "raw_1atm_kcal_mol": -2.494350159452415,
+            "residual_kcal_mol": 0.005649840547584883,
+            "converted_1M_kcal_mol": -3.554918362922376,
+            "formal_tolerance": null,
+            "status": "NUMERICAL_CALIBRATION_BLOCKED"
+          },
+          {
+            "case": "1d",
+            "source_kcal_mol": -3.3,
+            "raw_1atm_kcal_mol": -3.2843845872293813,
+            "residual_kcal_mol": 0.015615412770618509,
+            "converted_1M_kcal_mol": -4.344952790699342,
+            "formal_tolerance": null,
+            "status": "NUMERICAL_CALIBRATION_BLOCKED"
+          }
+        ],
+        "record_role": "Historical pre-acceptance snapshot, retained for provenance. Current completed evidence is in evaluation/current_verification_status.json and the latest dated verification reference."
+      },
+      "missing_evidence": [
+        "Author pressure/cavity qualification",
+        "Independent magnitude/uncertainty acceptance standard"
+      ],
+      "prerequisites": [
+        "Resolve/document the source-definition ambiguity before accepting a numeric score.",
+        "Do not estimate a new tolerance from current residuals."
+      ],
+      "can_compute_immediately": false,
+      "next_action": "Reuse 2026-10-14 acceptance; no current-scope QC gap. The independent 25-point magnitude criterion remains separately blocked.",
+      "native_success_markers": [
+        "All matched endpoints have correct identity and their own thermal correction",
+        "Signed raw association differences trace to actual native energies",
+        "Documented conversion algebra and independent numerical acceptance criteria"
+      ],
+      "status": "NUMERICAL_CALIBRATION_BLOCKED",
+      "method": {
+        "author_method": "Gaussian 16; M06-2X-D3/6-311+G(d,p) for non-I atoms, SDD(I), SMD18(THF); optimization/frequency and thermal corrections for each structure at 193.15 K.",
+        "method_source": {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+          "pdf_pages_1based": [
+            60,
+            66
+          ]
+        },
+        "method_qualification": "2026-10-14 source review supports SMD18 iodine radius 2.74 A and pressure inferred from source Cl thermochemistry; pressure is not an explicit author statement. Retain raw and 1 M conventions without fitting.",
+        "source_method_manifest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/author_method_manifest.json"
+      },
+      "author_computation_only": true,
+      "formal_tolerance_added": null,
+      "target_id": "kp_binding_thermodynamics",
+      "expected": "The author result comprises seven matched free-donor/complex association free energies, ΔG=G(donor(conf)·Cl−)−G(donor(conf))−G(Cl−), in THF at 193.15 K. Retain raw conventions and any separate 1 M conversion; do not replace a named conformer with an ensemble or compare acetone titration constants as the same observable. Numerical recovery requires qualified magnitude criteria as well as trend evidence. NUMERICAL_CALIBRATION_BLOCKED: the 25-point quantitative affinity result remains reserved and unjudged. Do not assign zero or full credit, substitute sign/order-only credit, redistribute points or produce an official total. The seven source values are retained in source_values.json and reference_qualification.json, outside executable numeric rules. Source-supported pressure/cavity comparability review is completed; only the independently justified affinity-magnitude acceptance criterion remains unqualified. This is a manual reference/release restriction; metadata is not an implemented runtime gate.",
+      "kind": "key_point",
+      "source_evidence_ids": [
+        "b_binding",
+        "b_binding_experiment"
+      ],
+      "current_scientific_rubric": [
+        {
+          "id": "kp_binding_thermodynamics",
+          "max_score": 25,
+          "description": "Recover comparative, conformer-specific chloride association thermodynamics.",
+          "rule_ids": [
+            "r_binding_thermodynamics"
+          ]
+        }
+      ],
+      "needs_additional_verification": true,
+      "current_scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE"
+    },
+    {
+      "id": "kp_conformational_origin",
+      "scoring_rule_ids": [
+        "r_conformational_origin"
+      ],
+      "source_pages": [
+        {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/main.pdf",
+          "pdf_pages_1based": [
+            5,
+            7
+          ],
+          "figures": [
+            "Fig6"
+          ]
+        },
+        {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+          "pdf_pages_1based": [
+            60,
+            68,
+            69
+          ],
+          "figures": [
+            "FigsS52–S54"
+          ]
+        }
+      ],
+      "quantity": "C/D G(TS)−G(anti), source 17.9/2.2 kcal/mol at 193.15 K, with nearly degenerate free syn/anti minima. The A 31 kcal/mol constrained profile is supporting evidence only.",
+      "model": "Free-donor rotation for C (C18H4F8I2) and D (C14F8I2); no reactive substrate.",
+      "charge_states": {
+        "C_minima_and_TS": [
+          0,
+          1
+        ],
+        "D_minima_and_TS": [
+          0,
+          1
+        ],
+        "A_profile": [
+          0,
+          1
+        ]
+      },
+      "reference": "Corresponding anti minimum with its own 193.15 K thermal correction. Preserve source anchors; no calibrated C/D tolerance is available.",
+      "existing_evidence": {
+        "records": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/analysis/halogen_recomputed.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/analysis/progress_1110_D_endpoint.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/analysis/D_mode_audit.json"
+        ],
+        "snapshot_utc": "2026-10-12T12:38:14.804856+00:00",
+        "status": "PARTIAL",
+        "D_candidate_minus_old_anti_kcal_mol": 1.4991201335328286,
+        "D_candidate_minus_new_anti_like_endpoint_kcal_mol": 1.5894814978551326,
+        "D_residual_to_source_using_new_endpoint_kcal_mol": -0.6105185021448676,
+        "A_primary_kcal_mol": 29.99558036965,
+        "A_source_kcal_mol": 31,
+        "A_unchanged_diagnostic_tolerance_kcal_mol": 1,
+        "A_status": "MISMATCH",
+        "C_and_D_other_endpoint": "Incomplete in stored snapshot; do not infer current job state.",
+        "record_role": "Historical pre-acceptance snapshot, retained for provenance. Current completed evidence is in evaluation/current_verification_status.json and the latest dated verification reference."
+      },
+      "missing_evidence": [
+        "C valid torsional saddle/mode and two minima",
+        "D positive endpoint and verified syn/anti connection",
+        "Independent comparison qualification; no C/D tolerance exists"
+      ],
+      "prerequisites": [
+        "Read the saved completion and native records of already attempted C/D work before proposing a new calculation.",
+        "Confirm method comparability. Author TS coordinates and an IRC chain are not supplied in the checked SI.",
+        "Restrict any recovery to the published C/D rotation result."
+      ],
+      "can_compute_immediately": false,
+      "next_action": "Reuse 2026-10-14 acceptance; no current-scope QC gap. The independent 25-point magnitude criterion remains separately blocked.",
+      "native_success_markers": [
+        "One imaginary torsional mode of the correct first-order saddle.",
+        "Bidirectional connection to independently optimized source anti/syn minima.",
+        "Frequencies and thermal corrections for each required stationary point at 193.15 K.",
+        "Report the D residual without replacing it by 2.2; preserve the A mismatch without endpoint selection for agreement."
+      ],
+      "experimental_limit": "Actual preparation/cooling history and initial C populations are unknown. Do not infer fast rotation at 193 K from a small difference between minimum free energies.",
+      "method": {
+        "author_method": "Gaussian 16; M06-2X-D3/6-311+G(d,p) for non-I atoms, SDD(I), SMD18(THF); optimization/frequency and thermal corrections for each structure at 193.15 K.",
+        "method_source": {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+          "pdf_pages_1based": [
+            60,
+            66
+          ]
+        },
+        "method_qualification": "2026-10-14 source review supports SMD18 iodine radius 2.74 A and pressure inferred from source Cl thermochemistry; pressure is not an explicit author statement. Retain raw and 1 M conventions without fitting.",
+        "source_method_manifest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/author_method_manifest.json"
+      },
+      "author_computation_only": true,
+      "formal_tolerance_added": null,
+      "target_id": "kp_conformational_origin",
+      "expected": "A/B are distinct prepared axial isomers; C/D have nearly degenerate free minima but different calculated rotation barriers. Main Fig.6 reports C anti→syn TS 17.9 and D 2.2 kcal/mol above anti at 193 K. Assess preorganization and accessibility consistently with temperature and preparation history; small minimum-energy differences do not imply fast C equilibration at 193 K. Quantitative kinetic claims require a valid saddle/mode and connection. These C/D source anchors have no calibrated numeric tolerance. A source estimate 31 kcal/mol is a constrained-profile supporting diagnostic, not an obligatory unconstrained TS; retain its historical 29.99558036965 versus 31±1 mismatch.",
+      "kind": "key_point",
+      "source_evidence_ids": [
+        "b_conformations",
+        "b_scan",
+        "b_binding"
+      ],
+      "current_scientific_rubric": [
+        {
+          "id": "kp_conformational_origin",
+          "max_score": 20,
+          "description": "Recover preorganization and the different accessibility of source conformers.",
+          "rule_ids": [
+            "r_conformational_origin"
+          ]
+        }
+      ],
+      "needs_additional_verification": true,
+      "current_scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE"
+    },
+    {
+      "id": "kp_electronic_origin",
+      "scoring_rule_ids": [
+        "r_electronic_origin"
+      ],
+      "source_pages": [
+        {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/main.pdf",
+          "pdf_pages_1based": [
+            7
+          ],
+          "figures": [
+            "Fig7"
+          ]
+        },
+        {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+          "pdf_pages_1based": [
+            60,
+            61,
+            62
+          ],
+          "figures": [
+            "FigS48"
+          ]
+        }
+      ],
+      "quantity": "Iodine ESP maxima A/B/C/D/E = 128/114/108/125/117 kJ/mol on the 0.0004 au electron-density surface; local positive σ-hole interaction.",
+      "model": "Source free A, B, C-syn, D-syn and E geometries and wavefunctions.",
+      "charge_states": {
+        "free_donors": [
+          0,
+          1
+        ]
+      },
+      "reference": "Matched density surface/potential zero and local maxima definition; population charges are distinct quantities.",
+      "existing_evidence": {
+        "records": [
+          {
+            "case": "1a_syn",
+            "source_kJ_mol": 128,
+            "reused_result": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1a_syn_ESP_surface/surface_result.json",
+            "result_sha256": "20c0dc68d94988af23e4dac902c290c6ffaa01e9cb7eb6e5db2b68a1b6538f48",
+            "native_completion_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1a_syn_ESP_surface/surface.stdout",
+            "native_completion_sha256": "ad1b01227e5b31016041fd6937eac4e033c6e5349009535a153db6fa4e6901c0",
+            "source_checkpoint_hash_verified": true,
+            "fine_grid_caps": [
+              {
+                "I_index_1based": 23,
+                "bonded_C_index_1based": 3,
+                "cone_half_angle_deg": 35,
+                "point_count": 317,
+                "Vmax_au": 0.04925139117640199,
+                "Vmax_kJ_mol_positive_unit_charge": 129.30950977752696,
+                "position_A": [
+                  -1.593434907514254,
+                  -4.298368898090234,
+                  -0.4739771485020756
+                ],
+                "radius_from_I_A": 2.3695152715960193
+              },
+              {
+                "I_index_1based": 28,
+                "bonded_C_index_1based": 18,
+                "cone_half_angle_deg": 35,
+                "point_count": 314,
+                "Vmax_au": 0.04924446809897576,
+                "Vmax_kJ_mol_positive_unit_charge": 129.29133324024028,
+                "position_A": [
+                  1.593113358180636,
+                  -4.298368898090234,
+                  -0.4739771485020756
+                ],
+                "radius_from_I_A": 2.3696516846902322
+              }
+            ],
+            "density_au": 0.0004,
+            "definition": "Linear interpolation of cube edges crossing rho=.0004 au; potential interpolated on the same edge. Max within35/55deg cones outward along nearest C-I bond,1.5-4.8A fromI. Both iodines retained. Numerical sampling, not guaranteed continuous-surface maximum.",
+            "formal_tolerance": null,
+            "qualification": "Positive matched-density sigma holes from completed native wavefunction/cube analysis; finite-grid sensitivity is not total theoretical error."
+          },
+          {
+            "case": "1a_anti",
+            "source_kJ_mol": 114,
+            "reused_result": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1a_anti_ESP_surface/surface_result.json",
+            "result_sha256": "2c882dc1a829ed1601484d175e78de1e6f4be84140fda35e68945aca1ed10751",
+            "native_completion_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1a_anti_ESP_surface/surface.stdout",
+            "native_completion_sha256": "ad1b01227e5b31016041fd6937eac4e033c6e5349009535a153db6fa4e6901c0",
+            "source_checkpoint_hash_verified": true,
+            "fine_grid_caps": [
+              {
+                "I_index_1based": 23,
+                "bonded_C_index_1based": 3,
+                "cone_half_angle_deg": 35,
+                "point_count": 282,
+                "Vmax_au": 0.043957497928312064,
+                "Vmax_kJ_mol_positive_unit_charge": 115.41039496322178,
+                "position_A": [
+                  2.8087630957904652,
+                  -4.666527854810618,
+                  0.5907909011000684
+                ],
+                "radius_from_I_A": 2.36935952755476
+              },
+              {
+                "I_index_1based": 28,
+                "bonded_C_index_1based": 18,
+                "cone_half_angle_deg": 35,
+                "point_count": 287,
+                "Vmax_au": 0.044185110526789736,
+                "Vmax_kJ_mol_positive_unit_charge": 116.00799175846599,
+                "position_A": [
+                  -2.945364585431788,
+                  4.706186194976371,
+                  -0.4892100436951295
+                ],
+                "radius_from_I_A": 2.3636174419225746
+              }
+            ],
+            "density_au": 0.0004,
+            "definition": "Linear interpolation of cube edges crossing rho=.0004 au; potential interpolated on the same edge. Max within35/55deg cones outward along nearest C-I bond,1.5-4.8A fromI. Both iodines retained. Numerical sampling, not guaranteed continuous-surface maximum.",
+            "formal_tolerance": null,
+            "qualification": "Positive matched-density sigma holes from completed native wavefunction/cube analysis; finite-grid sensitivity is not total theoretical error."
+          },
+          {
+            "case": "1b_syn",
+            "source_kJ_mol": 108,
+            "reused_result": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1b_syn_ESP_surface/surface_result.json",
+            "result_sha256": "151ba04df8ee8240c0148fb5dddc27a10d41adfef594a1e3f2d266569e4dbbdd",
+            "native_completion_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1b_syn_ESP_surface/surface.stdout",
+            "native_completion_sha256": "ad1b01227e5b31016041fd6937eac4e033c6e5349009535a153db6fa4e6901c0",
+            "source_checkpoint_hash_verified": true,
+            "fine_grid_caps": [
+              {
+                "I_index_1based": 23,
+                "bonded_C_index_1based": 3,
+                "cone_half_angle_deg": 35,
+                "point_count": 320,
+                "Vmax_au": 0.041607149180840144,
+                "Vmax_kJ_mol_positive_unit_charge": 109.23955517408221,
+                "position_A": [
+                  -1.5444026316659833,
+                  -4.207168380854368,
+                  -0.322335118931749
+                ],
+                "radius_from_I_A": 2.378948139635606
+              },
+              {
+                "I_index_1based": 24,
+                "bonded_C_index_1based": 18,
+                "cone_half_angle_deg": 35,
+                "point_count": 313,
+                "Vmax_au": 0.04179713801339679,
+                "Vmax_kJ_mol_positive_unit_charge": 109.7383707854649,
+                "position_A": [
+                  1.534128617782125,
+                  -4.207168380854368,
+                  0.08384442482710408
+                ],
+                "radius_from_I_A": 2.3826764358075447
+              }
+            ],
+            "density_au": 0.0004,
+            "definition": "Linear interpolation of cube edges crossing rho=.0004 au; potential interpolated on the same edge. Max within35/55deg cones outward along nearest C-I bond,1.5-4.8A fromI. Both iodines retained. Numerical sampling, not guaranteed continuous-surface maximum.",
+            "formal_tolerance": null,
+            "qualification": "Positive matched-density sigma holes from completed native wavefunction/cube analysis; finite-grid sensitivity is not total theoretical error."
+          },
+          {
+            "case": "1c_syn",
+            "source_kJ_mol": 125,
+            "reused_result": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1c_syn_ESP_surface/surface_result.json",
+            "result_sha256": "382621641e9136906e4d331f5e1a7cb0f1fa01c35d164702baa6c6c5a21b4a5a",
+            "native_completion_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1c_syn_ESP_surface/surface.stdout",
+            "native_completion_sha256": "ad1b01227e5b31016041fd6937eac4e033c6e5349009535a153db6fa4e6901c0",
+            "source_checkpoint_hash_verified": true,
+            "fine_grid_caps": [
+              {
+                "I_index_1based": 17,
+                "bonded_C_index_1based": 5,
+                "cone_half_angle_deg": 35,
+                "point_count": 323,
+                "Vmax_au": 0.048220603659732054,
+                "Vmax_kJ_mol_positive_unit_charge": 126.60317752412965,
+                "position_A": [
+                  -1.166036163275441,
+                  -4.296134362739398,
+                  -0.22832144530226253
+                ],
+                "radius_from_I_A": 2.384970359684047
+              },
+              {
+                "I_index_1based": 24,
+                "bonded_C_index_1based": 10,
+                "cone_half_angle_deg": 35,
+                "point_count": 322,
+                "Vmax_au": 0.04810880455600461,
+                "Vmax_kJ_mol_positive_unit_charge": 126.30964901759907,
+                "position_A": [
+                  1.1739658837808222,
+                  -4.2945542019632175,
+                  0.3116790270953364
+                ],
+                "radius_from_I_A": 2.384885755375982
+              }
+            ],
+            "density_au": 0.0004,
+            "definition": "Linear interpolation of cube edges crossing rho=.0004 au; potential interpolated on the same edge. Max within35/55deg cones outward along nearest C-I bond,1.5-4.8A fromI. Both iodines retained. Numerical sampling, not guaranteed continuous-surface maximum.",
+            "formal_tolerance": null,
+            "qualification": "Positive matched-density sigma holes from completed native wavefunction/cube analysis; finite-grid sensitivity is not total theoretical error."
+          },
+          {
+            "case": "1d",
+            "source_kJ_mol": 117,
+            "reused_result": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1d_ESP_surface/surface_result.json",
+            "result_sha256": "12a424e9ef313245dedf81da5bdc940f49ccdac374e0fd07777352f878b8260c",
+            "native_completion_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_4/paper_2a71ffa4b0a90809/small_molecules_20261010T231612Z_g03/outputs/1d_ESP_surface/surface.stdout",
+            "native_completion_sha256": "ad1b01227e5b31016041fd6937eac4e033c6e5349009535a153db6fa4e6901c0",
+            "source_checkpoint_hash_verified": true,
+            "fine_grid_caps": [
+              {
+                "I_index_1based": 15,
+                "bonded_C_index_1based": 5,
+                "cone_half_angle_deg": 35,
+                "point_count": 352,
+                "Vmax_au": 0.04523067907559243,
+                "Vmax_kJ_mol_positive_unit_charge": 118.75313160639898,
+                "position_A": [
+                  0.12499377392413166,
+                  -3.582050304622825,
+                  -2.965938252618455
+                ],
+                "radius_from_I_A": 2.367444356723455
+              },
+              {
+                "I_index_1based": 20,
+                "bonded_C_index_1based": 8,
+                "cone_half_angle_deg": 35,
+                "point_count": 350,
+                "Vmax_au": 0.04511072671848188,
+                "Vmax_kJ_mol_positive_unit_charge": 118.43819673605047,
+                "position_A": [
+                  -0.055006383541734025,
+                  3.621993570137959,
+                  -2.965938252618455
+                ],
+                "radius_from_I_A": 2.3678831442765413
+              }
+            ],
+            "density_au": 0.0004,
+            "definition": "Linear interpolation of cube edges crossing rho=.0004 au; potential interpolated on the same edge. Max within35/55deg cones outward along nearest C-I bond,1.5-4.8A fromI. Both iodines retained. Numerical sampling, not guaranteed continuous-surface maximum.",
+            "formal_tolerance": null,
+            "qualification": "Positive matched-density sigma holes from completed native wavefunction/cube analysis; finite-grid sensitivity is not total theoretical error."
+          }
+        ],
+        "status": "SUPPORTED_LOCAL_FINITE_GRID",
+        "record_role": "Historical pre-acceptance snapshot, retained for provenance. Current completed evidence is in evaluation/current_verification_status.json and the latest dated verification reference."
+      },
+      "missing_evidence": [
+        "Qualification of finite-grid/local-cone maxima against the source surface definition if a numerical magnitude comparison is claimed."
+      ],
+      "prerequisites": [
+        "Reuse the five existing fchk/wavefunction records; removing public hints does not require new SCF calculations."
+      ],
+      "can_compute_immediately": false,
+      "next_action": "Reuse 2026-10-14 acceptance; no current-scope QC gap. The independent 25-point magnitude criterion remains separately blocked.",
+      "native_success_markers": [
+        "Traceable fchk/native hashes at the corresponding geometry and method.",
+        "Documented 0.0004 au density surface and iodine site attribution.",
+        "Grid sensitivity retained; no invented universal ESP tolerance."
+      ],
+      "method": {
+        "author_method": "Gaussian 16; M06-2X-D3/6-311+G(d,p) for non-I atoms, SDD(I), SMD18(THF); optimization/frequency and thermal corrections for each structure at 193.15 K.",
+        "method_source": {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+          "pdf_pages_1based": [
+            60,
+            66
+          ]
+        },
+        "method_qualification": "2026-10-14 source review supports SMD18 iodine radius 2.74 A and pressure inferred from source Cl thermochemistry; pressure is not an explicit author statement. Retain raw and 1 M conventions without fitting.",
+        "source_method_manifest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/author_method_manifest.json"
+      },
+      "author_computation_only": true,
+      "formal_tolerance_added": null,
+      "target_id": "kp_electronic_origin",
+      "expected": "Computed electronic evidence supports positive iodine σ-hole interactions and framework-dependent polarization. Source Fig.7 I potential maxima A/B/C/D/E are 128/114/108/125/117 kJ/mol at electron density 0.0004 au. Compare matched definitions if using those values; other physically defined analyses may establish the same local electronic finding. No universal ESP or population-charge tolerance is supplied. This row scores the local electronic result; its cross-series explanatory sufficiency belongs only to c_activity.",
+      "kind": "key_point",
+      "source_evidence_ids": [
+        "b_electronic",
+        "b_binding"
+      ],
+      "current_scientific_rubric": [
+        {
+          "id": "kp_electronic_origin",
+          "max_score": 15,
+          "description": "Recover the electronic origin of the local interaction.",
+          "rule_ids": [
+            "r_electronic_origin"
+          ]
+        }
+      ],
+      "needs_additional_verification": true,
+      "current_scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE"
+    },
+    {
+      "id": "c_activity",
+      "scoring_rule_ids": [
+        "r_final"
+      ],
+      "source_pages": [
+        {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/main.pdf",
+          "pdf_pages_1based": [
+            5,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "figures": [
+            "Fig5a",
+            "Figs9–13",
+            "Conclusions"
+          ]
+        }
+      ],
+      "quantity": "Relation between author-supported molecular results and the principal time–yield contrasts across the catalyst series; no new reaction-barrier target.",
+      "model": "A–E in the supplied reaction. Author-computed free-donor/chloride-complex models support the bounded explanatory relationship.",
+      "charge_states": "Inherited from the local molecular evidence; no mandated new active-state model.",
+      "reference": "Measured time–yield table and author-computed binding, structural and electronic findings. Source ML is interpretive, not proof of a causal rate law.",
+      "existing_evidence": {
+        "records": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/analysis/halogen_recomputed.json"
+        ],
+        "scope": "Use only binding/ESP/rotation components; reactive_endpoints and reactive_energies are excluded from gold.",
+        "status": "JOINT_INTERPRETATION_REVIEW_NEEDED",
+        "record_role": "Historical pre-acceptance snapshot, retained for provenance. Current completed evidence is in evaluation/current_verification_status.json and the latest dated verification reference."
+      },
+      "missing_evidence": [
+        "Source-bound joint interpretation using certified local findings; calibrated affinity and conformational gaps still affect whole-task release"
+      ],
+      "prerequisites": [
+        "Score local physical findings once; require a distinct cross-series explanatory relationship in the final row.",
+        "No mandatory Mannich TS, QT reactive ion-pair network, Mayr parameter reproduction or new reference absent from the author calculations."
+      ],
+      "can_compute_immediately": false,
+      "next_action": "Reuse 2026-10-14 acceptance; no current-scope QC gap. The independent 25-point magnitude criterion remains separately blocked.",
+      "native_success_markers": [
+        "Every computed contrast resolves to original local native evidence.",
+        "A discriminating cross-series inference connects molecular results to experiment; a list of properties is insufficient.",
+        "Interpret yields at their actual times, acknowledging absent replicate uncertainties and crossings in the reported trends."
+      ],
+      "method": {
+        "author_method": "Gaussian 16; M06-2X-D3/6-311+G(d,p) for non-I atoms, SDD(I), SMD18(THF); optimization/frequency and thermal corrections for each structure at 193.15 K.",
+        "method_source": {
+          "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+          "pdf_pages_1based": [
+            60,
+            66
+          ]
+        },
+        "method_qualification": "2026-10-14 source review supports SMD18 iodine radius 2.74 A and pressure inferred from source Cl thermochemistry; pressure is not an explicit author statement. Retain raw and 1 M conventions without fitting.",
+        "source_method_manifest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_2a71ffa4b0a90809/selected29_20261012T053104Z_group_01/author_method_manifest.json"
+      },
+      "author_computation_only": true,
+      "formal_tolerance_added": null,
+      "target_id": "c_activity",
+      "expected": "Recover the source-supported structure–activity explanation within A–E using computed molecular evidence. Accessible two-point chloride-binding geometries and favorable affinity jointly explain the strong A/B contrast and the stronger performance of A and D compared with the weak B/E improvement over background. Use C and the weaker donors to test the sufficiency of a single isolated descriptor: for example, the source I-potential order alone cannot account for C relative to B/E. Show the quantitative/comparative link between model results and principal time–yield contrasts, not just a list of correctly calculated local properties. Respect C/E time-point crossings, background product formation, absent replicate errors and unresolved low-temperature populations. The conclusion is a bounded explanatory relationship, not a proved full cycle, unique rate law or series-external prediction. Scheme 3 is an author proposal; neither its real reactive ion pairs nor a C–C-forming TS is a required computed target. Formal magnitude recovery remains reserved to the blocked affinity row; final-row interpretation cannot certify that blocked numerical result.",
+      "kind": "conclusion",
+      "source_evidence_ids": [
+        "b_experiment",
+        "b_binding",
+        "b_conformations",
+        "b_electronic",
+        "b_series"
+      ],
+      "current_scientific_rubric": [
+        {
+          "id": "c_activity",
+          "max_score": 20,
+          "description": "Establish a quantitatively supported explanation that discriminates the principal contrasts across the catalyst series; do not repeat local-result credit.",
+          "rule_ids": [
+            "r_final"
+          ]
+        }
+      ],
+      "needs_additional_verification": true,
+      "current_scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE"
+    }
+  ],
+  "reference_qualification": "NUMERICAL_CALIBRATION_BLOCKED",
+  "release_ready": false,
+  "current_result_accounting": "Score local physical findings once in the four key-point rows. The final row assesses the distinct cross-catalyst explanatory relationship: which computed differences discriminate the measured activity contrasts and why an individual local property fails. Repeating a local property, listing descriptors or reciting supplied yields earns no final-row credit. No independent reaction-network or C–C transition-state calculation is required. No process, format or limitation-only points are scientific results.",
+  "new_jobs_submitted": 0,
+  "source_documents": [
+    {
+      "path": "papers/paper_2a71ffa4b0a90809/documents/main.pdf",
+      "sha256": "bf8b3f3276122bf5caee8323a573bfd88a61cf8e3d232b30d9f7255b2b8fbe1a"
+    },
+    {
+      "path": "papers/paper_2a71ffa4b0a90809/documents/supplementary_001.pdf",
+      "sha256": "f8c0d80e33b5a1ad3865fbb4f988881029b4af80e3b3388072f1daf7fab65975"
+    }
+  ],
+  "verification_delta": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/small_molecules_autonomous_research/verification_dispatch/core_question_upgrade_20261012T190159Z/papers/paper_2a71ffa4b0a90809/verification_delta.json",
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "Current bounded scientific coverage is accepted. Exact-source, scoring and release qualifications remain separate; this does not certify every result in the paper."
+}

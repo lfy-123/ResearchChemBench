@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_f2a9e1bc87fc9b54",
+  "items": [
+    {
+      "statement": "Base-induced N–H transfer and H2 formation",
+      "expected": "Actual structures and reaction-connectivity evidence support base-induced removal of the N–H hydrogen of 3-nitropyrrole and formation of H2, preserving the β-nitropyrrole identity and balancing atoms/charges. The authors' hydride-contact model TS1 is a reference; chemically equivalent representations are allowed, and source coordinates or a fixed search method are not mandatory. Merely writing a deprotonation label or providing an unvalidated TS earns no credit.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "base_hydrogen_transfer",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "The deprotonated nitrogen-containing intermediate connects to the subsequent reaction",
+      "expected": "Valid calculations support the deprotonated nitrogen-containing pyrrole state and its corresponding stabilization, maintaining a mapping of the same anionic skeleton to the precursor for subsequent propargylation. The authors' S2/H2 contact state at approximately −25.5 kcal/mol relative to the initial state is context; the same contact partner/conformation is not mandatory. An actual intermediate state and connectivity relationships must be obtained; two mutually unbalanced models cannot be spliced together.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "activated_n_intermediate",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Substitution event involving N–C formation and C–Br cleavage",
+      "expected": "Actual reaction structures, vibrational modes and appropriate connectivity evidence support bond formation between pyrrole N and the propargylic carbon and C–Br cleavage, retaining the terminal alkyne and β-nitro position. The SN2 channel of the authors' TS2 is a reference. Author labels or a full IRC are not mandatory, but merely calculating a nonreactive imaginary frequency or a product with incorrect substitution positions earns no credit.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "n_c_bond_formation",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "Balanced net product formation has an exergonic trend",
+      "expected": "Compatible energy definitions and complete material/charge accounting yield a calculated substantially exergonic trend for net formation of the N-propargyl product. The authors' G of approximately −45.5 kcal/mol is reference context, with no hidden exact window. Do not omit H2/reagents/Br or derive ΔG directly from the yield.",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "net_exergonicity",
+      "key_point_type": "result"
+    }
+  ]
+}

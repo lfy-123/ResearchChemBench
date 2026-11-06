@@ -1,0 +1,122 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "scoring_policy": "paper_science_v3",
+  "evaluation_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "reference_stage": "V3_EVIDENCE_REUSE_REVIEW_NO_NEW_COMPUTATION",
+  "scoring_notes": "Same free neutral singlet ligand and local molecular-versus-crystal structure question; no Re, biological, global conformer or lattice scope. Six final cis-basin bond properties retain their original targets and ±0.01 A windows. Public same-side candidate identity makes the pre-existing reference basin explicit without disclosing its stability or crystal orientation. No separate optimization-completion points.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_local_core_correspondence",
+      "reference_id": "local_core_correspondence",
+      "type": "semantic",
+      "expected": "Determine what the selected full neutral-singlet C15H13N3 isolated-molecule candidate establishes about the local bonding framework relative to the supplied crystal. Use the actual mapped C1-C2, C2-C3, N1-C1, N2-C2, N3-C3 and C1-C10 lengths, their signed residuals and a clearly defined aggregate statistic. The reference exhibits mixed small absolute residuals consistent with retained local bonding/connectivity, but not statistical equality to the crystal. Explain the physical residual pattern without matching six author lengths or a fixed RMSE. Experimental marginal ESDs, central-value rounding, missing covariance and molecular-model error are different quantities. An evidence-supported model-sensitive structural account can pass, including a documented failure of the selected cis-like candidate to remain locally stable, provided the actual local structure, mapped bonds and limits of the requested comparison are established. Do not silently substitute a different candidate, copy the crystal or treat a constrained structure as a free minimum. No global search or mandatory trans optimization is introduced.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_orientation_contrast",
+      "reference_id": "orientation_contrast",
+      "type": "semantic",
+      "expected": "Establish from mapped coordinates that the valid same-side N1/N2 local molecular structure is cis-like while the supplied crystal is trans-like. Define the N1–C1–C2–N2 torsion or an equivalent invariant and account for sign/reflection conventions. Native stationary-state/curvature evidence qualifies the molecular structure and earns no separate points. Copying the crystal or holding a torsion fixed cannot establish a free local structure. A scientifically established equivalent structural account passes; do not assert that this local cis basin is the global minimum. If the selected same-side candidate instead relaxes to a different orientation or has an established instability under a justified molecular model, a correctly mapped, evidence-supported conclusion that this model does not retain that cis basin can pass. Quantify the actual orientation and compare it with the crystal, explicitly distinguishing that outcome from the source cis local minimum; no alternate candidate may be silently substituted.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_phase_model_interpretation",
+      "reference_id": "phase_model_interpretation",
+      "type": "semantic",
+      "expected": "Explain whether the observed bond and orientation comparisons distinguish local structure, global molecular conformer stability and crystal-phase selection. Local cis geometry and small bond residuals do not establish a global gas minimum or exclusive packing causation. An isolated molecule omits lattice interactions; the comparison supports a phase/model dependence limitation without identifying crystal populations or lattice free energies. Ground this in the actual molecular and crystal evidence rather than a generic disclaimer. The existing trans control is evidence against a global-cis claim, not a mandatory second calculation or an additional scored target. No Re-complex or antimicrobial conclusions follow.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "local_core_correspondence",
+      "kind": "conclusion",
+      "max_score": 35,
+      "description": "Local bonding framework inferred from the six mapped bonds",
+      "rule_ids": [
+        "r_local_core_correspondence"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "native_ligand_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "orientation_contrast",
+      "kind": "conclusion",
+      "max_score": 35,
+      "description": "Molecular-to-crystal pyridyl orientation comparison",
+      "rule_ids": [
+        "r_orientation_contrast"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "native_ligand_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "phase_model_interpretation",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "What the molecular/crystal comparison can identify",
+      "rule_ids": [
+        "r_phase_model_interpretation"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "native_ligand_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

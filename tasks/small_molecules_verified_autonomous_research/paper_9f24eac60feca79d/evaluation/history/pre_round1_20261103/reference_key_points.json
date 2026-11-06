@@ -1,0 +1,99 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "current_scoring_authority": "Only scoring_rules.json awards points. Supporting evidence carries no independent points or numerical matching requirement. Historical items below are archived provenance, never active criteria.",
+  "items": [
+    {
+      "key_point_id": "support_cycloaddition_formation",
+      "key_point_type": "scientific_evidence",
+      "statement": "Electronic and activation explanation of thermal bicyclic formation",
+      "expected": "Explain how the full supplied enamine can reach the crossed azabicyclo[2.1.1]hexane connectivity thermally, using actual bonding, electronic-state and connected-route free-energy evidence. The reference explanation is initial C-C formation through an aryl-stabilized open-shell singlet diradical, followed by accessible reorganization and closure; these later events do not introduce a larger bottleneck in that supported route. Determine and interpret the overall activation demand from the starting enamine at 298.15 K, 1 M in toluene, including consequential reorganization; a closure-local barrier or product energy is not the overall barrier. An independently established physically equivalent account can pass without the author sequence or labels. Distinguish broken symmetry from a spin-pure state, and a demonstrated unstable restricted solution from a stable physical route. Neither an isolated saddle, a product drawing nor a claim that an ordinary concerted closed-shell thermal [2+2] is allowed suffices without supporting electronic and connectivity evidence. Source 31.0 kcal/mol is historical context, not a target. This item addresses the formation chemistry and activation of the bicyclic family, not its ranking against imine formation.",
+      "evidence_ids": [
+        "e_profile",
+        "e_method",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_imine_formation",
+      "key_point_type": "scientific_evidence",
+      "statement": "Formation chemistry and activation of the competing imine family",
+      "expected": "Establish a chemically connected imine-forming account for the same full starting enamine, identify the mapped imine product connectivity and electronic-state/bond rearrangement, and explain its activation demand from actual calculations. The reference is a closed-shell trans-imine aza-Claisen route; justify the lowest supported imine route among relevant alternatives without requiring the author's candidate list or labels. Give the overall free-energy height from the starting enamine using the same 298.15 K, 1 M toluene reference and inventory. An alternative physically supported imine-forming mechanism may pass when its states, atom mapping and activation interpretation are established. An arbitrary local barrier, a cycloaddition intermediate energy, an isolated product or an unsupported lowest-path claim fails. Source 37.1 kcal/mol is historical context, not a target. This item concerns how the imine family can form; the relative preference between product families is assessed separately.",
+      "evidence_ids": [
+        "e_profile",
+        "e_method",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_product_competition_interpretation",
+      "key_point_type": "scientific_evidence",
+      "statement": "Kinetic competition between the bicyclic and imine product families",
+      "expected": "Explain why the supported thermal competition favors the bicyclic family over imine formation using actual competing-route free energies under a common starting-state reference, composition and conditions. Relate the relative activation demands to the observed reaction class; endpoint stability alone cannot establish the kinetic preference. The source overall barriers differ by about 6.1 kcal/mol, but neither that gap nor either absolute barrier is a matching target. The inference requires credible route/state evidence, not two copied scalars, and is independent of reproducing the source's mechanistic explanation in the other items. A demonstrably equivalent explanation of the same bounded product competition passes. A model-dependent alternative must resolve its differing kinetic inference with actual comparable evidence and scope, not merely invoke another method. Do not assert an exact 80 C yield, transfer the N-(4-chlorophenyl) control quantitatively to this N-phenyl model, or claim an exhaustive global search from finite candidates.",
+      "evidence_ids": [
+        "e_profile",
+        "e_method",
+        "V3_EXISTING_NATIVE_EVIDENCE"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "statement": "环加成整体自由能势垒",
+      "expected": "完整指定烯胺、298.15 K、1 M甲苯边界下，以同一起始烯胺为零点的已连接跨式环加成路线最高必要自由能高度为31.0 kcal/mol，允许绝对差≤2.0 kcal/mol。对象、电子态和成键身份须有实际证据；不能拿闭环局部势垒或另一底物代替。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_REPRODUCED",
+      "key_point_id": "kp_cycloaddition_barrier",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "最低竞争亚胺通道自由能势垒",
+      "expected": "完整指定烯胺、同一起始零点和298.15 K、1 M甲苯定义下，最低已验证亚胺形成通道的总体高度为37.1 kcal/mol，允许绝对差≤2.0 kcal/mol。作者参考为闭壳层trans-imine连接的aza-Claisen通道；不得沿用环加成OSS态或以其中间体为零点。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_REPRODUCED",
+      "key_point_id": "kp_imine_barrier",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "两类竞争的电子态区别",
+      "expected": "实际电子态和可比计算证据支持较低跨式环加成首步为开壳层单重态双自由基路线，相关受限闭壳层和三重态初始比较更高；最低亚胺通道为闭壳层。须区分破缺对称态与自旋纯态；受限CSS具有R→U不稳定时不能宣称其为已稳定的可行路线。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_REPRODUCED",
+      "key_point_id": "electronic_state",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    },
+    {
+      "statement": "首步—转动—闭环的连续可达性",
+      "expected": "实际成键、驻点及连接证据将起始烯胺、双自由基、可到达闭环构象和正确双环产物相连；必要构象转动与闭环不引入高于首步控制高度的新瓶颈。不能只排列孤立节点。接受与主张相称的作者几何核验、IRC/端点或连续分支证据，不强制全局穷尽。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "verification_status": "RESULTS_REPRODUCED",
+      "key_point_id": "connected_path",
+      "key_point_type": "result",
+      "scored": false,
+      "role": "Non-scoring source-route evidence; no author node or process is mandatory."
+    }
+  ]
+}

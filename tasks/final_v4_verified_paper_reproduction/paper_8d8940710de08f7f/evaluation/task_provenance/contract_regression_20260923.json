@@ -1,0 +1,130 @@
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_8d8940710de08f7f",
+  "mode": "paper_reproduction",
+  "source": "runs/hold_verification/group_5/closure_20260918/paper_8d8940710de08f7f/report/results.json",
+  "mapping": [],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "wrong_or_duplicate_main_identity_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_pr_energy_sn",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [
+    {
+      "rule": "r_pr_energy_sn",
+      "observed": [
+        2.63812512979542,
+        2.763388571059993
+      ],
+      "target": 2.57,
+      "tolerance": 0.8,
+      "passed": true
+    }
+  ],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 12,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": [],
+  "followup_definition_checks": [
+    {
+      "check": "actual_historical_result_valid",
+      "passed": true
+    },
+    {
+      "check": "torsion_required_not_optional",
+      "passed": true
+    },
+    {
+      "check": "early_failure_still_valid",
+      "passed": true
+    }
+  ],
+  "followup_boundary": "Historical scientific values preserved. New checks are schema/candidate-separation/measurement-definition checks, not a new quantum run or LLM judge validation. Different records with the same physical mode still need semantic/evidence checking."
+}

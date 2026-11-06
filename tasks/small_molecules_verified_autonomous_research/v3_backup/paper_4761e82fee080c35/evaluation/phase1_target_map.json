@@ -1,0 +1,301 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How can the supplied phosphoryl-substituted 1,4-dihydropyridine donor be activated under blue light with PC2, and how does activation change its ability to transfer a phosphoryl group to an alcohol?",
+  "active_rule_ids": [
+    "r_local_activation_model",
+    "r_reactivity_change"
+  ],
+  "current_outcome_ids": [
+    "local_activation_model",
+    "reactivity_change"
+  ],
+  "historical_record": {
+    "paper_id": "paper_4761e82fee080c35",
+    "scoring_policy": "paper_science_v3",
+    "status": "ITEMWISE_EVIDENCE_REUSE_REVIEW",
+    "current_scope_verified": false,
+    "release_ready": false,
+    "formal_scoring_permitted": true,
+    "active_rule_ids": [
+      "r_local_activation_model",
+      "r_reactivity_change"
+    ],
+    "current_coverage": "evaluation/final_result_coverage.json",
+    "historical_context_usage": "The record below preserves prior source/native interpretation and old contracts only. Its status flags, rules and required job inventories are inactive; no historical PASS transfers to V3.",
+    "historical_supporting_record": {
+      "paper_id": "paper_4761e82fee080c35",
+      "scope_version": "core_question_upgrade_20261012T190159Z.donor_activation.v1",
+      "phase": "approved_core_question_implementation",
+      "scope_status": "CURRENT_DONOR_ACTIVATION_SCOPE_VERIFIED",
+      "scientific_question": "Why can the supplied cyclic phosphoryl donor participate in the reported light-driven phosphorylation conditions? Develop and test a molecular explanation for how activation changes the donor’s reactivity, using the supplied donor identity, reaction components and experimental observations. Choose the molecular states, hypotheses and quantitative evidence yourself. Determine which aspects of activation are supported and which remain uncertain. The question concerns donor activation; a complete account of product formation or catalyst turnover is outside its scope.",
+      "scoring_policy": "paper_science_v3",
+      "targets": [
+        {
+          "id": "kp_bond_strength_donor",
+          "scoring_rule_ids": [
+            "r_BDE1"
+          ],
+          "author_source": {
+            "path": "papers/paper_4761e82fee080c35/documents/supplementary_002.pdf",
+            "readable_copy": "tasks/small_molecules_autonomous_research/verification_dispatch/core_question_design_20261012T171955Z/papers/paper_4761e82fee080c35/sources/supplementary_002.pdf",
+            "sha256": "9b77c63b6c896738a34d85a8432484a4a7dca26b8f011580e64a83c03dd54064",
+            "locator": "PDF p9 §§6–7; coordinates pp10–15"
+          },
+          "physical_quantity": {
+            "definition": "H(3)+H(H)-H(1)",
+            "kind": "homolytic_bond_dissociation_enthalpy",
+            "bond": "donor ring-C4-H",
+            "target": 76.1,
+            "unit": "kcal/mol",
+            "original_tolerance": 2.0
+          },
+          "method": {
+            "software": "Gaussian16 C.02",
+            "functional": "B3LYP",
+            "basis": "6-31+G(d,p), all atoms",
+            "solvent": "PCM MeCN, epsilon=35.6880",
+            "temperature_K": 298.15,
+            "thermal_pressure": "1 atm",
+            "thermal_model": "Unscaled harmonic/ideal-gas thermochemistry as reported; no separate single-point level or dispersion correction reported.",
+            "source": "supplementary_002.pdf physical p9 sections6-7; coordinates pp10-15"
+          },
+          "models": {
+            "1": {
+              "identity": "Supplied dihydropyridine-N-phosphoramide",
+              "formula": "C23H24NO7P",
+              "charge": 0,
+              "multiplicity": 1
+            },
+            "3": {
+              "identity": "Donor after homolytic loss of one ring-C4 hydrogen",
+              "formula": "C23H23NO7P",
+              "charge": 0,
+              "multiplicity": 2
+            },
+            "H": {
+              "identity": "Hydrogen atom",
+              "formula": "H",
+              "charge": 0,
+              "multiplicity": 2
+            }
+          },
+          "reference": {
+            "H_atom_E_Eh": -0.500281367741,
+            "H_atom_H_Eh": -0.4979209055718893,
+            "convention": "Same-method PCM MeCN electronic H plus monatomic ideal-gas enthalpy5RT/2 at298.15K; author numerical H reference omitted."
+          },
+          "existing_evidence": {
+            "value": 74.81362128081969,
+            "difference": -1.2863787191803056,
+            "native_ids": [
+              "1",
+              "3",
+              "H"
+            ],
+            "index": "docs/verification/small_molecules_autonomous_research/paper_4761e82fee080c35/selected29_20261012T053104Z_group_06/independent_recomputed_evidence.json",
+            "status": "LOCAL_VALUE_WITHIN_ORIGINAL_TOLERANCE"
+          },
+          "missing_evidence": "No missing computation for the accepted current bounded result; retained source/scoring limits are separate.",
+          "prerequisites": "Current bounded evidence review completed; retain its physical definitions and limitations.",
+          "can_compute_immediately": false,
+          "next_action": "Reuse the accepted native evidence in the current status record; no new QC is required.",
+          "native_success_markers": [
+            "Correct full formula, connectivity, charge and multiplicity; full ring/phenoxy/ethyl-ester identity.",
+            "Native optimization and frequency stages terminate normally with expected complete modes:162 for1/2;159 for3/4; no imaginary modes.",
+            "MeCN stability record leaves the electronic root and geometry consistent with its own frequency/thermal record; no mixed-root energies.",
+            "Use native H for BDE; H atom reference explicitly includes E(H) plus5RT/2 at298.15K. H atom needs no molecular vibrational-frequency calculation.",
+            "Balanced enthalpy derivation, artifact hashes and matching original ±2 kcal/mol window; program completion alone is insufficient."
+          ],
+          "status": "VERIFIED_CURRENT_BOUNDED_SCOPE_EXISTING_EVIDENCE",
+          "verification_status_record": "evaluation/current_verification_status.json"
+        },
+        {
+          "id": "kp_bond_strength_cation",
+          "scoring_rule_ids": [
+            "r_BDE2"
+          ],
+          "author_source": {
+            "path": "papers/paper_4761e82fee080c35/documents/supplementary_002.pdf",
+            "readable_copy": "tasks/small_molecules_autonomous_research/verification_dispatch/core_question_design_20261012T171955Z/papers/paper_4761e82fee080c35/sources/supplementary_002.pdf",
+            "sha256": "9b77c63b6c896738a34d85a8432484a4a7dca26b8f011580e64a83c03dd54064",
+            "locator": "PDF p9 §§6–7; coordinates pp10–15"
+          },
+          "physical_quantity": {
+            "definition": "H(4)+H(H)-H(2)",
+            "kind": "homolytic_bond_dissociation_enthalpy",
+            "bond": "donor ring-C4-H",
+            "target": 32.9,
+            "unit": "kcal/mol",
+            "original_tolerance": 2.0
+          },
+          "method": {
+            "software": "Gaussian16 C.02",
+            "functional": "B3LYP",
+            "basis": "6-31+G(d,p), all atoms",
+            "solvent": "PCM MeCN, epsilon=35.6880",
+            "temperature_K": 298.15,
+            "thermal_pressure": "1 atm",
+            "thermal_model": "Unscaled harmonic/ideal-gas thermochemistry as reported; no separate single-point level or dispersion correction reported.",
+            "source": "supplementary_002.pdf physical p9 sections6-7; coordinates pp10-15"
+          },
+          "models": {
+            "2": {
+              "identity": "One-electron-oxidized donor radical cation",
+              "formula": "C23H24NO7P",
+              "charge": 1,
+              "multiplicity": 2
+            },
+            "4": {
+              "identity": "N-phosphorylpyridinium after C4-H homolysis of state2",
+              "formula": "C23H23NO7P",
+              "charge": 1,
+              "multiplicity": 1
+            },
+            "H": {
+              "identity": "Hydrogen atom",
+              "formula": "H",
+              "charge": 0,
+              "multiplicity": 2
+            }
+          },
+          "reference": {
+            "H_atom_E_Eh": -0.500281367741,
+            "H_atom_H_Eh": -0.4979209055718893,
+            "convention": "Same-method PCM MeCN electronic H plus monatomic ideal-gas enthalpy5RT/2 at298.15K; author numerical H reference omitted."
+          },
+          "existing_evidence": {
+            "value": 31.576963498936504,
+            "difference": -1.3230365010634948,
+            "native_ids": [
+              "2",
+              "4",
+              "H"
+            ],
+            "index": "docs/verification/small_molecules_autonomous_research/paper_4761e82fee080c35/selected29_20261012T053104Z_group_06/independent_recomputed_evidence.json",
+            "status": "LOCAL_VALUE_WITHIN_ORIGINAL_TOLERANCE"
+          },
+          "missing_evidence": "No missing computation for the accepted current bounded result; retained source/scoring limits are separate.",
+          "prerequisites": "Current bounded evidence review completed; retain its physical definitions and limitations.",
+          "can_compute_immediately": false,
+          "next_action": "Reuse the accepted native evidence in the current status record; no new QC is required.",
+          "native_success_markers": [
+            "Correct full formula, connectivity, charge and multiplicity; full ring/phenoxy/ethyl-ester identity.",
+            "Native optimization and frequency stages terminate normally with expected complete modes:162 for1/2;159 for3/4; no imaginary modes.",
+            "MeCN stability record leaves the electronic root and geometry consistent with its own frequency/thermal record; no mixed-root energies.",
+            "Use native H for BDE; H atom reference explicitly includes E(H) plus5RT/2 at298.15K. H atom needs no molecular vibrational-frequency calculation.",
+            "Balanced enthalpy derivation, artifact hashes and matching original ±2 kcal/mol window; program completion alone is insufficient."
+          ],
+          "status": "VERIFIED_CURRENT_BOUNDED_SCOPE_EXISTING_EVIDENCE",
+          "verification_status_record": "evaluation/current_verification_status.json"
+        },
+        {
+          "id": "c_activation",
+          "scoring_rule_ids": [
+            "r_final"
+          ],
+          "author_source": {
+            "path": "papers/paper_4761e82fee080c35/documents/main.pdf",
+            "readable_copy": "tasks/small_molecules_autonomous_research/verification_dispatch/core_question_design_20261012T171955Z/papers/paper_4761e82fee080c35/sources/main.pdf",
+            "sha256": "ff3d154c79caa720baa49c48725c813ec3db5b5ff18473bae27f3c61c95b269e",
+            "locator": "PDF p5 discussion/p6 Fig6b; SI002 p9"
+          },
+          "physical_quantity": "Bounded interpretation of large oxidation-induced C4-H weakening; difference of the same two BDEs, no independent numerical threshold.",
+          "method": "Analysis of the same author-level enthalpy ledger; no extra electronic-structure step.",
+          "models": {
+            "1": {
+              "identity": "Supplied dihydropyridine-N-phosphoramide",
+              "formula": "C23H24NO7P",
+              "charge": 0,
+              "multiplicity": 1
+            },
+            "2": {
+              "identity": "One-electron-oxidized donor radical cation",
+              "formula": "C23H24NO7P",
+              "charge": 1,
+              "multiplicity": 2
+            },
+            "3": {
+              "identity": "Donor after homolytic loss of one ring-C4 hydrogen",
+              "formula": "C23H23NO7P",
+              "charge": 0,
+              "multiplicity": 2
+            },
+            "4": {
+              "identity": "N-phosphorylpyridinium after C4-H homolysis of state2",
+              "formula": "C23H23NO7P",
+              "charge": 1,
+              "multiplicity": 1
+            }
+          },
+          "reference": "Common H-atom term cancels in the difference.",
+          "existing_evidence": {
+            "weakening_kcal_mol": 43.23665778188318,
+            "supporting_targets": [
+              "kp_bond_strength_donor",
+              "kp_bond_strength_cation"
+            ]
+          },
+          "missing_evidence": "No missing computation for the accepted current bounded result; retained source/scoring limits are separate.",
+          "prerequisites": "Current bounded evidence review completed; retain its physical definitions and limitations.",
+          "can_compute_immediately": false,
+          "next_action": "Reuse the accepted native evidence in the current status record; no new QC is required.",
+          "native_success_markers": [
+            "Underlying BDE evidence satisfies its own validity requirements; do not infer a kinetic barrier or catalyst cycle."
+          ],
+          "status": "VERIFIED_CURRENT_BOUNDED_SCOPE_EXISTING_EVIDENCE",
+          "verification_status_record": "evaluation/current_verification_status.json"
+        }
+      ],
+      "archived_reference_ids": [
+        "kp_oxidation_donor",
+        "kp_oxidation_dehydrogenated"
+      ],
+      "removed_requirements": [
+        {
+          "key_point_id": "kp_transfer",
+          "rule_id": "r_transfer",
+          "reason": "No author-computed substitution path or numerical barrier; product is experimental context only."
+        },
+        {
+          "key_point_id": "kp_competing_network",
+          "rule_id": "r_network",
+          "reason": "No author-computed dimer recycling, Co-HAT, H2 or TPI network; no mandatory new reference."
+        }
+      ],
+      "archive_record": "evaluation/reference_qualification.json",
+      "new_engine_calls": 0,
+      "new_hpc_jobs": 0,
+      "history_note": "This existing filename now describes the approved current scope. Phase1 native readbacks and previous-public snapshots remain historical evidence, not live requirements.",
+      "current_scope_verified": true,
+      "verification_status_record": "evaluation/current_verification_status.json",
+      "maintenance_updated_on": "2026-10-17",
+      "additional_quantum_calculations_required_for_this_repair": false,
+      "verification_scope_note": "Current bounded scientific coverage is accepted. Exact-source, scoring and release qualifications remain separate; this does not certify every result in the paper.",
+      "active_rule_ids": [
+        "r_local_activation_model",
+        "r_reactivity_change"
+      ],
+      "current_coverage": "evaluation/final_result_coverage.json",
+      "historical_fields_below_are_non_scoring_context": true,
+      "v3_numeric_policy": "No independently scored numeric targets; source BDEs and former windows are supporting context for the model."
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

@@ -1,0 +1,128 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_02",
+  "source_paper_id": "paper_8fefc96b015c4577",
+  "scoring_policy": "paper_science_v2",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; no arbitrary threshold such as 60 points is used. The original rules assess recovery of a limited set of literature conclusions and do not establish a uniquely true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances; first review comparability of physical identity, references and conditions. When comparability cannot be determined, mark needs_review and explain why; do not alter tolerances without authorization. Source numbers without assigned targets provide context only and are not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_benzyl_barrier",
+      "reference_id": "benzyl_barrier",
+      "type": "numeric",
+      "expected": "Identify the benzyl-tethered aryl closure by connectivity and forming-bond/negative-mode evidence, corresponding to source TS2. Compute G(TS)-G(uncyclized radical minimum), 298.15 K/1 atm, implicit DMSO, charge0 doublet. Validate the minimum and relevant first-order saddle; source -0.05 is on a different plot zero and is not this barrier.",
+      "target": 13.08,
+      "tolerance": 1.5,
+      "unit": "kcal/mol",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_sulfonyl_barrier",
+      "reference_id": "sulfonyl_barrier",
+      "type": "numeric",
+      "expected": "Identify the arenesulfonyl aryl closure by connectivity and forming-bond/negative-mode evidence, corresponding to source TS2-prime. Use the same radical-reference definition and valid saddle evidence. Arbitrary candidate numbers or closest energies do not determine identity.",
+      "target": 19.25,
+      "tolerance": 1.5,
+      "unit": "kcal/mol",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_cyclization_conclusion",
+      "reference_id": "cyclization_conclusion",
+      "type": "semantic",
+      "expected": "The final answer selects the benzyl-tethered aryl closure as lower-barrier than the arenesulfonyl alternative using the two mapped, comparable calculated channels and their difference. A reversed ranking, undecided selection or mere listing of both does not recover the conclusion. No downstream oxidation/aromatization or catalyst cycle is required.",
+      "qualification": "Must be supported by actual computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for this evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "benzyl_barrier",
+      "kind": "intermediate",
+      "max_score": 35,
+      "description": "Barrier for closure onto the benzyl-tethered aryl ring",
+      "rule_ids": [
+        "r_benzyl_barrier"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p34_36_37_38"
+      ]
+    },
+    {
+      "id": "sulfonyl_barrier",
+      "kind": "intermediate",
+      "max_score": 35,
+      "description": "Barrier for closure onto the arenesulfonyl aryl ring",
+      "rule_ids": [
+        "r_sulfonyl_barrier"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p34_36_40"
+      ]
+    },
+    {
+      "id": "cyclization_conclusion",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Final conclusion: cyclization on the benzyl side is more favorable",
+      "rule_ids": [
+        "r_cyclization_conclusion"
+      ],
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p36_38_40"
+      ]
+    }
+  ],
+  "scope_changes": [
+    "The old starting XYZ is excluded from this package; the new initial guess was generated independently from SMILES using ETKDG and a general-purpose force field, without using the authors' TS/minimum coordinates."
+  ],
+  "reference_issues": [],
+  "source_location": "Main text p4 Scheme 3c; SI p34–40",
+  "source_files": [
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_02/main.pdf",
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_02/supplementary_001.pdf"
+  ],
+  "paper_id": "paper_8fefc96b015c4577",
+  "expert_scoring_policy": "scientific_results_only_binary_items",
+  "expert_rules_file": "expert_scoring_rules.json",
+  "required_for_whole_case_success_item_ids": [
+    "benzyl_barrier",
+    "sulfonyl_barrier",
+    "cyclization_conclusion"
+  ],
+  "scientific_requirements": "All scientific items marked required_for_whole_case_success must pass, and evidence qualification must pass; no arbitrary threshold such as 60 points is used. The original rules assess recovery of a limited set of literature conclusions and do not establish a uniquely true mechanism.\nRetain the existing numerical targets/tolerances; first review comparability of physical identity, references and conditions. When comparability cannot be determined, mark needs_review and explain why; do not alter tolerances without authorization. Source numbers without assigned targets provide context only and are not implicit thresholds.\nA chemistry reviewer blinded to system identity assigns pass/fail/needs_review based on native computational evidence. Equivalent mechanisms supporting the same physical proposition are allowed; keyword matching alone is insufficient.\nEvery scientific item retains its expert-authored weight and all-or-nothing rule. No research-process points are awarded.\nThe weighted score reports partial scientific achievement. Use expert_scoring_rules.json and score_case.py for the explicit pass/fail/needs_review whole-case adjudication; no score threshold replaces that decision."
+}

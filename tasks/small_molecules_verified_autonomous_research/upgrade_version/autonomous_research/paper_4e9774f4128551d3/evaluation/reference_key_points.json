@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "items": [
+    {
+      "statement": "Endpoint thermodynamic preference of the mapped cis/trans epimers and its physical scope",
+      "expected": "Establish the thermodynamic preference of the correctly mapped ketoester epimers from actual comparable Gibbs free energies at 298.15 K in the specified methanol-continuum endpoint model. The supported reference has trans more stable than cis; interpret what the calculated separation implies for equilibrium enrichment, while preserving the polycyclic skeleton and all remote stereocentres. This item evaluates an endpoint thermodynamic conclusion and its physical scope, not the sign of an unexplained subtraction or agreement with an author number. Raw electronic energies alone, different stereoisomers or an energy reference incompatible with the stated Gibbs comparison are insufficient. The endpoint result is not a protonation barrier, a single-pass product ratio or a calculation of the experimental mixed-solvent kinetics; the explanation of the two operations is scored separately.",
+      "evidence_ids": [
+        "main_p6",
+        "supplementary_001_p71"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "endpoint_gap",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "Why equilibrium and separate-pot stereochemical outcomes differ",
+      "expected": "Explain why reversible keto-enol conditions and soft enolization followed by separate-pot CSA protonolysis can produce different stereochemical outcomes. Use the actual endpoint calculations as context and a quantitative consistency argument that distinguishes thermodynamic equilibration from formation and trapping in the separate operations; a supported equivalent molecular explanation passes. Show why the endpoint equilibrium tendency does not uniquely determine the observed nearly equal single-pass products. Merely repeating that trans is more stable earns no credit for this distinct operational explanation. A kinetic consistency analysis is permitted without a prescribed transition-state search; it must not be misrepresented as validated CSA kinetics or an independent prediction of the supplied single-pass ratio.",
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p20_21_71"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "condition_interpretation",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "Three-cycle cis recovery and its relation to the observed isolated yield",
+      "expected": "Produce a reproducible ideal three-cycle cis mass balance under complete per-pass conversion, complete cis separation, full trans recycling and no loss, with the single-pass cis fraction and its provenance explicit. For identical cycles Y3=1-(1-p_cis)^3. The supplied trans:cis approximately 1.1:1 gives an ideal recovery of approximately 85.6%; this is consistency analysis using an experimental fraction, not independently predicted selectivity. Compare the ideal estimate with the 70% cumulative isolated observation and explain the scope of incomplete conversion/recovery/loss without treating fitted unmeasured losses as a prediction. A calculated fraction must describe the actual two-stage process; the endpoint Boltzmann ratio is not automatically the protonolysis fraction. Require an actually executed mass-balance analysis with recoverable input fraction and provenance, assumptions, analysis code or equivalent reproducible derivation, numerical output and execution evidence. When using the supplied experimental fraction, this item does not require molecular endpoint calculations; missing or failed endpoint calculations affect the outcomes that rely on them, not an independently supported recycling conclusion. If an independently calculated single-pass fraction is claimed, require the actual molecular or kinetic evidence supporting that fraction. A copied yield, an unexecuted formula or unsupported input fraction fails. No exact-yield target or new protonolysis TS search is imposed.",
+      "evidence_ids": [
+        "main_p5_6",
+        "supplementary_001_p21"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "recycle_balance",
+      "key_point_type": "result",
+      "scored": false
+    }
+  ],
+  "historical_non_scoring_items": [],
+  "current_scoring_authority": {
+    "revision": "source_checked_evidence_scope_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_endpoint_gap",
+      "r_condition_interpretation",
+      "r_recycle_balance"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The recycle_balance outcome may use the supplied experimental single-pass fraction with actually executed, recoverable mass-balance analysis. Endpoint molecular computations remain required for the separate endpoint and operation-interpretation outcomes.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "historical_scoring_applicability_20261029": "Supporting evidence only. No independent points or numeric gates; any retained author values and former tolerances are historical non-scoring context."
+}

@@ -1,0 +1,355 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "evidence": [
+    {
+      "evidence_id": "paper_main",
+      "source": {
+        "path": "papers/paper_e31cc7bc7b21b610/documents/main.pdf",
+        "sha256": "d10f786f46a66110c6c194aac86b204d3e34dc8be7d608d5c2557be4dd91f5d0",
+        "pdf_pages_1based": [
+          1,
+          4,
+          8,
+          9,
+          11
+        ]
+      },
+      "scope": "Main methods p4 explicitly classifies C2h as first-order saddle; pp8–9 Fig6/orbital argument and 2.599/2.724 Å, +9.7 kcal/mol comparison."
+    },
+    {
+      "evidence_id": "paper_si",
+      "source": {
+        "path": "papers/paper_e31cc7bc7b21b610/documents/supplementary_001.pdf",
+        "sha256": "8160f45b57e772b48642e1e20d0ddddb8e64c97146b96bb942b33584b6cae2ec",
+        "pdf_pages_1based": [
+          22,
+          27,
+          28,
+          29,
+          30
+        ]
+      },
+      "scope": "Table S2 p22 labels minimum versus transition state, source S4/C2h coordinates pp27–30 and single imaginary frequency p29."
+    },
+    {
+      "evidence_id": "verification_history",
+      "source": {
+        "path": "tasks/v2_autonomous_research/paper_e31cc7bc7b21b610/evaluation/verified_computation_reference.md",
+        "sha256": "40e54e3a18f250a019e99584b533e5c59e21ca6a70a12a8964865632900363c3"
+      },
+      "scope": "Historical computational provenance, not author targets or new validation."
+    },
+    {
+      "evidence_id": "native_hap_thermochemistry",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "sha256": "cbc96a2bf0bad50714b3ca1d793afad81837c8883a185292f97173f2d1b67e3f"
+      },
+      "scope": "Actual state-specific geometry, frequencies and Gaussian G_Eh. Top-level C2h_minus_S4_kcal_mol is electronic energy despite its label; use state Gaussian Gibbs sums."
+    },
+    {
+      "evidence_id": "native_hap_orbitals",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "sha256": "f622dcc5ea7f347d4e6dd76fe209d96893c7f6416fca5950102e6d01e758b649"
+      },
+      "scope": "Directional dπ projections and occupied/empty manifolds; source orbital labels provisional, no unique bond order."
+    },
+    {
+      "evidence_id": "native_hap_phase",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "sha256": "61c822743c919744154f8e9de1ecca2eecfdd03e2e448dfa94414941975c9c4d"
+      },
+      "scope": "Existing cubegen spatial phase evidence with finite-window and causal attribution limitations."
+    },
+    {
+      "evidence_id": "second_native_1",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "sha256": "cbc96a2bf0bad50714b3ca1d793afad81837c8883a185292f97173f2d1b67e3f"
+      },
+      "scope": "Existing source-specific evidence read in the second expert review; limitations are recorded in the report."
+    },
+    {
+      "evidence_id": "second_native_2",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "sha256": "f622dcc5ea7f347d4e6dd76fe209d96893c7f6416fca5950102e6d01e758b649"
+      },
+      "scope": "Existing source-specific evidence read in the second expert review; limitations are recorded in the report."
+    },
+    {
+      "evidence_id": "second_native_3",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "sha256": "61c822743c919744154f8e9de1ecca2eecfdd03e2e448dfa94414941975c9c4d"
+      },
+      "scope": "Existing source-specific evidence read in the second expert review; limitations are recorded in the report."
+    },
+    {
+      "evidence_id": "second_native_4",
+      "source": {
+        "path": "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_evidence.csv",
+        "sha256": "98604c40eab1e55e08c1217a0848189c7fcea06825da73aebe0ab1da67c21a9d"
+      },
+      "scope": "Existing source-specific evidence read in the second expert review; limitations are recorded in the report."
+    }
+  ],
+  "current_policy": "paper_science_v3",
+  "scope_note": "Preserve the short Ir–Ir bonding explanation and model limits. Explicitly bound the pre-existing numerical comparison to the neutral singlet 54-atom Hap model, S4 and C2h candidate orientations, gas phase and 298.15 K; the 210-atom experimental Egan dimer remains the observation to explain, not an interchangeable numerical target. The model/orientation candidates make the old hidden numeric scope public without disclosing their ordering or stationary character in AR.",
+  "final_rule_evidence": [
+    {
+      "rule_id": "r_s4_irir_distance",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ]
+    },
+    {
+      "rule_id": "r_c2h_irir_distance",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ]
+    },
+    {
+      "rule_id": "r_c2h_relative_g",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ]
+    },
+    {
+      "rule_id": "r_ligand_pi_mechanism",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ]
+    },
+    {
+      "rule_id": "r_orientation_mechanism",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ]
+    },
+    {
+      "rule_id": "r_model_applicability",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_orientation_structure_stability",
+      "r_ligand_pi_mechanism",
+      "r_orientation_mechanism",
+      "r_model_applicability"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "两Ir–Ir距离、ΔG及物理驻点解释",
+      "rule_id": "r_orientation_structure_stability",
+      "conclusion_id": "orientation_structure_stability",
+      "independence": "结构/稳定性结果不直接认证电子成键原因。",
+      "source_locator": "正文p4方法、pp8–9机制；SIp22表、p29虚频/坐标；原生Hap54 S4/C2h日志及N1–N4",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e31cc7bc7b21b610/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_evidence.csv"
+      ],
+      "existing_support": "Ir–Ir=2.598504/2.723610Å，ΔG9.750242与ΔE8.769690kcal/mol不同；S4为156正模局部极小，C2h唯一17.0855i。轨道占据/相位和Mayer支持有界π机制。",
+      "limits": [
+        "历史冻结范围严格接受保持；N1旧顶层8.769689628是ΔE，不是ΔG；C2h Ir对1/28，旧1/2为Ir–O。来源9.7差+0.050242仍保留。",
+        "S4/C2h同时改变配体畸变，完整G差不等于隔离的π重叠能。相位探针窗口依赖，composition rc59是部分输出，不能宣称全部分析成功。",
+        "C2h为鞍点时不能用G差求两稳定构象人口；54原子Hap不定量认证完整Egan晶体或SOC，Mayer/轨道估计不是精确实验键级2.34。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "previous_rule_ids": [
+        "r_s4_irir_distance",
+        "r_c2h_irir_distance",
+        "r_c2h_relative_g"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "配体电子作用与净Ir–Ir成键",
+      "rule_id": "r_ligand_pi_mechanism",
+      "conclusion_id": "ligand_pi_mechanism",
+      "independence": "占据/混合的物理解释独立于两取向间差别。",
+      "source_locator": "正文p4方法、pp8–9机制；SIp22表、p29虚频/坐标；原生Hap54 S4/C2h日志及N1–N4",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e31cc7bc7b21b610/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_evidence.csv"
+      ],
+      "existing_support": "Ir–Ir=2.598504/2.723610Å，ΔG9.750242与ΔE8.769690kcal/mol不同；S4为156正模局部极小，C2h唯一17.0855i。轨道占据/相位和Mayer支持有界π机制。",
+      "limits": [
+        "历史冻结范围严格接受保持；N1旧顶层8.769689628是ΔE，不是ΔG；C2h Ir对1/28，旧1/2为Ir–O。来源9.7差+0.050242仍保留。",
+        "S4/C2h同时改变配体畸变，完整G差不等于隔离的π重叠能。相位探针窗口依赖，composition rc59是部分输出，不能宣称全部分析成功。",
+        "C2h为鞍点时不能用G差求两稳定构象人口；54原子Hap不定量认证完整Egan晶体或SOC，Mayer/轨道估计不是精确实验键级2.34。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "previous_rule_ids": [
+        "r_ligand_pi_mechanism"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "相对取向如何改变金属间相互作用",
+      "rule_id": "r_orientation_mechanism",
+      "conclusion_id": "orientation_mechanism",
+      "independence": "解释取向选择的空间机制，不重复距离/G排序。",
+      "source_locator": "正文p4方法、pp8–9机制；SIp22表、p29虚频/坐标；原生Hap54 S4/C2h日志及N1–N4",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e31cc7bc7b21b610/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_evidence.csv"
+      ],
+      "existing_support": "Ir–Ir=2.598504/2.723610Å，ΔG9.750242与ΔE8.769690kcal/mol不同；S4为156正模局部极小，C2h唯一17.0855i。轨道占据/相位和Mayer支持有界π机制。",
+      "limits": [
+        "历史冻结范围严格接受保持；N1旧顶层8.769689628是ΔE，不是ΔG；C2h Ir对1/28，旧1/2为Ir–O。来源9.7差+0.050242仍保留。",
+        "S4/C2h同时改变配体畸变，完整G差不等于隔离的π重叠能。相位探针窗口依赖，composition rc59是部分输出，不能宣称全部分析成功。",
+        "C2h为鞍点时不能用G差求两稳定构象人口；54原子Hap不定量认证完整Egan晶体或SOC，Mayer/轨道估计不是精确实验键级2.34。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_orbitals",
+        "native_hap_phase",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "previous_rule_ids": [
+        "r_orientation_mechanism"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "驻点、模型截断与键级可推断范围",
+      "rule_id": "r_model_applicability",
+      "conclusion_id": "model_applicability",
+      "independence": "由证据到人口/完整Egan/键级推断的边界，不重复机制。",
+      "source_locator": "正文p4方法、pp8–9机制；SIp22表、p29虚频/坐标；原生Hap54 S4/C2h日志及N1–N4",
+      "native_artifacts": [
+        "tasks/v2_autonomous_research/paper_e31cc7bc7b21b610/evaluation/verified_computation_reference.md",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/native_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/directional_orbital_reanalysis.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_native_phase_evidence.json",
+        "docs/v2_verification/history/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_e31cc7bc7b21b610/six_manifold_evidence.csv"
+      ],
+      "existing_support": "Ir–Ir=2.598504/2.723610Å，ΔG9.750242与ΔE8.769690kcal/mol不同；S4为156正模局部极小，C2h唯一17.0855i。轨道占据/相位和Mayer支持有界π机制。",
+      "limits": [
+        "历史冻结范围严格接受保持；N1旧顶层8.769689628是ΔE，不是ΔG；C2h Ir对1/28，旧1/2为Ir–O。来源9.7差+0.050242仍保留。",
+        "S4/C2h同时改变配体畸变，完整G差不等于隔离的π重叠能。相位探针窗口依赖，composition rc59是部分输出，不能宣称全部分析成功。",
+        "C2h为鞍点时不能用G差求两稳定构象人口；54原子Hap不定量认证完整Egan晶体或SOC，Mayer/轨道估计不是精确实验键级2.34。"
+      ],
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "verification_history",
+        "native_hap_thermochemistry",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4"
+      ],
+      "previous_rule_ids": [
+        "r_model_applicability"
+      ],
+      "no_new_computation": true
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "recorded_at_utc": "2026-09-30T12:30:14.408127+00:00",
+  "status": "existing_geometry_evidence_integrated_quantity_definition_conflict_retained",
+  "authoring_operation": "Readback and reference/evaluator clarification only; no new scientific calculation.",
+  "authorization": "docs/v2_validation_review_20260930T1216Z/handoffs/AUTHOR_BATCH6_CRYSTAL.md",
+  "source_claim": {
+    "path": "papers/paper_5ea491c741fbd8d4/documents/main.pdf",
+    "sha256": "7621bdebf4659fb6c1e67f15c6ceda8dccbb4442eec850819fd613db4bc8ba6a",
+    "physical_page": 4,
+    "section": "3.2 X-ray crystallography",
+    "reported_quantity": "centroid-centroid distance",
+    "reported_value_A": "3.3883(6)",
+    "ring_1_labels": [
+      "C9",
+      "C10",
+      "N1",
+      "O2",
+      "C11"
+    ],
+    "ring_2_labels": [
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C6",
+      "C7"
+    ],
+    "symmetry_on_ring_2": "1-X,-1/2+Y,1/2-Z",
+    "source_angles_deg": {
+      "alpha": "3.25(7)",
+      "beta": "22.2",
+      "gamma": "25.3"
+    }
+  },
+  "source_identity": {
+    "original_cif": {
+      "path": "papers/paper_5ea491c741fbd8d4/source_data/2445596.cif",
+      "sha256": "3d0d3db9b4232bd19d56e55705a5a4240af868d5a80151046de71951ec1d8d89",
+      "bytes": 795534
+    },
+    "staged_cif": {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/source.cif",
+      "sha256": "3d0d3db9b4232bd19d56e55705a5a4240af868d5a80151046de71951ec1d8d89",
+      "bytes": 795534
+    },
+    "public_source_sha256": "b22ef7a983d3365a8f5b4bc6abd1654352f86972829b34488b619339cb810ae3",
+    "atom_map_sha256": "b6904875d7c68fe7aedbd731d79523c4f05c6beb8ace180bf38e6278a9ce4d8c",
+    "configuration": "Deposited source Z at graph bond 7=8; article/historical E label retained as a distinct conflict.",
+    "coordinates_changed": false,
+    "old_E_monomer_automatically_reused": false
+  },
+  "independent_geometry": {
+    "recorded_by": "group_6 prior validation, not this authoring run",
+    "artifact": {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_native_mesh_topology_area_audit/attempt_01/mesh_audit_results.json",
+      "sha256": "feed61b1e5048d884f1a724c9fe6f0e91856d7cbb5f7fb1daaf2c1e9d75ab70f",
+      "bytes": 30705
+    },
+    "json_pointer": "/ring_audit/0",
+    "values_as_recorded": {
+      "inside": "isoxazole",
+      "outside": "phenyl",
+      "source_symmetry": "1-X,-1/2+Y,1/2-Z",
+      "centroid_A": 3.7482107116485768,
+      "plane_separation_to_inside_A": 3.4702085265602602,
+      "plane_separation_to_outside_A": 3.3883651950048885,
+      "plane_angle_deg": 3.2498635023634437,
+      "centroid_vector_angle_inside_deg": 22.20604817404553,
+      "centroid_vector_angle_outside_deg": 25.311683282213288
+    },
+    "centroid_definition": "Unweighted arithmetic mean of Cartesian positions of the named ring atoms; fractional positions transformed using the measured cell.",
+    "plane_definition": "Least-squares plane through each ring centroid; normal is the smallest-eigenvalue eigenvector of the centered Cartesian coordinate scatter matrix.",
+    "centroid_distance_definition": "norm(c2_transformed - c1)",
+    "to_outside_plane_definition": "abs(dot(c2_transformed - c1, n2_transformed)); distance of original isoxazole centroid to transformed phenyl plane.",
+    "to_inside_plane_definition": "abs(dot(c2_transformed - c1, n1)); distance of transformed phenyl centroid to original isoxazole plane.",
+    "nonparallel_plane_boundary": "The ring planes are tilted. The two centroid-to-plane distances differ; neither is a unique distance between infinite nonparallel planes.",
+    "analysis_code": {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_native_mesh_topology_area_audit/attempt_01/analysis.py",
+      "sha256": "5d43986cdcaddcb57374dfc5a6f6699e76ff716a578c98f9baf023fe76ee1427",
+      "bytes": 10658,
+      "lines": [
+        67,
+        84
+      ]
+    },
+    "native_packing_cross_check": {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/raw015_R8/packing.json",
+      "sha256": "6e01b2225aed56a837d8297d5452d317f27d94fe3f8d8491cc0822d557c8af4e",
+      "bytes": 131476,
+      "json_pointer": "/ring_pairs_under_5A/0",
+      "operation": "-x, y+1/2, -z+1/2",
+      "translation": [
+        1,
+        -1,
+        0
+      ],
+      "quantity_warning": "packing.json plane_separation_A projects onto the INSIDE isoxazole normal (3.4702085 A), not the outside phenyl normal; use ring_audit for both definitions."
+    },
+    "packing_code": {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/analysis.py",
+      "sha256": "41c72cd163d303a2ba67256cb2cd9b68d8b63df9064df2727d46adc824de6181",
+      "bytes": 9345,
+      "lines": [
+        42,
+        51
+      ]
+    },
+    "digits_boundary": "Digits are preserved from the recorded calculation, not experimentally established precision. Coordinate/cell uncertainty was not propagated; no acceptance tolerance or statistical error bar is inferred."
+  },
+  "interpretation": {
+    "finding": "The author-labelled centroid distance disagrees with the independently recorded centroid distance for this exact ring mapping. The printed magnitude is close to the outside centroid-to-plane distance.",
+    "inference_limit": "Numerical proximity suggests a possible quantity-label issue; no authenticated author erratum or author intent is established. Do not silently replace the source label or generalize the conflict to all source claims.",
+    "applicability": "Only the stated source Z coordinates, atom-labelled ring pair, cell and symmetry translation. Alternative mappings/objects require their own definitions and evidence.",
+    "scientific_scope": "Local geometry only. It does not establish interaction energies, causal stabilization, exact CrystalExplorer 17.5 equivalence or whole-question completion."
+  },
+  "evaluation_policy": {
+    "no_author_value_target": true,
+    "evidence_based_label_correction_eligible": true,
+    "source_ring_analysis_required_for_all_AR_routes": false,
+    "weights_changed": false,
+    "no_universal_numeric_tolerance": true,
+    "critical_failure_scope": "Invalidate dependent claims only; retain independently supported partial results."
+  },
+  "evidence_chain": [
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_5ea491c741fbd8d4/source_recovery/native_surface_acceptance.json",
+      "sha256": "09d0a2e0b600f1cd2473b1068ba49e8a9cd8c4009201eaae2263a8997c151086",
+      "bytes": 17952
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/v2_execution_20260929/papers/paper_5ea491c741fbd8d4/source_recovery/NATIVE_SURFACE_REVIEW.md",
+      "sha256": "201628f5f715bcd4626757369dc3819b626dec86d09e3039911bb3a0f92b9011",
+      "bytes": 7665
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/surface_pilot_results.json",
+      "sha256": "58e86de48cfdfbbd8048cb9cb6bc7483edf028081abd49190f01ad66fdee7761",
+      "bytes": 24514
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_native_mesh_topology_area_audit/attempt_01/mesh_audit_results.json",
+      "sha256": "feed61b1e5048d884f1a724c9fe6f0e91856d7cbb5f7fb1daaf2c1e9d75ab70f",
+      "bytes": 30705
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_ASCII_precision_topology_audit/attempt_01/precision_audit_results.json",
+      "sha256": "1a9d4bedff030f297e2ecde5e1405498907852b310f85564d712483e1b81ae1b",
+      "bytes": 40776
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_5ea491c741fbd8d4/outputs/v2_CIF_Z_CE258_Hirshfeld_grid_H_baseline_datafix/attempt_01/raw015_R8/packing.json",
+      "sha256": "6e01b2225aed56a837d8297d5452d317f27d94fe3f8d8491cc0822d557c8af4e",
+      "bytes": 131476
+    }
+  ],
+  "previous_package_hashes": {
+    "autonomous_research": "35dc209d7beb84a3ccafb8c06af26bf8804d3dd85310d53fc88c141cadeb93b2",
+    "paper_reproduction": "63e939134e2e58eb3fe9e2d360bd43dfeef5414ed2d75cc46cf56cbc9389ff60"
+  },
+  "new_scientific_calculations_performed": false,
+  "new_engine_launches": 0,
+  "judge_calls": 0,
+  "whole_question_pass": false,
+  "remaining": [
+    "Claim-level packing interpretation and coverage review.",
+    "Exact historical surface engine/session equivalence remains unproven.",
+    "Real semantic judge calibration and blind AR were not run."
+  ]
+}

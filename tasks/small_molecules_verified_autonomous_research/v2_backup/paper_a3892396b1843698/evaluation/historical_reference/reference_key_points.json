@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "items": [
+    {
+      "statement": "[3,3] 通道活化自由能",
+      "expected": "Recover the chemically assigned [3,3] channel Gibbs barrier relative to validated 3a at 298.15 K in the isolated-molecule boundary. Require a stationary saddle with exactly one relevant imaginary mode and displacement/connectivity validation; no source-coordinate copying or arbitrary candidate label.",
+      "evidence_ids": [
+        "main_p4_14",
+        "supplementary_001_p6"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "barrier_33",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "[5,5] 通道活化自由能",
+      "expected": "Recover the chemically assigned [5,5] channel Gibbs barrier relative to the same 3a reference at 298.15 K, with a valid first-order saddle and channel-specific displacement/connectivity evidence. Do not substitute barriers for other polycyclic substrates in this paper.",
+      "evidence_ids": [
+        "main_p4_14",
+        "supplementary_001_p6"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "barrier_55",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "[3,3] 与 [5,5] 两通道的正确分子结构",
+      "expected": "Correctly construct distinct molecular structural models for both the [3,3] and [5,5] rearrangement channels of the supplied 3a. Require recoverable geometries and an unambiguous atom mapping that establish the channel-specific bond-breaking/forming pattern and connectivity, with the correct atom inventory and electronic state. Both channel assignments must be supported by actual computed structural evidence; names, file labels or two submitted jobs alone do not establish them. This item assesses structural identity separately from numerical barrier agreement: a correct channel model can pass even when its barrier misses tolerance. It does not replace the stationary-saddle and relevant-mode requirements of the two barrier items, and does not impose mandatory full IRC calculations.",
+      "evidence_ids": [
+        "main_p4_14",
+        "supplementary_001_p6"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "channel_structures",
+      "key_point_type": "result"
+    }
+  ]
+}

@@ -50,7 +50,7 @@ Batch-config mode:
   bash scripts/run_agent_eval.sh --config FILE [OPTIONS]
 
 Main options:
-  -a, --agent NAME              Agent preset: mock, codex, claude, opencode.
+  -a, --agent NAME              Agent preset: mock, codex, claude, opencode, gemini.
                                 Default: mock.
       --paper-id PAPER_ID      Paper identity, for example paper_2aca1dd116799b28.
       --task-type TYPE         autonomous_research, paper_reproduction, or

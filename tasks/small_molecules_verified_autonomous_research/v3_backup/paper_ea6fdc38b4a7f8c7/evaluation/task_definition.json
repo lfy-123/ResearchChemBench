@@ -1,0 +1,210 @@
+{
+  "paper_id": "paper_ea6fdc38b4a7f8c7",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_carbonyl_function",
+      "r_sidechain_effect",
+      "r_primary_secondary"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "What molecular factors explain the contrasting benzoate-substitution and electrochemical behavior of the seven specified alpha-carbonyl TEMPO-derived alkoxyamines? Address carbonyl functionality, the Weinreb-amide side chain and primary versus secondary substitution. This is an explanation task with measured outcomes supplied as context.",
+  "active_rule_ids": [
+    "r_carbonyl_function",
+    "r_sidechain_effect",
+    "r_primary_secondary"
+  ],
+  "current_outcome_ids": [
+    "carbonyl_function",
+    "sidechain_effect",
+    "primary_secondary"
+  ],
+  "historical_record": {
+    "scientific_question": "What molecular factors can account for the contrasting benzoate-substitution outcomes and electrochemical behavior of the seven specified alpha-carbonyl TEMPO-derived alkoxyamines, and how do carbonyl functionality, alpha-carbon substitution and side-chain structure influence productive substitution versus unproductive reaction under the stated experimental conditions?",
+    "inputs": [
+      {
+        "input_id": "PI1",
+        "kind": "identity",
+        "content": "1-Phenyl-2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propan-1-one, a secondary alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+      },
+      {
+        "input_id": "PI2",
+        "kind": "identity",
+        "content": "Methyl 2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propanoate, a secondary alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+      },
+      {
+        "input_id": "PI3",
+        "kind": "identity",
+        "content": "N-methoxy-N-methyl-2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propanamide, a secondary alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+      },
+      {
+        "input_id": "PI4",
+        "kind": "identity",
+        "content": "N-methoxy-N-methyl-2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)hexanamide, a secondary alpha-carbonyl TEMPO-derived alkoxyamine substrate with a butyl side chain."
+      },
+      {
+        "input_id": "PI5",
+        "kind": "identity",
+        "content": "2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propanal, an alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+      },
+      {
+        "input_id": "PI6",
+        "kind": "identity",
+        "content": "2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)propanoic acid, an alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+      },
+      {
+        "input_id": "PI7",
+        "kind": "identity",
+        "content": "1-Phenyl-2-((2,2,6,6-tetramethylpiperidin-1-yl)oxy)ethan-1-one, a primary alpha-carbonyl TEMPO-derived alkoxyamine substrate."
+      },
+      {
+        "input_id": "PI8",
+        "kind": "condition",
+        "content": "The baseline batch electrolysis for the first six identified substrates used 0.3 mmol alkoxyamine, benzoic acid (3.0 equivalents), 2,4,6-trimethylpyridine (2.0 equivalents), tetrabutylammonium hexafluorophosphate (0.3 mmol), deionized water (50 microliters), and anhydrous MeCN (3.0 mL) in an undivided cell at room temperature, with a graphite anode and platinum cathode. The mixture was stirred until homogeneous before constant-current electrolysis at 15 mA with 13 F/mol charge. The primary ketone screening used different conditions, specified in PI12. The target benzoates retain the carbonyl backbone: the alpha-carbon-O-N alkoxyamine linkage is replaced by alpha-carbon-O-C(=O)-phenyl connectivity. Cyclic voltammetry was measured separately in MeCN with 2.5 mM substrate and 0.1 M tetrabutylammonium hexafluorophosphate, using a glassy-carbon working electrode, platinum-wire counter electrode, and Ag/AgNO3 reference electrode, with ferrocene calibration. The reported comparisons used 250 mV/s scans from 0 V toward higher potentials and back to 0 V. Potentials in PI9-PI12 are in volts versus Fc/Fc+. For irreversible profiles, Ep/2 is the reported half-peak potential, not a reversible half-wave potential E1/2."
+      },
+      {
+        "input_id": "PI9",
+        "kind": "observation",
+        "content": "The propiophenone-derived substrate in PI1 gave the benzoate substitution product in 82% isolated yield under the baseline MeCN electrolysis conditions. Its voltammetric response was quasi-reversible, with reported E1/2 = 0.86 V."
+      },
+      {
+        "input_id": "PI10",
+        "kind": "observation",
+        "content": "The methyl ester in PI2 gave the desired benzoate in 70% yield by crude quantitative 1H NMR and 66% isolated yield; its voltammetric response was reversible, with E1/2 = 0.90 V. The methyl-side-chain Weinreb amide in PI3 gave 44% benzoate yield and a largely reversible voltammetric response, with E1/2 = 0.87 V. The butyl-side-chain Weinreb amide in PI4 gave no desired product and an irreversible voltammetric response, with Ep/2 = 0.86 V. The additional reverse-scan feature reported for the aldehyde and acid substrates in PI11 was not observed for this butyl-side-chain amide."
+      },
+      {
+        "input_id": "PI11",
+        "kind": "observation",
+        "content": "The aldehyde in PI5 and carboxylic acid in PI6 gave no detected desired benzoate products in the reported MeCN electrolysis experiments. Both showed irreversible voltammetric profiles with an additional pronounced reverse-scan peak; their reported Ep/2 values were 1.0 V and 1.1 V, respectively. No detection limit for the desired products is supplied."
+      },
+      {
+        "input_id": "PI12",
+        "kind": "observation",
+        "content": "The primary acetophenone-derived substrate in PI7 gave 12% benzoate yield and 10% remaining starting material by crude quantitative 1H NMR relative to a mesitylene internal standard. This was an optimization-screening observation in DCM at 0.2 M substrate, with benzoic acid (3 equivalents), 2,4,6-trimethylpyridine (1 equivalent), tetrabutylammonium hexafluorophosphate (0.1 M), a graphite anode and platinum cathode, 15 mA current and 6 F/mol charge. These are not matched baseline MeCN conditions; no water-additive quantity is specified for this screening entry. Its separately measured MeCN voltammetric response was reversible, with E1/2 = 0.95 V."
+      }
+    ],
+    "changes": [
+      {
+        "subject_id": "scientific_question",
+        "change_type": "neutral_rewording",
+        "reason": "Retain all seven Stage05 systems and the connected substituent/reactivity investigation, but remove the prescribed singly oxidized radical-cation model and the blanket MeCN restriction on experimental observations. Make the scientific relationships explicit: carbonyl-function contrasts, the S5/S6 side-chain contrast, the S1/S19 primary/secondary contrast, and their relationship to measured electrochemical behavior. Conformational/spin comparisons and NBO analyses support these same outcomes without becoming mandatory autonomous methods. No new reaction or barrier target is added. The primary-substrate yield was obtained in DCM screening, whereas all reported DFT models and the separately measured CV comparisons used MeCN.",
+        "evidence_ids": [
+          "ev_doc_194bf71e2759_000226_29d4479383b4",
+          "ev_doc_194bf71e2759_000228_b6fc1541dcb4",
+          "ev_doc_194bf71e2759_000231_5f68be8ffc21",
+          "ev_doc_194bf71e2759_000232_3363fdc07ab4",
+          "ev_doc_b76e5e58da5e_000044_cc9892953958",
+          "ev_doc_b76e5e58da5e_000050_f62dd897e09f",
+          "ev_doc_b76e5e58da5e_000051_43df9cff904e",
+          "ev_doc_194bf71e2759_000103_32b76768dab7",
+          "pdf-page-doc_194bf71e2759-p25"
+        ]
+      },
+      {
+        "subject_id": "PI8",
+        "change_type": "source_correction",
+        "reason": "Correct the upstream blanket assignment of MeCN electrolysis to every observation. Original SI page 25 explicitly places the primary ketone's 12% observation under a DCM screening scheme (0.2 M, one equivalent base, 6 F/mol), different from the baseline MeCN batch conditions. Retain the baseline ingredients and homogeneous reaction identity, supply their reported quantities and electrode polarities, and distinguish the separate CV measurement conditions/reference convention. Product connectivity is ordinary observed identity, not a proposed mechanism. No missing screening water quantity is inferred.",
+        "evidence_ids": [
+          "ev_doc_194bf71e2759_000114_335003dac5c4",
+          "pdf-page-doc_194bf71e2759-p29",
+          "ev_doc_194bf71e2759_000103_32b76768dab7",
+          "pdf-page-doc_194bf71e2759-p25",
+          "ev_doc_194bf71e2759_000085_6ebc7db3e996",
+          "ev_doc_b76e5e58da5e_000033_80f50885e28b",
+          "ev_doc_b76e5e58da5e_000042_217b01a34fe5",
+          "pdf-page-doc_b76e5e58da5e-p3",
+          "ev_doc_194bf71e2759_000123_0451df506388",
+          "ev_doc_194bf71e2759_000132_5284f1163993"
+        ]
+      },
+      {
+        "subject_id": "PI9",
+        "change_type": "neutral_rewording",
+        "reason": "Retain the observed 82% isolated yield and specify the same substrate's measured quasi-reversible CV classification and reported potential. These are neutral observations; the assigned oxidation product and cleavage interpretation are withheld.",
+        "evidence_ids": [
+          "ev_doc_194bf71e2759_000123_0451df506388",
+          "ev_doc_b76e5e58da5e_000033_80f50885e28b",
+          "ev_doc_b76e5e58da5e_000029_f1c6a77de153",
+          "ev_doc_194bf71e2759_000232_3363fdc07ab4"
+        ]
+      },
+      {
+        "subject_id": "PI10",
+        "change_type": "neutral_rewording",
+        "reason": "Retain the reported ester/Weinreb-amide yield contrast; distinguish the ester's 70% crude-NMR result from its 66% isolated result, and supply neutral measured potentials, reversibility and the presence/absence of a reverse-scan feature without its mechanistic assignment. These observations support the connected scientific question, not a mandated author interpretation.",
+        "evidence_ids": [
+          "ev_doc_194bf71e2759_000132_5284f1163993",
+          "ev_doc_194bf71e2759_000133_108fbdc74e29",
+          "ev_doc_194bf71e2759_000232_3363fdc07ab4",
+          "ev_doc_b76e5e58da5e_000042_217b01a34fe5",
+          "ev_doc_b76e5e58da5e_000043_f85d10c709d1",
+          "ev_doc_b76e5e58da5e_000044_cc9892953958",
+          "pdf-page-doc_b76e5e58da5e-p3"
+        ]
+      },
+      {
+        "subject_id": "PI11",
+        "change_type": "neutral_rewording",
+        "reason": "Retain nondetection of the desired aldehyde/acid products, add their measured irreversible profiles and half-peak potentials, and withhold the assigned cleavage mechanism. Nondetection is not converted into an exact zero yield; its detection threshold is not reported.",
+        "evidence_ids": [
+          "ev_doc_b76e5e58da5e_000050_f62dd897e09f",
+          "ev_doc_194bf71e2759_000232_3363fdc07ab4"
+        ]
+      },
+      {
+        "subject_id": "PI12",
+        "change_type": "source_correction",
+        "reason": "Preserve the primary acetophenone-derived identity and reported 12% yield, but recover its actual comparison context from the viewed original SI page 25: crude-NMR screening in DCM, 0.2 M substrate, one equivalent collidine, 6 F/mol and 10% recovered starting material. The SI acknowledges varied optimization conditions. This prevents interpretation as a matched MeCN yield comparison. The 0.95 V reversible CV observation remains a separate MeCN measurement. No unreported additive amount is invented.",
+        "evidence_ids": [
+          "ev_doc_194bf71e2759_000103_32b76768dab7",
+          "pdf-page-doc_194bf71e2759-p25",
+          "ev_doc_194bf71e2759_000232_3363fdc07ab4",
+          "ev_doc_b76e5e58da5e_000051_43df9cff904e",
+          "ev_doc_194bf71e2759_000085_6ebc7db3e996"
+        ]
+      }
+    ],
+    "scoring_policy": "paper_science_v3",
+    "active_rule_ids": [
+      "r_carbonyl_function",
+      "r_sidechain_effect",
+      "r_primary_secondary"
+    ],
+    "scope": "Carbonyl-function dependence of productive capture and electrochemical behavior; How the Weinreb-amide side chain changes molecular organization and reaction compatibility; Why electrochemical persistence and primary/secondary capture efficiency can differ. Public molecular inputs and scientific scope are unchanged.",
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_carbonyl_function",
+        "r_sidechain_effect",
+        "r_primary_secondary"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "public_inputs": [
+    "data/inputs/system.json",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "required_results": "s\n\n1. Explain the carbonyl-function dependence of productive benzoate capture using numerical molecular comparisons for the relevant secondary substrates, and relate it to the voltammetric observations.\n2. Explain the methyl/butyl-Weinreb-amide difference with actual structural and electronic comparisons. Quantify conformational preferences where they underlie your explanation, and distinguish tested findings from possible subsequent chemical fates.\n3. Explain the primary/secondary-ketone comparison using numerical molecular evidence, including why electrochemical persistence may differ from productive capture. Retain the unmatched reaction-condition limitation.\n\nState what each model supports and what remains unresolved. Validate identities, charge/spin, units, references and calculated stationary points or paths as appropriate to your claims. No fixed descriptor, intermediate, number of conformers or search sequence is required.\n\n"
+}

@@ -1,0 +1,16 @@
+{
+  "paper_id": "paper_628af8d0bf0a1bfe",
+  "items": [
+    {
+      "id": "fabricated_evidence",
+      "description": "Demonstrated fabricated scientific evidence or copied reference answers falsely presented as independently computed invalidate the submission."
+    },
+    {
+      "id": "hidden_answer_leakage",
+      "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Ordinary wrong, failed or missing results lose only their dependent scientific leaves."
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "local_failure_policy": "Unsupported conclusions fail only the affected items with reasons; supported independent conclusions retain points. No need_review scoring state. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "ordinary_failure_policy": "Unsupported conclusions fail only the affected items with reasons; supported independent conclusions retain points. No need_review scoring state. Demonstrated reference defects are recorded separately in objective_issue_flags."
+}

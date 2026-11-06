@@ -1,0 +1,397 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_988bc12ae3768679",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "scientific_requirements": "Only independent final scientific propositions receive points, with one rule per proposition and a total of 100. Each item is full credit on pass and zero on fail; need_review is unresolved and does not count as success. All required final propositions must pass for whole-case success. Genuine linked calculations or reproducible scientific analysis must support the stated conclusion; copied supplied observations or author targets are not newly established results. Check composition, state, mapping, observable, units, environment and reference before comparison. Structures, frequencies, native outputs and model-validity checks qualify the dependent conclusion and receive no independent points. No process, workflow, job-count, software-use, chronology, resource-use or report-completeness score applies. Scientifically established equivalent explanations pass directly. Use need_review only for the item-specific supported but unresolved scientific conflicts below; missing work, guessing, incorrect identity/reference/units and hard-window failures are fail. Numerical windows are fixed inclusive absolute criteria, not fitted to local results. Contextual source values in semantic items do not create hidden numeric gates. AR chooses its methods independently; PR must establish applicability to its disclosed author baseline, or justify a scientifically comparable substitution. This is a comparability condition, not process credit.",
+      "rules": [
+        {
+          "rule_id": "r_aqueous_optical_explanation",
+          "reference_id": "aqueous_optical_explanation",
+          "type": "semantic",
+          "expected": "For chemically balanced acid/base models with the C30N6O4 skeleton, explain the observed acid-to-base red shift through genuine vertical water-optical calculations identifying the dominant absorbing transitions. The base dominant transition is lower in energy; the acid and base bright bands are predominantly pi→pi-star with important HOMO→LUMO contributions involving the azobenzene moieties and isoDPP core. Identify physical transition character and intensity rather than requiring source root numbers or pure single configurations. The computed energy/intensity/transition evidence is support for this optical explanation, not three independent author-node scores. Use one declared response consistently, separating corrected-LR energies from uncorrected LR stages. The source observed wavelengths alone do not establish the explanation; no exact excitation-energy/oscillator-strength window is imposed.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        },
+        {
+          "rule_id": "r_nmr_acid_vs_neutral",
+          "reference_id": "nmr_acid_vs_neutral",
+          "type": "semantic",
+          "expected": "Actual calculated aromatic-proton shielding evidence for protons adjacent to phenolicOH supports acid shifts higher/downfield than neutral under one consistent NMR solvent/reference convention. Map the corresponding protons and preserve all relevant values; selective atom averaging, changing TMS reference to fit, or comparing water-optical quantities is insufficient. Absolute acid-shift agreement is not required because source theory already differs from experiment.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        },
+        {
+          "rule_id": "r_nmr_base_vs_neutral",
+          "reference_id": "nmr_base_vs_neutral",
+          "type": "semantic",
+          "expected": "Actual calculated aromatic-proton shielding evidence for protons adjacent to phenolicOH supports base shifts lower/upfield than neutral under one consistent NMR solvent/reference convention. Map the corresponding protons and preserve all relevant values; selective atom averaging, changing TMS reference to fit, or comparing water-optical quantities is insufficient. Absolute acid-shift agreement is not required because source theory already differs from experiment.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        },
+        {
+          "rule_id": "r_hydrazone_competitor",
+          "reference_id": "hydrazone_competitor",
+          "type": "semantic",
+          "expected": "An actual investigation of the chemically admissible neutral azo/hydrazone alternative supports that neutral tautomerism is not the principal acid–base chromatic-switch carrier. Use physically comparable computed spectral/electronic or same-charge thermochemical evidence that discriminates the proposed competing account; a missing candidate, generic caveat or a bare unmatched total energy is insufficient. No fixed conformer count or exact population is required.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        },
+        {
+          "rule_id": "r_joint_proton_response",
+          "reference_id": "joint_proton_response",
+          "type": "semantic",
+          "expected": "Use the joint spatial and observable constraints to assign the molecular response to phenolic protonation/deprotonation, with explicit changes of proton number, charge and electron count relative to the neutral parent. This item scores the species-level inference and what is identifiable, not a second award for the separately assessed optical/NMR signs or hydrazone result. Explain why local phenolic-adjacent proton shifts and the delocalized optical response constrain the responsive functionality, yet do not by themselves fix unique solution protonation sites or populations. Retain the acid absolute NMR disagreement with experiment and any model-specific residuals; do not resolve them by choosing a subset of mapped protons or adjusting TMS to fit. Equivalent evidence-supported assignment passes. Unbalanced cross-charge total-energy comparisons, unsupported exact populations and degradation/redox/device extrapolation fail.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$.conclusion"
+            ],
+            "comparison": "Evaluate this explicit final proposition from genuine linked native evidence and its physical definitions. Evidence prerequisites do not earn points. Preserve the disclosed PR baseline applicability."
+          }
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "aqueous_optical_explanation",
+          "kind": "conclusion",
+          "max_score": 30,
+          "description": "Electronic explanation of the aqueous acid–base absorption change",
+          "rule_ids": [
+            "r_aqueous_optical_explanation"
+          ],
+          "evidence_ids": [
+            "source_optical",
+            "source_switch"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Valid transition-density/orbital evidence yields a materially different bright-state electronic assignment while retaining the correct aqueous response, and state correspondence or the causal optical interpretation remains scientifically unresolved."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "nmr_acid_vs_neutral",
+          "kind": "conclusion",
+          "max_score": 12,
+          "description": "Calculated local proton-shielding response in acid versus neutral conditions",
+          "rule_ids": [
+            "r_nmr_acid_vs_neutral"
+          ],
+          "evidence_ids": [
+            "source_nmr",
+            "source_switch"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "nmr_base_vs_neutral",
+          "kind": "conclusion",
+          "max_score": 12,
+          "description": "Calculated local proton-shielding response in base versus neutral conditions",
+          "rule_ids": [
+            "r_nmr_base_vs_neutral"
+          ],
+          "evidence_ids": [
+            "source_nmr",
+            "source_switch"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "hydrazone_competitor",
+          "kind": "conclusion",
+          "max_score": 20,
+          "description": "Can neutral azo/hydrazone rearrangement carry the principal switch?",
+          "rule_ids": [
+            "r_hydrazone_competitor"
+          ],
+          "evidence_ids": [
+            "source_switch",
+            "source_optical"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "A chemically admissible neutral-tautomer calculation with compatible thermochemistry and optical/NMR evidence supports a substantial switch contribution that conflicts with the bounded exclusion, and the available evidence cannot resolve the competing molecular accounts."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "joint_proton_response",
+          "kind": "conclusion",
+          "max_score": 26,
+          "description": "Responsive-species assignment and its identification limits",
+          "rule_ids": [
+            "r_joint_proton_response"
+          ],
+          "evidence_ids": [
+            "source_optical",
+            "source_switch",
+            "source_nmr"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "A balanced alternative responsive-species model is supported by both optical and mapped NMR calculations, but the supplied joint observations cannot resolve its substantive conflict with the phenolic proton-exchange assignment."
+          ],
+          "required_for_success": true
+        }
+      ]
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_988bc12ae3768679",
+      "items": [
+        {
+          "statement": "Base dominant water absorption red shift",
+          "expected": "For chemically balanced acid and base models preserving the C30N6O4 skeleton, genuine vertical water-optical calculations support the base dominant absorbing transition at lower energy than the acid dominant transition. Establish intensity and transition character, use the declared response consistently, and distinguish source cLR-corrected values from uncorrected LR. Do not compare dark roots or cherry-pick response stages. No exact excitation-energy window or weak gas-state ordinal equality is imposed.",
+          "evidence_ids": [
+            "source_optical",
+            "source_switch"
+          ],
+          "claim_role": "supporting_evidence",
+          "key_point_id": "aqueous_base_redshift",
+          "key_point_type": "non_scoring_context",
+          "scored": false
+        },
+        {
+          "statement": "NMR acid versus neutral",
+          "expected": "Actual calculated aromatic-proton shielding evidence for protons adjacent to phenolicOH supports acid shifts higher/downfield than neutral under one consistent NMR solvent/reference convention. Map the corresponding protons and preserve all relevant values; selective atom averaging, changing TMS reference to fit, or comparing water-optical quantities is insufficient. Absolute acid-shift agreement is not required because source theory already differs from experiment.",
+          "evidence_ids": [
+            "source_nmr",
+            "source_switch"
+          ],
+          "claim_role": "supporting_evidence",
+          "key_point_id": "nmr_acid_vs_neutral",
+          "key_point_type": "non_scoring_context",
+          "scored": false
+        },
+        {
+          "statement": "NMR base versus neutral",
+          "expected": "Actual calculated aromatic-proton shielding evidence for protons adjacent to phenolicOH supports base shifts lower/upfield than neutral under one consistent NMR solvent/reference convention. Map the corresponding protons and preserve all relevant values; selective atom averaging, changing TMS reference to fit, or comparing water-optical quantities is insufficient. Absolute acid-shift agreement is not required because source theory already differs from experiment.",
+          "evidence_ids": [
+            "source_nmr",
+            "source_switch"
+          ],
+          "claim_role": "supporting_evidence",
+          "key_point_id": "nmr_base_vs_neutral",
+          "key_point_type": "non_scoring_context",
+          "scored": false
+        },
+        {
+          "statement": "Dominant acid transition character",
+          "expected": "For the acid species, actual molecular orbital/transition evidence supports a dominant bright pi→pi-star excitation with an important HOMO→LUMO contribution involving the azobenzene moieties and isoDPP core. Identify the physical transition and charge/spin state, not an unchanged root ordinal. No exact coefficient percentage or complete weak-state-table equality is required.",
+          "evidence_ids": [
+            "source_optical"
+          ],
+          "claim_role": "supporting_evidence",
+          "key_point_id": "bright_character_acid",
+          "key_point_type": "non_scoring_context",
+          "scored": false
+        },
+        {
+          "statement": "Dominant base transition character",
+          "expected": "For the base species, actual molecular orbital/transition evidence supports a dominant bright pi→pi-star excitation with an important HOMO→LUMO contribution involving the azobenzene moieties and isoDPP core. Identify the physical transition and charge/spin state, not an unchanged root ordinal. No exact coefficient percentage or complete weak-state-table equality is required.",
+          "evidence_ids": [
+            "source_optical"
+          ],
+          "claim_role": "supporting_evidence",
+          "key_point_id": "bright_character_base",
+          "key_point_type": "non_scoring_context",
+          "scored": false
+        },
+        {
+          "statement": "Neutral hydrazone does not explain the principal switch",
+          "expected": "An actual investigation of the chemically admissible neutral azo/hydrazone alternative supports that neutral tautomerism is not the principal acid–base chromatic-switch carrier. Use physically comparable computed spectral/electronic or same-charge thermochemical evidence that discriminates the proposed competing account; a missing candidate, generic caveat or a bare unmatched total energy is insufficient. No fixed conformer count or exact population is required.",
+          "evidence_ids": [
+            "source_switch",
+            "source_optical"
+          ],
+          "claim_role": "supporting_evidence",
+          "key_point_id": "hydrazone_competitor",
+          "key_point_type": "non_scoring_context",
+          "scored": false
+        }
+      ]
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_988bc12ae3768679",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabricated evidence or copied reference numbers represented as independently calculated invalidate the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized hidden-evaluator answer use invalidates the submission. Ordinary calculation failure, unsupported identity, numerical mismatch or missing conclusion only affects the relevant scientific items."
+        }
+      ],
+      "scoring_policy": "paper_science_v3",
+      "local_failure_policy": "An unsupported result fails its dependent final proposition; need_review is restricted to the concrete rubric triggers and is never a pass."
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_988bc12ae3768679",
+      "items": [
+        {
+          "conclusion_id": "aqueous_optical_explanation",
+          "statement": "Electronic explanation of the aqueous acid–base absorption change",
+          "expected": "For chemically balanced acid/base models with the C30N6O4 skeleton, explain the observed acid-to-base red shift through genuine vertical water-optical calculations identifying the dominant absorbing transitions. The base dominant transition is lower in energy; the acid and base bright bands are predominantly pi→pi-star with important HOMO→LUMO contributions involving the azobenzene moieties and isoDPP core. Identify physical transition character and intensity rather than requiring source root numbers or pure single configurations. The computed energy/intensity/transition evidence is support for this optical explanation, not three independent author-node scores. Use one declared response consistently, separating corrected-LR energies from uncorrected LR stages. The source observed wavelengths alone do not establish the explanation; no exact excitation-energy/oscillator-strength window is imposed.",
+          "evidence_ids": [
+            "source_optical",
+            "source_switch"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "aqueous_base_redshift",
+            "bright_character_acid",
+            "bright_character_base"
+          ]
+        },
+        {
+          "conclusion_id": "nmr_acid_vs_neutral",
+          "statement": "Calculated local proton-shielding response in acid versus neutral conditions",
+          "expected": "Actual calculated aromatic-proton shielding evidence for protons adjacent to phenolicOH supports acid shifts higher/downfield than neutral under one consistent NMR solvent/reference convention. Map the corresponding protons and preserve all relevant values; selective atom averaging, changing TMS reference to fit, or comparing water-optical quantities is insufficient. Absolute acid-shift agreement is not required because source theory already differs from experiment.",
+          "evidence_ids": [
+            "source_nmr",
+            "source_switch"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "nmr_acid_vs_neutral"
+          ]
+        },
+        {
+          "conclusion_id": "nmr_base_vs_neutral",
+          "statement": "Calculated local proton-shielding response in base versus neutral conditions",
+          "expected": "Actual calculated aromatic-proton shielding evidence for protons adjacent to phenolicOH supports base shifts lower/upfield than neutral under one consistent NMR solvent/reference convention. Map the corresponding protons and preserve all relevant values; selective atom averaging, changing TMS reference to fit, or comparing water-optical quantities is insufficient. Absolute acid-shift agreement is not required because source theory already differs from experiment.",
+          "evidence_ids": [
+            "source_nmr",
+            "source_switch"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "nmr_base_vs_neutral"
+          ]
+        },
+        {
+          "conclusion_id": "hydrazone_competitor",
+          "statement": "Can neutral azo/hydrazone rearrangement carry the principal switch?",
+          "expected": "An actual investigation of the chemically admissible neutral azo/hydrazone alternative supports that neutral tautomerism is not the principal acid–base chromatic-switch carrier. Use physically comparable computed spectral/electronic or same-charge thermochemical evidence that discriminates the proposed competing account; a missing candidate, generic caveat or a bare unmatched total energy is insufficient. No fixed conformer count or exact population is required.",
+          "evidence_ids": [
+            "source_switch",
+            "source_optical"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "hydrazone_competitor"
+          ]
+        },
+        {
+          "conclusion_id": "joint_proton_response",
+          "statement": "Responsive-species assignment and its identification limits",
+          "expected": "Use the joint spatial and observable constraints to assign the molecular response to phenolic protonation/deprotonation, with explicit changes of proton number, charge and electron count relative to the neutral parent. This item scores the species-level inference and what is identifiable, not a second award for the separately assessed optical/NMR signs or hydrazone result. Explain why local phenolic-adjacent proton shifts and the delocalized optical response constrain the responsive functionality, yet do not by themselves fix unique solution protonation sites or populations. Retain the acid absolute NMR disagreement with experiment and any model-specific residuals; do not resolve them by choosing a subset of mapped protons or adjusting TMS to fit. Equivalent evidence-supported assignment passes. Unbalanced cross-charge total-energy comparisons, unsupported exact populations and degradation/redox/device extrapolation fail.",
+          "evidence_ids": [
+            "source_optical",
+            "source_switch",
+            "source_nmr"
+          ],
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "aqueous_base_redshift",
+            "nmr_acid_vs_neutral",
+            "nmr_base_vs_neutral",
+            "hydrazone_competitor"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_988bc12ae3768679",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "status": "FINAL_RESULTS_MIGRATED_WITH_REUSED_EVIDENCE",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "current_scope_verified": false,
+      "reason": "Final-answer design and static contracts migrated on 2026-10-28. Existing evidence is reused per proposition; historical acceptance is not a new V3 full scientific validation or blind-agent result.",
+      "scope": "The same dye-2a acid/base optical–NMR explanation and species-identifiability question is retained. Five final propositions replace seven V2 nodes: one optical electronic explanation, two local NMR responses, the neutral-tautomer alternative and the responsive-species inference. Bright-state amplitudes and root correspondence support the optical conclusion rather than receiving separate intermediate credit. AR retains independent model choice; PR retains the disclosed CAM-B3LYP/cLR/GIAO author baseline.",
+      "evidence_reuse": "r_aqueous_optical_explanation reuses EXISTING_RESULTS_UNIFIED_COMPARISON.json water_optics: corrected-LR acid/base 3.3011/2.6072 eV; associated LR oscillator strengths 2.5532/2.9118; H137→L138 amplitudes 0.64058/0.57630. r_nmr_acid_vs_neutral/r_nmr_base_vs_neutral reuse all four mapped H45/46/55/56 with common TMS shielding 32.0802666667 ppm: acid/neutral/base means 8.11884167/7.12474167/6.35666667 ppm. r_hydrazone_competitor reuses hydrazone cLR 2.898 eV, NMR mean 6.52629167 ppm and same-charge single-basin RRHO hydrazone-minus-azo +9.97614562/+9.04052899 kcal/mol in water/DMSO. r_joint_proton_response reuses these jointly and full H20/q0, H22/q+2, H18/q−2 identities (274-electron singlets). The historical acceptance is qualitative with numerical deviations, not strict numerical or new V3 validation.",
+      "evidence_gaps": [
+        "Source acid NMR 7.98 ppm already differs from experimental 6.95; native 8.11884167 differs by +1.16884167 ppm. Source scalar aggregation is incompletely disclosed",
+        "Gas base source S4 resembles native S5; weak-state ordinal correspondence remains unresolved outside the dominant-band conclusion",
+        "No unique solution protonation site, acid/base equilibrium fraction or experimental hydrazone population is established; cross-charge energies cannot supply these"
+      ],
+      "historical_qualification": {
+        "paper_id": "paper_988bc12ae3768679",
+        "scoring_policy": "paper_science_v2",
+        "status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+        "acceptance_type": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+        "accepted_at_utc": "2026-10-20",
+        "formal_scoring_permitted": true,
+        "current_scope_verified": true,
+        "release_ready": false,
+        "blocked_rule_ids": [],
+        "reserved_points": 0,
+        "unblock_conditions": [],
+        "reason": "Coordinator confirmed all task-critical qualitative findings, disclosed important method/model settings and valid necessary calculations under the2026-10-20 numerical-deviation authorization. No exact numerical reproduction or original-tolerance pass is claimed.",
+        "coordinator_decision_artifact": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/PAPER_DECISIONS.json",
+        "publication_expert_review_status": "Publication/expert review remains separate from runtime scientific scoring; not a Judge blocker.",
+        "numerical_policy": "No numerical leaves or invented tolerance; original values, residuals and historical policy are retained.",
+        "limitations": [
+          "Formal SI is a DOCX, not a missing PDF. NMR method paragraph uses TableS1 wording but the actual chemical-shift caption is TableS2; paragraph locations are explicit.",
+          "Source water values are compared to nonequilibrium cLR corrected energies; native LR intermediates happen to be closer and are not substituted.",
+          "Gas base sourceS4(3.05eV,f.1374) resembles nativeS5 while nativeS4 is2.8994eV/f0. Weak-state ordinal correspondence is unresolved and excluded from dominant-band scoring.",
+          "Source calculated acid7.98ppm already differs from experiment6.95ppm; native8.11884167ppm retains rather than conceals the disagreement. Source scalar aggregation is incompletely disclosed.",
+          "Acid NMR absolute disagreement is not hidden or repaired through selective proton averaging. Source scalar aggregation and exact reference origins remain incompletely disclosed.",
+          "No acid/base equilibrium fractions, free ion activities, unique acid site or experimentally certified hydrazone fraction are inferred.",
+          "Source weak-state index mismatch does not reverse task-critical strongest-band or NMR direction; no claim of complete line-by-line table equality."
+        ],
+        "verification_reference": "evaluation/verified_computation_reference.md",
+        "private_archive_index": "docs/final_verified_science_v2_additions_20261020/astra_science_02/ARCHIVE_INDEX.json"
+      },
+      "new_computations": false
+    }
+  }
+}

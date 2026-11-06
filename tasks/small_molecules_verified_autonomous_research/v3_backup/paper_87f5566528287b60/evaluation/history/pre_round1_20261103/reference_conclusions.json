@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_87f5566528287b60",
+  "items": [
+    {
+      "conclusion_id": "tx_compatibility",
+      "statement": "Thioxanthone activation compatibility",
+      "expected": "Provide a molecular explanation, supported by actual calculations on the complete sulfilimine and traceable catalyst properties, that thioxanthone is compatible with substrate activation. The source reference explanation compares its reported triplet energy 65.5 kcal/mol with the calculated substrate activation scale (source adiabatic G(T1)−G(S0)=62.0 kcal/mol). Neither source number is a hard target. A physically equivalent validated electronic explanation passes directly. State calculated numerical quantities, electronic states, reference and conditions; use them to explain the observed outcome. Copying yield, merely listing energies without interpreting compatibility, or supplying only a mechanism label fails. Its370nm/10mol% experiment differs from the470nm/1mol% set and cannot establish a condition-matched causal contrast.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_tx_compatibility"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "conclusion_id": "ir_dfppy_compatibility",
+      "statement": "Ir(dFppy)3 activation compatibility",
+      "expected": "Provide a molecular explanation, supported by actual calculations on the complete sulfilimine and traceable catalyst properties, that Ir(dFppy)3 is compatible with substrate activation. The source reference explanation compares its reported triplet energy 63.5 kcal/mol with the calculated substrate activation scale (source adiabatic G(T1)−G(S0)=62.0 kcal/mol). Neither source number is a hard target. A physically equivalent validated electronic explanation passes directly. State calculated numerical quantities, electronic states, reference and conditions; use them to explain the observed outcome. Copying yield, merely listing energies without interpreting compatibility, or supplying only a mechanism label fails. ",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_ir_dfppy_compatibility"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "conclusion_id": "standard_ir_boundary",
+      "statement": "Standard iridium photocatalyst near-matching activation scale",
+      "expected": "Provide a molecular explanation, supported by actual calculations on the complete sulfilimine and traceable catalyst properties, that Ir[dF(CF3)ppy]2(dtbbpy)PF6 is near the substrate activation scale and compatible within the resolution of the model. The source reference explanation compares its reported triplet energy 61.8 kcal/mol with the calculated substrate activation scale (source adiabatic G(T1)−G(S0)=62.0 kcal/mol). Neither source number is a hard target. A physically equivalent validated electronic explanation passes directly. State calculated numerical quantities, electronic states, reference and conditions; use them to explain the observed outcome. Copying yield, merely listing energies without interpreting compatibility, or supplying only a mechanism label fails. The source gap62.0 is slightly above61.8 while native61.465356 is below it; neither small sign sets a universal threshold.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_standard_ir_boundary"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "conclusion_id": "fac_ir_mismatch",
+      "statement": "fac-Ir(ppy)3 molecular mismatch relative to productive catalysts",
+      "expected": "Provide a molecular explanation, supported by actual calculations on the complete sulfilimine and traceable catalyst properties, that fac-Ir(ppy)3 is less compatible with substrate activation than the productive group. The source reference explanation compares its reported triplet energy 58.1 kcal/mol with the calculated substrate activation scale (source adiabatic G(T1)−G(S0)=62.0 kcal/mol). Neither source number is a hard target. A physically equivalent validated electronic explanation passes directly. State calculated numerical quantities, electronic states, reference and conditions; use them to explain the observed outcome. Copying yield, merely listing energies without interpreting compatibility, or supplying only a mechanism label fails. Trace is qualitative, not exactly zero conversion.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_fac_ir_mismatch"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "conclusion_id": "mes_acr_mismatch",
+      "statement": "Mes-Acr+ molecular mismatch relative to productive catalysts",
+      "expected": "Provide a molecular explanation, supported by actual calculations on the complete sulfilimine and traceable catalyst properties, that Mes-Acr+ClO4− is less compatible with substrate activation than the productive group. The source reference explanation compares its reported triplet energy 44.7 kcal/mol with the calculated substrate activation scale (source adiabatic G(T1)−G(S0)=62.0 kcal/mol). Neither source number is a hard target. A physically equivalent validated electronic explanation passes directly. State calculated numerical quantities, electronic states, reference and conditions; use them to explain the observed outcome. Copying yield, merely listing energies without interpreting compatibility, or supplying only a mechanism label fails. Do not infer an exact deactivation rate from trace yield.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_mes_acr_mismatch"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "conclusion_id": "yield_nonmonotonicity",
+      "statement": "Explanatory reach of molecular compatibility for yield differences",
+      "expected": "Determine how much of the supplied outcomes the chosen computed molecular model actually explains: productive-versus-trace grouping, yield ordering, or any further supported quantitative reach. Use actual calculations on the complete sulfilimine, traceable catalyst properties, consistent physical definitions and a justified relation between the calculated quantities and isolated yield under the stated conditions. For the source triplet-energy compatibility model, donor energy does not monotonically predict yield: standard Ir at 61.8 kcal/mol gives 76%, while Ir(dFppy)3 at 63.5 kcal/mol gives 61% under matched screening conditions; thioxanthone at 65.5 kcal/mol gives 66% under different light/loading. These observations limit that model, not every possible molecular explanation. An alternative with independent computational evidence and a physically substantiated explanation of a broader outcome range passes directly for that supported scope; a new model label or fit to the supplied yields alone does not suffice. Do not infer exclusive EnT causality, full nitrene/HAA/rebound kinetics or precise yield prediction from the source energy comparison alone. No exact-yield prediction or full kinetic model is required.",
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "support_yield_nonmonotonicity"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

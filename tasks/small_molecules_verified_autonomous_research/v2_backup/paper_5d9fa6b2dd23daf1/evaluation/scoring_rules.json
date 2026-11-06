@@ -1,0 +1,297 @@
+{
+  "package_version": "arche_text14_v1_20261026",
+  "case_id": "case_09",
+  "source_paper_id": "paper_5d9fa6b2dd23daf1",
+  "scoring_policy": "paper_science_v2",
+  "total_points": 100,
+  "whole_case_success": "All scientific items marked required_for_whole_case_success must pass, and evidence eligibility must pass; no arbitrary threshold such as 60 points is used. The original rules concern recovery of bounded literature conclusions and cannot establish a unique true mechanism.",
+  "numeric_comparison_policy": "Retain the existing numerical targets/tolerances; first review the comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not change tolerances unilaterally. Source numbers without a target provide context only and are not implicit thresholds.",
+  "semantic_review_policy": "A chemistry reviewer blinded to the system's identity assigns pass/fail/needs_review from native computational evidence. Equivalent mechanisms supporting the same physical proposition are permitted; keyword matching alone is insufficient.",
+  "rules": [
+    {
+      "rule_id": "r_acid_trans_connection",
+      "reference_id": "acid_trans_connection",
+      "type": "semantic",
+      "expected": "Actual molecular structures and reaction-connectivity evidence support C–C bond formation between the specified E-hex-3-enoic acid and an adamantyl electrophilic center, and ring closure through carboxyl oxygen to the supplied five-membered lactone with a trans ethyl/adamantyl relative configuration. The authors' reference is a concerted cyclization TS retaining the acidic proton, with total charge +1 and singlet multiplicity. The reaction mode and local connectivity must correspond to these bond-forming events, and the protonated endpoint must be related to the neutral target product with balanced atoms/protons. Scientifically equivalent connectivity evidence is permitted; a full IRC or deprotonation TS is not mandatory. The supplied product, one correct distance or normal termination alone is insufficient.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_sulfonamide_trans_connection",
+      "reference_id": "sulfonamide_trans_connection",
+      "type": "semantic",
+      "expected": "Actual structures and local reaction connectivity support C–C bond formation and five-membered N–C ring closure of the complete specified E-alkenyl sulfonamide, giving the trans ethyl/adamantyl relationship in the supplied N-p-toluenesulfonylpyrrolidine. The authors' TS retains the N–H proton, with total charge +1 and singlet multiplicity; the protonated endpoint must be reasonably related to the neutral product. An unconverged supermolecule cannot be presented as a minimum, but valid reaction modes, finite downhill paths and independently qualified fragments may provide commensurate evidence. A complete catalytic cycle or cis competition is not required.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_acid_local_barrier",
+      "reference_id": "acid_local_barrier",
+      "type": "numeric",
+      "expected": "G(TS1–3a)−G(Ad+)−G(1a)=13.0 kcal/mol, with absolute tolerance 2.0 and inclusive boundaries. Check HFIP, 293.15 K, 1 atm, +1 singlet reacting components and retention of the acidic proton. The TS must have saddle-point/connectivity evidence corresponding to the bond formation. This quantity is not the 15.7 height on the full profile starting from AdOH; do not splice the authors' ionic energy of 2.7 into independently computed local quantities. Reconstruction of solvent thermal corrections must be explicit. Physically equivalent standard-state/unit conversions are permitted; fitted offsets are not accepted.",
+      "target": 13.0,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_sulfonamide_local_barrier",
+      "reference_id": "sulfonamide_local_barrier",
+      "type": "numeric",
+      "expected": "G(TS1–3s)−G(Ad+)−G(1s)=10.2 kcal/mol, with absolute tolerance 2.0 and inclusive boundaries. Check HFIP, 293.15 K, 1 atm, the complete E-sulfonamide and a +1 singlet TS retaining the N–H proton, with actual saddle-point/connectivity evidence. This quantity is not the 12.9 height on the full profile starting from AdOH. All energies must come from a consistent independently computed ledger; do not mix the authors' ion-formation energy with independently computed local energies. Transparent, physically equivalent conversions are permitted.",
+      "target": 10.2,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_acid_product_energy",
+      "reference_id": "acid_product_energy",
+      "type": "numeric",
+      "expected": "G(trans lactone 3a)+G(H2O)−G(AdOH)−G(E-alkenyl acid 1a)=−12.3 kcal/mol, with absolute tolerance 2.0 and inclusive boundaries. Use valid neutral singlet minima and consistent thermal corrections for HFIP, 293.15 K and 1 atm; TfOH/HFIP cancel as conserved spectator components in the complete ledger. A protonated product, ion-pair energy or arbitrary lower conformer cannot replace this net reaction quantity without an explicit identity account.",
+      "target": -12.3,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_sulfonamide_product_energy",
+      "reference_id": "sulfonamide_product_energy",
+      "type": "numeric",
+      "expected": "G(trans N-p-toluenesulfonylpyrrolidine 3s)+G(H2O)−G(AdOH)−G(E-alkenyl sulfonamide 1s)=−12.1 kcal/mol, with absolute tolerance 2.0 and inclusive boundaries. Use valid neutral singlet minima for HFIP, 293.15 K and 1 atm; retain the complete substrate, atom and proton ledger. A cationic endpoint retaining an extra N–H cannot directly replace the neutral net product.",
+      "target": -12.1,
+      "tolerance": 2.0,
+      "unit": "kcal/mol",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_trans_pathway_answer",
+      "reference_id": "trans_pathway_answer",
+      "type": "semantic",
+      "expected": "In the final conclusion, use actual connectivity and structural evidence to connect adamantyl electrophilic bond formation and ring closure through carboxyl oxygen or sulfonamide nitrogen to the two supplied trans products in a chemically balanced pathway explanation. The authors' concerted electrophilic cyclization is the reference answer; scientifically equivalent physical explanations supported by actual evidence are acceptable. Merely repeating products or listing candidates is insufficient. Explain the relative trans configuration; a trans route alone cannot establish quantified trans/cis selectivity. A unique mechanism or complete catalytic cycle need not be demonstrated.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    },
+    {
+      "rule_id": "r_energetic_comparison_answer",
+      "reference_id": "energetic_comparison_answer",
+      "type": "semantic",
+      "expected": "In the final conclusion, use actual barriers and net reaction thermodynamics with consistent physical references to judge that local sulfonamide cyclization is easier than that of the acid substrate and that both net product formations are exergonic, applying this comparison to the accessibility question for the supplied system. Passing independent numerical windows does not replace the ordering and signs; values outside the windows do not automatically invalidate evidence-supported qualitative conclusions. Do not treat full-profile heights as local barriers, ion-formation energies as activation barriers or the small 0.2 kcal/mol product difference as a robust ordering. Do not infer exact experimental rates/yields from this comparison.",
+      "qualification": "Must be supported by genuine computational evidence from this run, with compatible species/configurations, composition, charge/spin, conditions, physical quantities and references. Labels, supplied observations or normal termination cannot substitute for such evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Apply the expert-authored physical-identity and evidence qualification, then the unchanged scientific criterion and any existing numeric window. Semantic validity requires scientific review."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "acid_trans_connection",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "C–C bond formation and trans lactone ring closure of the acid substrate",
+      "rule_ids": [
+        "r_acid_trans_connection"
+      ],
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "sulfonamide_trans_connection",
+      "kind": "intermediate",
+      "max_score": 15,
+      "description": "C–C bond formation and trans nitrogen-containing ring closure of the sulfonamide substrate",
+      "rule_ids": [
+        "r_sulfonamide_trans_connection"
+      ],
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "acid_local_barrier",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Local cyclization Gibbs barrier of the acid substrate",
+      "rule_ids": [
+        "r_acid_local_barrier"
+      ],
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY"
+      ]
+    },
+    {
+      "id": "sulfonamide_local_barrier",
+      "kind": "intermediate",
+      "max_score": 10,
+      "description": "Local cyclization Gibbs barrier of the sulfonamide substrate",
+      "rule_ids": [
+        "r_sulfonamide_local_barrier"
+      ],
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY"
+      ]
+    },
+    {
+      "id": "acid_product_energy",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "Net Gibbs free energy of lactone formation",
+      "rule_ids": [
+        "r_acid_product_energy"
+      ],
+      "evidence_ids": [
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY"
+      ]
+    },
+    {
+      "id": "sulfonamide_product_energy",
+      "kind": "intermediate",
+      "max_score": 5,
+      "description": "Net Gibbs free energy of nitrogen-containing cyclic product formation",
+      "rule_ids": [
+        "r_sulfonamide_product_energy"
+      ],
+      "evidence_ids": [
+        "E_PROFILE",
+        "E_METHOD",
+        "E_ENERGY"
+      ]
+    },
+    {
+      "id": "trans_pathway_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final: explain the two classes of trans products by electrophilic cyclization",
+      "rule_ids": [
+        "r_trans_pathway_answer"
+      ],
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_COORD"
+      ]
+    },
+    {
+      "id": "energetic_comparison_answer",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Final: easier sulfonamide cyclization and two exergonic net transformations",
+      "rule_ids": [
+        "r_energetic_comparison_answer"
+      ],
+      "evidence_ids": [
+        "E_MAIN",
+        "E_PROFILE",
+        "E_ENERGY"
+      ]
+    }
+  ],
+  "scope_changes": [],
+  "reference_issues": [],
+  "source_location": "Main text p8–9 Scheme 7/8; SI p79–81",
+  "source_files": [
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_09/main.pdf",
+    "tasks/ARCHE_评测包_20261026/03_论文原文_仅供评测者/case_09/supplementary_001.pdf"
+  ],
+  "paper_id": "paper_5d9fa6b2dd23daf1",
+  "expert_scoring_policy": "scientific_results_only_binary_items",
+  "expert_rules_file": "expert_scoring_rules.json",
+  "required_for_whole_case_success_item_ids": [
+    "acid_trans_connection",
+    "sulfonamide_trans_connection",
+    "acid_local_barrier",
+    "sulfonamide_local_barrier",
+    "acid_product_energy",
+    "sulfonamide_product_energy",
+    "trans_pathway_answer",
+    "energetic_comparison_answer"
+  ],
+  "scientific_requirements": "All scientific items marked required_for_whole_case_success must pass, and evidence eligibility must pass; no arbitrary threshold such as 60 points is used. The original rules concern recovery of bounded literature conclusions and cannot establish a unique true mechanism.\nRetain the existing numerical targets/tolerances; first review the comparability of physical identities, references and conditions. If comparability cannot be determined, mark needs_review and explain why; do not change tolerances unilaterally. Source numbers without a target provide context only and are not implicit thresholds.\nA chemistry reviewer blinded to the system's identity assigns pass/fail/needs_review from native computational evidence. Equivalent mechanisms supporting the same physical proposition are permitted; keyword matching alone is insufficient.\nEvery scientific item retains its expert-authored weight and all-or-nothing rule. No research-process points are awarded.\nThe weighted score reports partial scientific achievement. Use expert_scoring_rules.json and score_case.py for the explicit pass/fail/needs_review whole-case adjudication; no score threshold replaces that decision."
+}

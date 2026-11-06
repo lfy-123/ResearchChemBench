@@ -1,0 +1,128 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_sulfone_formation_explanation",
+      "r_butadiene_regio_explanation",
+      "r_butadiene_geometry_explanation",
+      "r_phenyl_regio_reversal"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Explain how the specified visible-light reaction of buta-1,3-diene, sodium difluoromethanesulfinate and methyl pentafluorobenzoate forms the observed polyfluoroaryl sulfone. What explains its 1,4-versus-1,2 competition and E preference, and the reversal to 1,2 addition for the specified terminal-phenyl diene? This is an explanation task: observed products and preferences are supplied starting facts.",
+  "active_rule_ids": [
+    "r_sulfone_formation_explanation",
+    "r_butadiene_regio_explanation",
+    "r_butadiene_geometry_explanation",
+    "r_phenyl_regio_reversal"
+  ],
+  "current_outcome_ids": [
+    "sulfone_formation_explanation",
+    "butadiene_regio_explanation",
+    "butadiene_geometry_explanation",
+    "phenyl_regio_reversal"
+  ],
+  "historical_record": {
+    "paper_id": "paper_3e27c1888e57a947",
+    "scoring_policy": "paper_science_v3",
+    "status": "V3_DESIGN_AND_EVIDENCE_MAPPING_COMPLETE",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "current_scope_verified": false,
+    "verification_status": "V3_NOT_REASSESSED",
+    "strict_numeric_whole_pass": false,
+    "reason": "Final outcomes were mapped individually to source and existing native evidence. Historical acceptance is not inherited. See outcome_evidence_coverage and the per-paper Chinese change record.",
+    "unblock_conditions": [],
+    "physical_definition": "Gaussian16 C.01；PBE0-D3BJ/6-31G(d)气相优化/频率，298.15 K、1 atm RRHO；PBE0-D3BJ/6-311+G(d,p)、SMD-DMSO/DMF同几何单点。保留来源分子模型；单点色散措辞及未公开热化学细节存在不确定性。",
+    "publication_review_pending": [
+      "TS3局部势垒对正文高6.682461 kcal/mol；来源前配合物单点差−7.226079仍未解释，不能归因为构象松弛。",
+      "反向连接为有效IRC片段、连续继承几何的优化和最终端点，不宣称完整连续IRC。",
+      "未独立计算完整光循环、Zn溶液物种分布、离子交换、精确E/Z比或全局速率；这些不是当前必要计算。",
+      "历史PR范围较窄，保持其已有候选状态；本次只迁移当前AR整题，不自动给旧PR严格数值验收。"
+    ],
+    "verification_scope": "current_autonomous_research_scientific_question",
+    "independent_acceptance_review": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/acceptance_audit.json",
+    "scoring_mode": "final_results_100",
+    "scientific_acceptance_reassessed_this_migration": false,
+    "new_quantum_validation_performed": false,
+    "new_arche_run_performed": false,
+    "historical_reference_status": {
+      "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+      "current_scope_verified": true,
+      "verification_status": "PROVISIONAL_PASS_QUALITATIVE",
+      "reason": "用户授权将已验收当前AR科学问题迁移为仅科学结果评分；独立验收支持当前必要定性结论，数值误差和发布判断保留给专家。该资格不等同于严格数值复现或盲测满分。"
+    },
+    "outcome_evidence_coverage": [
+      {
+        "rule_id": "r_sulfone_formation_explanation",
+        "source": "Main PDF pp. 5–7 Scheme 3G–I; SI PDF pp. 29–34 and 38–42 (printed S27–S32/S36–S40)",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/native_recheck.json",
+        "actual_evidence": "TS1 7.656093; late TS3 connected barrier 28.382461 and product-reactant 8.344715 kcal/mol; validated C-S/C-F mode and endpoint graph.",
+        "coverage": "Existing local molecular evidence mapped; no full photophysics/global rate, exact E/Z or controlled substituent-only causal verification. Late barrier source discrepancy remains unresolved."
+      },
+      {
+        "rule_id": "r_butadiene_regio_explanation",
+        "source": "Main PDF pp. 5–7 Scheme 3G–I; SI PDF pp. 29–34 and 38–42 (printed S27–S32/S36–S40)",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/native_recheck.json",
+        "actual_evidence": "Common-reference capture barriers 3.185193/6.234892, gap 3.049699 kcal/mol; source SI 3.049696 versus prose 4.4.",
+        "coverage": "Existing local molecular evidence mapped; no full photophysics/global rate, exact E/Z or controlled substituent-only causal verification. Late barrier source discrepancy remains unresolved."
+      },
+      {
+        "rule_id": "r_butadiene_geometry_explanation",
+        "source": "Main PDF pp. 5–7 Scheme 3G–I; SI PDF pp. 29–34 and 38–42 (printed S27–S32/S36–S40)",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/native_recheck.json",
+        "actual_evidence": "Local E/Z barrier gap 1.362990; absolute TS gap 2.754121 and precursor gap 1.391131 kcal/mol.",
+        "coverage": "Existing local molecular evidence mapped; no full photophysics/global rate, exact E/Z or controlled substituent-only causal verification. Late barrier source discrepancy remains unresolved."
+      },
+      {
+        "rule_id": "r_phenyl_regio_reversal",
+        "source": "Main PDF pp. 5–7 Scheme 3G–I; SI PDF pp. 29–34 and 38–42 (printed S27–S32/S36–S40)",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_3e27/native_recheck.json",
+        "actual_evidence": "Terminal-phenyl DMF 1,4 minus 1,2 TS gap 3.108123 kcal/mol, source 3.108682 SI/3.1 main.",
+        "coverage": "Existing local molecular evidence mapped; no full photophysics/global rate, exact E/Z or controlled substituent-only causal verification. Late barrier source discrepancy remains unresolved."
+      }
+    ],
+    "outcome_count": 4,
+    "active_rule_ids": [
+      "r_sulfone_formation_explanation",
+      "r_butadiene_regio_explanation",
+      "r_butadiene_geometry_explanation",
+      "r_phenyl_regio_reversal"
+    ],
+    "historical_tolerance_policy_non_scoring_20261029": {
+      "numeric_rules": 0,
+      "rationale": "Existing final numerical targets are unchanged; source-route intermediate values remain non-scoring context."
+    },
+    "scoring_revision": "conclusion_only_20261029",
+    "active_numeric_rules": 0,
+    "binary_final_result_policy": "Binary pass/fail per item; no pending manual points. Evidence-supported equivalents and explicitly admitted method-sensitive findings pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+    "numeric_comparison_policy": "No numeric target/tolerance gates. Physical quantities support scientific conclusions; molecular identities, conditions and physical references remain mandatory scope definitions.",
+    "evidence_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+    "migration_20261029": "Scoring-contract update only. Historical scientific status, acceptance labels, evidence gaps and source/native values remain unchanged. No quantum jobs, new scientific validation or automatic promotion to strict acceptance."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "sulfone_formation_explanation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "butadiene_regio_explanation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "butadiene_geometry_explanation": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "phenyl_regio_reversal": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "219个正频；优化以negligible forces停止而位移NO。硝酸根三个伸缩为906.6623/1079.7096/1511.2095 cm−1；1261/1223/802附近主要有PPh3贡献。",
+  "accepted_limitations": "1532/1561 cm−1来源实验记录冲突与未明缩放仍保留；不得最近频率指认，不得称四收敛指标全YES或所有固体带唯一赋值。",
+  "objective_issue_flags": [
+    "1532/1561 cm−1来源实验记录冲突与未明缩放仍保留；不得最近频率指认，不得称四收敛指标全YES或所有固体带唯一赋值。"
+  ],
+  "current_rules": [
+    "r_coordination_geometry",
+    "r_nitrate_bonding_vibrations",
+    "r_observation_1261",
+    "r_observation_1223",
+    "r_observation_802",
+    "r_high_band_comparison",
+    "r_molecular_scope"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_2f0a4f80a37fbccd",
+    "status": "V3_EVIDENCE_REUSE_REVIEW_NO_NEW_COMPUTATION",
+    "formal_scoring_permitted": true,
+    "criterion_date": "2026-10-28",
+    "acceptance_basis": "Historical computations reused proposition by proposition as documented in the 2026-10-28 prefix and modification report. Previous PASS or qualified acceptance is not a new V3 whole-case validation.",
+    "original_numerical_gate_passed": false,
+    "original_numerical_tolerance_relabelled_as_met": false,
+    "scientific_scope": "Same bounded full-complex geometry and vibrational interpretation, with seven final propositions and no separate intermediate or process credit.",
+    "publication_or_expert_review_limits": [
+      "The source correction/scaling factor is unambiguously unavailable in disclosed text; raw-to-printed differences remain−19.3377/−22.2904/−29.7905cm−1. No correction factor or numerical tolerance is fitted.",
+      "Crystal assignment plus actual eta2 geometry supports coordination; molecular IR alone does not prove an exhaustive unique structural assignment, and KBr environment is not explicitly modeled.",
+      "Displacement analysis supports selective nitrate/ligand distinctions, not exact assignment of all21 observed bands.1561/1532 discrepancy and other-species FMO naming issues remain outside claimed resolution."
+    ],
+    "source": {
+      "path": "docs/v2_verification/maintenance/qualitative_acceptance_review_20261020/NEWLY_ACCEPTED_V2.json",
+      "sha256": "bfbf11a44b3958f8a55b7d144f38970348307aae520a1880788ee1e115cb8581"
+    },
+    "historical_status_policy": "Prior pending/strict numerical failure records are preserved history, not current runtime gating.",
+    "historical_acceptance_status": "ACCEPTED_QUALITATIVE_WITH_NUMERICAL_DEVIATION",
+    "scoring_policy": "paper_science_v3",
+    "evaluation_mode": "final_results_100",
+    "current_scope_verified": false,
+    "evidence_reuse_note": "Reuse coordination/bond evidence from analysis_result.json and SOURCE_VS_NATIVE.json for r_coordination_geometry and r_nitrate_bonding_vibrations; mode projections/frequencies from IR_DIRECT_NATIVE_READBACK.json establish the stretching interpretation. OBSERVATION_MODE_READBACK.json and ir_21_peak_native_audit.json support r_observation_1261/1223/802, r_high_band_comparison and r_molecular_scope. Raw nitrate modes 906.6623/1079.7096/1511.2095 cm^-1 differ from printed 926/1102/1541 by -19.3377/-22.2904/-29.7905 cm^-1. The source correction remains undefined; no numeric window is added or widened. Historical acceptance was qualitative with numerical deviation, not strict source-frequency reproduction."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "strict_numerical_whole_task_pass": false,
+  "reason": "2026-10-21按用户授权迁移科学结果V2；明确来源且物理可比的规则可运行。2026-10-20父级暂定定性验收不等于数值全过；出版专家复审独立待定。",
+  "unresolved_boundaries": [
+    "Int2正文9.6与SI平衡算术4.078811581的冲突未解决；不设精确Int2数值项。",
+    "源TS独立Freq、默认力与正确反应模及端点支持，未作新Opt/独立IRC；位移诊断未通过。",
+    "跨度在原±1.0内但其他来源数值/示例速率并未全复现；Gaussian09→16及未报告设置保留。"
+  ],
+  "unblock_conditions": [],
+  "source_ambiguity_policy": "真正不能确定物理身份/参照的提交项需needs_review；不通过扩大容差处理。已明确排除的来源冲突背景量不冻结其他独立规则。",
+  "tolerance_policy": {
+    "version": "20261021_provisional",
+    "numeric_rules": [
+      {
+        "rule_id": "r_turnover_span",
+        "target": 29.2,
+        "tolerance": 1.0,
+        "unit": "kcal/mol"
+      }
+    ],
+    "rationale": "仅保留来源已有的控制跨度29.2±1.0 kcal/mol；该窗适用于配平共同参照的跨度，不适用于Int2局部高度、局部TS差或示例速率。实际跨度30.132在包含边界内，来源Int2正文/SI冲突不通过扩大窗口处理。"
+  }
+}

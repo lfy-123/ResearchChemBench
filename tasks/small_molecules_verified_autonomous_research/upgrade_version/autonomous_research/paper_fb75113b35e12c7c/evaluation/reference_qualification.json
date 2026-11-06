@@ -1,0 +1,364 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_r5_site_answer",
+      "r_r5_product_class",
+      "r_r5_second_competition",
+      "r_r6_thermodynamic_fate",
+      "r_r6_accessible_fate",
+      "r_comparative_robustness"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only PI1/PI2 and their stated reaction comparisons are scored. PI3 is outside scope. Supplied unranked candidate sites and structures do not determine a preferred outcome.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "For the specified five- and six-membered cyclic-enone electron-deficient [3]dendralenes reacting with methanethiolate in chloroform, determine the favored addition sites and protonated-product connectivities. Explain the competition between simple addition and cyclization for the five- and six-membered cyclic-enone pair, assess whether second thiol addition to the five-membered substrate is competitive, and establish how reliable the predictions are. This is a computational prediction and explanation task; no measured product distribution is supplied.",
+  "active_rule_ids": [
+    "r_r5_site_answer",
+    "r_r5_product_class",
+    "r_r5_second_competition",
+    "r_r6_thermodynamic_fate",
+    "r_r6_accessible_fate",
+    "r_comparative_robustness"
+  ],
+  "current_outcome_ids": [
+    "r5_site_answer",
+    "r5_product_class",
+    "r5_second_competition",
+    "r6_thermodynamic_fate",
+    "r6_accessible_fate",
+    "comparative_robustness"
+  ],
+  "historical_record": {
+    "paper_id": "paper_fb75113b35e12c7c",
+    "scoring_policy": "paper_science_v3",
+    "status": "V3_DESIGN_AND_EVIDENCE_MAPPING_COMPLETE",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "current_scope_verified": false,
+    "verification_status": "V3_NOT_REASSESSED",
+    "verification_scope": "current_autonomous_research_scientific_question",
+    "reason": "Final outcomes were mapped individually to source and existing native evidence. Historical acceptance is not inherited. See outcome_evidence_coverage and the per-paper Chinese change record.",
+    "unblock_conditions": [],
+    "physical_definition": {
+      "method1": "B3LYP-D3BJ/def2-TZVP CPCM(chloroform) Opt/Freq; RRHO 298.15 K",
+      "method7": "wB97M-V/def2-TZVPD SMD(chloroform) SP, DEFGRID3 RIJCOSX",
+      "composite": "G7 = E_SP7 + (G1 - E1); same matched optimized geometry",
+      "charges": "neutral states 0; methanethiolate and anionic adduct/TS states -1; all multiplicity 1",
+      "proton_reservoir": "Neutral overall adduct formation uses neutral MeSH; anion formation uses MeS-. Second addition: mono-adduct + MeSH -> double adduct. No free proton energy or unspecified deprotonation reservoir inserted.",
+      "standard_state": "1 atm RRHO to 1 M: per-species RT ln(RT/(P*0.001 m3/mol)) at 298.15 K, P=101325 Pa",
+      "standard_state_per_species_kcal_mol": 1.8943284454941451,
+      "candidate_rounded_constant_kcal_mol": 1.8941975683244532,
+      "candidate_difference_reason": "Candidate uses RT ln(24.46), exact ideal-gas volume gives per bimolecular association -0.00013087717 kcal/mol; no change to interpretation.",
+      "source_version": "ORCA 6.0.1",
+      "actual_version": "ORCA 6.1.1",
+      "recovery": "SCF numerical aids (SOSCF/SlowConv/shift) disclosed; no changed functional/basis/charge to chase source values."
+    },
+    "publication_review_pending": [
+      "原生SCF采用Total+1el-Energy（ConvCheckMode 2）；正常终止/宣告收敛不等于所有density、DIIS、orbital打印阈值通过。Sulf_SMe4_P2_0_1 method7的MAX/RMS density 0.22963/0.0072282、orbital gradient 0.00042272等残差必须由专家判断。",
+      "原生small-step替代收敛发生于中性母体R6_0_1，MAX gradient 0.0005810986>0.0003000000；R6_SMe6_cyc2S_-1_1环阴离子四项几何判据全部通过。",
+      "R5简单端点小能差且method1/method7最低位点改序；MeSH二次加成略有利，与EtSH实验不完全一致，是作者自身有限预测能力。",
+      "R6初始阴离子正文δ最低，与Figure S8/本次β′最低有来源歧义，不设唯一排序。",
+      "R6 gamma为12点有限受约束method1电子能路径，不能成为精确gamma Gibbs势垒或全局无势垒证明；R5重构gamma阴离子释放仅为来源附近局部开环证据。",
+      "作者ORCA 6.0.1、实际6.1.1；SCF恢复数值辅助有披露。选定来源构象复核并非穷尽构象或完整唯一动力学网络。"
+    ],
+    "independent_acceptance_review": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/sulf_review/audit.json",
+    "scoring_mode": "final_results_100",
+    "scientific_acceptance_reassessed_this_migration": false,
+    "new_quantum_validation_performed": false,
+    "new_arche_run_performed": false,
+    "historical_reference_status": {
+      "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+      "current_scope_verified": true,
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "reason": "用户授权已验收的当前AR科学问题迁移科学分V2。父级独立审计确认32组Opt/Freq+SP与2项gamma阶段覆盖必要结果，保留限定结论；评分可用不等于数值专家批准、自动满分或发布。"
+    },
+    "outcome_count": 7,
+    "active_rule_ids": [
+      "r_r5_site_answer",
+      "r_r5_product_class",
+      "r_r5_second_competition",
+      "r_r6_thermodynamic_fate",
+      "r_r6_accessible_fate",
+      "r_sulf_site_answer",
+      "r_comparative_robustness"
+    ],
+    "historical_non_scoring_tolerance_policy": {
+      "numeric_rules": 0,
+      "rationale": "Existing final numerical targets are unchanged; source-route intermediate values remain non-scoring context."
+    },
+    "historical_non_scoring_outcome_evidence_coverage": [
+      {
+        "rule_id": "r_r5_site_answer",
+        "source": "Main pp. 8–11, Schemes 12–15; SI S30–S34, Eq. S1/Table S4/Fig. S8",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json",
+        "actual_evidence": "PI1 G1/G7 monoaddition rankings in robustness_actual_two_method_comparison; no unique rank is forced.",
+        "coverage": "Existing evidence supports the bounded comparison; not a new scientific PASS. SCF residual, selected-conformer and finite-path limitations remain."
+      },
+      {
+        "rule_id": "r_r5_product_class",
+        "source": "Main pp. 8–11, Schemes 12–15; SI S30–S34, Eq. S1/Table S4/Fig. S8",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json",
+        "actual_evidence": "R5 alpha local G7 35.401941 vs source 35.6; reconstructed gamma seed opens 1.469834 to 2.762128 Å.",
+        "coverage": "Existing evidence supports the bounded comparison; not a new scientific PASS. SCF residual, selected-conformer and finite-path limitations remain."
+      },
+      {
+        "rule_id": "r_r5_second_competition",
+        "source": "Main pp. 8–11, Schemes 12–15; SI S30–S34, Eq. S1/Table S4/Fig. S8",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json",
+        "actual_evidence": "Second-addition deltaG=-2.141554 vs source approx -2.0 kcal/mol.",
+        "coverage": "Existing evidence supports the bounded comparison; not a new scientific PASS. SCF residual, selected-conformer and finite-path limitations remain."
+      },
+      {
+        "rule_id": "r_r6_thermodynamic_fate",
+        "source": "Main pp. 8–11, Schemes 12–15; SI S30–S34, Eq. S1/Table S4/Fig. S8",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json",
+        "actual_evidence": "R6 cyclic -17.048283/-17.230832 versus simple -3.969174/-2.184290/-3.461029 kcal/mol.",
+        "coverage": "Existing evidence supports the bounded comparison; not a new scientific PASS. SCF residual, selected-conformer and finite-path limitations remain."
+      },
+      {
+        "rule_id": "r_r6_accessible_fate",
+        "source": "Main pp. 8–11, Schemes 12–15; SI S30–S34, Eq. S1/Table S4/Fig. S8",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json",
+        "actual_evidence": "R6 alpha local G7 27.297280 vs 27.6; gamma finite electronic path maximum 9.564782 vs matched alpha electronic barrier 29.132496.",
+        "coverage": "Existing evidence supports the bounded comparison; not a new scientific PASS. SCF residual, selected-conformer and finite-path limitations remain."
+      },
+      {
+        "rule_id": "r_sulf_site_answer",
+        "source": "Main pp. 8–11, Schemes 12–15; SI S30–S34, Eq. S1/Table S4/Fig. S8",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json",
+        "actual_evidence": "PI3 neutral alpha/SMe6/SMe1 G7=-10.657089/-9.504704/-5.245893 kcal/mol.",
+        "coverage": "Existing evidence supports the bounded comparison; not a new scientific PASS. SCF residual, selected-conformer and finite-path limitations remain."
+      },
+      {
+        "rule_id": "r_comparative_robustness",
+        "source": "Main pp. 8–11, Schemes 12–15; SI S30–S34, Eq. S1/Table S4/Fig. S8",
+        "native_artifact": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json",
+        "actual_evidence": "Native G1/G7 comparison preserves PI3 preference and PI2 cyclic class, changes PI1 simple-product winner.",
+        "coverage": "Existing evidence supports the bounded comparison; not a new scientific PASS. SCF residual, selected-conformer and finite-path limitations remain."
+      }
+    ],
+    "historical_non_scoring_strict_numeric_whole_pass": false,
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_r5_site_answer",
+        "r_r5_product_class",
+        "r_r5_second_competition",
+        "r_r6_thermodynamic_fate",
+        "r_r6_accessible_fate",
+        "r_sulf_site_answer",
+        "r_comparative_robustness"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    },
+    "outcome_evidence_coverage": [
+      {
+        "scientific_requirement": "必需结果1：PI1单加成位点及中性产物偏好",
+        "rule_id": "r_r5_site_answer",
+        "conclusion_id": "r5_site_answer",
+        "independence": "同一方法内PI1产品/位点比较不等于跨模型稳健性。",
+        "source_locator": "正文PDF8–11 Schemes12–15；SI PDF30–34 Eq.S1/TableS4/Fig.S8，39/47/51坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json"
+        ],
+        "existing_support": "PI1 G1/G7小能差且优先位点改序，不稳健强制唯一赢家。",
+        "limits": [
+          "PI3 α中性SP存在MAX/RMS density 0.22963/0.0072282、orbital gradient0.00042272残差；不因软件收敛标签忽略。",
+          "中性PI2母体small-step最大梯度0.0005810986超过原打印0.0003000000；此诊断是证据有效性而非作者匹配门槛。",
+          "PI1位点小能差、PI2初始阴离子正文/图排序冲突、有限γ电子扫描及MeSH/EtSH模型差异均保留。"
+        ],
+        "evidence_ids": [
+          "V2_R5",
+          "V2_SI_NETWORK",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果2：PI1简单加成与环化可达性",
+        "rule_id": "r_r5_product_class",
+        "conclusion_id": "r5_product_class",
+        "independence": "PI1环化受阻不同于其简单加成的位点微排序。",
+        "source_locator": "正文PDF8–11 Schemes12–15；SI PDF30–34 Eq.S1/TableS4/Fig.S8，39/47/51坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json"
+        ],
+        "existing_support": "PI1 α局部G7‡35.401941；γ种子释放开环1.469834→2.762128 Å仅局部证据。",
+        "limits": [
+          "PI3 α中性SP存在MAX/RMS density 0.22963/0.0072282、orbital gradient0.00042272残差；不因软件收敛标签忽略。",
+          "中性PI2母体small-step最大梯度0.0005810986超过原打印0.0003000000；此诊断是证据有效性而非作者匹配门槛。",
+          "PI1位点小能差、PI2初始阴离子正文/图排序冲突、有限γ电子扫描及MeSH/EtSH模型差异均保留。"
+        ],
+        "evidence_ids": [
+          "V2_R5",
+          "V2_SI_NETWORK",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果3：PI1第二MeSH加成增量及竞争性",
+        "rule_id": "r_r5_second_competition",
+        "conclusion_id": "r5_second_competition",
+        "independence": "第二次加成使用另一配平库存，和第一次位点偏好可独立成立。",
+        "source_locator": "正文PDF8–11 Schemes12–15；SI PDF30–34 Eq.S1/TableS4/Fig.S8，39/47/51坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json"
+        ],
+        "existing_support": "mono+MeSH→double增量−2.141554 kcal/mol，来源约−2；弱效应需限定。",
+        "limits": [
+          "PI3 α中性SP存在MAX/RMS density 0.22963/0.0072282、orbital gradient0.00042272残差；不因软件收敛标签忽略。",
+          "中性PI2母体small-step最大梯度0.0005810986超过原打印0.0003000000；此诊断是证据有效性而非作者匹配门槛。",
+          "PI1位点小能差、PI2初始阴离子正文/图排序冲突、有限γ电子扫描及MeSH/EtSH模型差异均保留。"
+        ],
+        "evidence_ids": [
+          "V2_R5",
+          "V2_SI_NETWORK",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果4：PI2简单/环产物及两环连接稳定性",
+        "rule_id": "r_r6_thermodynamic_fate",
+        "conclusion_id": "r6_thermodynamic_fate",
+        "independence": "PI2终态类别稳定性不同于形成路径可达性。",
+        "source_locator": "正文PDF8–11 Schemes12–15；SI PDF30–34 Eq.S1/TableS4/Fig.S8，39/47/51坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json"
+        ],
+        "existing_support": "PI2环−17.048283/−17.230832，对简单−3.969174/−2.184290/−3.461029。",
+        "limits": [
+          "PI3 α中性SP存在MAX/RMS density 0.22963/0.0072282、orbital gradient0.00042272残差；不因软件收敛标签忽略。",
+          "中性PI2母体small-step最大梯度0.0005810986超过原打印0.0003000000；此诊断是证据有效性而非作者匹配门槛。",
+          "PI1位点小能差、PI2初始阴离子正文/图排序冲突、有限γ电子扫描及MeSH/EtSH模型差异均保留。"
+        ],
+        "evidence_ids": [
+          "V2_R6",
+          "V2_SI_NETWORK",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果5：PI2可达成环连接及PI1对比",
+        "rule_id": "r_r6_accessible_fate",
+        "conclusion_id": "r6_accessible_fate",
+        "independence": "PI2竞争路线能到达何种环连接不由最终环能量相近决定。",
+        "source_locator": "正文PDF8–11 Schemes12–15；SI PDF30–34 Eq.S1/TableS4/Fig.S8，39/47/51坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json"
+        ],
+        "existing_support": "PI2 α局部G7‡27.297280；γ有限电子能路径最高9.564782，对同方法α29.132496。",
+        "limits": [
+          "PI3 α中性SP存在MAX/RMS density 0.22963/0.0072282、orbital gradient0.00042272残差；不因软件收敛标签忽略。",
+          "中性PI2母体small-step最大梯度0.0005810986超过原打印0.0003000000；此诊断是证据有效性而非作者匹配门槛。",
+          "PI1位点小能差、PI2初始阴离子正文/图排序冲突、有限γ电子扫描及MeSH/EtSH模型差异均保留。"
+        ],
+        "evidence_ids": [
+          "V2_R6",
+          "V2_R5",
+          "V2_SI_NETWORK",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果6：PI3质子化产物位点偏好",
+        "rule_id": "r_sulf_site_answer",
+        "conclusion_id": "sulf_site_answer",
+        "independence": "PI3为不同分子，位点偏好可独立于PI1/PI2成立。",
+        "source_locator": "正文PDF8–11 Schemes12–15；SI PDF30–34 Eq.S1/TableS4/Fig.S8，39/47/51坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json"
+        ],
+        "existing_support": "PI3中性α/竞争−10.657089/−9.504704/−5.245893 kcal/mol。",
+        "limits": [
+          "PI3 α中性SP存在MAX/RMS density 0.22963/0.0072282、orbital gradient0.00042272残差；不因软件收敛标签忽略。",
+          "中性PI2母体small-step最大梯度0.0005810986超过原打印0.0003000000；此诊断是证据有效性而非作者匹配门槛。",
+          "PI1位点小能差、PI2初始阴离子正文/图排序冲突、有限γ电子扫描及MeSH/EtSH模型差异均保留。"
+        ],
+        "evidence_ids": [
+          "V2_SULF",
+          "V2_SI_NETWORK",
+          "V2_SI_IDENTITY",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果7：各类预测的定量敏感性与稳健性",
+        "rule_id": "r_comparative_robustness",
+        "conclusion_id": "comparative_robustness",
+        "independence": "跨模型结论敏感性是对预测可靠性的额外科学回答，不再次奖励某一单模型赢家。",
+        "source_locator": "正文PDF8–11 Schemes12–15；SI PDF30–34 Eq.S1/TableS4/Fig.S8，39/47/51坐标",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/new44_group_01/papers/paper_fb75113b35e12c7c/author_comparison.json"
+        ],
+        "existing_support": "实算G1/G7保留PI3和PI2类别，改变PI1简单端点排序；近环端点不能称同等稳健。",
+        "limits": [
+          "PI3 α中性SP存在MAX/RMS density 0.22963/0.0072282、orbital gradient0.00042272残差；不因软件收敛标签忽略。",
+          "中性PI2母体small-step最大梯度0.0005810986超过原打印0.0003000000；此诊断是证据有效性而非作者匹配门槛。",
+          "PI1位点小能差、PI2初始阴离子正文/图排序冲突、有限γ电子扫描及MeSH/EtSH模型差异均保留。"
+        ],
+        "evidence_ids": [
+          "V2_R5",
+          "V2_R6",
+          "V2_SULF",
+          "V2_SI_NETWORK",
+          "V3_EXISTING_NATIVE_EVIDENCE"
+        ],
+        "no_new_computation": true
+      }
+    ],
+    "objective_issue_flags": [
+      {
+        "issue": "PI3 α中性SP存在MAX/RMS density 0.22963/0.0072282、orbital gradient0.00042272残差；不因软件收敛标签忽略。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "中性PI2母体small-step最大梯度0.0005810986超过原打印0.0003000000；此诊断是证据有效性而非作者匹配门槛。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "PI1位点小能差、PI2初始阴离子正文/图排序冲突、有限γ电子扫描及MeSH/EtSH模型差异均保留。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      }
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "r5_site_answer": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "r5_product_class": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "r5_second_competition": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "r6_thermodynamic_fate": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "r6_accessible_fate": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "comparative_robustness": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "current_scope_verified": false
+}

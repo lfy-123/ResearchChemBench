@@ -1,0 +1,51 @@
+{
+  "condition_id": "standard",
+  "evidence_type": "experiment",
+  "components": [
+    {
+      "object_id": "substrate",
+      "amount_mmol": 0.2
+    },
+    {
+      "object_id": "bicl3",
+      "amount_mmol": 0.01,
+      "loading_mol_percent": 5,
+      "mass_mg_reported": 3.2
+    },
+    {
+      "object_id": "molecular_sieves",
+      "amount": null,
+      "amount_note": "Not specified."
+    }
+  ],
+  "solvent": {
+    "object_ids": [
+      "acetonitrile",
+      "benzene"
+    ],
+    "reported_ratio": "2:1",
+    "total_volume_mL": 1
+  },
+  "atmosphere": {
+    "object_id": "dioxygen",
+    "purge_minutes": 1,
+    "supply": "oxygen balloon",
+    "pressure_value": null
+  },
+  "irradiation": {
+    "source": "LED",
+    "wavelength_nm": 390
+  },
+  "temperature": {
+    "reported": "room temperature",
+    "measured_temperature_K": null
+  },
+  "duration_h": 8,
+  "molecular_comparison_convention": {
+    "evidence_type": "benchmark_model_boundary",
+    "temperature_K": 298.15,
+    "thermochemical_standard_state": "1 atm",
+    "solvent_environment": "acetonitrile",
+    "interpretation": "A finite molecular approximation to the experimental mixed solvent; these numerical temperature and standard-state conventions are not claimed as measured reactor conditions."
+  }
+}

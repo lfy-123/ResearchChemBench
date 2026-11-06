@@ -1,0 +1,102 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "scoring_revision": "conclusion_only_20261029",
+  "scientific_scope_changed": false,
+  "scope_note": "The same public scientific questions, inputs, identities and conditions are retained. Final propositions and their evidential boundaries are clarified without extending scope.",
+  "coverage": [
+    {
+      "scientific_requirement": "必需结果1：首次区域偏好",
+      "rule_id": "r_first_stage",
+      "conclusion_id": "first_stage",
+      "weight": 20,
+      "independence": "第一次闭环同组成端点热力学，不是计算节点完成。",
+      "source_location": "相关论文位置：正文第 2 页 Figure 2、第 2–3 页产物；SI 第 9 页方法和 Figure S5，第 14 页起计算坐标及 Table S5/S8。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_0dc85595cab7bc0a/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "native_reference": "docs/verification/group_4/paper_0dc85595cab7bc0a/provenance/refined_profile_audit.json",
+      "existing_support_or_gap": "Existing ground-state endpoint/orbital evidence supports this bounded comparison; no excited-state kinetics certified.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果1：独立位点解释",
+      "rule_id": "r_first_site_electronic",
+      "conclusion_id": "first_site_electronic",
+      "weight": 15,
+      "independence": "首次位点的电子/结构区分，不重复能量排序。",
+      "source_location": "相关论文位置：正文第 2 页 Figure 2、第 2–3 页产物；SI 第 9 页方法和 Figure S5，第 14 页起计算坐标及 Table S5/S8。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_0dc85595cab7bc0a/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "native_reference": "docs/verification/group_4/paper_0dc85595cab7bc0a/provenance/lumo_reactive_site_mapping_audit_20260911.json",
+      "existing_support_or_gap": "Existing ground-state endpoint/orbital evidence supports this bounded comparison; no excited-state kinetics certified.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果2：第二次区域偏好",
+      "rule_id": "r_second_stage",
+      "conclusion_id": "second_stage",
+      "weight": 20,
+      "independence": "在氧化后骨架上比较第二次闭环，不由第一次自动决定。",
+      "source_location": "相关论文位置：正文第 2 页 Figure 2、第 2–3 页产物；SI 第 9 页方法和 Figure S5，第 14 页起计算坐标及 Table S5/S8。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_0dc85595cab7bc0a/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "native_reference": "docs/verification/group_4/paper_0dc85595cab7bc0a/provenance/refined_profile_audit.json",
+      "existing_support_or_gap": "Existing ground-state endpoint/orbital evidence supports this bounded comparison; no excited-state kinetics certified.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果2：第二次位点解释",
+      "rule_id": "r_second_site_electronic",
+      "conclusion_id": "second_site_electronic",
+      "weight": 15,
+      "independence": "独立解释第二个骨架的位点区分，不重复其能量排序。",
+      "source_location": "相关论文位置：正文第 2 页 Figure 2、第 2–3 页产物；SI 第 9 页方法和 Figure S5，第 14 页起计算坐标及 Table S5/S8。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_0dc85595cab7bc0a/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "native_reference": "docs/verification/group_4/paper_0dc85595cab7bc0a/provenance/lumo_reactive_site_mapping_audit_20260911.json",
+      "existing_support_or_gap": "Existing ground-state endpoint/orbital evidence supports this bounded comparison; no excited-state kinetics certified.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果3：环化/芳构化顺序",
+      "rule_id": "r_sequential_chemistry",
+      "conclusion_id": "sequential_chemistry",
+      "weight": 15,
+      "independence": "氢库存及序列的化学解释，不是重复最终产品名称。",
+      "source_location": "相关论文位置：正文第 2 页 Figure 2、第 2–3 页产物；SI 第 9 页方法和 Figure S5，第 14 页起计算坐标及 Table S5/S8。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_0dc85595cab7bc0a/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "native_reference": "docs/verification/group_4/paper_0dc85595cab7bc0a/provenance/refined_profile_audit.json; SI mapped endpoints and original is1/is3/is4/is6/is7 logs",
+      "existing_support_or_gap": "Mapped hydrogen-accounted sequential endpoint rationale is present; oxidation kinetics, balanced redox thermodynamics and exclusive excited-state path remain unverified. Those stronger quantities are not required for the bounded endpoint/site claim, but would be necessary evidence for corresponding stronger assertions.",
+      "historical_status_promoted": false
+    },
+    {
+      "scientific_requirement": "必需结果4：最终产物连接与范围",
+      "rule_id": "r_product_connectivity",
+      "conclusion_id": "product_connectivity",
+      "weight": 15,
+      "independence": "明确选定并映射C30H18最终连接，可独立于局部电子解释是否成立。",
+      "source_location": "相关论文位置：正文第 2 页 Figure 2、第 2–3 页产物；SI 第 9 页方法和 Figure S5，第 14 页起计算坐标及 Table S5/S8。逐项定位与证据身份见 [evidence_map.json](<../tasks/autonomous_research/paper_0dc85595cab7bc0a/evaluation/evidence_map.json>) 及第 4 节的 `evidence_ids`。",
+      "source_evidence_ids": [
+        "main_p2_3",
+        "supplementary_001_p9"
+      ],
+      "native_reference": "docs/verification/group_4/paper_0dc85595cab7bc0a/artifacts/gaussian_batch/author_channel_product_2_optfreq_refined_sp/stdout.log",
+      "existing_support_or_gap": "Product minimum and connectivity present; current public displaced-starter blind discovery not tested.",
+      "historical_status_promoted": false
+    }
+  ],
+  "task_input_changes": [],
+  "new_computation": false,
+  "record_role": "Historical dated record; superseded for current scope and scoring by expert_round1_20261103. See round1_review.json and scoring_rules.json.",
+  "superseded_by": "expert_round1_20261103"
+}

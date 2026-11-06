@@ -1,0 +1,238 @@
+{
+  "paper_id": "paper_87f5566528287b60",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_tx_compatibility",
+      "r_ir_dfppy_compatibility",
+      "r_standard_ir_boundary",
+      "r_fac_ir_mismatch",
+      "r_mes_acr_mismatch",
+      "r_yield_nonmonotonicity"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "How compatible are the five specified photocatalysts with activating N-benzoyl dibenzothiophene sulfilimine into a reactive electronic state, and how far does that molecular comparison explain productive or trace THF amidation? This is an explanation task: the product and screening yields are supplied observations.",
+  "active_rule_ids": [
+    "r_tx_compatibility",
+    "r_ir_dfppy_compatibility",
+    "r_standard_ir_boundary",
+    "r_fac_ir_mismatch",
+    "r_mes_acr_mismatch",
+    "r_yield_nonmonotonicity"
+  ],
+  "current_outcome_ids": [
+    "tx_compatibility",
+    "ir_dfppy_compatibility",
+    "standard_ir_boundary",
+    "fac_ir_mismatch",
+    "mes_acr_mismatch",
+    "yield_nonmonotonicity"
+  ],
+  "historical_record": {
+    "paper_id": "paper_87f5566528287b60",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_tx_compatibility",
+      "r_ir_dfppy_compatibility",
+      "r_standard_ir_boundary",
+      "r_fac_ir_mismatch",
+      "r_mes_acr_mismatch",
+      "r_yield_nonmonotonicity"
+    ],
+    "scope": "Thioxanthone activation compatibility; Ir(dFppy)3 activation compatibility; Standard iridium photocatalyst near-matching activation scale; fac-Ir(ppy)3 molecular mismatch relative to productive catalysts; Mes-Acr+ molecular mismatch relative to productive catalysts; Explanatory reach of molecular compatibility for yield differences. Public molecular inputs and scientific scope are unchanged.",
+    "verification_status": "EXISTING_EVIDENCE_MAPPED_TO_FINAL_RESULTS_NO_AUTOMATIC_PASS",
+    "new_quantum_jobs": 0,
+    "release_ready": false,
+    "limitations": "Only substrate S0/T1 were calculated locally; catalyst triplet energies are source properties. Gap61.465356 versus source62.0 kcal/mol; absolute-state offsets around−11kcal/mol and MeCN/THF/irradiation differences remain. No complete photocycle is verified.",
+    "qualification_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+    "historical_acceptance": {
+      "verification_status": "PROVISIONAL_PASS_QUALITATIVE"
+    },
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_tx_compatibility",
+        "r_ir_dfppy_compatibility",
+        "r_standard_ir_boundary",
+        "r_fac_ir_mismatch",
+        "r_mes_acr_mismatch",
+        "r_yield_nonmonotonicity"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    },
+    "outcome_evidence_coverage": [
+      {
+        "scientific_requirement": "必需结果1a：thioxanthone相容性",
+        "rule_id": "r_tx_compatibility",
+        "conclusion_id": "tx_compatibility",
+        "independence": "不同催化剂有各自能级和条件；本项可独立于另四种相容性成立。",
+        "source_locator": "正文PDF5–6 Scheme4E；SI PDF31 TableS6、32–33方法/TableS7",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_87f5/acceptance_audit.json"
+        ],
+        "existing_support": "底物S0/T1原生能隙61.465356 kcal/mol，与来源TX ET65.5比较；370nm/10mol%条件不同。",
+        "limits": [
+          "原生只计算完整底物S0/T1；催化剂三重态能来自可追溯文献，不冒称本地催化剂实算。",
+          "绝对自由能约−11 kcal/mol偏移与MeCN模型/THF实验差别保留；能隙接近不解释偏移原因。",
+          "标准Ir微小供受体差反号不是普适阈值；相容性不能证明排他EnT或精确产率。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果1b：Ir(dFppy)3相容性",
+        "rule_id": "r_ir_dfppy_compatibility",
+        "conclusion_id": "ir_dfppy_compatibility",
+        "independence": "不同催化剂有各自能级和条件；本项可独立于另四种相容性成立。",
+        "source_locator": "正文PDF5–6 Scheme4E；SI PDF31 TableS6、32–33方法/TableS7",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_87f5/acceptance_audit.json"
+        ],
+        "existing_support": "同一底物能隙与ET63.5比较；61%产率为观察而非计算。",
+        "limits": [
+          "原生只计算完整底物S0/T1；催化剂三重态能来自可追溯文献，不冒称本地催化剂实算。",
+          "绝对自由能约−11 kcal/mol偏移与MeCN模型/THF实验差别保留；能隙接近不解释偏移原因。",
+          "标准Ir微小供受体差反号不是普适阈值；相容性不能证明排他EnT或精确产率。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果1c：标准Ir配合物相容性",
+        "rule_id": "r_standard_ir_boundary",
+        "conclusion_id": "standard_ir_boundary",
+        "independence": "不同催化剂有各自能级和条件；本项可独立于另四种相容性成立。",
+        "source_locator": "正文PDF5–6 Scheme4E；SI PDF31 TableS6、32–33方法/TableS7",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_87f5/acceptance_audit.json"
+        ],
+        "existing_support": "ET61.8与原生61.465356近匹配；来源62.0导致微小差值反号。",
+        "limits": [
+          "原生只计算完整底物S0/T1；催化剂三重态能来自可追溯文献，不冒称本地催化剂实算。",
+          "绝对自由能约−11 kcal/mol偏移与MeCN模型/THF实验差别保留；能隙接近不解释偏移原因。",
+          "标准Ir微小供受体差反号不是普适阈值；相容性不能证明排他EnT或精确产率。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果1d：fac-Ir(ppy)3失配",
+        "rule_id": "r_fac_ir_mismatch",
+        "conclusion_id": "fac_ir_mismatch",
+        "independence": "不同催化剂有各自能级和条件；本项可独立于另四种相容性成立。",
+        "source_locator": "正文PDF5–6 Scheme4E；SI PDF31 TableS6、32–33方法/TableS7",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_87f5/acceptance_audit.json"
+        ],
+        "existing_support": "ET58.1较底物所需尺度低，支持局部分子失配，trace不等于严格零。",
+        "limits": [
+          "原生只计算完整底物S0/T1；催化剂三重态能来自可追溯文献，不冒称本地催化剂实算。",
+          "绝对自由能约−11 kcal/mol偏移与MeCN模型/THF实验差别保留；能隙接近不解释偏移原因。",
+          "标准Ir微小供受体差反号不是普适阈值；相容性不能证明排他EnT或精确产率。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果1e：Mes-Acr+失配",
+        "rule_id": "r_mes_acr_mismatch",
+        "conclusion_id": "mes_acr_mismatch",
+        "independence": "不同催化剂有各自能级和条件；本项可独立于另四种相容性成立。",
+        "source_locator": "正文PDF5–6 Scheme4E；SI PDF31 TableS6、32–33方法/TableS7",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_87f5/acceptance_audit.json"
+        ],
+        "existing_support": "ET44.7较底物尺度低，支持局部分子失配，未计算失活速率。",
+        "limits": [
+          "原生只计算完整底物S0/T1；催化剂三重态能来自可追溯文献，不冒称本地催化剂实算。",
+          "绝对自由能约−11 kcal/mol偏移与MeCN模型/THF实验差别保留；能隙接近不解释偏移原因。",
+          "标准Ir微小供受体差反号不是普适阈值；相容性不能证明排他EnT或精确产率。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果2：分组、排序和幅度的解释范围",
+        "rule_id": "r_yield_nonmonotonicity",
+        "conclusion_id": "yield_nonmonotonicity",
+        "independence": "模型是否解释产率排序/幅度不同于某一催化剂是否可激活底物。",
+        "source_locator": "正文PDF5–6 Scheme4E；SI PDF31 TableS6、32–33方法/TableS7",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/short_job_followup_20261022T1743Z/acceptance_audit_87f5/acceptance_audit.json"
+        ],
+        "existing_support": "匹配Ir对61.8/63.5对应76/61%并非单调；TX光照/负载不同。",
+        "limits": [
+          "原生只计算完整底物S0/T1；催化剂三重态能来自可追溯文献，不冒称本地催化剂实算。",
+          "绝对自由能约−11 kcal/mol偏移与MeCN模型/THF实验差别保留；能隙接近不解释偏移原因。",
+          "标准Ir微小供受体差反号不是普适阈值；相容性不能证明排他EnT或精确产率。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      }
+    ],
+    "objective_issue_flags": [
+      {
+        "issue": "原生只计算完整底物S0/T1；催化剂三重态能来自可追溯文献，不冒称本地催化剂实算。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "绝对自由能约−11 kcal/mol偏移与MeCN模型/THF实验差别保留；能隙接近不解释偏移原因。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "标准Ir微小供受体差反号不是普适阈值；相容性不能证明排他EnT或精确产率。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      }
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "tx_compatibility": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "ir_dfppy_compatibility": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "standard_ir_boundary": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "fac_ir_mismatch": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "mes_acr_mismatch": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "yield_nonmonotonicity": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "release_ready": false
+}

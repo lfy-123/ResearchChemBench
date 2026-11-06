@@ -1,0 +1,141 @@
+{
+  "paper_id": "paper_09c8aaf14b70371f",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "source_checked_evidence_scope_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_series_3_5",
+      "r_hydroxy_departure",
+      "r_acn_dmso",
+      "r_dcm_comparison",
+      "r_bounded_relationship"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The series_3_5 outcome requires evidence for compounds 3–5 only. The complete task and the other outcomes still cover compounds 1/2 and all five compounds as authored.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Using computational chemistry evidence, estimate the relative reduction tendency and cathodic peak-potential ordering of the five supplied E-chalcones, compare it with the measured ordering, and explain agreements or departures in terms of molecular structural differences and solvent effects. This is an explanation task: the measured peak potentials are given; the computational relationship and its physical interpretation are to be established.",
+  "active_rule_ids": [
+    "r_series_3_5",
+    "r_hydroxy_departure",
+    "r_acn_dmso",
+    "r_dcm_comparison",
+    "r_bounded_relationship"
+  ],
+  "current_outcome_ids": [
+    "series_3_5",
+    "hydroxy_departure",
+    "acn_dmso",
+    "dcm_comparison",
+    "bounded_relationship"
+  ],
+  "historical_record": {
+    "paper_id": "paper_09c8aaf14b70371f",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "updated_on": "2026-10-27",
+    "active_rule_ids": [
+      "r_series_3_5",
+      "r_hydroxy_departure",
+      "r_acn_dmso",
+      "r_dcm_comparison",
+      "r_bounded_relationship"
+    ],
+    "active_conclusion_ids": [
+      "series_3_5",
+      "hydroxy_departure",
+      "acn_dmso",
+      "dcm_comparison",
+      "bounded_relationship"
+    ],
+    "scope": "The active task retains the five-chalcone explanatory scope and uses five independent final conclusions (25/20/15/10/30); electronic localization/spin and E/Z barriers are historical supporting context only. Applicability to 1/2 is judged for the submitted computed descriptor; neutral-LUMO counterexamples do not rule out an independently established alternative relationship.",
+    "evidence_reuse": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261015T014600Z/review_09c8_native_checks.json (25 native log/fchk records; 13 neutral orbital energies); parent_09c8_native_crosscheck.json (compound 2).",
+    "scientific_status": "EXISTING_BOUNDED_EVIDENCE_REVIEWED_NO_AUTOMATIC_V3_PASS",
+    "new_quantum_jobs": 0,
+    "release_ready": false,
+    "limitations": "Absolute LUMO residuals of about 0.127–0.136 eV for 1/3/4/5 and unresolved source conformer attribution for 2 remain. Small ACN/DMSO Epc directions and a unique causal mechanism are not certified.",
+    "evidence_requirements": "Final results only, totaling 100 points. Each rule evaluates one independently stated scientific conclusion, with full assigned points or zero. Require genuine linked calculations and recoverable native artifacts establishing molecular identity, charge/spin, conditions, units, physical quantity and reference. Evidence sufficiency is a condition of the conclusion, never a separate process score. Supplied observations and copied source values are not computed results. Equivalent established physical explanations pass directly. Missing calculations, wrong identity/reference, unsupported inference and hard-window failures fail. Only the explicit scientific conflicts listed in review_triggers may receive need_review; review is not a pass. Historical verification and package validation do not automatically certify these final conclusions.",
+    "historical_records": {
+      "previous_evidence_reusable": [
+        {
+          "id": "compound3_E_gas",
+          "native_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_3/paper_09c8aaf14b70371f/artifacts/gaussian/chalcone_E_b3lyp_opt_freq_retry2/stdout.log",
+          "sha256": "37a41dbd616f7cdcc8b7a0a16f8879a2c9a4b14dd2dba02eac14f344ac2e974b",
+          "charge": 0,
+          "multiplicity": 1,
+          "formula": "C15H12O",
+          "frequency_count": 78,
+          "imaginary_count": 0,
+          "accepted_scope": "E minimum geometry, identity and frequency evidence in the documented environment",
+          "audit_source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_09c8aaf14b70371f/remaining24_20261012T134810Z_group_A/endpoint_identity_audit.json",
+          "completed_reuse_check": "Current bounded native orbital/fchk/cube evidence checked and accepted on 2026-10-15."
+        },
+        {
+          "id": "compound3_E_acetonitrile",
+          "native_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_3/paper_09c8aaf14b70371f/provenance/qzcli_hpc/chalcone_E_author_IEFPCM_acetonitrile_optfreq_20260915/20260915T095707480436Z_hpc-job-2004465-cluster-slurmd-0/gaussian.log",
+          "sha256": "366f18241fc3a113045b314d4130186cdcdced0dd7ba87ac6de52a6411d36724",
+          "charge": 0,
+          "multiplicity": 1,
+          "formula": "C15H12O",
+          "frequency_count": 78,
+          "imaginary_count": 0,
+          "accepted_scope": "E minimum geometry, identity and frequency evidence in the documented environment",
+          "audit_source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_09c8aaf14b70371f/remaining24_20261012T134810Z_group_A/endpoint_identity_audit.json",
+          "completed_reuse_check": "Current bounded native orbital/fchk/cube evidence checked and accepted on 2026-10-15."
+        }
+      ],
+      "retired_numeric_rules_unchanged": [
+        {
+          "rule_id": "ar_r3",
+          "reference_id": "gas_path",
+          "target": 1.43,
+          "unit": "eV",
+          "tolerance": 0.15
+        },
+        {
+          "rule_id": "ar_r8",
+          "reference_id": "gas_path",
+          "target": 92.5,
+          "unit": "degrees",
+          "tolerance": 2.0
+        },
+        {
+          "rule_id": "ar_r4",
+          "reference_id": "solution_path",
+          "target": 1.42,
+          "unit": "eV",
+          "tolerance": 0.15
+        },
+        {
+          "rule_id": "ar_r9",
+          "reference_id": "solution_path",
+          "target": 92.5,
+          "unit": "degrees",
+          "tolerance": 2.0
+        },
+        {
+          "rule_id": "ar_r10",
+          "reference_id": "endpoint_stability",
+          "target": 0.23,
+          "unit": "eV",
+          "tolerance": 0.15
+        },
+        {
+          "rule_id": "ar_r11",
+          "reference_id": "endpoint_stability",
+          "target": 0.27,
+          "unit": "eV",
+          "tolerance": 0.15
+        }
+      ]
+    },
+    "scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

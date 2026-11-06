@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_4761e82fee080c35",
+  "scope_version": "core_question_upgrade_20261012T190159Z.donor_activation.v1",
+  "reference_status": "CURRENT_DONOR_BDE_SCOPE_VERIFIED_ARCHIVED_POTENTIAL_MISMATCH_RETAINED",
+  "design_implemented": true,
+  "scientifically_verified": true,
+  "release_ready": false,
+  "active_rule_ids": [
+    "r_neutral_bde",
+    "r_oxidized_bde",
+    "r_photoactivation_model",
+    "r_activation_conclusion"
+  ],
+  "active_result_status": "2026-10-13 acceptance: 74.813621281/31.576963499 kcal/mol satisfy original 76.1/32.9 +/-2.0 tests. No current BDE QC gap.",
+  "archived_numeric_references": [
+    {
+      "former_rule_id": "r_E1",
+      "former_key_point_id": "kp_oxidation_donor",
+      "scoring_disposition": "ARCHIVE_ONLY_ABSENT_FROM_ACTIVE_RULES_AND_KEY_POINTS",
+      "author_target": 1.33,
+      "unit": "V vs SCE in MeCN",
+      "original_tolerance": 0.15,
+      "historical_points": 10,
+      "physical_definition": "1 neutral singlet -> 2 radical cation + electron",
+      "source": {
+        "path": "papers/paper_4761e82fee080c35/documents/supplementary_002.pdf",
+        "readable_copy": "tasks/small_molecules_autonomous_research/verification_dispatch/core_question_design_20261012T171955Z/papers/paper_4761e82fee080c35/sources/supplementary_002.pdf",
+        "sha256": "9b77c63b6c896738a34d85a8432484a4a7dca26b8f011580e64a83c03dd54064",
+        "locator": "PDF p9 §§6–7; main p3; Fig6a p6 contains -0.60 for3/4"
+      },
+      "status": "MISMATCH_INDEPENDENT_CALIBRATION_AND_SOURCE_BLOCKED",
+      "independent_cycle_value_V": 1.85216320728654,
+      "difference_from_author_V": 0.5221632072865399,
+      "independent_cycle_kind": "INDEPENDENT_EXTENSION_NOT_AUTHOR_GOLD",
+      "not_a_new_target": true
+    },
+    {
+      "former_rule_id": "r_E3",
+      "former_key_point_id": "kp_oxidation_dehydrogenated",
+      "scoring_disposition": "ARCHIVE_ONLY_ABSENT_FROM_ACTIVE_RULES_AND_KEY_POINTS",
+      "author_target": -0.54,
+      "unit": "V vs SCE in MeCN",
+      "original_tolerance": 0.15,
+      "historical_points": 10,
+      "physical_definition": "3 neutral C4-dehydrogenated radical -> 4 pyridinium cation + electron",
+      "source": {
+        "path": "papers/paper_4761e82fee080c35/documents/supplementary_002.pdf",
+        "readable_copy": "tasks/small_molecules_autonomous_research/verification_dispatch/core_question_design_20261012T171955Z/papers/paper_4761e82fee080c35/sources/supplementary_002.pdf",
+        "sha256": "9b77c63b6c896738a34d85a8432484a4a7dca26b8f011580e64a83c03dd54064",
+        "locator": "PDF p9 §§6–7; main p3; Fig6a p6 contains -0.60 for3/4"
+      },
+      "status": "MISMATCH_INDEPENDENT_CALIBRATION_AND_SOURCE_BLOCKED",
+      "independent_cycle_value_V": 0.050225210085300676,
+      "difference_from_author_V": 0.5902252100853007,
+      "independent_cycle_kind": "INDEPENDENT_EXTENSION_NOT_AUTHOR_GOLD",
+      "not_a_new_target": true
+    }
+  ],
+  "blocking_definition": "The author does not specify the unique electron/electrode or matched-reference conversion to SCE/MeCN. The completed independent Fc cycle disagrees with both original targets. Deactivating those rules does not resolve the source discrepancy or certify release.",
+  "latest_read_only_evidence": {
+    "snapshot_utc": "2026-10-12T11:57:31.143302+00:00",
+    "coverage_path": "docs/verification/small_molecules_autonomous_research/paper_4761e82fee080c35/selected29_20261012T053104Z_group_06/coverage.json",
+    "native_index_path": "docs/verification/small_molecules_autonomous_research/paper_4761e82fee080c35/selected29_20261012T053104Z_group_06/independent_recomputed_evidence.json",
+    "completed_independent_cycle": "Eox(X)=[G(Xox)-G(Xred)-G(Fc+)+G(Fc)]*27.211386245988+0.380 V; independent Fc/SCE MeCN convention, not fit.",
+    "offset_fitted": false,
+    "excluded_old_Fc_plus_G_Eh": -1650.423372
+  },
+  "activation_policy": "Both archived absolute potentials are absent from active reference items, rules and rubric. No unsupported enabled flag is used. Reactivation requires source-definition qualification and explicit author-target review; never substitute the independent Fc numbers or widen ±0.15V.",
+  "release_requirements": [
+    "Current donor native-state and physical-definition review completed on 2026-10-13; reuse without rerun.",
+    "Formal release adjudication remains separate; archived absolute-potential mismatches stay unchanged and inactive.",
+    "No removed dimer/product/catalyst-turnover computation required."
+  ],
+  "runtime_boundary": "The active V2 rubric scores two BDEs, a bounded qualitative source-consistent activation model and the weakening conclusion. Existing computational acceptance covers donor states and BDEs, not newly verified PC2 electron-transfer energetics or complete turnover. Archived potential mismatches and the formal-release reservation remain unchanged.",
+  "historical_qualification_superseded": "Previous demand to keep blocked rules active and complete an expanded reaction network is superseded by the user-approved final scope.",
+  "new_engine_calls": 0,
+  "new_hpc_jobs": 0,
+  "current_scope_verified": true,
+  "verification_status_record": "evaluation/current_verification_status.json",
+  "maintenance_updated_on": "2026-10-17",
+  "additional_quantum_calculations_required_for_this_repair": false,
+  "verification_scope_note": "正文氧化态 BDE 为 32.7，SI 为 32.9，现行仍采用 SI 的 32.9±2.0 kcal/mol；H 原子参照约定需披露。新增模型项基于论文活化假说与已有供体状态计算，不能声称已新增验证 PC2 初始电子转移能量学。PC1 比较电位不可直接代替 PC2；历史绝对电位失配保持非评分状态，完整周转与唯一基元机理均非本题要求。",
+  "scoring_policy": "paper_science_v2",
+  "scoring_revision": "expert_round1_20261020"
+}

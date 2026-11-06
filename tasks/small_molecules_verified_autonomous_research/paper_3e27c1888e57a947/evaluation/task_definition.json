@@ -1,0 +1,201 @@
+{
+  "paper_id": "paper_3e27c1888e57a947",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_sulfone_formation_explanation",
+      "r_butadiene_regio_explanation",
+      "r_butadiene_geometry_explanation",
+      "r_phenyl_regio_reversal"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Explain how the specified visible-light reaction of buta-1,3-diene, sodium difluoromethanesulfinate and methyl pentafluorobenzoate forms the observed polyfluoroaryl sulfone. What explains its 1,4-versus-1,2 competition and E preference, and the reversal to 1,2 addition for the specified terminal-phenyl diene? This is an explanation task: observed products and preferences are supplied starting facts.",
+  "active_rule_ids": [
+    "r_sulfone_formation_explanation",
+    "r_butadiene_regio_explanation",
+    "r_butadiene_geometry_explanation",
+    "r_phenyl_regio_reversal"
+  ],
+  "current_outcome_ids": [
+    "sulfone_formation_explanation",
+    "butadiene_regio_explanation",
+    "butadiene_geometry_explanation",
+    "phenyl_regio_reversal"
+  ],
+  "historical_record": {
+    "scientific_question": "How does the specified visible-light reaction of buta-1,3-diene, sodium difluoromethanesulfinate and methyl 2,3,4,5,6-pentafluorobenzoate form the observed polyfluoroaryl sulfones, and what governs its 1,4-versus-1,2 regiochemical competition and E/Z product preference, including the switch to preferential 1,2 addition for (1E)-1-phenylbuta-1,3-diene under its specified related conditions?",
+    "inputs": [
+      {
+        "input_id": "PI1",
+        "kind": "identity",
+        "content": "Buta-1,3-diene (1,3-butadiene), with molecular connectivity CH2=CH-CH=CH2."
+      },
+      {
+        "input_id": "PI2",
+        "kind": "identity",
+        "content": "Sodium difluoromethanesulfinate: CHF2-S(=O)-O(-), with a sodium counterion. The carbon bears one hydrogen and two fluorines."
+      },
+      {
+        "input_id": "PI3",
+        "kind": "identity",
+        "content": "Methyl 2,3,4,5,6-pentafluorobenzoate: a benzene ring bearing C(=O)OCH3 at one carbon and fluorine at each of the other five ring carbons."
+      },
+      {
+        "input_id": "PI4",
+        "kind": "condition",
+        "content": "Butadiene system: buta-1,3-diene 1.0 mmol (5.0 equivalents), supplied as 0.50 mL of a 2.0 mol L^-1 solution in THF, sodium difluoromethanesulfinate 0.6 mmol (3.0 equivalents), methyl 2,3,4,5,6-pentafluorobenzoate 0.2 mmol (1.0 equivalent), 4CzIPN photocatalyst 1.5 mol%, ZnCl2 1.0 equivalent, Na2CO3 2.0 equivalents, dry DMSO 1.5 mL, 30 °C, 5 W blue LEDs, 48 h, nitrogen atmosphere. Phenyl-diene comparison: (1E)-1-phenylbuta-1,3-diene 0.3 mmol (1.5 equivalents), sodium difluoromethanesulfinate 0.6 mmol (3.0 equivalents), the same methyl pentafluorobenzoate 0.2 mmol (1.0 equivalent), 4CzIPN 1.5 mol%, ZnCl2 1.0 equivalent, dry DMF 2.0 mL, 30 °C, 40 W blue LEDs, 48 h, nitrogen atmosphere; no added carbonate base in these comparison conditions. 4CzIPN denotes 2,4,5,6-tetrakis(9H-carbazol-9-yl)benzene-1,3-dicarbonitrile. Equivalents and isolated yields are relative to the methyl pentafluorobenzoate."
+      },
+      {
+        "input_id": "PI5",
+        "kind": "observation",
+        "content": "The butadiene system gives predominantly the 1,4-addition sulfone methyl (E)-4-[(5,5-difluoropent-2-en-1-yl)sulfonyl]-2,3,5,6-tetrafluorobenzoate, with isolated yield 74%; its Z alkene isomer has isolated yield 7%. Their shared connectivity is Ar-S(=O)2-CH2-CH=CH-CH2-CHF2, where Ar is the methyl-benzoate ring bearing sulfur para to C(=O)OCH3 and fluorine at ring positions 2,3,5,6. No 1,2-addition byproduct was detected in this butadiene comparison; no detection limit is supplied."
+      },
+      {
+        "input_id": "PI6",
+        "kind": "identity",
+        "content": "The phenyl-substituted comparison is (1E)-1-phenylbuta-1,3-diene: Ph-CH=CH-CH=CH2, with Ph an unsubstituted phenyl group and E geometry at the phenyl-side double bond. Phenyl is attached to a terminal diene carbon, not an internal carbon."
+      },
+      {
+        "input_id": "PI7",
+        "kind": "observation",
+        "content": "The specified phenyl-diene comparison preferentially gives the 1,2-addition sulfone methyl (E)-4-[(5,5-difluoro-1-phenylpent-1-en-3-yl)sulfonyl]-2,3,5,6-tetrafluorobenzoate, isolated yield 74%. Its connectivity is Ph-CH=CH-CH[S(=O)2-Ar]-CH2-CHF2, with E geometry at Ph-CH=CH and the same tetrafluorinated methyl-benzoate Ar group as in the butadiene products. No quantitative competing-product detection limit or enantioselectivity measurement is supplied for this representative comparison; do not infer an absolute configuration at the sulfur-bearing carbon."
+      }
+    ],
+    "changes": [
+      {
+        "subject_id": "scientific_question",
+        "change_type": "source_correction",
+        "reason": "Stage05 framed only selectivity at one part of the cascade. The same-system correction organizes the actually computed connected formation profile (sulfinate-radical fragmentation thermochemistry, carbon-group addition, regio-/stereochemical competition, sulfonyl-radical reduction and Na-associated aryl C-F substitution), together with the phenyl-diene competition, into one product-formation/selectivity question. Spin populations and distortion/interaction analyses remain optional explanatory methods, while the formation and selectivity outcomes they support remain required scientific outcomes. No other reaction or experimental-only mechanism becomes a new goal; Stage05 references remain unchanged.",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000064_ed83a363574b",
+          "ev_doc_dae8dc0cd8db_000171_960e172688be",
+          "ev_doc_dae8dc0cd8db_000173_0a16295284c9",
+          "pdf-page-doc_e2120ae96275-p5",
+          "ev_doc_e2120ae96275_000063_3f9e75c68f07"
+        ]
+      },
+      {
+        "subject_id": "PI1",
+        "change_type": "identity_clarification",
+        "reason": "Adds the graph-explicit four-carbon conjugated diene identity, verified against the original 1a coordinate record and starting/product drawings; this is not an optimized starting geometry.",
+        "evidence_ids": [
+          "ev_doc_dae8dc0cd8db_000182_8dd8640b3803",
+          "pdf-page-doc_e2120ae96275-p3",
+          "pdf-page-doc_e2120ae96275-p4",
+          "pdf-page-doc_dae8dc0cd8db-p30"
+        ]
+      },
+      {
+        "subject_id": "PI2",
+        "change_type": "identity_clarification",
+        "reason": "Clarifies the salt molecular graph and CHF2 hydrogen/fluorine count without disclosing fragmentation, radicals or the reagent dual-role interpretation. The computed radical precursor has the same covalent skeleton; the experimental identity supplies the sodium salt state.",
+        "evidence_ids": [
+          "ev_doc_dae8dc0cd8db_000048_0609853f32f0",
+          "ev_doc_dae8dc0cd8db_000177_516ade364c60",
+          "pdf-page-doc_dae8dc0cd8db-p29",
+          "pdf-page-doc_e2120ae96275-p3"
+        ]
+      },
+      {
+        "subject_id": "PI3",
+        "change_type": "identity_clarification",
+        "reason": "Expands the unambiguous starting arene name to locants and a graph description. The starting-material drawing and experimental procedure identify a methyl ester, not another pentafluoroarene; the computed aryl-product record has sulfur para to this ester.",
+        "evidence_ids": [
+          "ev_doc_dae8dc0cd8db_000048_0609853f32f0",
+          "pdf-page-doc_dae8dc0cd8db-p6",
+          "pdf-page-doc_e2120ae96275-p3",
+          "ev_doc_dae8dc0cd8db_000222_d0c8bd18fd51",
+          "pdf-page-doc_dae8dc0cd8db-p40"
+        ]
+      },
+      {
+        "subject_id": "PI4",
+        "change_type": "source_correction",
+        "reason": "Retains all Stage05 butadiene conditions and makes their quantities explicit. Establishes the actually used related phenyl-comparison conditions (DMF, 40 W blue LEDs, no added carbonate) rather than silently applying the butadiene DMSO/base conditions to the second system. Also resolves the photocatalyst molecular identity from its neutral coordinate record. These are observed conditions/identities, not an author computation recipe. The original general-information page specifies a 2 mol/L THF butadiene stock and the product procedure doses 500 microlitres of that stock into 1.5 mL DMSO. Preserve this neutral experimental solvent context instead of silently treating the primary-solvent label as neat DMSO; the reported continuum model remains a distinct conditional reference.",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000036_253b0fa9216f",
+          "ev_doc_dae8dc0cd8db_000048_0609853f32f0",
+          "ev_doc_dae8dc0cd8db_000035_6b1b8f13c7c9",
+          "ev_doc_dae8dc0cd8db_000036_51f5f7674d39",
+          "pdf-page-doc_e2120ae96275-p4",
+          "pdf-page-doc_dae8dc0cd8db-p5",
+          "pdf-page-doc_dae8dc0cd8db-p36",
+          "pdf-page-doc_dae8dc0cd8db-p37",
+          "pdf-page-doc_dae8dc0cd8db-p38",
+          "layout-doc_dae8dc0cd8db-p3-b17",
+          "pdf-page-doc_dae8dc0cd8db-p3",
+          "pdf-page-doc_dae8dc0cd8db-p7"
+        ]
+      },
+      {
+        "subject_id": "PI5",
+        "change_type": "neutral_rewording",
+        "reason": "Replaces source product labels with verified ordinary product graphs and alkene identities while preserving the 74%/7% isolated yields. Makes the observed absence of a detected 1,2 product explicit without inventing a detection limit or a rate ratio. The published organic E-product graph agrees with the original computed product, whose coordinate model also includes NaF; no computed geometry or model spectator is exposed.",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000027_0f0de8852e58",
+          "ev_doc_dae8dc0cd8db_000051_972e3b93c5b2",
+          "ev_doc_dae8dc0cd8db_000052_4b566d83b945",
+          "ev_doc_e2120ae96275_000064_ed83a363574b",
+          "pdf-page-doc_e2120ae96275-p3",
+          "pdf-page-doc_e2120ae96275-p4",
+          "pdf-page-doc_dae8dc0cd8db-p5",
+          "pdf-page-doc_dae8dc0cd8db-p8",
+          "ev_doc_dae8dc0cd8db_000222_d0c8bd18fd51",
+          "ev_doc_dae8dc0cd8db_000224_73bfca56d4df",
+          "pdf-page-doc_dae8dc0cd8db-p40",
+          "pdf-page-doc_dae8dc0cd8db-p41"
+        ]
+      },
+      {
+        "subject_id": "PI6",
+        "change_type": "identity_clarification",
+        "reason": "Resolves vague phenyl-substituted diene wording to the unsubstituted terminal-phenyl E diene actually represented by the computed TS2-d/TS2-e graphs and representative experimental precursor/product. Both transition-state records contain C11H11F2SO2 with CHF2 at one end and phenyl at the other, not an internal-phenyl isomer. Original PDF page ordering, rather than the misplaced extracted TS2-d heading, resolves the continuation rows. The E starting configuration is established independently by the original precursor drawing, not by imposing an unchanged phenyl-side alkene on both capture transition structures; their allylic bond localization differs while their terminal-phenyl carbon backbone agrees.",
+        "evidence_ids": [
+          "pdf-page-doc_dae8dc0cd8db-p6",
+          "ev_doc_dae8dc0cd8db_000041_bb793b64a036",
+          "pdf-page-doc_e2120ae96275-p4",
+          "ev_doc_dae8dc0cd8db_000095_43f86146377e",
+          "pdf-page-doc_dae8dc0cd8db-p15",
+          "ev_doc_dae8dc0cd8db_000225_d036f4e4ff4e",
+          "ev_doc_dae8dc0cd8db_000229_34acd723023e",
+          "pdf-page-doc_dae8dc0cd8db-p41",
+          "pdf-page-doc_dae8dc0cd8db-p42"
+        ]
+      },
+      {
+        "subject_id": "PI7",
+        "change_type": "neutral_rewording",
+        "reason": "Makes the existing same-system phenyl observation usable by identifying the representative product graph and E alkene, supplying its observed 74% yield, and stating the absence of a numerical detection-limit/enantioselectivity input. Does not extend scoring to the uncomputed substituted-aryl experimental library or predict a source-unspecified absolute configuration.",
+        "evidence_ids": [
+          "ev_doc_e2120ae96275_000037_18d62657f8d8",
+          "ev_doc_dae8dc0cd8db_000035_6b1b8f13c7c9",
+          "ev_doc_dae8dc0cd8db_000095_43f86146377e",
+          "pdf-page-doc_e2120ae96275-p4",
+          "pdf-page-doc_dae8dc0cd8db-p5",
+          "pdf-page-doc_dae8dc0cd8db-p15"
+        ]
+      }
+    ],
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "scoring_requirements": "Only independent final scientific conclusions in scoring_rules.json receive binary full-or-zero weights summing to 100. All required outcomes must pass. No intermediate or process points; claim-specific real computational evidence remains mandatory."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "public_inputs": [
+    "data/system.json",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "required_results": "s\n\n1. Give a connected molecular and energetic explanation for the target sulfone formation from the specified inputs, explaining the bond changes, chemical driving factors and limits of the model.\n2. Explain butadiene's 1,4 preference using competing formation evidence, reporting a comparable free-energy difference and its physical origin.\n3. Explain its E preference with computed energetics and explicit assumptions about precursor states and any interconversion; distinguish local activation differences from energies on a common reference.\n4. Explain and quantify the competing 1,2/1,4 preference of the terminal-phenyl system and its reversal relative to butadiene under the different conditions.\n\nChoose hypotheses and methods independently; no particular intermediate, descriptor, calculation count or exhaustive search is prescribed. Support claimed minima, transition states and connections with suitable actual evidence. Balance molecular and electronic inventories and state units, references and model conditions. Distinguish a local reaction free energy from a whole photoredox reaction, and molecular connectivity from verified experimental kinetics. The observed preferences cannot substitute for calculated explanations.\n\n#"
+}

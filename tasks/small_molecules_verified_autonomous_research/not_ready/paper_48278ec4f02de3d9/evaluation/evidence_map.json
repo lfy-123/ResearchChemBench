@@ -1,0 +1,116 @@
+{
+  "paper_id": "paper_48278ec4f02de3d9",
+  "evidence": [
+    {
+      "evidence_id": "rh_identity",
+      "source": {
+        "path": "papers/paper_48278ec4f02de3d9/documents/supplementary_001.pdf",
+        "sha256": "7189fa6d3395116af17729cb359e46246c3187a0194bf480e33106e2d1e92d3b",
+        "pdf_pages_1based": [
+          32
+        ],
+        "locator": "precursor,1t,CO coordinate blocks"
+      },
+      "evidence_class": "identity",
+      "fact": "12 atoms C4Cl2O4Rh2;25 atoms C9H14O2;2 atoms CO. All neutral singlets.",
+      "review_artifacts": [
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/supplementary_001_p032.png"
+      ]
+    },
+    {
+      "evidence_id": "rh_method",
+      "source": {
+        "path": "papers/paper_48278ec4f02de3d9/documents/supplementary_001.pdf",
+        "sha256": "7189fa6d3395116af17729cb359e46246c3187a0194bf480e33106e2d1e92d3b",
+        "pdf_pages_1based": [
+          26,
+          29
+        ],
+        "locator": "6.1 and TableS1"
+      },
+      "evidence_class": "method",
+      "fact": "BMK/def2SVP gas geometry/RRHO; BMK SMD mesitylene solvation; DLPNO-CCSD(T)/def2TZVPP TightPNO/TightSCF. CO6.2mM, others1M. Dimer printed TCG=-0.000816 equals solvent shift, not native RRHO=-0.008305.",
+      "review_artifacts": [
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/supplementary_001_p026.png",
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/supplementary_001_p029.png"
+      ]
+    },
+    {
+      "evidence_id": "rh_direct",
+      "source": {
+        "path": "papers/paper_48278ec4f02de3d9/documents/main.pdf",
+        "sha256": "0090a9347a17cb1c79c9449ec074864bc081b260bc0966e2c486dbb74ebf6460",
+        "pdf_pages_1based": [
+          4,
+          5
+        ],
+        "locator": "Figure3 and direct-route discussion"
+      },
+      "evidence_class": "author_calculation",
+      "fact": "TS2 height55.3; INT3 height14.5; local barrier40.8. TS2-prime height36.4 from separated1t+half dimer; local barrier fromINT3-prime22.7 is13.7. TS-OC height44.6 from separated reactants, not from the24.3 bound intermediate.",
+      "review_artifacts": [
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/main_p004.png",
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/main_p005.png"
+      ]
+    },
+    {
+      "evidence_id": "rh_carbonylation",
+      "source": {
+        "path": "papers/paper_48278ec4f02de3d9/documents/main.pdf",
+        "sha256": "0090a9347a17cb1c79c9449ec074864bc081b260bc0966e2c486dbb74ebf6460",
+        "pdf_pages_1based": [
+          6
+        ],
+        "locator": "Figure4 and discussion"
+      },
+      "evidence_class": "author_calculation",
+      "fact": "CO association givesINT3-double-prime6.3; TS3 height31.2 (local24.9); later TS4 height23.0 and TS5 18.9; final2t plus half dimer=-12.1. CO insertion is the proposed controlling step; prior carbonylation lowers later intermediates.",
+      "review_artifacts": [
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/main_p006.png"
+      ]
+    },
+    {
+      "evidence_id": "rh_CO_competition",
+      "source": {
+        "path": "papers/paper_48278ec4f02de3d9/documents/supplementary_001.pdf",
+        "sha256": "7189fa6d3395116af17729cb359e46246c3187a0194bf480e33106e2d1e92d3b",
+        "pdf_pages_1based": [
+          27
+        ],
+        "locator": "FiguresS2-S3"
+      },
+      "evidence_class": "author_calculation",
+      "fact": "Alternative CO insertion39.1 vs31.2. Diene branch without CO; plottedbeta-H TS33.6 vs CO TS31.2 at the displayed reference. This is a2.4 profile difference, not a universal rate/yield ratio.",
+      "review_artifacts": [
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/supplementary_001_p027.png"
+      ]
+    },
+    {
+      "evidence_id": "rh_experiment",
+      "source": {
+        "path": "papers/paper_48278ec4f02de3d9/documents/main.pdf",
+        "sha256": "0090a9347a17cb1c79c9449ec074864bc081b260bc0966e2c486dbb74ebf6460",
+        "pdf_pages_1based": [
+          2,
+          3,
+          5
+        ],
+        "locator": "Table1,Scheme2,ether-tether scope paragraph"
+      },
+      "evidence_class": "experiment",
+      "fact": "Oxygen-tether2t77% isolated with10%Rh dimer,TCPF1.2equiv,CO1atm,mesitylene0.2M,120C,24h. Table1 pressure screen is NTs analog/toluene110C; lowCO increases diene, highCO slows conversion; do not misassign exact yields to1t. Direct keto-(5+2) failure and the experimentally observed diene are discussed for the N-tosyl 1a/family context; do not recast them as independent zero-yield/diene-yield measurements on oxygen-tethered 1t. Figure3 calculations, in contrast, explicitly use 1t.",
+      "review_artifacts": [
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/main_p002.png",
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/main_p003.png",
+        "tasks/small_molecules_autonomous_research/verification_dispatch/20261010T231612Z/scope_upgrade_execution_20261011T081201Z/upgrades/group_03/reports/paper_48278ec4f02de3d9/sources/main_p005.png"
+      ]
+    }
+  ],
+  "source_conflicts": [
+    "正文PDF p5称β-H低2.4，但SI PDF p27图33.6对31.2为高2.4；采用图/SI显式共同参考值定义方向，不因接近验证而选源。",
+    "正文Figure4 PDF p6为游离内酯−12.1，旧−11.1为转录错误。",
+    "SI Table S1 PDF p29二聚体打印TCG−0.000816是溶剂差，非真实RRHO−0.008305；保留物种自身原生热项和配平CO。",
+    "TS4/TS5绝对图高残差+3.975218/+4.016105；B/INT5残差+11.901411，TS4相对B局部残差−7.926194；命名/构象/热项冲突未解决，不能称小误差。",
+    "局部η3→η1：自算羰基化16.974650>直接8.206593，与来源5.0<8.2反向；该局部解释不是现行必要主张，不新增硬门，也不借此删除CO插入控制/连接/过量CO抑制等既有必要结论。"
+  ]
+}

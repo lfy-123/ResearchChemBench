@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "scope_version": "neutral-start-author-scope-20261012",
+  "updated_at_utc": "2026-10-12T19:15:22.249931+00:00",
+  "design_implemented": true,
+  "scientifically_verified": false,
+  "release_ready": false,
+  "status": "IMPLEMENTED_VERIFICATION_INCOMPLETE",
+  "latest_prior_verification": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/paper_89a7064f608ab3c0/selected29_20261012T053104Z_group_01/verification_report.md",
+  "latest_prior_verification_utc": "2026-10-12T12:38:14.804856+00:00",
+  "blockers": [
+    {
+      "id": "first_barrier_mismatch",
+      "type": "NUMERICAL_MISMATCH",
+      "description": "TS1 remains -1.219030 versus author+1.9 kcal/mol; original -0.877785 reference is retained separately. Do not take absolute values, fit methods or relax tolerance."
+    },
+    {
+      "id": "path_qualification",
+      "type": "PHYSICAL_QUALIFICATION",
+      "description": "TS1 different-conformer basin qualification, TS2 product-conformer qualification and downstream C5 route are incomplete; reuse real IRC joins."
+    },
+    {
+      "id": "activation_unverified",
+      "type": "MISSING_AUTHOR_ROUTE_VERIFICATION",
+      "description": "Author redox and triplet routes were not covered by the old local-surface validation."
+    },
+    {
+      "id": "triplet_definition",
+      "type": "SOURCE_DEFINITION",
+      "description": "Main73.9/SI74.1 and energy/thermal assembly require source audit. Exact-value numeric rule absent; qualitative ordering remains the supported scientific finding."
+    }
+  ],
+  "numeric_rule_policy": {
+    "preserved": [
+      {
+        "rule_id": "ar_rule_barrier",
+        "target": 4.6,
+        "unit": "kcal/mol",
+        "tolerance": 1.5
+      }
+    ],
+    "new_numeric_rules": [],
+    "manual_comparison": [
+      "activation_origin redox results",
+      "first_rearrangement",
+      "selectivity"
+    ],
+    "excluded_from_active_numeric_scoring": [
+      "exact substrate triplet73.9/74.1",
+      "absolute charged-to-neutral reduction free energy"
+    ]
+  },
+  "author_uncomputed_exclusions": [
+    "explicit PC-substrate SET TS",
+    "back-electron-transfer TS",
+    "full catalyst cycle energetics/kinetics",
+    "new ion-pair reference calculations"
+  ],
+  "public_metadata_resolution": "PC A/B redox potential reference/solvent now corroborated by official TCI table; no quantitative DCM SET target introduced."
+}

@@ -1,0 +1,56 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "items": [
+    {
+      "conclusion_id": "activation_conclusion",
+      "rule_ids": [
+        "r_activation_conclusion"
+      ],
+      "scientific_max_score": 10,
+      "statement": "最终：催化剂效应的活化解释",
+      "expected": "最终明确选择氧化自由基阳离子活化，并综合真实底物氧化还原计算、三重态比较与所给催化剂A/B及无催化剂观察解释结果差异。该结论不能仅列出候选；不要求显式SET过渡态、速率、对离子能量或完整光催化循环。",
+      "evidence_ids": [
+        "bn_redox",
+        "bn_triplet",
+        "bn_screen",
+        "bn_main_triplet"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "redox_discrimination",
+        "triplet_discrimination",
+        "first_connection",
+        "first_barrier",
+        "second_connection",
+        "second_barrier",
+        "c4_c5_order",
+        "endpoint_identity"
+      ]
+    },
+    {
+      "conclusion_id": "mechanism_conclusion",
+      "rule_ids": [
+        "r_mechanism_conclusion"
+      ],
+      "scientific_max_score": 10,
+      "statement": "最终：C4骨架重排与电子闭合",
+      "expected": "最终选择相连C5–C6再C3–C4重排的C4路线，并结合竞争证据和实际端点解释中性2a到中性3a。Int2接受一个电子即可还原，无必要质子转移或原子损失；对所给盐PC(+1)*+2a→PC(0)+[2a](+1)，再PC(0)+[3a](+1)→PC(+1)+3a，PF6−不变。电子账本是限定机理解释，不是完整循环计算；不得把−170.8的跨电荷图示当平衡反应能。此结论不以首步精确G通过为前提，也不能把负复合节点差称负物理势垒。",
+      "evidence_ids": [
+        "bn_path",
+        "bn_screen",
+        "bn_main_mechanism"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "redox_discrimination",
+        "triplet_discrimination",
+        "first_connection",
+        "first_barrier",
+        "second_connection",
+        "second_barrier",
+        "c4_c5_order",
+        "endpoint_identity"
+      ]
+    }
+  ]
+}

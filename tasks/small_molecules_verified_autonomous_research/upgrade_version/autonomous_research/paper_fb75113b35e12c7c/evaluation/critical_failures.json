@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_fb75113b35e12c7c",
+  "items": [
+    {
+      "failure_id": "fabricated_evidence",
+      "statement": "Confirmed fabricated execution or data invalidates the submission.",
+      "trigger": "Affirmative evidence of forged native output or copied private reference numbers presented as independently computed. Honest missing or failed work is not fabrication.",
+      "assessment": "invalid_submission only on confirmed fabrication; ordinary errors fail affected outcomes only.",
+      "evidence_ids": [
+        "V2_SI_METHOD"
+      ]
+    },
+    {
+      "failure_id": "hidden_answer_leakage",
+      "statement": "Confirmed unauthorized use of hidden evaluator answers invalidates an autonomous submission.",
+      "trigger": "Evidence of use of private reference assets misrepresented as independent research.",
+      "assessment": "Otherwise evaluate each supported final outcome independently.",
+      "evidence_ids": [
+        "V2_SI_METHOD"
+      ]
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_r5_site_answer",
+      "r_r5_product_class",
+      "r_r5_second_competition",
+      "r_r6_thermodynamic_fate",
+      "r_r6_accessible_fate",
+      "r_comparative_robustness"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only PI1/PI2 and their stated reaction comparisons are scored. PI3 is outside scope. Supplied unranked candidate sites and structures do not determine a preferred outcome.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

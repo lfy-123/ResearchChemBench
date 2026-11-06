@@ -1,0 +1,11 @@
+# Scientific question
+
+An isolable neutral BN-benzvalene gives the supplied C4-aryl azaborine under the documented irradiation and photocatalyst conditions. Without photocatalyst no conversion is detected, and changing the catalyst changes the outcome. What activation mode and changes in the molecular framework account for these observations? Develop and test plausible explanations, assess relevant competing outcomes, and relate the neutral starting material to the neutral product with consistent atom and electron accounting. Choose the molecular models and discriminating calculations yourself.
+
+The main experiment uses isolated neutral BN-benzvalene 2a (0.05 M) and 5 mol% photocatalyst B in dichloromethane, irradiated at 370 nm for 1 h at room temperature. Conversion is 96% and the supplied product 3a has 95% NMR yield. Under the same conditions without catalyst, or with catalyst A, no conversion is detected. These yields are experimental observations, not rate constants or measured C4:C5 ratios.
+
+`data/inputs/reaction_inventory.json` defines the complete substrate, product, catalyst salts, solvent and conditions. The SDF files provide explicit molecular graphs; the supplied substrate and product XYZ files are unoptimized starting conformers, not certified stationary points. Both substrate and product are neutral singlets with the formula C26H36BNSi and 65 atoms including hydrogens. Each catalyst salt comprises a +1 Ir(III) coordination cation and one PF6− counterion. `catalyst_screen.csv` records the experimental controls. `photocatalyst_properties.json` supplies source-qualified reagent properties with their reference conventions; its acetonitrile voltages must not be silently relabelled as dichloromethane measurements.
+
+Start from isolated 2a. Its preparation is outside the problem, and a complete elementary photocatalytic cycle is not required. Select and justify the hypotheses, active species, models, methods and discriminating calculations. No intermediate sequence or property checklist is prescribed. Connect any claimed chemical changes using valid molecular identities and balanced physical references.
+
+Submit `report/results.json` and `report/report.md` using `submission_schema.json` and `submission_guide.md`.

@@ -1,0 +1,102 @@
+{
+  "paper_id": "paper_6d19b537a0030e5a",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_bifunctional_hydrogenation",
+      "r_turnover_control",
+      "r_primary_enantiomer",
+      "r_organization_origin"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only the acylsilane substrate is scored. Starting neutral tricarbonyl C_A has supplied multiplicity 1; subsequent spin states require justification. SiMe3/tBu substitution is outside the active task.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "For the specified chiral cyclopentadienone–iron catalyst C_A, explain how H2 hydrogenates phenyl(trimethylsilyl)methanone to its chiral silyl alcohol, what controls turnover, and how catalyst organization influences formation of the two enantiomers. Predict the favored absolute configuration for this acylsilane.",
+  "active_rule_ids": [
+    "r_bifunctional_hydrogenation",
+    "r_turnover_control",
+    "r_primary_enantiomer",
+    "r_organization_origin"
+  ],
+  "current_outcome_ids": [
+    "bifunctional_hydrogenation",
+    "turnover_control",
+    "primary_enantiomer",
+    "organization_origin"
+  ],
+  "historical_record": {
+    "paper_id": "paper_6d19b537a0030e5a",
+    "version": "20261027_v3",
+    "new_quantum_jobs": 0,
+    "automatic_inheritance_of_pass": false,
+    "items": [
+      {
+        "rule_id": "r_bifunctional_hydrogenation",
+        "source_evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+        "local_support": "16 states/32 raw frequency-SP logs; connected source graphs and actual reaction-mode projections. Singlet product release -4.864416 and triplet-minus-singlet regeneration -2.880494 kcal/mol.",
+        "evidence_status": "reusable_conditional_support"
+      },
+      {
+        "rule_id": "r_turnover_control",
+        "source_evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+        "local_support": "H2 conditional span25.628660 versus precursor13.613683 and S/R delivery14.014603/16.246240 kcal/mol.",
+        "evidence_status": "reusable_conditional_support"
+      },
+      {
+        "rule_id": "r_primary_enantiomer",
+        "source_evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+        "local_support": "Native formation gap R-S2.231637 kcal/mol; explicit graph/CIP maps S/R in native_recomputed.json.",
+        "evidence_status": "reusable_conditional_support"
+      },
+      {
+        "rule_id": "r_organization_origin",
+        "source_evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+        "local_support": "Native contacts b1/b2/b3=2.968940/3.397866/1.785660 Angstrom and comparative hydrogen-delivery structures; no independent NCI field or energy decomposition.",
+        "evidence_status": "reusable_conditional_support"
+      },
+      {
+        "rule_id": "r_substitution_effect",
+        "source_evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "native_index": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T1924Z/parent_fe6d19_audit/native_recomputed.json",
+        "local_support": "Same-C_A tBu gap1.389369 versus silyl2.231637, reduction0.842268 kcal/mol; contact2.353229 to2.614163 Angstrom.",
+        "evidence_status": "reusable_conditional_support"
+      }
+    ],
+    "limits": [
+      "No independent MECP, SOC or crossing-rate validation; spin access remains conditional.",
+      "Native connections use source graphs and actual imaginary-mode projections, not independently repeated complete IRC.",
+      "No exact experimental er, global solution conformer population or unique interaction causality.",
+      "Native Gaussian16C.01 differs from source A.03; source numeric grid details are unavailable; relative energy deviations up to1.413683 kcal/mol persist.",
+      "No new QM/HPC or blind run."
+    ],
+    "scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

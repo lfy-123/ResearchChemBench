@@ -1,0 +1,161 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_dipole_activity_association",
+      "reference_id": "dipole_activity_association",
+      "type": "semantic",
+      "expected": "An actual all-ten matched descriptor/MIC analysis supports a positive within-series association between molecular dipole and activity (higher activity means lower MIC, e.g. −log2 MIC). Preserve assay ties and all ten identities; an equivalent declared direction-sensitive association analysis is allowed. Require recoverable calculated dipoles and analysis, not merely quoting the source. Exact rho, p-value significance, algorithm, permutation count and the maximum-dipole identity are not targets.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_frontier_activity_association",
+      "reference_id": "frontier_activity_association",
+      "type": "semantic",
+      "expected": "Actual all-ten HOMO/MIC evidence supports a positive within-series association of higher (less negative) HOMO energy with greater activity (lower MIC), with target transformation/sign explicit and ties retained. This is a retrospective descriptor association, not proof of electron-transfer mechanism or external prediction; no specific regression/permutation algorithm is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_gap_activity_association",
+      "reference_id": "gap_activity_association",
+      "type": "semantic",
+      "expected": "Actual all-ten positive frontier-gap/MIC evidence supports a negative association between ELUMO−EHOMO and activity (higher activity means lower MIC). Establish this from raw computed ranks/values and MIC ties; overlap with source-value ranges does not establish this association. Do not substitute incorrectly defined chemical potential/electrophilicity. An actual sensitivity analysis may establish that the very small gap ranks do not support a resolved association across the declared valid models; such a bounded negative finding passes if all ten raw gap/MIC pairs, ties and the signed associations actually obtained are analyzed. Switching methods without this evidence or omitting contrary results does not pass.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_bounded_activity_information",
+      "reference_id": "bounded_activity_information",
+      "type": "semantic",
+      "expected": "The final answer infers from actual molecular-property results and all-ten assay analysis that these properties provide descriptive within-series information but do not by themselves reliably account for the MIC differences or establish predictive/target-mechanistic control. Substantiate the inference with concrete descriptor-versus-MIC discordance, tied outcomes or an appropriately performed assessment showing imperfect discrimination; link it to the measured series, rather than merely adding a generic small-sample warning. State the supported direction/strength actually obtained and do not claim that a dipole champion, docking or permeability mechanism explains efficacy. This inference is separate from receiving points for the association direction: require demonstrated imperfect discrimination, tied outcomes with different descriptors, or a valid predictive assessment. No prescribed regression, significance threshold or permutation count applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "dipole_activity_association",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Within-series association between molecular dipole and activity",
+      "rule_ids": [
+        "r_dipole_activity_association"
+      ],
+      "evidence_ids": [
+        "az_main",
+        "az_si",
+        "native_validation",
+        "validation_summary_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "frontier_activity_association",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Within-series association between HOMO energy and activity",
+      "rule_ids": [
+        "r_frontier_activity_association"
+      ],
+      "evidence_ids": [
+        "az_main",
+        "az_si",
+        "native_validation",
+        "validation_summary_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "gap_activity_association",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Within-series association between positive frontier gap and activity",
+      "rule_ids": [
+        "r_gap_activity_association"
+      ],
+      "evidence_ids": [
+        "az_si",
+        "native_validation",
+        "validation_summary_1",
+        "az_main"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bounded_activity_information",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Explanatory and predictive information justified by the ten-compound evidence",
+      "rule_ids": [
+        "r_bounded_activity_information"
+      ],
+      "evidence_ids": [
+        "az_main",
+        "az_si",
+        "validation_summary_1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

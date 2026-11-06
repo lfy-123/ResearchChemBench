@@ -1,0 +1,236 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "current_scoring_authority": "Only scoring_rules.json awards points. Supporting evidence carries no independent points or numerical matching requirement. Historical items below are archived provenance, never active criteria.",
+  "items": [
+    {
+      "key_point_id": "support_cumulative_f_dry",
+      "key_point_type": "scientific_evidence",
+      "statement": "Thermodynamic driving force for deoxygenation without added water",
+      "expected": "Establish and interpret the favorable net thermodynamic driving force for PyO deoxygenation by preformed photoexcited H2PQ without added water. Use actual balanced Gibbs energies for G(ground-state PQ)+G(ground-state associated Py/generated water)-G(lowest-excited-singlet H2PQ)-G(ground-state PyO), in MeCN at 298.15 K and a 1 M solute standard state, with consistent conformer and thermal treatment. Explain that the products are thermodynamically accessible from this excited-reactant reference; this is the cumulative net transformation, not a local transfer increment, orbital gap or activation barrier. The reference predicts strongly favorable deoxygenation, but -115.1 kcal/mol and its magnitude are not matching targets. A negative number alone without the balanced transformation, correct states and physical interpretation fails. Equivalent computations using the defined reporting references pass; alternative mechanistic state/association models may be discussed separately but cannot replace this requested comparison. This endpoint conclusion does not establish rates, a unique transfer sequence or the operative solution association. It can pass independently of the hydrated result.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_cumulative_f_water",
+      "key_point_type": "scientific_evidence",
+      "statement": "Thermodynamic driving force for deoxygenation with two added waters",
+      "expected": "Establish and interpret the favorable net thermodynamic driving force for the two-added-water deoxygenation scenario using actual balanced Gibbs energies. Compare ground-state PQ with one added water plus ground-state Py/generated-water association with one added water against lowest-excited-singlet H2PQ with one added water plus ground-state PyO with one added water, at 298.15 K, 1 M in MeCN. Preserve two added waters on each side; the generated water is additional. Use consistent state, conformer and thermal conventions and explain the net conversion from the excited hydrated reactants to the ground-state products. The reference predicts strongly favorable deoxygenation; -112.1 kcal/mol is context, not a target or tolerance. An unbalanced water inventory, a local transfer increment or a bare negative scalar fails. Established equivalent calculations under the reporting references pass. The hydrated endpoint result neither proves hydration accelerates a reaction nor selects a unique operative association or mechanism. It is independently scored from the dry result and from the microscopic hydration explanation.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_reductant_molecular_role",
+      "key_point_type": "scientific_evidence",
+      "statement": "Molecular basis of light-driven reduction by preformed H2PQ",
+      "expected": "Explain, using actual computed electronic-state and reaction thermochemistry evidence, how photoactivated H2PQ can provide the coupled proton/electron equivalents that deoxygenate PyO while oxidizing to PQ. The reference supports both photoacid and photoreductant behavior, with two hydrogen equivalents transferred overall. Establish a chemically balanced thermodynamically plausible account, including the relevant state changes; a named intermediate list or negative total energy alone does not establish this explanation. Do not require an exclusive PT-then-ET or ET-then-PT sequence, the author intermediate chain, or a particular number of stationary points. Equivalent validated PCET/HAT descriptions pass when they account for the same bounded chemistry. Endpoint thermodynamics alone does not establish kinetic order or rates. The S1 reactant and product-association references in the two net thermodynamic comparisons define reported quantities only; they do not establish a unique reactive state or require those associations along a pathway. Assess alternative state/association models from their actual evidence.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    },
+    {
+      "key_point_id": "support_local_hydration_effect",
+      "key_point_type": "scientific_evidence",
+      "statement": "Why finite hydration changes reaction thermodynamics and what it can explain",
+      "expected": "Conclude from a balanced dry/two-water comparison that local hydration preferentially stabilizes ionic transfer configurations, especially electron-transfer configurations; evaluate this differential local stabilization separately from the net endpoint driving forces. The source first ET changes -1.6 to -8.2 and second ET +7.4 to -9.6 kcal/mol; these local values are supporting examples, not mandatory author nodes or separate hard gates. Demonstrate the differential stabilization with actual computed comparisons or a physically equivalent supported explanation. Distinguish this molecular hydration effect from experimental substituted-system yields and bulk water percentages; finite endpoint thermodynamics cannot establish the optimum water content, a unique sequence or a quantitative acceleration. The one-added-water-per-fragment allocation is mandatory for the two standardized net Gibbs-energy reports, not for every mechanistic model examined. Other balanced finite-hydration models may support this explanatory conclusion when their references and limitations are explicit; they do not replace the two required net reports.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "scored": false,
+      "claim_role": "supporting_context"
+    }
+  ],
+  "historical_non_scoring_items": [
+    {
+      "statement": "dry_first_pt — non-scoring source evidence",
+      "expected": "Paper target-0.9kcal/mol with inclusive absolute tolerance1.0kcal/mol. PT endpoint S1-HPQ− + PyOH+ relative to R=S1-H2PQ+ground-state PyO; the deprotonated HPQ− remains S1. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "dry_first_pt",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "dry_first_et — non-scoring source evidence",
+      "expected": "Paper target-1.6kcal/mol with inclusive absolute tolerance1.0kcal/mol. H2PQ radical cation + PyO radical anion relative to R. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "dry_first_et",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "hydrated_first_pt — non-scoring source evidence",
+      "expected": "Paper target-2.2kcal/mol with inclusive absolute tolerance1.0kcal/mol. PT endpoint with two added solvent waters relative to matched hydrated R, retaining the S1 HPQ− state. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "hydrated_first_pt",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "hydrated_first_et — non-scoring source evidence",
+      "expected": "Paper target-8.2kcal/mol with inclusive absolute tolerance1.5kcal/mol. First ET endpoint with two added solvent waters relative to matched hydrated R. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "hydrated_first_et",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "second_dry_pt — non-scoring source evidence",
+      "expected": "Paper target2.3kcal/mol with inclusive absolute tolerance1.0kcal/mol. PQ radical anion + PyOH2 radical cation relative to I=ground-state HPQ radical+PyOH radical. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "second_dry_pt",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "second_dry_et — non-scoring source evidence",
+      "expected": "Paper target7.4kcal/mol with inclusive absolute tolerance1.0kcal/mol. HPQ cation + PyOH anion relative to the same I. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "second_dry_et",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "second_water_pt — non-scoring source evidence",
+      "expected": "Paper target-1.3kcal/mol with inclusive absolute tolerance1.0kcal/mol. Second PT endpoint relative to the matched two-added-water I. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "second_water_pt",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "second_water_et — non-scoring source evidence",
+      "expected": "Paper target-9.6kcal/mol with inclusive absolute tolerance1.5kcal/mol. Second ET endpoint relative to the matched two-added-water I. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "second_water_et",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "cumulative_i_dry — non-scoring source evidence",
+      "expected": "Paper target-43.9kcal/mol with inclusive absolute tolerance2.0kcal/mol. Ground-state HPQ radical+PyOH radical relative to R, not a local second-step reference. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "cumulative_i_dry",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "cumulative_i_water — non-scoring source evidence",
+      "expected": "Paper target-41.7kcal/mol with inclusive absolute tolerance2.0kcal/mol. Hydrated I relative to matching hydrated R. Compare chemically matched states, solvent MeCN,298.15K,1M, conserved atoms/charge and a consistent thermochemical/conformer convention across the submitted results. Require genuine computed endpoint Gibbs free energies, not orbital-energy differences or claimed barriers. Report actual value and discrepancy; this provisional tolerance replaces earlier publication-rounding or expert-only magnitude gates.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "cumulative_i_water",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "cumulative_f_dry — non-scoring source evidence",
+      "expected": "The standardized net deoxygenation Gibbs energy without added water is -115.1 kcal/mol with the unchanged inclusive absolute tolerance of 2.0 kcal/mol. Compare G(ground-state PQ) + G(ground-state associated Py/generated water) - G(lowest-excited-singlet H2PQ) - G(ground-state PyO). This is the cumulative product-minus-reactant quantity, not an increment after an intermediate. Use MeCN, 298.15 K and a 1 M solute standard state, conserving atoms and charge with consistent thermochemical and conformer treatment. Require actual computed Gibbs energies and traceable state/identity evidence; orbital-energy differences or claimed activation barriers do not substitute. This is the required standardized reporting comparison, not proof that its states or associations uniquely describe the operative mechanism. Separately reported alternative reference models cannot replace this numerical result.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "cumulative_f_dry",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "cumulative_f_water — non-scoring source evidence",
+      "expected": "The standardized net deoxygenation Gibbs energy with two added waters is -112.1 kcal/mol with the unchanged inclusive absolute tolerance of 2.0 kcal/mol. Compare G(ground-state PQ with one added water) + G(ground-state Py/generated-water association with one added water) - G(lowest-excited-singlet H2PQ with one added water) - G(ground-state PyO with one added water). Retain two added waters in total on each side; the water generated by deoxygenation is additional. Use MeCN, 298.15 K and a 1 M solute standard state, conserving atoms and charge with consistent thermochemical and conformer treatment. Require actual computed Gibbs energies and traceable state/identity evidence; orbital-energy differences or claimed activation barriers do not substitute. This is the required standardized reporting comparison, not proof that its states or associations uniquely describe the operative mechanism. Separately reported alternative reference models cannot replace this numerical result.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "cumulative_f_water",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "dry_first_competition — non-scoring source evidence",
+      "expected": "Actual physically comparable calculations support mildly favorable dry first PT and first ET endpoints, providing thermodynamic support for both starting routes. No exact numerical-window pass is required for this independent qualitative finding. Endpoints alone do not establish a unique sequence or kinetic preference.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "dry_first_competition",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "dry_second_competition — non-scoring source evidence",
+      "expected": "Actual calculations from the same I support uphill dry second PT and ET endpoints with PT less endergonic than ET. Assess the supported signs and relative ordering independently from numerical magnitude windows; do not relabel these endpoint energies as activation barriers.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "dry_second_competition",
+      "key_point_type": "result",
+      "scored": false
+    },
+    {
+      "statement": "first_h_transfer_species — non-scoring source evidence",
+      "expected": "Actual structures/electronic-state evidence establish the compositionally consistent first hydrogen-transfer intermediate I as ground-state HPQ radical plus PyOH radical and connect it to the analyzed PT/ET endpoints with conserved atoms, charge and hydrogen inventory. A drawing or copied species names alone is insufficient; no new transition-state or unique kinetic pathway calculation is required.",
+      "evidence_ids": [
+        "main_p4",
+        "supplementary_001_p38_39_40_41"
+      ],
+      "claim_role": "supporting_evidence",
+      "key_point_id": "first_h_transfer_species",
+      "key_point_type": "result",
+      "scored": false
+    }
+  ]
+}

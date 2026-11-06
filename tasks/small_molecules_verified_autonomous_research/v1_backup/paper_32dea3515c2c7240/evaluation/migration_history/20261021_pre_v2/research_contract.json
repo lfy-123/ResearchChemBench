@@ -1,0 +1,72 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "schema_version": "author-computation-research/repaired-20261016",
+  "task_archetype": "author_computation_grounded_research",
+  "decision": "pending_computational_verification",
+  "scientific_question": "What accounts for the relative productive reactivity of the two configurations of substrate S in Pd/L-pyroglutamic-acid C-H olefination, and what can separately defined S/P configurational-interconversion energetics establish about the observed enantioenriched product?",
+  "public_inputs": [
+    {
+      "input_id": "PI1",
+      "kind": "identity",
+      "content": "The system is homogeneous Pd-catalyzed C-H olefination of racemic substrate S, an N-(pyridin-2-yl) tribenzo[b,d,f]azepine with one CF3 group, using tert-butyl acrylate A. S connectivity SMILES: N1(c2ncccc2)c2cc(C(F)(F)F)ccc2-c2ccccc2-c2ccccc21. A SMILES: C=CC(=O)OC(C)(C)C. Product P connectivity and alkene geometry SMILES: N1(c2ncccc2)c2cc(C(F)(F)F)ccc2-c2ccccc2-c2cccc(/C=C/C(=O)OC(C)(C)C)c21. The CF3 group is meta to the azepine nitrogen on one outer benzene ring; the E-CH=CH-C(=O)O-tert-butyl group in P is at the nitrogen-adjacent carbon of the opposite outer benzene ring. The nitrogen at the start of each S/P SMILES is the neutral, three-coordinate azepine nitrogen, bonded to the two outer aromatic rings and pyridin-2-yl. S is supplied as the equal mixture of its two mirror-image nitrogen configurations. The SMILES specify connectivity and P's E alkene, not a preferred nitrogen configuration or geometry. Use explicit, consistent stereochemical labels for the two configurations in your investigation. The chiral ligand is L-pyroglutamic acid, (S)-5-oxopyrrolidine-2-carboxylic acid."
+    },
+    {
+      "input_id": "PI2",
+      "kind": "condition",
+      "content": "Reaction conditions: racemic substrate S 0.1 mmol, tert-butyl acrylate A 4 equiv, Pd(OAc)2 10 mol %, L-pyroglutamic acid 20 mol %, AgNO3 2.0 equiv, CH3CN 2.0 mL, 90 °C, 36 h."
+    },
+    {
+      "input_id": "PI3",
+      "kind": "observation",
+      "content": "For the model substrate, the reported reaction gave the alkenylated product in 82% isolated yield and 95% ee."
+    },
+    {
+      "input_id": "PI4",
+      "kind": "condition",
+      "content": "The configurational-interconversion comparisons concern isolated neutral S in acetonitrile at 353.15 K and isolated neutral P in n-octane at 398.15 K. These are separate comparison conditions. The catalytic reaction is in acetonitrile at 363.15 K for 36 h. Do not silently equate the three conditions."
+    },
+    {
+      "input_id": "PI5",
+      "kind": "observation",
+      "content": "In reaction-progress measurements at 6, 12, 24 and 36 h, isolated P yields were 27%, 41%, 63% and 82%; product ee was 95% and recovered S ee was 0% at each sampled time. In separate tests, isolated P heated in acetonitrile for 2 h at 100, 110, 120 and 130 °C had ee values of 95%, 94%, 92% and 87%, respectively. These measurements are explanatory observations, not calculated rates or barriers."
+    }
+  ],
+  "domain": {
+    "small_molecule": true,
+    "homogeneous": true,
+    "organic_reaction": true
+  },
+  "scope": "Model S/A Pd/L-pGlu stereochemical productive-reactivity comparison, and isolated S/1b and P/3ba inversion at their respective source conditions; bounded relation to shared experimental observations.",
+  "out_of_scope": [
+    "Other azepines 4b/5ba/4c and their computed values.",
+    "Full catalytic turnover, oxidation/release, coordinated-substrate inversion and quantitative DKR kinetics.",
+    "Mandatory prediction of experimental endpoint yield or ee."
+  ],
+  "author_computation": {
+    "performed_by_authors": true,
+    "independently_recomputed_for_this_repair": false,
+    "result_key_point_ids": [
+      "KP_TS_GAP",
+      "KP_INV_S",
+      "KP_INV_P"
+    ]
+  },
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "reference_limitations": [
+    "Inversion comparisons use different solvents and temperatures; do not extrapolate them into a common-condition rate or barrier ordering.",
+    "A simple symmetric Eyring interpretation of 31.82 kcal/mol at 353.15 K gives an ee-decay half-life about 26.8 days, so that number is not proof of rapid free-substrate inversion within 36 h. This is an analytic consistency check, not a new DFT result.",
+    "Full Cartesian source coordinates and plotted energy references are available. Raw inputs, frequency/IRC logs and complete per-state electronic/thermal energy decomposition were not located; charge/spin and detailed thermochemistry remain declared reconstruction choices.",
+    "Author energy uncertainties are not reported. Evaluation tolerances are provisional and uncalibrated."
+  ],
+  "release_blockers": [],
+  "verification_status": "Source review, native package validation and runtime contract checks only; no quantum chemistry job submitted or independently completed in this repair.",
+  "evidence_ids": [
+    "E_SYSTEM",
+    "E_OBS",
+    "E_INV",
+    "E_METHOD",
+    "E_PATH",
+    "E_PROFILE",
+    "E_COORD"
+  ]
+}

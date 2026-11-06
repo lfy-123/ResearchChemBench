@@ -22,8 +22,8 @@ from chemistry_toolbox.src.catalog import resolve_tool_discovery_mode
 from .execution.progress import progress_timestamp
 from .execution.runner import TaskRunner
 from .execution.provider_errors import normalize_error
-from .execution.resume_policy import add_resume_arguments, execution_exit_code
-from .provenance.results import write_batch_results
+from .execution.resume_policy import add_resume_arguments, execution_exit_code, policy_overrides
+from .provenance.results import run_completion_status, write_batch_results
 from .schemas.eval_config import EvalConfigError, RunSpec, load_yaml, resolve_specs, resolve_task_repository
 from .settings import (
     AGENT_PRESETS,
@@ -128,6 +128,8 @@ def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dic
             else None
         ),
     }
+    from .scoring.final_results import batch_finality_fields
+    summary.update(batch_finality_fields(rows))
     json_path = batch_dir / "eval_report.json"
     json_path.write_text(
         json.dumps({"config": config, "summary": summary, "runs": rows}, indent=2) + "\n",
@@ -148,12 +150,19 @@ def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dic
         "| Task | Agent | Repeat | Status | Score | Duration (s) | Run ID |",
         "|---|---|---:|---|---:|---:|---|",
     ]
+    if "v3_pending_review_runs" in summary:
+        lines[2:2] = [
+            f"- V3 pending review: {summary['v3_pending_review_runs']} runs; pending points are not final scores.",
+            f"- Final-score coverage: {summary['final_score_coverage']}; means exclude pending V3 runs.",
+        ]
     for row in rows:
         score_text = (
             ""
             if row.get("score") is None
             else f"{row['score']}/{row.get('score_max', 1)}"
         )
+        if row.get("score_is_final") is False:
+            score_text += f" confirmed; {row.get('pending_science_score', 0)} pending"
         lines.append(
         f"| {row['task_type']}/{row['paper_id']} | {row['agent_key']} | {row['repeat']} | "
             f"{row['status']} | {score_text} | "
@@ -165,8 +174,10 @@ def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dic
 
 
 def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False, resume: bool | None = None,
-             agent_key: str | None = None) -> int:
+             agent_key: str | None = None, resume_policy: dict | None = None) -> int:
     config = _load_yaml(config_path)
+    if resume_policy:
+        config["resume_policy"] = {**config.get("resume_policy", {}), **resume_policy}
     if agent_key is not None:
         config["agents"] = [agent_key]
     if resume is not None:
@@ -337,6 +348,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 "repeat": spec.repeat, "run_id": runner.run_id if runner else None,
                 "workspace": str(runner.workspace) if runner and runner.meta_path.exists() else None,
                 "status": status, "phase": phase, "evaluation_status": "needs_review" if completed else "not_started",
+                "completion_status": run_completion_status({**manifest, "run_state": status}),
                 "score": None, "error": error, "score_error": error["message"] if completed else "", "api_verified": False,
                 "provider_diagnostics": getattr(exc, "diagnostics", getattr(runner, "_provider_diagnostics", None))}
 
@@ -373,12 +385,16 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 recovery_enabled=_normalize_bool(config["recovery_enabled"], name="recovery_enabled") if "recovery_enabled" in config else None,
                 resume=_normalize_bool(config.get("resume", False), name="resume"),
                 resume_policy=config.get("resume_policy"),
+                **({"gemini_model": config.get("gemini_model")} if spec.agent_key == "gemini" else {}),
                 codex_model=config.get("codex_model"),
                 codex_base_url=config.get("codex_base_url"),
                 codex_reasoning_effort=config.get("codex_reasoning_effort"),
+                context_window_tokens=config.get("context_window_tokens"),
+                auto_compact_token_limit=config.get("auto_compact_token_limit"),
                 max_tokens=config.get("max_tokens"),
                 model_wait_strategy=config.get("model_wait_strategy", "provider_default"),
                 feedback_schema_version=int(config.get("feedback_schema_version", 2)),
+                tool_response_profile=config.get("tool_response_profile", "compact_v1"),
                 native_input_validation_policy=config.get("native_input_validation_policy", "advisory"),
                 archive_policy=config.get("archive_policy", "indexed"),
                 progress_interval=int(config.get("progress_interval", 5)),
@@ -401,6 +417,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             judge_consistency_warnings = []
             score_error = ""
             evaluation_status = "not_started"
+            final_result_fields = {}
             if meta.get("status") == "completed" and not no_score and config.get("judge", {}).get("enabled", True):
                 from .execution.control import resume_scoring
                 score_result = resume_scoring(runner.workspace, config)
@@ -408,6 +425,8 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 if score_result.get("error"):
                     score_error = str(score_result["error"])
                 else:
+                    from .provenance.results import _final_result_fields
+                    final_result_fields = _final_result_fields(score_result)
                     score = score_result.get("score")
                     score_max = score_result.get("score_max")
                     normalized_score = score_result.get("normalized_score")
@@ -425,10 +444,12 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 "repeat": spec.repeat,
                 "run_id": runner.run_id,
                 "status": meta.get("status", "failed"),
+                "completion_status": run_completion_status(meta),
                 "score": score,
                 "evaluation_status": evaluation_status,
                 "score_max": score_max,
                 "normalized_score": normalized_score,
+                **final_result_fields,
                 "criteria": criteria,
                 "objective_issue_flags": objective_issue_flags,
                 "judge_consistency_warnings": judge_consistency_warnings,
@@ -553,7 +574,8 @@ def main(argv: list[str] | None = None) -> int:
             parser.error('Existing run cannot be combined with new-run configuration')
         from .execution.control import main as manage
         return manage(['resume', '--resume', '--run-root', str(args.run_root), '--run-id', args.run_id]
-                      + (['--no-score'] if args.no_score else []))
+                      + (['--no-score'] if args.no_score else [])
+                      + [v for k in policy_overrides(args) for v in ['--resume-' + k.replace('_', '-'), str(policy_overrides(args)[k])]])
 
     temporary: Path | None = None
     if args.config:
@@ -585,7 +607,7 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     try:
-        return run_eval(config_path, dry_run=args.dry_run, no_score=args.no_score, resume=args.resume_enabled,
+        return run_eval(config_path, dry_run=args.dry_run, no_score=args.no_score, resume=args.resume_enabled, resume_policy=policy_overrides(args),
                         **({"agent_key": args.agent} if args.config and args.agent else {}))
     except EvalConfigError as exc:
         _log(f"Configuration error: {exc}", stream=sys.stderr)

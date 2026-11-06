@@ -1,0 +1,51 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "revision": "source_checked_evidence_scope_20261103",
+  "previous_revision": "expert_round1_20261103",
+  "source_review_status": "confirmed_and_corrected",
+  "reason_zh": "正文第5–6页Scheme 5及讨论、SI S20–S21给出两阶段操作、单轮trans:cis约1.1:1和三轮70%分离收率；SI S71单独比较50/S20端点稳定性。以给定单轮比例计算理想三轮回收不需要端点自由能，且不能用端点平衡比例冒充质子解比例。保留实际执行的衡算、来源、假设和可恢复结果要求。",
+  "source_documents": [
+    {
+      "path": "papers/paper_4e9774f4128551d3/documents/main.pdf",
+      "sha256": "37a7fad866bff774d010cc6b61af21da2150a78c5bce69c1ff41574648c5b8b4",
+      "pdf_pages_1based": [
+        5,
+        6
+      ]
+    },
+    {
+      "path": "papers/paper_4e9774f4128551d3/documents/supplementary_001.pdf",
+      "sha256": "64fda6d0c684c5c53ad4434788b2fe57bfa21ff63ec78215d47885b4103de76a",
+      "pdf_pages_1based": [
+        20,
+        21,
+        71
+      ]
+    }
+  ],
+  "changed_rule_id": "r_recycle_balance",
+  "before_expected": "Produce a reproducible ideal three-cycle cis mass balance under complete per-pass conversion, complete cis separation, full trans recycling and no loss, with the single-pass cis fraction and its provenance explicit. For identical cycles Y3=1-(1-p_cis)^3. The supplied trans:cis approximately 1.1:1 gives an ideal recovery of approximately 85.6%; this is consistency analysis using an experimental fraction, not independently predicted selectivity. Compare the ideal estimate with the 70% cumulative isolated observation and explain the scope of incomplete conversion/recovery/loss without treating fitted unmeasured losses as a prediction. A calculated fraction must describe the actual two-stage process; the endpoint Boltzmann ratio is not automatically the protonolysis fraction. Actual endpoint computations and a reproducible balance are required for the claimed calculation-supported comparison. No exact-yield target or new protonolysis TS search is imposed.",
+  "after_expected": "Produce a reproducible ideal three-cycle cis mass balance under complete per-pass conversion, complete cis separation, full trans recycling and no loss, with the single-pass cis fraction and its provenance explicit. For identical cycles Y3=1-(1-p_cis)^3. The supplied trans:cis approximately 1.1:1 gives an ideal recovery of approximately 85.6%; this is consistency analysis using an experimental fraction, not independently predicted selectivity. Compare the ideal estimate with the 70% cumulative isolated observation and explain the scope of incomplete conversion/recovery/loss without treating fitted unmeasured losses as a prediction. A calculated fraction must describe the actual two-stage process; the endpoint Boltzmann ratio is not automatically the protonolysis fraction. Require an actually executed mass-balance analysis with recoverable input fraction and provenance, assumptions, analysis code or equivalent reproducible derivation, numerical output and execution evidence. When using the supplied experimental fraction, this item does not require molecular endpoint calculations; missing or failed endpoint calculations affect the outcomes that rely on them, not an independently supported recycling conclusion. If an independently calculated single-pass fraction is claimed, require the actual molecular or kinetic evidence supporting that fraction. A copied yield, an unexecuted formula or unsupported input fraction fails. No exact-yield target or new protonolysis TS search is imposed.",
+  "scientific_requirements_changed": true,
+  "previous_scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.",
+  "active_rule_ids": [
+    "r_endpoint_gap",
+    "r_condition_interpretation",
+    "r_recycle_balance"
+  ],
+  "removed_outcome_ids": [],
+  "weights_changed": false,
+  "scientific_scope_changed": false,
+  "public_file_sha256": {
+    "submission_guide.md": "36ddb84ec262bb6411e659ba8edbb99d6c22bb053b796f4f845b5ad535df00f6",
+    "submission_schema.json": "46b69533459f2e46b49dda73cdb6e8adf9ffc450e6153d8dd30571f76ecee83a",
+    "task.md": "fe4a91788e52faee4556fc4aaa64fe035598340156d5197ddbf0d2e7cc3349d3",
+    "data/inputs/observations.json": "f1341ceb4f29c7e358db1e357768140945cb630766205971a4fecafe2df06eab",
+    "data/inputs/systems.json": "bb5faff418617e8c220d4a5cca1b923ab97f87038a2d52c11cf5e9a2002939bf",
+    "data/inputs/source_facts.json": "433f746474fd9a39e31a575281f37818b78a70207f0b5cfa13326d68134f63f2"
+  },
+  "previous_scoring_rules_sha256": "2df80df92168c361b1ca635d2e28370ceb9f3b9a0bbb95f43804ced05fb7f3aa",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Paper/SI source review, item-evidence dependency correction and contract/synchronization checks; no new QM or blind-agent scientific acceptance."
+}

@@ -1,0 +1,110 @@
+{
+  "paper_id": "paper_89a7064f608ab3c0",
+  "objects": [
+    {
+      "id": "neutral_2a",
+      "role": "isolable starting material",
+      "formula": "C26H36BNSi",
+      "atom_count_with_hydrogens": 65,
+      "charge": 0,
+      "multiplicity": 1,
+      "smiles": "Cc1ccc([C@@]23[C@H]4[C@@H]2B(c2c(C)cc(C)cc2C)N([Si](C)(C)C(C)(C)C)[C@H]43)cc1",
+      "identity_file": "data/inputs/neutral_2a.sdf",
+      "initial_geometry": "data/inputs/neutral_2a.xyz",
+      "stereochemistry": "Cage relative stereochemistry specified; one representative handedness, no experimental absolute configuration assigned",
+      "geometry_origin": "Independent distance-geometry embedding of the experimental graph; no stationary-point certification",
+      "identity_provenance": "exp_screen"
+    },
+    {
+      "id": "product_3a",
+      "role": "observed C4-p-tolyl azaborine",
+      "formula": "C26H36BNSi",
+      "atom_count_with_hydrogens": 65,
+      "charge": 0,
+      "multiplicity": 1,
+      "smiles": "Cc1ccc(C2=CB(c3c(C)cc(C)cc3C)N([Si](C)(C)C(C)(C)C)C=C2)cc1",
+      "identity_file": "data/inputs/product_3a.sdf",
+      "initial_geometry": "data/inputs/product_3a.xyz",
+      "geometry_origin": "Previously supplied unoptimized public conformer",
+      "identity_provenance": "exp_screen"
+    },
+    {
+      "id": "PC_A",
+      "identity_file": "data/inputs/photocatalysts.sdf",
+      "record_name": "PC_A",
+      "formula": "C40H40F6IrN4P",
+      "formal_charge": 0,
+      "components": [
+        {
+          "identity": "Ir(III) coordination cation",
+          "charge": 1,
+          "multiplicity": 1,
+          "stoichiometry": 1
+        },
+        {
+          "identity": "hexafluorophosphate",
+          "smiles": "F[P-](F)(F)(F)(F)F",
+          "charge": -1,
+          "multiplicity": 1,
+          "stoichiometry": 1
+        }
+      ],
+      "coordination": "Octahedral Ir(III), two cyclometalated C,N ligands and one N,N chelate; trans C,N-ligand nitrogen donors; absolute metal configuration unspecified",
+      "representation_note": "Ir(+3), two C,N ligand(-1) units and neutral dtbbpy encode a +1 coordination cation. These formal fragment charges are not additional reaction ingredients.",
+      "identity_provenance": "exp_screen"
+    },
+    {
+      "id": "PC_B",
+      "identity_file": "data/inputs/photocatalysts.sdf",
+      "record_name": "PC_B",
+      "formula": "C42H34F16IrN4P",
+      "formal_charge": 0,
+      "components": [
+        {
+          "identity": "Ir(III) coordination cation",
+          "charge": 1,
+          "multiplicity": 1,
+          "stoichiometry": 1
+        },
+        {
+          "identity": "hexafluorophosphate",
+          "smiles": "F[P-](F)(F)(F)(F)F",
+          "charge": -1,
+          "multiplicity": 1,
+          "stoichiometry": 1
+        }
+      ],
+      "coordination": "Octahedral Ir(III), two cyclometalated C,N ligands and one N,N chelate; trans C,N-ligand nitrogen donors; absolute metal configuration unspecified",
+      "representation_note": "Ir(+3), two C,N ligand(-1) units and neutral dtbbpy encode a +1 coordination cation. These formal fragment charges are not additional reaction ingredients.",
+      "identity_provenance": "exp_screen"
+    },
+    {
+      "id": "dichloromethane",
+      "role": "reaction solvent",
+      "smiles": "ClCCl",
+      "charge": 0,
+      "multiplicity": 1
+    }
+  ],
+  "main_experiment": {
+    "id": "screen_B",
+    "substrate_id": "neutral_2a",
+    "substrate_concentration_M": 0.05,
+    "photocatalyst_id": "PC_B",
+    "photocatalyst_loading_mol_percent": 5,
+    "solvent_id": "dichloromethane",
+    "wavelength_nm": 370,
+    "irradiation_duration_h": 1,
+    "temperature_description": "room temperature; exact numerical temperature not reported",
+    "conversion_percent": 96,
+    "product_3a_yield_percent": 95,
+    "measurement": "1H NMR using 1,3,5-trimethoxybenzene internal standard",
+    "source_id": "exp_screen"
+  },
+  "scope": "Start with isolated neutral_2a under the listed irradiation conditions. Its preparation is outside the problem. Account for activation, framework changes, competing outcomes and the observed product. A full elementary photocatalytic cycle is not required.",
+  "physical_boundary": "Starting material and product contain the same 65 atoms; no net atom loss or added proton is specified. Catalyst salts are specified explicitly. Choose and justify any molecular or electronic-state models used.",
+  "atom_index_note": "Indices are local to each identity file; no reactant-to-product mechanism mapping is supplied.",
+  "source_cards": {
+    "exp_screen": "Supplied experimental catalyst-screen extract; reaction and product identity data only. Source document locator is maintained privately."
+  }
+}

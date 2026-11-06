@@ -1,0 +1,517 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "systems",
+      "methods",
+      "hypotheses",
+      "quantities",
+      "findings",
+      "validation",
+      "artifacts",
+      "conclusion",
+      "series_explanation"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "partial",
+          "failed"
+        ]
+      },
+      "systems": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "formula",
+            "charge",
+            "multiplicity",
+            "structure_artifact"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "formula": {
+              "type": "string"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "structure_artifact": {
+              "type": "string"
+            },
+            "input_atom_map": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "methods": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "software",
+            "model",
+            "solvent",
+            "temperature_K",
+            "standard_state"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "software": {
+              "type": "string"
+            },
+            "model": {
+              "type": "string"
+            },
+            "solvent": {
+              "type": "string"
+            },
+            "temperature_K": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "standard_state": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "statement"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "statement": {
+              "type": "string"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "reaction_network": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "reactants",
+            "products",
+            "evidence_refs"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "reactants": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "species_id",
+                  "coefficient"
+                ],
+                "properties": {
+                  "species_id": {
+                    "type": "string"
+                  },
+                  "coefficient": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  }
+                }
+              }
+            },
+            "products": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "species_id",
+                  "coefficient"
+                ],
+                "properties": {
+                  "species_id": {
+                    "type": "string"
+                  },
+                  "coefficient": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  }
+                }
+              }
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "description": "Optional transformation index with species and stoichiometry."
+      },
+      "validation": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "claim",
+            "result",
+            "evidence_refs"
+          ],
+          "properties": {
+            "claim": {
+              "type": "string"
+            },
+            "result": {
+              "type": "string"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "artifacts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "path",
+            "kind"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "failure": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "description": "Affected results and diagnostic evidence for partial or failed status."
+      },
+      "quantities": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "quantity",
+            "value",
+            "unit",
+            "physical_definition",
+            "method_id",
+            "species_ids",
+            "evidence_refs"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "string"
+            },
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "unit": {
+              "type": "string"
+            },
+            "physical_definition": {
+              "type": "string"
+            },
+            "method_id": {
+              "type": "string"
+            },
+            "species_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "description": "Calculated quantities with physical definitions, references and native evidence."
+      },
+      "findings": {
+        "type": "array",
+        "description": "Scientific findings and evidence references.",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "claim",
+            "evidence_refs"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim": {
+              "type": "string",
+              "minLength": 1
+            },
+            "quantity_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "species_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "series_explanation": {
+        "type": "object",
+        "required": [
+          "claim",
+          "comparisons",
+          "evidence_refs"
+        ],
+        "description": "The molecular explanation for the principal observed contrasts within A–E and relative to the uncatalyzed reaction.",
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "comparisons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "catalyst_ids",
+                "finding_ids",
+                "interpretation"
+              ],
+              "properties": {
+                "catalyst_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "finding_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "interpretation": {
+                  "type": "string"
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "completed"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "systems": {
+              "minItems": 1
+            },
+            "methods": {
+              "minItems": 1
+            },
+            "quantities": {
+              "minItems": 1,
+              "items": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              }
+            },
+            "findings": {
+              "minItems": 1,
+              "items": {
+                "properties": {
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              }
+            },
+            "validation": {
+              "minItems": 1
+            },
+            "artifacts": {
+              "minItems": 1
+            },
+            "conclusion": {
+              "minLength": 1
+            },
+            "series_explanation": {
+              "properties": {
+                "claim": {
+                  "minLength": 1
+                },
+                "comparisons": {
+                  "minItems": 1
+                },
+                "evidence_refs": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "partial",
+                "failed"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "required": [
+            "failure"
+          ],
+          "properties": {
+            "failure": {
+              "type": "object",
+              "required": [
+                "affected_results",
+                "reason"
+              ],
+              "properties": {
+                "affected_results": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Structured final scientific answer with traceable computational evidence."
+  }
+}

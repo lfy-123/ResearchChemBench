@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_6d19b537a0030e5a",
+  "items": [
+    {
+      "conclusion_id": "bifunctional_hydrogenation",
+      "statement": "Chemical mechanism of C_A-catalyzed hydrogenation and catalyst return",
+      "expected": "Explain a connected, atom- and charge-balanced C_A/H2 hydrogenation in which an activated iron/ligand system supplies hydrogen equivalents to the carbonyl and releases alcohol while returning to a catalytically competent state. The reference is a bifunctional Fe-H/ligand-OH account following Me3NO-assisted activation; an independently validated equivalent route passes without the author intermediate labels or a prescribed structure inventory. Require actual chemistry/energy evidence for activation, hydrogen delivery and productive catalyst return sufficient to establish this catalytic conclusion. A set of unrelated low-energy structures or an isolated product does not pass. Spin-state ordering can support a conditional route but is not a calculated crossing rate.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "supporting_key_point_ids": [
+        "precursor_activation",
+        "hydrogen_activation",
+        "release_regeneration"
+      ]
+    },
+    {
+      "conclusion_id": "turnover_control",
+      "statement": "Conditional turnover limitation",
+      "expected": "Conclude, from physically compatible computed energetic comparisons, that H2 activation is more demanding than precursor activation and substrate hydrogen delivery in the supported C_A model. Source comparisons 27.0 versus12.2 and13.7/15.9 kcal/mol are context with different explicitly identified local references, not numerical gates or permission to mix zeros. Relate the conclusion to the productive catalytic account and distinguish the energetic bottleneck from unknown spin-crossing kinetics and an experimental rate law. Equivalent mechanistic routes with resolved comparable control evidence pass.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "supporting_key_point_ids": [
+        "turnover_comparison",
+        "hydrogen_activation",
+        "release_regeneration"
+      ]
+    },
+    {
+      "conclusion_id": "primary_enantiomer",
+      "statement": "Primary alcohol enantiomer favored by formation competition",
+      "expected": "Identify S as the lower-energy primary alcohol-forming pathway for the specified S,S C_A catalyst, using computed physically comparable formation competition and an explicit molecular/CIP assignment. The source R-minus-S difference2.2 kcal/mol is contextual, not a hard window. Product stability, a copied TS label or supplied unsigned experimental er cannot establish the formation preference. A single-conformer prediction is not an exact macroscopic er.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "supporting_key_point_ids": [
+        "stereo_competition"
+      ]
+    },
+    {
+      "conclusion_id": "organization_origin",
+      "statement": "Why catalyst organization discriminates between primary formation pathways",
+      "expected": "Explain how the asymmetric side-arm environment persists in the catalytically relevant model and changes substrate approach/interactions so as to stabilize the favored hydrogen-delivery geometry. Support the causal interpretation with actual comparative reaction geometries and energetic evidence; contact lengths alone, a schematic or an NCI color alone do not pass. Accept physically equivalent interaction/steric explanations when supported. Do not claim proof of unique single-contact causality or solution-wide rigidity from one conformation.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "supporting_key_point_ids": [
+        "catalyst_organization",
+        "stereo_competition"
+      ]
+    },
+    {
+      "conclusion_id": "substitution_effect",
+      "statement": "Matched SiMe3-to-tBu change in enantiomer discrimination",
+      "expected": "Conclude that replacing SiMe3 by tBu on the same C_A scaffold reduces the computed formation-energy discrimination, and relate this difference to actual structural/interaction changes. Use both enantiomer-forming comparisons with consistent thermochemical definitions, not different-composition total energies or C_B results. Source gaps2.2 and1.3 are non-scoring context; the tBu panel has an incompletely stated unit convention. A longer corresponding contact can remain for tBu (source2.614 versus2.354 Angstrom); do not require its absence or infer a unique atomic-radius cause.",
+      "claim_role": "final",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ],
+      "supporting_key_point_ids": [
+        "substitution_comparison",
+        "catalyst_organization"
+      ]
+    }
+  ]
+}

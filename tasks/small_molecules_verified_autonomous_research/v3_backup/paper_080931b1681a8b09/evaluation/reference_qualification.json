@@ -1,0 +1,22 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "case_id": "case_08",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "existing_verification_reference_reused": true,
+  "new_quantum_validation_performed": false,
+  "new_agent_run_performed": false,
+  "scientific_acceptance_reassessed_this_migration": false,
+  "scoring_definition_reviewed": true,
+  "numerical_evidence_policy": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。",
+  "verification_support": "正文 Table 1 entry 6/Scheme 6D、SI S126–130；历史验证支持结合/开环与两支闭环、R 构型，以及局部弱接触和形变/相互作用分解的有界解释。",
+  "reference_issues": [
+    "限定 Ni(OTf)2/(S,S)-tBuPyBOX/CHCl3，不能混入另一镍盐、配体或 DCM 数据。",
+    "验证的 +1 triplet 是重建模型，不是原卡已公开或全溶液物种的唯一答案。",
+    "R 侧若干局部接触增强，但吸引子域积分及总相互作用分解可偏 S；不把“所有 R 吸引更强”硬化成答案。",
+    "代表 TS 预测的富集强度与实验同向但非精确一致；不设 er/ΔΔG 容差。"
+  ],
+  "human_review_resolution": "人工意见为保留；科学命题和权重不变，沿用逐项实际数值证据、无论文数值门槛、pass/fail规则。",
+  "note": "Reference definitions and scoring have been audited; this is not new quantum validation, a blind agent run, strict numeric reproduction or publication approval. Native logs and historical verification remain unchanged.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail."
+}

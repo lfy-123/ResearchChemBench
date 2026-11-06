@@ -1,0 +1,131 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round2_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The required chemistry begins at supplied Int-3. Int-2 is contextual only; no benzylic activation, peroxide cleavage or upstream radical generation is required. Both product drawings are inputs, not discoveries.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "Starting from the supplied oxygen-centered radical Int-3 derived from sec-butylbenzene, what local chemistry explains acetophenone formation, and which of the two supplied carbon–carbon beta-scission channels is kinetically favored? This is a local explanation task; product structures are supplied and must be supported by independently calculated formation evidence.",
+  "active_rule_ids": [
+    "r_local_cleavage_chemistry",
+    "r_cleavage_selectivity"
+  ],
+  "current_outcome_ids": [
+    "local_cleavage_chemistry",
+    "cleavage_selectivity"
+  ],
+  "historical_record": {
+    "paper_id": "paper_b33676a2051f5e91",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_local_cleavage_chemistry",
+      "r_cleavage_selectivity",
+      "r_local_activation"
+    ],
+    "scope": "Local cleavage chemistry and accessibility of acetophenone formation; Kinetic preference between acetophenone- and propiophenone-forming local cleavages; Accessibility and limits of a reagent-derived local benzylic activation route. Public molecular inputs and scientific scope are unchanged.",
+    "verification_status": "EXISTING_LOCAL_EVIDENCE_REVIEWED_NO_AUTOMATIC_V3_PASS",
+    "native_evidence": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261013T195300Z/parent_b336_native_readback.json",
+    "new_quantum_jobs": 0,
+    "release_ready": false,
+    "limitations": "Unresolved source singlet-oxygen states/capture definitions and uncomputed connecting peroxide chemistry remain outside the approved local scope. Local barriers use connected basins; no yield/branch ratio or polymer prediction is verified.",
+    "qualification_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+    "historical_records": {
+      "previous_evidence_reusable": {
+        "native_records": [
+          {
+            "id": "Int3",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/artifacts/gaussian_batch/baseline_int3/stdout.log",
+            "sha256": "0228b545c6b3518ded46d6c0020716ecd8a2875d74620d0184f241a3faf26764"
+          },
+          {
+            "id": "ethylTS",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/artifacts/gaussian_batch/b336_beta_scission_cc_2p30_ts_retry1/stdout.log",
+            "sha256": "12f4d432d27b4d60544c1b74a9cc050c46c7913d7dbefc548b5c6fa504bda77b"
+          },
+          {
+            "id": "methylTS",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/alternative_TS4a_optfreq/outputs/optfreq/gaussian.log",
+            "sha256": "fbe3c3c468031b5992932bf9f587239b3c3d6c1c40ec10b79508ba44db8c5f9e"
+          },
+          {
+            "id": "finite_IRC_0",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/hpc_runs/b336_beta_scission_reverse_lqa_irc_20260914_hpc20_p6/stdout.log",
+            "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+          },
+          {
+            "id": "finite_IRC_1",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/hpc_runs/b336_beta_scission_forward_lqa_irc_20260914_hpc20_p6/stdout.log",
+            "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+          },
+          {
+            "id": "finite_IRC_4",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/TS4a_IRC_forward_storage_recovery1/outputs/irc/gaussian.log",
+            "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+          },
+          {
+            "id": "finite_IRC_5",
+            "path": "docs/verification/group_4/paper_b33676a2051f5e91/small_molecules_20261010T231612Z_g02/TS4a_IRC_reverse_storage_recovery1/outputs/irc/gaussian.log",
+            "evidence": "Latest branch-intake audit; normal finite path, not a separated-product minimum."
+          }
+        ],
+        "scientific_audit": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/coverage.json",
+        "scope": "Both local product connections and existing minima/TS/IRC data are reusable; scalar barriers remain conditional on the common-reference audit. None proves blind recovery from the new input.",
+        "later_existing_endpoint_outputs": [
+          {
+            "case_id": "methyl_reactant_endpoint",
+            "job_id": "hpc-job-7df43723-4ae6-4ccb-8585-1aa8a9111618",
+            "run_status_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/methyl_reactant_endpoint/outputs/run_status.json",
+            "native_log_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/methyl_reactant_endpoint/outputs/gaussian.log",
+            "finished_at": "2026-10-12T16:18:28.949188+00:00",
+            "operational_phase": "terminal_requires_scientific_review",
+            "scientific_pass": false,
+            "log_sha256_recorded": "bf1e9551adf67cd54f6c6851b6dc0380d531b0ebdd9afaec7c015f0ba368724a",
+            "next_action": "Audit existing outputs and compare endpoint basins; do not resubmit this existing calculation."
+          },
+          {
+            "case_id": "ethyl_reactant_endpoint",
+            "job_id": "hpc-job-ce579e03-9b80-4965-b508-e9b47742974d",
+            "run_status_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/ethyl_reactant_endpoint/outputs/run_status.json",
+            "native_log_path": "docs/verification/small_molecules_autonomous_research/paper_b33676a2051f5e91/remaining24_20261012T134810Z_group_A/cases/ethyl_reactant_endpoint/outputs/gaussian.log",
+            "finished_at": "2026-10-12T16:23:30.500750+00:00",
+            "operational_phase": "terminal_requires_scientific_review",
+            "scientific_pass": false,
+            "log_sha256_recorded": "c09b51bff37a721e889a19686cbb08d10bf8a48260474d77f7d121db6e6274a4",
+            "next_action": "Audit existing outputs and compare endpoint basins; do not resubmit this existing calculation."
+          }
+        ]
+      }
+    },
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_local_cleavage_chemistry",
+        "r_cleavage_selectivity",
+        "r_local_activation"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    }
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance."
+}

@@ -1,0 +1,73 @@
+{
+  "revision_date": "2026-10-17",
+  "purpose": "Keep source locators and editorial provenance private while public inputs present a self-contained scientific problem. Scientific values, uncertainty, structures, scoring and verification conclusions are unchanged.",
+  "removed_public_fields": [
+    {
+      "original_public_file": "agent_input/data/inputs/source_facts.json",
+      "json_pointer": "/source_locators",
+      "original_value": [
+        {
+          "claim": "Source substrate, enolization/protonolysis and solvent inconsistency",
+          "source": "main PDFpp5–6 Scheme5; SI PDFpp20–21"
+        },
+        {
+          "claim": "Single-pass 1.1:1 ratio and recycling yield have distinct definitions",
+          "source": "main PDFp6; SI PDFp21"
+        }
+      ]
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/observations.json",
+      "json_pointer": "/records/0/source",
+      "original_value": "main PDFp6"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/observations.json",
+      "json_pointer": "/records/1/source",
+      "original_value": "main PDFp6"
+    },
+    {
+      "original_public_file": "agent_input/data/inputs/observations.json",
+      "json_pointer": "/records/2/source",
+      "original_value": "main PDFp6; SI PDFp21"
+    }
+  ],
+  "input_wording_before_after": [
+    {
+      "file": "paper_4e9774f4128551d3/agent_input/data/inputs/source_facts.json",
+      "before": "The source prepares its tetrasubstituted O-TMS enol ether",
+      "after": "The treatment forms its tetrasubstituted O-TMS enol ether"
+    },
+    {
+      "file": "paper_4e9774f4128551d3/agent_input/data/inputs/source_facts.json",
+      "before": "The main Scheme5 lists THF/MeOH 1:1; SI pp20–21 specifies 6.0/0.60 mL (10:1). This discrepancy is unresolved. Source-derived connectivity and pre-existing stereochemistry are supplied;",
+      "after": "Two conflicting THF/MeOH volume ratios are specified: 1:1 and 6.0/0.60 mL (10:1). Neither ratio is uniquely established for comparison. Connectivity and pre-existing stereochemistry are supplied;"
+    },
+    {
+      "file": "paper_4e9774f4128551d3/agent_input/data/inputs/source_facts.json",
+      "before": "local epimerization of source ketoester 50",
+      "after": "local epimerization of ketoester 50"
+    },
+    {
+      "file": "paper_4e9774f4128551d3/agent_input/data/inputs/systems.json",
+      "before": "Molecular identity from the source system; the supplied graph defines composition/connectivity, not a certified stationary point. See source_facts.json for source scope and conditions.",
+      "after": "The supplied molecular graph defines composition/connectivity, not a certified stationary point. See source_facts.json for experimental scope and conditions."
+    },
+    {
+      "file": "paper_4e9774f4128551d3/agent_input/data/inputs/systems.json",
+      "before": "Source constitution/stereochemistry only; old optimized XYZ private.",
+      "after": "Constitution and stereochemistry are supplied; generate conformers independently."
+    },
+    {
+      "file": "paper_4e9774f4128551d3/agent_input/data/inputs/systems.json",
+      "before": "Benchmark graph edit from source50; independently generate conformers, not a validated stationary geometry.",
+      "after": "Graph constructed from ketoester 50; independently generate conformers, not a validated stationary geometry."
+    },
+    {
+      "file": "paper_4e9774f4128551d3/agent_input/data/inputs/systems.json",
+      "before": "the source does not establish a unique enol-ether E/Z/conformer population.",
+      "after": "a unique enol-ether E/Z/conformer population is not established by the supplied observations."
+    }
+  ],
+  "solvent_editorial_note": "Main Scheme 5 gives THF/MeOH 1:1; the SI procedure specifies 6.0/0.60 mL (10:1). Both possibilities and the unresolved uncertainty remain public without publication locators."
+}

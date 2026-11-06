@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_cfff299c39d69520",
+  "task_type": "autonomous_research",
+  "title": "Autonomous mechanism discovery for Zn-catalyzed diyne formation",
+  "category": "computational reaction mechanism",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires physically supported catalyst speciation, a balanced connected reaction network and qualified kinetics."
+  ],
+  "paper": {
+    "title": "Towards understanding the molecular mechanism of Cadiot-Chodkiewicz cross-coupling reaction",
+    "doi": "10.1016/j.jorganchem.2025.123969",
+    "journal": "Journal of Organometallic Chemistry",
+    "publication_date": "2026-02-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit molecular identities, roles, charges, multiplicities, solvent and reaction endpoint."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Agent-defined models, computed evidence, claims, validation and truthful completion status."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Scientific answer, reasoning, methods, evidence interpretation and unresolved scope."
+    }
+  ]
+}

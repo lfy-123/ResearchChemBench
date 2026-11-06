@@ -1,0 +1,401 @@
+{
+  "paper_id": "paper_1bcf80caf9e64d55",
+  "date_utc": "2026-10-21",
+  "scoring_policy": "paper_science_v2",
+  "rules": [
+    {
+      "rule_id": "r_phosphine_addition",
+      "reference_id": "phosphine_addition",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者TS1→2；实际TS1相关虚频−234.4652 cm−1及两侧路径/端点支持。物种2作者7.9、本地8.07156651。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "真实相连计算支持PEt3亲核加成到炔β-C，形成含P–C键的两性离子中间体2；核对PEt3为C6H15P，C7H17P不等价。该项判定键与电荷重排，不依赖TS1数值命中。",
+      "weight_and_tolerance_rationale": "将引发化学身份与能量精确度拆开。"
+    },
+    {
+      "rule_id": "r_initiation_energy",
+      "reference_id": "initiation_energy",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者18.9；本地19.05467031，差+0.15467031，命中±1.0。复合物1相对分离反应物+17.076223，须明确保留而非拟合平移。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "以Fig.S1初始复合物1为零点，TS1相对G目标18.9 kcal/mol、绝对容差1.0 kcal/mol；同时计入所有旁观物料并保持383.15 K。不得将分离反应物零点、异构膦或不同化学组成结果直接比较。",
+      "weight_and_tolerance_rationale": "单个关键局部加成能采用±1.0，足以区分后续约8 kcal/mol高度；非作者误差条。"
+    },
+    {
+      "rule_id": "r_cyclization",
+      "reference_id": "cyclization",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者TS2→3；实际TS2−220.9772 cm−1及端点支持。TS2 8.38308104、来源构象3 0.61176526；独立IRC环化端点−4.850322，是另一个构象，不能互换。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "中间体2的真实连接与反应模支持向酯羰基分子内进攻、构筑五元环中间体3；须保持完整侧链和原子映射。来源TS2共同高度8.2、3为1.9 kcal/mol仅作背景，不把8.2当局部活化能。",
+      "weight_and_tolerance_rationale": "环构建是独立于起始加成的核心中间发现。"
+    },
+    {
+      "rule_id": "r_alkoxide_proton_transfer",
+      "reference_id": "alkoxide_proton_transfer",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者TS3 3.2、6 −8.8共同高度；实际TS3 3.38512872，C1–O43从1.658464到2.541064 Å，H80由O81转到O43。TS3复合局部差−0.565474而低层电子势垒+0.221454，不称负速率势垒；作者6未精确同构象复现。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "真实相连计算支持环化后醇盐离去及与4-氟苯酚相关的质子转移，形成可参与后续加成的亲核体，并守恒乙醇当量及全部原子/电荷。不同片段缔合须明确，不能以断开的标量节点代替化学连接。",
+      "weight_and_tolerance_rationale": "单独评价离去/质子转移这一化学事件；不要求额外连接扫描数。"
+    },
+    {
+      "rule_id": "r_nucleophile_incorporation",
+      "reference_id": "nucleophile_incorporation",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "实际TS4 2.97320452、7 −8.18667497；反应模−182.4433 cm−1及C5–O72 2.398021→1.438154 Å支持。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "计算的TS4及相连端点支持4-氟苯氧基亲核体形成产物所需C–O连接，保持五元环与E-cinnamyl侧链。来源TS4 2.8与7 −8.3是共同高度背景，不另设数值阈值。",
+      "weight_and_tolerance_rationale": "亲核体结合与环形成、催化剂脱离均可独立完成。"
+    },
+    {
+      "rule_id": "r_phosphine_regeneration",
+      "reference_id": "phosphine_regeneration",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "实际TS5−0.74695402，反应虚频−163.1945 cm−1，C5–P19 1.959157→3.823580 Å。每侧一个IRC传播点再无约束端点优化是有限证据，不称完整IRC。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "实际后续连接支持C–P断裂、释放正确中性PEt3并形成可循环的催化剂；不得只在反应式两侧写PEt3。保持配平乙醇等旁观物料，来源TS5−0.9共同高度仅作背景。",
+      "weight_and_tolerance_rationale": "催化剂回收是任务明示的科学结果。"
+    },
+    {
+      "rule_id": "r_product_structure",
+      "reference_id": "product_structure",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_main",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/main.pdf",
+            "sha256": "eaac68aa7a050468c491614b0279b11eb56e15d8b5551f80a3db699aa12bad36",
+            "pdf_pages_1based": [
+              2,
+              3
+            ]
+          },
+          "locator": "Scheme1/Table1/Table2；底物与产物/实验范围",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者产物3/能量图节点9；实际61原子产物+22原子PEt3+9原子乙醇=92原子完整库存，正确E侧链核验。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "实际终点分子图为所观察的芳氧基环戊烯酮且保留E-cinnamyl侧链，原子来源能与底物/4-氟苯酚及乙醇副产物对应。不得用删除侧链或改变膦的简化产物替代；仅复述所给产物图不通过。",
+      "weight_and_tolerance_rationale": "真实端点结构与再生催化剂是不同对象，独立评分。"
+    },
+    {
+      "rule_id": "r_reaction_free_energy",
+      "reference_id": "reaction_free_energy",
+      "kind": "intermediate",
+      "max_score": 8,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者−24.7；本地−31.78683754，差−7.08683754，明确超±2.0；相对分离反应物−14.710615为不同零点。偏差成因未完全证明。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "以Fig.S1复合物1和匹配旁观物料为初始参照，配平产物9、PEt3和乙醇终点相对G目标−24.7 kcal/mol、绝对容差2.0 kcal/mol。保持383.15 K、相容溶剂与标准态，不能用分离反应物值或作者能量填补本地缺失。",
+      "weight_and_tolerance_rationale": "多组分净反应热力学采用±2.0，区别于单TS±1.0；不按7.09偏差扩大。"
+    },
+    {
+      "rule_id": "r_initial_step_order",
+      "reference_id": "initial_step_order",
+      "kind": "intermediate",
+      "max_score": 6,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者TS1/2/3/4/5=18.9/8.2/3.2/2.8/−0.9；实际19.05467031/8.38308104/3.38512872/2.97320452/−0.74695402，排序成立。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "在同一完整物料及复合物1零点上，实际A路线各相关鞍点比较支持初始膦加成最高，后续关键鞍点较低。不能以单独一个TS1数字证明全图排序；不声称已建立浓度依赖微观动力学。",
+      "weight_and_tolerance_rationale": "全图相对排序独立于绝对TS1窗口。"
+    },
+    {
+      "rule_id": "r_migration_competition",
+      "reference_id": "migration_competition",
+      "kind": "intermediate",
+      "max_score": 6,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "pe_b",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              98,
+              99
+            ]
+          },
+          "locator": "PDF98 Fig.S2及PDF99路线B比较",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者B必要TS1″18.0、A分支后最高TS2 8.2，差9.8；实际18.122584与8.383081，差9.739503，偏−0.060497。B两个迁移鞍点/有限端点连接已核收。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "从共同两性离子分叉及统一物料参照比较，实际竞争路径证据支持B的醇辅助连续1,3迁移瓶颈高于A分支后环化路线。无需穷举B全部节点；不可把未经计算的后续B状态称独立证实。",
+      "weight_and_tolerance_rationale": "有限但有辨别力的竞争比较，不奖励搜索次数。"
+    },
+    {
+      "rule_id": "r_route_conclusion",
+      "reference_id": "route_conclusion",
+      "kind": "conclusion",
+      "max_score": 12,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_main",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/main.pdf",
+            "sha256": "eaac68aa7a050468c491614b0279b11eb56e15d8b5551f80a3db699aa12bad36",
+            "pdf_pages_1based": [
+              2,
+              3
+            ]
+          },
+          "locator": "Scheme1/Table1/Table2；底物与产物/实验范围",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "pe_b",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              98,
+              99
+            ]
+          },
+          "locator": "PDF98 Fig.S2及PDF99路线B比较",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "作者A优于B；实际五个A鞍点、正确产物、PEt3再生及B必要瓶颈支持有界选择。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "最终明确选择PEt3引发两性离子后直接环化、亲核体并入和膦再生的A路线，综合实际连接、完整观察产物与迁移竞争证据说明为何该路线优先。仅列出A候选不足以得分；结论限于所考察模型，不证明全局唯一机理。",
+      "weight_and_tolerance_rationale": "最终路线选择是结构与竞争结果的综合增量。"
+    },
+    {
+      "rule_id": "r_accessibility_conclusion",
+      "reference_id": "accessibility_conclusion",
+      "kind": "conclusion",
+      "max_score": 12,
+      "physical_definition": "PEt3=C6H15P，完整体系C37H45FNO7P，中性总电荷/单重态；氟苯383.15 K，气相几何/频率热项加SMD高层电子能的作者口径。Fig.S1/S2明确采用初始复合物1零点；分离反应物报告必须明确转换，不能混作局部势垒。",
+      "source_evidence": [
+        {
+          "evidence_id": "pe_main",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/main.pdf",
+            "sha256": "eaac68aa7a050468c491614b0279b11eb56e15d8b5551f80a3db699aa12bad36",
+            "pdf_pages_1based": [
+              2,
+              3
+            ]
+          },
+          "locator": "Scheme1/Table1/Table2；底物与产物/实验范围",
+          "evidence_type": "author_source"
+        },
+        {
+          "evidence_id": "pe_a",
+          "source": {
+            "path": "papers/paper_1bcf80caf9e64d55/documents/supplementary_001.pdf",
+            "sha256": "75dad8708b18f23c64cd6377b4e3d7d89ddaf1958f4df68934565613d7b4ea52",
+            "pdf_pages_1based": [
+              97,
+              98
+            ]
+          },
+          "locator": "PDF97 Fig.S1及计算方法、PDF98路线A文字；无独立S页偏移",
+          "evidence_type": "author_source"
+        }
+      ],
+      "author_and_actual_comparison": "实际初始19.05467031最高，配平终点在复合物及分离反应物零点均下坡；产物绝对误差−7.08683754未解决。",
+      "verification_reference": "evaluation/verified_computation_reference.md",
+      "native_evidence_root": "docs/verification/small_molecules_autonomous_research/paper_1bcf80caf9e64d55",
+      "scoring_condition": "最终以实际完整自由能图及配平终点解释反应可达性：初始加成构成主要能量代价，后续通向总体下坡产物；联系110°C条件但不把12 h或收率当基本速率常数。不要求精确产物G通过，也不能以负复合局部差宣称负物理势垒。",
+      "weight_and_tolerance_rationale": "面向题面动力学/热力学问题的综合解释，与A/B路线选择分别评分。"
+    }
+  ],
+  "publication_review_pending": [
+    "产物共同零点−31.78683754对−24.7的−7.08683754偏差未解释；r_reaction_free_energy不通过±2.0。",
+    "TS3复合局部差−0.565474不是物理负势垒；来源构象6未精确复现，保持实际片段/端点口径。",
+    "有限B分支及TS5端点证据不代表全B或全部构象MEP；源标准态未全报告。"
+  ]
+}

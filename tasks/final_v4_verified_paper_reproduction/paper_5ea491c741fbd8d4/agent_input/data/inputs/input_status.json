@@ -1,0 +1,20 @@
+{
+  "status": "source_input_provided_structure_checked",
+  "required_source_object": "CCDC 2445596 full crystal coordinates and crystallographic metadata",
+  "available": [
+    "data/inputs/source_crystal.cif",
+    "data/inputs/atom_mapping.json",
+    "data/inputs/source_provenance.json",
+    "Full molecular graph and measured metadata"
+  ],
+  "missing_mandatory_structural_input": [],
+  "source_authentication_boundary": "User-supplied files agree on deposition/article identity and full structural fields; no independent live-server download was performed in this integration.",
+  "input_checks": "27 atom sites and map entries, 108 sites after symmetry expansion, occupancy/ADP/H retained; full input check is not scientific reference validation.",
+  "remaining_validation": [
+    "Claim-appropriate crystal contact and surface evidence with uncertainty",
+    "Assess the disclosed source baseline and its stated ambiguities"
+  ],
+  "completion_boundary": "Source availability removes the coordinate-input blocker. Parsing, structure matching or source numbers alone do not complete the packing investigation.",
+  "updated_date": "2026-09-30",
+  "source_identity_caveat": "The source article names an E isomer, but the supplied deposition/SI geometry is Z at graph bond 7=8 under CIP assignment. This source-label conflict is retained explicitly. The physical object is the supplied crystal; do not alter its coordinates to enforce the article name. The mapped SMILES encodes the checked source configuration and contains no tetrahedral chirality assignment."
+}

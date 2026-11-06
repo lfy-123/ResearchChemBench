@@ -3,8 +3,8 @@ software_id: orca
 versions: ["6.1.1"]
 topics: ["index", "navigation", "capabilities"]
 aliases: ["ORCA", "orca"]
-inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files"]
-outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files"]
+inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files", "export: input.gbw and optional input.json.conf; input.densities for requested densities"]
+outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files", "export: input.json"]
 last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
@@ -14,10 +14,10 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - Installed version: `6.1.1`.
 - Operational status: `runnable`.
 - Configured runtime: `quantum`.
-- Primary use: molecular electronic-structure calculation from an ORCA input deck.
+- Primary use: molecular electronic-structure calculation or explicit export of an existing GBW.
 
 ## When to use this interface
-Execute a complete ORCA 6.1 input deck. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
+Execute a complete ORCA 6.1 input deck or export an existing GBW to ASCII JSON. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
 
 ## Documentation map
 - `QUICKSTART.md`: complete staging, command, resource, submission, and collection flow.
@@ -30,6 +30,7 @@ Execute a complete ORCA 6.1 input deck. The native layer is appropriate when the
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
 | `orca` | `arguments` | `orca input.inp` | `input.inp` |
+| `orca_2json` | `arguments` | `orca_2json input.gbw -json` | `input.gbw`, `input.json.conf` |
 
 ## Supported task families
 - single point.
@@ -39,6 +40,7 @@ Execute a complete ORCA 6.1 input deck. The native layer is appropriate when the
 - IRC.
 - excited states.
 - correlated density.
+- existing GBW to ASCII JSON.
 
 ## Layer 1 typed Actions
 - `calculate_energy`.
@@ -59,6 +61,7 @@ The toolbox does not select a scientific method, force field, pseudopotential, b
 ## Official references
 - https://www.faccts.de/docs/orca/6.1/manual/
 - https://www.faccts.de/docs/orca/6.1/tutorials/
+- https://www.faccts.de/docs/orca/6.1/manual/contents/utilitiesvisualization/orca_2json.html
 
 ## Test interpretation
 An interface smoke proves that the configured executable can be resolved and started through `submit_native_job`. A scientific smoke additionally requires a valid input, normal software termination, task-specific convergence, and parseable expected artifacts. The two levels are recorded separately and must not be conflated.

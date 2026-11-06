@@ -1,0 +1,333 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "scoring_policy": "paper_science_v3",
+  "evaluation_mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points.",
+  "reference_stage": "V3_EVIDENCE_REUSE_REVIEW_NO_NEW_COMPUTATION",
+  "scoring_notes": "Same four full emitters and molecular electronic relaxation/substituent question. Final spectroscopic quantities, state character and molecular inferences are explicit; source targets/windows unchanged and no new kinetic or device scope.",
+  "state_correspondence_policy": "For the isolated-molecule comparison at a common neutral S0 equilibrium geometry, use S1 and T1 for the lowest singlet and triplet excitations. Define T_edge as the upper boundary of the triplet manifold below S1: the highest-energy triplet below S1, excluding T1. Establish that boundary from the neighboring response states, without assuming a root index or a local/charge-transfer assignment. If no such state exists, or state crossing changes its identity, report that result explicitly. This is a spectroscopic comparison state; its definition does not establish a relaxation pathway. When comparing geometries or methods, distinguish a change of energy ordering from physical state correspondence using transition-density/NTO or equivalent response evidence. Do not replace a tracked state with a different state just because its energy is closer. Expert attention: the neutral T_edge definition selects the original Ph/Na T4 and An/Py T3 at the source baseline (SI Table S1), but a different model can change that ordering or mix/cross states. Existing evidence does not provide a universal cross-method state correspondence. Never apply a reference window or character target to an unrelated proposed route state, nor silently rematch by root number or nearest target energy. Numeric leaves remain binary with unchanged windows; an unestablished match has no numeric pass, and a demonstrated change of T_edge identity is a reference-applicability issue to record for expert review, not proof that the alternative physical result is wrong. Semantic pathway findings are assessed independently. No claim that AR cross-method fairness or this state-selection ambiguity is fully resolved.",
+  "whole_case_success": "Every required_for_success item must pass for whole-case success; independent supported outcomes retain their weighted points when another item fails.",
+  "numeric_comparison_policy": "No numerical target, tolerance, error-percentage, frequency, distance or exact-selectivity gate. Conditions, identities, composition and physical references define the scientific question.",
+  "semantic_review_policy": "Binary pass/fail for every item; allow_need_review=false and review_triggers=[]. Supported equivalents pass; missing or insufficient evidence fails with reasons. Demonstrated reference defects are recorded separately in objective_issue_flags.",
+  "scoring_revision": "conclusion_only_20261029",
+  "total_points": 100,
+  "rules": [
+    {
+      "rule_id": "r_Ph_electronic_character",
+      "reference_id": "Ph_electronic_character",
+      "type": "semantic",
+      "expected": "Determine the low-energy electronic-state structure and spatial excitation character of complete neutral Ph-mP at its isolated-molecule S0 reference geometry. Report the actual vertical S1/T1 energies, S1 oscillator strength and the energy of T_edge, defined as the highest triplet below S1 excluding T1, establishing the boundary from neighboring response states. Use normalized, fragment-defined response/NTO/density evidence to explain what moves between regions and what stays local in S1 and T_edge. The reference has mixed local/interfragment S1 with substantial charge transfer and a mixed T_edge; its boundary label T4 is not a required root identity. These spectroscopic values support the physical-state interpretation and have no separate matching gates. Judge the resulting electronic picture, not an exact matrix of energies, strengths or CT percentages. Real root crossings, mixed states or absence of T_edge can pass when the actual energy ordering and physical response explain that outcome; do not select a different state just because its energy is closer to a source number. This item establishes state properties and does not require endorsing a relaxation route, calculating SOC or claiming kinetic dominance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_Ph_relaxation_candidate",
+      "reference_id": "Ph_relaxation_candidate",
+      "type": "semantic",
+      "expected": "Determine which molecular electronic relaxation candidate is supported for Ph-mP using its actual S1/T1/T_edge energy relationships, physical state character and evidence appropriate to the particular proposed route. The reference uses the upper triplet's proximity to S1 compared with the larger S1-T1 gap, together with spatial character, to motivate a high-triplet reverse-ISC candidate. A physically supported alternative route or rejection of this candidate is acceptable; identify any different route state separately from the spectroscopic T_edge. Neither root labels, a small gap alone, state mixing nor a restatement of individual state properties establishes the route inference. No exact energy or CT-percentage gate applies. Bound the conclusion to electronic feasibility; measured RISC rates, kinetic dominance and device efficiencies are not established by these data. Assess this molecule independently of the other emitters.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_Na_electronic_character",
+      "reference_id": "Na_electronic_character",
+      "type": "semantic",
+      "expected": "Determine the low-energy electronic-state structure and spatial excitation character of complete neutral Na-mP at its isolated-molecule S0 reference geometry. Report the actual vertical S1/T1 energies, S1 oscillator strength and the energy of T_edge, defined as the highest triplet below S1 excluding T1, establishing the boundary from neighboring response states. Use normalized, fragment-defined response/NTO/density evidence to explain what moves between regions and what stays local in S1 and T_edge. The reference has mixed S1 with substantial charge transfer and predominantly core-localized T_edge; its boundary label T4 is not a required root identity. These spectroscopic values support the physical-state interpretation and have no separate matching gates. Judge the resulting electronic picture, not an exact matrix of energies, strengths or CT percentages. Real root crossings, mixed states or absence of T_edge can pass when the actual energy ordering and physical response explain that outcome; do not select a different state just because its energy is closer to a source number. This item establishes state properties and does not require endorsing a relaxation route, calculating SOC or claiming kinetic dominance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_Na_relaxation_candidate",
+      "reference_id": "Na_relaxation_candidate",
+      "type": "semantic",
+      "expected": "Determine which molecular electronic relaxation candidate is supported for Na-mP using its actual S1/T1/T_edge energy relationships, physical state character and evidence appropriate to the particular proposed route. The reference uses the upper triplet's proximity to S1 compared with the larger S1-T1 gap, together with spatial character, to motivate a high-triplet reverse-ISC candidate. A physically supported alternative route or rejection of this candidate is acceptable; identify any different route state separately from the spectroscopic T_edge. Neither root labels, a small gap alone, state mixing nor a restatement of individual state properties establishes the route inference. No exact energy or CT-percentage gate applies. Bound the conclusion to electronic feasibility; measured RISC rates, kinetic dominance and device efficiencies are not established by these data. Assess this molecule independently of the other emitters.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_An_electronic_character",
+      "reference_id": "An_electronic_character",
+      "type": "semantic",
+      "expected": "Determine the low-energy electronic-state structure and spatial excitation character of complete neutral An-mP at its isolated-molecule S0 reference geometry. Report the actual vertical S1/T1 energies, S1 oscillator strength and the energy of T_edge, defined as the highest triplet below S1 excluding T1, establishing the boundary from neighboring response states. Use normalized, fragment-defined response/NTO/density evidence to explain what moves between regions and what stays local in S1 and T_edge. The reference has mixed but more locally weighted S1 and mixed T_edge; its boundary label T3 is not a required root identity. These spectroscopic values support the physical-state interpretation and have no separate matching gates. Judge the resulting electronic picture, not an exact matrix of energies, strengths or CT percentages. Real root crossings, mixed states or absence of T_edge can pass when the actual energy ordering and physical response explain that outcome; do not select a different state just because its energy is closer to a source number. This item establishes state properties and does not require endorsing a relaxation route, calculating SOC or claiming kinetic dominance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_An_relaxation_candidate",
+      "reference_id": "An_relaxation_candidate",
+      "type": "semantic",
+      "expected": "Determine which molecular electronic relaxation candidate is supported for An-mP using its actual S1/T1/T_edge energy relationships, physical state character and evidence appropriate to the particular proposed route. The reference uses the upper triplet's proximity to S1 compared with the larger S1-T1 gap, together with spatial character, to motivate a high-triplet reverse-ISC candidate. A physically supported alternative route or rejection of this candidate is acceptable; identify any different route state separately from the spectroscopic T_edge. Neither root labels, a small gap alone, state mixing nor a restatement of individual state properties establishes the route inference. No exact energy or CT-percentage gate applies. Bound the conclusion to electronic feasibility; measured RISC rates, kinetic dominance and device efficiencies are not established by these data. Assess this molecule independently of the other emitters.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_Py_electronic_character",
+      "reference_id": "Py_electronic_character",
+      "type": "semantic",
+      "expected": "Determine the low-energy electronic-state structure and spatial excitation character of complete neutral Py-mP at its isolated-molecule S0 reference geometry. Report the actual vertical S1/T1 energies, S1 oscillator strength and the energy of T_edge, defined as the highest triplet below S1 excluding T1, establishing the boundary from neighboring response states. Use normalized, fragment-defined response/NTO/density evidence to explain what moves between regions and what stays local in S1 and T_edge. The reference has mixed S1 with substantial charge transfer and mixed T_edge; its boundary label T3 is not a required root identity. These spectroscopic values support the physical-state interpretation and have no separate matching gates. Judge the resulting electronic picture, not an exact matrix of energies, strengths or CT percentages. Real root crossings, mixed states or absence of T_edge can pass when the actual energy ordering and physical response explain that outcome; do not select a different state just because its energy is closer to a source number. This item establishes state properties and does not require endorsing a relaxation route, calculating SOC or claiming kinetic dominance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_Py_relaxation_candidate",
+      "reference_id": "Py_relaxation_candidate",
+      "type": "semantic",
+      "expected": "Determine which molecular electronic relaxation candidate is supported for Py-mP using its actual S1/T1/T_edge energy relationships, physical state character and evidence appropriate to the particular proposed route. The reference uses the upper triplet's proximity to S1 compared with the larger S1-T1 gap, together with spatial character, to motivate a high-triplet reverse-ISC candidate. A physically supported alternative route or rejection of this candidate is acceptable; identify any different route state separately from the spectroscopic T_edge. Neither root labels, a small gap alone, state mixing nor a restatement of individual state properties establishes the route inference. No exact energy or CT-percentage gate applies. Bound the conclusion to electronic feasibility; measured RISC rates, kinetic dominance and device efficiencies are not established by these data. Assess this molecule independently of the other emitters.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    },
+    {
+      "rule_id": "r_substituent_spatial_explanation",
+      "reference_id": "substituent_spatial_explanation",
+      "type": "semantic",
+      "expected": "Explain from the four-molecule spatial-excitation comparison why increasing aromatic extent does not give a simple monotonic charge-transfer trend. Relate the different hole/electron distribution to the substituent/core structures, with An-S1 local character contrasted against the other S1 mixtures as evidence. This is the relational substituent effect; merely repeating individual state labels or the four pathway conclusions is insufficient. Do not impose unverified fine Ph/Py CT ordering or exact source percentages.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.claims",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate this independent scientific conclusion and its stated scope against linked actual calculations and recoverable native inputs/outputs. Return pass/fail; no numeric matching, process credit or inherited historical pass."
+      },
+      "qualification": "Actual computational support and the specific equivalence or method-sensitivity conditions in expected are required. Numerical values support the conclusion but carry no matching gate; scientific_requirements applies in full."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "Ph_electronic_character",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Ph-mP electronic-state structure and spatial excitation character",
+      "rule_ids": [
+        "r_Ph_electronic_character"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "Ph_relaxation_candidate",
+      "kind": "conclusion",
+      "max_score": 7,
+      "description": "Ph-mP molecular relaxation candidate",
+      "rule_ids": [
+        "r_Ph_relaxation_candidate"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "Na_electronic_character",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Na-mP electronic-state structure and spatial excitation character",
+      "rule_ids": [
+        "r_Na_electronic_character"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "Na_relaxation_candidate",
+      "kind": "conclusion",
+      "max_score": 7,
+      "description": "Na-mP molecular relaxation candidate",
+      "rule_ids": [
+        "r_Na_relaxation_candidate"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "An_electronic_character",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "An-mP electronic-state structure and spatial excitation character",
+      "rule_ids": [
+        "r_An_electronic_character"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "An_relaxation_candidate",
+      "kind": "conclusion",
+      "max_score": 7,
+      "description": "An-mP molecular relaxation candidate",
+      "rule_ids": [
+        "r_An_relaxation_candidate"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "Py_electronic_character",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Py-mP electronic-state structure and spatial excitation character",
+      "rule_ids": [
+        "r_Py_electronic_character"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "Py_relaxation_candidate",
+      "kind": "conclusion",
+      "max_score": 7,
+      "description": "Py-mP molecular relaxation candidate",
+      "rule_ids": [
+        "r_Py_relaxation_candidate"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "substituent_spatial_explanation",
+      "kind": "conclusion",
+      "max_score": 12,
+      "description": "Cross-molecule effect of extending the aromatic substituent",
+      "rule_ids": [
+        "r_substituent_spatial_explanation"
+      ],
+      "evidence_ids": [
+        "main",
+        "si",
+        "native_electronic_readback"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

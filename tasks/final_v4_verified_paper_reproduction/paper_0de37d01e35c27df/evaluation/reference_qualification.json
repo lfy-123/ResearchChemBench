@@ -1,0 +1,74 @@
+{
+  "paper_id": "paper_0de37d01e35c27df",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "norDTCO/DTCO收缩0.072900758/0.159093359 Å；两者均有实际电子证据，DTCO Mayer约0.288并非缺失。",
+  "accepted_limitations": "已验证twist局部盆地，不代表全部构象或全局占据。AR可自选合理局部家族，反向结果必须解释其结构/电子依据，不能把变号自动当等价通过。PR仍评估披露twist基线及可比偏离。",
+  "objective_issue_flags": [
+    "已验证twist局部盆地，不代表全部构象或全局占据。AR可自选合理局部家族，反向结果必须解释其结构/电子依据，不能把变号自动当等价通过。PR仍评估披露twist基线及可比偏离。"
+  ],
+  "current_rules": [
+    "r_contraction_nor",
+    "r_contraction_dtco",
+    "r_first_oxidation_bonding_nor",
+    "r_first_oxidation_bonding_dtco",
+    "r_framework_explanation"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_0de37d01e35c27df",
+    "scoring_policy": "paper_science_v3",
+    "status": "V3_CONTRACT_REVIEWED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "acceptance": "V3_NOT_NEWLY_VALIDATED",
+    "reason": "2026-10-28 final-result redesign; existing evidence was reviewed per proposition. No new calculation or blind evaluation was performed. Historical acceptance is retained only as history.",
+    "accepted_limitations": "AR has no source-basin absolute distance window; PR retains four original ±0.02 Å windows for the disclosed twist basins. This pre-existing mode difference is retained explicitly rather than silently extending AR. Other radical conformations within 1–5 kcal/mol were not exhaustively ranked. BP86 is a GGA despite the main-text hybrid mislabel. Source absolute IP operator is unresolved and not scored. Paper_info publication date (2026-01-13) differs from PDF publication line (2026-01-14); DOI/title match.",
+    "tolerance_basis": "Common provisional S···S distance tolerance ±0.02 angstrom is a hundredth-angstrom structure-comparison window for same-basin molecular minima, above 0.001 angstrom source rounding and measured millangstrom optimization differences but smaller than either first-oxidation contraction. It is a fixed, conservative geometry precision class, not maximum residual plus epsilon or universal DFT error. Independent DTCO-versus-nor contraction ordering must be resolved separately. Population, spin and bond-index numbers remain representation-dependent corroboration rather than fitted scalar windows.",
+    "authority": [
+      "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+      "evaluation/verified_computation_reference.md"
+    ],
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_0de37d01e35c27df",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "status": "WORKER_REPAIRED_PENDING_INDEPENDENT_COORDINATOR_REVIEW",
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_01/REPORT.md",
+      "notes": [
+        "PR retains four source endpoint windows±0.02Å under its disclosed source reproduction; no broadened basin/ensemble tolerance."
+      ],
+      "historical_acceptance_unchanged": true,
+      "new_chemistry_validation": false,
+      "online_judge_calibration": false
+    },
+    "historical_acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+    "scope_note": "Same two complete isolated molecules, neutral singlets and first-oxidation doublets; molecular structural/electronic response only. Shared electronic and comparative final propositions carry identical weights; the inherited 20-point structure block is qualitative contraction in AR and four source-basin endpoint windows in PR.",
+    "v3_evidence_reuse": "r_contraction_nor/r_contraction_dtco (AR) and r_ss_nor_n/r_ss_nor_r/r_ss_dtco_n/r_ss_dtco_r (PR) reuse four BP86/TZVP minima: 4.056140073, 3.983239316, 3.688938805, 3.529845446 Å. The contraction comparison (0.072900758 versus 0.159093359 Å) supports r_framework_explanation without a separate ordering score. r_first_oxidation_bonding_nor/r_first_oxidation_bonding_dtco reuse mapped NPA/spin and same-geometry density/orbital analyses in native_reuse_verification.json; r_framework_explanation compares these responses within the tested local basins. All final propositions have existing relevant evidence, but have not been newly judged under V3. The contraction comparison is evidence for the 30-point framework explanation, without a separate ranking score.",
+    "paper": {
+      "title": "Structural Studies Provide Insight on the Fate of 1,5-Dithiacanes: Two Electron Reversible Oxidation versus Irreversible Oxidation",
+      "doi": "10.1021/acs.joc.5c01731",
+      "journal": "The Journal of Organic Chemistry",
+      "publication_date": "2026-01-13"
+    },
+    "second_expert_review": {
+      "date": "2026-10-28",
+      "group": "group_03",
+      "finding": "Original PR numerical definitions and targets remain unchanged. Evidence covers reported twist basins, not every justified AR conformational family. Complete submissions may have empty decisions arrays; actual results, validations, successful operations and generated native artifacts remain required.",
+      "new_computations": false
+    }
+  }
+}

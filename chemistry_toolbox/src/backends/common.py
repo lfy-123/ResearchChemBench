@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import errno
 import importlib.metadata
 import json
 import math
@@ -18,6 +19,7 @@ from typing import Any
 from ..artifacts import ArtifactStore, relative_workspace_path, resolve_workspace_path, workspace_root
 from ..resources import is_resource_reference, resolve_resource_reference
 from ..models import ArtifactRef
+from ..execution_feedback import bounded
 
 
 def success(
@@ -85,6 +87,27 @@ def failed(message: str, *, code: str = "backend_failed", retryable: bool = Fals
         "error": {"code": code, "message": message},
         "retryable": retryable,
     }
+
+
+class ExternalProcessError(RuntimeError):
+    """A native failure with the existing structured error/log-reference fields."""
+    def __init__(self, diagnostic: dict[str, Any]):
+        super().__init__(diagnostic["message"])
+        self.diagnostic = diagnostic
+
+
+def external_failure(completed: dict[str, Any], directory: Path, software: str, *,
+                     log_names: tuple[str, str] = ("stdout.log", "stderr.log"),
+                     message: str | None = None) -> ExternalProcessError:
+    """Bound both streams independently; never select a scientific retry."""
+    return ExternalProcessError({
+        "code": "backend_process_failed", "failure_stage": "backend_runtime",
+        "exit_code": completed.get("returncode"),
+        "message": f"{bounded(message or software + ' failed', budget=600)} (exit code {completed.get('returncode')}).\n"
+                   f"stdout:\n{bounded(completed.get('stdout', ''), budget=1800)}\n"
+                   f"stderr:\n{bounded(completed.get('stderr', ''), budget=1800)}",
+        "log_paths": [str(directory / name) for name in log_names],
+    })
 
 
 def module_version(distribution: str) -> str | None:
@@ -288,14 +311,28 @@ def structure_dict(value: Any) -> dict[str, Any]:
         item = item["result"]
     if isinstance(item, dict) and "structure" in item and isinstance(item["structure"], dict):
         item = item["structure"]
+    explicit_path = False
     if isinstance(item, dict):
         if "atoms" in item or "symbols" in item or "smiles" in item:
             return dict(item)
         if isinstance(item.get("path"), str):
-            return structure_dict(item["path"])
+            item, explicit_path = item["path"], True
     if isinstance(item, str):
-        candidate = resolve_workspace_path(item, must_exist=False)
-        if candidate.is_file():
+        # SMILES may contain '/' (stereochemistry), so a slash alone is not a path.
+        explicit_path = explicit_path or item.startswith(("/", "./", "../")) or (
+            Path(item).suffix.lower() in {".xyz", ".pdb", ".sdf", ".mol", ".mol2", ".cif", ".vasp", ".poscar", ".gro", ".pqr"}
+            or Path(item).name.upper() in {"POSCAR", "CONTCAR"}
+        )
+        try:
+            candidate = resolve_workspace_path(item, must_exist=explicit_path)
+            is_file = candidate.is_file()
+        except OSError as exc:
+            if explicit_path or exc.errno != errno.ENAMETOOLONG:
+                raise
+            # Inline SMILES has no filesystem component-length limit. Other
+            # I/O errors and workspace-confinement errors remain authoritative.
+            return {"smiles": item}
+        if is_file:
             if candidate.suffix.lower() == ".xyz":
                 return _parse_xyz(candidate)
             if candidate.suffix.lower() == ".pdb":
@@ -318,6 +355,8 @@ def structure_dict(value: Any) -> dict[str, Any]:
                 return structure_from_atoms(read(str(candidate)))
             except Exception as exc:
                 raise ValueError(f"Could not parse structure file {candidate}: {exc}") from exc
+        if explicit_path or candidate.is_dir():
+            raise ValueError(f"Structure path is not a file: {item}")
         return {"smiles": item}
     raise ValueError(
         "Unsupported structure representation. Pass an AtomicStructure mapping, SMILES, a "

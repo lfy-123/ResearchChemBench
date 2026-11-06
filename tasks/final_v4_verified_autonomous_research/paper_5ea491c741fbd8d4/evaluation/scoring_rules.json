@@ -1,0 +1,112 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_contact_network",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "reference_id": "contact_network",
+      "expected": "The authenticated crystal geometry establishes that the directional C8–H8···O3 and C12–H12B···O2 contacts link neighboring molecules in an R2^2(9) motif, while C6–H6···O3 is an intramolecular S(7) contact. Explain the resulting intermolecular connectivity using mapped atoms, symmetry and geometry rather than merely listing close distances. These source edges support the final network assignment; equivalent atom labels or graph-set descriptions pass when the same topology is demonstrated. The self-contact cannot be counted as an intermolecular bond. Geometric network identification does not establish an interaction-energy ranking.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_aromatic_packing",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "reference_id": "aromatic_packing",
+      "expected": "For the neighboring isoxazole and methoxyphenyl rings, establish nearly parallel but laterally offset packing with explicit ring membership and symmetry. Report and distinguish centroid separation, normal projection and lateral offset (angstrom), and plane angle (degrees); infer the aromatic packing arrangement from those quantities. The source-linked geometry has centroid norm 3.7482107 angstrom and one normal projection 3.3883652 angstrom with angle 3.24986 degrees; these are non-gating evidence context, not new scalar windows. Either equivalent orientation is valid with consistent definitions. Confusing a projection with the centroid norm fails. No source-label criticism is required from AR, and no energetic pi-stabilization magnitude is inferred merely from geometry.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_surface_contribution_interpretation",
+      "reference_id": "surface_contribution_interpretation",
+      "type": "semantic",
+      "expected": "Use actually calculated, physically comparable contact-area evidence for all five requested classes (H–H, H–O/O–H, C–C, H–N/N–H and C–H/H–C) together with the authenticated lattice geometry to explain their packing roles. Establish H–H as the most prevalent surface-contact class and H–O as the next substantial contribution, while relating the less prevalent aromatic and other contacts to the geometric motifs. Areas must be defined as surface fractions with consistent symmetry-neighbor and hydrogen treatment, not atom counts or raw histogram bins. An equivalent physically justified area analysis is eligible; use of a particular Hirshfeld program earns no credit. The final inference concerns geometric prevalence and the distinct roles of directional and aromatic contacts. Surface dominance does not establish the strongest stabilizing interaction or a lattice free-energy ranking. Repeating five fractions, guessing their order or giving a generic caveat without actual area and lattice evidence fails. No author percentage or tolerance is a scoring target.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "contact_network",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Intermolecular contact network and its distinction from intramolecular contacts",
+      "rule_ids": [
+        "r_contact_network"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "verification_records"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "aromatic_packing",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Quantitative physical description of the aromatic packing contact",
+      "rule_ids": [
+        "r_aromatic_packing"
+      ],
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "verification_records"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "surface_contribution_interpretation",
+      "description": "Physical meaning of the contact-area distribution",
+      "max_score": 40,
+      "evidence_ids": [
+        "source_main",
+        "source_cif",
+        "native_surface"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_surface_contribution_interpretation"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

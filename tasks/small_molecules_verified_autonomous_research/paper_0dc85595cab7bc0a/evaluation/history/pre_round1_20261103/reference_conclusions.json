@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "items": [
+    {
+      "conclusion_id": "first_stage",
+      "statement": "First-cyclization regioisomer thermodynamic preference",
+      "expected": "Chemically mapped, validated first-stage dihydrophenanthrene candidates recover the source-reference ordering IS1 below IS2. The source separation is 9.9 kcal/mol; no magnitude tolerance exists, so this item scores the supported ordering from a quantitative same-composition free-energy comparison, not an exact 9.9 match. Never compare absolute energies of different hydrogen inventories.",
+      "supporting_key_point_ids": [
+        "support_first_stage"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "first_site_electronic",
+      "statement": "Electronic origin of first-site discrimination",
+      "expected": "Independent computed orbital or equivalent site-resolved electronic/structural evidence supports the first closure site corresponding to C1 over C2 of 1-cis. The source shows greater LUMO density and the relevant relative phase pattern at C1. Absolute orbital phase/color is arbitrary; evidence must discriminate physical forming-bond sites, not merely restate energy ranking. The source phase description is qualitative; local two-point samples do not establish all nodal features. An equivalent physical site explanation passes without requiring exact orbital colors or author labels.",
+      "supporting_key_point_ids": [
+        "support_first_site_electronic"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "second_stage",
+      "statement": "Second-cyclization regioisomer thermodynamic preference",
+      "expected": "Starting from the chemically mapped oxidized first-stage intermediate IS3, compare valid sequential candidates and recover IS4 below IS5. The source 11.3 kcal/mol separation is context without a calibrated magnitude tolerance. Use equal-composition, common-definition free energies and establish sequential connectivity.",
+      "supporting_key_point_ids": [
+        "support_second_stage"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "second_site_electronic",
+      "statement": "Electronic origin of second-site discrimination",
+      "expected": "Computed orbital or equivalent independent site-resolved evidence for the first-stage oxidized scaffold supports the second closure at source C3 rather than C4. The source LUMO topology supports that assignment; numerical energy ordering alone does not earn this separate electronic-discrimination item.",
+      "supporting_key_point_ids": [
+        "support_second_site_electronic"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "sequential_chemistry",
+      "statement": "Chemical rationale for the sequential oxidative cyclization route",
+      "expected": "Explain why the supported continuation is cyclization followed by aromatization before the next cyclization, rather than merely accumulating two unrearomatized closures. Use mapped hydrogen-accounted structures and comparable calculations to support the chemical inference (source IS1→IS3→IS4, with high-lying same-inventory bis-dihydro alternatives IS6/IS7). Do not require author labels or claim a balanced oxidation free energy from subtracting different hydrogen inventories. A physically equivalent supported sequence passes; endpoint stability alone is not proof of reaction rate or excited-state exclusivity. For this bounded endpoint/site rationale, mapped hydrogen-accounted connectivity and appropriate same-composition endpoint comparisons do not require a separate balanced oxidation free energy, explicit iodine calculation or reaction barrier. Evidence obligations follow the actual claim: a quantitative oxidation-energy assertion needs balanced reactant/product reference evidence, and a kinetic-order assertion needs corresponding pathway or kinetic evidence. Missing evidence necessary for the submitted inference fails that claim; omission of unclaimed oxidation energetics alone does not.",
+      "supporting_key_point_ids": [
+        "support_sequential_chemistry"
+      ],
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    },
+    {
+      "conclusion_id": "product_connectivity",
+      "statement": "Predicted final product connectivity",
+      "expected": "Explicitly select a final generated product with dibenzo[a,o]picene connectivity and formula C30H18, mapped to the supplied C30H22 precursor, with computed structure and atom/hydrogen accounting consistent with the selected sequential chemistry. Merely listing the product among alternatives without selecting it fails. This predicts connectivity within the bounded endpoint/site model; no yield or exclusive photochemical branching ratio is inferred.",
+      "supporting_key_point_ids": [
+        "support_product_connectivity"
+      ],
+      "evidence_ids": [
+        "main_p2_3",
+        "supplementary_001_p9"
+      ],
+      "claim_role": "final"
+    }
+  ]
+}

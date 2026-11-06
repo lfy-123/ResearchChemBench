@@ -10,9 +10,12 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+from ..execution_feedback import bounded
 from .common import (
     ase_atoms,
     command_artifacts,
+    external_failure,
+    failed,
     module_version,
     output_directory,
     relative_workspace_path,
@@ -335,7 +338,17 @@ def _rdkit_molecule(value: Any, *, add_hydrogens: bool = False):
 
     item = structure_dict(value)
     molecule = None
-    if item.get("smiles"):
+    if item.get("molblock"):
+        # Generated structures carry an indexed graph. Canonical SMILES is an
+        # identity label; its traversal order need not match the coordinates.
+        molecule = Chem.MolFromMolBlock(str(item["molblock"]), removeHs=False)
+        if molecule is None:
+            raise ValueError("Invalid indexed molecule graph (molblock)")
+        if item.get("smiles"):
+            identity = Chem.MolFromSmiles(str(item["smiles"]))
+            if identity is None or Chem.MolToSmiles(Chem.RemoveHs(molecule)) != Chem.MolToSmiles(Chem.RemoveHs(identity)):
+                raise ValueError("Indexed molecule graph does not match the supplied SMILES")
+    elif item.get("smiles"):
         molecule = Chem.MolFromSmiles(str(item["smiles"]))
     elif item.get("source_path"):
         path = resolve_input_file(item["source_path"])
@@ -351,7 +364,23 @@ def _rdkit_molecule(value: Any, *, add_hydrogens: bool = False):
     return Chem.AddHs(molecule) if add_hydrogens else molecule
 
 
-def _rdkit_structure(molecule, conformer_id: int = -1) -> dict[str, Any]:
+def _rdkit_state(molecule, source=None, method=None) -> dict[str, Any]:
+    """Carry declared state; a molecular graph does not determine total spin."""
+    from rdkit import Chem
+    from ..electronic_state import resolve_state
+
+    declared = structure_dict(source) if source is not None else {}
+    resolved, _ = resolve_state(declared, method or {}, policy="legacy")
+    state = {"charge": int(Chem.GetFormalCharge(molecule))}
+    sources = {"charge": "rdkit_graph"}
+    for name in ("charge", "multiplicity"):
+        origin = resolved["electronic_state_sources"][name]
+        if origin != "legacy_default":
+            state[name], sources[name] = resolved[name], origin
+    return {**state, "electronic_state_sources": sources}
+
+
+def _rdkit_structure(molecule, conformer_id: int = -1, *, source=None, method=None) -> dict[str, Any]:
     from rdkit import Chem
 
     conformer = molecule.GetConformer(conformer_id) if molecule.GetNumConformers() else None
@@ -366,9 +395,9 @@ def _rdkit_structure(molecule, conformer_id: int = -1) -> dict[str, Any]:
         atoms.append(record)
     return {
         "smiles": Chem.MolToSmiles(Chem.RemoveHs(molecule), canonical=True),
+        "molblock": Chem.MolToMolBlock(molecule, confId=conformer_id),
         "atoms": atoms,
-        "charge": int(Chem.GetFormalCharge(molecule)),
-        "multiplicity": 1,
+        **_rdkit_state(molecule, source, method),
         "pbc": [False, False, False],
     }
 
@@ -411,17 +440,36 @@ def _rdkit_coordinate_molecule(value: Any):
 
 def _conformer_records(value: Any) -> list[dict[str, Any]]:
     item = unwrap_artifact(value)
+    file_value = item.get("ensemble_file") or item.get("path") if isinstance(item, dict) else item
+    if isinstance(file_value, str):
+        path = resolve_input_file(file_value)
+        records = []
+        for conformer_id, molecule in _conformer_file_molecules(path):
+            state = {key: int(molecule.GetProp(key)) for key in ("charge", "multiplicity") if molecule.HasProp(key)}
+            structure = {
+                "atoms": [{"element": atom.GetSymbol(), "position_angstrom": position.tolist()}
+                          for atom, position in zip(molecule.GetAtoms(), molecule.GetConformer().GetPositions())],
+                "pbc": [False, False, False], **state,
+                "electronic_state_sources": {key: path.suffix[1:].lower() + "_metadata" for key in state},
+            }
+            if not structure["atoms"] or any(not math.isfinite(x) for atom in structure["atoms"] for x in atom["position_angstrom"]):
+                raise ValueError(f"Conformer {conformer_id} must contain atoms with finite coordinates")
+            # XYZ supplies coordinates and optional state, not a bond graph.
+            if path.suffix.lower() != ".xyz":
+                structure = _rdkit_structure(molecule, source=structure)
+            records.append({"conformer_id": conformer_id, "structure": structure})
+        return records
     records = item.get("ensemble") or item.get("conformers") if isinstance(item, dict) else item
     if not isinstance(records, list) or not records:
         raise ValueError("ensemble must contain a non-empty conformer list")
     normalized = []
     for index, record in enumerate(records):
-        if not isinstance(record, dict):
-            raise ValueError("Each conformer record must be an object")
+        if not isinstance(record, (dict, str)):
+            raise ValueError("Each conformer must be a structure, reference, or path")
         normalized.append(
             {
-                "conformer_id": str(record.get("conformer_id", index)),
-                "structure": record.get("structure", record),
+                "conformer_id": str(record.get("conformer_id", index)) if isinstance(record, dict) else str(index),
+                "structure": record.get("structure", record) if isinstance(record, dict) else record,
             }
         )
     return normalized
@@ -435,12 +483,16 @@ def _conformer_file_molecules(path: Path) -> list[tuple[str, Any]]:
     suffix = path.suffix.casefold()
     if suffix in {".sdf", ".mol"}:
         supplier = Chem.SDMolSupplier(str(path), removeHs=False)
-        molecules = [molecule for molecule in supplier if molecule is not None]
+        molecules = []
+        for index, molecule in enumerate(supplier):
+            if molecule is None:
+                raise ValueError(f"Unreadable conformer {index} in {path}; no records were skipped")
+            molecules.append(molecule)
         if not molecules:
             raise ValueError(f"Conformer file contains no readable molecules: {path}")
         return [
             (
-                molecule.GetProp("_Name") if molecule.HasProp("_Name") else str(index),
+                (molecule.GetProp("_Name") if molecule.HasProp("_Name") else "") or str(index),
                 molecule,
             )
             for index, molecule in enumerate(molecules)
@@ -466,6 +518,8 @@ def _conformer_file_molecules(path: Path) -> list[tuple[str, Any]]:
         molecule = Chem.MolFromXYZBlock(block)
         if molecule is None:
             raise ValueError(f"RDKit could not parse multi-XYZ conformer {len(molecules)}: {path}")
+        for key, value in re.findall(r"(?:^|\s)(charge|multiplicity)=([+-]?\d+)(?=\s|$)", lines[offset + 1]):
+            molecule.SetProp(key, value)
         molecules.append((str(len(molecules)), molecule))
         offset = end
     if not molecules:
@@ -592,7 +646,7 @@ def _align_molecular_structures(request: dict[str, Any]) -> dict[str, Any]:
     )
     return success(
         {
-            "aligned_probe": _rdkit_structure(probe),
+            "aligned_probe": _rdkit_structure(probe, source=inputs["probe"], method=_method),
             "rmsd_angstrom": rmsd,
             "atom_map": [list(pair) for pair in atom_map],
             "reflect": bool(settings["reflect"]),
@@ -626,9 +680,14 @@ def _standardize(request: dict[str, Any]) -> dict[str, Any]:
     if bool(settings.get("canonical_tautomer", False)):
         molecule = rdMolStandardize.TautomerEnumerator().Canonicalize(molecule)
     smiles = Chem.MolToSmiles(molecule, canonical=True, isomericSmiles=True)
+    state = _rdkit_state(molecule, inputs["structure"], _method)
+    # Standardization can deliberately change protonation or remove fragments;
+    # its charge describes the resulting graph, not the original molecule.
+    state["charge"] = int(Chem.GetFormalCharge(molecule))
+    state["electronic_state_sources"]["charge"] = "rdkit_graph"
     return success(
         {
-            "structure": {"smiles": smiles, "charge": int(Chem.GetFormalCharge(molecule))},
+            "structure": {"smiles": smiles, **state},
             "standardization_settings": settings,
         },
         backend_version=module_version("rdkit"),
@@ -657,7 +716,7 @@ def _generate_3d_rdkit(request: dict[str, Any]) -> dict[str, Any]:
     path = directory / "structure.sdf"
     _write_rdkit_sdf(molecule, path)
     return success(
-        {"structure": _rdkit_structure(molecule), "random_seed": seed},
+        {"structure": _rdkit_structure(molecule, source=inputs["molecule"], method=_method), "random_seed": seed},
         artifact_files=[
             {"path": relative_workspace_path(path), "semantic_type": "AtomicStructure", "media_type": "chemical/x-mdl-sdfile"}
         ],
@@ -688,7 +747,7 @@ def _generate_3d_openbabel(request: dict[str, Any]) -> dict[str, Any]:
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
     if completed["returncode"] != 0 or not path.is_file():
-        raise RuntimeError(f"Open Babel failed: {completed['stderr'][-2000:]}")
+        raise external_failure(completed, directory, "Open Babel")
     return success(
         {"structure": structure_dict(relative_workspace_path(path))},
         artifact_files=[
@@ -716,7 +775,7 @@ def _conformers_rdkit(request: dict[str, Any]) -> dict[str, Any]:
     path = directory / "conformers.sdf"
     _write_rdkit_sdf(molecule, path, conformer_ids)
     ensemble = [
-        {"conformer_id": str(identifier), "structure": _rdkit_structure(molecule, identifier)}
+        {"conformer_id": str(identifier), "structure": _rdkit_structure(molecule, identifier, source=inputs["molecule"], method=_method)}
         for identifier in conformer_ids
     ]
     return success(
@@ -791,7 +850,20 @@ def _conformers_crest(request: dict[str, Any]) -> dict[str, Any]:
     if not completed["available"]:
         return unavailable(completed["stderr"], install="conda install -c conda-forge crest xtb")
     if completed["returncode"] != 0:
-        raise RuntimeError(f"CREST failed: {completed['stderr'][-2000:]}")
+        result = failed(
+            f"CREST exited with code {completed['returncode']}.\n"
+            f"stdout:\n{bounded(completed['stdout'], budget=2000)}\n"
+            f"stderr:\n{bounded(completed['stderr'], budget=2000)}"
+        )
+        result["error"].update(
+            exit_code=completed["returncode"],
+            failure_stage="backend_runtime",
+            # Absolute paths also remain valid inside the saved diagnostic artifact;
+            # the managed Action worker relocates public references to the run root.
+            log_paths=[str(directory / name) for name in ("stdout.log", "stderr.log")],
+        )
+        result["provenance"] = {"command": completed["command"]}
+        return result
     ensemble_path = directory / "crest_conformers.xyz"
     if not ensemble_path.is_file():
         raise RuntimeError("CREST completed without crest_conformers.xyz")
@@ -809,23 +881,26 @@ def _conformers_crest(request: dict[str, Any]) -> dict[str, Any]:
 
 def _rank(request: dict[str, Any]) -> dict[str, Any]:
     inputs, _method, settings = request_parts(request)
-    ensemble = inputs["ensemble"]
-    if isinstance(ensemble, dict) and "ensemble" in ensemble:
-        ensemble = ensemble["ensemble"]
+    ensemble = _conformer_records(inputs["ensemble"])
     scores = inputs["scores"]
-    if not isinstance(ensemble, list) or not isinstance(scores, list) or len(ensemble) != len(scores):
-        raise ValueError("ensemble and scores must be aligned lists of equal length")
+    if not isinstance(scores, list):
+        raise ValueError("scores must be a list of numbers or objects containing value")
+    if len(ensemble) != len(scores):
+        raise ValueError(f"ensemble contains {len(ensemble)} conformers but scores contains {len(scores)} values; align them in input order")
     unit = str(settings["score_unit"]).lower()
     factors = {"hartree": 627.509474, "kcal_mol": 1.0, "kj_mol": 1 / 4.184, "ev": 23.060548}
     if unit not in factors:
         raise ValueError(f"Unsupported score_unit: {unit}")
-    values = [float(item["value"] if isinstance(item, dict) else item) * factors[unit] for item in scores]
+    try:
+        values = [float(item["value"] if isinstance(item, dict) else item) * factors[unit] for item in scores]
+    except (KeyError, TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("scores must contain numbers or objects with a numeric value field") from exc
     if not all(math.isfinite(value) for value in values):
         raise ValueError("All conformer scores must be finite")
     minimum = min(values)
     temperature = float(settings["temperature_kelvin"])
-    if temperature <= 0:
-        raise ValueError("temperature_kelvin must be positive")
+    if not math.isfinite(temperature) or temperature <= 0:
+        raise ValueError("temperature_kelvin must be positive and finite")
     gas_constant = 0.00198720425864083  # kcal mol-1 K-1
     factors_boltzmann = [math.exp(-(value - minimum) / (gas_constant * temperature)) for value in values]
     total = sum(factors_boltzmann)
@@ -833,8 +908,8 @@ def _rank(request: dict[str, Any]) -> dict[str, Any]:
     for index, (conformer, value, factor) in enumerate(zip(ensemble, values, factors_boltzmann)):
         records.append(
             {
-                "conformer_id": str(conformer.get("conformer_id", index)) if isinstance(conformer, dict) else str(index),
-                "structure": conformer.get("structure") if isinstance(conformer, dict) else conformer,
+                "conformer_id": conformer["conformer_id"],
+                "structure": conformer["structure"],
                 "relative_score_kcal_mol": value - minimum,
                 "weight": factor / total,
             }
@@ -970,7 +1045,7 @@ def _protonate_rdkit(request: dict[str, Any]) -> dict[str, Any]:
         return unsupported("RDKit backend currently supports rule='add_explicit_hydrogens' only")
     molecule = Chem.AddHs(_rdkit_molecule(inputs["structure"]))
     return success(
-        {"structure": _rdkit_structure(molecule), "ph": float(settings["ph"]), "rule": settings["rule"]},
+        {"structure": _rdkit_structure(molecule, source=inputs["structure"], method=_method), "ph": float(settings["ph"]), "rule": settings["rule"]},
         backend_version=module_version("rdkit"),
         warnings=["RDKit explicit-hydrogen addition is rule based and does not predict pKa."],
     )
@@ -988,7 +1063,7 @@ def _gasteiger(request: dict[str, Any]) -> dict[str, Any]:
     if not all(math.isfinite(value) for value in charges):
         raise RuntimeError("RDKit produced non-finite Gasteiger charges")
     return success(
-        {"structure": _rdkit_structure(molecule), "partial_charges_e": charges, "charge_model": "gasteiger"},
+        {"structure": _rdkit_structure(molecule, source=inputs["structure"], method=method), "partial_charges_e": charges, "charge_model": "gasteiger"},
         backend_version=module_version("rdkit"),
     )
 

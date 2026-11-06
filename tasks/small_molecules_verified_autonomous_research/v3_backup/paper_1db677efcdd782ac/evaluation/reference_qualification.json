@@ -1,0 +1,22 @@
+{
+  "paper_id": "paper_1db677efcdd782ac",
+  "case_id": "case_05",
+  "scoring_policy": "paper_science_v3",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "existing_verification_reference_reused": true,
+  "new_quantum_validation_performed": false,
+  "new_agent_run_performed": false,
+  "scientific_acceptance_reassessed_this_migration": false,
+  "scoring_definition_reviewed": true,
+  "numerical_evidence_policy": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。",
+  "verification_support": "正文 Table 3/Figs.9–11、SI S49–51 与 Ph 结构；历史验证有开/闭态、三类开环通道及 Ph 局部扫描。没有独立的全 cis→trans 互变势垒/速率验证。",
+  "reference_issues": [
+    "主要量为 +1 双重态电子能，不混为热校正 Gibbs 能。",
+    "cis-Me 正文/SI 数字冲突且近热中性，trans-Me 不同泛函可改变符号；不以严格正负零点或指定泛函作为隐藏容差。",
+    "保留闭环 trans 稳定性与开/闭机理相容性；不把它冒称已证明完整快速互变动力学。",
+    "不加完整光循环、氧化电位、醛产物或同位素任务。"
+  ],
+  "human_review_resolution": "人工意见为保留；科学命题和权重不变，沿用逐项实际数值证据、无论文数值门槛、pass/fail规则。",
+  "note": "Reference definitions and scoring have been audited; this is not new quantum validation, a blind agent run, strict numeric reproduction or publication approval. Native logs and historical verification remain unchanged.",
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail."
+}

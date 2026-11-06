@@ -1,0 +1,48 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "revision": "expert_round1_20261103",
+  "expert_feedback_status": "addressed",
+  "action": "核对后保留",
+  "changes_zh": "专家认为无问题；保留完整配体、起始S=5/2和初始氧化范围；电子能/自由能与最终产物释放边界保持。",
+  "source_locator": "正文 Scheme 2、Fig. 7；SI Fig. S29/S32/S33",
+  "scientific_scope_changed": false,
+  "active_rule_ids": [
+    "r_preferred_initial_mechanism",
+    "r_oxidizing_activity_explanation",
+    "r_initial_oxidation_outcome"
+  ],
+  "active_outcome_ids": [
+    "preferred_initial_mechanism",
+    "oxidizing_activity_explanation",
+    "initial_oxidation_outcome"
+  ],
+  "removed_outcome_ids": [],
+  "public_file_sha256": {
+    "data/inputs/dma.xyz": "472fcd252cdac473cd8dc6a24e74d965c4abd175abd43beed695f0f1578e4510",
+    "data/inputs/iron_peroxo.xyz": "fe34cee96a5a6ab53d08d62ab30cf3d56aaa1d3b201f81db27ae967e93d6b451",
+    "data/inputs/molecular_inventory.json": "554e39413efc4f862145e40f0a652bdf33f68c81778e82f2dc0eedadcd1c909b",
+    "submission_guide.md": "60054e659b99584f742538ef6904d44b9b11d700439aa7cb395e8c894e2c573b",
+    "submission_schema.json": "71f56077263ae1d33052842165110c5a3ea9681caa77f3cb3f6d9b63175fe119",
+    "task.md": "4282edeec43cfabd7b97cee742982e1b831813199baa6d171f806e83cba106b4"
+  },
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "validation_boundary": "Source/structure/contract/scoring/synchronization checks; no new QM reproduction or blind-agent scientific acceptance.",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_preferred_initial_mechanism",
+      "r_oxidizing_activity_explanation",
+      "r_initial_oxidation_outcome"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "The existing bounded scientific scope is retained.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  }
+}

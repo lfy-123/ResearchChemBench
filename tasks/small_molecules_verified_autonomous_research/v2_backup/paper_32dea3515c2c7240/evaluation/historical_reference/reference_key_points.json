@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_32dea3515c2c7240",
+  "items": [
+    {
+      "statement": "C–H活化过渡态共同参考自由能差",
+      "expected": "比较完整Pd/L-pGlu/S、相同组成和粒子/质子库存的G(TS20-b)−G(TS20-a)，并映射作者a/b结构；这是共同参考剖面之差，不是两条各自局部势垒之差。MeCN/SMD、363.15 K热项；相同电荷/自旋。来源未明确输入电荷/多重度，中性闭壳层Pd(II)/双去质子化L-pGlu+中性S为需声明并支持的图重构。真实相关鞍点与反应连接合格后，按8.6±1.5 kcal/mol比较。",
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_METHOD",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ts_gap",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "S独立分子的反转自由能势垒",
+      "expected": "比较G(S反转鞍点)−G(与其相连的孤立S/1b最低点)，完整中性分子，无Pd/配体、同粒子数；MeCN/SMD、353.15 K，单重态为图重构假设须支持。使用自身最低点与自身热项、真实相关模式及连接；按31.82±2.0 kcal/mol比较。不得用催化条件363.15 K替代。",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "inversion_s",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "P独立分子的反转自由能势垒",
+      "expected": "比较G(P反转鞍点)−G(与其相连的孤立P/3ba最低点)，完整中性E-烯基化分子，无Pd/配体、同粒子数；n-octane/SMD、398.15 K，单重态为图重构假设须支持。使用自身最低点/热项、真实相关模式及连接；按33.99±2.0 kcal/mol比较。不得为接近目标事后更换RRHO/qRRHO、最低点或温度。",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "inversion_p",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "独立的立体选择方向",
+      "expected": "相同映射物种、组成、状态和MeCN/363.15 K条件下，实际计算支持G(TS20-a)<G(TS20-b)。独立判断方向；未映射或方向反转不通过。无需先通过8.6数值窗口。",
+      "evidence_ids": [
+        "E_PATH",
+        "E_PROFILE",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "ts_direction",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "C–H活化的实际键变和构型归属",
+      "expected": "实际两构型计算的结构、相关振动和连接证据支持CMD：芳基C–H断裂、向配体受体转移H及C–Pd成键，并保持配体手性与七元环构型的一致映射。不能用近共平面氮单个局部有向体积变化直接替代完整构型判断；仅TS标签不通过。不要求完整催化循环或固定IRC点数。",
+      "evidence_ids": [
+        "E_PATH",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "cmd_structure",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "S的构型互变结构发现",
+      "expected": "真实S最低点和反转鞍点、相关软模/路径或等价连接支持同一分子两构型互变，并保持组成与质子化；在353.15 K/MeCN下有正的反转自由能势垒。仅源坐标、频率符号或写“可反转”不通过；该结构/定性结果独立于31.82数值窗口。",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "inversion_s_identity",
+      "key_point_type": "result"
+    },
+    {
+      "statement": "P的构型互变结构发现",
+      "expected": "真实E-烯基化P最低点和反转鞍点、相关软模/路径或等价连接支持同一分子两构型互变而不改变E烯烃及化学组成；在398.15 K/n-octane下有正的反转自由能势垒。仅源坐标或“产物稳定”叙述不足；此项不要求33.99数值窗口通过。",
+      "evidence_ids": [
+        "E_INV",
+        "E_COORD"
+      ],
+      "claim_role": "intermediate",
+      "key_point_id": "inversion_p_identity",
+      "key_point_type": "result"
+    }
+  ]
+}

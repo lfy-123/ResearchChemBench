@@ -1,0 +1,72 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "source_documents": [
+    {
+      "path": "papers/paper_9132719dbf91c978/documents/main.pdf",
+      "sha256": "3d08d907aafb9175e71858913e8f6671891645f0479d189eab246a24d442faeb",
+      "page_count": 7,
+      "pdf_pages_1_based": [
+        1,
+        4
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_9132719dbf91c978/documents/supplementary_001.pdf",
+      "sha256": "ae27addc290464f1b17ef3fbd0dd6cac8eb0830aa03cc0aaa686fd57321d2817",
+      "page_count": 185,
+      "pdf_pages_1_based": [
+        10,
+        11,
+        12
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "How well does molecular evidence support H2 evolution and recovery of a usable Pd/XantPhos species from the source dihydride composition, and which local steps or assumptions limit that conclusion?",
+    "scope": "Investigate the late local Pd/XantPhos hydrogen-evolution part of the source reaction inDMAc. The specified Pd/XantPhos/H2 composition is a model boundary, not experimentally established speciation. The upstream photocycle, substrate cyclization and overall product yield are outside scope.",
+    "facts": "The source photoinduced reaction uses Pd2(dba)3/XantPhos withPhSiH3 inDMAc. A two-chamber experiment detects transferable hydrogenating gas under410–420nm light; the dark control does not hydrogenate the receiver substrate. The local model inventory is fullXantPhos plusPd and2H, neutral; the source calculation starts with a singlet dihydride representation. Determine structures and accessible states relevant to your claims. Report temperature, solute/gas standard states andH2 pressure assumptions explicitly; no measured local evolution rate is supplied.",
+    "claim_source_map": [
+      {
+        "claim": "Source catalyst, solvent and detected hydrogenating gas",
+        "source": "main PDFpp1,4; SI PDFp10"
+      },
+      {
+        "claim": "Local model and author hydrogen-evolution assignment",
+        "source": "main PDFp4 Scheme3; SI PDFpp11–12",
+        "visibility": "PR/private"
+      },
+      {
+        "claim": "Source computational protocol",
+        "source": "SI PDFp10",
+        "visibility": "PR/private"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Source catalyst, solvent and detected hydrogenating gas",
+      "source": "main PDFpp1,4; SI PDFp10"
+    },
+    {
+      "claim": "Local model and author hydrogen-evolution assignment",
+      "source": "main PDFp4 Scheme3; SI PDFpp11–12",
+      "visibility": "PR/private"
+    },
+    {
+      "claim": "Source computational protocol",
+      "source": "SI PDFp10",
+      "visibility": "PR/private"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "Expanded state/path/pressure uncertainty and usablePd regeneration remain uncalibrated.",
+    "A source small barrier cannot set a universal tolerance for alternative models.",
+    "Semantic judge and actual filesystem isolation pending."
+  ]
+}

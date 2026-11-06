@@ -1,0 +1,190 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "evidence": [
+    {
+      "evidence_id": "main_p3",
+      "source": {
+        "path": "papers/paper_9a58a1fa6ed7d780/documents/main.pdf",
+        "sha256": "aeebf1cd58e33932312c18720a87e7fddd1c12d72f39a5afb963baaa5ce4ca92",
+        "pdf_pages_1based": [
+          3
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p3_39_41_42_43_49_50_51",
+      "source": {
+        "path": "papers/paper_9a58a1fa6ed7d780/documents/supplementary_001.pdf",
+        "sha256": "dcd192b5e3b92b087855114bacea08f5316e4de2d8a105fa4af949b8459531fe",
+        "pdf_pages_1based": [
+          3,
+          39,
+          41,
+          42,
+          43,
+          49,
+          50,
+          51
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "verified_bn_s1",
+      "source": {
+        "path": "docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_TD6_fullcoeff/stdout.log",
+        "sha256": "63b2ffc2c10495e0a59206d8f18c8d51781ed95ca2adc304b803e3b75859d41d"
+      },
+      "evidence_type": "verified_scientific_support",
+      "qualification": "BN-AkFlu S1 state and transition coefficients; independent from CC."
+    },
+    {
+      "evidence_id": "verified_cc_s1",
+      "source": {
+        "path": "docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/stdout.log",
+        "sha256": "ecdfb60ea708e762e510f8592c1f8eec5b07a0700b3163fc926ddc59eda4db4d"
+      },
+      "evidence_type": "verified_scientific_support",
+      "qualification": "CC-AkFlu S1 state and transition coefficients; independent from BN."
+    }
+  ],
+  "final_conclusion_evidence": {
+    "bn_s1_energy": [
+      "main_p3",
+      "supplementary_001_p3_39_41_42_43_49_50_51",
+      "verified_bn_s1"
+    ],
+    "cc_s1_energy": [
+      "main_p3",
+      "supplementary_001_p3_39_41_42_43_49_50_51",
+      "verified_cc_s1"
+    ],
+    "bn_bright_energy": [
+      "main_p3",
+      "supplementary_001_p3_39_41_42_43_49_50_51",
+      "verified_bn_s1"
+    ],
+    "bn_bright_strength": [
+      "main_p3",
+      "supplementary_001_p3_39_41_42_43_49_50_51",
+      "verified_bn_s1"
+    ],
+    "cc_bright_energy": [
+      "main_p3",
+      "supplementary_001_p3_39_41_42_43_49_50_51",
+      "verified_cc_s1"
+    ],
+    "cc_bright_strength": [
+      "main_p3",
+      "supplementary_001_p3_39_41_42_43_49_50_51",
+      "verified_cc_s1"
+    ],
+    "bn_strength_pattern": [
+      "main_p3",
+      "supplementary_001_p3_39_41_42_43_49_50_51",
+      "verified_bn_s1"
+    ],
+    "cc_strength_pattern": [
+      "main_p3",
+      "supplementary_001_p3_39_41_42_43_49_50_51",
+      "verified_cc_s1"
+    ],
+    "bn_s1_explanation": [
+      "main_p3",
+      "supplementary_001_p3_39_41_42_43_49_50_51",
+      "verified_bn_s1",
+      "verified_cc_s1"
+    ]
+  },
+  "current_scoring_policy": "paper_science_v3",
+  "scoring_applicability_20261029": "Only current semantic pass/fail final conclusions are scored. Source/native scalars, old windows and method nodes are unscored evidence; historical scientific classifications are unchanged.",
+  "final_result_bindings": [
+    {
+      "scientific_requirement": "必需结果：最低激发的BN/CC变化",
+      "rule_id": "r_lowest_excitation_comparison",
+      "conclusion_id": "lowest_excitation_comparison",
+      "weight": 25,
+      "independence": "最低态相对能量，独立于各分子较高亮带分布。",
+      "source_location": "正文p3电子能级；SI物理p42 TableS14为BN-AkFlu，p43 TableS15为CC-AkFlu；S11及其他BNFlu不混同。",
+      "source_evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1",
+        "verified_cc_s1"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_TD6_fullcoeff/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_optfreq/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/job_followup_20261017/COORDINATOR_REVIEW/paper_9a58a1fa6ed7d780/INDEPENDENT_COMPARISON.json"
+      ],
+      "existing_support_or_gap": "BN/CC S1=2.1401/2.7731 eV；BN亮态3.6111 eV、f1.8535，CC亮态3.0152 eV、f.4081。两S1主要HOMO→LUMO；BN HOMO比CC升.75246、LUMO升.130004 eV，Dip.S及组态支持强度解释。",
+      "scientific_limitations": "S11部分Sr/H未复现，不认证定量CT；S14的HOMO→HOMO+1印刷问题及其他BNFlu S4不能套作AkFlu源S5。不同方法物理态可交叉，不强求编号；完整实验光谱、器件及速率均未验证。旧checkpoint缺失但fchk/日志保留。"
+    },
+    {
+      "scientific_requirement": "必需结果：BN低态与主要亮态关系",
+      "rule_id": "r_bn_strength_pattern",
+      "conclusion_id": "bn_strength_pattern",
+      "weight": 20,
+      "independence": "BN内部强度/谱带位置分配，不能由S1降低自动推出。",
+      "source_location": "正文p3电子能级；SI物理p42 TableS14为BN-AkFlu，p43 TableS15为CC-AkFlu；S11及其他BNFlu不混同。",
+      "source_evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_TD6_fullcoeff/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_optfreq/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/job_followup_20261017/COORDINATOR_REVIEW/paper_9a58a1fa6ed7d780/INDEPENDENT_COMPARISON.json"
+      ],
+      "existing_support_or_gap": "BN/CC S1=2.1401/2.7731 eV；BN亮态3.6111 eV、f1.8535，CC亮态3.0152 eV、f.4081。两S1主要HOMO→LUMO；BN HOMO比CC升.75246、LUMO升.130004 eV，Dip.S及组态支持强度解释。",
+      "scientific_limitations": "S11部分Sr/H未复现，不认证定量CT；S14的HOMO→HOMO+1印刷问题及其他BNFlu S4不能套作AkFlu源S5。不同方法物理态可交叉，不强求编号；完整实验光谱、器件及速率均未验证。旧checkpoint缺失但fchk/日志保留。"
+    },
+    {
+      "scientific_requirement": "必需结果：CC低态与主要亮态关系",
+      "rule_id": "r_cc_strength_pattern",
+      "conclusion_id": "cc_strength_pattern",
+      "weight": 20,
+      "independence": "CC内部强度图景，不因BN对照正确自动成立。",
+      "source_location": "正文p3电子能级；SI物理p42 TableS14为BN-AkFlu，p43 TableS15为CC-AkFlu；S11及其他BNFlu不混同。",
+      "source_evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_cc_s1"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_TD6_fullcoeff/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_optfreq/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/job_followup_20261017/COORDINATOR_REVIEW/paper_9a58a1fa6ed7d780/INDEPENDENT_COMPARISON.json"
+      ],
+      "existing_support_or_gap": "BN/CC S1=2.1401/2.7731 eV；BN亮态3.6111 eV、f1.8535，CC亮态3.0152 eV、f.4081。两S1主要HOMO→LUMO；BN HOMO比CC升.75246、LUMO升.130004 eV，Dip.S及组态支持强度解释。",
+      "scientific_limitations": "S11部分Sr/H未复现，不认证定量CT；S14的HOMO→HOMO+1印刷问题及其他BNFlu S4不能套作AkFlu源S5。不同方法物理态可交叉，不强求编号；完整实验光谱、器件及速率均未验证。旧checkpoint缺失但fchk/日志保留。"
+    },
+    {
+      "scientific_requirement": "必需结果：能量改变及强度重分配的电子解释",
+      "rule_id": "r_bn_s1_explanation",
+      "conclusion_id": "bn_s1_explanation",
+      "weight": 35,
+      "independence": "物理电子起因，不重复低能变化或两个强度图景。",
+      "source_location": "正文p3电子能级；SI物理p42 TableS14为BN-AkFlu，p43 TableS15为CC-AkFlu；S11及其他BNFlu不混同。",
+      "source_evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1",
+        "verified_cc_s1"
+      ],
+      "native_references": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_TD6_fullcoeff/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/legacy_BN_optfreq/stdout.log",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/v2_verification/maintenance/job_followup_20261017/COORDINATOR_REVIEW/paper_9a58a1fa6ed7d780/INDEPENDENT_COMPARISON.json"
+      ],
+      "existing_support_or_gap": "BN/CC S1=2.1401/2.7731 eV；BN亮态3.6111 eV、f1.8535，CC亮态3.0152 eV、f.4081。两S1主要HOMO→LUMO；BN HOMO比CC升.75246、LUMO升.130004 eV，Dip.S及组态支持强度解释。",
+      "scientific_limitations": "S11部分Sr/H未复现，不认证定量CT；S14的HOMO→HOMO+1印刷问题及其他BNFlu S4不能套作AkFlu源S5。不同方法物理态可交叉，不强求编号；完整实验光谱、器件及速率均未验证。旧checkpoint缺失但fchk/日志保留。"
+    }
+  ]
+}

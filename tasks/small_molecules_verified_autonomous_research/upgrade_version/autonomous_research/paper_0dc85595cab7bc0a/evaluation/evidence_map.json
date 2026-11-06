@@ -1,0 +1,107 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "evidence": [
+    {
+      "evidence_id": "main_p2",
+      "source": {
+        "path": "papers/paper_0dc85595cab7bc0a/documents/main.pdf",
+        "sha256": "f23bf2094145eada8d43b6e1bf7cce14fdd9db27d9f82fae7948b0fd86183451",
+        "pdf_pages_1based": [
+          2
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "supplementary_001_p9",
+      "source": {
+        "path": "papers/paper_0dc85595cab7bc0a/documents/supplementary_001.pdf",
+        "sha256": "84d40a48033a1d1cfc425d3b981e79b39eaf00fa29ffdffbde03807e528bc652",
+        "pdf_pages_1based": [
+          9
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    },
+    {
+      "evidence_id": "main_p2_3",
+      "source": {
+        "path": "papers/paper_0dc85595cab7bc0a/documents/main.pdf",
+        "sha256": "f23bf2094145eada8d43b6e1bf7cce14fdd9db27d9f82fae7948b0fd86183451",
+        "pdf_pages_1based": [
+          2,
+          3
+        ]
+      },
+      "evidence_type": "paper_scientific_result"
+    }
+  ],
+  "scoring_policy": "paper_science_v3",
+  "final_result_bindings": [
+    {
+      "conclusion_id": "first_stage",
+      "rule_id": "r_first_stage",
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "scientific_requirement": "First-cyclization regioisomer thermodynamic preference"
+    },
+    {
+      "conclusion_id": "first_site_electronic",
+      "rule_id": "r_first_site_electronic",
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "scientific_requirement": "Electronic origin of first-site discrimination"
+    },
+    {
+      "conclusion_id": "second_stage",
+      "rule_id": "r_second_stage",
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "scientific_requirement": "Second-cyclization regioisomer thermodynamic preference"
+    },
+    {
+      "conclusion_id": "second_site_electronic",
+      "rule_id": "r_second_site_electronic",
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "scientific_requirement": "Electronic origin of second-site discrimination"
+    },
+    {
+      "conclusion_id": "sequential_chemistry",
+      "rule_id": "r_sequential_chemistry",
+      "evidence_ids": [
+        "main_p2",
+        "supplementary_001_p9"
+      ],
+      "scientific_requirement": "Chemical rationale for the sequential oxidative cyclization route"
+    }
+  ],
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_first_stage",
+      "r_first_site_electronic",
+      "r_second_stage",
+      "r_second_site_electronic",
+      "r_sequential_chemistry"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Product 2 connectivity is supplied public input. Score only computed competing-site energetics, independent site explanations and the balanced sequence; never award product-identification points.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "historical_scoring_applicability_20261029": "Only the binary final conclusions in scoring_rules.json are active. All numeric values/tolerances and author workflow nodes in this evidence record are supporting or historical context, not scoring gates. Historical verification outcomes are preserved without automatic promotion."
+}

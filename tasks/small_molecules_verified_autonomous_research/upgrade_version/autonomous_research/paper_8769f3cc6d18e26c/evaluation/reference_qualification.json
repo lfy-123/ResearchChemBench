@@ -1,0 +1,163 @@
+{
+  "paper_id": "paper_8769f3cc6d18e26c",
+  "record_role": "Current scope index with explicitly preserved historical evidence",
+  "current_scoring_authority": {
+    "revision": "expert_round1_20261103",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_structural_account",
+      "r_relative_susceptibility",
+      "r_enantioselectivity_reach"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "scope_note": "Only first-amination substrate structure, two para-site responses and their explanatory reach are scored. Subsequent di-amination and its time trend are outside scope.",
+    "historical_record_role": "Historical/source records are non-scoring provenance. Deleted outcomes and old thresholds are not acceptance requirements; no historical scientific pass is inherited."
+  },
+  "scientific_question": "What structural features of the specified prochiral rotaxane can differentiate its two enantiotopic para sites in the first electrophilic amination, and what can substrate-level calculations establish about local site susceptibility and the limits of an enantioselectivity inference? This is an explanation task; the reaction observations are known context.",
+  "active_rule_ids": [
+    "r_structural_account",
+    "r_relative_susceptibility",
+    "r_enantioselectivity_reach"
+  ],
+  "current_outcome_ids": [
+    "structural_account",
+    "relative_susceptibility",
+    "enantioselectivity_reach"
+  ],
+  "historical_record": {
+    "paper_id": "paper_8769f3cc6d18e26c",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_structural_account",
+      "r_relative_susceptibility",
+      "r_enantioselectivity_reach"
+    ],
+    "scope": "Computed solution structure and equivalence or inequivalence of para environments; Computed para-site response and its implication for electrophilic amination; What the computed substrate structure and site responses establish about net enantioselectivity. Public molecular inputs and scientific scope are unchanged.",
+    "verification_status": "EXISTING_EVIDENCE_MAPPED_TO_FINAL_RESULTS_NO_AUTOMATIC_PASS",
+    "new_quantum_jobs": 0,
+    "release_ready": false,
+    "limitations": "Native evidence is one SMD-toluene local minimum and its mirror relation, not a CHCl3 ensemble or catalytic kinetic model. Final para NPA difference is −0.01241 e versus source −0.018 e; no hard numerical gate exists.",
+    "qualification_requirements": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance.",
+    "historical_acceptance": {
+      "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+      "expert_review_notes": "审查para差幅度缩小31.1%、G09 E.01→G16 C.01/G09Defaults/UltraFine，以及甲苯模型到实验CHCl3的解释限度。该题本来是底物结构—位点解释，未计算催化循环或定量ee不构成当前题目缺项。",
+      "acceptance_decision": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_acceptance_decision.json",
+      "independent_audit": "docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_8769_audit/audit.json"
+    },
+    "current_scoring_authority": {
+      "revision": "conclusion_only_20261029",
+      "scoring_policy": "paper_science_v3",
+      "scoring_mode": "final_results_100",
+      "active_rule_ids": [
+        "r_structural_account",
+        "r_relative_susceptibility",
+        "r_enantioselectivity_reach"
+      ],
+      "numeric_gates": false,
+      "decision_states": [
+        "pass",
+        "fail"
+      ],
+      "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+      "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance."
+    },
+    "outcome_evidence_coverage": [
+      {
+        "scientific_requirement": "必需结果1：S的结构组织、相互作用及两个para环境",
+        "rule_id": "r_structural_account",
+        "conclusion_id": "structural_account",
+        "independence": "空间预组织是否造成环境等价，不以电荷差或催化选择性成立为前提。",
+        "source_locator": "正文PDF8–10，Fig.5–6；SI002 PDF70–71、79–80，Table S2",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_8769_audit/native_recomputed.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_8769_audit/audit.json"
+        ],
+        "existing_support": "123原子、363正频、单次穿线；质心距3.8314515/4.9406438 Å支持甲苯单构象组织。",
+        "limits": [
+          "只有SMD甲苯局部最低点；实验CHCl3的系综及动力学未被验证。",
+          "para NPA差幅度较来源小约31.06%，保留方法/网格差异；这不是数值扣分门槛。",
+          "来源允许位阻较小芳环参与的替代解释，底物描述符不能证明唯一催化机制。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果2：两个para数值响应与相对胺化易感性",
+        "rule_id": "r_relative_susceptibility",
+        "conclusion_id": "relative_susceptibility",
+        "independence": "电子响应及其化学意义与具体组织解释不同；同一几何可有不同描述符响应。",
+        "source_locator": "正文PDF8–10，Fig.5–6；SI002 PDF70–71、79–80，Table S2",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_8769_audit/native_recomputed.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_8769_audit/audit.json"
+        ],
+        "existing_support": "同几何NPA −0.27809/−0.26568 e，差−0.01241；来源差−0.018，幅度小31.06%。",
+        "limits": [
+          "只有SMD甲苯局部最低点；实验CHCl3的系综及动力学未被验证。",
+          "para NPA差幅度较来源小约31.06%，保留方法/网格差异；这不是数值扣分门槛。",
+          "来源允许位阻较小芳环参与的替代解释，底物描述符不能证明唯一催化机制。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      },
+      {
+        "scientific_requirement": "必需结果3：结构/位点/对称对净ee及单/双胺化时间趋势的解释能力",
+        "rule_id": "r_enantioselectivity_reach",
+        "conclusion_id": "enantioselectivity_reach",
+        "independence": "判断底物信息对催化选择和时间趋势的推断范围，可在不同局部结构/响应解释下独立成立。",
+        "source_locator": "正文PDF8–10，Fig.5–6；SI002 PDF70–71、79–80，Table S2",
+        "native_artifacts": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_8769_audit/native_recomputed.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/small_molecules_autonomous_research/job_followup_20261025T0135Z/parent_8769_audit/audit.json"
+        ],
+        "existing_support": "实际构象与镜像操作支持对称关系；未计算催化选择、布居、交换或后续动力学。",
+        "limits": [
+          "只有SMD甲苯局部最低点；实验CHCl3的系综及动力学未被验证。",
+          "para NPA差幅度较来源小约31.06%，保留方法/网格差异；这不是数值扣分门槛。",
+          "来源允许位阻较小芳环参与的替代解释，底物描述符不能证明唯一催化机制。"
+        ],
+        "evidence_ids": [
+          "V2_MAIN",
+          "V2_SI"
+        ],
+        "no_new_computation": true
+      }
+    ],
+    "objective_issue_flags": [
+      {
+        "issue": "只有SMD甲苯局部最低点；实验CHCl3的系综及动力学未被验证。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "para NPA差幅度较来源小约31.06%，保留方法/网格差异；这不是数值扣分门槛。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      },
+      {
+        "issue": "来源允许位阻较小芳环参与的替代解释，底物描述符不能证明唯一催化机制。",
+        "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+      }
+    ]
+  },
+  "historical_record_role": "Pre-round-one evidence and qualification only; not additional current requirements or automatic acceptance.",
+  "new_quantum_jobs": false,
+  "blind_agent_run_performed": false,
+  "verification_status": "Input/reference alignment revised; no new scientific execution or scientific release certification.",
+  "outcome_evidence_coverage": {
+    "structural_account": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "relative_susceptibility": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited.",
+    "enantioselectivity_reach": "Only evidence matching the current molecular scope and physical definition may be reused; historical PASS is not inherited."
+  },
+  "release_ready": false
+}

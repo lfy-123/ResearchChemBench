@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "scoring_policy": "paper_science_v2",
+  "status": "PROVISIONAL_BENCHMARK_CRITERIA_APPROVED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "current_scope_verified": true,
+  "verification_status": "RESULTS_COMPLETE_NUMERIC_REVIEW",
+  "strict_numeric_whole_pass": false,
+  "reason": "用户授权迁移已由父级独立验收的当前AR科学问题。必要结果完整，可按明确semantic科学命题正式评分；数值专家审查和发布决定独立保留，不把旧过程分或历史候选状态作为活动阻断。",
+  "unblock_conditions": [],
+  "physical_definition": "指定Ni(OTf)2/(S,S)-L6/CHCl3条件模型；Gaussian16 C.01，B3LYP-D3BJ，非金属6-31G(d,p)/Ni SDD频率及非金属cc-pVTZ/Ni SDD单点，PCM CHCl3；实际+1/triplet金属模型、298.15 K，G=E_high+Gcorr_low。电荷/自旋为联合指纹支持的重建，非恢复作者原卡。",
+  "tolerance_policy": {
+    "numeric_rules": 0,
+    "rationale": "原题解释生成与对映偏好，原规则没有强制数值窗。保留作者能量和实际残差供专家审查，不将验证积分、片段分解或最大残差转成新的必达目标/容差。"
+  },
+  "publication_review_pending": [
+    "当前父级验收为RESULTS_COMPLETE_NUMERIC_REVIEW，必要结果完整；不是严格数值整题复现、专家批准或发布批准。",
+    "原手性电荷/多重度输入卡未恢复。+1/triplet来自原子组成和六个来源金属态能量/虚频联合指纹资格化，不能说成作者明确报告或全溶液基态证明。",
+    "SI文字IM6形成+2.3与图示IM5=−4.7、IM6=+2.3的局部参照有歧义；图/表局部差约+7.0，本次7.054968。没有新增精确开环能量门槛。",
+    "298.15 K单对TS、相同前因子模型给R分数0.973424，实验0.925，差+0.048424即+4.8424个百分点；只是方向和条件强度比较。",
+    "局部IGMH全低密度域R增强5.460%，吸引子域R低4.105%；H32/H45偏R，H33/H47部分反向，不能得出总吸引R更强或唯一/定量主导CH–π因果。",
+    "作者未给原子标记IGMH网格/阈值及完整热化学/离子对约定；当前局部积分不是能量、不是全空间积分，也不是逐像素/精确红圈复现。",
+    "作者另算的IM5A/B/C排序、IM4结合能与完整催化循环不是本题新增必达结果；本次未独立复现这些可选比较，不能用成功覆盖的开环/闭环冒称全文复现。"
+  ],
+  "verification_scope": "current_autonomous_research_scientific_question",
+  "independent_acceptance_review": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/parent_acceptance_review.json",
+  "energy_identity_review": "docs/verification/small_molecules_autonomous_research/job_followup_20261024T0752Z/independent_ni_audit.md",
+  "local_contact_review": "docs/verification/small_molecules_autonomous_research/verification_coverage_20261024T0842Z/ni_followup/audit.json"
+}

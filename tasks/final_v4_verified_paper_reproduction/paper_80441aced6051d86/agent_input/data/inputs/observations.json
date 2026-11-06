@@ -1,0 +1,56 @@
+{
+  "source": "Source main PDF pp5-6/Fig6 and official SI Table S1 for emission; source NMR integration for stoichiometry.",
+  "solvent": "water for emission; D2O at 298 K for NMR",
+  "emission_rows": [
+    {
+      "system": "G1",
+      "G1_mM": 0.02,
+      "maximum_nm": 464
+    },
+    {
+      "system": "G1",
+      "G1_mM": 0.5,
+      "maximum_nm": 490
+    },
+    {
+      "system": "CB7:G1",
+      "G1_mM": 0.5,
+      "maximum_nm": 445,
+      "concentration_status": "SI Table S1 label; main-text/Fig6 label conflicts",
+      "source_locator": "Official SI Table S1"
+    },
+    {
+      "system": "CB8:G1(2)",
+      "G1_mM": 0.5,
+      "maximum_nm": 526,
+      "concentration_status": "SI Table S1 label; main-text/Fig6 label conflicts",
+      "source_locator": "Official SI Table S1"
+    }
+  ],
+  "host_guest_stoichiometry": {
+    "CB7": [
+      1,
+      1
+    ],
+    "CB8": [
+      1,
+      2
+    ]
+  },
+  "uncertainty": "Source table does not report peak-error bars; no tolerance is inferred.",
+  "concentration_provenance_note": "Host optical concentration is unresolved across source locations: main article pp5-6 and Figure 6 describe G1 0.02 mM, whereas official SI Table S1 labels the 445 nm CB7:G1 and 526 nm CB8:G1(2) rows G1 0.50 mM. These are conflicting labels for the reported host spectra, not two independently measured concentration series. A source-labelled within-branch comparison is allowed; do not treat a mixed-source comparison as concentration matched.",
+  "host_optical_source_branches": [
+    {
+      "source_locator": "Main article PDF pp5-6, Figure6",
+      "G1_mM": 0.02,
+      "CB7_G1_maximum_nm": 445,
+      "CB8_G1_2_maximum_nm": 526
+    },
+    {
+      "source_locator": "Official supplementary information TableS1 (DOCX)",
+      "G1_mM": 0.5,
+      "CB7_G1_maximum_nm": 445,
+      "CB8_G1_2_maximum_nm": 526
+    }
+  ]
+}

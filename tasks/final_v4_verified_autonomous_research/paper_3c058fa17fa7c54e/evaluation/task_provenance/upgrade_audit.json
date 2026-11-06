@@ -1,0 +1,52 @@
+{
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "task_type": "autonomous_research",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T16:41:56.978587+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_3c058fa17fa7c54e.json",
+  "plan_sha256": "7534bd54b63bcd4ec1d5410d2212f7a56c77126b2129b15bbd614a6980d949ff",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_3c058fa17fa7c54e",
+  "v1_package_content_sha256": "9b44394e92d8b261a8355cc3cb2a99784883e44e3f9cf0ba22f870cb8df542f7",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "bfa21715c05261584e2624d1f3cd72fc7c6330442693d1a61b9c626a6722db58",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_3c058fa17fa7c54e/documents/main.pdf",
+      "sha256": "38002008855a03bf3bd90f3315f0008ae9fff275c1305e6fca20494ff3850e86",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        2,
+        3,
+        4
+      ],
+      "sections_figures_tables": "PDF2 Fig1/Scheme1 structures; PDF3 theoretical calculations; PDF4 Table1 dilute-toluene photophysics and singlet/triplet discussion."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_3c058fa17fa7c54e/documents/supplementary_001.pdf",
+      "sha256": "01140712f70bcc77d7c656fcc6c211bc78e72aaac4e90d1d37e3b22b7a7162cd",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        2
+      ],
+      "sections_figures_tables": "PDF2 instrumentation and B3LYP/6-31G(d,p) Gaussian16 method."
+    }
+  ],
+  "historical_class": "B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "partial_legacy_parent_evidence_only_expanded_reference_pending",
+  "scope_changes": [
+    "删除两个乙炔桥反事实及其三重态物种；原文未合成这些新材料。",
+    "删除60°扭角、匹配臂地图和固定垂直/绝热全矩阵；不将其移入新私有评分。",
+    "删除task_info的作者论文标题/DOI等可公开答案定位元数据；来源保留私有审计。",
+    "统一两假设/三面板改为自主记录和按主张触发证据。"
+  ],
+  "provenance_addendum_at": "2026-09-28T17:42:54.451437+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

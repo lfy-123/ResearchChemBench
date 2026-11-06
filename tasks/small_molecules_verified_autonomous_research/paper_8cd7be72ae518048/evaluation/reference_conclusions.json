@@ -1,0 +1,143 @@
+{
+  "paper_id": "paper_8cd7be72ae518048",
+  "scoring_policy": "paper_science_v3",
+  "items": [
+    {
+      "conclusion_id": "beta_condition_explanation",
+      "statement": "β 条件下区域偏好的解释",
+      "expected": "真实 α/β 成键竞争及可比能量支持 β 偏好，并把所选催化状态与给定 β 条件关联。参考 phenoxide/dippf(O) 模型，但不限定其唯一性；有充分证据的等效解释可通过。实验 β/α 和产率已给，复述不计分。须核对真实 α/β 原子连接及模型简化，不能用作者状态名或单条通道替代分子解释。",
+      "required_numerical_evidence": [
+        {
+          "id": "beta_condition",
+          "description": "第一组条件下 α/β 形成的 Gibbs 活化量与差值，明确催化状态。",
+          "public_requirement": "Computed α/β formation Gibbs activation energies and their difference under the first supplied conditions, with the catalyst state defined."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 第一组条件下 α/β 形成的 Gibbs 活化量与差值，明确催化状态。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "alpha_condition_explanation",
+      "statement": "α 条件下区域偏好反转的解释",
+      "expected": "实际竞争形成过程支持 α 偏好，并解释所研究催化环境与第二组条件的联系。参考阳离子 dippf 模型；允许充分支持的等效环境解释。不能借用 β 条件或苯乙烯的能量，不能只重述给定 α/β 观察。不要求作者 α 势垒、差分数值或精确产物比。",
+      "required_numerical_evidence": [
+        {
+          "id": "alpha_condition",
+          "description": "第二组条件下 α/β 形成的 Gibbs 活化量与差值，明确催化状态。",
+          "public_requirement": "Computed α/β formation Gibbs activation energies and their difference under the second supplied conditions, with the catalyst state defined."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 第二组条件下 α/β 形成的 Gibbs 活化量与差值，明确催化状态。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "ligand_access_effect",
+      "statement": "配位环境对生产性状态接近的影响",
+      "expected": "实际配位变化与配平自由能支持配位位点开放/烯烃结合的环境效应，参考为单氧化配体模型较母体双膦降低原烯烃接近代价。说明此效应不同于已经结合后的 α/β 竞争；等效且有证据的解释可接受。结合平衡自由能不能当氧化/交换速率势垒，不同电荷/组成的量不可直接相加。仅重复“配体更活泼”不足。",
+      "required_numerical_evidence": [
+        {
+          "id": "ligand_access",
+          "description": "两相关配位环境形成生产性烯烃结合/接近状态的自由能及比较。",
+          "public_requirement": "Computed free energies for reaching productive olefin-bound/access states in the relevant coordination environments and their comparison."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 两相关配位环境形成生产性烯烃结合/接近状态的自由能及比较。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "styrene_access_effect",
+      "statement": "苯乙烯较易接近的底物效应",
+      "expected": "使用各自游离底物的匹配参照，实际比较支持苯乙烯比环状底物更易进入同一研究配位环境，并解释这对底物反应性差别的意义。不能直接比较不同组成绝对能、一个孤立结合结果或换用其他催化剂；也不能从结合差预测精确产率。这是底物效应，与前项配体环境效应不同。",
+      "required_numerical_evidence": [
+        {
+          "id": "styrene_access",
+          "description": "苯乙烯与原环状烯烃在匹配环境下的结合/接近自由能及差值。",
+          "public_requirement": "Computed binding/access free energies and their difference for styrene versus the original cyclic olefin in matched environments."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 苯乙烯与原环状烯烃在匹配环境下的结合/接近自由能及差值。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "styrene_regiopreference",
+      "statement": "苯乙烯的 α 区域偏好",
+      "expected": "正确映射、实际可比的苯乙烯竞争形成证据支持 α 而非 β，采用与研究相关的匹配催化模型。不能把原环状底物结果复制给苯乙烯；不要求特定 TS 标签、完整释放循环或精确差值。仅选择 α 字样不足。",
+      "required_numerical_evidence": [
+        {
+          "id": "styrene_regio",
+          "description": "苯乙烯 α/β 成键的实际 Gibbs 活化量及差值。",
+          "public_requirement": "Computed Gibbs activation energies and their difference for styrene α/β bond formation."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 苯乙烯 α/β 成键的实际 Gibbs 活化量及差值。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    },
+    {
+      "conclusion_id": "styrene_activation_effect",
+      "statement": "苯乙烯形成活化需求较低",
+      "expected": "匹配催化模型和各自对应前体的实际形成比较支持苯乙烯的产物形成活化需求低于环状底物，并将此与底物难易联系。结合自由能差不能代替该活化比较，苯乙烯 α/β 内部排序也不能代替跨底物比较。不设差值阈值、不推断未经证明的实验速率。",
+      "required_numerical_evidence": [
+        {
+          "id": "styrene_regio",
+          "description": "苯乙烯 α/β 成键的实际 Gibbs 活化量及差值。",
+          "public_requirement": "Computed Gibbs activation energies and their difference for styrene α/β bond formation."
+        },
+        {
+          "id": "styrene_activation",
+          "description": "原环状底物与苯乙烯在匹配催化模型/参照下的插入活化量及差值。",
+          "public_requirement": "Computed insertion activation energies and their difference for the original cyclic substrate and styrene using matched catalyst models and references."
+        }
+      ],
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 苯乙烯 α/β 成键的实际 Gibbs 活化量及差值。\n- 原环状底物与苯乙烯在匹配催化模型/参照下的插入活化量及差值。",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "claim_role": "final",
+      "supporting_key_point_ids": [
+        "source_and_verification_context"
+      ]
+    }
+  ]
+}

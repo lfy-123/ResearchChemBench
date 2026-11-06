@@ -1,0 +1,62 @@
+{
+  "paper_id": "paper_080931b1681a8b09",
+  "items": [
+    {
+      "conclusion_id": "ni_formation_answer",
+      "claim_role": "final",
+      "statement": "最终：连接的催化生成解释回答题给环加成产物为何形成",
+      "expected": "最终明确采用有实际计算支持的起始物到题给产物的连通化学解释，并说明指定Ni–手性配体体系如何参与底物结合及成键过程。须将所需C–N形成/BCB开环和去芳构化C–C闭合与产物连接相联系；作者分步亲核路线为参考，支持同一净转化的等价路线可以接受。孤立驻点、单个能量或重述产物观察不足；不要求完整催化循环、手性开环势垒、产率或全局速率预测。",
+      "supporting_key_point_ids": [
+        "ni_substrate_binding",
+        "ni_ring_opening",
+        "ni_r_closure",
+        "ni_s_closure"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "conclusion_id": "ni_mapped_r_answer",
+      "claim_role": "final",
+      "statement": "最终：在题给饱和CH上明确预测R为主要对映体",
+      "expected": "最终在PI4的苯并噻唑C2来源饱和CH上明确选择R为主要对映体，并把实际较有利的形成分支通过原子对应关系连接到该产物绝对构型。不得以配体S构型、任意原子编号、仅写R通道较低或只列两个候选代替产品构型归属；来源原子编号在IM6和TS/IM7不同，不要求复刻该编号。此项新增最终选择及反应分支到实验产物的映射。",
+      "supporting_key_point_ids": [
+        "ni_r_closure",
+        "ni_s_closure",
+        "ni_r_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    },
+    {
+      "conclusion_id": "ni_origin_answer",
+      "claim_role": "final",
+      "statement": "最终：有界物理解释将环境差异与R偏好联系",
+      "expected": "最终用实际R/S环境差异和竞争证据解释R偏好的物理来源。可采用与作者相容的局部弱接触解释，或有实际证据的等价解释；须说明所用物理差异为何与能量偏好相容，不能从局部密度描述符直接宣称可加稳定化能、总吸引增强或唯一/定量主导原因。若采用当前来源分析，必须保留吸引子域偏S及接触趋势混合的边界；不要求被评Agent复现验证者的积分、分解或分析流程。",
+      "supporting_key_point_ids": [
+        "ni_r_competition",
+        "ni_selectivity_features"
+      ],
+      "evidence_ids": [
+        "V2_MAIN"
+      ]
+    },
+    {
+      "conclusion_id": "ni_strength_answer",
+      "claim_role": "final",
+      "statement": "最终：将计算支持的选择性强度与实验92.5:7.5作有界比较",
+      "expected": "最终把实际竞争证据所支持的R偏好及其强度与题给92.5:7.5实验比例联系，说明计算所支持的富集方向/程度以及模型对强度推断的限制。可用定义自洽的比例估计或有证据的定性强度比较；不要求精确er、指定能隙或额外动力学网络。若用单对TS作定量转换，须采用相容温度、能量/速率关系与前因子假设，不把条件预测冒称实验测量或精确复现。仅重复题给比例或泛称有不确定性不足。",
+      "supporting_key_point_ids": [
+        "ni_r_competition"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI"
+      ]
+    }
+  ]
+}

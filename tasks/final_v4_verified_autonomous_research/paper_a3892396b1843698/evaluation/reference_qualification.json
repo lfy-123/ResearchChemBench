@@ -1,0 +1,308 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "scoring_policy": "paper_science_v3",
+  "status": "V3_CONTRACT_REVIEWED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "blocked_rule_ids": [],
+  "reserved_points": 0,
+  "physical_definition": "Full neutral singlet C11H14 dibutadienylcyclopropane3a,25atoms, supplied graph and stereochemistry. Four source forward composite G barriers refer to the same ground-state3a: boat[3,3],boat[5,5],chair[3,3],chair[5,5]. Source omegaB97X-D/def2TZVPP//def2SVP with Grimme quasi-RRHO entropy; author temperature/cutoff not uniquely specified, verifier explicitly uses298.15K,1atm,scale1,100cm^-1. Transparent physically comparable treatments permitted, with matched references and identity.",
+  "scientific_limitations": "Verified four forward G barriers23.505891604,26.227907856,38.209382937,36.931566173kcal/mol versus23.5,26.2,38.2,36.9. FiveE/H/G rows recover printed precision; verifier thermochemical settings are not recovered private author settings. Chair55 local E3Z1 differs from source3c E2Z2:35.471401 local reverse versus45.106927 TS-minus-source-global3c. Chair33 local reverse16.325500 differs from45.059106 source-global3d height; same stereograph does not make conformers identical. No complete chair55-to-source3c path, all reverse pathways, global conformer exhaustion or dynamics validated.",
+  "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+  "coordinator_review": {
+    "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+    "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+    "review_key": "v2_paper_a3892396b1843698",
+    "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+    "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+    "publication_readiness_unchanged": true
+  },
+  "repair_round3": {
+    "date": "2026-10-19",
+    "round": "repair_round3",
+    "mode": "autonomous_research",
+    "status": "scoring_contract_repaired_without_new_chemical_acceptance",
+    "changes": [
+      "Confirmed independent saddle states were bundled: split closed-shell evidence into boat[3,3] and boat[5,5] leaves (3+3). Preserve the source forward-barrier references and local-versus-global product stereochemistry/conformer distinction; no new reverse-path validation."
+    ],
+    "history_preserved": true,
+    "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_04/paper_a3892396b1843698.md"
+  },
+  "acceptance": "V3_NOT_NEWLY_VALIDATED",
+  "historical_acceptance": "CURRENT_FROZEN_SCOPE_STRICT_VERIFICATION_PRESERVED",
+  "accepted_limitations": "Author thermochemical temperature and cutoff were not recovered. Existing verification declares 298.15 K, 1 atm, scale 1 and Grimme 100 cm−1; five tested thermal schemes preserve the boat gap (2.65159–2.884 kcal/mol). Chair55 local reverse 35.471401 differs from TS-minus-source-global3c 45.106927 kcal/mol; chair33 local reverse 16.325500 differs from global3d height 45.059106. No full chair55-to-source3c reverse path, exhaustive global conformer search, rates, trajectory branching or negative-activation-energy behavior is certified. Historical strict acceptance is frozen-scope evidence, not current V3 validation.",
+  "scope_note": "Preserve the full neutral-singlet C11H14 3a problem: four common-reference forward free-energy barriers, the two double-boat mechanisms, molecular organization and the distinction between forward and reverse/local and global references. Explicitly name the four neutral channel/geometry candidates already required by the old hidden rubric; no new channel, derivative or dynamics task is added.",
+  "historical_current_scope_verified": true,
+  "historical_verification_acceptance": "Existing independently strict V2 frozen-scope acceptance retained; scoring migration is not new chemical validation.",
+  "paper": {
+    "title": "[3,3] and [5,5] Sigmatropic Shifts of Polycyclic Dibutadienylcyclopropanes: Computational Explorations of Concerted and Stepwise Mechanisms and “Negative Activation Energies”",
+    "doi": "10.1021/jacs.5c19476",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-14"
+  },
+  "second_expert_review": {
+    "date": "2026-10-28",
+    "group": "group_03",
+    "finding": "The reverse-scope rule now judges the submitted mapped endpoints and consistent energy references. Historical chair product mismatches are examples, not mandatory pathways or unique acceptable endpoints. Four forward targets/windows and other final conclusions remain unchanged.",
+    "new_computations": false
+  },
+  "historical_non_scoring_tolerance_policy": {
+    "status": "provisional_benchmark_policy",
+    "basis": "Uniform inclusive±1.0kcal/mol on the four source forward G barriers. This provisional molecular-rearrangement category window accounts for declared low-frequency/thermal treatment variability while remaining well below the2.7kcal/mol boat gap and13-15kcal/mol boat/chair contrasts; it is not fitted to the0.006-0.032kcal residuals. Report the signed comparisons and static preference with the four numerical results; they have no additional independent score. The window does not apply to reverse barriers, product stereoisomers or undisclosed author thermochemical parameters.",
+    "not_author_error_bars": true
+  },
+  "current_scoring_authority": {
+    "revision": "conclusion_only_20261029",
+    "scoring_policy": "paper_science_v3",
+    "scoring_mode": "final_results_100",
+    "active_rule_ids": [
+      "r_boat_branch_competition",
+      "r_boat_chair_activation",
+      "r_boat33_mechanism",
+      "r_boat55_mechanism",
+      "r_geometric_organization",
+      "r_forward_reverse_scope"
+    ],
+    "numeric_gates": false,
+    "decision_states": [
+      "pass",
+      "fail"
+    ],
+    "historical_record_role": "All historical, source, numeric-tolerance and prior-acceptance records are non-scoring provenance. Do not restore their thresholds, intermediate inventories or review states. No historical acceptance classification is upgraded.",
+    "evidence_requirement": "Score only independent final scientific conclusions, totaling 100 points. Require actual executed calculations and recoverable native evidence for the molecular identities, composition, charge/spin, bonding, conditions, physical quantities and reference states relevant to each claim. Numerical energies, geometries and responses are evidence, never author-value targets or tolerance gates. A missing rounded scalar alone does not lose credit when the recoverable calculations establish the requested comparison. Do not restore numerical gates from historical references. Supplied observations, guessed conclusions, copied values, completed jobs, named intermediates and generic limitations earn no independent credit. Accept scientifically established equivalent explanations within the public scope without requiring author software, labels, a fixed intermediate inventory or an additional full reaction network. Method-sensitive alternatives must satisfy the specific criterion and actual evidence; a method change alone does not justify a contradictory claim. Return pass or fail for every item: a supported conclusion receives its whole weight, and an unsupported conclusion receives zero with a specific reason. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support or erase unrelated valid items. Infrastructure errors must be reported rather than disguised as scientific failures. Whole-case success requires every required_for_success item to pass, while independently supported items retain their points. Historical verification and structural package validation do not confer scientific acceptance. Autonomous research permits independently justified methods; paper reproduction must assess the disclosed author baseline or a scientifically comparable substitution. This comparability obligation does not require exact source numbers or earn process points."
+  },
+  "historical_non_scoring_reason": "2026-10-28 final-result redesign; existing evidence was reviewed per proposition. No new calculation or blind evaluation was performed. Historical acceptance is retained only as history.",
+  "historical_non_scoring_v3_evidence_reuse": "Four final barrier rules reuse 23.505891604, 26.227907856, 38.209382937 and 36.931566173 kcal/mol for boat[3,3], boat[5,5], chair[3,3] and chair[5,5], preserving targets 23.5/26.2/38.2/36.9 and inclusive ±1.0 kcal/mol. Two final double-boat mechanism assignments reuse mapped endpoint and fixed-geometry electronic-stability evidence (minimum stability eigenvalues 0.0272093/0.0072799). The structural explanation reuses mapped angle/torsion and preparation energies. The final applicability result reuses the actual chair55 E3Z1 versus source3c E2Z2 mismatch and chair33 local/global conformer mismatch. Ordering and dominant-path synthesis are required in the answer but receive no second score on top of their numerical and explanatory propositions.",
+  "outcome_evidence_coverage": [
+    {
+      "scientific_requirement": "两条boat主分支的正向活化竞争/偏好产物通道",
+      "rule_id": "r_boat_branch_competition",
+      "conclusion_id": "boat_branch_competition",
+      "independence": "比较不同重排阶数的boat分支，不评价boat/chair差别或电子机制。",
+      "source_locator": "正文p4 Fig5；SIp2 FigS1及p6方法；原生路径/固定几何电子稳定性/热处理记录",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat33_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat55_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/source_four_path_analysis/a01/results/analysis_summary.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/strict_endpoint_identity_readback_parserfix/a01/results/cope_endpoint_identity.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/data/geometry_reference_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat33_source_fixed_stability_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat55_source_fixed_stability_review_20260930.json"
+      ],
+      "existing_support": "四正向G=23.505892/26.227908/38.209383/36.931566 kcal/mol；五热处理下boat间差2.65159–2.884。boat33/55连接与闭壳层主导支持；chair端点身份不同，反向须分开参照。",
+      "limits": [
+        "这是45篇中的四boat/chair版本，未覆盖为expert14的两路线任务。历史冻结范围严格接受保持；有限静态与固定几何电子稳定性不证明所有自旋/动态分支。",
+        "chair55实际局部产物E3Z1而来源global3c为E2Z2，局部反向35.471401与TS−源global45.106927 kcal/mol不同；chair33局部16.325500与source-global3d45.059106不同，不能混称真实反向连接。",
+        "源热化学温度/低频截断未完全披露；验证298.15K/1atm/scale1/Grimme100条件保留，不按精确势垒匹配评分。"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "previous_rule_ids": [
+        "r_boat33_forward_g",
+        "r_boat55_forward_g"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "[3,3]与[5,5]各自的boat/chair活化差别",
+      "rule_id": "r_boat_chair_activation",
+      "conclusion_id": "boat_chair_activation",
+      "independence": "各重排类别内的组织效应可成立而boat分支排序不同；不奖励几何原因本身。",
+      "source_locator": "正文p4 Fig5；SIp2 FigS1及p6方法；原生路径/固定几何电子稳定性/热处理记录",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat33_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat55_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/source_four_path_analysis/a01/results/analysis_summary.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/strict_endpoint_identity_readback_parserfix/a01/results/cope_endpoint_identity.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/data/geometry_reference_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat33_source_fixed_stability_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat55_source_fixed_stability_review_20260930.json"
+      ],
+      "existing_support": "四正向G=23.505892/26.227908/38.209383/36.931566 kcal/mol；五热处理下boat间差2.65159–2.884。boat33/55连接与闭壳层主导支持；chair端点身份不同，反向须分开参照。",
+      "limits": [
+        "这是45篇中的四boat/chair版本，未覆盖为expert14的两路线任务。历史冻结范围严格接受保持；有限静态与固定几何电子稳定性不证明所有自旋/动态分支。",
+        "chair55实际局部产物E3Z1而来源global3c为E2Z2，局部反向35.471401与TS−源global45.106927 kcal/mol不同；chair33局部16.325500与source-global3d45.059106不同，不能混称真实反向连接。",
+        "源热化学温度/低频截断未完全披露；验证298.15K/1atm/scale1/Grimme100条件保留，不按精确势垒匹配评分。"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "previous_rule_ids": [
+        "r_boat33_forward_g",
+        "r_boat55_forward_g",
+        "r_chair33_forward_g",
+        "r_chair55_forward_g"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "boat[3,3]键变化/立体产物/电子机制",
+      "rule_id": "r_boat33_mechanism",
+      "conclusion_id": "boat33_mechanism",
+      "independence": "[3,3]连接和电子机制可独立于[5,5]机制及相对排序。",
+      "source_locator": "正文p4 Fig5；SIp2 FigS1及p6方法；原生路径/固定几何电子稳定性/热处理记录",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat33_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat55_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/source_four_path_analysis/a01/results/analysis_summary.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/strict_endpoint_identity_readback_parserfix/a01/results/cope_endpoint_identity.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/data/geometry_reference_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat33_source_fixed_stability_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat55_source_fixed_stability_review_20260930.json"
+      ],
+      "existing_support": "四正向G=23.505892/26.227908/38.209383/36.931566 kcal/mol；五热处理下boat间差2.65159–2.884。boat33/55连接与闭壳层主导支持；chair端点身份不同，反向须分开参照。",
+      "limits": [
+        "这是45篇中的四boat/chair版本，未覆盖为expert14的两路线任务。历史冻结范围严格接受保持；有限静态与固定几何电子稳定性不证明所有自旋/动态分支。",
+        "chair55实际局部产物E3Z1而来源global3c为E2Z2，局部反向35.471401与TS−源global45.106927 kcal/mol不同；chair33局部16.325500与source-global3d45.059106不同，不能混称真实反向连接。",
+        "源热化学温度/低频截断未完全披露；验证298.15K/1atm/scale1/Grimme100条件保留，不按精确势垒匹配评分。"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "verified_boat33_closed_shell",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "previous_rule_ids": [
+        "r_boat33_mechanism"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "boat[5,5]键变化/立体产物/电子机制",
+      "rule_id": "r_boat55_mechanism",
+      "conclusion_id": "boat55_mechanism",
+      "independence": "[5,5]是另一成键/立体命题，不由[3,3]外推。",
+      "source_locator": "正文p4 Fig5；SIp2 FigS1及p6方法；原生路径/固定几何电子稳定性/热处理记录",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat33_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat55_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/source_four_path_analysis/a01/results/analysis_summary.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/strict_endpoint_identity_readback_parserfix/a01/results/cope_endpoint_identity.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/data/geometry_reference_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat33_source_fixed_stability_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat55_source_fixed_stability_review_20260930.json"
+      ],
+      "existing_support": "四正向G=23.505892/26.227908/38.209383/36.931566 kcal/mol；五热处理下boat间差2.65159–2.884。boat33/55连接与闭壳层主导支持；chair端点身份不同，反向须分开参照。",
+      "limits": [
+        "这是45篇中的四boat/chair版本，未覆盖为expert14的两路线任务。历史冻结范围严格接受保持；有限静态与固定几何电子稳定性不证明所有自旋/动态分支。",
+        "chair55实际局部产物E3Z1而来源global3c为E2Z2，局部反向35.471401与TS−源global45.106927 kcal/mol不同；chair33局部16.325500与source-global3d45.059106不同，不能混称真实反向连接。",
+        "源热化学温度/低频截断未完全披露；验证298.15K/1atm/scale1/Grimme100条件保留，不按精确势垒匹配评分。"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "verified_boat55_closed_shell",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "previous_rule_ids": [
+        "r_boat55_mechanism"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "boat/chair几何组织如何解释差异",
+      "rule_id": "r_geometric_organization",
+      "conclusion_id": "geometric_organization",
+      "independence": "结构物理原因不同于已算的排序，须定量几何支持。",
+      "source_locator": "正文p4 Fig5；SIp2 FigS1及p6方法；原生路径/固定几何电子稳定性/热处理记录",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat33_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat55_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/source_four_path_analysis/a01/results/analysis_summary.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/strict_endpoint_identity_readback_parserfix/a01/results/cope_endpoint_identity.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/data/geometry_reference_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat33_source_fixed_stability_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat55_source_fixed_stability_review_20260930.json"
+      ],
+      "existing_support": "四正向G=23.505892/26.227908/38.209383/36.931566 kcal/mol；五热处理下boat间差2.65159–2.884。boat33/55连接与闭壳层主导支持；chair端点身份不同，反向须分开参照。",
+      "limits": [
+        "这是45篇中的四boat/chair版本，未覆盖为expert14的两路线任务。历史冻结范围严格接受保持；有限静态与固定几何电子稳定性不证明所有自旋/动态分支。",
+        "chair55实际局部产物E3Z1而来源global3c为E2Z2，局部反向35.471401与TS−源global45.106927 kcal/mol不同；chair33局部16.325500与source-global3d45.059106不同，不能混称真实反向连接。",
+        "源热化学温度/低频截断未完全披露；验证298.15K/1atm/scale1/Grimme100条件保留，不按精确势垒匹配评分。"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "previous_rule_ids": [
+        "r_geometric_organization"
+      ],
+      "no_new_computation": true
+    },
+    {
+      "scientific_requirement": "真实端点与参照支持哪些反向推断",
+      "rule_id": "r_forward_reverse_scope",
+      "conclusion_id": "forward_reverse_scope",
+      "independence": "反向连接/参考定义问题不同于正向偏好或boat电子机制。",
+      "source_locator": "正文p4 Fig5；SIp2 FigS1及p6方法；原生路径/固定几何电子稳定性/热处理记录",
+      "native_artifacts": [
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat33_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/boat55_source_fixed_stability/a01/gaussian.log",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/source_four_path_analysis/a01/results/analysis_summary.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/outputs/strict_endpoint_identity_readback_parserfix/a01/results/cope_endpoint_identity.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/data/geometry_reference_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat33_source_fixed_stability_review_20260930.json",
+        "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/v2_execution_20260929/boat55_source_fixed_stability_review_20260930.json"
+      ],
+      "existing_support": "四正向G=23.505892/26.227908/38.209383/36.931566 kcal/mol；五热处理下boat间差2.65159–2.884。boat33/55连接与闭壳层主导支持；chair端点身份不同，反向须分开参照。",
+      "limits": [
+        "这是45篇中的四boat/chair版本，未覆盖为expert14的两路线任务。历史冻结范围严格接受保持；有限静态与固定几何电子稳定性不证明所有自旋/动态分支。",
+        "chair55实际局部产物E3Z1而来源global3c为E2Z2，局部反向35.471401与TS−源global45.106927 kcal/mol不同；chair33局部16.325500与source-global3d45.059106不同，不能混称真实反向连接。",
+        "源热化学温度/低频截断未完全披露；验证298.15K/1atm/scale1/Grimme100条件保留，不按精确势垒匹配评分。"
+      ],
+      "evidence_ids": [
+        "main_p3_4",
+        "supplementary_001_p2_6_11_12",
+        "second_native_1",
+        "second_native_2",
+        "second_native_3",
+        "second_native_4",
+        "second_native_5"
+      ],
+      "previous_rule_ids": [
+        "r_forward_reverse_scope"
+      ],
+      "no_new_computation": true
+    }
+  ],
+  "objective_issue_flags": [
+    {
+      "issue": "这是45篇中的四boat/chair版本，未覆盖为expert14的两路线任务。历史冻结范围严格接受保持；有限静态与固定几何电子稳定性不证明所有自旋/动态分支。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "chair55实际局部产物E3Z1而来源global3c为E2Z2，局部反向35.471401与TS−源global45.106927 kcal/mol不同；chair33局部16.325500与source-global3d45.059106不同，不能混称真实反向连接。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    },
+    {
+      "issue": "源热化学温度/低频截断未完全披露；验证298.15K/1atm/scale1/Grimme100条件保留，不按精确势垒匹配评分。",
+      "status": "retained_reference_or_evidence_limitation_not_a_scoring_gate"
+    }
+  ]
+}

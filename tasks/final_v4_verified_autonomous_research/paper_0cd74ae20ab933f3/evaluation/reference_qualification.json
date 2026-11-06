@@ -1,0 +1,72 @@
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "独立优化J为−332.127051/−339.665675/−342.919948 cm−1；两差−7.538624/−3.254273，条件半宽0.791650/0.790975。H NTO为61.509881/38.290914%。",
+  "accepted_limitations": "Me/OMe缺对应几何完整Hessian；条件求根残差不是总泛函/几何误差。来源full-SF与新SF-TDA不能混写，材料拟合排序不能替代分子结果。",
+  "objective_issue_flags": [
+    "Me/OMe缺对应几何完整Hessian；条件求根残差不是总泛函/几何误差。来源full-SF与新SF-TDA不能混写，材料拟合排序不能替代分子结果。"
+  ],
+  "current_rules": [
+    "r_coupled_ground_state",
+    "r_me_h_effect",
+    "r_ome_me_effect",
+    "r_family_answer"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_0cd74ae20ab933f3",
+    "scoring_policy": "paper_science_v3",
+    "mode": "final_results_100",
+    "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+    "reason": "保留三成员分子交换科学范围，最终6条/100分：三个J、两个独立差分及一个电子解释；取消重叠电子态单独计分和原题未明确要求的人口评分。",
+    "accepted_limitations": "Me/OMe 没有对应几何的完整 Hessian；条件求根残差不代表总泛函/几何误差；材料拟合Me/OMe顺序不可替代分子顺序。历史严格通过限旧冻结范围，本轮不重验。",
+    "new_computations_performed": false,
+    "reference_evidence_reuse": "r_j_h/r_j_me/r_j_ome：源几何 J=-334.370777/-341.412046/-344.582322 cm^-1，独立优化 J=-332.127051/-339.665675/-342.919948，均在原 ±10 窗内。r_me_h_effect/r_ome_me_effect：独立优化差为 -7.538624/-3.254273，条件半宽0.791650/0.790975。r_family_answer：H NTO 61.509881/38.290914% 与三成员 SF 态/几何比较支持耦合电子态解释；唯一因果分解未证明。旧 thermal_implication 为正文有依据但原公开题面未要求的隐藏输出，现仅保留非评分背景，不据此扩题。",
+    "historical_qualification": {
+      "paper_id": "paper_0cd74ae20ab933f3",
+      "scoring_policy": "paper_science_v2",
+      "status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+      "reason": "Pure-science migration authorized 2026-10-19; existing independent strict acceptance is preserved, not revalidated or upgraded. New scoring criteria are auditable provisional benchmark policy, not publication certification.",
+      "accepted_limitations": "Strict V2 molecular scope only. Me/OMe optimized geometries lack full Hessian certification. Conditional Ritz bounds are not total method uncertainty. Geometry and electronic substituent effects remain coupled; no unique causal decomposition or molecular-to-material optical prediction is established. Experimental Me/OMe nominal ordering differs and must not replace the computed molecular ordering.",
+      "tolerance_basis": "Provisional absolute-J tolerance ±10 cm^-1 is a common method-scale window anchored to the author controls, not residual fitting: SI PDF35 gives H gaps 335 (B3LYP SF-TDA), 344 (full-SF), 343 (larger Cu basis), and PDF36 gives 340 cm^-1 for CASSCF geometry. Integer printing contributes at most 0.5 cm^-1. The 5–9 cm^-1 source control changes motivate the rounded 10 cm^-1 magnitude class, conditional on correct physical singlet/triplet states. It is neither a universal functional error bar nor a test of 3–10 cm^-1 substituent contrasts. All three differential signs have separate leaves requiring adequate resolution. No exact NTO-weight or thermal-population threshold is introduced. Round3: unchanged ±10 cm^-1 is a source-comparison window, not universal method accuracy: source SI35 gives H magnitudes335/316/308/609 for different functionals. The two adjacent differential leaves remain independent of these windows and must resolve their signs. OMe−H is derivable from adjacent differences and no longer has separate points.",
+      "authority": [
+        "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "evaluation/verified_computation_reference.md"
+      ],
+      "coordinator_review": {
+        "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+        "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+        "review_key": "v2_paper_0cd74ae20ab933f3",
+        "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+        "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+        "publication_readiness_unchanged": true
+      },
+      "repair_round3": {
+        "date": "2026-10-19",
+        "status": "WORKER_REPAIRED_PENDING_INDEPENDENT_COORDINATOR_REVIEW",
+        "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_01/REPORT.md",
+        "notes": [
+          "Removed transitive OMe−H difference leaf10; retained two independent adjacent effects14/14. Intermediate/final remains70/30.",
+          "Source spin-flip representation no longer excludes physically valid correlated-state evidence. Final family inference must add electronic interpretation beyond rank recital."
+        ],
+        "historical_acceptance_unchanged": true,
+        "new_chemistry_validation": false,
+        "online_judge_calibration": false
+      }
+    }
+  }
+}

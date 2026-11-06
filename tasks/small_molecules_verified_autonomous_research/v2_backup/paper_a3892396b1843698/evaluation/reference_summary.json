@@ -1,0 +1,23 @@
+{
+  "case_id": "case_01",
+  "source_locator": "Main text p4 Fig.5, p14; SI p6",
+  "numeric_rules": [
+    {
+      "rule_id": "r_barrier_33",
+      "target": 23.5,
+      "tolerance": 3.0,
+      "unit": "kcal/mol",
+      "definition": "Recover the chemically assigned [3,3] channel Gibbs barrier relative to validated 3a at 298.15 K in the isolated-molecule boundary. Require a stationary saddle with exactly one relevant imaginary mode and displacement/connectivity validation; no source-coordinate copying or arbitrary candidate label."
+    },
+    {
+      "rule_id": "r_barrier_55",
+      "target": 26.2,
+      "tolerance": 3.0,
+      "unit": "kcal/mol",
+      "definition": "Recover the chemically assigned [5,5] channel Gibbs barrier relative to the same 3a reference at 298.15 K, with a valid first-order saddle and channel-specific displacement/connectivity evidence. Do not substitute barriers for other polycyclic substrates in this paper."
+    }
+  ],
+  "notes": [],
+  "whole_case_success": "all required scientific items pass after evidence qualification",
+  "is_new_quantum_validation": false
+}

@@ -1,0 +1,19 @@
+# Private author route and scope
+
+The approved scope begins at isolated neutral 2a and recovers the authors' activation comparison plus the local C4/C5 rearrangement findings. Public inputs contain experimental identities and a subset of Scheme4 (no catalyst, A, B); they do not contain substrate energy answers, author optimized structures or a prescribed active state.
+
+| Author computation | Model and method | Physical result/source |
+|---|---|---|
+| Redox comparison | Complete 65-atom 2a: neutral0/1, cation+1/2, anion−1/2. (U)B3LYP/6-31+G(d,p), CPCM(MeCN), minima/frequencies | SI S67–72 §9.1; Eox +1.10 and Ered −2.69 V vs SCE, Eref=4.422 V, F=23.061 kcal mol−1 V−1. E=(Goxidized−Greduced)/F−Eref. §9.1 does not separately state thermal temperature; preserve native settings and source assumptions. |
+| Triplet comparison | Neutral singlet/triplet 2a. M06-2X/def2-SVP optimization/frequency, then ωB97XD/aug-cc-pVTZ CPCM(CH2Cl2) single points | SI S76–80 §9.2; source values73.9(main) versus74.1(SI) kcal/mol conflict. Exact assembly/definition unresolved, no hard numeric target; the conclusion of insufficient PC triplet energy is robust to both reported values. |
+| Rearrangements | 65-atom +1 doublet nodes; (U)B3LYP/6-31G(d) geometry/frequency, ωB97XD/def2-TZVPP SMD(CH2Cl2) single point; low-level thermal corrections298K/1atm | SI S80–102 §9.3; authors report IRC validation. TS1−[2a]•+=+1.9; Int1−[2a]•+=−8.0; TS2−Int1=4.6; TS2 relative to initial=−3.4 kcal/mol. |
+| C5 competition | Same method/state/reference as C4 route | SchemeS7: TS-A+6.3, Int-A+1.0, TS-B+5.3, Int-B−40.7 relative to [2a]•+. Compare genuine connected paths, not disconnected scalars. |
+| Product identity | Int2 +1/2 and neutral3a0/1, full atom inventory | Scheme8B/S6; source Int2−37.4. Neutralization is an atom/electron account supported by endpoint identity, not an absolute cross-charge reaction free energy. |
+
+The author's mechanistic interpretation is substrate oxidation, C5–C6 rearrangement to prefulvene-like Int1 followed by C3–C4 cleavage to C4-connected Int2. Aryl stabilization of radical character supports the C4 preference. These interpretations and optional orbital/bond-length analyses do not add separate scientific points.
+
+PC B is [Ir{dF(CF3)ppy}2(dtbbpy)]+ PF6−. Its stoichiometric electron cycle uses PC(+1)* / PC(0) / PC(+1), not the generic PC/[PC]− charge labels in the diagram. The author did not compute explicit catalyst–substrate SET or back-electron-transfer TSs, rates or a full catalyst cycle; none are required or scored. The raw plotted −170.8/−168.3 neutral endpoints are not balanced SET free energies for this contract. Preparation of 2a from1a, isotope experiments of that overall sequence and unknown side pathways are outside the required calculation scope.
+
+Catalyst redox metadata for A/B were independently checked against TCI official reagent documentation (see evidence_map). Voltages refer to SCE in MeCN; reaction conditions are DCM. This supplements input metadata only and creates no new scientific result target. Catalyst triplet values are reported reagent context with unspecified measurement medium. The exact substrate triplet number remains source-blocked for numeric scoring.
+
+Latest pre-upgrade verification (2026-10-12T12:38:14Z) has completed neutral3a low/high pairs and finite TS1 basin recovery. TS1 remains negative, −1.219030 kcal/mol relative to its matched new starting basin (historical−0.877785 retained separately), not the source+1.9. TS2 and alternative entrance have genuine IRC joins but incomplete conformer/profile qualification. Reuse these outputs; do not rerun completed jobs or modify reference values/tolerances. See evaluation/qualification.json and validation_plan.json. Scope implementation is not scientific PASS or release certification.

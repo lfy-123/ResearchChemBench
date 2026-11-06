@@ -1,0 +1,129 @@
+{
+  "paper_id": "paper_0bea8aa6bfd57e65",
+  "rules": [
+    {
+      "rule_id": "ar_rule_minima",
+      "reference_id": "ar_process_minima",
+      "type": "semantic",
+      "expected": "All three named systems retain candidate-specific minimum validation and deduplication evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[].candidates[].validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_definition",
+      "reference_id": "ar_process_energy_definition",
+      "type": "semantic",
+      "expected": "A consistent BSSE/counterpoise interaction-energy definition and electronic-state protocol is stated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.protocol.counterpoise_definition",
+          "$.protocol.charge_multiplicity"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_im",
+      "reference_id": "ar_energy_im",
+      "type": "numeric",
+      "target": -65.1,
+      "unit": "kJ/mol",
+      "tolerance": 15.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[].energy_kj_mol"
+        ],
+        "comparison": "absolute difference after selecting id Tau-Im-2"
+      }
+    },
+    {
+      "rule_id": "ar_rule_gly",
+      "reference_id": "ar_energy_gly",
+      "type": "numeric",
+      "target": -91.4,
+      "unit": "kJ/mol",
+      "tolerance": 15.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[].energy_kj_mol"
+        ],
+        "comparison": "absolute difference after selecting id Tau-Gly-2"
+      }
+    },
+    {
+      "rule_id": "ar_rule_mea",
+      "reference_id": "ar_energy_mea",
+      "type": "numeric",
+      "target": -116.1,
+      "unit": "kJ/mol",
+      "tolerance": 15.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[].energy_kj_mol"
+        ],
+        "comparison": "absolute difference after selecting id Tau-MEA-2"
+      }
+    },
+    {
+      "rule_id": "ar_rule_order",
+      "reference_id": "ar_order",
+      "type": "ordering",
+      "expected": "Tau-MEA-2 stronger than Tau-Gly-2 stronger than Tau-Im-2 under the submitted sign convention.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.ordering"
+        ],
+        "comparison": "ordered semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_final_claim",
+      "reference_id": "ar_final_energy_claim",
+      "type": "semantic",
+      "expected": "The final conclusion states the source-supported ordering with explicit scope and limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.interpretation",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_hypothesis",
+      "reference_id": "ar_hypothesis_test",
+      "type": "semantic",
+      "expected": "The report compares at least one plausible explanation, such as hydrogen-bond organization versus dispersion or conformational effects, and binds the explanation to concrete submitted comparative calculations or structural evidence.",
+      "binding": {
+        "artifact_paths": ["report/results.json"],
+        "fields": ["$.conclusion.hypothesis_test"],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

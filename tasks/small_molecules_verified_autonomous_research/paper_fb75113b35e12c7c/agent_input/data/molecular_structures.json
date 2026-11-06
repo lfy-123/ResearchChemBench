@@ -1,0 +1,145 @@
+{
+  "schema_version": "mapped-public-structures-1",
+  "molecules": [
+    {
+      "id": "PI1",
+      "mapped_smiles": "[C:1](/[CH:2]=[C:3](/[CH:4]=[CH:5]/[C:6](=[O:13])[O:14][CH3:15])[C:20]1=[CH:21][CH2:22][CH2:23][C:24]1=[O:25])([O:11][CH3:10])=[O:12]",
+      "formula": "C13H14O5",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "starting cyclic-enone dendralene",
+      "structure_file": "data/PI1.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry",
+      "configured_double_bonds": [
+        {
+          "atom_maps": [
+            2,
+            3
+          ],
+          "configuration": "Z"
+        },
+        {
+          "atom_maps": [
+            4,
+            5
+          ],
+          "configuration": "E"
+        }
+      ],
+      "site_labels": {
+        "alpha": 5,
+        "beta": 4,
+        "gamma": 3,
+        "delta": 2,
+        "alpha_prime": 20,
+        "beta_prime": 21
+      },
+      "candidate_initial_addition_sites": [
+        {
+          "label": "alpha",
+          "atom_map": 5
+        },
+        {
+          "label": "delta",
+          "atom_map": 2
+        },
+        {
+          "label": "beta_prime",
+          "atom_map": 21
+        }
+      ],
+      "candidate_enolate_ring_closure_sites": [
+        {
+          "label": "alpha",
+          "atom_map": 5
+        },
+        {
+          "label": "gamma",
+          "atom_map": 3
+        }
+      ],
+      "candidate_note": "Sites are unranked candidate carbon atoms, not ready-made intermediates or a preferred mechanism. Other chemically justified alternatives may be investigated."
+    },
+    {
+      "id": "PI2",
+      "mapped_smiles": "[C:1](/[CH:2]=[C:3](/[CH:4]=[CH:5]/[C:6](=[O:13])[O:14][CH3:15])[C:20]1=[CH:21][CH2:22][CH2:23][CH2:24][C:25]1=[O:26])([O:11][CH3:10])=[O:12]",
+      "formula": "C14H16O5",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "starting cyclic-enone dendralene",
+      "structure_file": "data/PI2.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry",
+      "configured_double_bonds": [
+        {
+          "atom_maps": [
+            2,
+            3
+          ],
+          "configuration": "Z"
+        },
+        {
+          "atom_maps": [
+            4,
+            5
+          ],
+          "configuration": "E"
+        }
+      ],
+      "site_labels": {
+        "alpha": 5,
+        "beta": 4,
+        "gamma": 3,
+        "delta": 2,
+        "alpha_prime": 20,
+        "beta_prime": 21
+      },
+      "candidate_initial_addition_sites": [
+        {
+          "label": "alpha",
+          "atom_map": 5
+        },
+        {
+          "label": "delta",
+          "atom_map": 2
+        },
+        {
+          "label": "beta_prime",
+          "atom_map": 21
+        }
+      ],
+      "candidate_enolate_ring_closure_sites": [
+        {
+          "label": "alpha",
+          "atom_map": 5
+        },
+        {
+          "label": "gamma",
+          "atom_map": 3
+        }
+      ],
+      "candidate_note": "Sites are unranked candidate carbon atoms, not ready-made intermediates or a preferred mechanism. Other chemically justified alternatives may be investigated."
+    },
+    {
+      "id": "methanethiolate",
+      "mapped_smiles": "[CH3:40][S-:41]",
+      "formula": "CH3S-",
+      "charge": -1,
+      "multiplicity": 1,
+      "role": "nucleophile",
+      "structure_file": "data/methanethiolate.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry"
+    },
+    {
+      "id": "methanethiol",
+      "mapped_smiles": "[CH3:40][SH:41]",
+      "formula": "CH4S",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "neutral thiol/proton-reservoir identity",
+      "structure_file": "data/methanethiol.sdf",
+      "geometry_status": "2D depiction only; not an optimized geometry"
+    }
+  ],
+  "mapping_namespace": "PI1 and PI2 have analogous local labels; map IDs do not imply that distinct molecules are one species.",
+  "model_scope": "PI1/PI2 only; initial addition, subsequent cyclization, PI1 second addition and quantitative robustness. No measured product distribution is supplied."
+}

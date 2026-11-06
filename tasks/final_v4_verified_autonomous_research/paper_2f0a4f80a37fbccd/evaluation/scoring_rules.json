@@ -1,0 +1,267 @@
+{
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Score only independent final scientific conclusions, with fixed pass/fail weights totaling 100. Actual linked calculations or reproducible data analysis must support each claim with correct chemical identity, physical definition, conditions and reference. Numbers, structures, modes and state assignments are evidence, not author-value acceptance windows or separate process scores. A supplied observation, guessed answer, software execution or copied source value alone earns no credit. A fully supported equivalent explanation or an explicitly permitted evidence-based model-sensitive conclusion passes directly; missing or insufficient evidence and unsupported contradictions fail the affected item. There is no need_review state. One failed item does not erase independent supported points. Whole-case success is assessed separately from the numerical score. AR chooses a justified method; PR assesses the disclosed baseline or substantiates a physically comparable substitution and its consequences. Historical reference defects remain recorded and do not automatically confer success.",
+  "rules": [
+    {
+      "rule_id": "r_coordination_geometry",
+      "reference_id": "coordination_geometry",
+      "type": "semantic",
+      "expected": "A relaxed full neutral singlet IrCl2(NO3)(PPh3)2 model supports bidentate nitrate with two Ir–O contacts, an acute O–Ir–O bite and a remote third O in a pseudo-octahedral environment with approximately trans chlorides. Give actual mapped distances/angles. This is a modeled structure, not proof that IR uniquely identifies a global minimum. A demonstrated physically equivalent description passes.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_nitrate_bonding_vibrations",
+      "reference_id": "nitrate_bonding_vibrations",
+      "type": "semantic",
+      "expected": "Explain the nitrate stretching pattern from actual intranitrate bond lengths and mode displacement/force-coordinate evidence: two longer coordinated N–O bonds support lower in-phase and middle out-of-phase stretching, while the shorter terminal N–O dominates the higher, strongly IR-active stretch. Give calculated frequencies in cm^-1, intensities with units and any fixed scaling convention. The final bond–vibration relationship is scored; no fixed mode IDs, displacement-fraction thresholds, exact printed frequencies or prescribed analysis method is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_observation_1261",
+      "reference_id": "observation_1261",
+      "type": "semantic",
+      "expected": "For the supplied 1261 cm^-1 KBr feature, actual molecular mode character supports ligand/PPh3 contributions in the relevant nearby calculated modes, rather than an automatic nitrate-stretch assignment. Report the comparison in cm^-1 and qualify what it establishes for the experiment. A nearest-frequency match alone does not identify an experimental mode.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_observation_1223",
+      "reference_id": "observation_1223",
+      "type": "semantic",
+      "expected": "For the supplied 1223 cm^-1 KBr feature, actual molecular mode character supports ligand/PPh3 contributions in the relevant nearby calculated modes, rather than an automatic nitrate-stretch assignment. Report the comparison in cm^-1 and qualify what it establishes for the experiment. A nearest-frequency match alone does not identify an experimental mode.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_observation_802",
+      "reference_id": "observation_802",
+      "type": "semantic",
+      "expected": "For the supplied 802 cm^-1 KBr feature, actual molecular mode character supports ligand/PPh3 contributions in the relevant nearby calculated modes, rather than an automatic nitrate-stretch assignment. Report the comparison in cm^-1 and qualify what it establishes for the experiment. A nearest-frequency match alone does not identify an experimental mode.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_high_band_comparison",
+      "reference_id": "high_band_comparison",
+      "type": "semantic",
+      "expected": "Actual computed frequencies, IR activity and displacement evidence relate the high nitrate stretch to the 1532/1561 cm^-1 region while distinguishing nearby ligand modes. Preserve the differing experimental accounts and report residuals to both stated observations without silently choosing one or fitting a per-band correction. The reference raw high nitrate mode is 1511.2095 cm^-1, not a new target or exact reproduction claim.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    },
+    {
+      "rule_id": "r_molecular_scope",
+      "reference_id": "molecular_scope",
+      "type": "semantic",
+      "expected": "Use the demonstrated band/mode comparisons to conclude that the isolated molecular model gives selective structural/spectral support but does not uniquely assign all supplied KBr bands or establish the solid-state population. Identify a concrete unresolved assignment/environment or scaling ambiguity affecting that inference. Merely repeating generic uncertainty earns no credit; the experimental bands themselves are not predictions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.quantities",
+          "$.claims",
+          "$.calculation_records",
+          "$.artifacts",
+          "$.conclusion"
+        ],
+        "comparison": "Inspect actual linked evidence for this final scientific proposition. Apply the explicit supported-equivalence and model-sensitivity boundaries. Pass earns this item only; failure affects this item only. No author-value window or need_review outcome applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "coordination_geometry",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "Molecular nitrate coordination and ligand arrangement",
+      "rule_ids": [
+        "r_coordination_geometry"
+      ],
+      "evidence_ids": [
+        "source_structure_spectrum",
+        "native_structure_modes"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "nitrate_bonding_vibrations",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Physical origin of the differentiated nitrate stretching pattern",
+      "rule_ids": [
+        "r_nitrate_bonding_vibrations"
+      ],
+      "evidence_ids": [
+        "source_structure_spectrum",
+        "native_structure_modes"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "observation_1261",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Physical interpretation of the 1261 cm^-1 neighborhood",
+      "rule_ids": [
+        "r_observation_1261"
+      ],
+      "evidence_ids": [
+        "source_structure_spectrum",
+        "native_structure_modes",
+        "native_observation_comparison"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "observation_1223",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Physical interpretation of the 1223 cm^-1 neighborhood",
+      "rule_ids": [
+        "r_observation_1223"
+      ],
+      "evidence_ids": [
+        "source_structure_spectrum",
+        "native_structure_modes",
+        "native_observation_comparison"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "observation_802",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "Physical interpretation of the 802 cm^-1 neighborhood",
+      "rule_ids": [
+        "r_observation_802"
+      ],
+      "evidence_ids": [
+        "source_structure_spectrum",
+        "native_structure_modes",
+        "native_observation_comparison"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "high_band_comparison",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "Interpretation of the 1532/1561 cm^-1 observations",
+      "rule_ids": [
+        "r_high_band_comparison"
+      ],
+      "evidence_ids": [
+        "source_structure_spectrum",
+        "native_structure_modes",
+        "native_observation_comparison"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "molecular_scope",
+      "kind": "conclusion",
+      "max_score": 10,
+      "description": "What molecular IR can establish about the KBr observations",
+      "rule_ids": [
+        "r_molecular_scope"
+      ],
+      "evidence_ids": [
+        "source_structure_spectrum",
+        "native_structure_modes",
+        "native_observation_comparison"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

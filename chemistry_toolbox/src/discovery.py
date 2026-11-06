@@ -426,6 +426,7 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
             "type": "ConformerEnsemble | ArtifactRef | workspace-relative conformer file",
             "accepted_forms": [
                 "typed ConformerEnsemble ArtifactRef, compact artifact_id object, or exact artifact-id string",
+                "non-empty list of conformer records in input order",
                 "structured mapping containing a non-empty ensemble or conformers list",
                 "workspace-relative .sdf, .mol, or multi-frame .xyz file",
             ],

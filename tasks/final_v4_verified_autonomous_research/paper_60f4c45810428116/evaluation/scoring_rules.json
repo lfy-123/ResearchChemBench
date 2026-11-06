@@ -1,0 +1,150 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_generation_loss_account",
+      "reference_id": "generation_loss_account",
+      "type": "semantic",
+      "expected": "An executed quantitative observation-model analysis connects the measured temperature/residence-time response to competing availability/generation and loss of capturable species: longer cold residence can increase recoverable product, whereas prolonged warm residence can reduce it with byproduct formation. Explain this relationship using both regimes and the post-MeOH/NH4Cl GC measurement, with correct flow dilution and residence-time conventions. This is a bounded kinetic interpretation, not proof of a unique microscopic network or a direct measurement of intermediate concentration. Observations and supplied maxima alone earn no points. Physically supported equivalent kinetic explanations pass; no fixed five-pool model, RBF implementation or elementary pathway is mandatory for this conclusion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_conditional_kinetic_information",
+      "reference_id": "conditional_kinetic_information",
+      "type": "semantic",
+      "expected": "Derive and interpret a quantitative effective rate, bound or identifiable parameter combination from the supplied 1a observations under explicit physical assumptions. The inference must go beyond a contour plot or repeated yields, state its unit and applicable temperature/time/geometry interval, and distinguish effective net behavior from elementary rates. Same-diameter -20 C log-yield contrasts 0.413262 and 0.152054 s^-1 are eligible reference examples, not mandatory targets. A supported alternative same-scope inference passes. Invented detection limits, confidence precision, a fitted rate presented as uniquely elementary, or no executed analysis fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_microscopic_nonuniqueness",
+      "reference_id": "microscopic_nonuniqueness",
+      "type": "semantic",
+      "expected": "Establish which microscopic formation/loss/capture parameters are not uniquely identified by the available post-quench observations, using a mathematical counterexample, identifiability analysis or equivalent decisive evidence with a stated observation operator. For example, a product-only ambiguity under uncalibrated capture is a valid bounded result, but it must not be called proof that the complete precursor/byproduct dataset under every possible model is nonidentifiable. Address how the other supplied channels would constrain the example if their mapping were known. A failed fit, generic uncertainty or an assertion of nonuniqueness without evidence fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    },
+    {
+      "rule_id": "r_continuous_optimum_limit",
+      "reference_id": "continuous_optimum_limit",
+      "type": "semantic",
+      "expected": "Establish the distinction between the observed sampled productive region and a uniquely determined continuous time/temperature optimum. Use actual sensitivity analysis or an equivalent mathematical argument to demonstrate how finite/categorical/missing observations and unspecified interpolation affect the inferred optimum. Preserve clogged points as missing and trace/n.d./dash without invented numerical thresholds. Different empirical surfaces may be supported without defining an experimental optimum; an interpolated maximum copied as an observed optimum or a generic caution without analysis fails.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "generation_loss_account",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Physical explanation of the time–temperature yield response",
+      "rule_ids": [
+        "r_generation_loss_account"
+      ],
+      "evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "conditional_kinetic_information",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "Quantitative kinetic information under explicit assumptions",
+      "rule_ids": [
+        "r_conditional_kinetic_information"
+      ],
+      "evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "microscopic_nonuniqueness",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "Limits on identifying elementary kinetics from the measurement",
+      "rule_ids": [
+        "r_microscopic_nonuniqueness"
+      ],
+      "evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "continuous_optimum_limit",
+      "kind": "conclusion",
+      "max_score": 15,
+      "description": "What the finite grid establishes about a continuous optimum",
+      "rule_ids": [
+        "r_continuous_optimum_limit"
+      ],
+      "evidence_ids": [
+        "source_1_main",
+        "source_2_supplementary_001",
+        "native_rbf",
+        "native_conditional_rates"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}

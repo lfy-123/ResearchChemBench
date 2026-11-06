@@ -6,6 +6,8 @@
 # --resume PAPER_ID discovers the latest saved run; no saved run starts a new one.
 # --resume --dry-run PAPER_ID previews the saved run without starting it.
 # Test settings and credentials: config.local.env (gitignored), RCB_CODEX_*.
+# RCB_CODEX_REASONING_EFFORT=default omits the Codex effort override.
+# JUDGE_REASONING_EFFORT sets scoring effort independently (default: agent effort, or high).
 # Codex configuration: https://developers.openai.com/codex/config-reference/
 set -euo pipefail
 

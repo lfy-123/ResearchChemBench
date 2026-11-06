@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_6d19b537a0030e5a",
+  "task_type": "autonomous_research",
+  "title": "Acylsilane hydrogenation and enantiomer discrimination by the specified iron catalyst",
+  "category": "homogeneous organic reaction chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires independent molecular calculations and evidence for the bounded comparisons in task.md.",
+    "Correct molecular mapping, electronic states, balanced references and interpretation of computed quantities are required."
+  ],
+  "paper": {
+    "title": "Rationally designed Fe-cyclopentadienone with unique orientations for efficient asymmetric hydrogenation of acylsilanes",
+    "doi": "10.1038/s41467-025-67933-9",
+    "journal": "Nature Communications",
+    "publication_date": "2026-01-30"
+  },
+  "data": [
+    {
+      "path": "data/inputs/system.json",
+      "description": "Neutral graph-explicit molecular identities, catalyst-specific conditions/observations and the connected scientific question."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured research status, hypotheses, investigations, evidence, conclusions, limitations and reproducibility records following the unchanged shared schema."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable integrated scientific report with evidence-based judgments, comparison boundaries, uncertainty and actual resource use; disclosed-baseline fidelity/ambiguities/substitutions when guidance is supplied."
+    },
+    {
+      "path": "research/",
+      "description": "Actual research inputs, outputs, execution/error logs and analysis code linked by the structured artifact index."
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+{
+  "paper_id": "paper_86a0b654270a8ce7",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_86a0b654270a8ce7",
+      "scoring_policy": "paper_science_v3",
+      "evaluation_mode": "final_results_100",
+      "scientific_requirements": "Score only independent final scientific propositions, totaling 100 points. Each required conclusion earns its full weight or zero; need_review is unresolved and does not count as passing. Numeric windows are fixed, inclusive, and binary. Missing calculations, unsupported guesses, wrong identity/state/reference/unit and an out-of-window value fail the affected rule. Evidence-established physically equivalent explanations pass directly. Only the specific unresolved scientific conflicts listed by a reviewable item permit need_review. Native inputs/outputs, geometry, convergence, curvature, state mapping and connectivity substantiate the relevant conclusion; they earn no separate points and do not prescribe an author's sequence, a software package or a global validation checklist. Evidence requirements are proportional to the actual physical claim. A failure affects dependent conclusions only. AR selects its methods; PR must compute the disclosed baseline or substantiate the physical applicability of a justified substitute. Copying disclosed values is not reproduction. No credit is assigned to process, report completeness, number of calculations, research logs or supplied observations alone.",
+      "rules": [
+        {
+          "rule_id": "r_relative_gibbs",
+          "reference_id": "relative_gibbs",
+          "type": "numeric",
+          "expected": "Calculate G(isomer2)-G(isomer1) for matched complete neutral-singlet minima in THF at339K. Author rounded target -2.84kJ/mol, inclusive tolerance0.50kJ/mol. Use Gibbs rather than electronic energy and graph-mapped isomer identities; equal molecularity means transparent common standard-state conversion cancels. Physical comparison: Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Evaluate this final proposition from the submitted numerical results and linked genuine native calculation/analysis artifacts, checking the physical object, state, units, environment and reference. Apply the fixed numeric window or the explicit semantic criterion without process points."
+          },
+          "target": -2.84,
+          "tolerance": 0.5,
+          "unit": "kJ/mol"
+        },
+        {
+          "rule_id": "r_relative_stability_synthesis",
+          "reference_id": "relative_stability_synthesis",
+          "type": "semantic",
+          "expected": "The final molecular account explains the small model-level preference for isomer2 using actual graph-mapped structures and energetic evidence, with the NHC-phenyl/salen-naphthyl close-contact contrast as a compatible structural explanation. It identifies a concrete co-varying contribution or demonstrated model/thermal sensitivity that prevents assigning the full Gibbs difference uniquely to stacking. A physically established equivalent stabilization account is acceptable; no named contact intervention or unique energy decomposition is required. A contact picture, repeated energy ordering, or generic limitations alone fail. Preserve the distinction between source-model preference and robustness across alternative conformers or Hamiltonians; crystal distances are not solution targets.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Evaluate this final proposition from the submitted numerical results and linked genuine native calculation/analysis artifacts, checking the physical object, state, units, environment and reference. Apply the fixed numeric window or the explicit semantic criterion without process points."
+          }
+        },
+        {
+          "rule_id": "r_population_yield_limit",
+          "reference_id": "population_yield_limit",
+          "type": "semantic",
+          "expected": "Final answer uses its computed deltaG and declared temperature to derive a conditional equilibrium population ratio or bounded ratio range, using [2]/[1]=exp(-(G2-G1)/RT). It identifies the missing equilibration/interconversion evidence that prevents interpreting this derived ratio as an isolated synthetic yield ratio. No specific experimental yield values or criticism of an inaccessible source expression is required. Merely saying yields are not populations, giving no computed implication, or using an inconsistent sign fails. No kinetic, emission-efficiency or device conclusion follows from the pair energy. Physical comparison: Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json",
+              "report/report.md"
+            ],
+            "fields": [
+              "$"
+            ],
+            "comparison": "Evaluate this final proposition from the submitted numerical results and linked genuine native calculation/analysis artifacts, checking the physical object, state, units, environment and reference. Apply the fixed numeric window or the explicit semantic criterion without process points."
+          }
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "relative_gibbs",
+          "kind": "conclusion",
+          "max_score": 40,
+          "description": "Small negative G2−G1 in THF at339K",
+          "rule_ids": [
+            "r_relative_gibbs"
+          ],
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "relative_stability_synthesis",
+          "kind": "conclusion",
+          "max_score": 40,
+          "description": "Final molecular stability explanation",
+          "rule_ids": [
+            "r_relative_stability_synthesis"
+          ],
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "Valid paired full-molecule calculations support an alternative stabilization explanation or a model-dependent preference conflict that remains unresolved after physically matching thermochemical and conformational definitions; established equivalent explanations pass directly."
+          ],
+          "required_for_success": true
+        },
+        {
+          "id": "population_yield_limit",
+          "kind": "conclusion",
+          "max_score": 20,
+          "description": "Final thermodynamic implication is distinct from isolated yields",
+          "rule_ids": [
+            "r_population_yield_limit"
+          ],
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        }
+      ]
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_86a0b654270a8ce7",
+      "items": [
+        {
+          "statement": "Small negative G2−G1 in THF at339K",
+          "expected": "Calculate G(isomer2)-G(isomer1) for matched complete neutral-singlet minima in THF at339K. Author rounded target -2.84kJ/mol, inclusive tolerance0.50kJ/mol. Use Gibbs rather than electronic energy and graph-mapped isomer identities; equal molecularity means transparent common standard-state conversion cancels. Physical comparison: Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "relative_gibbs",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "Evidence resolves a small isomer2 preference at the stated model resolution",
+          "expected": "Actual comparable thermochemistry establishes isomer2 below isomer1 and assesses whether relevant low-frequency/conformer/model uncertainty overturns this preference. This unscored evidence item records the sign and resolution supporting the active final molecular explanation. The two energies alone with untested overprecision do not establish resolution. There is no separate sign score; apply the active final rules and their explicit conflict policy. Physical comparison: Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "thermodynamic_preference",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "Isomer1 provides a distinct intramolecular aromatic arrangement",
+          "expected": "Actual graph-mapped isomer1 geometry establishes its NHC-phenyl versus salen-naphthyl disposition, enabling a physically matched comparison to isomer2. A structure label or source trans-donor prose without atom mapping is insufficient. Physical comparison: Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "isomer1_contact",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "Isomer2 supports the close aromatic contact",
+          "expected": "Actual isomer2 molecular geometry supports the NHC-phenyl/salen-naphthyl close aromatic contact consistent with the source structural/spectroscopic interpretation. The3.554Angstrom crystal centroid is contextual, not a solution-distance numeric gate. Physical comparison: Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "isomer2_stacking",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "Contact stabilisation is compatible but not uniquely partitioned",
+          "expected": "Actual paired energetic and atom-mapped structural comparison supports compatibility of the isomer2 contact with its small stability preference, and identifies at least one co-varying structural or energetic contribution that prevents assigning the entire deltaG to stacking. The comparison must use the submitted calculations and state how that confounding affects the causal interpretation. A generic list of limitations, a contact picture alone, or a constrained perturbation asserted to be a pure interaction energy does not pass. Physical comparison: Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ],
+          "key_point_id": "attribution_limit",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        }
+      ]
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_86a0b654270a8ce7",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabricated scientific evidence or copied reference answers falsely presented as independently computed invalidate the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Ordinary wrong, failed or missing results lose only their dependent scientific leaves."
+        }
+      ],
+      "scope_note": "Only fabrication or unauthorized hidden-answer use can invalidate the entire submission. Ordinary scientific failure applies to the affected final propositions. PR-disclosed source information is authorized but is not generated evidence."
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_86a0b654270a8ce7",
+      "items": [
+        {
+          "conclusion_id": "relative_gibbs",
+          "claim_role": "final",
+          "statement": "Small negative G2−G1 in THF at339K",
+          "expected": "Calculate G(isomer2)-G(isomer1) for matched complete neutral-singlet minima in THF at339K. Author rounded target -2.84kJ/mol, inclusive tolerance0.50kJ/mol. Use Gibbs rather than electronic energy and graph-mapped isomer identities; equal molecularity means transparent common standard-state conversion cancels. Physical comparison: Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+          "supporting_key_point_ids": [
+            "relative_gibbs"
+          ],
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ]
+        },
+        {
+          "conclusion_id": "relative_stability_synthesis",
+          "claim_role": "final",
+          "statement": "Final molecular stability explanation",
+          "expected": "The final molecular account explains the small model-level preference for isomer2 using actual graph-mapped structures and energetic evidence, with the NHC-phenyl/salen-naphthyl close-contact contrast as a compatible structural explanation. It identifies a concrete co-varying contribution or demonstrated model/thermal sensitivity that prevents assigning the full Gibbs difference uniquely to stacking. A physically established equivalent stabilization account is acceptable; no named contact intervention or unique energy decomposition is required. A contact picture, repeated energy ordering, or generic limitations alone fail. Preserve the distinction between source-model preference and robustness across alternative conformers or Hamiltonians; crystal distances are not solution targets.",
+          "supporting_key_point_ids": [
+            "isomer1_contact",
+            "isomer2_stacking",
+            "attribution_limit",
+            "thermodynamic_preference"
+          ],
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ]
+        },
+        {
+          "conclusion_id": "population_yield_limit",
+          "claim_role": "final",
+          "statement": "Final thermodynamic implication is distinct from isolated yields",
+          "expected": "Final answer uses its computed deltaG and declared temperature to derive a conditional equilibrium population ratio or bounded ratio range, using [2]/[1]=exp(-(G2-G1)/RT). It identifies the missing equilibration/interconversion evidence that prevents interpreting this derived ratio as an isolated synthetic yield ratio. No specific experimental yield values or criticism of an inaccessible source expression is required. Merely saying yields are not populations, giving no computed implication, or using an inconsistent sign fails. No kinetic, emission-efficiency or device conclusion follows from the pair energy. Physical comparison: Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+          "supporting_key_point_ids": [
+            "relative_gibbs",
+            "thermodynamic_preference",
+            "isomer1_contact",
+            "isomer2_stacking",
+            "attribution_limit"
+          ],
+          "evidence_ids": [
+            "source_scope_main",
+            "source_scope_supplementary_001",
+            "verified_frozen_v2"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_86a0b654270a8ce7",
+      "scoring_policy": "paper_science_v3",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "physical_definition": "Two full130-atom C60H63IrN4O2 neutral-singlet coordination isomers in THF339K. Follow public graph/trans-donor mapping despite contradictory prose labels. DeltaG=G2-G1, common thermal/conformer and standard-state convention; sourceB3LYP/def2SVP SMDTHF calculation. Crystal contacts are not automatically identical to solution geometries.",
+      "tolerance_policy": {
+        "status": "provisional_benchmark_policy",
+        "basis": "The sole numeric outcome is ΔG=G2−G1, target −2.84 kJ/mol with the unchanged inclusive ±0.50 kJ/mol provisional window. It exceeds source rounding and documented grid sensitivity but is not an author uncertainty or a residual-fitted threshold. The final molecular explanation and conditional-population interpretation are evaluated independently from passing that magnitude window; sign alone has no separate points. The narrow window has not been calibrated over all physically valid alternative models.",
+        "not_author_error_bars": true
+      },
+      "retained_scientific_limitations": "Main p2 contains contradictory trans-N/O labels and an inconsistent Boltzmann sign; public graph identity and definedG2-G1 govern. Both source-level minima are valid, but absoluteG values share an unexplained offset. SuperFine control is fixed-geometry curvature, not independently reoptimised minima. Low-frequency/conformer/model uncertainty limits fine thermodynamic claims. Stacking attribution is not an interaction-energy decomposition; isolated yield is not equilibrium.",
+      "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+      "historical_before_v3": {
+        "status": "CURRENT_FROZEN_V2_STRICT_VERIFICATION_PRESERVED",
+        "reason": "Authorized scoring-only migration on 2026-10-19; existing independently strict acceptance within frozen V2 scope is preserved. Expert publication calibration remains separate from permitted runtime scoring. No new chemistry validation or blind Agent run is claimed.",
+        "coordinator_review": {
+          "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+          "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+          "review_key": "v2_paper_86a0b654270a8ce7",
+          "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+          "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+          "publication_readiness_unchanged": true
+        },
+        "repair_round3": {
+          "date": "2026-10-19",
+          "status": "targeted_repairs_pending_coordinator_review",
+          "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_03/REPORT.md",
+          "changes": [
+            "Self-audit confirmed19%/53% isolated yields are not supplied AR facts and are not needed for the population inference: retained the genuine computed Boltzmann relation while removing mandatory unpublished-value/source-expression criticism."
+          ],
+          "historical_acceptance_unchanged": true,
+          "new_chemical_validation": false,
+          "tolerances_unchanged": true
+        },
+        "current_scope_verified": true,
+        "tolerance_policy": {
+          "status": "provisional_benchmark_policy",
+          "basis": "The single deltaG leaf uses provisional ±0.50kJ/mol, a deliberately sub-kJ resolution appropriate to a ~2.84kJ/mol difference in a flexible heavy-atom pair. It exceeds source rounding and observed grid sensitivity (~0.063kJ/mol) without treating either as an author error bar; it is not residual+epsilon. Sign/resolution and explanation remain independent semantic findings even if a defensible calculation misses the magnitude window.",
+          "not_author_error_bars": true
+        }
+      },
+      "evaluation_mode": "final_results_100",
+      "status": "V3_DESIGN_CHECKED_EXISTING_EVIDENCE_REUSED_NOT_REVALIDATED",
+      "acceptance": "NO_NEW_V3_SCIENTIFIC_ACCEPTANCE",
+      "reason": "Final-results redesign dated 2026-10-28. Historical acceptance is retained separately; no new scientific computation or blind evaluation was performed.",
+      "evidence_reuse_summary": "Existing source-compatible B3LYP/def2-SVP/SMD(THF), 339 K minima give G1/G2 = -2795.462325/-2795.463430 Eh, ΔG = -2.901177 kJ/mol versus source -2.835540 kJ/mol (residual -0.0656375). Both have 384 positive modes (minima 11.3669/12.3800 cm−1). Absolute G offsets of approximately 8.9 kJ/mol remain unexplained. Fixed-geometry SuperFine curvature is not a reoptimization. Existing alternative-method plus borrowed-thermal sensitivity can reverse the small preference (+0.325/+0.332 kJ/mol with a 100 cm−1 entropy floor); it does not constitute alternative reoptimized Gibbs minima, and prevents a universal robustness claim. Geometry agreement supports contact compatibility, not a unique stacking energy. Historical strict acceptance is limited to the source model.",
+      "evidence_gaps": [
+        "绝对G约8.9 kJ/mol共同偏移未归因。",
+        "固定几何方法/低频敏感性可反号；未完成全部方法独立优化/构象系综，不能声称偏好普适。",
+        "没有互变/平衡证据或唯一stacking能量分解。"
+      ],
+      "required_new_validation": "本版未新增物理问题，已有模型内结果可复用；跨方法稳健偏好、唯一接触因果或真实产率推断需要额外研究，本轮不执行。"
+    }
+  }
+}

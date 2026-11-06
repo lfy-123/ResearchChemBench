@@ -1,0 +1,84 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "updated_on": "2026-10-17",
+  "current_scope_verified": true,
+  "scientific_status": "VERIFIED_CURRENT_BOUNDED_SCOPE",
+  "scope": "Current bounded A-E structure-activity explanation, seven association values, C/D connections and finite-grid electronic comparisons.",
+  "covered_reference_ids": [
+    "binding_two_point_a",
+    "binding_two_point_c_syn",
+    "binding_two_point_d_syn",
+    "binding_one_point_b",
+    "binding_one_point_e",
+    "affinity_a",
+    "affinity_b",
+    "affinity_c_syn",
+    "affinity_c_anti",
+    "affinity_d_syn",
+    "affinity_d_anti",
+    "affinity_e",
+    "preorganization",
+    "conformer_c",
+    "conformer_d",
+    "sigma_hole_positive",
+    "sigma_hole_framework",
+    "activity_ab",
+    "activity_series"
+  ],
+  "acceptance_date": "2026-10-14",
+  "existing_evidence": {
+    "accepted_on": "2026-10-14",
+    "existing_evidence_path": "docs/verification/small_molecules_autonomous_research/dispatch_core7_20261012T190159Z/continuation_20261014T143300Z/parent_2a71_review/review.md",
+    "sha256": "36bab81c8b7b0b456a1c21ad8ddfbf3fcfb86e9983f63cdb23d88034d899b798",
+    "current_reference": "evaluation/verified_computation_reference.md"
+  },
+  "acceptance_record": "evaluation/verified_computation_reference.md",
+  "additional_quantum_calculations_required": false,
+  "new_quantum_jobs": 0,
+  "formal_release_certified_by_this_maintenance": false,
+  "remaining_qualification_or_interpretation_limits": [
+    "Tolerance1.0kcal/mol is a user-approved provisional benchmark criterion pending expert publication review, not a statistical error estimate.",
+    "C initial populations, exact D endpoint degeneracy and continuous ESP maxima remain unqualified."
+  ],
+  "task_sha256": "c5679926970fe514d40ec9123bd5101efec076259a58d0f417fa5655e9c75bd4",
+  "historical_status_policy": "Historical pending/failure and old scoring restrictions apply only to their dated version. Current V2 scoring permission is reference_qualification.json; scientific provenance and publication review remain separate.",
+  "current_contract_hashes": {
+    "agent_input/task.md": "c5679926970fe514d40ec9123bd5101efec076259a58d0f417fa5655e9c75bd4",
+    "agent_input/submission_schema.json": "9ba1d71e600bcd6a1da388fa42356b4f66f5c92027aa054fc425953c7e4fde83",
+    "evaluation/reference_key_points.json": "f2f1d5c1aa59d7dd1fba92cf73025e9214b928ad7b06a3b22f253ac2e313becf",
+    "evaluation/reference_conclusions.json": "3e8f9e68a4c26e98829daac6fa82dc105a4d9fddf07a8192d67f5c194bb80bf2",
+    "evaluation/scoring_rules.json": "5d37826031085abb696d2a77572fa097e4997e29e6f89b0a73d8e0cf7e1a9875"
+  },
+  "scoring_policy_update_20261017": {
+    "formal_scoring_permitted": true,
+    "active_reference": "evaluation/reference_qualification.json",
+    "note": "Supersedes older numerical-calibration blocking for current V2; historical chemistry/source limitations remain."
+  },
+  "formal_scoring_permitted": true,
+  "scoring_update_20261020": {
+    "revision": "expert_round1_20261020",
+    "description": "正 σ-hole 与骨架电子效应合并为 15 分；系列解释明确同时采用能量与电子结构证据。18 项共 100 分。",
+    "active_rule_ids": [
+      "r_binding_two_point_a",
+      "r_binding_two_point_c_syn",
+      "r_binding_two_point_d_syn",
+      "r_binding_one_point_b",
+      "r_binding_one_point_e",
+      "r_affinity_a",
+      "r_affinity_b",
+      "r_affinity_c_syn",
+      "r_affinity_c_anti",
+      "r_affinity_d_syn",
+      "r_affinity_d_anti",
+      "r_affinity_e",
+      "r_preorganization",
+      "r_conformer_c",
+      "r_conformer_d",
+      "r_sigma_hole_framework",
+      "r_activity_ab",
+      "r_activity_series"
+    ],
+    "new_quantum_jobs": 0,
+    "verification_boundary": "Existing acceptance applies to the dated computational scope above. Rule revision is not a new computational verification or formal-release certification."
+  }
+}

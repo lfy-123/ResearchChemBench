@@ -1,0 +1,406 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+      "status",
+      "question",
+      "models",
+      "hypotheses",
+      "energy_ledger",
+      "results",
+      "conclusion",
+      "artifacts"
+    ],
+    "properties": {
+      "status": {
+        "enum": [
+          "completed",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "question": {
+        "type": "string",
+        "minLength": 1
+      },
+      "models": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "identity",
+            "charge",
+            "multiplicity",
+            "environment",
+            "method",
+            "validation",
+            "evidence_refs"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "identity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "environment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "atom_mapping": {
+              "type": "object"
+            },
+            "geometry_file": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object",
+              "description": "Convergence, connectivity/state and stationary-point or other applicable validity evidence.",
+              "required": [
+                "statement",
+                "evidence_refs"
+              ],
+              "properties": {
+                "statement": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "quantities": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/quantity"
+                  }
+                },
+                "species_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "limitations": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": true
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "proposal",
+            "discriminating_test",
+            "outcome",
+            "evidence_refs"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "proposal": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discriminating_test": {
+              "type": "string",
+              "minLength": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "contradicted",
+                "unresolved"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "energy_ledger": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/quantity"
+        }
+      },
+      "results": {
+        "type": "object",
+        "description": "Findings indexed by investigator-chosen labels.",
+        "additionalProperties": {
+          "$ref": "#/$defs/finding"
+        }
+      },
+      "conclusion": {
+        "$ref": "#/$defs/finding"
+      },
+      "artifacts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "path",
+            "role"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "role": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "missing_results": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "decisions": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
+      }
+    },
+    "$defs": {
+      "quantity": {
+        "type": "object",
+        "required": [
+          "id",
+          "value",
+          "unit",
+          "physical_definition",
+          "reference_state",
+          "conditions",
+          "species_ids",
+          "evidence_refs"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "physical_definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reference_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conditions": {
+            "type": "object",
+            "minProperties": 1
+          },
+          "species_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "uncertainty": {
+            "type": [
+              "number",
+              "string",
+              "object"
+            ]
+          },
+          "formula": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "finding": {
+        "type": "object",
+        "required": [
+          "statement",
+          "evidence_refs"
+        ],
+        "properties": {
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "quantity_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "species_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "limitations": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "completed"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "models": {
+              "minItems": 1
+            },
+            "hypotheses": {
+              "minItems": 1
+            },
+            "energy_ledger": {
+              "minItems": 1
+            },
+            "results": {
+              "minProperties": 1
+            },
+            "artifacts": {
+              "minItems": 1
+            },
+            "conclusion": {
+              "properties": {
+                "evidence_refs": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "partial",
+                "bounded_failure"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "required": [
+            "missing_results"
+          ],
+          "properties": {
+            "missing_results": {
+              "minItems": 1
+            }
+          }
+        }
+      }
+    ],
+    "additionalProperties": true,
+    "description": "Structured final scientific answer with traceable computational evidence."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "status": "source_input_provided_structure_checked",
+  "required_source_object": "CCDC 2445596 full crystal coordinates and crystallographic metadata",
+  "available": [
+    "data/inputs/source_crystal.cif",
+    "data/inputs/atom_mapping.json",
+    "data/inputs/source_provenance.json",
+    "Full molecular graph and measured metadata"
+  ],
+  "missing_mandatory_structural_input": [],
+  "source_authentication_boundary": "Provided deposition records agree on structural identity and full structural fields; no independent live-server download was performed in this integration.",
+  "input_checks": "27 atom sites and map entries, 108 sites after symmetry expansion, occupancy/ADP/H retained; full input check is not scientific reference validation.",
+  "remaining_validation": [
+    "Claim-appropriate crystal contact and surface evidence with uncertainty"
+  ],
+  "completion_boundary": "Source availability removes the coordinate-input blocker. Parsing, structure matching or source numbers alone do not complete the packing investigation.",
+  "updated_date": "2026-10-28",
+  "source_identity_caveat": "The supplied crystal has Z configuration at graph bond 7=8. Preserve its coordinates and mapped stereochemistry; the mapped SMILES has no tetrahedral chirality assignment."
+}

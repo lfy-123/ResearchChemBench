@@ -1,0 +1,79 @@
+{
+  "paper_id": "paper_cf8ce1fc0fbcd300",
+  "evidence": [
+    {
+      "evidence_id": "V2_MAIN",
+      "source": {
+        "path": "papers/paper_cf8ce1fc0fbcd300/documents/main.pdf",
+        "sha256": "f1d21ee42db798fbf1021e283bc5ba4627c0fb1ec5214b2707341ae55ee7e33a",
+        "pdf_pages_1based": [
+          7,
+          8
+        ]
+      },
+      "description": "Main text/supplementary materials directly checked for scientific scoring in this round; original source records are retained."
+    },
+    {
+      "evidence_id": "V2_SI",
+      "source": {
+        "path": "papers/paper_cf8ce1fc0fbcd300/documents/supplementary_001.pdf",
+        "sha256": "7068775158e40f019319e3fd116e17225e6558c19d3f68525588db875f7eb0af",
+        "pdf_pages_1based": [
+          54,
+          55,
+          58
+        ]
+      },
+      "description": "Main text/supplementary materials directly checked for scientific scoring in this round; original source records are retained."
+    },
+    {
+      "evidence_id": "V2_SI_2",
+      "source": {
+        "path": "papers/paper_cf8ce1fc0fbcd300/documents/supplementary_002.pdf",
+        "sha256": "50e1d533bfcff1d80ccdc27a6a91cf1a91db9658ff96e17ba084ede56d01f0b8",
+        "pdf_pages_1based": [
+          43,
+          44,
+          47
+        ]
+      },
+      "description": "Main text/supplementary materials directly checked for scientific scoring in this round; original source records are retained."
+    },
+    {
+      "evidence_id": "existing_native_verification",
+      "source": {
+        "path": "tasks/small_molecules_verified_autonomous_research/paper_cf8ce1fc0fbcd300/evaluation/verified_computation_reference.md",
+        "sha256": "3114f5977d82b165da8017f011e435cf165709dd88935b11d1bb77f0d3200eca"
+      },
+      "evidence_type": "existing_computation_with_qualifications",
+      "description": "正文 Fig.4A、两份 SI 的亲核加成结构；历史验证有三个甲醇捕获反应及三个中性产物的可比能量、反应模式和分子图。",
+      "role": "Historical calculations only; historical scoring/acceptance prose is not active criteria."
+    }
+  ],
+  "public_assets": [
+    {
+      "path": "agent_input/data/molecules.json",
+      "sha256": "5f4413660d1221cd5dc6053e7f7d9f2f2d5882085ca47d93f65144545f509285",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ],
+      "answer_free": true,
+      "visually_checked": false,
+      "derivation": "Current text-only neutral molecular graphs and unranked candidate identities. Their private source mapping is supported by Figure 4A and Figure S9. This public asset defines identity only; it is not computational evidence for any scored formation or stability conclusion."
+    },
+    {
+      "path": "agent_input/data/facts_and_conditions.json",
+      "sha256": "2613840c726a4a62619bcb6077bb2e9ad1de3dda79d57405ff31e4a3e5ba1308",
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "V2_SI_2"
+      ],
+      "answer_free": true,
+      "visually_checked": false,
+      "derivation": "Current text-only conditions for the post-preparation methanol functionalization stage. Acid concentration and proton activity are unspecified; no experimental product ranking is supplied. This public asset defines the comparison boundary only, not the scored answers."
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "paper_id": "paper_0e835b370ddd37b6",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "status": "CONTENT_REVISED_EXISTING_EVIDENCE_REVIEWED",
+  "formal_scoring_permitted": true,
+  "release_ready": false,
+  "acceptance": "NOT_A_NEW_V3_SCIENTIFIC_PASS",
+  "reason": "Only independent final scientific conclusions receive binary semantic points, totaling 100. Numerical results support conclusions without author-value acceptance windows. No new scientific verification is claimed.",
+  "new_computations_performed": false,
+  "reference_evidence_reuse": "实算活化自由能33.065984/47.132237/29.842468 kcal/mol；反应自由能−29.098869/−20.574781/−33.808328。4供体较弱但受体更低。",
+  "accepted_limitations": "模型4 IRC在43/52点后失败；独立端点仅提供有限连接，不能称全IRC闭合。部分checkpoint历史出处仍未全解，不能把终点排序当形成机理证明。",
+  "objective_issue_flags": [
+    "模型4 IRC在43/52点后失败；独立端点仅提供有限连接，不能称全IRC闭合。部分checkpoint历史出处仍未全解，不能把终点排序当形成机理证明。"
+  ],
+  "current_rules": [
+    "r_activation_competition",
+    "r_reaction_driving_force",
+    "r_kinetic_thermodynamic_distinction",
+    "r_one_vprime_explanation",
+    "r_four_design_explanation"
+  ],
+  "historical_qualification_before_20261029": {
+    "paper_id": "paper_0e835b370ddd37b6",
+    "scoring_policy": "paper_science_v3",
+    "formal_scoring_permitted": true,
+    "release_ready": false,
+    "blocked_rule_ids": [],
+    "reserved_points": 0,
+    "reason": "2026-10-28 final-result redesign; historical acceptance is not a new V3 full pass.",
+    "accepted_limitations": "Model4 barrier residual+0.842468 kcal/mol and Vprime reaction residual+0.725219 remain explicit. Decomposing E+ZPE and thermal residuals locates differences but does not establish a unique cause or statistical error bound. Existing finite TS path/endpoint evidence is not silently upgraded to a full saved IRC. Source OccSi orbital occupation definition is not certified by canonical-MO projection and is not scored numerically. Full experimental bulky ligand, other substrates/catalytic cycles, exact rate constants and universal donor-only explanation remain out of scope. The model4 mechanistic synthesis is a supported electronic/reactivity association, not a quantified causal attribution to accepting ability or reorganization.",
+    "authority": [
+      "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+      "evaluation/verified_computation_reference.md"
+    ],
+    "coordinator_review": {
+      "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+      "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+      "review_key": "v2_paper_0e835b370ddd37b6",
+      "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+      "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+      "publication_readiness_unchanged": true
+    },
+    "repair_round3": {
+      "date": "2026-10-19",
+      "status": "WORKER_REPAIRED_PENDING_INDEPENDENT_COORDINATOR_REVIEW",
+      "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_01/REPORT.md",
+      "notes": [
+        "No new paper-specific defect confirmed. Kept80/20 and all six original Gibbs targets; actual benzene298K1atm separated reactants remain essential. Public scoring policy repaired."
+      ],
+      "historical_acceptance_unchanged": true,
+      "new_chemistry_validation": false,
+      "online_judge_calibration": false
+    },
+    "historical_acceptance": "PASS_STRICT_CURRENT_FROZEN_SCOPE",
+    "historical_status": "CURRENT_FROZEN_SCOPE_STRICT_REFERENCE_SCORING_ENABLED",
+    "historical_tolerance_basis": "Provisional common ±1.5 kcal/mol for the six molecular Gibbs reaction quantities reflects a 1–2 kcal/mol thermochemistry comparison scale for flexible molecules and bimolecular RRHO association: source table has only0.1 kcal/mol precision, low-frequency/geometry and thermal contributions exceed that printing precision, and the existing independent decomposition shows a thermal component of1.193969 kcal/mol for Vprime reaction energy. The same window is fixed for all barriers and reaction free energies, not chosen separately from each residual. It is smaller than half the smallest source barrier difference3.9 kcal/mol; ordering remains separately tested. This is a benchmark acceptance choice, not an author uncertainty or precise rate certification. Round3 retains the common window unchanged; its RRHO/source comparison role is not a universal rate or functional accuracy certification. Model4 barrier residual+0.842468 and Vprime reaction residual+0.725219 kcal/mol remain, and finite path evidence is not a complete saved IRC.",
+    "status": "V3_CONTRACT_MIGRATED_EVIDENCE_REUSED_NOT_REVALIDATED",
+    "current_scope_verified": false,
+    "v3_scope": "原三模型H2活化问题不变；保留六个最终G值及原±1.5 kcal/mol硬窗，取消排序重复分，将该项改为放能性不能证明快速活化的物理判别，取消逐模型TS/极化及轨道节点的独立分，保留两个独立电子解释。AR隐藏目标和机理；PR保留作者基线。",
+    "v3_evidence_gaps": [
+      "模型4只有有限IRC段加端点收敛证据；不是完整连续IRC。",
+      "NBO OccSi定义及部分历史checkpoint溯源未解决，不作为新增独立得分。",
+      "旧严格验收不等于新V3重新验证；模型外速率及唯一因果分解不支持。"
+    ]
+  }
+}

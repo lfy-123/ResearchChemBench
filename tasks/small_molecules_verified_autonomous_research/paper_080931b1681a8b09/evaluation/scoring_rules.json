@@ -1,0 +1,225 @@
+{
+  "package_version": "human_review_conclusion_evidence_20261102",
+  "scoring_revision": "human_review_conclusion_evidence_20261102",
+  "case_id": "case_08",
+  "source_paper_id": "paper_080931b1681a8b09",
+  "paper_id": "paper_080931b1681a8b09",
+  "scoring_policy": "paper_science_v3",
+  "total_points": 100,
+  "whole_case_success": "All required_for_success outcomes must pass for whole-case success; each supported independent outcome retains its weighted points if other outcomes fail.",
+  "numeric_comparison_policy": "No paper-number target/tolerance gates. Item-specific computed quantities and genuine native evidence are mandatory; missing required evidence fails the associated conclusion. Conditions and identities remain mandatory scope definitions.",
+  "required_numerical_evidence": [
+    {
+      "id": "formation_profile",
+      "description": "实际结合、开环/闭合或等效形成机制的关键态能量与活化量。",
+      "public_requirement": "Computed key-state energies and activation requirements supporting binding and the proposed ring-opening/closure or equivalent product-formation mechanism."
+    },
+    {
+      "id": "rs_competition",
+      "description": "正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+      "public_requirement": "Computed R/S Gibbs activation energies and ΔΔG‡ for the correctly mapped competing configurations."
+    },
+    {
+      "id": "physical_origin",
+      "description": "支撑所选物理解释的实际 R/S 结构/电子分析数据，例如距离、角度、形变或相互作用量；按论断选择，不指定唯一分解算法。",
+      "public_requirement": "Computed R/S structural or electronic data supporting the chosen physical explanation, such as contact distances, angles, deformation or interaction quantities; choose data appropriate to the claim, with no mandatory decomposition algorithm."
+    }
+  ],
+  "semantic_review_policy": "Binary pass/fail per item; no manual pending points. Evidence-supported equivalents pass; unsupported outcomes fail with reasons. Record demonstrated reference defects separately.",
+  "scientific_requirements": "本版只评价有实际计算证据的科学结论，不评价数值与论文的接近程度。没有任何绝对数值、误差、容差、精确势垒差、er/dr、频率或距离匹配目标；禁止从历史文件或作者数字恢复这些门槛。温度、溶剂、分子身份、组成和物理参照仍定义科学问题，不是数值复现目标。能量及其物理排序/驱动方向可以作为科学结论的证据，不能改成任意“符号正确即得分”的隐藏数值测试。已注明近简并/方法依赖的项目按其具体边界解释。\n每项评的是最终科学回答中的不同命题：形成机制、区域/立体连接、竞争、稳定性、配体/底物效应或限定条件下的物理推论。计算步骤、工作量、完成节点、采用作者路线、只建出结构或重述已给实验事实均无独立分值。不要因一句猜中答案而通过。公开范围、所声明机制和证据强度必须匹配。\n原始计算需要可追溯，按论断需要核查身份、电荷/自旋、成键、条件和参照。必须实际计算并提交本项 required_numerical_evidence 所列的必要数值，不可只交定性方向。在 report/results.json 的 metrics 中提供本次计算值、单位、定义/相减顺序、参照态、方法/条件及 evidence_ids，在 claims 中关联 metric_ids，并在报告中解释数值如何支持结论。原生输入、输出及相关几何/反应模式必须可读取且与这些数值对应；仅填数字、复制论文数值、只建输入/提交作业、未完成计算或凭经验猜测均不足。judge 须核查数值与原生记录及推导的一致性，不能替提交者补做计算、生成或猜测缺失数值。相关必需数值或真实计算依据缺失，即使猜中了结论，该项仍为 fail。数值交付和证据真实性是结论成立的必要条件，不另设计算完成分，也不比较与论文的数值接近程度。\n数值要求按每项绑定分别判断，不将全篇清单作为每一项的共同门槛。综合/镜像推论可明确复用所绑定的已有计算数值，无需重复运行；等效机制仍须交付能够回答同一物理问题的实际定量证据并说明对应关系，不能以“等效”豁免计算。若论证无势垒，需有实际计算剖面及参照支持，不能以填零代替未算。错误连接、用热力学代替形成动力学、不可比总能或未配平反应均不构成有效支持。几何收敛、真实反应模式等是证据是否有效的检查，不是与论文数字匹配的计分项。\n论文是参考解释，不证明机制唯一。接受能够解释同一公开问题、在规定边界内有实际证据的等效模型或机制，不要求作者软件、状态名、构象、固定中间体数、全IRC算法或超出范围的完整反应网络。数值存在偏差本身不是 fail；但与稳健科学结论相反也不能仅因更换方法自动 pass。\n人工要求的半分/分级分已拆为独立二元子项，judge不得自行增减权重或给单项中间分。分级项如有累进条件，须完整核查该项expected中明示的条件；不能因只绑定一个rule_id而遗漏累进事实。\n本套每项只返回 pass/fail；缺失或不能支持该项科学结论为 fail，保留具体原因及引用。已满足明示等效/方法敏感条件直接 pass，不转人工待定。确有参考缺陷时在 objective_issue_flags 记录具体证据，不伪造支持、不擅自改变答案/权重或整题清零。judge 应完成全部项目判定；API/证据读取等基础设施失败仍须如实报错，不可伪装成科学零分。\n各项独立加权；一项失败只损失该项分数，同一证据可支持不同命题但相同命题不可重复奖励。一处身份错误若仅影响部分通道，只影响对应项目。全局无真实计算、伪造/泄露或全局身份无效须有明确证据才可整题失格。所有核心项通过才记 whole_case_success；否则仍保留其余独立项目的分数。",
+  "rules": [
+    {
+      "rule_id": "r_cycloaddition_mechanism",
+      "reference_id": "cycloaddition_mechanism",
+      "type": "semantic",
+      "expected": "实际分子结果支持催化剂与底物结合、亲核开环及去芳构化 C–C 闭合形成给定产物的化学解释，或证据充分的等效机制。说明电荷/自旋/配位假设，不能把作者未公开的状态当题给事实。仅提供终产物图、无连接的若干态或用另一镍盐的路线不足。不要求完整配位布居、唯一电子态、作者各中间体标签或精确能量。",
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 实际结合、开环/闭合或等效形成机制的关键态能量与活化量。",
+      "required_numerical_evidence": [
+        {
+          "id": "formation_profile",
+          "description": "实际结合、开环/闭合或等效形成机制的关键态能量与活化量。",
+          "public_requirement": "Computed key-state energies and activation requirements supporting binding and the proposed ring-opening/closure or equivalent product-formation mechanism."
+        }
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Require the item-specific computed quantities and auditable native evidence, then evaluate the scientific conclusion and its scope. Missing required evidence fails that item. No paper-number matching or process credit; return pass/fail."
+      }
+    },
+    {
+      "rule_id": "r_absolute_configuration_preference",
+      "reference_id": "absolute_configuration_preference",
+      "type": "semantic",
+      "expected": "同一催化剂和物理参照的实际竞争证据支持指定苯并噻唑 C2 来源饱和 CH 的 R 优势，并用完整产物原子映射/CIP 确认。不能从 (S,S) 配体直接猜产物 R，不能混淆其他手性中心或不同对映催化剂。这里评价构型方向，不评价 er 或作者 ΔΔG 的数值吻合。",
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+      "required_numerical_evidence": [
+        {
+          "id": "rs_competition",
+          "description": "正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+          "public_requirement": "Computed R/S Gibbs activation energies and ΔΔG‡ for the correctly mapped competing configurations."
+        }
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Require the item-specific computed quantities and auditable native evidence, then evaluate the scientific conclusion and its scope. Missing required evidence fails that item. No paper-number matching or process credit; return pass/fail."
+      }
+    },
+    {
+      "rule_id": "r_selectivity_physical_origin",
+      "reference_id": "selectivity_physical_origin",
+      "type": "semantic",
+      "expected": "从实际 R/S 竞争结构的可比较几何、相互作用、形变或电子证据解释差异来源，并使其与总竞争结果自洽。参考局部 C–H···π 接触与 R 偏好相容；不要求全部 R 接触更强或 CH–π 是唯一/定量主因。允许实际支持的形变-相互作用权衡解释。只有两条势垒、泛称位阻/π 相互作用或未经计算的因果故事不足；不强制 IGMH、NCI 或分解算法。",
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。\n- 支撑所选物理解释的实际 R/S 结构/电子分析数据，例如距离、角度、形变或相互作用量；按论断选择，不指定唯一分解算法。",
+      "required_numerical_evidence": [
+        {
+          "id": "rs_competition",
+          "description": "正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+          "public_requirement": "Computed R/S Gibbs activation energies and ΔΔG‡ for the correctly mapped competing configurations."
+        },
+        {
+          "id": "physical_origin",
+          "description": "支撑所选物理解释的实际 R/S 结构/电子分析数据，例如距离、角度、形变或相互作用量；按论断选择，不指定唯一分解算法。",
+          "public_requirement": "Computed R/S structural or electronic data supporting the chosen physical explanation, such as contact distances, angles, deformation or interaction quantities; choose data appropriate to the claim, with no mandatory decomposition algorithm."
+        }
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Require the item-specific computed quantities and auditable native evidence, then evaluate the scientific conclusion and its scope. Missing required evidence fails that item. No paper-number matching or process credit; return pass/fail."
+      }
+    },
+    {
+      "rule_id": "r_selectivity_scope_vs_experiment",
+      "reference_id": "selectivity_scope_vs_experiment",
+      "type": "semantic",
+      "expected": "把本次实际竞争用于有假设的产物富集解释，说明与已给实验的同向非消旋/明显偏好是否相容，并区分代表通道的条件预测与全构象/配位群体实验结果。可用有假设的比值估计或对实际能量尺度的定性论证，无需输出或命中精确 er。不能只重复 R 标签、照抄实验比、或把一对 TS 的数值直接称为精确实验复现。此项评价模型对实验强度的解释及外推边界，物理起源另计。",
+      "qualification": "必须提交本项列出的实际计算数值及可核查的原生证据；缺少相关必要数值或真实计算依据，即使结论猜对也 fail。核查数值/条件/参照与论断的一致性，不按作者数字匹配给分，不另给过程分。具体标准见 expected 与 scientific_requirements。\n本项必要数值：\n- 正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+      "required_numerical_evidence": [
+        {
+          "id": "rs_competition",
+          "description": "正确构型映射下 R/S 竞争的实际 Gibbs 活化量及 ΔΔG‡。",
+          "public_requirement": "Computed R/S Gibbs activation energies and ΔΔG‡ for the correctly mapped competing configurations."
+        }
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Require the item-specific computed quantities and auditable native evidence, then evaluate the scientific conclusion and its scope. Missing required evidence fails that item. No paper-number matching or process credit; return pass/fail."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "cycloaddition_mechanism",
+      "kind": "conclusion",
+      "max_score": 30,
+      "description": "催化开环与去芳构化闭环的解释",
+      "rule_ids": [
+        "r_cycloaddition_mechanism"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "absolute_configuration_preference",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "目标饱和 CH 的 R 偏好",
+      "rule_ids": [
+        "r_absolute_configuration_preference"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "selectivity_physical_origin",
+      "kind": "conclusion",
+      "max_score": 25,
+      "description": "选择性的有证据分子起源",
+      "rule_ids": [
+        "r_selectivity_physical_origin"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "selectivity_scope_vs_experiment",
+      "kind": "conclusion",
+      "max_score": 20,
+      "description": "模型富集与实验 er 的关系",
+      "rule_ids": [
+        "r_selectivity_scope_vs_experiment"
+      ],
+      "evidence_ids": [
+        "V2_MAIN",
+        "V2_SI",
+        "existing_native_verification"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ],
+  "required_for_whole_case_success_item_ids": [
+    "cycloaddition_mechanism",
+    "absolute_configuration_preference",
+    "selectivity_physical_origin",
+    "selectivity_scope_vs_experiment"
+  ],
+  "source_location": "Main PDF p.3 Table 1 entry 6 and pp.5–6 Scheme 6D/discussion; supplementary_001 PDF/S pp.126–130, chiral-method paragraph, Figs.S3–S5 and Table S6.",
+  "source_files": [
+    "papers/paper_080931b1681a8b09/documents/main.pdf",
+    "papers/paper_080931b1681a8b09/documents/supplementary_001.pdf",
+    "tasks/small_molecules_verified_autonomous_research/paper_080931b1681a8b09/evaluation/verified_computation_reference.md"
+  ],
+  "scope_changes": [
+    "人工意见为保留；科学命题和权重不变，沿用逐项实际数值证据、无论文数值门槛、pass/fail规则。",
+    "Remove numerical reproduction targets; preserve mandatory computed numerical deliverables and auditable native evidence, with item-specific fail decisions for missing support."
+  ],
+  "reference_issues": [
+    "限定 Ni(OTf)2/(S,S)-tBuPyBOX/CHCl3，不能混入另一镍盐、配体或 DCM 数据。",
+    "验证的 +1 triplet 是重建模型，不是原卡已公开或全溶液物种的唯一答案。",
+    "R 侧若干局部接触增强，但吸引子域积分及总相互作用分解可偏 S；不把“所有 R 吸引更强”硬化成答案。",
+    "代表 TS 预测的富集强度与实验同向但非精确一致；不设 er/ΔΔG 容差。"
+  ]
+}

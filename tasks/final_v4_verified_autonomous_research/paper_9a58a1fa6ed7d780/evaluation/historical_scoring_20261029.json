@@ -1,0 +1,757 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "active": false,
+  "scoring_status": "historical_non_scoring_evidence",
+  "note": "Superseded pre-2026-10-29 scoring only. Numerical values, deviations and historical scientific labels are retained; none of these historical gates is active.",
+  "documents": {
+    "scoring_rules.json": {
+      "paper_id": "paper_9a58a1fa6ed7d780",
+      "scoring_policy": "paper_science_v3",
+      "mode": "final_results_100",
+      "scientific_requirements": "Only the final propositions listed here are scored, once each, at their fixed weights. Each item receives full points for pass and zero for fail or need_review; review is not a pass. All items are required for whole-case success. Native inputs/outputs, molecular and state identity, numerical reference, convergence and claim-appropriate validation support the specific proposition and earn no independent points. Actual computation or reproducible analysis is required in both modes; copying disclosed PR targets does not count. AR chooses its method independently. PR reproduces its disclosed baseline or documents a scientifically justified substitute without relaxing numerical windows. Established equivalent explanations pass directly. Missing work, unsupported uncertainty, wrong identity/reference/units and numeric misses fail. Only explicitly listed substantive interpretive conflicts can receive need_review. Given experimental observations are not scored as predictions.",
+      "rules": [
+        {
+          "rule_id": "r_bn_s1_energy",
+          "reference_id": "bn_s1_energy",
+          "type": "numeric",
+          "expected": "The matched lowest singlet vertical excitation of BN-AkFlu has the source energy specified. Require physical state identity and its ground-state geometry, not root-number coincidence across different molecules. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": 2.1406,
+          "tolerance": 0.05,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_cc_s1_energy",
+          "reference_id": "cc_s1_energy",
+          "type": "numeric",
+          "expected": "The matched lowest singlet vertical excitation of CC-AkFlu has the source energy specified. Require physical state identity and its ground-state geometry, not root-number coincidence across different molecules. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": 2.7731,
+          "tolerance": 0.05,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_bn_bright_energy",
+          "reference_id": "bn_bright_energy",
+          "type": "numeric",
+          "expected": "Recover the strong low-energy transition corresponding to source BN-AkFlu S5. State correspondence and transition character must identify it, including when a justified method changes root numbering. Do not import the broader BN-Flu S4 statement. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": 3.6113,
+          "tolerance": 0.05,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_bn_bright_strength",
+          "reference_id": "bn_bright_strength",
+          "type": "numeric",
+          "expected": "Recover the dimensionless oscillator strength of the matched BN-AkFlu source S5 transition with actual response evidence. It is not a relative arbitrary spectral height or an emission rate. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": 1.8524,
+          "tolerance": 0.02,
+          "unit": "dimensionless"
+        },
+        {
+          "rule_id": "r_cc_bright_energy",
+          "reference_id": "cc_bright_energy",
+          "type": "numeric",
+          "expected": "Recover the strong low-energy transition corresponding to source CC-AkFlu S2. State correspondence and transition character must identify it, including when a justified method changes root numbering. Do not import the broader BN-Flu S4 statement. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": 3.0152,
+          "tolerance": 0.05,
+          "unit": "eV"
+        },
+        {
+          "rule_id": "r_cc_bright_strength",
+          "reference_id": "cc_bright_strength",
+          "type": "numeric",
+          "expected": "Recover the dimensionless oscillator strength of the matched CC-AkFlu source S2 transition with actual response evidence. It is not a relative arbitrary spectral height or an emission rate. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Use the scalar value matching this observable and inclusive absolute tolerance; do not substitute a different state or reference."
+          },
+          "target": 0.4081,
+          "tolerance": 0.02,
+          "unit": "dimensionless"
+        },
+        {
+          "rule_id": "r_bn_strength_pattern",
+          "reference_id": "bn_strength_pattern",
+          "type": "semantic",
+          "expected": "The final BN-AkFlu low-energy intensity pattern has a weak lowest singlet excitation and weak intervening states before a much stronger higher-energy transition (the source S5). Identify the spectral separation from state-resolved response. This is an intensity-distribution conclusion, not credit for computing a particular number of roots or for matching the separately scored absolute bright-state oscillator strength. Equivalent physical state matching can use different root numbers.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Require this concrete scientific proposition and supporting evidence; missing, reversed or generic unresolved answers fail this leaf."
+          }
+        },
+        {
+          "rule_id": "r_cc_strength_pattern",
+          "reference_id": "cc_strength_pattern",
+          "type": "semantic",
+          "expected": "The final CC-AkFlu low-energy intensity pattern has a weak lowest singlet and a dominant transition immediately above it (the source S2), with the other nearby source low-energy transitions much weaker. Establish this distribution from physical states, not a fixed root-count checklist. Absolute bright-state energy and strength are scored separately.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Require this concrete scientific proposition and supporting evidence; missing, reversed or generic unresolved answers fail this leaf."
+          }
+        },
+        {
+          "rule_id": "r_bn_s1_explanation",
+          "reference_id": "bn_s1_explanation",
+          "type": "semantic",
+          "expected": "Explain the BN-versus-CC excitation change through actual electronic-structure evidence: BN substitution raises the frontier occupied level more than the frontier unoccupied level and reduces their separation, while state-character evidence makes the low-state comparison physically meaningful. Both source S1 states are predominantly HOMO-to-LUMO, but equivalent transition-density/NTO or many-electron evidence can establish the same explanation without a prescribed orbital representation. The score is for this physical explanation, not a second award for a lower S1 number. Distinguish orbital eigenvalue separation from an interacting vertical excitation; neither a smaller gap alone nor unresolved SI charge-transfer descriptors establish quantitatively stronger charge transfer. Bound robustness to the supported molecular states and model, without claiming device or emission-rate predictions. Explain the intensity redistribution as well as the energy shift: use actual transition character, transition-dipole evidence or an equivalent physical analysis to connect the weak lowest excitations and the distinct dominant bright transitions to the changed absorption pattern. A lower BN S1 does not itself predict a red shift of the dominant absorption band; distinguish the weak onset from the bright band. Do not earn explanation credit by repeating the separately scored energy/strength values or orderings. No fixed orbital decomposition or new descriptor is required.",
+          "binding": {
+            "artifact_paths": [
+              "report/results.json"
+            ],
+            "fields": [
+              "$.results",
+              "$.claims",
+              "$.conclusion"
+            ],
+            "comparison": "Resolve the named physical result within the schema-compatible result records, object/state definitions, and linked actual artifacts. Require this concrete scientific proposition and supporting evidence; missing, reversed or generic unresolved answers fail this leaf."
+          }
+        }
+      ],
+      "scientific_rubric": [
+        {
+          "id": "bn_s1_energy",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "BN-AkFlu lowest singlet excitation",
+          "rule_ids": [
+            "r_bn_s1_energy"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "cc_s1_energy",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "CC-AkFlu lowest singlet excitation",
+          "rule_ids": [
+            "r_cc_s1_energy"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "bn_bright_energy",
+          "kind": "conclusion",
+          "max_score": 8,
+          "description": "BN-AkFlu bright-state energy",
+          "rule_ids": [
+            "r_bn_bright_energy"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "bn_bright_strength",
+          "kind": "conclusion",
+          "max_score": 7,
+          "description": "BN-AkFlu bright-state oscillator strength",
+          "rule_ids": [
+            "r_bn_bright_strength"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "cc_bright_energy",
+          "kind": "conclusion",
+          "max_score": 8,
+          "description": "CC-AkFlu bright-state energy",
+          "rule_ids": [
+            "r_cc_bright_energy"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "cc_bright_strength",
+          "kind": "conclusion",
+          "max_score": 7,
+          "description": "CC-AkFlu bright-state oscillator strength",
+          "rule_ids": [
+            "r_cc_bright_strength"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "bn_strength_pattern",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "BN-AkFlu low roots are weak relative to its higher bright state",
+          "rule_ids": [
+            "r_bn_strength_pattern"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "cc_strength_pattern",
+          "kind": "conclusion",
+          "max_score": 10,
+          "description": "CC-AkFlu has a lower bright S2 above weak S1",
+          "rule_ids": [
+            "r_cc_strength_pattern"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "allow_need_review": false,
+          "review_triggers": [],
+          "required_for_success": true
+        },
+        {
+          "id": "bn_s1_explanation",
+          "kind": "conclusion",
+          "max_score": 30,
+          "description": "Electronic explanation of the excitation-energy change and intensity redistribution",
+          "rule_ids": [
+            "r_bn_s1_explanation"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1",
+            "verified_cc_s1"
+          ],
+          "allow_need_review": true,
+          "review_triggers": [
+            "A computed state-correspondence and density analysis supports a different orbital/charge-transfer explanation of the same low-energy spectrum, but a material conflict with the frontier-level interpretation remains after comparison; missing descriptors or citing the S11 mismatch alone fails."
+          ],
+          "required_for_success": true
+        }
+      ]
+    },
+    "reference_key_points.json": {
+      "paper_id": "paper_9a58a1fa6ed7d780",
+      "items": [
+        {
+          "statement": "BN-AkFlu HOMO energy",
+          "expected": "Recover the BN-AkFlu gas-phase HOMO eigenvalue for the actual neutral singlet molecule at its appropriate equilibrium geometry. Do not substitute a different BN-Flu scaffold, a vertical excitation, or a charged-state energy. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "key_point_id": "bn_homo",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "BN-AkFlu LUMO energy",
+          "expected": "Recover the BN-AkFlu gas-phase LUMO eigenvalue for the actual neutral singlet molecule at its appropriate equilibrium geometry. Do not substitute a different BN-Flu scaffold, a vertical excitation, or a charged-state energy. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "key_point_id": "bn_lumo",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "CC-AkFlu HOMO energy",
+          "expected": "Recover the CC-AkFlu gas-phase HOMO eigenvalue for the actual neutral singlet molecule at its appropriate equilibrium geometry. Do not substitute a different BN-Flu scaffold, a vertical excitation, or a charged-state energy. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "key_point_id": "cc_homo",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "CC-AkFlu LUMO energy",
+          "expected": "Recover the CC-AkFlu gas-phase LUMO eigenvalue for the actual neutral singlet molecule at its appropriate equilibrium geometry. Do not substitute a different BN-Flu scaffold, a vertical excitation, or a charged-state energy. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "key_point_id": "cc_lumo",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "BN-AkFlu lowest singlet excitation",
+          "expected": "The matched lowest singlet vertical excitation of BN-AkFlu has the source energy specified. Require physical state identity and its ground-state geometry, not root-number coincidence across different molecules. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "key_point_id": "bn_s1_energy",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "CC-AkFlu lowest singlet excitation",
+          "expected": "The matched lowest singlet vertical excitation of CC-AkFlu has the source energy specified. Require physical state identity and its ground-state geometry, not root-number coincidence across different molecules. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "key_point_id": "cc_s1_energy",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "BN-AkFlu bright-state energy",
+          "expected": "Recover the strong low-energy transition corresponding to source BN-AkFlu S5. State correspondence and transition character must identify it, including when a justified method changes root numbering. Do not import the broader BN-Flu S4 statement. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "key_point_id": "bn_bright_energy",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "BN-AkFlu bright-state oscillator strength",
+          "expected": "Recover the dimensionless oscillator strength of the matched BN-AkFlu source S5 transition with actual response evidence. It is not a relative arbitrary spectral height or an emission rate. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "key_point_id": "bn_bright_strength",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "CC-AkFlu bright-state energy",
+          "expected": "Recover the strong low-energy transition corresponding to source CC-AkFlu S2. State correspondence and transition character must identify it, including when a justified method changes root numbering. Do not import the broader BN-Flu S4 statement. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "key_point_id": "cc_bright_energy",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "CC-AkFlu bright-state oscillator strength",
+          "expected": "Recover the dimensionless oscillator strength of the matched CC-AkFlu source S2 transition with actual response evidence. It is not a relative arbitrary spectral height or an emission rate. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "key_point_id": "cc_bright_strength",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "BN-AkFlu low roots are weak relative to its higher bright state",
+          "expected": "Computed low-energy singlet response establishes weak S1 and the intervening S2-S4 relative to the much stronger source S5 state. The BN-AkFlu bright state is S5 in TableS14, not BN-Flu S4. This relative intensity/state pattern is distinct from matching one absolute oscillator strength. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "key_point_id": "bn_strength_pattern",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "CC-AkFlu has a lower bright S2 above weak S1",
+          "expected": "Computed response places the dominant low-energy CC-AkFlu bright transition at the source S2 state, above weak S1; other first-six states are much weaker. Establish the signed/order-and-intensity comparison, not merely the presence of six roots. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "key_point_id": "cc_strength_pattern",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "BN-AkFlu S1 is predominantly HOMO-to-LUMO",
+          "expected": "Actual BN-AkFlu transition configurations, NTOs, transition density or equivalent electronic evidence establish that its lowest singlet S1 is predominantly the HOMO-to-LUMO excitation. Match molecular identity and state character rather than an arbitrary root label. No private descriptor implementation or exact Sr/H value is compulsory; CC-AkFlu evidence is assessed separately. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ],
+          "key_point_id": "bn_s1_character",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "CC-AkFlu S1 is predominantly HOMO-to-LUMO",
+          "expected": "Actual CC-AkFlu transition configurations, NTOs, transition density or equivalent electronic evidence establish that its lowest singlet S1 is predominantly the HOMO-to-LUMO excitation. Match molecular identity and state character rather than an arbitrary root label. No private descriptor implementation or exact Sr/H value is compulsory; BN-AkFlu evidence is assessed separately. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ],
+          "key_point_id": "cc_s1_character",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "statement": "BN raises HOMO more than LUMO and narrows the gap",
+          "expected": "Comparable calculations show positive BN-minus-CC shifts in both frontier levels, the HOMO shift larger than the LUMO shift, and a smaller BN frontier gap. These directional inequalities must hold independently of overlapping absolute-value windows; do not equate the KS gap with a vertical excitation. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1",
+            "verified_cc_s1"
+          ],
+          "key_point_id": "orbital_gap_change",
+          "key_point_type": "evidence",
+          "scored": false,
+          "claim_role": "supporting_evidence"
+        },
+        {
+          "key_point_id": "v3_claim_evidence",
+          "statement": "Only BN-AkFlu5a and CC-AkFlu5b gas-phase low-energy singlet excitation energies, bright-transition strengths, spectral intensity distributions and their electronic explanation are scored. Main PDF p3 and SI pp3,39,41–43,49–51 define the molecules and source baseline. Four absolute frontier orbital eigenvalues and two S1 orbital assignments support the explanation; they are not independent final outputs. Tables S14/S15, not the BN-Flu S4 discussion, define the relevant spectra. Exact S11 charge-transfer descriptors remain unverified and are not a new requirement.",
+          "expected": "Use actual identity/state-matched native calculations and source evidence supporting each final proposition. This evidence context is not an independently scored result or prescribed route.",
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1",
+            "verified_cc_s1"
+          ],
+          "scored": false,
+          "key_point_type": "evidence",
+          "claim_role": "supporting_evidence"
+        }
+      ]
+    },
+    "critical_failures.json": {
+      "paper_id": "paper_9a58a1fa6ed7d780",
+      "items": [
+        {
+          "id": "fabricated_evidence",
+          "description": "Demonstrated fabrication of scientific evidence, including reference values falsely presented as newly computed, invalidates the submission."
+        },
+        {
+          "id": "hidden_answer_leakage",
+          "description": "Demonstrated unauthorized access to hidden evaluator answers invalidates the submission. Ordinary failure, missing evidence or scientific error affects only the relevant leaves."
+        }
+      ],
+      "application": "Fabrication/unauthorized answer access is global; ordinary evidence or scientific failure applies to the affected V3 final proposition. No process penalty or mandatory research-log score."
+    },
+    "reference_conclusions.json": {
+      "paper_id": "paper_9a58a1fa6ed7d780",
+      "items": [
+        {
+          "conclusion_id": "bn_s1_energy",
+          "statement": "BN-AkFlu lowest singlet excitation",
+          "expected": "The matched lowest singlet vertical excitation of BN-AkFlu has the source energy specified. Require physical state identity and its ground-state geometry, not root-number coincidence across different molecules. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ]
+        },
+        {
+          "conclusion_id": "cc_s1_energy",
+          "statement": "CC-AkFlu lowest singlet excitation",
+          "expected": "The matched lowest singlet vertical excitation of CC-AkFlu has the source energy specified. Require physical state identity and its ground-state geometry, not root-number coincidence across different molecules. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ]
+        },
+        {
+          "conclusion_id": "bn_bright_energy",
+          "statement": "BN-AkFlu bright-state energy",
+          "expected": "Recover the strong low-energy transition corresponding to source BN-AkFlu S5. State correspondence and transition character must identify it, including when a justified method changes root numbering. Do not import the broader BN-Flu S4 statement. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ]
+        },
+        {
+          "conclusion_id": "bn_bright_strength",
+          "statement": "BN-AkFlu bright-state oscillator strength",
+          "expected": "Recover the dimensionless oscillator strength of the matched BN-AkFlu source S5 transition with actual response evidence. It is not a relative arbitrary spectral height or an emission rate. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ]
+        },
+        {
+          "conclusion_id": "cc_bright_energy",
+          "statement": "CC-AkFlu bright-state energy",
+          "expected": "Recover the strong low-energy transition corresponding to source CC-AkFlu S2. State correspondence and transition character must identify it, including when a justified method changes root numbering. Do not import the broader BN-Flu S4 statement. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ]
+        },
+        {
+          "conclusion_id": "cc_bright_strength",
+          "statement": "CC-AkFlu bright-state oscillator strength",
+          "expected": "Recover the dimensionless oscillator strength of the matched CC-AkFlu source S2 transition with actual response evidence. It is not a relative arbitrary spectral height or an emission rate. Physical definition: Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ]
+        },
+        {
+          "conclusion_id": "bn_strength_pattern",
+          "statement": "BN-AkFlu low roots are weak relative to its higher bright state",
+          "expected": "The final BN-AkFlu low-energy intensity pattern has a weak lowest singlet excitation and weak intervening states before a much stronger higher-energy transition (the source S5). Identify the spectral separation from state-resolved response. This is an intensity-distribution conclusion, not credit for computing a particular number of roots or for matching the separately scored absolute bright-state oscillator strength. Equivalent physical state matching can use different root numbers.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1"
+          ]
+        },
+        {
+          "conclusion_id": "cc_strength_pattern",
+          "statement": "CC-AkFlu has a lower bright S2 above weak S1",
+          "expected": "The final CC-AkFlu low-energy intensity pattern has a weak lowest singlet and a dominant transition immediately above it (the source S2), with the other nearby source low-energy transitions much weaker. Establish this distribution from physical states, not a fixed root-count checklist. Absolute bright-state energy and strength are scored separately.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_cc_s1"
+          ]
+        },
+        {
+          "conclusion_id": "bn_s1_explanation",
+          "statement": "Electronic explanation of the excitation-energy change and intensity redistribution",
+          "expected": "Explain the BN-versus-CC excitation change through actual electronic-structure evidence: BN substitution raises the frontier occupied level more than the frontier unoccupied level and reduces their separation, while state-character evidence makes the low-state comparison physically meaningful. Both source S1 states are predominantly HOMO-to-LUMO, but equivalent transition-density/NTO or many-electron evidence can establish the same explanation without a prescribed orbital representation. The score is for this physical explanation, not a second award for a lower S1 number. Distinguish orbital eigenvalue separation from an interacting vertical excitation; neither a smaller gap alone nor unresolved SI charge-transfer descriptors establish quantitatively stronger charge transfer. Bound robustness to the supported molecular states and model, without claiming device or emission-rate predictions. Explain the intensity redistribution as well as the energy shift: use actual transition character, transition-dipole evidence or an equivalent physical analysis to connect the weak lowest excitations and the distinct dominant bright transitions to the changed absorption pattern. A lower BN S1 does not itself predict a red shift of the dominant absorption band; distinguish the weak onset from the bright band. Do not earn explanation credit by repeating the separately scored energy/strength values or orderings. No fixed orbital decomposition or new descriptor is required.",
+          "claim_role": "final",
+          "supporting_key_point_ids": [
+            "v3_claim_evidence"
+          ],
+          "evidence_ids": [
+            "main_p3",
+            "supplementary_001_p3_39_41_42_43_49_50_51",
+            "verified_bn_s1",
+            "verified_cc_s1"
+          ]
+        }
+      ]
+    },
+    "reference_qualification.json": {
+      "paper_id": "paper_9a58a1fa6ed7d780",
+      "scoring_policy": "paper_science_v3",
+      "mode": "final_results_100",
+      "status": "V3_CONTENT_AUDITED_EXISTING_EVIDENCE_REUSED",
+      "formal_scoring_permitted": true,
+      "release_ready": false,
+      "current_scope_verified": false,
+      "blocked_rule_ids": [],
+      "reserved_points": 0,
+      "historical_acceptance": {
+        "paper_id": "paper_9a58a1fa6ed7d780",
+        "scoring_policy": "paper_science_v2",
+        "status": "CURRENT_FROZEN_SCOPE_STRICT_VERIFICATION_PRESERVED",
+        "formal_scoring_permitted": true,
+        "release_ready": false,
+        "blocked_rule_ids": [],
+        "reserved_points": 0,
+        "current_scope_verified": true,
+        "verification_acceptance": "Existing independently strict V2 frozen-scope acceptance retained; scoring migration is not new chemical validation.",
+        "reason": "Authorized final-copy scoring-only migration, 2026-10-19; publication/expert calibration remains separate from runtime scoring.",
+        "physical_definition": "Complete gas-phase neutral singlet40-atom BN-AkFlu5a C22H14B2N2 and CC-AkFlu5b C26H14,170electrons. Source B3LYP/6-311G(d,p) geometries and singlet response. A BN-to-CC nuclear substitution changes molecular identity; compare properly matched electronic states. Source TablesS14/S15 are the AkFlu series, distinct from S12/S13 BN-Flu/CC-Flu.",
+        "scientific_limitations": "BN/CC source six-state energies and oscillator strengths were actually computed; BN small energy residuals -0.0005 to -0.0002eV and S5f+0.0011 remain distinct from printed source values. S11 Sr/H especially S2-S4 remains materially unmatched; no exact CT panel or broader all-SI reproduction is certified. Source HOMO+1 wording conflicts are not treated as physical occupied acceptor targets. No global method/spin proof or optical/device kinetics.",
+        "tolerance_policy": {
+          "status": "provisional_benchmark_policy",
+          "basis": "Uniform±0.10eV frontier levels and±0.05eV selected vertical-state energies are provisional comparison windows below the0.6325eV source S1 shift and below the main state separations; bright f uses±0.02 absolute dimensionless units. These category windows are not residual-plus-epsilon or author confidence intervals. Directional energy/gap and intensity-pattern leaves remain independent; no exact tolerance is assigned to unresolved S11 descriptors.",
+          "not_author_error_bars": true
+        },
+        "verification_authority": "docs/strict_author_route_validation_20261001/CURRENT_STRICT_VERIFICATION.json",
+        "coordinator_review": {
+          "status": "SCIENTIFIC_RULE_MIGRATION_ACCEPTED_WITH_RECORDED_LIMITATIONS",
+          "reviewed_at_utc": "2026-10-19T12:59:28.872671+00:00",
+          "review_key": "v2_paper_9a58a1fa6ed7d780",
+          "report": "docs/final_verified_science_v2_migration_20261019/COORDINATOR_FINAL_REVIEW.md",
+          "scope": "Scientific rubric, source and historical verification evidence; not a new chemical validation, online Judge calibration, or promotion of historical acceptance.",
+          "publication_readiness_unchanged": true
+        },
+        "repair_round3": {
+          "date": "2026-10-19",
+          "round": "repair_round3",
+          "mode": "autonomous_research",
+          "status": "scoring_contract_repaired_without_new_chemical_acceptance",
+          "changes": [
+            "Confirmed independent molecular results were bundled: split S1 HOMO-to-LUMO character into BN and CC leaves (5+5); independent missing/wrong outcomes do not erase the other molecule. Same total 70 intermediate/30 conclusion."
+          ],
+          "history_preserved": true,
+          "report": "docs/final_verified_science_v2_migration_20261019/repair_round3/astra_science_04/paper_9a58a1fa6ed7d780.md"
+        }
+      },
+      "acceptance_class": "Historical strict frozen V2 molecular-excitation scope; not exact S11 descriptors or V3 blind validation",
+      "reason": "Current V3 contract is available for scoring. Historical acceptance is not a V3 scientific pass; no new computation, blind task run or semantic judge calibration was performed.",
+      "evidence_reuse_summary": "r_bn_s1_energy/r_cc_s1_energy：原生日志2.1401/2.7731 eV对源2.1406/2.7731；r_bn_bright_energy/r_bn_bright_strength：BN S5 3.6111 eV、f=1.8535，对源3.6113/1.8524；r_cc_bright_energy/r_cc_bright_strength：CC S2 3.0152 eV、f=.4081。六个保留硬窗均有对应原生日志，E±.05 eV和f±.02不变。r_bn_strength_pattern/r_cc_strength_pattern：逐根六态E/f表支持弱最低态和不同亮态位置；r_bn_s1_explanation：INDEPENDENT_COMPARISON的HOMO/LUMO实值BN−4.997677/−2.224685、CC−5.750137/−2.354689 eV，跃迁85→86主导及签名对应支持解释。四个绝对轨道数值及两S1组态移为非评分证据；不是删除最终激发能目标。 强度解释复用同一TD输出的跃迁偶极：BN S1/S5长度规范Dip.S.=0.1544/20.9508 a.u.，CC S1/S2=0.1674/5.5245 a.u.；弱起始和主亮带不可等同，BN最低态降低而主亮带高于CC，不要求新描述符。",
+      "evidence_gaps": [
+        "SI S11 Sr/H尤其S2–S4不匹配，不能声称定量CT面板已复现或由缩隙推出CT增强",
+        "旧中间TD checkpoint原像缺失，现存同哈希fchk和原生日志仍支持结果核验，但精确重启不保证",
+        "没有验证全局自旋/全部泛函、发射态或器件推广；这些不属于当前问题"
+      ],
+      "tolerance_policy": "Retained numeric rules keep original targets, inclusive tolerances and units. Source-route nodes marked scored=false are supporting evidence, not separate numeric gates. Missing or inapplicable evidence fails its dependent conclusion."
+    }
+  }
+}

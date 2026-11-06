@@ -1,0 +1,148 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "scoring_policy": "paper_science_v3",
+  "mode": "final_results_100",
+  "scientific_requirements": "Only independently stated final scientific conclusions receive points, with weights totaling 100. Numerical quantities, structures and reaction modes are evidence, not targets to match. No author-value, error, tolerance, exact barrier, ratio, frequency, distance, population or descriptor window is active, including any retained in historical records. Molecular identity, composition, conditions and physical reference still define the question. A correct sign or copied experimental observation without a supported molecular conclusion is insufficient.\nRequire actual executed calculations and recoverable native inputs/outputs, checking identity, charge/spin, bonding, conditions, physical definitions, units and references to the extent needed for the claim. Validity checks are evidence requirements, not process scores. Missing a rounded number in the report does not independently lose points if the actual evidence establishes the conclusion. Unsupported connections, incompatible total energies, unbalanced reactions and substituting endpoint stability for formation competition do not establish a claim.\nThe paper provides a reference explanation, not proof of a unique mechanism. Scientifically established equivalent models or mechanisms that answer the same question within its specified scope pass directly. Do not require author software, state labels, fixed intermediate inventories, a particular analysis tool or an out-of-scope complete network. A numerical deviation alone does not fail; changing method alone does not justify a conclusion contrary to a robust scientific relationship. Apply each item's explicit limits for near-degenerate or method-sensitive comparisons.\nEach item returns pass or fail only. Evidence-supported conclusions, including the explicitly admitted equivalent or sensitivity-bounded explanations, earn that item's full weight; missing or insufficient support earns zero with specific reasons and evidence citations. Record demonstrated reference defects separately in objective_issue_flags; do not fabricate support, silently change answers/weights or invalidate unrelated items. Infrastructure errors must be reported as errors, not disguised as scientific failure.\nScore each independent proposition once. Shared evidence may support different propositions, but completing computations, author-route nodes, job counts or repeating another conclusion earns no separate credit. A local error affects only the conclusions it undermines. All required_for_success items must pass for whole-case success; other supported items retain their points if one fails. Historical verification/acceptance labels and package validation are not automatic scientific passes.\nAR chooses its methods independently. PR assesses the disclosed author baseline or a justified physically comparable substitution. The baseline supplies comparison evidence, never a requirement to match author scalars.",
+  "rules": [
+    {
+      "rule_id": "r_lowest_excitation_comparison",
+      "reference_id": "lowest_excitation_comparison",
+      "type": "semantic",
+      "expected": "Actual state-matched vertical response calculations for full neutral-singlet 40-atom BN-AkFlu (C22H14B2N2) and CC-AkFlu (C26H14) establish a lower-energy lowest singlet excitation in BN-AkFlu. Quantify the difference under comparable molecular/medium definitions and identify the physical states being compared. The conclusion concerns the weak low-energy onset, not necessarily the position of the dominant absorption band. Source S1 energies are comparison evidence, not numerical windows; an orbital gap alone, a copied S1 label or an unmatched state/root comparison fails. Do not infer emission rates or device behavior from this excitation comparison.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_bn_strength_pattern",
+      "reference_id": "bn_strength_pattern",
+      "type": "semantic",
+      "expected": "Establish from actual state-resolved energies and oscillator strengths that BN-AkFlu has a weak lowest singlet and weak intervening states before a much stronger higher-energy transition (source S5). Quantify the spectral separation and relative intensity scale, identifying physical transition character or state correspondence so that a root number alone does not define the assignment. This is the BN low-energy absorption pattern, not a fixed root-count checklist or agreement with a bright-state energy/strength window. Equivalent physical state matching is eligible. Printing one bright scalar without the contrasting weak region fails.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_cc_strength_pattern",
+      "reference_id": "cc_strength_pattern",
+      "type": "semantic",
+      "expected": "Establish from actual state-resolved energies and oscillator strengths that CC-AkFlu has a weak lowest singlet followed immediately by a dominant bright transition (source S2), while its other nearby low-energy transitions are much weaker. Quantify the separation and intensity contrast using physically corresponding states. Source numbering and a fixed root count are not required, and neither bright-state energy nor oscillator strength has a numerical acceptance window. A single bright value without the nearby weak-state comparison fails. This is the CC pattern, assessed independently of whether the BN pattern or the electronic explanation succeeds.",
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      }
+    },
+    {
+      "rule_id": "r_bn_s1_explanation",
+      "reference_id": "bn_s1_explanation",
+      "type": "semantic",
+      "expected": "Explain the BN-versus-CC excitation change through actual electronic-structure evidence: BN substitution raises the frontier occupied level more than the frontier unoccupied level and reduces their separation, while state-character evidence makes the low-state comparison physically meaningful. Both source S1 states are predominantly HOMO-to-LUMO, but equivalent transition-density/NTO or many-electron evidence can establish the same explanation without a prescribed orbital representation. The score is for this physical explanation, not a second award for a lower S1 number. Distinguish orbital eigenvalue separation from an interacting vertical excitation; neither a smaller gap alone nor unresolved SI charge-transfer descriptors establish quantitatively stronger charge transfer. Bound robustness to the supported molecular states and model, without claiming device or emission-rate predictions. Explain the intensity redistribution as well as the energy shift: use actual transition character, transition-dipole evidence or an equivalent physical analysis to connect the weak lowest excitations and the distinct dominant bright transitions to the changed absorption pattern. A lower BN S1 does not itself predict a red shift of the dominant absorption band; distinguish the weak onset from the bright band. Do not earn explanation credit by repeating the separately scored energy/strength values or orderings. No fixed orbital decomposition or new descriptor is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "Evaluate this final scientific proposition against its actual linked calculations and recoverable native evidence, within its stated molecular scope and physical references. Return pass or fail; no numerical matching, process credit or unsupported keyword credit."
+      },
+      "qualification": "Apply this item's concrete proposition, evidence requirements and scope together with scientific_requirements. Numerical values are supporting evidence, not author-value targets; equivalent supported explanations are judged directly."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "lowest_excitation_comparison",
+      "description": "Lowest singlet excitation change under BN substitution",
+      "max_score": 25,
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1",
+        "verified_cc_s1"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_lowest_excitation_comparison"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bn_strength_pattern",
+      "description": "BN-AkFlu low-energy absorption-intensity distribution",
+      "max_score": 20,
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_bn_strength_pattern"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "cc_strength_pattern",
+      "description": "CC-AkFlu low-energy absorption-intensity distribution",
+      "max_score": 20,
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_cc_s1"
+      ],
+      "kind": "conclusion",
+      "rule_ids": [
+        "r_cc_strength_pattern"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    },
+    {
+      "id": "bn_s1_explanation",
+      "kind": "conclusion",
+      "max_score": 35,
+      "description": "Electronic explanation of the excitation-energy change and intensity redistribution",
+      "rule_ids": [
+        "r_bn_s1_explanation"
+      ],
+      "evidence_ids": [
+        "main_p3",
+        "supplementary_001_p3_39_41_42_43_49_50_51",
+        "verified_bn_s1",
+        "verified_cc_s1"
+      ],
+      "allow_need_review": false,
+      "review_triggers": [],
+      "required_for_success": true
+    }
+  ]
+}
